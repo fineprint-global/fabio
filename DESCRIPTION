@@ -1,0 +1,24 @@
+Package: fabio
+Type: Package
+Title: Forestry and Agriculture Biomass Input-Output Tables
+Version: 0.1.0.9000
+Authors@R: c(
+    person("Nikolas", "Kuschnig", role = c("aut", "cre")),
+    person("Martin", "Bruckner", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-1405-7951")),
+    person("Hanspeter", "Wieland", role = c("aut")),
+    person("Sebastian", "Luckeneder", role = c("aut")),
+    person("Victor", "Maus", role = "ctb",  comment = c(ORCID = "0000-0002-7385-4723")),
+    person("Stefan", "Giljum", role = "ths", comment = c(ORCID = "0000-0002-4719-5867"))
+    )
+Maintainer: Nikolas Kuschnig <nikolas.kuschnig@wu.ac.at>
+Description: In 2015 we started building physical supply-use and input-output 
+    tables covering global agriculture and forestry. The work is fully based 
+    on freely available data from FAOSTAT, IEA, EIA and UN Comtrade. FABIO now 
+    covers 191 countries, 116 processes and 130 commodities for the years 
+    1986-2013. 
+License: GPL-3 | file LICENSE
+URL: https://github.com/gru-wu/fabio/
+BugReports: https://github.com/gru-wu/fabio/issues/
+Encoding: UTF-8
+LazyData: true
+VignetteBuilder: knitr
