@@ -1,7 +1,9 @@
 
 # FAO data ----------------------------------------------------------------
 
+library(readr)
 source("R/prep.R")
+path <- "input/fao/"
 
 
 # Settings ----------------------------------------------------------------
@@ -17,21 +19,21 @@ files <- c(
   "btd_raw" = "Trade_DetailedTradeMatrix_E_All_Data_(Normalized).zip",
   "cbs_crop" = "CommodityBalances_Crops_E_All_Data_(Normalized).zip",
   "cbs_live" = "CommodityBalances_LivestockFish_E_All_Data_(Normalized).zip",
+  "for_raw" = "Forestry_E_All_Data_(Normalized).zip",
+  "for_trad" = "Forestry_Trade_Flows_E_All_Data_(Normalized).zip",
   "fish_raw" = "GlobalProduction_2018.1.2.zip")
 
 # Files to extract from the ZIP archives
 extr <- c(rep("", length(files) - 1), "TS_FI_PRODUCTION.csv")
+
+name <- names(files)
 
 # Links to the files
 links <- c(rep("http://fenixservices.fao.org/faostat/static/bulkdownloads/",
                length(files) - 1),
            "http://www.fao.org/fishery/static/Data/")
 
-# Path to store at
-path <- "input/fao/"
-
 # Column types to speed up readr::read_csv and skip some
-library(readr)
 {col_types <- list(
   "crop_raw" = cols(
     `Area Code` = col_double(), Area = col_character(),
@@ -99,6 +101,23 @@ library(readr)
     Unit = col_character(), Value = col_double(),
     Flag = col_character()
   ),
+  "for_raw" = cols(
+    `Area Code` = col_double(), Area = col_character(),
+    `Item Code` = col_double(), Item = col_character(),
+    `Element Code` = col_double(), Element = col_character(),
+    `Year Code` = col_double(), Year = col_double(),
+    Unit = col_character(), Value = col_double(),
+    Flag = col_character()
+  ),
+  "for_trad" = cols(
+    `Reporter Country Code` = col_double(), `Reporter Countries` = col_character(),
+    `Partner Country Code` = col_double(), `Partner Countries` = col_character(),
+    `Item Code` = col_double(), Item = col_character(),
+    `Element Code` = col_double(), Element = col_character(),
+    `Year Code` = col_double(), Year = col_double(),
+    Unit = col_character(), Value = col_double(),
+    Flag = col_character()
+  ),
   "fish_raw" = cols(
     COUNTRY = col_factor(), AREA = col_factor(),
     SOURCE = col_factor(), SPECIES = col_factor(),
@@ -113,5 +132,5 @@ library(readr)
 
 fa_dl(file = files, link = links, path = path)
 
-fa_extract(zip = files, path = path, name = names(files),
+fa_extract(zip = files, path = path, name = name,
            extr = extr, col_types = col_types)

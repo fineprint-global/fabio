@@ -34,6 +34,8 @@ fa_dl <- function(
 
 #' @title FABIO extract to RDS
 #' @description Extract CSV files from a ZIP archive and convert them to RDS.
+#' Handles multiple ZIP files with one CSV each or a single ZIP with multiple
+#' CSV files.
 #'
 #' @param zip ZIP archive to extract from.
 #' @param path Path to read from and write to.
@@ -42,12 +44,15 @@ fa_dl <- function(
 #' multiple files only the first one will be extracted. Set to NULL or an empty
 #' string to try extracting all. See \link[utils]{unzip} for further details.
 #' @param col_types List of column types fed to \link[readr]{read_csv}.
-#' @param col_names Column names fed to \link[readr]{read_csv}.
+#' @param stack Whether to stack the CSV files via \link[data.table]{rbindlist}.
 #' @param rm Whether to remove the extracted CSV files.
 #' @param v Whether to be verbose.
-#' @param ... Fed into \link[readr]{read_csv}.
+#' @param ... Fed into \link[utils]{unzip}.
 #'
 #' @return Vector with created RDS files.
+#'
+#' @importFrom readr read_csv
+#' @importFrom data.table rbindlist
 #'
 #' @examples
 #' \dontrun{
@@ -60,26 +65,38 @@ fa_dl <- function(
 #' }
 fa_extract <- function(
   zip, path, name, extr = NULL,
-  col_types = NULL, col_names = TRUE,
-  rm = TRUE, v = TRUE) {
+  col_types = NULL, stack = FALSE,
+  rm = TRUE, v = TRUE, ...) {
 
   dest_zip <- paste0(path, zip)
   dest_rds <- paste0(path, name, ".rds")
 
-  csv <- vector("character", length(zip))
-  for(i in seq_along(zip)) {
-    if(is.null(extr[i]) || nchar(extr[i]) == 0)
-      extr[i] <- unzip(dest_zip[i], list = TRUE)[[1]]
-    csv[i] <- unzip(dest_zip[i], extr[i], exdir = path, overwrite = TRUE)
-    if(v) cat("Unzipped file at:", csv[i], "\n")
+  if(length(zip) == 1 && length(extr) > 1 || is.null(extr)) {
+    if(v) cat("Extracting multiple files from a single ZIP archive\n")
+    csv <- unzip(dest_zip, extr, exdir = path, ...)
+    if(v) cat("Unzipped file to:", csv, "\n")
+  } else {
+    if(v) cat("Extracting single files from multiple ZIP archives\n")
+    csv <- vector("character", length(zip))
+    for(i in seq_along(zip)) {
+      if(is.null(extr[i]) || nchar(extr[i]) == 0)
+        extr[i] <- unzip(dest_zip[i], list = TRUE)[[1]]
+      csv[i] <- unzip(dest_zip[i], extr[i], exdir = path, ...)
+      if(v) cat("Unzipped file to:", csv[i], "\n")
+    }
   }
 
   rds <- vector("list", length(csv))
-  for(i in seq_along(zip)) {
-    cat("Reading: ", csv[i], "\n")
-    rds[[i]] <- readr::read_csv(csv[i], col_types = col_types[[i]],
-                                col_names = col_names[[i]], ...)
-    saveRDS(rds[[i]], dest_rds[i])
+  for(i in seq_along(csv)) {
+    cat("Reading:", csv[i], "\n")
+    rds[[i]] <- readr::read_csv(csv[i], col_types = col_types[[i]])
+  }
+
+  if(stack) {
+    if(v) cat("Stacking CSV files via data.table::rbindlist()")
+    saveRDS(data.table::rbindlist(rds), dest_rds)
+  } else {
+    for(i in seq_along(csv)) saveRDS(rds[[i]], dest_rds[i])
   }
 
   if(rm) file.remove(csv)
