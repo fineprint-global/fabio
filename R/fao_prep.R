@@ -1,7 +1,7 @@
 
 # FAO data ----------------------------------------------------------------
 
-library(readr)
+library(readr) # 1.3.1
 source("R/prep.R")
 path <- "input/fao/"
 
@@ -34,7 +34,7 @@ links <- c(rep("http://fenixservices.fao.org/faostat/static/bulkdownloads/",
            "http://www.fao.org/fishery/static/Data/")
 
 # Column types to speed up readr::read_csv and skip some
-col_types <- list(
+col_types <- c(
   "crop_raw" = "dcdcdcddcdc",
   "crop_proc" = "dcdcdcddcdc",
   "live_raw" = "dcdcdcddcdc",

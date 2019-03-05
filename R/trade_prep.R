@@ -1,10 +1,11 @@
 
 # Trade -------------------------------------------------------------------
 
+library(data.table) # 1.12.0
+library(comtradr) # 0.2.2
 source("R/prep.R")
-path <- "input/trade/"
-library(comtradr)
 ct_register_token(Sys.getenv("COMTRADE_TOKEN"))
+path <- "input/trade/"
 
 
 # BACI92 ------------------------------------------------------------------

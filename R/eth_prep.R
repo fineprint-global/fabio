@@ -1,9 +1,8 @@
 
 # Ethanol -----------------------------------------------------------------
 
-library(readr)
-# library(openxlsx)
-
+library(readr) # 1.3.1
+# library(openxlsx) # 4.1.0
 path <- "input/ethanol/"
 
 
