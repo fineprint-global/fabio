@@ -1,7 +1,7 @@
 
 # Ethanol -----------------------------------------------------------------
 
-library(readr) # 1.3.1
+library(data.table) # 1.12.0
 # library(openxlsx) # 4.1.0
 path <- "input/ethanol/"
 
@@ -9,11 +9,11 @@ path <- "input/ethanol/"
 # EIA data ----------------------------------------------------------------
 
 eth1_extent <- 1980:2014
-eth1_cols <- paste0("_c_", strrep("d", length(eth1_extent)))
-eth1_prod <- read_csv(paste0(path, "eia_biofuels_production.csv"),
-                      skip = 8, na = c("-", "--", "", "NA"),
-                      col_names = FALSE, n_max = 227,
-                      col_types = eth1_cols)
+eth1_cols <- c("NULL", "character", "NULL", rep("numeric", length(eth1_extent)))
+eth1_prod <- fread(paste0(path, "eia_biofuels_production.csv"),
+                   skip = 8, check.names = FALSE, nrows = 227,
+                   colClasses = eth1_cols, na.strings = c("-", "--", "", "NA"))
+
 names(eth1_prod) <- c("country", paste0("y", eth1_extent))
 
 if(!eth1_prod[[1]][1] == "Afghanistan" &&
@@ -27,17 +27,18 @@ saveRDS(eth1_prod, paste0(path, "eth1_prod.rds"))
 #                             colNames = FALSE, rows = 9:235, cols = c(2, 4:38))
 # for(num in 2:36) class(eth1_prod_comp[[num]]) <- "numeric"
 # names(eth1_prod_comp) <- c("country", paste0("y", 1980:2014))
-# eth1_prod_comp[-1] - eth1_prod[-1]
 
 
 # IEA data ----------------------------------------------------------------
 
-eth2_cols <- "__c___f_i_d__"
-eth2_prod <- read_csv(paste0(path, "iea_renewables_production.csv"),
-                      col_types = eth2_cols)
-eth2_prod <- subset(eth2_prod, PRODUCT == "BIOGASOL")[-2]
+eth2_cols <- c("NULL", "NULL", "character", "NULL",
+               "NULL", "NULL", "character", "NULL",
+               "integer", "NULL", "numeric", "NULL", "NULL")
+eth2_prod <- fread(paste0(path, "iea_renewables_production.csv"),
+                   colClasses = eth2_cols)
+eth2_prod <- subset(eth2_prod, PRODUCT == "BIOGASOL")[, -2]
 eth2_extent <- min(eth2_prod$TIME):max(eth2_prod$TIME)
-eth2_prod <- reshape2::dcast(eth2_prod, COUNTRY ~ TIME, value.var = "Value")
+eth2_prod <- dcast(eth2_prod, COUNTRY ~ TIME, value.var = "Value")
 names(eth2_prod) <- c("country", paste0("y", eth2_extent))
 
 saveRDS(eth2_prod, paste0(path, "eth2_prod.rds"))
@@ -47,4 +48,3 @@ saveRDS(eth2_prod, paste0(path, "eth2_prod.rds"))
 #                             colNames = FALSE, rows = 8:167, cols = c(1, 3:28))
 # for(num in 2:27) class(eth2_prod_comp[[num]]) <- "numeric"
 # names(eth2_prod_comp) <- c("country", paste0("y", 1990:2015))
-# eth2_prod_comp[-1] - eth2_prod[c(-1, -28, -29)]

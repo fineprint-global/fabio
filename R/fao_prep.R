@@ -34,18 +34,39 @@ links <- c(rep("http://fenixservices.fao.org/faostat/static/bulkdownloads/",
            "http://www.fao.org/fishery/static/Data/")
 
 # Column types to speed up readr::read_csv and skip some
-col_types <- c(
-  "crop_raw" = "dcdcdcddcdc",
-  "crop_proc" = "dcdcdcddcdc",
-  "live_raw" = "dcdcdcddcdc",
-  "live_prim" = "dcdcdcddcdc",
-  "live_proc" = "dcdcdcddcdc",
-  "btd_raw" = "dcdcdcdcddcdc",
-  "cbs_crop" = "dcdcdcddcdc",
-  "cbs_live" = "dcdcdcddcdc",
-  "for_raw" = "dcdcdcddcdc",
-  "for_trad" = "dcdcdcdcddcdc",
-  "fish_raw" = "ffffifd_"
+col_types <- list(
+  "crop_raw" = c("numeric", "character", "numeric", "character", "numeric",
+                 "character", "numeric", "numeric", "character", "numeric",
+                 "character"),
+  "crop_proc" = c("numeric", "character", "numeric", "character", "numeric",
+                  "character", "numeric", "numeric", "character", "numeric",
+                  "character"),
+  "live_raw" = c("numeric", "character", "numeric", "character", "numeric",
+                 "character", "numeric", "numeric", "character", "numeric",
+                 "character"),
+  "live_prim" = c("numeric", "character", "numeric", "character", "numeric",
+                  "character", "numeric", "numeric", "character", "numeric",
+                  "character"),
+  "live_proc" = c("numeric", "character", "numeric", "character", "numeric",
+                  "character", "numeric", "numeric", "character", "numeric",
+                  "character"),
+  "btd_raw" = c("numeric", "character", "numeric", "character", "numeric",
+                "character", "numeric", "character", "numeric", "numeric",
+                "character", "numeric", "character"),
+  "cbs_crop" = c("numeric", "character", "numeric", "character", "numeric",
+                 "character", "numeric", "numeric", "character", "numeric",
+                 "character"),
+  "cbs_live" = c("numeric", "character", "numeric", "character", "numeric",
+                 "character", "numeric", "numeric", "character", "numeric",
+                 "character"),
+  "for_raw" = c("numeric", "character", "numeric", "character", "numeric",
+                "character", "numeric", "numeric", "character", "numeric",
+                "character"),
+  "for_trad" = c("numeric", "character", "numeric", "character", "numeric",
+                 "character", "numeric", "character", "numeric", "numeric",
+                 "character", "numeric", "character"),
+  "fish_raw" = c("integer", "integer", "integer", "character", "integer",
+                 "character", "numeric", "NULL")
 )
 
 

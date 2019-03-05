@@ -43,7 +43,7 @@ fa_dl <- function(
 #' @param extr File to extract from the ZIP archive. If not set and there are
 #' multiple files only the first one will be extracted. Set to NULL or an empty
 #' string to try extracting all. See \link[utils]{unzip} for further details.
-#' @param col_types List of column types fed to \link[readr]{read_csv}.
+#' @param colClasses List of vectors with classes for \link[data.table]{fread}.
 #' @param stack Whether to stack the CSV files via \link[data.table]{rbindlist}.
 #' @param rm Whether to remove the extracted CSV files.
 #' @param v Whether to be verbose.
@@ -51,8 +51,7 @@ fa_dl <- function(
 #'
 #' @return Vector with created RDS files.
 #'
-#' @importFrom readr read_csv
-#' @importFrom data.table rbindlist
+#' @importFrom data.table fread rbindlist
 #'
 #' @examples
 #' \dontrun{
@@ -65,7 +64,7 @@ fa_dl <- function(
 #' }
 fa_extract <- function(
   zip, path, name, extr = NULL,
-  col_types = NULL, stack = FALSE,
+  colClasses = NULL, stack = FALSE,
   rm = TRUE, v = TRUE, ...) {
 
   dest_zip <- paste0(path, zip)
@@ -74,7 +73,6 @@ fa_extract <- function(
   if(length(zip) == 1 && length(extr) > 1 || is.null(extr)) {
     if(v) cat("Extracting multiple files from a single ZIP archive\n")
     csv <- unzip(dest_zip, extr, exdir = path, ...)
-    if(v) cat("Unzipped file to:", csv, "\n")
   } else {
     if(v) cat("Extracting single files from multiple ZIP archives\n")
     csv <- vector("character", length(zip))
@@ -82,14 +80,13 @@ fa_extract <- function(
       if(is.null(extr[i]) || nchar(extr[i]) == 0)
         extr[i] <- unzip(dest_zip[i], list = TRUE)[[1]]
       csv[i] <- unzip(dest_zip[i], extr[i], exdir = path, ...)
-      if(v) cat("Unzipped file to:", csv[i], "\n")
     }
   }
 
   rds <- vector("list", length(csv))
   for(i in seq_along(csv)) {
     cat("Reading:", csv[i], "\n")
-    rds[[i]] <- readr::read_csv(csv[i], col_types = col_types[[i]])
+    rds[[i]] <- data.table::fread(csv[i], colClasses = colClasses[[i]])
   }
 
   if(stack) {
