@@ -24,7 +24,7 @@ if(!eth1_prod[[1]][1] == "Afghanistan" &&
 saveRDS(eth1_prod, paste0(path, "eth1_prod.rds"))
 
 # # Compare to previous data
-# eth1_prod_comp <- read.xlsx("EIA_Biofuels_production.xlsx",
+# eth1_prod_comp <- read.xlsx(paste0(path, "EIA_Biofuels_production.xlsx"),
 #                             colNames = FALSE, rows = 9:235, cols = c(2, 4:38))
 # for(num in 2:36) class(eth1_prod_comp[[num]]) <- "numeric"
 # names(eth1_prod_comp) <- c("country", paste0("y", 1980:2014))
@@ -44,7 +44,7 @@ names(eth2_prod) <- c("country", paste0("y", eth2_extent))
 saveRDS(eth2_prod, paste0(path, "eth2_prod.rds"))
 
 # # Compare to previous data
-# eth2_prod_comp <- read.xlsx("IEA_Biogasoline_production.xlsx",
+# eth2_prod_comp <- read.xlsx(paste0(path, "IEA_Biogasoline_production.xlsx"),
 #                             colNames = FALSE, rows = 8:167, cols = c(1, 3:28))
 # for(num in 2:27) class(eth2_prod_comp[[num]]) <- "numeric"
 # names(eth2_prod_comp) <- c("country", paste0("y", 1990:2015))

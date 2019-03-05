@@ -34,98 +34,19 @@ links <- c(rep("http://fenixservices.fao.org/faostat/static/bulkdownloads/",
            "http://www.fao.org/fishery/static/Data/")
 
 # Column types to speed up readr::read_csv and skip some
-{col_types <- list(
-  "crop_raw" = cols(
-    `Area Code` = col_double(), Area = col_character(),
-    `Item Code` = col_double(), Item = col_character(),
-    `Element Code` = col_double(), Element = col_character(),
-    `Year Code` = col_double(), Year = col_double(),
-    Unit = col_character(), Value = col_double(),
-    Flag = col_character()
-  ),
-  "crop_proc" = cols(
-    `Area Code` = col_double(), Area = col_character(),
-    `Item Code` = col_double(), Item = col_character(),
-    `Element Code` = col_double(), Element = col_character(),
-    `Year Code` = col_double(), Year = col_double(),
-    Unit = col_character(), Value = col_double(),
-    Flag = col_character()
-  ),
-
-  "live_raw" = cols(
-    `Area Code` = col_double(), Area = col_character(),
-    `Item Code` = col_double(), Item = col_character(),
-    `Element Code` = col_double(), Element = col_character(),
-    `Year Code` = col_double(), Year = col_double(),
-    Unit = col_character(), Value = col_double(),
-    Flag = col_character()
-  ),
-  "live_prim" = cols(
-    `Area Code` = col_double(), Area = col_character(),
-    `Item Code` = col_double(), Item = col_character(),
-    `Element Code` = col_double(), Element = col_character(),
-    `Year Code` = col_double(), Year = col_double(),
-    Unit = col_character(), Value = col_double(),
-    Flag = col_character()
-  ),
-  "live_proc" = cols(
-    `Area Code` = col_double(), Area = col_character(),
-    `Item Code` = col_double(), Item = col_character(),
-    `Element Code` = col_double(), Element = col_character(),
-    `Year Code` = col_double(), Year = col_double(),
-    Unit = col_character(), Value = col_double(),
-    Flag = col_character()
-  ),
-  "btd_raw" = cols(
-    `Reporter Country Code` = col_double(), `Reporter Countries` = col_character(),
-    `Partner Country Code` = col_double(), `Partner Countries` = col_character(),
-    `Item Code` = col_double(), Item = col_character(),
-    `Element Code` = col_double(), Element = col_character(),
-    `Year Code` = col_double(), Year = col_double(),
-    Unit = col_character(), Value = col_double(),
-    Flag = col_character()
-  ),
-  "cbs_crop" = cols(
-    `Area Code` = col_double(), Area = col_character(),
-    `Item Code` = col_double(), Item = col_character(),
-    `Element Code` = col_double(), Element = col_character(),
-    `Year Code` = col_double(), Year = col_double(),
-    Unit = col_character(), Value = col_double(),
-    Flag = col_character()
-  ),
-  "cbs_live" = cols(
-    `Area Code` = col_double(), Area = col_character(),
-    `Item Code` = col_double(), Item = col_character(),
-    `Element Code` = col_double(), Element = col_character(),
-    `Year Code` = col_double(), Year = col_double(),
-    Unit = col_character(), Value = col_double(),
-    Flag = col_character()
-  ),
-  "for_raw" = cols(
-    `Area Code` = col_double(), Area = col_character(),
-    `Item Code` = col_double(), Item = col_character(),
-    `Element Code` = col_double(), Element = col_character(),
-    `Year Code` = col_double(), Year = col_double(),
-    Unit = col_character(), Value = col_double(),
-    Flag = col_character()
-  ),
-  "for_trad" = cols(
-    `Reporter Country Code` = col_double(), `Reporter Countries` = col_character(),
-    `Partner Country Code` = col_double(), `Partner Countries` = col_character(),
-    `Item Code` = col_double(), Item = col_character(),
-    `Element Code` = col_double(), Element = col_character(),
-    `Year Code` = col_double(), Year = col_double(),
-    Unit = col_character(), Value = col_double(),
-    Flag = col_character()
-  ),
-  "fish_raw" = cols(
-    COUNTRY = col_factor(), AREA = col_factor(),
-    SOURCE = col_factor(), SPECIES = col_factor(),
-    YEAR = col_integer(), UNIT = col_factor(),
-    QUANTITY = col_double(), SYMBOL = col_skip()
-  )
-)}
-
+col_types <- list(
+  "crop_raw" = "dcdcdcddcdc",
+  "crop_proc" = "dcdcdcddcdc",
+  "live_raw" = "dcdcdcddcdc",
+  "live_prim" = "dcdcdcddcdc",
+  "live_proc" = "dcdcdcddcdc",
+  "btd_raw" = "dcdcdcdcddcdc",
+  "cbs_crop" = "dcdcdcddcdc",
+  "cbs_live" = "dcdcdcddcdc",
+  "for_raw" = "dcdcdcddcdc",
+  "for_trad" = "dcdcdcdcddcdc",
+  "fish_raw" = "ffffifd_"
+)
 
 
 # Execute -----------------------------------------------------------------
