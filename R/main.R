@@ -15,5 +15,5 @@ source("R/0_prep_fao.R")
 # http://dx.doi.org/10.1787/data-00550-en
 source("R/0_prep_eth.R")
 
-# Requires BACI92 ZIP files as well as COMTRADE_TOKEN in the environment
+# Requires BACI92 ZIP files as well as data.table::rbindlist(comtrade)
 source("R/0_prep_trade.R")

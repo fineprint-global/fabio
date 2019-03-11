@@ -2,6 +2,7 @@
 # Tidying -----------------------------------------------------------------
 
 library(data.table) # 1.12.0
+source("R/1_tidy_functions.R")
 regions <- fread("inst/regions_full.csv", encoding = "UTF-8")
 years <- 1986:2013
 
@@ -34,7 +35,7 @@ rename <- c(
   "Import Quantity" = "imports",
   "Export Quantity" = "exports",
   "Domestic supply quantity" = "total_supply",
-  "Losses" = "waste",
+  "Losses" = "losses",
   "Food supply quantity (tonnes)" = "food",
   "Stock Variation" = "stock_withdrawal",
   "Feed" = "feed",
@@ -45,27 +46,29 @@ rename <- c(
 names(cbs) <- c(rename[names(cbs)])
 
 # Change the supply element from "prod + imp - exp" to "prod + imp"
-all.equal(cbs$total_supply, cbs$production + cbs$imports - cbs$exports)
+all.equal(cbs$total_supply, cbs$production + cbs$imports - cbs$exports + cbs$stock_withdrawal)
 cbs$total_supply <- cbs$production + cbs$imports
 
 # Adjust stock variation from representing stock-withdrawals to stock-additions
-cbs$stock_var <- -cbs$stock_withdrawal
+cbs$stock_addition <- -cbs$stock_withdrawal
 
 # Cap out stock-additions to total supply
-sum(cbs$stock_var > cbs$total_supply)
-cbs$stock_var <- ifelse(cbs$stock_var > cbs$total_supply,
-                        cbs$total_supply, cbs$stock_var)
+sum(cbs$stock_addition > cbs$total_supply)
+cbs$stock_addition <- ifelse(cbs$stock_addition > cbs$total_supply,
+                        cbs$total_supply, cbs$stock_addition)
 
 # Set negative values of variables other than stock-changes to 0
-for(i in c("production", "imports", "exports", "total_supply", "waste",
+for(var in c("production", "imports", "exports", "total_supply", "losses",
              "food", "feed", "seed", "other", "processing"))
-  set(cbs, which(cbs[[i]] < 0), i, 0)
+  set(cbs, which(cbs[[var]] < 0), var, 0)
+cat("Setting negative values in some cbs variables to 0\n")
 
 # Take supply and stock-changes as given and rebalance uses
-uses <- cbs[, c("exports", "food", "feed", "seed", "waste", "processing", "other")]
-cbs[, c("exports", "food", "feed", "seed", "waste", "processing", "other")] <-
-  uses / rowSums(uses) * (cbs$total_supply - cbs$stock_var)
-cat("Setting NaN values in the cbs object to 0\n")
+uses <- c("exports", "food", "feed", "seed", "losses", "processing", "other")
+denom <- (cbs[["total_supply"]] - cbs[["stock_addition"]]) / rowSums(cbs[, ..uses])
+for(use in uses)
+  set(cbs, j = use, value = cbs[[use]] / denom)
+cat("Setting NaN values that occured after rebalancing in the cbs object to 0\n")
 replace_dt(cbs, 0, is.nan)
 
 # Match country names
@@ -73,7 +76,7 @@ cbs$area <- regions$name[match(cbs$area_code, regions$code)]
 
 # Merge variations of countries
 # merge_areas(cbs, orig = 206, dest = 276, "Sudan")
-# merge_areas(cbs, orig = 62, dest = 238, "Ethiopia")
+merge_areas(cbs, orig = 62, dest = 238, "Ethiopia")
 
 # Detect missing years for countries
 missing <- data.frame(years = years)
@@ -92,13 +95,27 @@ cat("Missing regions found for the following years:\n",
     "\n")
 
 # If they are missing for >= 6 years do not estimate via extrapolation
+# Estimate Netherland Antilles and Oman
 
 # Fill missing years
 # possibly use MA or RW?
 for(applicable_region) {
   # Years are either missing towards the end or towards the start
   if(min(missing_year) == min(years))
-    use_next_available
+    use_next_available# Fill missing years
+  # possibly use MA or RW?
+  for(applicable_region) {
+    # Years are either missing towards the end or towards the start
+    if(min(missing_year) == min(years))
+      use_next_available
+    else if(max(missing_year) == max(years))
+      use_last_available
+    # Included for the sake of completeness
+    else
+      use_average
+  }
+
+
   else if(max(missing_year) == max(years))
     use_last_available
   # Included for the sake of completeness

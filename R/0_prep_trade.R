@@ -26,8 +26,8 @@ baci_full <- fa_extract(file, path = path_trade, name = name,
                          extr = extr, col_types = col_types, stack = TRUE)
 
 baci_sel <- readRDS(baci_full)
-# Select fish (30___) and ethanol (2207_)
-baci_sel <- baci_sel[grep("^(30[1-4]..|2207.)", baci_sel$hs6), ]
+# Select fish (30___) and ethanol (2207__)
+baci_sel <- baci_sel[grep("^(30[1-4]..|2207..)", baci_sel$hs6), ]
 saveRDS(baci_sel, paste0(path_trade, "baci_sel.rds"))
 
 
