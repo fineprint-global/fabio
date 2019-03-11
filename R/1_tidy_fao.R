@@ -70,9 +70,10 @@ replace_dt(cbs, 0, is.nan)
 
 # Match country names
 cbs$area <- regions$name[match(cbs$area_code, regions$code)]
+
 # Merge variations of countries
-merge_areas(cbs, orig = 206, dest = 276, "Sudan")
-merge_areas(cbs, orig = 62, dest = 238, "Ethiopia")
+# merge_areas(cbs, orig = 206, dest = 276, "Sudan")
+# merge_areas(cbs, orig = 62, dest = 238, "Ethiopia")
 
 # Detect missing years for countries
 missing <- data.frame(years = years)

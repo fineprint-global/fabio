@@ -1,9 +1,9 @@
 
 # FAO data ----------------------------------------------------------------
 
-library(readr) # 1.3.1
-source("R/prep.R")
-path <- "input/fao/"
+library(data.table)
+source("R/0_prep_functions.R")
+path_fao <- "input/fao/"
 
 
 # Settings ----------------------------------------------------------------
@@ -33,7 +33,7 @@ links <- c(rep("http://fenixservices.fao.org/faostat/static/bulkdownloads/",
                length(files) - 1),
            "http://www.fao.org/fishery/static/Data/")
 
-# Column types to speed up readr::read_csv and skip some
+# Column types to possibly skip some
 col_types <- list(
   "crop_raw" = c("numeric", "character", "numeric", "character", "numeric",
                  "character", "numeric", "numeric", "character", "numeric",
@@ -72,7 +72,7 @@ col_types <- list(
 
 # Execute -----------------------------------------------------------------
 
-fa_dl(file = files, link = links, path = path)
+fa_dl(file = files, link = links, path = path_fao)
 
-fa_extract(zip = files, path = path, name = name,
+fa_extract(zip = files, path = path_fao, name = name,
            extr = extr, col_types = col_types)

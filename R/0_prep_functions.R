@@ -1,4 +1,3 @@
-
 #' @title FABIO download
 #'
 #' @param file Files to download.

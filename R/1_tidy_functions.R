@@ -1,4 +1,3 @@
-
 replace_dt <- function(dt, value = 0, fun = is.na) {
 
   for(i in seq_len(ncol(dt)))

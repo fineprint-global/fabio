@@ -1,11 +1,11 @@
 
 # Trade -------------------------------------------------------------------
 
-library(data.table) # 1.12.0
-library(comtradr) # 0.2.2
-source("R/prep.R")
+library(data.table)
+library(comtradr)
+source("R/0_prep_functions.R")
 ct_register_token(Sys.getenv("COMTRADE_TOKEN"))
-path <- "input/trade/"
+path_trade <- "input/trade/"
 
 
 # BACI92 ------------------------------------------------------------------
@@ -14,7 +14,7 @@ file <- c("baci_full" = "baci92_trade.zip")
 
 pattern <- "(baci92_[0-9]+)([.]csv)"
 
-extr <- unzip(paste0(path, file), list = TRUE)[[1]]
+extr <- unzip(paste0(path_trade, file), list = TRUE)[[1]]
 extr <- extr[grep(pattern, extr)]
 
 # name <- gsub(pattern, "\\1", extr)
@@ -22,19 +22,19 @@ name <- names(file)
 
 col_types <- rep("iiiidd", length(extr))
 
-baci_full <- fa_extract(file, path, name,
+baci_full <- fa_extract(file, path = path_trade, name = name,
                          extr = extr, col_types = col_types, stack = TRUE)
 
 baci_sel <- readRDS(baci_full)
 # Select fish (30___) and ethanol (2207_)
 baci_sel <- baci_sel[grep("^(30[1-4]..|2207.)", baci_sel$hs6), ]
-saveRDS(baci_sel, paste0(path, "baci_sel.rds"))
+saveRDS(baci_sel, paste0(path_trade, "baci_sel.rds"))
 
 
 # Comtrade ----------------------------------------------------------------
 
 # Loop over possible reporters to circumvent API restrictions
-reporters <- readLines(paste0(path, "comtrade_reporters.txt"))
+reporters <- readLines(paste0(path_trade, "comtrade_reporters.txt"))
 comtrade <- vector("list", ceiling(length(reporters) / 5))
 j <- 1
 for(i in seq(1, length(reporters), by = 5)) {
@@ -61,4 +61,4 @@ for(i in seq(1, length(reporters), by = 5)) {
   j <- j + 1
 }
 comtrade <- data.table::rbindlist(comtrade)
-saveRDS(comtrade, paste0(path, "comtrade.rds"))
+saveRDS(comtrade, paste0(path_trade, "comtrade.rds"))
