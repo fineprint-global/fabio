@@ -74,7 +74,7 @@ replace_dt(cbs, 0, is.nan)
 # Match country names
 cbs$area <- regions$name[match(cbs$area_code, regions$code)]
 
-# Merge variations of countries
+# Merge variations of countries - currently limited to name changes
 # merge_areas(cbs, orig = 206, dest = 276, "Sudan")
 merge_areas(cbs, orig = 62, dest = 238, "Ethiopia")
 
@@ -94,32 +94,41 @@ cat("Missing regions found for the following years:\n",
           rowSums(missing[, -1], na.rm = TRUE), collapse = ", "),
     "\n")
 
-# If they are missing for >= 6 years do not estimate via extrapolation
-# Estimate Netherland Antilles and Oman
-
-# Fill missing years
-# possibly use MA or RW?
-for(applicable_region) {
-  # Years are either missing towards the end or towards the start
-  if(min(missing_year) == min(years))
-    use_next_available# Fill missing years
-  # possibly use MA or RW?
-  for(applicable_region) {
-    # Years are either missing towards the end or towards the start
-    if(min(missing_year) == min(years))
-      use_next_available
-    else if(max(missing_year) == max(years))
-      use_last_available
-    # Included for the sake of completeness
-    else
-      use_average
-  }
+# Possibly fill some missing years
+# Use closest available, MA or RW?
+# for(r in applicable_regions) {
+#   # Years are either missing towards the end or towards the start
+#   if(min(missing_year) == min(years))
+#     use_next_available
+#   else if(max(missing_year) == max(years))
+#     use_last_available
+#   else
+#     use_average
+# }
 
 
-  else if(max(missing_year) == max(years))
-    use_last_available
-  # Included for the sake of completeness
-  else
-    use_average
-}
+# BTD ---------------------------------------------------------------------
 
+btd_raw <- readRDS("input/fao/btd_raw.rds")
+
+rename <- c(
+  "Reporter Country Code" = "reporter_code",
+  "Reporter Countries" = "reporter",
+  "Partner Country Code" = "partner_code",
+  "Partner Countries" = "partner",
+  "Item Code" = "item_code",
+  "Item" = "item",
+  "Year" = "year"
+)
+
+# Exclude the following items:
+items_exclude <- structure(
+  c(631, 769, 853, 1031, 1181, 1183, 1218, 1293, 1296),
+  names = c(
+  "Waters,ice etc", "Cotton waste", "Vitamins", "Hair, goat, coarse",
+  "Beehives", "Beeswax", "Hair, fine", "Crude materials", "Waxes vegetable"
+))
+
+for(item in items_exclude)
+  print(paste0(item, ": ", any(grepl(item, unique(btd$Item), fixed = TRUE))))
+# Exclude 0 values

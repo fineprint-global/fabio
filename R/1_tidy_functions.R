@@ -6,6 +6,12 @@ replace_dt <- function(dt, value = 0, fun = is.na) {
   0
 }
 
+check_code <- function(x) {
+
+  unique(x$Item)
+  unique(x$`Item Code`)
+}
+
 merge_areas <- function(dt, orig, dest, pattern = "*") {
 
   orig_name <- dt[area_code == orig]$area[1]
