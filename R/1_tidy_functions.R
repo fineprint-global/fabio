@@ -17,10 +17,10 @@ merge_areas <- function(dt, orig, dest, pattern = "*") {
   orig_name <- dt[area_code == orig]$area[1]
   dest_name <- dt[area_code == dest]$area[1]
   cat("Found", dt[area_code == orig, .N], "observations of orig",
-      "and", dt[area_code == dest, .N], "observations of dest\n")
+      "and", dt[area_code == dest, .N], "observations of dest.\n")
 
   if(!all(grepl(pattern, c(orig_name, dest_name))))
-    stop("Pattern not found in both countries")
+    stop("Pattern not found in both countries.")
 
   cat("Merging areas with codes", orig, "&", dest, "\n")
 
@@ -28,4 +28,18 @@ merge_areas <- function(dt, orig, dest, pattern = "*") {
   set(dt, which(dt$area_code == orig), "area_code", dest)
 
   0
+}
+
+rename_cols <- function(x, rename, drop = TRUE) {
+
+  found_cols <- names(x) %in% names(rename)
+  cat("Missing columns:",
+      paste(names(x)[!found_cols], collapse = ", "), "\n")
+  if(drop) {
+    cat("Dropping missing columns.\n")
+    x <- subset(x, select = found_cols)
+  }
+
+  names(x) <- c(rename[names(x)])
+  return(x)
 }

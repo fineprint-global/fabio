@@ -20,8 +20,9 @@ cbs_raw <- cbs_raw[cbs_raw[[1]] < 5000, ]
 cbs <- dcast(cbs_raw,
              `Area Code` + Area + `Item Code` + Item + Year ~ Element,
              value.var = "Value")
+rm(cbs_raw)
 
-cat("Setting NA values in the cbs object to 0\n")
+cat("Setting NA values in the cbs object to 0.\n")
 replace_dt(cbs, 0)
 
 # Rename the columns
@@ -36,14 +37,14 @@ rename <- c(
   "Export Quantity" = "exports",
   "Domestic supply quantity" = "total_supply",
   "Losses" = "losses",
-  "Food supply quantity (tonnes)" = "food",
+  # "Food supply quantity (tonnes)" = "food",
   "Stock Variation" = "stock_withdrawal",
   "Feed" = "feed",
   "Seed" = "seed",
   "Other uses" = "other",
   "Processing" = "processing"
 )
-names(cbs) <- c(rename[names(cbs)])
+cbs <- rename_cols(cbs, rename)unique(btd$item_code)
 
 # Change the supply element from "prod + imp - exp" to "prod + imp"
 all.equal(cbs$total_supply, cbs$production + cbs$imports - cbs$exports + cbs$stock_withdrawal)
@@ -61,14 +62,14 @@ cbs$stock_addition <- ifelse(cbs$stock_addition > cbs$total_supply,
 for(var in c("production", "imports", "exports", "total_supply", "losses",
              "food", "feed", "seed", "other", "processing"))
   set(cbs, which(cbs[[var]] < 0), var, 0)
-cat("Setting negative values in some cbs variables to 0\n")
+cat("Setting negative values in some cbs variables to 0.\n")
 
 # Take supply and stock-changes as given and rebalance uses
 uses <- c("exports", "food", "feed", "seed", "losses", "processing", "other")
 denom <- (cbs[["total_supply"]] - cbs[["stock_addition"]]) / rowSums(cbs[, ..uses])
 for(use in uses)
   set(cbs, j = use, value = cbs[[use]] / denom)
-cat("Setting NaN values that occured after rebalancing in the cbs object to 0\n")
+cat("Setting NaN values in cbs that occured after rebalancing to 0.\n")
 replace_dt(cbs, 0, is.nan)
 
 # Match country names
@@ -87,30 +88,16 @@ for(code in unique(cbs$area_code)) {
 }
 cat("Missing years found for the following regions:\n",
     paste(regions$name[match(names(missing)[-1], regions$code)],
-          colSums(missing[, -1], na.rm = TRUE), collapse = ", "),
-    "\n")
+          colSums(missing[, -1], na.rm = TRUE), collapse = ", "), ".\n")
 cat("Missing regions found for the following years:\n",
-    paste(years,
-          rowSums(missing[, -1], na.rm = TRUE), collapse = ", "),
-    "\n")
-
-# Possibly fill some missing years
-# Use closest available, MA or RW?
-# for(r in applicable_regions) {
-#   # Years are either missing towards the end or towards the start
-#   if(min(missing_year) == min(years))
-#     use_next_available
-#   else if(max(missing_year) == max(years))
-#     use_last_available
-#   else
-#     use_average
-# }
+    paste(years, rowSums(missing[, -1], na.rm = TRUE), collapse = ", "), ".\n")
 
 
 # BTD ---------------------------------------------------------------------
 
 btd_raw <- readRDS("input/fao/btd_raw.rds")
 
+# Rename the columns
 rename <- c(
   "Reporter Country Code" = "reporter_code",
   "Reporter Countries" = "reporter",
@@ -118,8 +105,17 @@ rename <- c(
   "Partner Countries" = "partner",
   "Item Code" = "item_code",
   "Item" = "item",
-  "Year" = "year"
+  # "Element Code" = "element_code",
+  "Element" = "element",
+  # "Year Code" = "year_code",
+  "Year" = "year",
+  "Unit" = "unit",
+  # "Flag" = "flag",
+  "Value" = "value"
 )
+
+btd <- rename_cols(btd_raw, rename)
+rm(btd_raw) # >3GB
 
 # Exclude the following items:
 items_exclude <- structure(
@@ -128,7 +124,34 @@ items_exclude <- structure(
   "Waters,ice etc", "Cotton waste", "Vitamins", "Hair, goat, coarse",
   "Beehives", "Beeswax", "Hair, fine", "Crude materials", "Waxes vegetable"
 ))
+items <- unique(btd$item_code)
+for(item in items_exclude) {
+  cat(paste0("Item #", item, " exists: ",
+             any(grepl(item, items, fixed = TRUE))), "\n")
+}
+btd <- btd[!item_code %in% items_exclude, ]
+# Exclude values of 0
+btd <- btd[value > 0, ]
 
-for(item in items_exclude)
-  print(paste0(item, ": ", any(grepl(item, unique(btd$Item), fixed = TRUE))))
-# Exclude 0 values
+# Add column cutting from "Import/Export Quantity/Value"
+btd$imex <- factor(gsub("^(Import|Export) (.*)$", "\\1", btd$element))
+
+# Convert tonnes to primary equivalents
+tcf_trade <- fread("inst/tcf_trade.csv", encoding = "UTF-8")
+
+btd_ton <- btd[unit == "tonnes"]
+btd_rest <- btd[unit != "tonnes"]
+
+cat("Converting tonnes to primary equivalents using tcf_trade.\n")
+btd_ton <- merge(btd_ton, tcf_trade,
+                 by.x = "item_code", by.y = "code", all.x = TRUE)
+if(any(is.na(btd_ton$tcf))) {
+  cat("Missing conversion factors found for:",
+      unique(btd_ton[is.na(btd_ton$tcf), item]),
+      "\nSetting missing values to 1.\n")
+  set(btd_ton, which(is.na(btd_ton[["tcf"]])), "tcf", 1)
+}
+btd_ton$value <- btd_ton$value / btd_ton$tcf
+btd <- rbind(btd_ton[, !"tcf"], btd_rest)
+rm(btd_ton, btd_rest)
+
