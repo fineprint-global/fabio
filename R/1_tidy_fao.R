@@ -145,6 +145,7 @@ btd_rest <- btd[unit != "tonnes"]
 cat("Converting tonnes to primary equivalents using tcf_trade.\n")
 btd_ton <- merge(btd_ton, tcf_trade,
                  by.x = "item_code", by.y = "code", all.x = TRUE)
+# Check for missing tcf - Rice is expected to be
 if(any(is.na(btd_ton$tcf))) {
   cat("Missing conversion factors found for:",
       unique(btd_ton[is.na(btd_ton$tcf), item]),
@@ -154,4 +155,14 @@ if(any(is.na(btd_ton$tcf))) {
 btd_ton$value <- btd_ton$value / btd_ton$tcf
 btd <- rbind(btd_ton[, !"tcf"], btd_rest)
 rm(btd_ton, btd_rest)
+
+# Item aggregation to the level of CBS
+item_conc <- fread("inst/items_btd-cbs.csv", encoding = "UTF-8")
+item_match <- match(btd$item_code, item_conc$btd_item_code)
+btd$item_code <- item_conc$cbs_item_code[item_match]
+btd$item <- item_conc$cbs_item[item_match]
+# Aggregate to go from ~27 mio. to ~16 mio. rows
+btd <- btd[, list(value = sum(value)),
+           by = .(reporter_code, reporter, partner_code, partner,
+                  item_code, item, year, imex, unit)]
 
