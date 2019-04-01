@@ -1,0 +1,406 @@
+btd_item_code,cbs_item_code,cbs_item
+15,2511,Wheat and products
+16,2511,Wheat and products
+17,2600,Brans
+18,2511,Wheat and products
+20,2511,Wheat and products
+21,2511,Wheat and products
+22,2511,Wheat and products
+30,2805,Rice (Milled Equivalent)
+36,2581,Ricebran Oil
+37,2598,"Oilseed Cakes, Other"
+39,2657,"Beverages, Fermented"
+41,2511,Wheat and products
+44,2513,Barley and products
+46,2513,Barley and products
+49,2513,Barley and products
+51,2656,Beer
+56,2514,Maize and products
+57,2514,Maize and products
+58,2514,Maize and products
+59,2600,Brans
+60,2582,Maize Germ Oil
+61,2598,"Oilseed Cakes, Other"
+71,2515,Rye and products
+75,2516,Oats
+76,2516,Oats
+79,2517,Millet and products
+81,2600,Brans
+83,2518,Sorghum and products
+85,2600,Brans
+89,2520,"Cereals, Other"
+91,2600,Brans
+94,2520,"Cereals, Other"
+97,2520,"Cereals, Other"
+101,2520,"Cereals, Other"
+103,2520,"Cereals, Other"
+104,2520,"Cereals, Other"
+109,2680,Infant food
+110,2511,Wheat and products
+111,2520,"Cereals, Other"
+113,2520,"Cereals, Other"
+114,2511,Wheat and products
+115,2511,Wheat and products
+116,2531,Potatoes and products
+117,2531,Potatoes and products
+118,2531,Potatoes and products
+120,2531,Potatoes and products
+122,2533,Sweet potatoes
+125,2532,Cassava and products
+128,2532,Cassava and products
+129,2532,Cassava and products
+149,2534,"Roots, Other"
+150,2534,"Roots, Other"
+157,2537,Sugar beet
+160,2543,"Sweeteners, Other"
+161,2543,"Sweeteners, Other"
+162,2818,"Sugar, Refined Equiv"
+163,2541,Sugar non-centrifugal
+164,2818,"Sugar, Refined Equiv"
+165,2544,Molasses
+166,2543,"Sweeteners, Other"
+167,2543,"Sweeteners, Other"
+168,2818,"Sugar, Refined Equiv"
+169,2000,Fodder crops
+171,2818,"Sugar, Refined Equiv"
+172,2543,"Sweeteners, Other"
+173,2543,"Sweeteners, Other"
+176,2546,Beans
+181,2549,"Pulses, Other and products"
+187,2547,Peas
+191,2549,"Pulses, Other and products"
+201,2549,"Pulses, Other and products"
+203,2549,"Pulses, Other and products"
+205,2549,"Pulses, Other and products"
+212,2549,"Pulses, Other and products"
+217,2551,Nuts and products
+220,2551,Nuts and products
+222,2551,Nuts and products
+223,2551,Nuts and products
+224,2551,Nuts and products
+229,2551,Nuts and products
+230,2551,Nuts and products
+231,2551,Nuts and products
+232,2551,Nuts and products
+233,2551,Nuts and products
+234,2551,Nuts and products
+235,2551,Nuts and products
+236,2555,Soyabeans
+237,2571,Soyabean Oil
+238,2590,Soyabean Cake
+239,2555,Soyabeans
+240,2555,Soyabeans
+243,2556,Groundnuts (Shelled Eq)
+244,2572,Groundnut Oil
+245,2591,Groundnut Cake
+247,2556,Groundnuts (Shelled Eq)
+249,2560,Coconuts - Incl Copra
+250,2560,Coconuts - Incl Copra
+251,2560,Coconuts - Incl Copra
+252,2578,Coconut Oil
+253,2596,Copra Cake
+257,2577,Palm Oil
+258,2576,Palmkernel Oil
+259,2595,Palmkernel Cake
+260,2563,Olives (including preserved)
+261,2580,Olive Oil
+262,2563,Olives (including preserved)
+264,2586,"Oilcrops Oil, Other"
+266,2586,"Oilcrops Oil, Other"
+267,2557,Sunflower seed
+268,2573,Sunflowerseed Oil
+269,2592,Sunflowerseed Cake
+270,2558,Rape and Mustardseed
+271,2574,Rape and Mustard Oil
+272,2593,Rape and Mustard Cake
+274,2580,Olive Oil
+281,2586,"Oilcrops Oil, Other"
+282,2598,"Oilseed Cakes, Other"
+289,2561,Sesame seed
+290,2579,Sesameseed Oil
+291,2597,Sesameseed Cake
+292,2558,Rape and Mustardseed
+294,2593,Rape and Mustard Cake
+295,2558,Rape and Mustardseed
+296,2570,"Oilcrops, Other"
+297,2586,"Oilcrops Oil, Other"
+306,2586,"Oilcrops Oil, Other"
+311,2570,"Oilcrops, Other"
+313,2586,"Oilcrops Oil, Other"
+314,2598,"Oilseed Cakes, Other"
+329,2559,Cottonseed
+331,2575,Cottonseed Oil
+332,2594,Cottonseed Cake
+333,2570,"Oilcrops, Other"
+334,2586,"Oilcrops Oil, Other"
+335,2598,"Oilseed Cakes, Other"
+338,2598,"Oilseed Cakes, Other"
+339,2570,"Oilcrops, Other"
+340,2586,"Oilcrops Oil, Other"
+358,2605,"Vegetables, Other"
+366,2605,"Vegetables, Other"
+367,2605,"Vegetables, Other"
+372,2605,"Vegetables, Other"
+373,2605,"Vegetables, Other"
+388,2601,Tomatoes and products
+390,2601,Tomatoes and products
+391,2601,Tomatoes and products
+392,2601,Tomatoes and products
+393,2605,"Vegetables, Other"
+394,2605,"Vegetables, Other"
+397,2605,"Vegetables, Other"
+399,2605,"Vegetables, Other"
+401,2605,"Vegetables, Other"
+402,2602,Onions
+403,2602,Onions
+406,2605,"Vegetables, Other"
+407,2605,"Vegetables, Other"
+414,2605,"Vegetables, Other"
+417,2605,"Vegetables, Other"
+426,2605,"Vegetables, Other"
+446,2605,"Vegetables, Other"
+447,2605,"Vegetables, Other"
+448,2605,"Vegetables, Other"
+449,2605,"Vegetables, Other"
+451,2605,"Vegetables, Other"
+460,2605,"Vegetables, Other"
+463,2605,"Vegetables, Other"
+464,2605,"Vegetables, Other"
+465,2605,"Vegetables, Other"
+469,2605,"Vegetables, Other"
+471,2605,"Vegetables, Other"
+472,2605,"Vegetables, Other"
+473,2605,"Vegetables, Other"
+474,2605,"Vegetables, Other"
+475,2605,"Vegetables, Other"
+476,2605,"Vegetables, Other"
+486,2615,Bananas
+489,2616,Plantains
+490,2611,"Oranges, Mandarines"
+491,2611,"Oranges, Mandarines"
+492,2611,"Oranges, Mandarines"
+495,2611,"Oranges, Mandarines"
+497,2612,"Lemons, Limes and products"
+499,2612,"Lemons, Limes and products"
+507,2613,Grapefruit and products
+509,2613,Grapefruit and products
+510,2613,Grapefruit and products
+513,2614,"Citrus, Other"
+514,2614,"Citrus, Other"
+515,2617,Apples and products
+517,2657,"Beverages, Fermented"
+521,2625,"Fruits, Other"
+523,2625,"Fruits, Other"
+526,2625,"Fruits, Other"
+527,2625,"Fruits, Other"
+530,2625,"Fruits, Other"
+531,2625,"Fruits, Other"
+534,2625,"Fruits, Other"
+536,2625,"Fruits, Other"
+537,2625,"Fruits, Other"
+539,2625,"Fruits, Other"
+544,2625,"Fruits, Other"
+549,2625,"Fruits, Other"
+550,2625,"Fruits, Other"
+552,2625,"Fruits, Other"
+554,2625,"Fruits, Other"
+560,2620,Grapes and products (excl wine)
+561,2620,Grapes and products (excl wine)
+562,2620,Grapes and products (excl wine)
+564,2655,Wine
+565,2655,Wine
+567,2605,"Vegetables, Other"
+568,2605,"Vegetables, Other"
+569,2625,"Fruits, Other"
+570,2625,"Fruits, Other"
+571,2625,"Fruits, Other"
+572,2625,"Fruits, Other"
+574,2618,Pineapples and products
+575,2618,Pineapples and products
+576,2618,Pineapples and products
+577,2619,Dates
+580,2618,Pineapples and products
+587,2625,"Fruits, Other"
+591,2625,"Fruits, Other"
+592,2625,"Fruits, Other"
+600,2625,"Fruits, Other"
+603,2625,"Fruits, Other"
+619,2625,"Fruits, Other"
+620,2625,"Fruits, Other"
+622,2625,"Fruits, Other"
+623,2625,"Fruits, Other"
+626,2625,"Fruits, Other"
+628,2000,Fodder crops
+630,2000,Fodder crops
+631,,"Waters,ice etc"
+633,2543,"Sweeteners, Other"
+634,2658,"Beverages, Alcoholic"
+635,2000,Fodder crops
+646,2000,Fodder crops
+651,2000,Fodder crops
+652,2000,Fodder crops
+653,2000,Fodder crops
+654,2000,Fodder crops
+656,2630,Coffee and products
+657,2630,Coffee and products
+658,2630,Coffee and products
+659,2630,Coffee and products
+660,2630,Coffee and products
+661,2633,Cocoa Beans and products
+662,2633,Cocoa Beans and products
+664,2586,"Oilcrops Oil, Other"
+665,2633,Cocoa Beans and products
+666,2633,Cocoa Beans and products
+667,2635,Tea (including mate)
+671,2635,Tea (including mate)
+672,2635,Tea (including mate)
+677,677,Hops
+687,2640,Pepper
+689,2641,Pimento
+692,2645,"Spices, Other"
+693,2645,"Spices, Other"
+698,2642,Cloves
+702,2645,"Spices, Other"
+711,2645,"Spices, Other"
+720,2645,"Spices, Other"
+723,2645,"Spices, Other"
+737,2645,"Spices, Other"
+748,2645,"Spices, Other"
+753,2645,"Spices, Other"
+754,2645,"Spices, Other"
+755,2645,"Spices, Other"
+767,2661,Cotton lint
+768,2661,Cotton lint
+769,,Cotton waste
+770,2661,Cotton lint
+771,2664,"Soft-Fibres, Other"
+773,2664,"Soft-Fibres, Other"
+774,2664,"Soft-Fibres, Other"
+778,2664,"Soft-Fibres, Other"
+780,2662,Jute
+809,2666,Abaca
+826,2671,Tobacco
+828,2671,Tobacco
+829,2671,Tobacco
+831,2671,Tobacco
+836,2672,Rubber
+837,2672,Rubber
+843,843,Pet food
+845,2000,Fodder crops
+846,2000,Fodder crops
+850,2000,Fodder crops
+853,,Vitamins
+855,2000,Fodder crops
+858,2000,Fodder crops
+859,2000,Fodder crops
+862,2000,Fodder crops
+866,866,Cattle
+867,2731,Bovine Meat
+868,2736,"Offals, Edible"
+869,2737,"Fats, Animals, Raw"
+870,2731,Bovine Meat
+874,2731,Bovine Meat
+875,2731,Bovine Meat
+882,2848,Milk - Excluding Butter
+885,2848,Milk - Excluding Butter
+886,2740,"Butter, Ghee"
+888,2848,Milk - Excluding Butter
+889,2848,Milk - Excluding Butter
+890,2848,Milk - Excluding Butter
+892,2848,Milk - Excluding Butter
+893,2848,Milk - Excluding Butter
+894,2848,Milk - Excluding Butter
+897,2848,Milk - Excluding Butter
+898,2848,Milk - Excluding Butter
+900,2848,Milk - Excluding Butter
+901,2848,Milk - Excluding Butter
+907,2848,Milk - Excluding Butter
+909,2848,Milk - Excluding Butter
+910,2848,Milk - Excluding Butter
+920,2748,Hides and skins
+928,2748,Hides and skins
+946,946,Buffaloes
+953,2740,"Butter, Ghee"
+958,2748,Hides and skins
+959,2748,Hides and skins
+976,976,Sheep
+977,2732,Mutton & Goat Meat
+978,2736,"Offals, Edible"
+982,2848,Milk - Excluding Butter
+984,2848,Milk - Excluding Butter
+987,2746,Wool (Clean Eq.)
+988,2746,Wool (Clean Eq.)
+994,2737,"Fats, Animals, Raw"
+996,2748,Hides and skins
+997,2748,Hides and skins
+999,2748,Hides and skins
+1009,2746,Wool (Clean Eq.)
+1016,1016,Goats
+1017,2732,Mutton & Goat Meat
+1018,2736,"Offals, Edible"
+1026,2748,Hides and skins
+1031,,"Hair, goat, coarse"
+1034,1034,Pigs
+1035,2733,Pigmeat
+1036,2736,"Offals, Edible"
+1037,2737,"Fats, Animals, Raw"
+1038,2733,Pigmeat
+1039,2733,Pigmeat
+1041,2733,Pigmeat
+1042,2733,Pigmeat
+1043,2737,"Fats, Animals, Raw"
+1057,2029,Poultry Birds
+1058,2734,Poultry Meat
+1059,2736,"Offals, Edible"
+1060,2737,"Fats, Animals, Raw"
+1061,2734,Poultry Meat
+1062,2744,Eggs
+1063,2744,Eggs
+1064,2744,Eggs
+1068,2029,Poultry Birds
+1069,2734,Poultry Meat
+1073,2734,Poultry Meat
+1074,2736,"Offals, Edible"
+1075,2736,"Offals, Edible"
+1079,2029,Poultry Birds
+1080,2734,Poultry Meat
+1091,2744,Eggs
+1096,1096,Horses
+1097,2735,"Meat, Other"
+1104,2748,Hides and skins
+1107,1107,Asses
+1108,2735,"Meat, Other"
+1110,1110,Mules
+1126,1126,Camels
+1129,2737,"Fats, Animals, Raw"
+1134,2748,Hides and skins
+1140,1140,Rabbits
+1141,2735,"Meat, Other"
+1150,1150,"Rodents, other"
+1157,1157,"Camelids, other"
+1163,2735,"Meat, Other"
+1164,2735,"Meat, Other"
+1166,2735,"Meat, Other"
+1168,2737,"Fats, Animals, Raw"
+1169,1171,"Live animals, other"
+1171,1171,"Live animals, other"
+1173,2749,Meat Meal
+1181,,Beehives
+1182,2745,Honey
+1183,,Beeswax
+1185,2747,Silk
+1186,2747,Silk
+1187,2747,Silk
+1213,2748,Hides and skins
+1216,2748,Hides and skins
+1218,,"Hair, fine"
+1225,2737,"Fats, Animals, Raw"
+1232,2928,Miscellaneous
+1241,2586,"Oilcrops Oil, Other"
+1242,2586,"Oilcrops Oil, Other"
+1243,2737,"Fats, Animals, Raw"
+1274,2586,"Oilcrops Oil, Other"
+1276,2577,Palm Oil
+1277,2577,Palm Oil
+1293,,Crude materials
+1296,,Waxes vegetable
