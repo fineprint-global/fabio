@@ -49,20 +49,24 @@ rename <- c(
 cbs <- rename_cols(cbs, rename)unique(btd$item_code)
 
 cat("Changing total_supply from 'prod + imp - exp' to 'prod + imp'.\n",
-    paste0("Equality of total_supply and formula:",
-           all.equal(cbs$total_supply,
-             cbs$production + cbs$imports - cbs$exports + cbs$stock_withdrawal),
-           ".\n"))
-cbs$total_supply <- cbs$production + cbs$imports
+    "Equality of total_supply and formula: ",
+    all.equal(cbs$total_supply,
+              cbs$production + cbs$imports - cbs$exports + cbs$stock_withdrawal),
+    ".\n", sep = "")
+cbs[, total_supply := production + imports]
+# cbs$total_supply <- cbs$production + cbs$imports
 
 # Adjust stock variation from representing stock-withdrawals to stock-additions
-cbs$stock_addition <- -cbs$stock_withdrawal
+cbs[, stock_addition := -stock_withdrawal]
+# cbs$stock_addition <- -cbs$stock_withdrawal
 
-cat("Found", sum(cbs$stock_addition > cbs$total_supply),
-    "occurences of stock_addition exceeding total_supply.\n",
-    "Capping out the values at total_supply.\n")
-cbs$stock_addition <- ifelse(cbs$stock_addition > cbs$total_supply,
-                             cbs$total_supply, cbs$stock_addition)
+cat("Found ", cbs[stock_addition > total_supply, .N],
+    # sum(cbs$stock_addition > cbs$total_supply),
+    " occurences of stock_addition exceeding total_supply.\n",
+    "Capping out the values at total_supply.\n", sep = "")
+cbs[stock_addition > total_supply, stock_addition := total_supply]
+# cbs$stock_addition <- ifelse(cbs$stock_addition > cbs$total_supply,
+#                              cbs$total_supply, cbs$stock_addition)
 
 cat("Setting negative values in some cbs variables to 0.\n")
 for(var in c("production", "imports", "exports", "total_supply", "losses",
@@ -94,9 +98,11 @@ for(code in unique(cbs$area_code)) {
 }
 cat("Missing years found for the following regions:\n",
     paste(regions$name[match(names(missing)[-1], regions$code)],
-          colSums(missing[, -1], na.rm = TRUE), collapse = ", "), ".\n")
+          colSums(missing[, -1], na.rm = TRUE), collapse = ", "),
+    ".\n", sep = "")
 cat("Missing regions found for the following years:\n",
-    paste(years, rowSums(missing[, -1], na.rm = TRUE), collapse = ", "), ".\n")
+    paste(years, rowSums(missing[, -1], na.rm = TRUE), collapse = ", "),
+    ".\n", sep = "")
 
 
 # BTD ---------------------------------------------------------------------
@@ -131,13 +137,14 @@ items_exclude <- structure(
 ))
 items <- unique(btd$item_code)
 for(item in items_exclude) {
-  cat(paste0("Removing item #", item, " - found: ",
+  cat(paste0("Item #", item, " to remove - found: ",
              any(grepl(item, items, fixed = TRUE))), "\n")
 }
 btd <- btd[!item_code %in% items_exclude, ]
 
 # Exclude values of 0
-cat("Subsetting to observations with values > 0\n")
+cat("Subsetting to observations with value > 0.\n",
+    "Dropping ", btd[!value > 0, .N], " obsevations.", sep = "")
 btd <- btd[value > 0, ]
 
 # Add column cutting from "Import/Export Quantity/Value"
@@ -154,12 +161,12 @@ btd_ton <- merge(btd_ton, tcf_trade,
                  by.x = "item_code", by.y = "code", all.x = TRUE)
 # Check for missing tcf - Rice is expected to be
 if(any(is.na(btd_ton$tcf))) {
-  cat("Missing conversion factors found for:",
+  cat("Missing conversion factors found for: ",
       unique(btd_ton[is.na(btd_ton$tcf), item]),
-      "\nSetting missing values to 1.\n")
+      ".\nSetting missing values to 1.\n", sep = "")
   set(btd_ton, which(is.na(btd_ton[["tcf"]])), "tcf", 1)
 }
-btd_ton$value <- btd_ton$value / btd_ton$tcf
+btd_ton[, value := value / tcf]
 btd <- rbind(btd_ton[, !"tcf"], btd_rest)
 rm(btd_ton, btd_rest)
 
@@ -168,13 +175,16 @@ item_conc <- fread("inst/items_btd-cbs.csv", encoding = "UTF-8")
 item_match <- match(btd$item_code, item_conc$btd_item_code)
 btd$item_code <- item_conc$cbs_item_code[item_match]
 btd$item <- item_conc$cbs_item[item_match]
-cat("Aggregating items to the level of CBS.\n") # nrow() from ~27 to ~16 mio.
+rm(item_match)
+cat("Aggregating items to the level of cbs.\n",
+    "Start at N = ", nrow(btd), ".\n", sep = "") # ~27 mio.
 btd <- btd[, list(value = sum(value)),
            by = .(reporter_code, reporter, partner_code, partner,
                   item_code, item, year, imex, unit)]
+cat("Arrived at N = ", nrow(btd), ".\n", sep = "") # ~16 mio.
 
-cat("Removing", sum(is.na(btd$unit), na.rm = TRUE),
-    "observations with missing unit.")
+cat("Removing ", sum(is.na(btd$unit)),
+    " observations with missing unit values.\n", sep = "")
 btd <- btd[!is.na(unit), ]
 
 # Widening the data
@@ -187,8 +197,5 @@ btd <- rename_cols(btd, c("1000 Head" = "k_cap", "1000 US$" = "k_usd",
 cat("Setting NA values in the btd object to 0.\n")
 replace_dt(btd, 0)
 
-cat("Filling missing k_cap variable with cap.\n")
-k_cap <- btd[k_cap == 0 & cap != 0, cap] / 1000 # To-do: Careful here
-set(btd, i = which(btd$k_cap == 0 & btd$cap != 0), "k_cap", k_cap)
-
-btd[k_cap == 0 & cap != 0, cap]
+cat("Filling missing k_cap values with cap.\n")
+btd[k_cap == 0 & cap != 0, k_cap := cap / 1000]
