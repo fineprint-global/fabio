@@ -33,7 +33,7 @@ merge_areas <- function(dt, orig, dest, pattern = "*") {
 rename_cols <- function(x, rename, drop = TRUE) {
 
   found_cols <- names(x) %in% names(rename)
-  cat("Missing columns:",
+  cat("Unspecified columns:",
       paste(names(x)[!found_cols], collapse = ", "), "\n")
   if(drop) {
     cat("Dropping missing columns.\n")

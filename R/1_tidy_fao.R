@@ -15,8 +15,10 @@ cbs_raw <- rbind(cbs_crop, cbs_live)
 rm(cbs_crop, cbs_live)
 
 # Remove country groups (>= 5000)
+cat("Removing country groups from the cbs object.\n")
 cbs_raw <- cbs_raw[cbs_raw[[1]] < 5000, ]
-# Widen the data
+
+# Widening the data
 cbs <- dcast(cbs_raw,
              `Area Code` + Area + `Item Code` + Item + Year ~ Element,
              value.var = "Value")
@@ -46,29 +48,33 @@ rename <- c(
 )
 cbs <- rename_cols(cbs, rename)unique(btd$item_code)
 
-# Change the supply element from "prod + imp - exp" to "prod + imp"
-all.equal(cbs$total_supply, cbs$production + cbs$imports - cbs$exports + cbs$stock_withdrawal)
+cat("Changing total_supply from 'prod + imp - exp' to 'prod + imp'.\n",
+    paste0("Equality of total_supply and formula:",
+           all.equal(cbs$total_supply,
+             cbs$production + cbs$imports - cbs$exports + cbs$stock_withdrawal),
+           ".\n"))
 cbs$total_supply <- cbs$production + cbs$imports
 
 # Adjust stock variation from representing stock-withdrawals to stock-additions
 cbs$stock_addition <- -cbs$stock_withdrawal
 
-# Cap out stock-additions to total supply
-sum(cbs$stock_addition > cbs$total_supply)
+cat("Found", sum(cbs$stock_addition > cbs$total_supply),
+    "occurences of stock_addition exceeding total_supply.\n",
+    "Capping out the values at total_supply.\n")
 cbs$stock_addition <- ifelse(cbs$stock_addition > cbs$total_supply,
-                        cbs$total_supply, cbs$stock_addition)
+                             cbs$total_supply, cbs$stock_addition)
 
-# Set negative values of variables other than stock-changes to 0
+cat("Setting negative values in some cbs variables to 0.\n")
 for(var in c("production", "imports", "exports", "total_supply", "losses",
              "food", "feed", "seed", "other", "processing"))
   set(cbs, which(cbs[[var]] < 0), var, 0)
-cat("Setting negative values in some cbs variables to 0.\n")
 
-# Take supply and stock-changes as given and rebalance uses
+cat("Rebalancing uses in cbs with total_supply and stock_additions given.\n")
 uses <- c("exports", "food", "feed", "seed", "losses", "processing", "other")
 denom <- (cbs[["total_supply"]] - cbs[["stock_addition"]]) / rowSums(cbs[, ..uses])
 for(use in uses)
   set(cbs, j = use, value = cbs[[use]] / denom)
+
 cat("Setting NaN values in cbs that occured after rebalancing to 0.\n")
 replace_dt(cbs, 0, is.nan)
 
@@ -113,7 +119,6 @@ rename <- c(
   # "Flag" = "flag",
   "Value" = "value"
 )
-
 btd <- rename_cols(btd_raw, rename)
 rm(btd_raw) # >3GB
 
@@ -126,11 +131,13 @@ items_exclude <- structure(
 ))
 items <- unique(btd$item_code)
 for(item in items_exclude) {
-  cat(paste0("Item #", item, " exists: ",
+  cat(paste0("Removing item #", item, " - found: ",
              any(grepl(item, items, fixed = TRUE))), "\n")
 }
 btd <- btd[!item_code %in% items_exclude, ]
+
 # Exclude values of 0
+cat("Subsetting to observations with values > 0\n")
 btd <- btd[value > 0, ]
 
 # Add column cutting from "Import/Export Quantity/Value"
@@ -161,8 +168,27 @@ item_conc <- fread("inst/items_btd-cbs.csv", encoding = "UTF-8")
 item_match <- match(btd$item_code, item_conc$btd_item_code)
 btd$item_code <- item_conc$cbs_item_code[item_match]
 btd$item <- item_conc$cbs_item[item_match]
-# Aggregate to go from ~27 mio. to ~16 mio. rows
+cat("Aggregating items to the level of CBS.\n") # nrow() from ~27 to ~16 mio.
 btd <- btd[, list(value = sum(value)),
            by = .(reporter_code, reporter, partner_code, partner,
                   item_code, item, year, imex, unit)]
 
+cat("Removing", sum(is.na(btd$unit), na.rm = TRUE),
+    "observations with missing unit.")
+btd <- btd[!is.na(unit), ]
+
+# Widening the data
+btd <- dcast(btd,
+             reporter_code + reporter + partner_code + partner +
+             item_code + item + year + imex ~ unit, value.var = "value")
+btd <- rename_cols(btd, c("1000 Head" = "k_cap", "1000 US$" = "k_usd",
+                          "Head" = "cap", "tonnes" = "tonnes"), drop = FALSE)
+
+cat("Setting NA values in the btd object to 0.\n")
+replace_dt(btd, 0)
+
+cat("Filling missing k_cap variable with cap.\n")
+k_cap <- btd[k_cap == 0 & cap != 0, cap] / 1000 # To-do: Careful here
+set(btd, i = which(btd$k_cap == 0 & btd$cap != 0), "k_cap", k_cap)
+
+btd[k_cap == 0 & cap != 0, cap]
