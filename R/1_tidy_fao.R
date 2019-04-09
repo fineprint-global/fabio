@@ -46,7 +46,7 @@ rename <- c(
   "Other uses" = "other",
   "Processing" = "processing"
 )
-cbs <- rename_cols(cbs, rename)unique(btd$item_code)
+cbs <- rename_cols(cbs, rename)
 
 cat("Changing total_supply from 'prod + imp - exp' to 'prod + imp'.\n",
     "Equality of total_supply and formula: ",
@@ -90,19 +90,10 @@ cbs$area <- regions$name[match(cbs$area_code, regions$code)]
 merge_areas(cbs, orig = 62, dest = 238, "Ethiopia")
 
 # Detect missing years for countries
-missing <- data.frame(years = years)
-for(code in unique(cbs$area_code)) {
-  missing_years <- which(!years %in% unique(cbs[area_code == code]$year))
-  if(length(missing_years > 0))
-    missing[missing_years, as.character(code)] <- TRUE
-}
-cat("Missing years found for the following regions:\n",
-    paste(regions$name[match(names(missing)[-1], regions$code)],
-          colSums(missing[, -1], na.rm = TRUE), collapse = ", "),
-    ".\n", sep = "")
-cat("Missing regions found for the following years:\n",
-    paste(years, rowSums(missing[, -1], na.rm = TRUE), collapse = ", "),
-    ".\n", sep = "")
+missing_summary(cbs, years)
+
+# Store object
+saveRDS(cbs, "data/tidy/cbs_tidy.rds")
 
 
 # BTD ---------------------------------------------------------------------
@@ -131,13 +122,15 @@ rm(btd_raw) # >3GB
 # Exclude the following items:
 items_exclude <- structure(
   c(631, 769, 853, 1031, 1181, 1183, 1218, 1293, 1296),
-  names = c(
-  "Waters,ice etc", "Cotton waste", "Vitamins", "Hair, goat, coarse",
-  "Beehives", "Beeswax", "Hair, fine", "Crude materials", "Waxes vegetable"
-))
+  names = c("Waters,ice etc", "Cotton waste", "Vitamins", "Hair, goat, coarse",
+            "Beehives", "Beeswax", "Hair, fine", "Crude materials",
+            "Waxes vegetable")
+)
+cat("Excluding the following items:\n",
+    paste0(names(items_exclude), collapse = ";\n"), sep = "")
 items <- unique(btd$item_code)
 for(item in items_exclude) {
-  cat(paste0("Item #", item, " to remove - found: ",
+  cat(paste0("Item #", item, " to remove found: ",
              any(grepl(item, items, fixed = TRUE))), "\n")
 }
 btd <- btd[!item_code %in% items_exclude, ]
@@ -199,3 +192,87 @@ replace_dt(btd, 0)
 
 cat("Filling missing k_cap values with cap.\n")
 btd[k_cap == 0 & cap != 0, k_cap := cap / 1000]
+
+# Merge variations of countries - currently limited to name changes
+# merge_areas(btd, orig = 206, dest = 276, "Sudan", col = "reporter")
+# merge_areas(btd, orig = 206, dest = 276, "Sudan", col = "partner")
+merge_areas(btd, orig = 62, dest = 238, "Ethiopia", col = "reporter")
+merge_areas(btd, orig = 62, dest = 238, "Ethiopia", col = "partner")
+
+# Store object
+saveRDS(btd, "data/tidy/btd_tidy.rds")
+
+
+# Forestry ----------------------------------------------------------------
+
+forestry_raw <- readRDS("input/fao/for_raw.rds")
+
+cat("Removing country groups from the cbs object.\n")
+forestry_raw <- forestry_raw[forestry_raw[[1]] < 5000, ]
+
+# Rename the columns
+rename <- c(
+  "Area Code" = "area_code",
+  "Area" = "area",
+  "Item Code" = "item_code",
+  "Item" = "item",
+  # "Element Code" = "element_code",
+  "Element" = "element",
+  # "Year Code" = "year_code",
+  "Year" = "year",
+  "Unit" = "unit",
+  # "Flag" = "flag",
+  "Value" = "value"
+)
+forestry <- rename_cols(forestry_raw, rename)
+rm(forestry_raw)
+
+cat("Subsetting to observations with value > 0.\n",
+    "Dropping ", forestry[!value > 0, .N], " obsevations.", sep = "")
+forestry <- forestry[value > 0, ]
+
+# Exclude all items except the following:
+items_include <- structure(
+  c(1864, 1866, 1867),
+  names = c("Wood fuel", "Industrial roundwood, coniferous",
+            "Industrial roundwood, non-coniferous")
+)
+cat("Excluding everything but the following items:\n",
+    paste0(names(items_include), collapse = ";\n"), sep = "")
+items <- unique(forestry$item_code)
+for(item in items_include) {
+  cat(paste0("Item #", item, " to keep found: ",
+             any(grepl(item, items, fixed = TRUE))), "\n")
+}
+forestry <- forestry[item_code %in% items_include, ]
+
+cat("Dropping", forestry[unit != "m3", .N],
+    "observations without m3 as unit.\n")
+forestry <- forestry[unit == "m3", ]
+
+cat("Excluding", forestry[area_code == 351, .N],
+    "observations of China to avoid conflicts / double counting.\n")
+forestry <- forestry[area_code != 351, ]
+
+# Add column cutting from "Import/Export Quantity/Value"
+forestry$imex <- factor(gsub("^(Import|Export)(.*)$", "\\1", forestry$element))
+
+# Widening the data
+forestry <- dcast(forestry,
+                  area_code + area +
+                  item_code + item + year ~ imex, value.var = "value")
+forestry <- rename_cols(forestry, c("Export" = "exports", "Import" = "imports",
+                                    "Production" = "production"), drop = FALSE)
+
+cat("Setting NA values in the btd object to 0.\n")
+replace_dt(forestry, 0)
+
+# Merge variations of countries - currently limited to name changes
+# merge_areas(forestry, orig = 206, dest = 276, "Sudan")
+merge_areas(forestry, orig = 62, dest = 238, "Ethiopia")
+
+# Detect missing years for countries
+missing_summary(forestry, years)
+
+# Store object
+saveRDS(forestry, "data/tidy/for_tidy.rds")
