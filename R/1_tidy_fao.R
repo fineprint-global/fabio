@@ -276,3 +276,69 @@ missing_summary(forestry, years)
 
 # Store object
 saveRDS(forestry, "data/tidy/for_tidy.rds")
+
+
+# Forestry Trade ----------------------------------------------------------
+
+for_trad_raw <- readRDS("input/fao/for_trad.rds")
+
+cat("Removing country groups from the cbs object.\n")
+for_trad_raw <- for_trad_raw[for_trad_raw[[1]] < 5000 | for_trad_raw[[3]] < 5000, ]
+
+# Rename the columns
+rename <- c(
+  "Reporter Country Code" = "reporter_code",
+  "Reporter Countries" = "reporter",
+  "Partner Country Code" = "partner_code",
+  "Partner Countries" = "partner",
+  "Item Code" = "item_code",
+  "Item" = "item",
+  # "Element Code" = "element_code",
+  "Element" = "element",
+  # "Year Code" = "year_code",
+  "Year" = "year",
+  "Unit" = "unit",
+  # "Flag" = "flag",
+  "Value" = "value"
+)
+for_trad <- rename_cols(for_trad_raw, rename)
+rm(for_trad_raw)
+
+# Exclude all items except the following:
+items_include <- structure(
+  c(1651, 1657, 1670),
+  names = c("Industrial roundwood, coniferous",
+            "Industrial roundwood, non-coniferous tropical",
+            "Industrial roundwood, non-coniferous non-tropical")
+)
+
+cat("Excluding everything but the following items:\n",
+    paste0(names(items_include), collapse = ";\n"), sep = "")
+items <- unique(for_trad$item_code)
+for(item in items_include) {
+  cat(paste0("Item #", item, " to keep found: ",
+             any(grepl(item, items, fixed = TRUE))), "\n")
+}
+for_trad <- for_trad[item_code %in% items_include, ]
+
+# Add column cutting from "Import/Export Quantity/Value"
+for_trad$imex <- factor(gsub("^(Import|Export)(.*)$", "\\1", for_trad$element))
+
+# Widening the data
+for_trad <- dcast(for_trad,
+                  reporter_code + reporter + partner_code + partner +
+                    item_code + item + year ~ imex,
+                  value.var = "value")
+for_trad <- rename_cols(for_trad, c("Export" = "exports", "Import" = "imports",
+                                    "Production" = "production"), drop = FALSE)
+
+
+# Merge variations of countries - currently limited to name changes
+# merge_areas(forestry, orig = 206, dest = 276, "Sudan")
+merge_areas(for_trad, orig = 62, dest = 238, "Ethiopia")
+
+# Detect missing years for countries
+missing_summary(for_trad, years)
+
+# Store object
+saveRDS(for_trad, "data/tidy/for_trad_tidy.rds")
