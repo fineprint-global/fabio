@@ -137,7 +137,7 @@ btd <- btd[!item_code %in% items_exclude, ]
 
 # Exclude values of 0
 cat("Subsetting to observations with value > 0.\n",
-    "Dropping ", btd[!value > 0, .N], " obsevations.", sep = "")
+    "Dropping ", btd[!value > 0, .N], " observations.", sep = "")
 btd <- btd[value > 0, ]
 
 # Add column cutting from "Import/Export Quantity/Value"
@@ -342,3 +342,250 @@ missing_summary(for_trad, years)
 
 # Store object
 saveRDS(for_trad, "data/tidy/for_trad_tidy.rds")
+
+
+# Crop production ---------------------------------------------------------
+
+crop_raw <- readRDS("input/fao/crop_raw.rds")
+
+cat("Removing country groups from crop_raw.\n")
+crop_raw <- crop_raw[crop_raw[[1]] < 5000, ]
+
+# Rename the columns
+rename <- c(
+  "Area Code" = "area_code",
+  "Area" = "area",
+  "Item Code" = "item_code",
+  "Item" = "item",
+  # "Element Code" = "element_code",
+  "Element" = "element",
+  # "Year Code" = "year_code",
+  "Year" = "year",
+  "Unit" = "unit",
+  # "Flag" = "flag",
+  "Value" = "value"
+)
+crop <- rename_cols(crop_raw, rename)
+rm(crop_raw)
+
+cat("Removing NA values.\n")
+crop <- crop[!is.na(value)]
+
+cat("Removing values of 0.\n")
+crop <- crop[value != 0]
+
+item_conc <- fread("inst/items_crop-cbs.csv", encoding = "UTF-8")
+
+cat("Converting tonnes to primary equivalents using tcf_trade.\n")
+crop <- merge(crop, item_conc,
+              by.x = "item_code", by.y = "crop_item_code", all.x = TRUE)
+# Empty entries in items_crop-cbs.csv should be skipped
+# To-do: move to explicitly excluding aggregates
+if(any(is.na(crop$tcf))) {
+  cat("No concordance found for: ",
+      paste0(unique(crop[is.na(crop$tcf), item]), collapse = ", "),
+      ".\nDropping missing values.\n", sep = "")
+  crop <- crop[!is.na(tcf), ]
+  # set(crop, which(is.na(crop[["tcf"]])), "tcf", 1)
+}
+
+crop[, value := value * tcf]
+
+crop <- crop[, list(value = sum(value)),
+             by = .(area_code, area, element, year, unit, item_code, item)]
+
+
+# Merge variations of countries - currently limited to name changes
+# merge_areas(crop, orig = 206, dest = 276, "Sudan", col = "reporter")
+# merge_areas(crop, orig = 206, dest = 276, "Sudan", col = "partner")
+merge_areas(crop, orig = 62, dest = 238, "Ethiopia", col = "reporter")
+merge_areas(crop, orig = 62, dest = 238, "Ethiopia", col = "partner")
+
+# To-do: Add Production_Crops_Primary.csv
+
+crop_prim <- readRDS("input/fao/crop_prim.rds")
+
+foddercrops <- data.frame(
+  Item.Code = c(rep(2000, 16)),
+  Item = c(rep("Fodder crops", 16)),
+  Prod.Code = c(636, 637, 638, 639, 640, 641, 642, 643, 644, 645, 646, 647,
+                648, 649, 651, 655),
+  Prod = c(
+    "Forage and silage, maize",
+    "Forage and silage, sorghum",
+    "Forage and silage, rye grass",
+    "Forage and silage, grasses nes",
+    "Forage and silage, clover",
+    "Forage and silage, alfalfa",
+    "Forage and silage, green oilseeds",
+    "Forage and silage, legumes",
+    "Cabbage for fodder",
+    "Mixed Grasses and Legumes",
+    "Turnips for fodder",
+    "Beets for fodder",
+    "Carrots for fodder",
+    "Swedes for fodder",
+    "Forage products",
+    "Vegetables and roots fodder"))
+Fodder <- Primary_raw[Primary_raw$ItemCode %in% foddercrops$Prod.Code,3:10]
+names(Fodder) <- c("Country.Code","Country","Element.Code","Element","Prod.Code","Prod","Year","Value")
+Fodder <- merge(Fodder, foddercrops[,1:3], by="Prod.Code", all.x=TRUE)
+Fodder <- aggregate(Value ~ ., Fodder[,c(2,3,4,5,7,8,9,10)],sum)
+Fodder <- Fodder[Fodder$Element!="Yield",]
+Fodder$Unit <- "tonnes"
+Fodder$Unit[Fodder$Element=="Area harvested"] <- "ha"
+Fodder$Unit <- as.factor(Fodder$Unit)
+Fodder <- Fodder[,c(1,2,6,7,3,4,5,9,8)]
+crop <- rbind(crop,Fodder)
+crop <- crop[crop$value>0,]
+crop <- crop[!is.na(crop$Item.Code),]
+rm(Fodder,foddercrops,Primary_raw)
+
+# Live
+
+prod_live_raw <- readRDS("input/fao/live_raw.rds")
+
+cat("Removing country groups from crop_raw.\n")
+prod_live_raw <- prod_live_raw[prod_live_raw[[1]] < 5000, ]
+
+# Rename the columns
+rename <- c(
+  "Area Code" = "area_code",
+  "Area" = "area",
+  "Item Code" = "item_code",
+  "Item" = "item",
+  # "Element Code" = "element_code",
+  "Element" = "element",
+  # "Year Code" = "year_code",
+  "Year" = "year",
+  "Unit" = "unit",
+  # "Flag" = "flag",
+  "Value" = "value"
+)
+prod_live <- rename_cols(prod_live_raw, rename)
+rm(prod_live_raw)
+
+# Exclude the following items:
+items_exclude <- structure(
+  c(1057, 1068, 1079, 1072, 1083, 1746, 1749, 1181),
+  names = c("Chickens", "Ducks", "Turkeys", "Geese and guinea fowls",
+            "Pigeons, other birds", "Cattle and Buffaloes", "Sheep and Goats",
+            "Beehives")
+)
+cat("Excluding the following items:\n",
+    paste0(names(items_exclude), collapse = ";\n"), sep = "")
+items <- unique(prod_live$item_code)
+for(item in items_exclude) {
+  cat(paste0("Item #", item, " to remove found: ",
+             any(grepl(item, items, fixed = TRUE))), "\n")
+}
+prod_live <- prod_live[!item_code %in% items_exclude, ]
+
+# Merge variations of countries - currently limited to name changes
+# merge_areas(prod_live, orig = 206, dest = 276, "Sudan", col = "reporter")
+# merge_areas(prod_live, orig = 206, dest = 276, "Sudan", col = "partner")
+merge_areas(prod_live, orig = 62, dest = 238, "Ethiopia", col = "reporter")
+merge_areas(prod_live, orig = 62, dest = 238, "Ethiopia", col = "partner")
+
+# Remove China to prevent double-counting
+prod_live <- prod_live[area_code != 351]
+
+# Primary production
+prim_live_raw <- readRDS("input/fao/live_prim.rds")
+
+
+cat("Removing country groups from crop_raw.\n")
+prim_live_raw <- prim_live_raw[prim_live_raw[[1]] < 5000, ]
+
+# Rename the columns
+rename <- c(
+  "Area Code" = "area_code",
+  "Area" = "area",
+  "Item Code" = "item_code",
+  "Item" = "item",
+  # "Element Code" = "element_code",
+  "Element" = "element",
+  # "Year Code" = "year_code",
+  "Year" = "year",
+  "Unit" = "unit",
+  # "Flag" = "flag",
+  "Value" = "value"
+)
+prim_live <- rename_cols(prim_live_raw, rename)
+rm(prim_live_raw)
+
+# Merge variations of countries - currently limited to name changes
+# merge_areas(prim_live, orig = 206, dest = 276, "Sudan", col = "reporter")
+# merge_areas(prim_live, orig = 206, dest = 276, "Sudan", col = "partner")
+merge_areas(prim_live, orig = 62, dest = 238, "Ethiopia", col = "reporter")
+merge_areas(prim_live, orig = 62, dest = 238, "Ethiopia", col = "partner")
+
+# Remove China to prevent double-counting
+prim_live <- prim_live[area_code != 351]
+
+# To-do: add butter
+
+
+# Processing data --------------------------------------------------------
+
+proc_crop <- readRDS("input/fao/crop_proc.rds")
+proc_live <- readRDS("input/fao/live_proc.rds")
+proc_raw <- rbind(proc_crop, proc_live)
+rm(proc_crop, proc_live)
+
+cat("Removing country groups from proc_raw.\n")
+proc_raw <- proc_raw[proc_raw[[1]] < 5000, ]
+
+# Rename the columns
+rename <- c(
+  "Area Code" = "area_code",
+  "Area" = "area",
+  "Item Code" = "item_code",
+  "Item" = "item",
+  # "Element Code" = "element_code",
+  "Element" = "element",
+  # "Year Code" = "year_code",
+  "Year" = "year",
+  "Unit" = "unit",
+  # "Flag" = "flag",
+  "Value" = "value"
+)
+proc <- rename_cols(proc_raw, rename)
+rm(proc_raw)
+
+cat("Removing NA values.\n")
+proc <- proc[!is.na(value)]
+
+cat("Removing values of 0.\n")
+proc <- proc[value != 0]
+
+item_conc <- fread("inst/items_proc-cbs.csv", encoding = "UTF-8")
+
+cat("Converting tonnes to primary equivalents using tcf_trade.\n")
+proc <- merge(proc, item_conc,
+              by.x = "item_code", by.y = "proc_item_code", all.x = TRUE)
+# Empty entries in items_crop-cbs.csv should be skipped
+if(any(is.na(proc$tcf))) {
+  cat("No concordance found for: ",
+      paste0(unique(proc[is.na(proc$tcf), item]), collapse = ", "),
+      ".\nDropping missing values.\n", sep = "")
+  proc <- proc[!is.na(tcf), ]
+  # set(proc, which(is.na(proc[["tcf"]])), "tcf", 1)
+}
+
+proc[, value := value * tcf]
+
+proc <- proc[, list(value = sum(value)),
+             by = .(area_code, area, element, year, unit, item_code, item)]
+
+# Merge variations of countries - currently limited to name changes
+# merge_areas(proc, orig = 206, dest = 276, "Sudan", col = "reporter")
+# merge_areas(proc, orig = 206, dest = 276, "Sudan", col = "partner")
+merge_areas(proc, orig = 62, dest = 238, "Ethiopia", col = "reporter")
+merge_areas(proc, orig = 62, dest = 238, "Ethiopia", col = "partner")
+
+# Remove China to prevent double-counting
+proc <- proc[area_code != 351]
+
+# To-do: Maybe merge with prod
+# to-do: Separate butter, i.e. "Butter, Ghee"
