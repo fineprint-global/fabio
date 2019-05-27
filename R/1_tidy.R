@@ -1,5 +1,58 @@
 
 library(data.table)
+source("R/1_tidy_f.R")
+
+
+# Colnames ----------------------------------------------------------------
+
+rename_cbs <- c(
+  "Area Code" = "area_code",
+  "Area" = "area",
+  "Item Code" = "item_code",
+  "Item" = "item",
+  "Year" = "year",
+  "Production" = "production",
+  "Import Quantity" = "imports",
+  "Export Quantity" = "exports",
+  "Domestic supply quantity" = "total_supply",
+  "Losses" = "losses",
+  # "Food supply quantity (tonnes)" = "food",
+  "Stock Variation" = "stock_withdrawal",
+  "Feed" = "feed",
+  "Seed" = "seed",
+  "Other uses" = "other",
+  "Processing" = "processing"
+)
+
+rename_btd <- c(
+  "Reporter Country Code" = "reporter_code",
+  "Reporter Countries" = "reporter",
+  "Partner Country Code" = "partner_code",
+  "Partner Countries" = "partner",
+  "Item Code" = "item_code",
+  "Item" = "item",
+  # "Element Code" = "element_code",
+  "Element" = "element",
+  # "Year Code" = "year_code",
+  "Year" = "year",
+  "Unit" = "unit",
+  # "Flag" = "flag",
+  "Value" = "value"
+)
+
+rename_oth <- c(
+  "Area Code" = "area_code",
+  "Area" = "area",
+  "Item Code" = "item_code",
+  "Item" = "item",
+  # "Element Code" = "element_code",
+  "Element" = "element",
+  # "Year Code" = "year_code",
+  "Year" = "year",
+  "Unit" = "unit",
+  # "Flag" = "flag",
+  "Value" = "value"
+)
 
 
 # CBS ---------------------------------------------------------------------
@@ -100,12 +153,13 @@ fore_trad <- dt_rename(fore_trad, c("Export" = "exports", "Import" = "imports",
 crop <- rbind(readRDS("input/fao/crop_prod.rds"),
               readRDS("input/fao/crop_proc.rds"))
 
-crop <- dt_rename(crop)
+crop <- dt_rename(crop, rename_oth, drop = TRUE)
 
-# Adjust countries (merge Ethiopia, kick China, kick country groups)
+# Country / Area adjustments
+crop <- area_kick(crop, code = 351, pattern = "China", groups = TRUE)
+crop <- area_merge(crop, orig = 62, dest = 238, pattern = "Ethiopia")
 
-dt_filter(crop, !is.na)
-dt_filter(crop, value != 0)
+crop <- dt_filter(crop, value > 0)
 
 # Item concordance and TCF
 
@@ -119,8 +173,8 @@ crop_prim <- readRDS("input/fao/crop_prim.rds")
 
 crop_prim <- dt_rename(crop_prim)
 
-dt_filter(crop, !is.na)
-dt_filter(crop_prim, item_code %in% item_conc)
+dt_filter(crop_prim, !item %in% items)
+dt_filter(crop_prim, !is.na)
 dt_filter(crop_prim, element != "Yield")
 
 # Item concordance
@@ -128,14 +182,29 @@ dt_filter(crop_prim, element != "Yield")
 crop_prim <- crop_prim[, list(value = sum(value)),
                        by = .(area_code, area, element, year, unit, item_code, item)]
 
-crop_prim[, unit := ifelse(element == "Area harvested", "ha", "tonnes")]
+crop <- rbind(crop, crop_prim)
 
-rbind(crop, crop_prim)
+# Filter to values > 0?
 
 
 # Livestock ---------------------------------------------------------------
 
-live_prod <- readRDS("input/fao/live_prod.rds")
-live_proc <- readRDS("input/fao/live_proc.rds")
+live_prod <- rbind(readRDS("input/fao/live_prod.rds"),
+                   readRDS("input/fao/live_proc.rds"),
+                   readRDS("input/fao/live_prim.rds"))
 
-live_prim <- readRDS("input/fao/live_prim.rds")
+live <- dt_rename(live)
+
+# Adjust countries (merge Ethiopia, kick China, kick country groups)
+
+dt_filter(live, !item %in% items)
+dt_filter(live, !is.na)
+dt_filter(live, value != 0)
+
+live[unit == "1000 Head", value := value / 1000]
+live[unit == "1000 Head", unit == "Head"]
+
+
+# Bio-Ethanol -------------------------------------------------------------
+
+

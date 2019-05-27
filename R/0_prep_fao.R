@@ -60,13 +60,13 @@ col_types <- list(
                  "character", "numeric", "numeric", "character", "numeric",
                  "character"),
   "fore_prod" = c("numeric", "character", "numeric", "character", "numeric",
-                "character", "numeric", "numeric", "character", "numeric",
-                "character"),
+                  "character", "numeric", "numeric", "character", "numeric",
+                  "character"),
   "fore_trad" = c("numeric", "character", "numeric", "character", "numeric",
-                 "character", "numeric", "character", "numeric", "numeric",
-                 "character", "numeric", "character"),
+                  "character", "numeric", "character", "numeric", "numeric",
+                  "character", "numeric", "character"),
   "fish_prod" = c("integer", "integer", "integer", "character", "integer",
-                 "character", "numeric", "NULL")
+                  "character", "numeric", "NULL")
 )
 
 
@@ -83,9 +83,8 @@ fa_extract(zip = files, path = path_fao, name = name,
 # This file is no longer downloadable from the FAO and needs to be requested.
 
 x <- unzip(paste0(path_fao, "Production_Crops_Primary.zip"), exdir = path_fao)
-y <- fread(x, colClasses = c("NULL", "NULL",
-                             "integer", "character", "integer", "character",
-                             "integer", "character", "integer", "numeric",
-                             "character", "NULL"))
+y <- fread(x, colClasses = c("numeric", "character", "numeric", "character",
+                             "numeric", "character", "numeric",
+                             "numeric", "character", "numeric", "character"))
 file.remove(x)
 saveRDS(y, paste0(path_fao, "crop_prim.rds"))

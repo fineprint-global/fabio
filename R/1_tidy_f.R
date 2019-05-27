@@ -1,0 +1,120 @@
+
+dt_rename <- function(x, rename, drop = TRUE) {
+
+  found <- names(x)[names(x) %in% names(rename)]
+  not_found <- names(x)[!names(x) %in% names(rename)]
+
+  if(length(not_found) > 0) {
+    cat("Unspecified columns:\n\t",
+        paste(not_found, collapse = ", "), ".\n", sep = "")
+    if(drop) {
+      cat("Dropping unspecified columns.\n")
+      x <- subset(x, select = found)
+    }
+  }
+
+  names(x) <- c(rename[names(x)])
+
+  x
+}
+
+
+dt_replace <- function(x, cond = is.na, value = 0) {
+
+  for(col in seq_len(ncol(x))) {
+    set(x, i = which(fun(x[[i]])), j = col, value)
+  }
+
+}
+
+
+dt_filter <- function(x, subset, select) {
+
+  # Evaluate subset
+  if(missing(subset)) {
+    r <- TRUE
+  } else {
+    e <- substitute(subset)
+    r <- eval(e, x, parent.frame())
+    if(!is.logical(r)) {stop("'subset' must evaluate to logical")}
+    # Remove NAs, as we cannot evaluate them
+    na_count <- sum(is.na(r))
+    r <- r & !is.na(r)
+  }
+
+  if(missing(select)) {
+    vars <- seq_len(ncol(x))
+  } else {
+    nl <- as.list(seq_len(ncol(x)))
+    setattr(nl, "names", names(x))
+    vars <- eval(substitute(select), nl, parent.frame())
+  }
+  cat("Removing ", x[r, .N], " observations via `",
+      deparse(e), "`, ", na_count, " of which were NAs.\n", sep = "")
+
+  return(x[r, vars, with = FALSE])
+}
+
+
+# Area adjustments --------------------------------------------------------
+
+
+area_kick <- function(x, code, col = "area_code", pattern = "*", groups = TRUE) {
+
+  # Vector to use for subsetting
+  idx <- x[[col]]
+
+  cat("Found", x[idx == code, .N], "observations of `code`.\n")
+
+  # Check names of code
+  col_name <- gsub("(.*)_code", "\\1", col)
+  if(col_name %in% colnames(x)) {
+    name <- x[idx == code, col_name, with = FALSE][1][[1]]
+    if(pattern != "*" && !grepl(pattern, name)) {
+      stop("Pattern not found.\n")
+    }
+    cat("Removing observations of ", name, " from the table.\n", sep = "")
+  } else {
+    message("Column with names not found. Skipping pattern-check.\n")
+    cat("Removing observations of area ", code, " from the table.\n", sep = "")
+  }
+
+  # Remove country groups
+  if(groups) {
+    cat("Found", x[idx >= 5000, .N], "observations of grouped areas.\n")
+    cat("Removing observations of:\n\t",
+        paste0(unique(x[area_code >= 5000, area]), collapse = ", "),
+        ".", sep = "")
+    return(x[idx != code & idx < 5000, ])
+  }
+
+  return(x[idx != code, ])
+}
+
+
+area_merge <- function(x, orig, dest, col = "area_code", pattern = "*") {
+
+  # Vector to use for subsetting
+  idx <- x[[col]]
+
+  cat("Found", x[idx == orig, .N], "/", x[idx == dest, .N],
+      "observations of `orig` / `dest`.\n")
+
+  # Check names of origin and destination
+  col_name <- gsub("(.*)_code", "\\1", col)
+  if(col_name %in% colnames(x)) {
+    orig_name <- x[idx == orig, col_name, with = FALSE][1][[1]]
+    dest_name <- x[idx == dest, col_name, with = FALSE][1][[1]]
+    if(pattern != "*" && !all(grepl(pattern, c(orig_name, dest_name)))) {
+      stop("Pattern not found in both origin and destination.\n")
+    }
+    cat("Merging ", orig_name, " into ", dest_name, ".\n", sep = "")
+    set(x, which(idx == orig), col_name, dest_name)
+  } else {
+    message("Column with names not found. Skipping pattern-check.\n")
+    cat("Merging area ", orig, " into area ", dest, ".\n", sep = "")
+  }
+  set(x, which(idx == orig), col, dest)
+
+  return(x)
+}
