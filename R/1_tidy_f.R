@@ -28,7 +28,7 @@ dt_replace <- function(x, cond = is.na, value = 0) {
 }
 
 
-dt_filter <- function(x, subset, select) {
+dt_filter <- function(x, subset, select, na.rm = TRUE) {
 
   # Evaluate subset
   if(missing(subset)) {
@@ -37,9 +37,9 @@ dt_filter <- function(x, subset, select) {
     e <- substitute(subset)
     r <- eval(e, x, parent.frame())
     if(!is.logical(r)) {stop("'subset' must evaluate to logical")}
-    # Remove NAs, as we cannot evaluate them
     na_count <- sum(is.na(r))
-    r <- r & !is.na(r)
+    # Remove NAs, as we cannot evaluate them
+    r <- if(na.rm) {r & !is.na(r)} else {r | is.na(r)}
   }
 
   if(missing(select)) {
@@ -49,9 +49,10 @@ dt_filter <- function(x, subset, select) {
     setattr(nl, "names", names(x))
     vars <- eval(substitute(select), nl, parent.frame())
   }
-  cat("Removing ", x[r, .N], " observations via `",
-      deparse(e), "`, ", na_count, " of which were NAs.\n", sep = "")
-
+  cat("Removing ", x[!r, .N], " observations via `", deparse(e), "`.\n",
+      if(na.rm) {"Included"} else {"Excluded"}, " were a total of ", na_count,
+      " NA values.\n", sep = "")
+-
   return(x[r, vars, with = FALSE])
 }
 
