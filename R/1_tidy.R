@@ -2,6 +2,8 @@
 library(data.table)
 source("R/1_tidy_f.R")
 
+regions <- fread("inst/regions_full.csv")
+
 
 # Colnames ----------------------------------------------------------------
 
@@ -160,6 +162,7 @@ crop <- dt_rename(crop, rename_oth, drop = TRUE)
 # Country / Area adjustments
 crop <- area_kick(crop, code = 351, pattern = "China", groups = TRUE)
 crop <- area_merge(crop, orig = 62, dest = 238, pattern = "Ethiopia")
+crop <- area_fix(crop, regions)
 
 crop <- merge(crop, crop_conc,
               by.x = "item_code", by.y = "crop_item_code", all.x = TRUE)
@@ -180,6 +183,7 @@ crop_prim <- dt_rename(crop_prim, rename_oth, drop = TRUE)
 # Country / Area adjustments
 crop_prim <- area_kick(crop_prim, code = 351, pattern = "China", groups = TRUE)
 crop_prim <- area_merge(crop_prim, orig = 62, dest = 238, pattern = "Ethiopia")
+crop_prim <- area_fix(crop_prim, regions)
 
 crop_prim <- dt_filter(crop_prim, element != "Yield")
 
@@ -195,26 +199,36 @@ crop_prim <- crop_prim[, list(value = sum(value)),
 crop_prim <- dt_filter(crop_prim, value > 0)
 
 
-# Bind all parts
-crop <- rbind(crop, crop_prim)
+# Bind all parts & store
+saveRDS(rbind(crop, crop_prim), "data/tidy/crop_tidy.rds")
 
 
 # Livestock ---------------------------------------------------------------
 
-live_prod <- rbind(readRDS("input/fao/live_prod.rds"),
-                   readRDS("input/fao/live_proc.rds"),
-                   readRDS("input/fao/live_prim.rds"))
+live_conc <- fread("inst/items_live-cbs.csv")
 
-live <- dt_rename(live)
+live <- rbind(readRDS("input/fao/live_prod.rds"),
+              readRDS("input/fao/live_proc.rds"),
+              readRDS("input/fao/live_prim.rds"))
 
-# Adjust countries (merge Ethiopia, kick China, kick country groups)
+live <- dt_rename(live, rename_oth)
 
-dt_filter(live, !item %in% items)
-dt_filter(live, !is.na)
-dt_filter(live, value != 0)
+# Country / Area adjustments
+live <- area_kick(live, code = 351, pattern = "China", groups = TRUE)
+live <- area_merge(live, orig = 62, dest = 238, pattern = "Ethiopia")
+live <- area_fix(live, regions)
 
-live[unit == "1000 Head", value := value / 1000]
-live[unit == "1000 Head", unit == "Head"]
+live <- merge(live, live_conc,
+              by.x = "item_code", by.y = "live_item_code", all.x = TRUE)
+live <- dt_filter(live, !is.na(cbs_item_code))
+
+dt_filter(live, value > 0)
+
+# Recode "1000 Head" to "Head"
+live[unit == "1000 Head", `:=`(value = value / 1000, unit = "Head")]
+
+# Store
+saveRDS(live, "data/tidy/live_tidy.rds")
 
 
 # Bio-Ethanol -------------------------------------------------------------

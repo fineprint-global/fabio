@@ -60,6 +60,31 @@ dt_filter <- function(x, subset, select, na.rm = TRUE) {
 # Area adjustments --------------------------------------------------------
 
 
+area_fix <- function(x, regions, col = "area") {
+
+  col_code <- paste0(col, "_code")
+
+  matched <- match(x[[col_code]], regions[["code"]])
+  if(any(is.na(matched))) {
+    na_codes <- unique(x[[col_code]][is.na(matched)])
+    if(all(na_codes >= 5000)) {
+      message("Found no match for grouped areas:\n\t",
+              paste0(unique(x[[col]][is.na(matched)]), " - ",
+                     na_codes, collapse = ", "),
+              ".\n", "")
+    } else {
+      stop("Found no match for:\n\t",
+           paste0(unique(x[[col]][is.na(matched)]), " - ",
+                  na_codes, collapse = ", "),
+           ".\n")
+    }
+  }
+  x[[col]] <- regions[matched, name]
+
+  return(x)
+}
+
+
 area_kick <- function(x, code, col = "area_code", pattern = "*", groups = TRUE) {
 
   # Vector to use for subsetting
