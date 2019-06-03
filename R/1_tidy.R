@@ -150,6 +150,8 @@ fore_trad <- dt_rename(fore_trad, c("Export" = "exports", "Import" = "imports",
 
 # Crops -------------------------------------------------------------------
 
+crop_conc <- fread("inst/items_crop-cbs.csv")
+
 crop <- rbind(readRDS("input/fao/crop_prod.rds"),
               readRDS("input/fao/crop_proc.rds"))
 
@@ -159,32 +161,42 @@ crop <- dt_rename(crop, rename_oth, drop = TRUE)
 crop <- area_kick(crop, code = 351, pattern = "China", groups = TRUE)
 crop <- area_merge(crop, orig = 62, dest = 238, pattern = "Ethiopia")
 
-crop <- dt_filter(crop, value > 0)
-
-crop <- tcf_apply(crop, fread("inst/items_crop-cbs.csv"))
+crop <- merge(crop, crop_conc,
+              by.x = "item_code", by.y = "crop_item_code", all.x = TRUE)
+crop <- tcf_apply(crop)
 
 # Aggregate
 crop <- crop[, list(value = sum(value)),
-             by = .(area_code, area, element, year, unit, item_code, item)]
+             by = .(area_code, area, element, year, unit,
+                    cbs_item_code, cbs_item)]
+crop <- dt_filter(crop, value > 0)
 
 
-# Primary
+# Primary crops
 crop_prim <- readRDS("input/fao/crop_prim.rds")
 
 crop_prim <- dt_rename(crop_prim, rename_oth, drop = TRUE)
 
-dt_filter(crop_prim, !item %in% items)
-dt_filter(crop_prim, !is.na)
-dt_filter(crop_prim, element != "Yield")
+# Country / Area adjustments
+crop_prim <- area_kick(crop_prim, code = 351, pattern = "China", groups = TRUE)
+crop_prim <- area_merge(crop_prim, orig = 62, dest = 238, pattern = "Ethiopia")
 
-# Item concordance
+crop_prim <- dt_filter(crop_prim, element != "Yield")
 
+# Only keep fodder crops
+crop_prim <- merge(crop_prim, crop_conc,
+                   by.x = "item_code", by.y = "crop_item_code", all.x = TRUE)
+crop_prim <- dt_filter(crop_prim, cbs_item_code == 2000)
+
+# Aggregate
 crop_prim <- crop_prim[, list(value = sum(value)),
-                       by = .(area_code, area, element, year, unit, item_code, item)]
+                       by = .(area_code, area, element, year, unit,
+                              cbs_item_code, cbs_item)]
+crop_prim <- dt_filter(crop_prim, value > 0)
 
+
+# Bind all parts
 crop <- rbind(crop, crop_prim)
-
-# Filter to values > 0?
 
 
 # Livestock ---------------------------------------------------------------
