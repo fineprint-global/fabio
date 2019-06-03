@@ -19,12 +19,19 @@ dt_rename <- function(x, rename, drop = TRUE) {
 }
 
 
-dt_replace <- function(x, cond = is.na, value = 0) {
+dt_replace <- function(x, fun = is.na, value = 0, cols = seq_len(ncol(x))) {
 
-  for(col in seq_len(ncol(x))) {
-    set(x, i = which(fun(x[[i]])), j = col, value)
+  n_replaced <- 0
+  for(col in cols) {
+    fun_applied <- fun(x[[col]])
+    n_replaced <- n_replaced + sum(fun_applied)
+    set(x, i = which(fun_applied), j = col, value)
   }
 
+  cat("Replaced ", n_replaced, " values where `", deparse(substitute(fun)),
+      "` applies with ", value, ".\n", sep = "")
+
+  return(x)
 }
 
 

@@ -7,18 +7,27 @@ regions <- fread("inst/regions_full.csv")
 
 # Colnames ----------------------------------------------------------------
 
-rename_cbs <- c(
+rename_oth <- c(
   "Area Code" = "area_code",
   "Area" = "area",
   "Item Code" = "item_code",
   "Item" = "item",
+  # "Element Code" = "element_code",
+  "Element" = "element",
+  # "Year Code" = "year_code",
   "Year" = "year",
+  "Unit" = "unit",
+  # "Flag" = "flag",
+  "Value" = "value"
+)
+
+rename_cbs <- c(
   "Production" = "production",
   "Import Quantity" = "imports",
   "Export Quantity" = "exports",
   "Domestic supply quantity" = "total_supply",
   "Losses" = "losses",
-  # "Food supply quantity (tonnes)" = "food",
+  "Food supply quantity (tonnes)" = "food",
   "Stock Variation" = "stock_withdrawal",
   "Feed" = "feed",
   "Seed" = "seed",
@@ -42,40 +51,51 @@ rename_btd <- c(
   "Value" = "value"
 )
 
-rename_oth <- c(
-  "Area Code" = "area_code",
-  "Area" = "area",
-  "Item Code" = "item_code",
-  "Item" = "item",
-  # "Element Code" = "element_code",
-  "Element" = "element",
-  # "Year Code" = "year_code",
-  "Year" = "year",
-  "Unit" = "unit",
-  # "Flag" = "flag",
-  "Value" = "value"
-)
-
 
 # CBS ---------------------------------------------------------------------
 
 cbs <- rbind(readRDS("input/fao/cbs_crop.rds"),
-                 readRDS("input/fao/cbs_live.rds"))
+             readRDS("input/fao/cbs_live.rds"))
 
-cbs <- dt_rename(cbs)
+cbs <- dt_rename(cbs, rename_oth, drop = TRUE)
 
-# Adjust countries (merge Ethiopia, kick China, kick country groups)
-# Country concordance
+cbs <- area_kick(cbs, code = 351, pattern = "China", groups = TRUE)
+cbs <- area_merge(cbs, orig = 62, dest = 238, pattern = "Ethiopia")
+cbs <- area_fix(cbs, regions)
 
+# Widen by element
 cbs <- dcast(cbs,
              area_code + area + item_code + item + year ~ element,
              value.var = "value")
+cbs <- dt_rename(cbs, rename_cbs, drop = FALSE)
 
-dt_replace(cbs, is.na, 0)
+# Replace NA values with 0
+cbs <- dt_replace(cbs, is.na, value = 0)
+# Make sure values are not negative
+cbs <- dt_replace(cbs, function(x) {`<`(x, 0)}, value = 0, cols = rename_cbs)
 
-# Balance total_supply, adjust stock_variation
-# Cap some variables at 0
-# Balance some variables
+cat("Recoding `total_supply` from",
+    "`production + imports - exports + stock_withdrawal`", "to",
+    "`production + imports`.")
+cbs[, total_supply := production + imports]
+
+# Add more intuitive `stock_addition` and fix discrepancies with `total_supply`
+cbs[, stock_addition := -stock_withdrawal]
+cat("Found ", cbs[stock_addition > total_supply, .N],
+    " occurences of `stock_addition` exceeding `total_supply`.\n",
+    "Capping values at `total_supply`.\n", sep = "")
+cbs[stock_addition > total_supply, stock_addition := total_supply]
+
+# Rebalance uses, with `total_supply` and `stock_additions` treated as given
+uses <- c("exports", "food", "feed", "seed", "losses", "processing", "other")
+denom <- cbs[, total_supply - stock_addition] /
+  rowSums(cbs[, uses, with = FALSE])
+cat("Rebalancing uses ", paste0("`", uses, "`", collapse = ", "), ".", sep = "")
+for(use in uses) {set(cbs, j = use, value = cbs[[use]] / denom)}
+cbs <- dt_replace(cbs, is.nan, value = 0)
+
+# Store
+saveRDS(cbs, "data/tidy/cbs_tidy.rds")
 
 
 # BTD ---------------------------------------------------------------------
