@@ -161,17 +161,17 @@ crop <- area_merge(crop, orig = 62, dest = 238, pattern = "Ethiopia")
 
 crop <- dt_filter(crop, value > 0)
 
-# Item concordance and TCF
+crop <- tcf_apply(crop, fread("inst/items_crop-cbs.csv"))
 
-crop[, value := value * tcf]
-
+# Aggregate
 crop <- crop[, list(value = sum(value)),
              by = .(area_code, area, element, year, unit, item_code, item)]
 
 
+# Primary
 crop_prim <- readRDS("input/fao/crop_prim.rds")
 
-crop_prim <- dt_rename(crop_prim)
+crop_prim <- dt_rename(crop_prim, rename_oth, drop = TRUE)
 
 dt_filter(crop_prim, !item %in% items)
 dt_filter(crop_prim, !is.na)

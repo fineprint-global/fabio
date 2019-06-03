@@ -166,22 +166,22 @@ crop_item_code,crop_item,cbs_item_code,cbs_item,tcf
 821,Fibre crops nes,2667,"Hard Fibres, Other",1
 826,"Tobacco, unmanufactured",2671,Tobacco,1
 836,"Rubber, natural",2672,Rubber,1
-839,"Gums, natural",,"",
-1717,"Cereals,Total",,"",
-1720,"Roots and Tubers,Total",,"",
-1726,"Pulses,Total",,"",
-1729,"Treenuts,Total",,"",
-1732,Oilcrops Primary,,"",
-1735,Vegetables Primary,,"",
-1738,Fruit Primary,,"",
-1751,Jute & Jute-like Fibres,,"",
-1753,Fibre Crops Primary,,"",
-1800,"Vegetables&Melons, Total",,"",
-1801,"Fruit excl Melons,Total",,"",
-1804,"Citrus Fruit,Total",,"",
-1814,"Coarse Grain, Total",,"",
-1817,Cereals (Rice Milled Eqv),,"",
-1841,Oilcakes Equivalent,,"",
+839,"Gums, natural",,,
+1717,"Cereals,Total",,,
+1720,"Roots and Tubers,Total",,,
+1726,"Pulses,Total",,,
+1729,"Treenuts,Total",,,
+1732,Oilcrops Primary,,,
+1735,Vegetables Primary,,,
+1738,Fruit Primary,,,
+1751,Jute & Jute-like Fibres,,,
+1753,Fibre Crops Primary,,,
+1800,"Vegetables&Melons, Total",,,
+1801,"Fruit excl Melons,Total",,,
+1804,"Citrus Fruit,Total",,,
+1814,"Coarse Grain, Total",,,
+1817,Cereals (Rice Milled Eqv),,,
+1841,Oilcakes Equivalent,,,
 636,"Forage and silage, maize",2000,Fodder crops,1
 637,"Forage and silage, sorghum",2000,Fodder crops,1
 638,"Forage and silage, rye grass",2000,Fodder crops,1
@@ -198,3 +198,49 @@ crop_item_code,crop_item,cbs_item_code,cbs_item,tcf
 649,Swedes for fodder,2000,Fodder crops,1
 651,Forage products,2000,Fodder crops,1
 655,Vegetables and roots fodder,2000,Fodder crops,1
+165,Molasses,2544,Molasses,1
+331,"Oil, cottonseed",2575,Cottonseed Oil,1
+334,"Oil, linseed",2586,"Oilcrops Oil, Other",1
+261,"Oil, olive, virgin",2580,Olive Oil,1
+290,"Oil, sesame",2579,Sesameseed Oil,1
+268,"Oil, sunflower",2573,Sunflowerseed Oil,1
+162,Sugar Raw Centrifugal,2818,"Sugar, Refined Equiv",0.92
+51,Beer of barley,2656,Beer,1
+1242,"Margarine, short",,,
+244,"Oil, groundnut",2572,Groundnut Oil,1
+237,"Oil, soybean",2571,Soyabean Oil,1
+564,Wine,2655,Wine,1
+271,"Oil, rapeseed",2574,Rape and Mustard Oil,1
+281,"Oil, safflower",2586,"Oilcrops Oil, Other",1
+252,"Oil, coconut (copra)",2578,Coconut Oil,1
+258,"Oil, palm kernel",2576,Palmkernel Oil,1
+60,"Oil, maize",2582,Maize Germ Oil,1
+983,"Butter and ghee, sheep milk",,,
+886,"Butter, cow milk",,,
+1021,Cheese of goat mlk,,,
+984,"Cheese, sheep milk",,,
+888,"Milk, skimmed cow",,,
+1186,Silk raw,,,
+1811,Butter and Ghee,2740,"Butter, Ghee",1
+1745,Cheese (All Kinds),,,
+901,"Cheese, whole cow milk",,,
+904,"Cheese, skimmed cow milk",,,
+1043,Lard,,,
+885,Cream fresh,,,
+887,"Ghee, butteroil of cow milk",,,
+898,"Milk, skimmed dried",,,
+889,"Milk, whole condensed",,,
+897,"Milk, whole dried",,,
+894,"Milk, whole evaporated",,,
+1225,Tallow,,,
+900,"Whey, dry",,,
+1816,Evaporat&Condensed Milk,,,
+1809,"Skim Milk&Buttermilk,Dry",,,
+899,"Milk, dry buttermilk",,,
+896,"Milk, skimmed condensed",,,
+953,"Ghee, of buffalo milk",,,
+890,"Whey, condensed",,,
+891,Yoghurt,,,
+895,"Milk, skimmed evaporated",,,
+952,"Butter, buffalo milk",,,
+955,"Cheese, buffalo milk",,,

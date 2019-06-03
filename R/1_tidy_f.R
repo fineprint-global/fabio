@@ -65,27 +65,33 @@ area_kick <- function(x, code, col = "area_code", pattern = "*", groups = TRUE) 
   # Vector to use for subsetting
   idx <- x[[col]]
 
-  cat("Found", x[idx == code, .N], "observations of `code`.\n")
+  n_found <- x[idx == code, .N]
+  cat("Found", n_found, "observations of `code`.\n")
 
-  # Check names of code
-  col_name <- gsub("(.*)_code", "\\1", col)
-  if(col_name %in% colnames(x)) {
-    name <- x[idx == code, col_name, with = FALSE][1][[1]]
-    if(pattern != "*" && !grepl(pattern, name)) {
-      stop("Pattern not found.\n")
+  if(n_found > 0) {
+    # Check names of code
+    col_name <- gsub("(.*)_code", "\\1", col)
+    if(col_name %in% colnames(x)) {
+      name <- x[idx == code, col_name, with = FALSE][1][[1]]
+      if(pattern != "*" && !grepl(pattern, name)) {
+        stop("Pattern not found.\n")
+      }
+      cat("Removing observations of ", name, " from the table.\n", sep = "")
+    } else {
+      message("Column with names not found. Skipping pattern-check.\n")
+      cat("Removing observations of area ", code, " from the table.\n", sep = "")
     }
-    cat("Removing observations of ", name, " from the table.\n", sep = "")
-  } else {
-    message("Column with names not found. Skipping pattern-check.\n")
-    cat("Removing observations of area ", code, " from the table.\n", sep = "")
   }
 
   # Remove country groups
   if(groups) {
-    cat("Found", x[idx >= 5000, .N], "observations of grouped areas.\n")
-    cat("Removing observations of:\n\t",
-        paste0(unique(x[area_code >= 5000, area]), collapse = ", "),
-        ".", sep = "")
+    n_groups <- x[idx >= 5000, .N]
+    cat("Found", n_groups, "observations of grouped areas.\n")
+    if(n_groups > 0) {
+      cat("Removing observations of:\n\t",
+          paste0(unique(x[area_code >= 5000, area]), collapse = ", "),
+          ".\n", sep = "")
+    }
     return(x[idx != code & idx < 5000, ])
   }
 
@@ -116,6 +122,27 @@ area_merge <- function(x, orig, dest, col = "area_code", pattern = "*") {
     cat("Merging area ", orig, " into area ", dest, ".\n", sep = "")
   }
   set(x, which(idx == orig), col, dest)
+
+  return(x)
+}
+
+
+tcf_apply <- function(x, na.rm = TRUE, replacement = NULL) {
+
+  n_na <- sum(is.na(x[["tcf"]]))
+  if(n_na > 0) {
+    cat("No conversion factors found for:\n\t",
+        paste0(unique(x[is.na(tcf), item]), collapse = ", "),
+        ".\n", sep = "")
+    if(na.rm) {
+      cat("Dropping", n_na, "missing values.\n")
+      x <- x[!is.na(tcf), ]
+    } else if(!is.null(replacement)) {
+      cat("Filling ",  n_na, " missing values with ",
+          replacement, ".\n", sep = "")
+      x[is.na(tcf), tcf := replacement]
+    }
+  }
 
   return(x)
 }
