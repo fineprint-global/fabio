@@ -5,7 +5,7 @@ dt_rename <- function(x, rename, drop = TRUE) {
   not_found <- names(x)[!names(x) %in% names(rename)]
 
   if(length(not_found) > 0) {
-    cat("Unspecified columns:\n\t",
+    cat("Renaming. Unspecified columns:\n\t",
         paste(not_found, collapse = ", "), ".\n", sep = "")
     if(drop) {
       cat("Dropping unspecified columns.\n")
@@ -67,26 +67,26 @@ dt_filter <- function(x, subset, select, na.rm = TRUE) {
 # Area adjustments --------------------------------------------------------
 
 
-area_fix <- function(x, regions, col = "area") {
+area_fix <- function(x, regions, col = "area_code") {
 
-  col_code <- paste0(col, "_code")
+  col_name <- gsub("(.*)_code", "\\1", col)
 
-  matched <- match(x[[col_code]], regions[["code"]])
+  matched <- match(x[[col]], regions[["code"]])
   if(any(is.na(matched))) {
-    na_codes <- unique(x[[col_code]][is.na(matched)])
+    na_codes <- unique(x[[col]][is.na(matched)])
     if(all(na_codes >= 5000)) {
       message("Found no match for grouped areas:\n\t",
-              paste0(unique(x[[col]][is.na(matched)]), " - ",
+              paste0(unique(x[[col_name]][is.na(matched)]), " - ",
                      na_codes, collapse = ", "),
               ".\n", "")
     } else {
       stop("Found no match for:\n\t",
-           paste0(unique(x[[col]][is.na(matched)]), " - ",
+           paste0(unique(x[[col_name]][is.na(matched)]), " - ",
                   na_codes, collapse = ", "),
            ".\n")
     }
   }
-  x[[col]] <- regions[matched, name]
+  x[[col_name]] <- regions[matched, name]
 
   return(x)
 }
@@ -98,7 +98,8 @@ area_kick <- function(x, code, col = "area_code", pattern = "*", groups = TRUE) 
   idx <- x[[col]]
 
   n_found <- x[idx == code, .N]
-  cat("Found", n_found, "observations of `code`.\n")
+  cat("Found ", n_found, " observations where ",
+      col, " == ", code, ".\n", sep = "")
 
   if(n_found > 0) {
     # Check names of code
@@ -159,7 +160,7 @@ area_merge <- function(x, orig, dest, col = "area_code", pattern = "*") {
 }
 
 
-tcf_apply <- function(x, na.rm = TRUE, replacement = NULL) {
+tcf_apply <- function(x, na.rm = TRUE, filler = NULL, fun = `/`) {
 
   n_na <- sum(is.na(x[["tcf"]]))
   if(n_na > 0) {
@@ -169,12 +170,13 @@ tcf_apply <- function(x, na.rm = TRUE, replacement = NULL) {
     if(na.rm) {
       cat("Dropping", n_na, "missing values.\n")
       x <- x[!is.na(tcf), ]
-    } else if(!is.null(replacement)) {
+    } else if(!is.null(filler)) {
       cat("Filling ",  n_na, " missing values with ",
-          replacement, ".\n", sep = "")
-      x[is.na(tcf), tcf := replacement]
+          filler, ".\n", sep = "")
+      x[is.na(tcf), tcf := filler]
     }
   }
+  x[, `:=`(value = fun(value, tcf), tcf := NULL)]
 
   return(x)
 }

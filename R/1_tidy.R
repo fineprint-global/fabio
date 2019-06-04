@@ -7,7 +7,7 @@ regions <- fread("inst/regions_full.csv")
 
 # Colnames ----------------------------------------------------------------
 
-rename_oth <- c(
+rename_all <- c(
   "Area Code" = "area_code",
   "Area" = "area",
   "Item Code" = "item_code",
@@ -18,7 +18,11 @@ rename_oth <- c(
   "Year" = "year",
   "Unit" = "unit",
   # "Flag" = "flag",
-  "Value" = "value"
+  "Value" = "value",
+  "Reporter Country Code" = "reporter_code",
+  "Reporter Countries" = "reporter",
+  "Partner Country Code" = "partner_code",
+  "Partner Countries" = "partner"
 )
 
 rename_cbs <- c(
@@ -36,19 +40,9 @@ rename_cbs <- c(
 )
 
 rename_btd <- c(
-  "Reporter Country Code" = "reporter_code",
-  "Reporter Countries" = "reporter",
-  "Partner Country Code" = "partner_code",
-  "Partner Countries" = "partner",
-  "Item Code" = "item_code",
-  "Item" = "item",
-  # "Element Code" = "element_code",
-  "Element" = "element",
-  # "Year Code" = "year_code",
-  "Year" = "year",
-  "Unit" = "unit",
-  # "Flag" = "flag",
-  "Value" = "value"
+  "1000 US$" = "k_usd",
+  "Head" = "capita",
+  "tonnes" = "tonnes"
 )
 
 
@@ -57,8 +51,9 @@ rename_btd <- c(
 cbs <- rbind(readRDS("input/fao/cbs_crop.rds"),
              readRDS("input/fao/cbs_live.rds"))
 
-cbs <- dt_rename(cbs, rename_oth, drop = TRUE)
+cbs <- dt_rename(cbs, rename_all, drop = TRUE)
 
+# Country / Area adjustments
 cbs <- area_kick(cbs, code = 351, pattern = "China", groups = TRUE)
 cbs <- area_merge(cbs, orig = 62, dest = 238, pattern = "Ethiopia")
 cbs <- area_fix(cbs, regions)
@@ -76,7 +71,7 @@ cbs <- dt_replace(cbs, function(x) {`<`(x, 0)}, value = 0, cols = rename_cbs)
 
 cat("Recoding `total_supply` from",
     "`production + imports - exports + stock_withdrawal`", "to",
-    "`production + imports`.")
+    "`production + imports`.\n")
 cbs[, total_supply := production + imports]
 
 # Add more intuitive `stock_addition` and fix discrepancies with `total_supply`
@@ -90,7 +85,8 @@ cbs[stock_addition > total_supply, stock_addition := total_supply]
 uses <- c("exports", "food", "feed", "seed", "losses", "processing", "other")
 denom <- cbs[, total_supply - stock_addition] /
   rowSums(cbs[, uses, with = FALSE])
-cat("Rebalancing uses ", paste0("`", uses, "`", collapse = ", "), ".", sep = "")
+cat("Rebalancing uses ", paste0("`", uses, "`", collapse = ", "),
+    ".\n", sep = "")
 for(use in uses) {set(cbs, j = use, value = cbs[[use]] / denom)}
 cbs <- dt_replace(cbs, is.nan, value = 0)
 
@@ -100,29 +96,58 @@ saveRDS(cbs, "data/tidy/cbs_tidy.rds")
 
 # BTD ---------------------------------------------------------------------
 
-btd_prod <- readRDS("input/fao/btd_prod.rds")
+btd <- readRDS("input/fao/btd_prod.rds")
 
-btd_prod <- dt_rename(btd_prod)
+btd <- dt_rename(btd, rename_all, drop = TRUE)
 
-# Adjust countries (merge Ethiopia, kick China, kick country groups)
+# Country / Area adjustments
+for(col in c("reporter_code", "partner_code")) {
+  btd <- area_kick(btd, code = 351, pattern = "China", groups = TRUE, col = col)
+  btd <- area_merge(btd, orig = 62, dest = 238, pattern = "Ethiopia", col = col)
+  btd <- area_fix(btd, regions, col = col)
+}
 
-dt_filter(btd_prod, !item %in% items)
-dt_filter(btd_prod, value > 0)
+# Cut down on the size
+btd <- dt_filter(btd, !item_code %in%
+                   c("Waters,ice etc" = 631, "Cotton waste" = 769,
+                     "Vitamins" = 853, "Hair, goat, coarse" = 1031,
+                     "Beehives" = 1181, "Beeswax" = 1183, "Hair, fine" = 1218,
+                     "Crude materials" = 1293, "Waxes vegetable" = 1296))
+btd <- dt_filter(btd, value > 0)
 
-btd_prod[, imex := factor(gsub("^(Import|Export) (.*)$", "\\1", element))]
+btd[, imex := factor(gsub("^(Import|Export) (.*)$", "\\1", element))]
 
-# Apply TCF
+# Apply TCF to observations with `unit` == "tonnes"
+btd <- merge(btd, fread("inst/btd_tcf.csv"),
+             by.x = "item_code", by.y = "code", all.x = TRUE)
+cat("Applying TCF to trade data, where `unit` == 'tonnes' applies.\n")
+btd[unit != "tonnes", tcf := 1]
+btd <- tcf_apply(btd, na.rm = FALSE, filler = 1, fun = `/`)
 
 # Aggregate to CBS items
+btd_conc <- fread("inst/items_btd-cbs.csv")
+cat("Aggregating BTD items to the level of CBS.\n")
+item_match <- match(btd$item_code, btd_conc$btd_item_code)
+btd[, `:=`(item_code = btd_conc$cbs_item_code[item_match],
+           item = btd_conc$cbs_item[item_match])]
+btd <- btd[, list(value = sum(value)),
+           by = .(reporter_code, reporter, partner_code, partner,
+                  item_code, item, year, imex, unit)]
+cat("Aggregation from", length(item_match), "to", nrow(btd), "observations.\n")
 
-btd <- dcast(btd_prod,
+# Recode "1000 x" to "x"
+btd[unit == "1000 Head", `:=`(value = value / 1000, unit = "Head")]
+
+# Widen by unit
+btd <- dcast(btd,
              reporter_code + reporter + partner_code + partner +
                item_code + item + year + imex ~ unit,
              value.var = "value")
-btd <- dt_rename(btd, c("1000 Head" = "k_cap", "1000 US$" = "k_usd",
-                        "Head" = "cap", "tonnes" = "tonnes"), drop = FALSE)
+btd <- dt_rename(btd, rename_btd, drop = FALSE)
+btd <- dt_replace(btd, is.na, value = 0)
 
-dt_replace(cbs, is.na, 0)
+# Store
+saveRDS(btd, "data/tidy/btd_tidy.rds")
 
 
 # Forestry ----------------------------------------------------------------
@@ -186,7 +211,7 @@ crop <- area_fix(crop, regions)
 
 crop <- merge(crop, crop_conc,
               by.x = "item_code", by.y = "crop_item_code", all.x = TRUE)
-crop <- tcf_apply(crop)
+crop <- tcf_apply(crop, fun = `*`)
 
 # Aggregate
 crop <- crop[, list(value = sum(value)),
