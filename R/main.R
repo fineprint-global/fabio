@@ -17,3 +17,7 @@ source("R/0_prep_eth.R")
 
 # Requires BACI92 ZIP files as well as data.table::rbindlist(comtrade)
 source("R/0_prep_trade.R")
+
+# Depends on outputs produced in step 0
+source("R/1_tidy_fao.R")
+

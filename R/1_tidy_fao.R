@@ -1,591 +1,314 @@
 
-# Tidying -----------------------------------------------------------------
+library(data.table)
+source("R/1_tidy_f.R")
 
-library(data.table) # 1.12.0
-source("R/1_tidy_functions.R")
-regions <- fread("inst/regions_full.csv", encoding = "UTF-8")
-years <- 1986:2013
+regions <- fread("inst/regions_full.csv")
 
 
-# CBS --------------------------------------------------------------------
+# Colnames ----------------------------------------------------------------
 
-cbs_crop <- readRDS("input/fao/cbs_crop.rds")
-cbs_live <- readRDS("input/fao/cbs_live.rds")
-cbs_raw <- rbind(cbs_crop, cbs_live)
-rm(cbs_crop, cbs_live)
-
-# Remove country groups (>= 5000)
-cat("Removing country groups from the cbs object.\n")
-cbs_raw <- cbs_raw[cbs_raw[[1]] < 5000, ]
-
-# Widening the data
-cbs <- dcast(cbs_raw,
-             `Area Code` + Area + `Item Code` + Item + Year ~ Element,
-             value.var = "Value")
-rm(cbs_raw)
-
-cat("Setting NA values in the cbs object to 0.\n")
-replace_dt(cbs, 0)
-
-# Rename the columns
 rename <- c(
   "Area Code" = "area_code",
   "Area" = "area",
   "Item Code" = "item_code",
   "Item" = "item",
+  # "Element Code" = "element_code",
+  "Element" = "element",
+  # "Year Code" = "year_code",
   "Year" = "year",
+  "Unit" = "unit",
+  # "Flag" = "flag",
+  "Value" = "value",
+  "Reporter Country Code" = "reporter_code",
+  "Reporter Countries" = "reporter",
+  "Partner Country Code" = "partner_code",
+  "Partner Countries" = "partner",
+  # After casting
   "Production" = "production",
   "Import Quantity" = "imports",
   "Export Quantity" = "exports",
   "Domestic supply quantity" = "total_supply",
   "Losses" = "losses",
-  # "Food supply quantity (tonnes)" = "food",
+  "Food supply quantity (tonnes)" = "food",
   "Stock Variation" = "stock_withdrawal",
   "Feed" = "feed",
   "Seed" = "seed",
   "Other uses" = "other",
-  "Processing" = "processing"
+  "Processing" = "processing",
+  "1000 US$" = "k_usd",
+  "1000 Head" = "k_capita",
+  "Head" = "capita",
+  "tonnes" = "tonnes"
 )
-cbs <- rename_cols(cbs, rename)
 
-cat("Changing total_supply from 'prod + imp - exp' to 'prod + imp'.\n",
-    "Equality of total_supply and formula: ",
-    all.equal(cbs$total_supply,
-              cbs$production + cbs$imports - cbs$exports + cbs$stock_withdrawal),
-    ".\n", sep = "")
+# CBS ---------------------------------------------------------------------
+
+cat("Processing CBS.\n")
+cbs <- rbind(readRDS("input/fao/cbs_crop.rds"),
+             readRDS("input/fao/cbs_live.rds"))
+
+cbs <- dt_rename(cbs, rename, drop = TRUE)
+
+# Country / Area adjustments
+cbs <- area_kick(cbs, code = 351, pattern = "China", groups = TRUE)
+cbs <- area_merge(cbs, orig = 62, dest = 238, pattern = "Ethiopia")
+cbs <- area_fix(cbs, regions)
+
+# Widen by element
+cbs <- dcast(cbs,
+             area_code + area + item_code + item + year ~ element,
+             value.var = "value")
+cbs <- dt_rename(cbs, rename, drop = FALSE)
+
+# Replace NA values with 0
+cbs <- dt_replace(cbs, is.na, value = 0)
+# Make sure values are not negative
+cbs <- dt_replace(cbs, function(x) {`<`(x, 0)}, value = 0, cols = rename)
+
+cat("Recoding `total_supply` from",
+    "`production + imports - exports + stock_withdrawal`", "to",
+    "`production + imports`.\n")
 cbs[, total_supply := production + imports]
-# cbs$total_supply <- cbs$production + cbs$imports
 
-# Adjust stock variation from representing stock-withdrawals to stock-additions
+# Add more intuitive `stock_addition` and fix discrepancies with `total_supply`
 cbs[, stock_addition := -stock_withdrawal]
-# cbs$stock_addition <- -cbs$stock_withdrawal
-
 cat("Found ", cbs[stock_addition > total_supply, .N],
-    # sum(cbs$stock_addition > cbs$total_supply),
-    " occurences of stock_addition exceeding total_supply.\n",
-    "Capping out the values at total_supply.\n", sep = "")
+    " occurences of `stock_addition` exceeding `total_supply`.\n",
+    "Capping values at `total_supply`.\n", sep = "")
 cbs[stock_addition > total_supply, stock_addition := total_supply]
-# cbs$stock_addition <- ifelse(cbs$stock_addition > cbs$total_supply,
-#                              cbs$total_supply, cbs$stock_addition)
 
-cat("Setting negative values in some cbs variables to 0.\n")
-for(var in c("production", "imports", "exports", "total_supply", "losses",
-             "food", "feed", "seed", "other", "processing"))
-  set(cbs, which(cbs[[var]] < 0), var, 0)
-
-cat("Rebalancing uses in cbs with total_supply and stock_additions given.\n")
+# Rebalance uses, with `total_supply` and `stock_additions` treated as given
 uses <- c("exports", "food", "feed", "seed", "losses", "processing", "other")
-denom <- (cbs[["total_supply"]] - cbs[["stock_addition"]]) / rowSums(cbs[, ..uses])
-for(use in uses)
-  set(cbs, j = use, value = cbs[[use]] / denom)
+denom <- cbs[, total_supply - stock_addition] /
+  rowSums(cbs[, uses, with = FALSE])
+cat("Rebalancing uses ", paste0("`", uses, "`", collapse = ", "),
+    ".\n", sep = "")
+for(use in uses) {set(cbs, j = use, value = cbs[[use]] / denom)}
+cbs <- dt_replace(cbs, is.nan, value = 0)
 
-cat("Setting NaN values in cbs that occured after rebalancing to 0.\n")
-replace_dt(cbs, 0, is.nan)
-
-# Match country names
-cbs$area <- regions$name[match(cbs$area_code, regions$code)]
-
-# Merge variations of countries - currently limited to name changes
-# merge_areas(cbs, orig = 206, dest = 276, "Sudan")
-merge_areas(cbs, orig = 62, dest = 238, "Ethiopia")
-
-# Detect missing years for countries
-missing_summary(cbs, years)
-
-# Store object
+# Store
 saveRDS(cbs, "data/tidy/cbs_tidy.rds")
+rm(cbs, denom, uses)
 
 
 # BTD ---------------------------------------------------------------------
 
-btd_raw <- readRDS("input/fao/btd_raw.rds")
+cat("Processing BTD.\n")
+btd <- readRDS("input/fao/btd_prod.rds")
 
-# Rename the columns
-rename <- c(
-  "Reporter Country Code" = "reporter_code",
-  "Reporter Countries" = "reporter",
-  "Partner Country Code" = "partner_code",
-  "Partner Countries" = "partner",
-  "Item Code" = "item_code",
-  "Item" = "item",
-  # "Element Code" = "element_code",
-  "Element" = "element",
-  # "Year Code" = "year_code",
-  "Year" = "year",
-  "Unit" = "unit",
-  # "Flag" = "flag",
-  "Value" = "value"
-)
-btd <- rename_cols(btd_raw, rename)
-rm(btd_raw) # >3GB
+btd <- dt_rename(btd, rename, drop = TRUE)
 
-# Exclude the following items:
-items_exclude <- structure(
-  c(631, 769, 853, 1031, 1181, 1183, 1218, 1293, 1296),
-  names = c("Waters,ice etc", "Cotton waste", "Vitamins", "Hair, goat, coarse",
-            "Beehives", "Beeswax", "Hair, fine", "Crude materials",
-            "Waxes vegetable")
-)
-cat("Excluding the following items:\n",
-    paste0(names(items_exclude), collapse = ";\n"), sep = "")
-items <- unique(btd$item_code)
-for(item in items_exclude) {
-  cat(paste0("Item #", item, " to remove found: ",
-             any(grepl(item, items, fixed = TRUE))), "\n")
+# Country / Area adjustments
+for(col in c("reporter_code", "partner_code")) {
+  btd <- area_kick(btd, code = 351, pattern = "China", groups = TRUE, col = col)
+  btd <- area_merge(btd, orig = 62, dest = 238, pattern = "Ethiopia", col = col)
+  btd <- area_fix(btd, regions, col = col)
 }
-btd <- btd[!item_code %in% items_exclude, ]
 
-# Exclude values of 0
-cat("Subsetting to observations with value > 0.\n",
-    "Dropping ", btd[!value > 0, .N], " observations.", sep = "")
-btd <- btd[value > 0, ]
+# Cut down on the size
+btd <- dt_filter(btd, !item_code %in%
+                   c("Waters,ice etc" = 631, "Cotton waste" = 769,
+                     "Vitamins" = 853, "Hair, goat, coarse" = 1031,
+                     "Beehives" = 1181, "Beeswax" = 1183, "Hair, fine" = 1218,
+                     "Crude materials" = 1293, "Waxes vegetable" = 1296))
+btd <- dt_filter(btd, value > 0)
 
-# Add column cutting from "Import/Export Quantity/Value"
-btd$imex <- factor(gsub("^(Import|Export) (.*)$", "\\1", btd$element))
+btd[, imex := factor(gsub("^(Import|Export) (.*)$", "\\1", element))]
 
-# Convert tonnes to primary equivalents
-tcf_trade <- fread("inst/tcf_trade.csv", encoding = "UTF-8")
+# Apply TCF to observations with `unit` == "tonnes"
+btd <- merge(btd, fread("inst/btd_tcf.csv"),
+             by.x = "item_code", by.y = "code", all.x = TRUE)
+cat("Applying TCF to trade data, where `unit == 'tonnes'` applies.\n")
+btd[unit != "tonnes", tcf := 1]
+btd <- tcf_apply(btd, na.rm = FALSE, filler = 1, fun = `/`)
 
-btd_ton <- btd[unit == "tonnes"]
-btd_rest <- btd[unit != "tonnes"]
-
-cat("Converting tonnes to primary equivalents using tcf_trade.\n")
-btd_ton <- merge(btd_ton, tcf_trade,
-                 by.x = "item_code", by.y = "code", all.x = TRUE)
-# Check for missing tcf - Rice is expected to be
-if(any(is.na(btd_ton$tcf))) {
-  cat("Missing conversion factors found for: ",
-      unique(btd_ton[is.na(btd_ton$tcf), item]),
-      ".\nSetting missing values to 1.\n", sep = "")
-  set(btd_ton, which(is.na(btd_ton[["tcf"]])), "tcf", 1)
-}
-btd_ton[, value := value / tcf]
-btd <- rbind(btd_ton[, !"tcf"], btd_rest)
-rm(btd_ton, btd_rest)
-
-# Item aggregation to the level of CBS
-item_conc <- fread("inst/items_btd-cbs.csv", encoding = "UTF-8")
-item_match <- match(btd$item_code, item_conc$btd_item_code)
-btd$item_code <- item_conc$cbs_item_code[item_match]
-btd$item <- item_conc$cbs_item[item_match]
-rm(item_match)
-cat("Aggregating items to the level of cbs.\n",
-    "Start at N = ", nrow(btd), ".\n", sep = "") # ~27 mio.
+# Aggregate to CBS items
+btd_conc <- fread("inst/items_btd-cbs.csv")
+cat("Aggregating BTD items to the level of CBS.\n")
+item_match <- match(btd$item_code, btd_conc$btd_item_code)
+btd[, `:=`(item_code = btd_conc$cbs_item_code[item_match],
+           item = btd_conc$cbs_item[item_match])]
 btd <- btd[, list(value = sum(value)),
            by = .(reporter_code, reporter, partner_code, partner,
                   item_code, item, year, imex, unit)]
-cat("Arrived at N = ", nrow(btd), ".\n", sep = "") # ~16 mio.
+cat("Aggregation from", length(item_match), "to", nrow(btd), "observations.\n")
 
-cat("Removing ", sum(is.na(btd$unit)),
-    " observations with missing unit values.\n", sep = "")
-btd <- btd[!is.na(unit), ]
+# Recode "1000 x" to "x"
+btd[unit == "1000 Head", `:=`(value = value / 1000, unit = "Head")]
 
-# Widening the data
+# Widen by unit
 btd <- dcast(btd,
              reporter_code + reporter + partner_code + partner +
-             item_code + item + year + imex ~ unit, value.var = "value")
-btd <- rename_cols(btd, c("1000 Head" = "k_cap", "1000 US$" = "k_usd",
-                          "Head" = "cap", "tonnes" = "tonnes"), drop = FALSE)
+               item_code + item + year + imex ~ unit,
+             value.var = "value")
+btd <- dt_rename(btd, rename, drop = FALSE)
+btd <- dt_replace(btd, is.na, value = 0)
 
-cat("Setting NA values in the btd object to 0.\n")
-replace_dt(btd, 0)
-
-cat("Filling missing k_cap values with cap.\n")
-btd[k_cap == 0 & cap != 0, k_cap := cap / 1000]
-
-# Merge variations of countries - currently limited to name changes
-# merge_areas(btd, orig = 206, dest = 276, "Sudan", col = "reporter")
-# merge_areas(btd, orig = 206, dest = 276, "Sudan", col = "partner")
-merge_areas(btd, orig = 62, dest = 238, "Ethiopia", col = "reporter")
-merge_areas(btd, orig = 62, dest = 238, "Ethiopia", col = "partner")
-
-# Store object
+# Store
 saveRDS(btd, "data/tidy/btd_tidy.rds")
+rm(btd, btd_conc, item_match)
 
 
 # Forestry ----------------------------------------------------------------
 
-forestry_raw <- readRDS("input/fao/for_raw.rds")
+#
+# Production
+fore_prod <- readRDS("input/fao/fore_prod.rds")
 
-cat("Removing country groups from the cbs object.\n")
-forestry_raw <- forestry_raw[forestry_raw[[1]] < 5000, ]
+fore_prod <- dt_rename(fore_prod, rename, drop = TRUE)
 
-# Rename the columns
-rename <- c(
-  "Area Code" = "area_code",
-  "Area" = "area",
-  "Item Code" = "item_code",
-  "Item" = "item",
-  # "Element Code" = "element_code",
-  "Element" = "element",
-  # "Year Code" = "year_code",
-  "Year" = "year",
-  "Unit" = "unit",
-  # "Flag" = "flag",
-  "Value" = "value"
-)
-forestry <- rename_cols(forestry_raw, rename)
-rm(forestry_raw)
+# Country / Area adjustments
+fore_prod <- area_kick(fore_prod, code = 351, pattern = "China", groups = TRUE)
+fore_prod <- area_merge(fore_prod, orig = 62, dest = 238, pattern = "Ethiopia")
+fore_prod <- area_fix(fore_prod, regions)
 
-cat("Subsetting to observations with value > 0.\n",
-    "Dropping ", forestry[!value > 0, .N], " obsevations.", sep = "")
-forestry <- forestry[value > 0, ]
+# Cut down to certain products
+fore_prod <- dt_filter(fore_prod, item_code %in%
+                         c("Wood fuel" = 1864,
+                           "Industrial roundwood, coniferous" = 1866,
+                           "Industrial roundwood, non-coniferous" = 1867))
+fore_prod <- dt_filter(fore_prod, value > 0)
+fore_prod <- dt_filter(fore_prod, unit != "m3")
 
-# Exclude all items except the following:
-items_include <- structure(
-  c(1864, 1866, 1867),
-  names = c("Wood fuel", "Industrial roundwood, coniferous",
-            "Industrial roundwood, non-coniferous")
-)
-cat("Excluding everything but the following items:\n",
-    paste0(names(items_include), collapse = ";\n"), sep = "")
-items <- unique(forestry$item_code)
-for(item in items_include) {
-  cat(paste0("Item #", item, " to keep found: ",
-             any(grepl(item, items, fixed = TRUE))), "\n")
+fore_prod[, imex := factor(gsub("^(Import|Export) (.*)$", "\\1", element))]
+
+# Widen by imex
+fore_prod <- dcast(fore_prod,
+                   area_code + area + item_code + item + year ~ imex,
+                   value.var = "value")
+fore_prod <- dt_rename(fore_prod, rename, drop = FALSE)
+fore_prod <- dt_replace(fore_prod, is.na, 0)
+
+# Store
+saveRDS(fore_prod, "data/tidy/fore_prod_tidy.rds")
+rm(fore_prod)
+
+#
+# Trade
+fore_trad <- readRDS("input/fao/fore_trad.rds")
+
+fore_trad <- dt_rename(fore_trad, rename)
+
+# Country / Area adjustments
+for(col in c("reporter_code", "partner_code")) {
+  fore_trad <- area_kick(fore_trad, groups = TRUE, col = col)
+  fore_trad <- area_merge(fore_trad, orig = 62, dest = 238,
+                          pattern = "Ethiopia", col = col)
+  fore_trad <- area_fix(fore_trad, regions, col = col)
 }
-forestry <- forestry[item_code %in% items_include, ]
 
-cat("Dropping", forestry[unit != "m3", .N],
-    "observations without m3 as unit.\n")
-forestry <- forestry[unit == "m3", ]
+# Cut down to certain products
+fore_trad <- dt_filter(fore_trad, item_code %in%
+                         c("Industrial roundwood, coniferous" = 1651,
+                           "Industrial roundwood, non-coniferous tropical" = 1657,
+                           "Industrial roundwood, non-coniferous non-tropical" = 1670))
 
-cat("Excluding", forestry[area_code == 351, .N],
-    "observations of China to avoid conflicts / double counting.\n")
-forestry <- forestry[area_code != 351, ]
+fore_trad[, imex := factor(gsub("^(Import|Export) (.*)$", "\\1", element))]
 
-# Add column cutting from "Import/Export Quantity/Value"
-forestry$imex <- factor(gsub("^(Import|Export)(.*)$", "\\1", forestry$element))
+fore_trad <- dcast(fore_trad,
+                   reporter_code + reporter + partner_code + partner +
+                     item_code + item + year ~ imex,
+                   value.var = "value")
+fore_trad <- dt_rename(fore_trad, rename, drop = FALSE)
 
-# Widening the data
-forestry <- dcast(forestry,
-                  area_code + area +
-                  item_code + item + year ~ imex, value.var = "value")
-forestry <- rename_cols(forestry, c("Export" = "exports", "Import" = "imports",
-                                    "Production" = "production"), drop = FALSE)
-
-cat("Setting NA values in the btd object to 0.\n")
-replace_dt(forestry, 0)
-
-# Merge variations of countries - currently limited to name changes
-# merge_areas(forestry, orig = 206, dest = 276, "Sudan")
-merge_areas(forestry, orig = 62, dest = 238, "Ethiopia")
-
-# Detect missing years for countries
-missing_summary(forestry, years)
-
-# Store object
-saveRDS(forestry, "data/tidy/for_tidy.rds")
+# Store
+saveRDS(fore_trad, "data/tidy/fore_trade_tidy.rds")
+rm(fore_trad)
 
 
-# Forestry Trade ----------------------------------------------------------
+# Crops -------------------------------------------------------------------
 
-for_trad_raw <- readRDS("input/fao/for_trad.rds")
+crop_conc <- fread("inst/items_crop-cbs.csv")
 
-cat("Removing country groups from the cbs object.\n")
-for_trad_raw <- for_trad_raw[for_trad_raw[[1]] < 5000 | for_trad_raw[[3]] < 5000, ]
+#
+# Production
+crop <- rbind(readRDS("input/fao/crop_prod.rds"),
+              readRDS("input/fao/crop_proc.rds"))
 
-# Rename the columns
-rename <- c(
-  "Reporter Country Code" = "reporter_code",
-  "Reporter Countries" = "reporter",
-  "Partner Country Code" = "partner_code",
-  "Partner Countries" = "partner",
-  "Item Code" = "item_code",
-  "Item" = "item",
-  # "Element Code" = "element_code",
-  "Element" = "element",
-  # "Year Code" = "year_code",
-  "Year" = "year",
-  "Unit" = "unit",
-  # "Flag" = "flag",
-  "Value" = "value"
-)
-for_trad <- rename_cols(for_trad_raw, rename)
-rm(for_trad_raw)
+crop <- dt_rename(crop, rename, drop = TRUE)
 
-# Exclude all items except the following:
-items_include <- structure(
-  c(1651, 1657, 1670),
-  names = c("Industrial roundwood, coniferous",
-            "Industrial roundwood, non-coniferous tropical",
-            "Industrial roundwood, non-coniferous non-tropical")
-)
+# Country / Area adjustments
+crop <- area_kick(crop, code = 351, pattern = "China", groups = TRUE)
+crop <- area_merge(crop, orig = 62, dest = 238, pattern = "Ethiopia")
+crop <- area_fix(crop, regions)
 
-cat("Excluding everything but the following items:\n",
-    paste0(names(items_include), collapse = ";\n"), sep = "")
-items <- unique(for_trad$item_code)
-for(item in items_include) {
-  cat(paste0("Item #", item, " to keep found: ",
-             any(grepl(item, items, fixed = TRUE))), "\n")
-}
-for_trad <- for_trad[item_code %in% items_include, ]
-
-# Add column cutting from "Import/Export Quantity/Value"
-for_trad$imex <- factor(gsub("^(Import|Export)(.*)$", "\\1", for_trad$element))
-
-# Widening the data
-for_trad <- dcast(for_trad,
-                  reporter_code + reporter + partner_code + partner +
-                    item_code + item + year ~ imex,
-                  value.var = "value")
-for_trad <- rename_cols(for_trad, c("Export" = "exports", "Import" = "imports",
-                                    "Production" = "production"), drop = FALSE)
-
-
-# Merge variations of countries - currently limited to name changes
-# merge_areas(forestry, orig = 206, dest = 276, "Sudan")
-merge_areas(for_trad, orig = 62, dest = 238, "Ethiopia")
-
-# Detect missing years for countries
-missing_summary(for_trad, years)
-
-# Store object
-saveRDS(for_trad, "data/tidy/for_trad_tidy.rds")
-
-
-# Crop production ---------------------------------------------------------
-
-crop_raw <- readRDS("input/fao/crop_raw.rds")
-
-cat("Removing country groups from crop_raw.\n")
-crop_raw <- crop_raw[crop_raw[[1]] < 5000, ]
-
-# Rename the columns
-rename <- c(
-  "Area Code" = "area_code",
-  "Area" = "area",
-  "Item Code" = "item_code",
-  "Item" = "item",
-  # "Element Code" = "element_code",
-  "Element" = "element",
-  # "Year Code" = "year_code",
-  "Year" = "year",
-  "Unit" = "unit",
-  # "Flag" = "flag",
-  "Value" = "value"
-)
-crop <- rename_cols(crop_raw, rename)
-rm(crop_raw)
-
-cat("Removing NA values.\n")
-crop <- crop[!is.na(value)]
-
-cat("Removing values of 0.\n")
-crop <- crop[value != 0]
-
-item_conc <- fread("inst/items_crop-cbs.csv", encoding = "UTF-8")
-
-cat("Converting tonnes to primary equivalents using tcf_trade.\n")
-crop <- merge(crop, item_conc,
+crop <- merge(crop, crop_conc,
               by.x = "item_code", by.y = "crop_item_code", all.x = TRUE)
-# Empty entries in items_crop-cbs.csv should be skipped
-# To-do: move to explicitly excluding aggregates
-if(any(is.na(crop$tcf))) {
-  cat("No concordance found for: ",
-      paste0(unique(crop[is.na(crop$tcf), item]), collapse = ", "),
-      ".\nDropping missing values.\n", sep = "")
-  crop <- crop[!is.na(tcf), ]
-  # set(crop, which(is.na(crop[["tcf"]])), "tcf", 1)
-}
+crop <- tcf_apply(crop, fun = `*`, na.rm = TRUE)
 
-crop[, value := value * tcf]
-
+# Aggregate
 crop <- crop[, list(value = sum(value)),
-             by = .(area_code, area, element, year, unit, item_code, item)]
+             by = .(area_code, area, element, year, unit,
+                    cbs_item_code, cbs_item)]
+crop <- dt_rename(crop, drop = FALSE,
+                  rename = c("cbs_item_code" = "item_code",
+                             "cbs_item" = "item"))
+crop <- dt_filter(crop, value > 0)
 
-
-# Merge variations of countries - currently limited to name changes
-# merge_areas(crop, orig = 206, dest = 276, "Sudan", col = "reporter")
-# merge_areas(crop, orig = 206, dest = 276, "Sudan", col = "partner")
-merge_areas(crop, orig = 62, dest = 238, "Ethiopia", col = "reporter")
-merge_areas(crop, orig = 62, dest = 238, "Ethiopia", col = "partner")
-
-# To-do: Add Production_Crops_Primary.csv
-
+#
+# Primary
 crop_prim <- readRDS("input/fao/crop_prim.rds")
 
-foddercrops <- data.frame(
-  Item.Code = c(rep(2000, 16)),
-  Item = c(rep("Fodder crops", 16)),
-  Prod.Code = c(636, 637, 638, 639, 640, 641, 642, 643, 644, 645, 646, 647,
-                648, 649, 651, 655),
-  Prod = c(
-    "Forage and silage, maize",
-    "Forage and silage, sorghum",
-    "Forage and silage, rye grass",
-    "Forage and silage, grasses nes",
-    "Forage and silage, clover",
-    "Forage and silage, alfalfa",
-    "Forage and silage, green oilseeds",
-    "Forage and silage, legumes",
-    "Cabbage for fodder",
-    "Mixed Grasses and Legumes",
-    "Turnips for fodder",
-    "Beets for fodder",
-    "Carrots for fodder",
-    "Swedes for fodder",
-    "Forage products",
-    "Vegetables and roots fodder"))
-Fodder <- Primary_raw[Primary_raw$ItemCode %in% foddercrops$Prod.Code,3:10]
-names(Fodder) <- c("Country.Code","Country","Element.Code","Element","Prod.Code","Prod","Year","Value")
-Fodder <- merge(Fodder, foddercrops[,1:3], by="Prod.Code", all.x=TRUE)
-Fodder <- aggregate(Value ~ ., Fodder[,c(2,3,4,5,7,8,9,10)],sum)
-Fodder <- Fodder[Fodder$Element!="Yield",]
-Fodder$Unit <- "tonnes"
-Fodder$Unit[Fodder$Element=="Area harvested"] <- "ha"
-Fodder$Unit <- as.factor(Fodder$Unit)
-Fodder <- Fodder[,c(1,2,6,7,3,4,5,9,8)]
-crop <- rbind(crop,Fodder)
-crop <- crop[crop$value>0,]
-crop <- crop[!is.na(crop$Item.Code),]
-rm(Fodder,foddercrops,Primary_raw)
+crop_prim <- dt_rename(crop_prim, rename, drop = TRUE)
 
-# Live
+# Country / Area adjustments
+crop_prim <- area_kick(crop_prim, code = 351, pattern = "China", groups = TRUE)
+crop_prim <- area_merge(crop_prim, orig = 62, dest = 238, pattern = "Ethiopia")
+crop_prim <- area_fix(crop_prim, regions)
 
-prod_live_raw <- readRDS("input/fao/live_raw.rds")
+crop_prim <- dt_filter(crop_prim, element != "Yield")
 
-cat("Removing country groups from crop_raw.\n")
-prod_live_raw <- prod_live_raw[prod_live_raw[[1]] < 5000, ]
+# Only keep fodder crops
+crop_prim <- merge(crop_prim, crop_conc,
+                   by.x = "item_code", by.y = "crop_item_code", all.x = TRUE)
+crop_prim <- dt_filter(crop_prim, cbs_item_code == 2000)
 
-# Rename the columns
-rename <- c(
-  "Area Code" = "area_code",
-  "Area" = "area",
-  "Item Code" = "item_code",
-  "Item" = "item",
-  # "Element Code" = "element_code",
-  "Element" = "element",
-  # "Year Code" = "year_code",
-  "Year" = "year",
-  "Unit" = "unit",
-  # "Flag" = "flag",
-  "Value" = "value"
-)
-prod_live <- rename_cols(prod_live_raw, rename)
-rm(prod_live_raw)
+# Aggregate
+crop_prim <- crop_prim[, list(value = sum(value)),
+                       by = .(area_code, area, element, year, unit,
+                              cbs_item_code, cbs_item)]
+crop_prim <- dt_rename(crop_prim, drop = FALSE,
+                       rename = c("cbs_item_code" = "item_code",
+                                  "cbs_item" = "item"))
+crop_prim <- dt_filter(crop_prim, value > 0)
 
-# Exclude the following items:
-items_exclude <- structure(
-  c(1057, 1068, 1079, 1072, 1083, 1746, 1749, 1181),
-  names = c("Chickens", "Ducks", "Turkeys", "Geese and guinea fowls",
-            "Pigeons, other birds", "Cattle and Buffaloes", "Sheep and Goats",
-            "Beehives")
-)
-cat("Excluding the following items:\n",
-    paste0(names(items_exclude), collapse = ";\n"), sep = "")
-items <- unique(prod_live$item_code)
-for(item in items_exclude) {
-  cat(paste0("Item #", item, " to remove found: ",
-             any(grepl(item, items, fixed = TRUE))), "\n")
-}
-prod_live <- prod_live[!item_code %in% items_exclude, ]
-
-# Merge variations of countries - currently limited to name changes
-# merge_areas(prod_live, orig = 206, dest = 276, "Sudan", col = "reporter")
-# merge_areas(prod_live, orig = 206, dest = 276, "Sudan", col = "partner")
-merge_areas(prod_live, orig = 62, dest = 238, "Ethiopia", col = "reporter")
-merge_areas(prod_live, orig = 62, dest = 238, "Ethiopia", col = "partner")
-
-# Remove China to prevent double-counting
-prod_live <- prod_live[area_code != 351]
-
-# Primary production
-prim_live_raw <- readRDS("input/fao/live_prim.rds")
+#
+# Bind all parts & store
+saveRDS(rbind(crop, crop_prim), "data/tidy/crop_tidy.rds")
+rm(crop, crop_prim, crop_conc)
 
 
-cat("Removing country groups from crop_raw.\n")
-prim_live_raw <- prim_live_raw[prim_live_raw[[1]] < 5000, ]
+# Livestock ---------------------------------------------------------------
 
-# Rename the columns
-rename <- c(
-  "Area Code" = "area_code",
-  "Area" = "area",
-  "Item Code" = "item_code",
-  "Item" = "item",
-  # "Element Code" = "element_code",
-  "Element" = "element",
-  # "Year Code" = "year_code",
-  "Year" = "year",
-  "Unit" = "unit",
-  # "Flag" = "flag",
-  "Value" = "value"
-)
-prim_live <- rename_cols(prim_live_raw, rename)
-rm(prim_live_raw)
+live_conc <- fread("inst/items_live-cbs.csv")
 
-# Merge variations of countries - currently limited to name changes
-# merge_areas(prim_live, orig = 206, dest = 276, "Sudan", col = "reporter")
-# merge_areas(prim_live, orig = 206, dest = 276, "Sudan", col = "partner")
-merge_areas(prim_live, orig = 62, dest = 238, "Ethiopia", col = "reporter")
-merge_areas(prim_live, orig = 62, dest = 238, "Ethiopia", col = "partner")
+live <- rbind(readRDS("input/fao/live_prod.rds"),
+              readRDS("input/fao/live_proc.rds"),
+              readRDS("input/fao/live_prim.rds"))
 
-# Remove China to prevent double-counting
-prim_live <- prim_live[area_code != 351]
+live <- dt_rename(live, rename)
 
-# To-do: add butter
+# Country / Area adjustments
+live <- area_kick(live, code = 351, pattern = "China", groups = TRUE)
+live <- area_merge(live, orig = 62, dest = 238, pattern = "Ethiopia")
+live <- area_fix(live, regions)
 
+live <- merge(live, live_conc,
+              by.x = "item_code", by.y = "live_item_code", all.x = TRUE)
+live <- dt_filter(live, !is.na(cbs_item_code))
 
-# Processing data --------------------------------------------------------
+# Aggregate
+live <- live[, list(value = sum(value)),
+             by = .(area_code, area, element, year, unit,
+                    cbs_item_code, cbs_item)]
+live <- dt_rename(live, drop = FALSE, rename = c("cbs_item_code" = "item_code",
+                                                 "cbs_item" = "item"))
+live <- dt_filter(live, value > 0)
 
-proc_crop <- readRDS("input/fao/crop_proc.rds")
-proc_live <- readRDS("input/fao/live_proc.rds")
-proc_raw <- rbind(proc_crop, proc_live)
-rm(proc_crop, proc_live)
+# Recode "1000 Head" to "Head"
+live[unit == "1000 Head", `:=`(value = value / 1000, unit = "Head")]
 
-cat("Removing country groups from proc_raw.\n")
-proc_raw <- proc_raw[proc_raw[[1]] < 5000, ]
+# Store
+saveRDS(live, "data/tidy/live_tidy.rds")
+rm(live, live_conc)
 
-# Rename the columns
-rename <- c(
-  "Area Code" = "area_code",
-  "Area" = "area",
-  "Item Code" = "item_code",
-  "Item" = "item",
-  # "Element Code" = "element_code",
-  "Element" = "element",
-  # "Year Code" = "year_code",
-  "Year" = "year",
-  "Unit" = "unit",
-  # "Flag" = "flag",
-  "Value" = "value"
-)
-proc <- rename_cols(proc_raw, rename)
-rm(proc_raw)
-
-cat("Removing NA values.\n")
-proc <- proc[!is.na(value)]
-
-cat("Removing values of 0.\n")
-proc <- proc[value != 0]
-
-item_conc <- fread("inst/items_proc-cbs.csv", encoding = "UTF-8")
-
-cat("Converting tonnes to primary equivalents using tcf_trade.\n")
-proc <- merge(proc, item_conc,
-              by.x = "item_code", by.y = "proc_item_code", all.x = TRUE)
-# Empty entries in items_crop-cbs.csv should be skipped
-if(any(is.na(proc$tcf))) {
-  cat("No concordance found for: ",
-      paste0(unique(proc[is.na(proc$tcf), item]), collapse = ", "),
-      ".\nDropping missing values.\n", sep = "")
-  proc <- proc[!is.na(tcf), ]
-  # set(proc, which(is.na(proc[["tcf"]])), "tcf", 1)
-}
-
-proc[, value := value * tcf]
-
-proc <- proc[, list(value = sum(value)),
-             by = .(area_code, area, element, year, unit, item_code, item)]
-
-# Merge variations of countries - currently limited to name changes
-# merge_areas(proc, orig = 206, dest = 276, "Sudan", col = "reporter")
-# merge_areas(proc, orig = 206, dest = 276, "Sudan", col = "partner")
-merge_areas(proc, orig = 62, dest = 238, "Ethiopia", col = "reporter")
-merge_areas(proc, orig = 62, dest = 238, "Ethiopia", col = "partner")
-
-# Remove China to prevent double-counting
-proc <- proc[area_code != 351]
-
-# To-do: Maybe merge with prod
-# to-do: Separate butter, i.e. "Butter, Ghee"
