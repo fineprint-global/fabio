@@ -34,7 +34,7 @@ saveRDS(baci_sel, paste0(path_trade, "baci_sel.rds"))
 # Comtrade ----------------------------------------------------------------
 
 # Loop over possible reporters to circumvent API restrictions
-reporters <- readLines(paste0(path_trade, "comtrade_reporters.txt"))
+reporters <- readLines("inst/comtrade_reporters.txt")
 comtrade <- vector("list", ceiling(length(reporters) / 5))
 j <- 1
 for(i in seq(1, length(reporters), by = 5)) {
