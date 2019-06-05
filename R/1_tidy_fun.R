@@ -58,7 +58,7 @@ dt_filter <- function(x, subset, select, na.rm = TRUE) {
   }
   cat("Removing ", x[!r, .N], " observations via `", deparse(e), "`.\n",
       if(na.rm) {"Included"} else {"Excluded"}, " were a total of ", na_count,
-      " NA values.\n", sep = "")
+      " NA values that could not be compared.\n", sep = "")
 -
   return(x[r, vars, with = FALSE])
 }

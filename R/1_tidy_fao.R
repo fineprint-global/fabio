@@ -1,6 +1,6 @@
 
 library(data.table)
-source("R/1_tidy_f.R")
+source("R/1_tidy_fun.R")
 
 regions <- fread("inst/regions_full.csv")
 
@@ -125,7 +125,7 @@ btd <- tcf_apply(btd, na.rm = FALSE, filler = 1, fun = `/`)
 # Aggregate to CBS items
 btd_conc <- fread("inst/items_btd-cbs.csv")
 cat("Aggregating BTD items to the level of CBS.\n")
-item_match <- match(btd$item_code, btd_conc$btd_item_code)
+item_match <- match(btd[["item_code"]], btd_conc[["btd_item_code"]])
 btd[, `:=`(item_code = btd_conc$cbs_item_code[item_match],
            item = btd_conc$cbs_item[item_match])]
 btd <- btd[, list(value = sum(value)),
@@ -151,6 +151,7 @@ rm(btd, btd_conc, item_match)
 
 # Forestry ----------------------------------------------------------------
 
+cat("Processing forestry.\n")
 #
 # Production
 fore_prod <- readRDS("input/fao/fore_prod.rds")
@@ -218,6 +219,8 @@ rm(fore_trad)
 
 # Crops -------------------------------------------------------------------
 
+cat("Processing crops.\n")
+
 crop_conc <- fread("inst/items_crop-cbs.csv")
 
 #
@@ -279,6 +282,8 @@ rm(crop, crop_prim, crop_conc)
 
 
 # Livestock ---------------------------------------------------------------
+
+cat("Processing livestocks.\n")
 
 live_conc <- fread("inst/items_live-cbs.csv")
 
