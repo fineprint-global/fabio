@@ -20,4 +20,5 @@ source("R/0_prep_trade.R")
 
 # Depends on outputs produced in step 0
 source("R/1_tidy_fao.R")
-
+source("R/1_tidy_eth.R")
+source("R/1_tidy_trade.R")

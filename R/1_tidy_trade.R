@@ -76,6 +76,8 @@ rm(comtrade, partner_match, reporter_match)
 
 # BACI --------------------------------------------------------------------
 
+cat("Processing BACI.\n")
+
 baci <- readRDS("input/trade/baci_sel.rds")
 
 baci <- dt_rename(baci, rename_baci, drop = TRUE)

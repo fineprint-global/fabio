@@ -144,9 +144,9 @@ area_merge <- function(x, orig, dest, col = "area_code", pattern = "*") {
   idx <- x[[col]]
 
   n_orig <- x[idx == orig, .N]
+  n_dest <- x[idx == dest, .N]
 
-  cat("Found", n_orig, "/", x[idx == dest, .N],
-      "observations of `orig` / `dest`.\n")
+  cat("Found", n_orig, "/", n_dest, "observations of `orig` / `dest`.\n")
 
   if(n_orig == 0) {return(x)}
 
@@ -154,7 +154,11 @@ area_merge <- function(x, orig, dest, col = "area_code", pattern = "*") {
   col_name <- gsub("(.*)_code", "\\1", col)
   if(col_name %in% colnames(x)) {
     orig_name <- x[idx == orig, col_name, with = FALSE][1][[1]]
-    dest_name <- x[idx == dest, col_name, with = FALSE][1][[1]]
+    dest_name <- if(n_dest == 0) {
+      if(pattern != "*") {pattern} else {orig_name}
+    } else {
+      x[idx == dest, col_name, with = FALSE][1][[1]]
+    }
     if(pattern != "*" && !all(grepl(pattern, c(orig_name, dest_name)))) {
       stop("Pattern not found in both origin and destination.\n")
     }

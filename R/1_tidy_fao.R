@@ -337,6 +337,8 @@ fish <- readRDS("input/fao/fish_prod.rds")
 
 fish <- dt_rename(fish, rename, drop = TRUE)
 
+fish[, source := ifelse(source_code == 4, "Capture", "Aquaculture")]
+
 # Country / Area adjustments
 country_match <- match(fish[["country"]], regions[["fish"]])
 fish[, `:=`(area = regions$name[country_match],
@@ -349,8 +351,7 @@ fish <- area_kick(fish, code = 351, pattern = "China", groups = TRUE)
 fish <- area_merge(fish, orig = 62, dest = 238, pattern = "Ethiopia")
 fish <- area_fix(fish, regions)
 
-fish[, source := ifelse(source_code == 4, "Capture", "Aquaculture")]
-
 # Store
 saveRDS(fish, "data/tidy/fish_tidy.rds")
-rm(fish)
+rm(fish, country_match)
+
