@@ -53,6 +53,7 @@ eth_iea[, value_iea := round(value_iea * 365.25 * 158.9873 * 0.7893, 4)]
 
 eth <- merge(eth_eia, eth_iea, all = TRUE)
 
+cat("Merging EIA and IEA ethanol - values chosen via `max(eia, iea)`.\n")
 eth[, `:=`(value = pmax(value_eia, value_iea, na.rm = TRUE),
            value_eia = NULL, value_iea = NULL, year = as.integer(year))]
 
