@@ -29,7 +29,8 @@ dt_replace <- function(x, fun = is.na, value = 0, cols = seq_len(ncol(x))) {
   }
 
   cat("Replaced ", n_replaced, " values where `", deparse(substitute(fun)),
-      "` applies with ", value, ".\n", sep = "")
+      "` applies to columns ", paste0("'", cols, "'", collapse = ", "),
+      " with ", value, ".\n", sep = "")
 
   return(x)
 }
@@ -56,10 +57,11 @@ dt_filter <- function(x, subset, select, na.rm = TRUE) {
     setattr(nl, "names", names(x))
     vars <- eval(substitute(select), nl, parent.frame())
   }
-  cat("Removing ", x[!r, .N], " observations via `", deparse(e), "`.\n",
-      if(na.rm) {"Included"} else {"Excluded"}, " were a total of ", na_count,
-      " NA values that could not be compared.\n", sep = "")
--
+  cat("Removing ", x[!r, .N], " observations via `", deparse(e), "`.\n", sep = "")
+  if(na_count > 0) {cat(if(na.rm) {"Included"} else {"Excluded"},
+                        " were a total of ", na_count,
+                        " NA values that could not be compared.\n", sep = "")}
+
   return(x[r, vars, with = FALSE])
 }
 

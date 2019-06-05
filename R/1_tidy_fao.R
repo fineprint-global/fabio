@@ -1,6 +1,6 @@
 
 library(data.table)
-source("R/1_tidy_fun.R")
+source("R/1_tidy_functions.R")
 
 regions <- fread("inst/regions_full.csv")
 
@@ -38,12 +38,21 @@ rename <- c(
   "1000 US$" = "k_usd",
   "1000 Head" = "k_capita",
   "Head" = "capita",
-  "tonnes" = "tonnes"
+  "tonnes" = "tonnes",
+  # Fish
+  "COUNTRY" = "country",
+  # "AREA" = "water_area",
+  "SOURCE" = "source_code",
+  "SPECIES" = "species",
+  "YEAR" = "year",
+  "UNIT" = "unit",
+  "QUANTITY" = "value"
 )
 
 # CBS ---------------------------------------------------------------------
 
 cat("Processing CBS.\n")
+
 cbs <- rbind(readRDS("input/fao/cbs_crop.rds"),
              readRDS("input/fao/cbs_live.rds"))
 
@@ -94,6 +103,7 @@ rm(cbs, denom, uses)
 # BTD ---------------------------------------------------------------------
 
 cat("Processing BTD.\n")
+
 btd <- readRDS("input/fao/btd_prod.rds")
 
 btd <- dt_rename(btd, rename, drop = TRUE)
@@ -152,6 +162,7 @@ rm(btd, btd_conc, item_match)
 # Forestry ----------------------------------------------------------------
 
 cat("Processing forestry.\n")
+
 #
 # Production
 fore_prod <- readRDS("input/fao/fore_prod.rds")
@@ -317,3 +328,29 @@ live[unit == "1000 Head", `:=`(value = value / 1000, unit = "Head")]
 saveRDS(live, "data/tidy/live_tidy.rds")
 rm(live, live_conc)
 
+
+# Fish --------------------------------------------------------------------
+
+cat("Processing fish.\n")
+
+fish <- readRDS("input/fao/fish_prod.rds")
+
+fish <- dt_rename(fish, rename, drop = TRUE)
+
+# Country / Area adjustments
+country_match <- match(fish[["country"]], regions[["fish"]])
+fish[, `:=`(area = regions$name[country_match],
+            area_code = regions$code[country_match],
+            country = NULL)]
+
+fish <- dt_filter(fish, !is.na(area))
+
+fish <- area_kick(fish, code = 351, pattern = "China", groups = TRUE)
+fish <- area_merge(fish, orig = 62, dest = 238, pattern = "Ethiopia")
+fish <- area_fix(fish, regions)
+
+fish[, source := ifelse(source_code == 4, "Capture", "Aquaculture")]
+
+# Store
+saveRDS(fish, "data/tidy/fish_tidy.rds")
+rm(fish)
