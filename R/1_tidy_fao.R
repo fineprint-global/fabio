@@ -39,6 +39,8 @@ rename <- c(
   "1000 Head" = "k_capita",
   "Head" = "capita",
   "tonnes" = "tonnes",
+  "Export" = "export",
+  "Import" = "import",
   # Fish
   "COUNTRY" = "country",
   # "AREA" = "water_area",
@@ -104,8 +106,6 @@ rm(cbs, denom, uses)
 
 cat("Processing BTD.\n")
 
-btd_conc <- fread("inst/conc_btd-cbs.csv")
-
 btd <- readRDS("input/fao/btd_prod.rds")
 
 btd <- dt_rename(btd, rename, drop = TRUE)
@@ -135,6 +135,8 @@ btd[unit != "tonnes", tcf := 1]
 btd <- tcf_apply(btd, na.rm = FALSE, filler = 1, fun = `/`)
 
 # Aggregate to CBS items
+btd_conc <- fread("inst/conc_btd-cbs.csv")
+
 cat("Aggregating BTD items to the level of CBS.\n")
 item_match <- match(btd[["item_code"]], btd_conc[["btd_item_code"]])
 btd[, `:=`(item_code = btd_conc$cbs_item_code[item_match],
@@ -163,8 +165,6 @@ rm(btd, btd_conc, item_match)
 # Forestry ----------------------------------------------------------------
 
 cat("Processing forestry.\n")
-
-fore_conc <- fread("inst/conc_forestry.csv")
 
 #
 # Production
@@ -217,10 +217,13 @@ fore_trad <- dt_filter(fore_trad, item_code %in%
                          c("Industrial roundwood, coniferous" = 1651,
                            "Industrial roundwood, non-coniferous tropical" = 1657,
                            "Industrial roundwood, non-coniferous non-tropical" = 1670))
+fore_trad <- dt_filter(fore_trad, unit != "m3")
 
 fore_trad[, imex := factor(gsub("^(Import|Export) (.*)$", "\\1", element))]
 
 # Aggregate to forestry production items
+fore_conc <- fread("inst/conc_forestry.csv")
+
 cat("Aggregating forestry trade items to the level of forestry production.\n")
 item_match <- match(fore_trad[["item_code"]], fore_conc[["trad_item_code"]])
 fore_trad[, `:=`(item_code = fore_conc$prod_item_code[item_match],
