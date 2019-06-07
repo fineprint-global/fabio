@@ -53,9 +53,14 @@ comtrade <- dt_filter(comtrade, !is.na(reporter) & !is.na(partner))
 
 comtrade <- dt_filter(comtrade, !unit %in% c("No Quantity", "Number of items"))
 
+# Add Re-Exports to Exports
+comtrade[grep("Re-Export", element), element := "Export"]
+
+comtrade[, imex := factor(gsub("^(Import|Export) (.*)$", "\\1", element))]
+
 comtrade <- dcast(comtrade,
                   reporter_code + reporter + partner_code + partner +
-                    year + element + item_code + item +
+                    year + imex + item_code + item +
                     usd ~ unit,
                   value.var = "value")
 comtrade <- dt_rename(comtrade, drop = FALSE,

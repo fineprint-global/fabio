@@ -150,12 +150,12 @@ cat("Aggregation from", length(item_match), "to", nrow(btd), "observations.\n")
 btd[unit == "1000 Head", `:=`(value = value / 1000, unit = "Head")]
 
 # Widen by unit
-btd <- dcast(btd,
-             reporter_code + reporter + partner_code + partner +
-               item_code + item + year + imex ~ unit,
-             value.var = "value")
-btd <- dt_rename(btd, rename, drop = FALSE)
-btd <- dt_replace(btd, is.na, value = 0)
+# btd <- dcast(btd,
+#              reporter_code + reporter + partner_code + partner +
+#                item_code + item + year + imex ~ unit,
+#              value.var = "value")
+# btd <- dt_rename(btd, rename, drop = FALSE)
+# btd <- dt_replace(btd, is.na, value = 0)
 
 # Store
 saveRDS(btd, "data/tidy/btd_tidy.rds")
@@ -183,16 +183,16 @@ fore_prod <- dt_filter(fore_prod, item_code %in%
                            "Industrial roundwood, coniferous" = 1866,
                            "Industrial roundwood, non-coniferous" = 1867))
 fore_prod <- dt_filter(fore_prod, value > 0)
-fore_prod <- dt_filter(fore_prod, unit != "m3")
+# fore_prod <- dt_filter(fore_prod, unit != "1000 US$")
 
 fore_prod[, imex := factor(gsub("^(Import|Export) (.*)$", "\\1", element))]
 
 # Widen by imex
-fore_prod <- dcast(fore_prod,
-                   area_code + area + item_code + item + year ~ imex,
-                   value.var = "value")
-fore_prod <- dt_rename(fore_prod, rename, drop = FALSE)
-fore_prod <- dt_replace(fore_prod, is.na, 0)
+# fore_prod <- dcast(fore_prod,
+#                    area_code + area + item_code + item + year ~ imex,
+#                    value.var = "value")
+# fore_prod <- dt_rename(fore_prod, rename, drop = FALSE)
+# fore_prod <- dt_replace(fore_prod, is.na, 0)
 
 # Store
 saveRDS(fore_prod, "data/tidy/fore_prod_tidy.rds")
@@ -217,7 +217,7 @@ fore_trad <- dt_filter(fore_trad, item_code %in%
                          c("Industrial roundwood, coniferous" = 1651,
                            "Industrial roundwood, non-coniferous tropical" = 1657,
                            "Industrial roundwood, non-coniferous non-tropical" = 1670))
-fore_trad <- dt_filter(fore_trad, unit != "m3")
+# fore_trad <- dt_filter(fore_trad, unit != "m3")
 
 fore_trad[, imex := factor(gsub("^(Import|Export) (.*)$", "\\1", element))]
 
@@ -234,12 +234,20 @@ fore_trad <- fore_trad[, list(value = sum(value)),
 cat("Aggregation from", length(item_match), "to",
     nrow(fore_trad), "observations.\n")
 
+# Widen by unit
+# fore_trad <- dcast(fore_trad,
+#                    reporter_code + reporter + partner_code + partner +
+#                      item_code + item + year + imex ~ unit,
+#                    value.var = "value")
+# fore_trad <- dt_rename(fore_trad, rename, drop = FALSE)
+# fore_trad <- dt_replace(fore_trad, is.na, value = 0)
+
 # Widen by imex
-fore_trad <- dcast(fore_trad,
-                   reporter_code + reporter + partner_code + partner +
-                     item_code + item + year ~ imex,
-                   value.var = "value")
-fore_trad <- dt_rename(fore_trad, rename, drop = FALSE)
+# fore_trad <- dcast(fore_trad,
+#                    reporter_code + reporter + partner_code + partner +
+#                      item_code + item + year ~ imex,
+#                    value.var = "value")
+# fore_trad <- dt_rename(fore_trad, rename, drop = FALSE)
 
 # Store
 saveRDS(fore_trad, "data/tidy/fore_trad_tidy.rds")
