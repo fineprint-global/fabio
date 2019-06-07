@@ -7,7 +7,7 @@ regions <- fread("inst/regions_full.csv")
 
 # EIA Bio-Ethanol ---------------------------------------------------------
 
-cat("Processing EIA ethanol.\n")
+cat("\nTidying EIA ethanol.\n")
 
 eth_eia <- readRDS("input/ethanol/eth_eia.rds")
 
@@ -25,14 +25,15 @@ eth_eia <- melt(eth_eia, id.vars = c("country", "country_code"),
 cat("Converting from ktoe to tonnes",
     "(1 tonne == 1 ktoe / 0.64 toe/tonne * 1000 tonnes/kt).\n")
 eth_eia <- dt_filter(eth_eia, !is.na(value_eia))
-eth_eia[, value_eia := round(value_eia / 0.64 * 1000, 4)]
+eth_eia[, `:=`(value_eia = round(value_eia / 0.64 * 1000, 4),
+               unit = "tonnes")]
 
 rm(country_match)
 
 
 # IEA Bio-Ethanol ---------------------------------------------------------
 
-cat("Processing IEA ethanol.\n")
+cat("\nTidying IEA ethanol.\n")
 
 eth_iea <- readRDS("input/ethanol/eth_iea.rds")
 
@@ -50,7 +51,8 @@ eth_iea <- melt(eth_iea, id.vars = c("country", "country_code"),
 cat("Converting from k_barrels/day to tonnes/year",
     "(ton/y == 1000 bbl/d * 365.25 d/y * 158.9873 l/bbl * 0.7893 kg/l).\n")
 eth_iea <- dt_filter(eth_iea, !is.na(value_iea))
-eth_iea[, value_iea := round(value_iea * 365.25 * 158.9873 * 0.7893, 4)]
+eth_iea[, `:=`(value_iea = round(value_iea * 365.25 * 158.9873 * 0.7893, 4),
+               unit = "tonnes")]
 
 rm(country_match)
 

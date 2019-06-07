@@ -54,7 +54,7 @@ rename <- c(
 
 # CBS ---------------------------------------------------------------------
 
-cat("Processing CBS.\n")
+cat("\nTidying CBS.\n")
 
 cbs <- rbind(readRDS("input/fao/cbs_crop.rds"),
              readRDS("input/fao/cbs_live.rds"))
@@ -105,7 +105,7 @@ rm(cbs, denom, uses)
 
 # BTD ---------------------------------------------------------------------
 
-cat("Processing BTD.\n")
+cat("\nTidying BTD.\n")
 
 btd <- readRDS("input/fao/btd_prod.rds")
 
@@ -150,6 +150,7 @@ cat("Aggregation from", length(item_match), "to", nrow(btd), "observations.\n")
 # Recode "1000 x" to "x"
 btd[unit == "1000 Head", `:=`(value = value / 1000, unit = "Head")]
 
+# 2019-06-07: Keep unit variable
 # Widen by unit
 # btd <- dcast(btd,
 #              reporter_code + reporter + partner_code + partner +
@@ -165,7 +166,7 @@ rm(btd, btd_conc, item_match)
 
 # Forestry ----------------------------------------------------------------
 
-cat("Processing forestry.\n")
+cat("\nTidying forestry.\n")
 
 #
 # Production
@@ -187,13 +188,6 @@ fore_prod <- dt_filter(fore_prod, value > 0)
 # fore_prod <- dt_filter(fore_prod, unit != "1000 US$")
 
 fore_prod[, imex := factor(gsub("^(Import|Export) (.*)$", "\\1", element))]
-
-# Widen by imex
-# fore_prod <- dcast(fore_prod,
-#                    area_code + area + item_code + item + year ~ imex,
-#                    value.var = "value")
-# fore_prod <- dt_rename(fore_prod, rename, drop = FALSE)
-# fore_prod <- dt_replace(fore_prod, is.na, 0)
 
 # Store
 saveRDS(fore_prod, "data/tidy/fore_prod_tidy.rds")
@@ -235,6 +229,7 @@ fore_trad <- fore_trad[, list(value = sum(value)),
 cat("Aggregation from", length(item_match), "to",
     nrow(fore_trad), "observations.\n")
 
+# 2019-06-07: Keep unit variable
 # Widen by unit
 # fore_trad <- dcast(fore_trad,
 #                    reporter_code + reporter + partner_code + partner +
@@ -243,21 +238,14 @@ cat("Aggregation from", length(item_match), "to",
 # fore_trad <- dt_rename(fore_trad, rename, drop = FALSE)
 # fore_trad <- dt_replace(fore_trad, is.na, value = 0)
 
-# Widen by imex
-# fore_trad <- dcast(fore_trad,
-#                    reporter_code + reporter + partner_code + partner +
-#                      item_code + item + year ~ imex,
-#                    value.var = "value")
-# fore_trad <- dt_rename(fore_trad, rename, drop = FALSE)
-
 # Store
 saveRDS(fore_trad, "data/tidy/fore_trad_tidy.rds")
-rm(fore_trad)
+rm(fore_trad, fore_conc, item_match)
 
 
 # Crops -------------------------------------------------------------------
 
-cat("Processing crops.\n")
+cat("\nTidying crops.\n")
 
 crop_conc <- fread("inst/conc_crop-cbs.csv")
 
@@ -321,7 +309,7 @@ rm(crop, crop_prim, crop_conc)
 
 # Livestock ---------------------------------------------------------------
 
-cat("Processing livestocks.\n")
+cat("\nTidying livestocks.\n")
 
 live_conc <- fread("inst/conc_live-cbs.csv")
 
@@ -358,7 +346,7 @@ rm(live, live_conc)
 
 # Fish --------------------------------------------------------------------
 
-cat("Processing fish.\n")
+cat("\nTidying fish.\n")
 
 fish <- readRDS("input/fao/fish_prod.rds")
 
@@ -381,4 +369,3 @@ fish <- area_fix(fish, regions)
 # Store
 saveRDS(fish, "data/tidy/fish_tidy.rds")
 rm(fish, country_match)
-

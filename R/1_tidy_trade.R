@@ -25,14 +25,14 @@ rename_baci <- c(
   "hs6" = "category",
   "i" = "exporter",
   "j" = "importer",
-  "v" = "k_usd",
+  "v" = "1000 US$",
   "q" = "tons"
 )
 
 
 # Comtrade ----------------------------------------------------------------
 
-cat("Processing Comtrade.\n")
+cat("\nTidying Comtrade.\n")
 
 comtrade <- readRDS("input/trade/comtrade.rds")
 
@@ -57,22 +57,26 @@ comtrade <- dt_filter(comtrade, !unit %in% c("No Quantity", "Number of items"))
 comtrade[grep("Re-Export", element), element := "Export"]
 
 comtrade[, imex := factor(gsub("^(Import|Export) (.*)$", "\\1", element))]
+comtrade[, value := as.double(value)]
 
 comtrade <- dcast(comtrade,
                   reporter_code + reporter + partner_code + partner +
                     year + imex + item_code + item +
                     usd ~ unit,
-                  value.var = "value")
+                  value.var = "value", fun.aggregate = sum)
 comtrade <- dt_rename(comtrade, drop = FALSE,
                       c("Weight in kilograms" = "kg",
                         "Volume in litres" = "litres"))
+# 2019-06-07: Use a unit variable
+comtrade <- melt(comtrade, measure.vars = c("usd", "litres", "kg"),
+                 variable.name = "unit", variable.factor = FALSE)
 
-cat("Converting Ethanol from kilograms to litres and vice versa",
-    "(1l == 0.7893kg).\n")
-comtrade[, `:=`(litres = as.double(litres),
-                kg = as.double(kg))]
-comtrade[is.na(litres) & item_code == 2207, litres := kg / 0.7893]
-comtrade[is.na(kg) & item_code == 2207, kg := litres * 0.7893]
+## cat("Converting Ethanol from kilograms to litres and vice versa",
+#     "(1l == 0.7893kg).\n")
+# comtrade[, `:=`(litres = as.double(litres),
+#                 kg = as.double(kg))]
+# comtrade[is.na(litres) & item_code == 2207, litres := kg / 0.7893]
+# comtrade[is.na(kg) & item_code == 2207, kg := litres * 0.7893]
 
 # Store
 saveRDS(comtrade, "data/tidy/comtrade_tidy.rds")
@@ -81,7 +85,7 @@ rm(comtrade, partner_match, reporter_match)
 
 # BACI --------------------------------------------------------------------
 
-cat("Processing BACI.\n")
+cat("\nTidying BACI.\n")
 
 baci <- readRDS("input/trade/baci_sel.rds")
 
@@ -100,7 +104,10 @@ for(col in c("importer_code", "exporter_code")) {
 }
 baci <- dt_filter(baci, !is.na(importer) & !is.na(exporter))
 
+# 2019-06-07: Introduce unit variable
+baci <- melt(baci, measure.vars = c("1000 US$", "tons"),
+             variable.name = "unit", variable.factor = FALSE)
+
 # Store
 saveRDS(baci, "data/tidy/baci_tidy.rds")
 rm(baci, importer_match, exporter_match)
-
