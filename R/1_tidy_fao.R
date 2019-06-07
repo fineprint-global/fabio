@@ -104,6 +104,8 @@ rm(cbs, denom, uses)
 
 cat("Processing BTD.\n")
 
+btd_conc <- fread("inst/conc_btd-cbs.csv")
+
 btd <- readRDS("input/fao/btd_prod.rds")
 
 btd <- dt_rename(btd, rename, drop = TRUE)
@@ -133,7 +135,6 @@ btd[unit != "tonnes", tcf := 1]
 btd <- tcf_apply(btd, na.rm = FALSE, filler = 1, fun = `/`)
 
 # Aggregate to CBS items
-btd_conc <- fread("inst/items_btd-cbs.csv")
 cat("Aggregating BTD items to the level of CBS.\n")
 item_match <- match(btd[["item_code"]], btd_conc[["btd_item_code"]])
 btd[, `:=`(item_code = btd_conc$cbs_item_code[item_match],
@@ -162,6 +163,8 @@ rm(btd, btd_conc, item_match)
 # Forestry ----------------------------------------------------------------
 
 cat("Processing forestry.\n")
+
+fore_conc <- fread("inst/conc_forestry.csv")
 
 #
 # Production
@@ -217,6 +220,18 @@ fore_trad <- dt_filter(fore_trad, item_code %in%
 
 fore_trad[, imex := factor(gsub("^(Import|Export) (.*)$", "\\1", element))]
 
+# Aggregate to forestry production items
+cat("Aggregating forestry trade items to the level of forestry production.\n")
+item_match <- match(fore_trad[["item_code"]], fore_conc[["trad_item_code"]])
+fore_trad[, `:=`(item_code = fore_conc$prod_item_code[item_match],
+                 item = fore_conc$prod_item[item_match])]
+fore_trad <- fore_trad[, list(value = sum(value)),
+                       by = .(reporter_code, reporter, partner_code, partner,
+                              item_code, item, year, imex, unit)]
+cat("Aggregation from", length(item_match), "to",
+    nrow(fore_trad), "observations.\n")
+
+# Widen by imex
 fore_trad <- dcast(fore_trad,
                    reporter_code + reporter + partner_code + partner +
                      item_code + item + year ~ imex,
@@ -224,7 +239,7 @@ fore_trad <- dcast(fore_trad,
 fore_trad <- dt_rename(fore_trad, rename, drop = FALSE)
 
 # Store
-saveRDS(fore_trad, "data/tidy/fore_trade_tidy.rds")
+saveRDS(fore_trad, "data/tidy/fore_trad_tidy.rds")
 rm(fore_trad)
 
 
@@ -232,7 +247,7 @@ rm(fore_trad)
 
 cat("Processing crops.\n")
 
-crop_conc <- fread("inst/items_crop-cbs.csv")
+crop_conc <- fread("inst/conc_crop-cbs.csv")
 
 #
 # Production
@@ -296,7 +311,7 @@ rm(crop, crop_prim, crop_conc)
 
 cat("Processing livestocks.\n")
 
-live_conc <- fread("inst/items_live-cbs.csv")
+live_conc <- fread("inst/conc_live-cbs.csv")
 
 live <- rbind(readRDS("input/fao/live_prod.rds"),
               readRDS("input/fao/live_proc.rds"),
