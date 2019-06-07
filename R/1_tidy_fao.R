@@ -35,6 +35,7 @@ rename <- c(
   "Seed" = "seed",
   "Other uses" = "other",
   "Processing" = "processing",
+  # Units
   "1000 US$" = "k_usd",
   "1000 Head" = "k_capita",
   "Head" = "capita",
