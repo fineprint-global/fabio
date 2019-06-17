@@ -7,8 +7,14 @@ items <- fread("inst/items_full.csv")
 
 years <- 1986:2013
 
+# Comtrade and BACI are used for ethanol and fishery trade
+comtrade <- readRDS("data/tidy/comtrade_tidy.rds")
+baci <- readRDS("data/tidy/baci_tidy.rds")
+
 
 # BTD ---------------------------------------------------------------------
+
+cat("\nBuilding full BTD.\n")
 
 btd <- readRDS("data/tidy/btd_tidy.rds")
 
@@ -27,8 +33,12 @@ btd[, imex := NULL]
 # Exclude intra-regional trade flows
 btd <- dt_filter(btd, from_code != to_code)
 
+# To-do: Possibly estimate missing units
+
 
 # Forestry ----------------------------------------------------------------
+
+cat("\nAdding forestry trade data.\n")
 
 fore <- readRDS("data/tidy/fore_trad_tidy.rds")
 
@@ -47,9 +57,6 @@ fore[, imex := NULL]
 # Exclude intra-regional trade flows
 fore <- dt_filter(fore, from_code != to_code)
 
-# Merge btd and fore
-# Estimate missing kg & head values based on prices
-
 # Fill < 1997 with 1997
 fore_fill <- lapply(seq(years[1], 1996), function(x, data, obs) {
   dt <- data[obs, ]
@@ -59,11 +66,13 @@ fore_fill <- lapply(seq(years[1], 1996), function(x, data, obs) {
 
 fore <- rbind(rbindlist(fore_fill), fore)
 
+rm(fore_fill)
+# To-do: Possibly estimate missing units
+
 
 # Ethanol -----------------------------------------------------------------
 
-comtrade <- readRDS("data/tidy/comtrade_tidy.rds")
-baci <- readRDS("data/tidy/baci_tidy.rds")
+cat("\nAdding ethanol trade data.\n")
 
 # Comtrade is used for `year < 1995`
 eth_com <- comtrade[grep("2207", item_code), ]
@@ -83,7 +92,6 @@ eth_com[, imex := NULL]
 # Exclude intra-regional trade flows
 eth_com <- dt_filter(eth_com, from_code != to_code)
 
-# Estimate missing kg based on prices
 # Fill < 1988 with 1988
 eth_com_fill <- lapply(seq(years[1], 1987), function(x, data, obs) {
   dt <- data[obs, ]
@@ -98,21 +106,22 @@ eth_com <- rbind(rbindlist(eth_com_fill), eth_com)
 eth_baci <- baci[grep("^2207[0-9]*$", category), ]
 eth_baci[, `:=`(item = "Alcohol, Non-Food",
            item_code = 2659,
-           element = NULL)]
+           category = NULL)]
 
 eth_baci <- dt_rename(eth_baci, drop = FALSE,
                       rename = c("exporter" = "from", "exporter_code" = "from_code",
                                  "importer" = "to", "importer_code" = "to_code"))
 
-# Estimate missing kg based on prices
-
+# Bind Comtrade & BACI
 eth <- rbind(eth_com, eth_baci)
+
+rm(eth_com, eth_com_fill, eth_baci)
+# To-do: Possibly estimate missing units
 
 
 # Fish --------------------------------------------------------------------
 
-comtrade <- readRDS("data/tidy/comtrade_tidy.rds")
-baci <- readRDS("data/tidy/baci_tidy.rds")
+cat("\nAdding fishery trade data.\n")
 
 # Comtrade is used for `year < 1995`
 fish_com <- comtrade[grep("^030[1-4]$", item_code), ]
@@ -142,22 +151,24 @@ fish_com_fill <- lapply(seq(years[1], 1987), function(x, data, obs) {
 
 fish_com <- rbind(rbindlist(fish_com_fill), fish_com)
 
-
 # BACI is used for `year >= 1995`
 fish_baci <- baci[grep("^30[1-4]", category), ]
 fish_baci[, `:=`(item = "Fish, Seafood",
                  item_code = 2960,
-                 element = NULL)]
+                 category = NULL)]
 
 fish_baci <- dt_rename(fish_baci, drop = FALSE,
                        rename = c("exporter" = "from", "exporter_code" = "from_code",
                                   "importer" = "to", "importer_code" = "to_code"))
 
-# Estimate missing kg based on prices
-
+# Bind Comtrade & BACI
 fish <- rbind(fish_com, fish_baci)
+
+rm(fish_com, fish_com_fill, fish_baci)
+# To-do: Possibly estimate missing units
 
 
 # Merge and save ----------------------------------------------------------
 
-btd_full <- rbindlist(list(btd, fore, eth, fish))
+btd_full <- rbindlist(list(btd, fore, eth, fish), use.names = TRUE)
+saveRDS(btd_full, "data/btd_full.rds")

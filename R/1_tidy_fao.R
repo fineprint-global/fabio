@@ -40,8 +40,8 @@ rename <- c(
   "1000 Head" = "k_capita",
   "Head" = "capita",
   "tonnes" = "tonnes",
-  "Export" = "export",
-  "Import" = "import",
+  "Export" = "exports",
+  "Import" = "imports",
   # Fish
   "COUNTRY" = "country",
   # "AREA" = "water_area",
@@ -147,8 +147,11 @@ btd <- btd[, list(value = sum(value)),
                   item_code, item, year, imex, unit)]
 cat("Aggregation from", length(item_match), "to", nrow(btd), "observations.\n")
 
-# Recode "1000 x" to "x"
+# Recode "1000 Head" to "head"
 btd[unit == "1000 Head", `:=`(value = value / 1000, unit = "Head")]
+btd[unit == "Head", `:=`(unit = "head")]
+# Recode "1000 US$" to "usd"
+btd[unit == "1000 US$", `:=`(value = value / 1000, unit = "usd")]
 
 # 2019-06-07: Keep unit variable
 # Widen by unit
@@ -186,8 +189,17 @@ fore_prod <- dt_filter(fore_prod, item_code %in%
                            "Industrial roundwood, non-coniferous" = 1867))
 fore_prod <- dt_filter(fore_prod, value > 0)
 # fore_prod <- dt_filter(fore_prod, unit != "1000 US$")
+# Recode "1000 US$" to "usd"
+fore_prod[unit == "1000 US$", `:=`(value = value / 1000, unit = "usd")]
 
 fore_prod[, imex := factor(gsub("^(Import|Export) (.*)$", "\\1", element))]
+
+# Get this in the format of CBS
+fore_prod <- dt_filter(fore_prod, unit == "m3")
+fore_prod <- dcast(fore_prod,
+                   area_code + area + item_code + item + year + unit ~ imex,
+                   value.var = "value")
+fore_prod <- dt_rename(fore_prod, rename, drop = FALSE)
 
 # Store
 saveRDS(fore_prod, "data/tidy/fore_prod_tidy.rds")
@@ -213,6 +225,8 @@ fore_trad <- dt_filter(fore_trad, item_code %in%
                            "Industrial roundwood, non-coniferous tropical" = 1657,
                            "Industrial roundwood, non-coniferous non-tropical" = 1670))
 # fore_trad <- dt_filter(fore_trad, unit != "m3")
+# Recode "1000 US$" to "usd"
+fore_trad[unit == "1000 US$", `:=`(value = value / 1000, unit = "usd")]
 
 fore_trad[, imex := factor(gsub("^(Import|Export) (.*)$", "\\1", element))]
 
@@ -336,8 +350,12 @@ live <- dt_rename(live, drop = FALSE, rename = c("cbs_item_code" = "item_code",
                                                  "cbs_item" = "item"))
 live <- dt_filter(live, value > 0)
 
-# Recode "1000 Head" to "Head"
+# Recode "1000 Head" to "head"
 live[unit == "1000 Head", `:=`(value = value / 1000, unit = "Head")]
+live[unit == "Head", `:=`(unit = "head")]
+# Recode "1000 US$" to "usd"
+live[unit == "1000 US$", `:=`(value = value / 1000, unit = "usd")]
+
 
 # Store
 saveRDS(live, "data/tidy/live_tidy.rds")
