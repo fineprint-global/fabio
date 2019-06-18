@@ -196,6 +196,7 @@ fore_prod[, imex := factor(gsub("^(Import|Export) (.*)$", "\\1", element))]
 
 # Get this in the format of CBS
 fore_prod <- dt_filter(fore_prod, unit == "m3")
+fore_prod[, unit := NULL]
 fore_prod <- dcast(fore_prod,
                    area_code + area + item_code + item + year + unit ~ imex,
                    value.var = "value")
