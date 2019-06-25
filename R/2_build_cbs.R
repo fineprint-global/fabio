@@ -37,7 +37,7 @@ cbs <- rbindlist(list(cbs, fore), use.names = TRUE)
 
 # Estimate for missing commodities ----------------------------------------
 
-cat("\nEstimating CBS for missing commodities.\n")
+cat("\nAdding crop and livestock data.\n")
 
 crop <- readRDS("data/tidy/crop_tidy.rds")
 
@@ -49,8 +49,9 @@ crop <- crop[element == "Production", ]
 
 live <- readRDS("data/tidy/live_tidy.rds")
 
-live <- live[element == "Production" & unit == "head"]
-cat("Removing items that appear in the aggregated 'Meat indigenous, poultry'.\n")
+live <- live[element == "Production" & unit == "head", ]
+cat("Removing items that also appear in the aggregated item",
+    "'Meat indigenous, poultry'.\n")
 live <- dt_filter(live, !item_code %in%
                     c("Duck" = 1070, "Geese" = 1077, "Bird" = 1084,
                       "Turkey" = 1087, "Chicken" = 1094))
@@ -95,6 +96,9 @@ aggregate(value ~ from_code + from + item_code + item + year, FUN = sum,
                                         1126, 1157, 1140, 1150, 1171, 843)])
 # Add this, also add to production
 
+
+# Ethanol -----------------------------------------------------------------
+
 # National aggregates of ethanol imports
 eth_imp <- aggregate(value ~ to_code + to, FUN = sum,
                      data = btd[unit == "tons" & item_code == 2659])
@@ -102,10 +106,52 @@ eth_imp <- aggregate(value ~ to_code + to, FUN = sum,
 eth_exp <- aggregate(value ~ from_code + from, FUN = sum,
                      data = btd[unit == "tons" & item_code == 2659])
 
+cat("\nAdding ethanol production data.\n")
+
+eth <- readRDS("data/tidy/eth_tidy.rds")
+eth <- eth[, `:=`(unit = NULL,
+                  item = "Alcohol, Non-Food", item_code = 2659)]
+eth_cbs <- dt_filter(cbs, item_code == 2659)
+
+eth_cbs <- merge(eth_cbs, eth, all = TRUE,
+                 by = c("area_code", "area", "year", "item", "item_code"))
+
+eth_cbs <- dt_replace(eth_cbs, is.na, 0,
+                      cols = c("total_supply", "exports",  "imports",
+                               "processing", "production",
+                               "feed", "food", "losses", "other", "seed",
+                               "stock_withdrawal", "stock_addition"))
+
+cat("Using EIA/IEA ethanol production values where FAO's",
+    "CBS are not (or under-) reported.\n")
+eth_cbs[production < value, production := value]
+eth_cbs[, value := NULL]
+
+# Use national aggregates for imports / exports
+eth_cbs <- merge(eth_cbs, eth_exp[, c("from_code", "value")],
+                 by.x = "area_code", by.y = "from_code", all.x = TRUE)
+eth_cbs <- merge(eth_cbs, eth_imp[, c("to_code", "value")],
+                 by.x = "area_code", by.y = "to_code", all.x = TRUE)
+
+cat("Overwrite CBS imports and exports of Ethanol with BTD data.")
+eth_cbs[, `:=`(exports = value.x, imports = value.y,
+               value.x = NULL, value.y = NULL)]
+eth_cbs <- dt_replace(eth_cbs, is.na, 0, cols = c("exports",  "imports"))
+
+eth_cbs[, `:=`(total_supply = production + imports,
+               other = total_supply - exports - stock_addition)]
+
+# Balance CBS
+eth_cbs[other < 0, `:=`(exports = exports + other, other = 0)]
+
+# Kick cbs[item_code == 2659, ] and integrate this instead
+
 
 # Allocate supply to uses -------------------------------------------------
 
 cat("\nAllocating supply to uses.\n")
+
+cbs_ext <- rbindlist(list(...))
 
 # Make sure production and trade are not negative
 cbs_ext <- dt_replace(cbs_ext, function(x) {`<`(x, 0)}, value = 0,
@@ -147,44 +193,12 @@ cbs_ext[item_code == 2000,
 rbindlist(list(cbs, cbs_ext))
 
 
-# Ethanol -----------------------------------------------------------------
+# Estimate missing CBS ----------------------------------------------------
 
-cat("\nAdding ethanol production data.\n")
+# Estimate required processing inputs for processed products
+  # use TCF_prod.csv
+  # estimate share of sugar beet and cane in sugar and molasses production
 
-eth <- readRDS("data/tidy/eth_tidy.rds")
-eth <- eth[, `:=`(unit = NULL,
-                  item = "Alcohol, Non-Food", item_code = 2659)]
-eth_cbs <- cbs[item_code == 2659, ]
+# Estimate gaps for co-products
 
-eth_cbs <- merge(eth_cbs, eth, all = TRUE,
-                 by = c("area_code", "area", "year", "item", "item_code"))
-
-eth_cbs <- dt_replace(eth_cbs, is.na, 0,
-           cols = c("total_supply", "exports",  "imports",
-                    "processing", "production",
-                    "feed", "food", "losses", "other", "seed",
-                    "stock_withdrawal", "stock_addition"))
-
-cat("Using EIA/IEA ethanol production values where FAO's",
-    "CBS are not (or under-) reported.\n")
-eth_cbs[production < value, production := value]
-eth_cbs[, value := NULL]
-
-# Use national aggregates for imports / exports
-eth_cbs <- merge(eth_cbs, eth_exp[, c("from_code", "value")],
-                 by.x = "area_code", by.y = "from_code", all.x = TRUE)
-eth_cbs <- merge(eth_cbs, eth_imp[, c("to_code", "value")],
-                 by.x = "area_code", by.y = "to_code", all.x = TRUE)
-
-cat("Overwrite imports and exports with BTD data?!")
-eth_cbs[, `:=`(exports = value.x, imports = value.y,
-               value.x = NULL, value.y = NULL)]
-eth_cbs <- dt_replace(eth_cbs, is.na, 0, cols = c("exports",  "imports"))
-
-eth_cbs[, `:=`(total_supply = production + imports,
-               other = total_supply - exports - stock_addition)]
-
-# Balance CBS
-eth_cbs[other < 0, `:=`(exports = exports + other, other = 0)]
-
-# Integrate
+# Maybe allocate supply to uses here
