@@ -104,8 +104,7 @@ eth_com <- rbind(rbindlist(eth_com_fill), eth_com)
 
 # BACI is used for `year >= 1995`
 eth_baci <- baci[grep("^2207[0-9]*$", category), ]
-eth_baci[, `:=`(item = "Alcohol, Non-Food",
-                item_code = 2659,
+eth_baci[, `:=`(item = "Alcohol, Non-Food", item_code = 2659,
                 category = NULL)]
 
 eth_baci <- dt_rename(eth_baci, drop = FALSE,
@@ -134,6 +133,7 @@ fish_com[, `:=`(from = ifelse(imex == "Import", partner, reporter),
                 from_code = ifelse(imex == "Import", partner_code, reporter_code),
                 to = ifelse(imex == "Import", reporter, partner),
                 to_code = ifelse(imex == "Import", reporter_code, partner_code),
+                item = "Fish, Seafood", item_code = 2960,
                 reporter = NULL, reporter_code = NULL,
                 partner = NULL, partner_code = NULL)]
 
@@ -156,8 +156,7 @@ fish_com <- rbind(rbindlist(fish_com_fill), fish_com)
 
 # BACI is used for `year >= 1995`
 fish_baci <- baci[grep("^30[1-4]", category), ]
-fish_baci[, `:=`(item = "Fish, Seafood",
-                 item_code = 2960,
+fish_baci[, `:=`(item = "Fish, Seafood", item_code = 2960,
                  category = NULL)]
 
 fish_baci <- dt_rename(fish_baci, drop = FALSE,
@@ -168,7 +167,9 @@ fish_baci <- dt_rename(fish_baci, drop = FALSE,
 fish <- rbind(fish_com, fish_baci)
 
 rm(fish_com, fish_com_fill, fish_baci)
+
 # To-do: Possibly estimate missing units
+# Estimate missing tonnes and litres from USD
 
 
 # Merge and save ----------------------------------------------------------
