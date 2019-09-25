@@ -34,6 +34,7 @@ btd[, imex := NULL]
 btd <- dt_filter(btd, from_code != to_code)
 
 # To-do: Possibly estimate missing units
+# USD are generally available, tonnes and head are not
 
 
 # Forestry ----------------------------------------------------------------
@@ -65,9 +66,7 @@ fore_fill <- lapply(seq(years[1], 1996), function(x, data, obs) {
 }, data = fore, obs = which(fore[, year] == 1997))
 
 fore <- rbind(rbindlist(fore_fill), fore)
-
 rm(fore_fill)
-# To-do: Possibly estimate missing units
 
 
 # Ethanol -----------------------------------------------------------------
@@ -82,6 +81,7 @@ eth_com[, `:=`(from = ifelse(imex == "Import", partner, reporter),
                from_code = ifelse(imex == "Import", partner_code, reporter_code),
                to = ifelse(imex == "Import", reporter, partner),
                to_code = ifelse(imex == "Import", reporter_code, partner_code),
+               item = "Alcohol, Non-Food", item_code = 2659,
                reporter = NULL, reporter_code = NULL,
                partner = NULL, partner_code = NULL)]
 
@@ -105,8 +105,8 @@ eth_com <- rbind(rbindlist(eth_com_fill), eth_com)
 # BACI is used for `year >= 1995`
 eth_baci <- baci[grep("^2207[0-9]*$", category), ]
 eth_baci[, `:=`(item = "Alcohol, Non-Food",
-           item_code = 2659,
-           category = NULL)]
+                item_code = 2659,
+                category = NULL)]
 
 eth_baci <- dt_rename(eth_baci, drop = FALSE,
                       rename = c("exporter" = "from", "exporter_code" = "from_code",
@@ -116,7 +116,10 @@ eth_baci <- dt_rename(eth_baci, drop = FALSE,
 eth <- rbind(eth_com, eth_baci)
 
 rm(eth_com, eth_com_fill, eth_baci)
+
 # To-do: Possibly estimate missing units
+# Estimate tonnes from litres (0.7893 kg/litre)
+# Estimate missing tonnes and litres from USD
 
 
 # Fish --------------------------------------------------------------------

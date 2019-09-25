@@ -70,6 +70,7 @@ comtrade <- dt_rename(comtrade, drop = FALSE,
 # 2019-06-07: Use a unit variable
 comtrade <- melt(comtrade, measure.vars = c("usd", "litres", "kg"),
                  variable.name = "unit", variable.factor = FALSE)
+# Convert from kg to tonnes
 
 ## cat("Converting Ethanol from kilograms to litres and vice versa",
 #     "(1l == 0.7893kg).\n")
@@ -107,6 +108,7 @@ baci <- dt_filter(baci, !is.na(importer) & !is.na(exporter))
 # 2019-06-07: Introduce unit variable
 baci <- melt(baci, measure.vars = c("1000 US$", "tons"),
              variable.name = "unit", variable.factor = FALSE)
+# Convert from 1000 US$ / tons to usd / tonnes
 
 # Store
 saveRDS(baci, "data/tidy/baci_tidy.rds")
