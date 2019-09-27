@@ -214,3 +214,5 @@ rbindlist(list(cbs, cbs_ext))
 # Estimate gaps for co-products
 
 # Maybe allocate supply to uses here
+
+# Weird check
