@@ -50,6 +50,7 @@ crop <- crop[element == "Production", ]
 live <- readRDS("data/tidy/live_tidy.rds")
 
 live <- live[element == "Production" & unit == "head", ]
+# See Issue #22
 cat("Removing items that also appear in the aggregated item",
     "'Meat indigenous, poultry'.\n")
 live <- dt_filter(live, !item_code %in%
