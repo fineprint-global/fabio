@@ -13,6 +13,7 @@ years <- 1986:2013
 cat("\nBuilding full CBS.\n")
 
 cbs <- readRDS("data/tidy/cbs_tidy.rds")
+setkey(cbs, area, area_code, item, item_code, year)
 
 cat("Removing items from CBS that are not used in the FAO-MRIO:\n\t",
     paste0(unique(cbs[!item_code %in% items$item_code, item]),
@@ -37,26 +38,36 @@ cbs <- rbindlist(list(cbs, fore), use.names = TRUE)
 
 # Estimate for missing commodities ----------------------------------------
 
-cat("\nAdding crop and livestock data.\n")
+cat("\nAdding crop data.\n")
 
 crop <- readRDS("data/tidy/crop_tidy.rds")
 
-crop <- crop[element == "Production", ]
-# Add this
+crop_prod <- crop[element == "Production" & unit == "tonnes", ]
+crop_prod[, `:=`(element = NULL, unit = NULL)]
 
+cat("\nJoining cbs and crop production using keys.\n")
+setkey(crop_prod, area, area_code, item, item_code, year)
+cbs <- merge(cbs, crop_prod, all.x = TRUE, all.y = TRUE)
 
-# Add crop[element == "Seed", ] # Apparently dropped in newer versions, see #19
+cat("\nFilling missing cbs production with crop production data. Items:\n",
+    paste0(unique(cbs[is.na(production) & !is.na(value), item]), 
+           collapse = ", "),
+    ".\n", sep = "")
+cbs[is.na(production), production := value]
+cbs[, value := NULL]
 
-live <- readRDS("data/tidy/live_tidy.rds")
+# cat("\nFilling missing cbs seed with crop seed data.\n")
+# crop_seed <- crop[element == "Seed", ]
+cat("\nSkipped filling cbs seed.", 
+    "Apparently data is dropped in newer versions. See Issue #19.\n")
 
-live <- live[element == "Production" & unit == "head", ]
-# See Issue #22
-cat("Removing items that also appear in the aggregated item",
-    "'Meat indigenous, poultry'.\n")
-live <- dt_filter(live, !item_code %in%
-                    c("Duck" = 1070, "Geese" = 1077, "Bird" = 1084,
-                      "Turkey" = 1087, "Chicken" = 1094))
-# Add this
+# cat("\nAdding livestock data.\n")
+# live <- readRDS("data/tidy/live_tidy.rds")
+# live <- live[element == "Production" & unit == "head", ]
+# setkey(live, area, area_code, item, item_code, year)
+# Only "Meat indigenous, ..." is missing. These need not be filled.
+# Some items are available as stocks instead of production.
+cat("Skipped filling cbs livestock. See Issues #22, #23 and #24.")
 
 
 # Add BTD data ------------------------------------------------------------
