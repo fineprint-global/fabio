@@ -130,7 +130,7 @@ btd[, imex := factor(gsub("^(Import|Export) (.*)$", "\\1", element))]
 
 # Apply TCF to observations with `unit` == "tonnes"
 btd <- merge(btd, fread("inst/btd_tcf.csv"),
-             by.x = "item_code", by.y = "code", all.x = TRUE)
+             by.x = "item_code", by.y = "item_code", all.x = TRUE)
 cat("Applying TCF to trade data, where `unit == 'tonnes'` applies.\n")
 btd[unit != "tonnes", tcf := 1]
 btd <- tcf_apply(btd, na.rm = FALSE, filler = 1, fun = `/`)

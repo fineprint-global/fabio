@@ -13,7 +13,6 @@ years <- 1986:2013
 cat("\nBuilding full CBS.\n")
 
 cbs <- readRDS("data/tidy/cbs_tidy.rds")
-setkey(cbs, area, area_code, item, item_code, year)
 
 cat("Removing items from CBS that are not used in the FAO-MRIO:\n\t",
     paste0(unique(cbs[!item_code %in% items$item_code, item]),
@@ -45,7 +44,10 @@ crop <- readRDS("data/tidy/crop_tidy.rds")
 crop_prod <- crop[element == "Production" & unit == "tonnes", ]
 crop_prod[, `:=`(element = NULL, unit = NULL)]
 
+# Do TCF on this?
+
 cat("\nJoining cbs and crop production using keys.\n")
+setkey(cbs, area, area_code, item, item_code, year)
 setkey(crop_prod, area, area_code, item, item_code, year)
 cbs <- merge(cbs, crop_prod, all.x = TRUE, all.y = TRUE)
 
@@ -165,7 +167,7 @@ cat("\nAllocating supply to uses.\n")
 
 cbs_ext <- rbindlist(list(...))
 
-# Make sure production and trade are not negative
+# Make sure production, allow.cartesian = TRUE and trade are not negative
 cbs_ext <- dt_replace(cbs_ext, function(x) {`<`(x, 0)}, value = 0,
                       cols = c("production", "processing",
                                "imports", "exports", "total_supply",
@@ -210,6 +212,32 @@ rbindlist(list(cbs, cbs_ext))
 # Estimate required processing inputs for processed products
   # use TCF_prod.csv
   # estimate share of sugar beet and cane in sugar and molasses production
+
+tcf <- fread("inst/cbs_tcf.csv")
+# Items with multiple sources
+dupe_i <- tcf$item_code[duplicated(tcf$item_code)]
+# Sources with multiple items
+dupe_s <- tcf$source_code[duplicated(tcf$source_code)]
+
+setkey(crop_prod, item_code, item)
+setkey(tcf, item_code, item)
+tcf <- merge(tcf, 
+             crop_prod[, c("item_code", "item", "area_code", "area", "year", 
+                       "value")], 
+             all.x = TRUE)
+tcf[, `:=`(processing = ifelse(is.na(tcf), processing, production / tcf))]
+
+tcf[item_code %in% dupe_i, denom := sum(production), 
+    by = list(item_code, area_code, year)]
+tcf[item_code %in% dupe_i, processing := processing / denom * production]
+
+x[source_code %in% dupe_i, denom := sum(production), 
+    by = list(item_code, area_code, year)]
+x[source_code %in% dupe_s, processing := processing / denom * production]
+
+
+sugar <- tcf[item_code %in% c(2544, 2818)]
+
 
 # Estimate gaps for co-products
 
