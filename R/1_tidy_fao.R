@@ -75,7 +75,10 @@ cbs <- dt_rename(cbs, rename, drop = FALSE)
 # Replace NA values with 0
 cbs <- dt_replace(cbs, is.na, value = 0)
 # Make sure values are not negative
-cbs <- dt_replace(cbs, function(x) {`<`(x, 0)}, value = 0, cols = rename)
+cbs <- dt_replace(cbs, function(x) {`<`(x, 0)}, value = 0,
+                  cols = c("total_supply", "imports", "exports", "feed",
+                           "food", "losses", "other", "processing", 
+                           "production", "seed"))
 
 cat("Recoding `total_supply` from",
     "`production + imports - exports + stock_withdrawal`", "to",
@@ -86,17 +89,13 @@ cbs[, total_supply := production + imports]
 cbs[, stock_addition := -stock_withdrawal]
 cat("Found ", cbs[stock_addition > total_supply, .N],
     " occurences of `stock_addition` exceeding `total_supply`.\n",
-    "Capping values at `total_supply`.\n", sep = "")
-cbs[stock_addition > total_supply, stock_addition := total_supply]
+    "Keeping values as is.\n", sep = "")
+# cbs[stock_addition > total_supply, stock_addition := total_supply]
 
 # Rebalance uses, with `total_supply` and `stock_additions` treated as given
-uses <- c("exports", "food", "feed", "seed", "losses", "processing", "other")
-denom <- cbs[, total_supply - stock_addition] /
-  rowSums(cbs[, uses, with = FALSE])
-cat("Rebalancing uses ", paste0("`", uses, "`", collapse = ", "),
-    ".\n", sep = "")
-for(use in uses) {set(cbs, j = use, value = cbs[[use]] / denom)}
-cbs <- dt_replace(cbs, is.nan, value = 0)
+cat("Add `balancing` column for supply and use discrepancies.")
+cbs[, balancing := total_supply - stock_addition -
+        (exports + food + feed + seed + losses + processing + other)]
 
 # Store
 saveRDS(cbs, "data/tidy/cbs_tidy.rds")
