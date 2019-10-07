@@ -73,6 +73,8 @@ eth_exp <- aggregate(value ~ from_code + from, FUN = sum,
 cat("\nAdding ethanol production data.\n")
 
 eth <- readRDS("data/tidy/eth_tidy.rds")
+
+# Keep one unit and recode for merging
 eth <- eth[, `:=`(unit = NULL,
                   item = "Alcohol, Non-Food", item_code = 2659)]
 eth_cbs <- dt_filter(cbs, item_code == 2659)
@@ -108,7 +110,7 @@ eth_cbs[, `:=`(total_supply = production + imports,
 # Balance CBS
 eth_cbs[other < 0, `:=`(exports = exports + other, other = 0)]
 
-# Kick cbs[item_code == 2659, ] and integrate this instead
+# Kick original cbs[item_code == 2659, ] and integrate this instead
 
 
 # Estimate missing CBS ----------------------------------------------------
@@ -199,6 +201,7 @@ cbs_ext <- dt_replace(cbs_ext, function(x) {`<`(x, 0)}, value = 0,
 cbs_ext[item_code == 843 & exports > total_supply,
         production := processing + exports + food + feed + seed + losses + other]
 
+# Calculate total supply
 cbs_ext[, total_supply := production + imports]
 
 # Balance CBS where exports exceed total_supply
@@ -228,3 +231,27 @@ cbs_ext[item_code == 2000,
 # Integrate
 rbindlist(list(cbs, cbs_ext))
 
+<<<<<<< HEAD
+=======
+
+# Estimate missing CBS ----------------------------------------------------
+
+# Estimate required processing inputs for processed products
+  # use TCF_prod.csv and apply it to crop production:
+    # tcf$processing <- crop$production / tcf
+    # tcf$production <- crop$production
+  # Estimate share of sugar beet and cane in sugar and molasses production
+    # sugar <- tcf[item_code %in% c(2544, 2818), ]
+    # sugar$production[item == a <- crop$production[item == a]
+    # sugar$production[item == b] <- crop$production[item == b]
+    # sugar$processing[item == a] <- sugar$processing[item == a] /
+    #                                  (crop$production[item == a] + crop$production[item == b]) * crop$production[item == a]
+    # Overwrite tcf$processing
+    # Adapt tcf$production
+
+# Estimate gaps for co-products
+
+# Maybe allocate supply to uses here
+
+# Weird check
+>>>>>>> 9e7dae15e6521c0c9fec8f83a5f2fd92163c5a5b
