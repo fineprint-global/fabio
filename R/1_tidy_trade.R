@@ -58,6 +58,7 @@ comtrade[grep("Re-Export", element), element := "Export"]
 
 comtrade[, imex := factor(gsub("^(Import|Export) (.*)$", "\\1", element))]
 comtrade[, value := as.double(value)]
+comtrade[, item_code := as.integer(item_code)]
 
 comtrade <- dcast(comtrade,
                   reporter_code + reporter + partner_code + partner +
@@ -105,6 +106,8 @@ for(col in c("importer_code", "exporter_code")) {
                      col = col, pattern = "Ethiopia")
 }
 baci <- dt_filter(baci, !is.na(importer) & !is.na(exporter))
+
+baci[, item_code := as.as.integer(item_code)]
 
 # 2019-06-07: Introduce unit variable
 baci <- melt(baci, measure.vars = c("1000 US$", "tons"),
