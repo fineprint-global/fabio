@@ -58,7 +58,7 @@ exps <- btd[item_code %in% c(328, 254, 677, 2000, 2001, 866, 946,
             list(value = sum(value, na.rm = TRUE)),
             by = list(from_code, from, item_code, item, year, unit)]
 
-cat("\nAdding export and import data for missing from BTD.\n")
+cat("\nAdding export and import data for missing CBS from BTD.\n")
 cbs <- merge(
   cbs, imps[, c("to_code", "to", "item_code", "item", "year", "value")],
   by.x = c("area_code", "area", "item_code", "item", "year"),
@@ -72,6 +72,15 @@ cbs <- merge(
   by.y = c("from_code", "from", "item_code", "item", "year"),
   all.x = TRUE, all.y = TRUE)
 cbs[, `:=`(exports = ifelse(is.na(exports), value, exports),
+           value = NULL)]
+cat("\nAdding missing livestock exports to CBS production from BTD.\n")
+cbs <- merge(
+  cbs, exps[unit == "head",
+            c("from_code", "from", "item_code", "item", "year", "value")],
+  by.x = c("area_code", "area", "item_code", "item", "year"),
+  by.y = c("from_code", "from", "item_code", "item", "year"),
+  all.x = TRUE, all.y = TRUE)
+cbs[, `:=`(production = ifelse(is.na(value), production, production + value),
            value = NULL)]
 
 
