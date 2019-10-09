@@ -43,22 +43,36 @@ cat("\nAdding information from BTD.\n")
 btd <- readRDS("data/btd_full.rds")
 
 # Imports
-imports <- btd[item_code %in% c(328, 254, 677, 2000, 2001, 866, 946,
-                                976, 1016, 1034, 2029, 1096, 1107, 1110,
-                                1126, 1157, 1140, 1150, 1171, 843),
-               list(value = sum(value, na.rm = TRUE)),
-               by = list(to_code, to, item_code, item, year, unit)]
+imps <- btd[item_code %in% c(328, 254, 677, 2000, 2001, 866, 946,
+                             976, 1016, 1034, 2029, 1096, 1107, 1110,
+                             1126, 1157, 1140, 1150, 1171, 843) &
+            unit != "usd", # tonnes and head remain (mutually exclusive)
+            list(value = sum(value, na.rm = TRUE)),
+            by = list(to_code, to, item_code, item, year, unit)]
 
 # Exports
-exports <- btd[item_code %in% c(328, 254, 677, 2000, 2001, 866, 946,
-                                976, 1016, 1034, 2029, 1096, 1107, 1110,
-                                1126, 1157, 1140, 1150, 1171, 843),
-               list(value = sum(value, na.rm = TRUE)),
-               by = list(from_code, from, item_code, item, year, unit)]
+exps <- btd[item_code %in% c(328, 254, 677, 2000, 2001, 866, 946,
+                             976, 1016, 1034, 2029, 1096, 1107, 1110,
+                             1126, 1157, 1140, 1150, 1171, 843) &
+            unit != "usd", # tonnes and head remain (mutually exclusive)
+            list(value = sum(value, na.rm = TRUE)),
+            by = list(from_code, from, item_code, item, year, unit)]
 
-cat("\nAdding export and import data from BTD.\n")
-
-# Add this, also add to production
+cat("\nAdding export and import data for missing from BTD.\n")
+cbs <- merge(
+  cbs, imps[, c("to_code", "to", "item_code", "item", "year", "value")],
+  by.x = c("area_code", "area", "item_code", "item", "year"),
+  by.y = c("to_code", "to", "item_code", "item", "year"),
+  all.x = TRUE, all.y = TRUE)
+cbs[, `:=`(imports = ifelse(is.na(imports), value, imports),
+           value = NULL)]
+cbs <- merge(
+  cbs, exps[, c("from_code", "from", "item_code", "item", "year", "value")],
+  by.x = c("area_code", "area", "item_code", "item", "year"),
+  by.y = c("from_code", "from", "item_code", "item", "year"),
+  all.x = TRUE, all.y = TRUE)
+cbs[, `:=`(exports = ifelse(is.na(exports), value, exports),
+           value = NULL)]
 
 
 # Ethanol -----------------------------------------------------------------
@@ -231,8 +245,6 @@ cbs_ext[item_code == 2000,
 # Integrate
 rbindlist(list(cbs, cbs_ext))
 
-<<<<<<< HEAD
-=======
 
 # Estimate missing CBS ----------------------------------------------------
 
@@ -254,4 +266,3 @@ rbindlist(list(cbs, cbs_ext))
 # Maybe allocate supply to uses here
 
 # Weird check
->>>>>>> 9e7dae15e6521c0c9fec8f83a5f2fd92163c5a5b
