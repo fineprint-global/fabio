@@ -29,8 +29,8 @@ dt_replace <- function(x, fun = is.na, value = 0, cols = seq_len(ncol(x))) {
   }
 
   cat("Replaced ", n_replaced, " values where `", deparse(substitute(fun)),
-      "` applies to columns ", paste0("'", cols, "'", collapse = ", "),
-      " with ", value, ".\n", sep = "")
+      "` (applies to columns ", paste0("'", cols, "'", collapse = ", "),
+      ") with ", value, ".\n", sep = "")
 
   return(x)
 }

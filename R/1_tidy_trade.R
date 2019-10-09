@@ -53,10 +53,10 @@ comtrade <- dt_filter(comtrade, !is.na(reporter) & !is.na(partner))
 
 comtrade <- dt_filter(comtrade, !unit %in% c("No Quantity", "Number of items"))
 
-# Add Re-Exports to Exports
-comtrade[grep("Re-Export", element), element := "Export"]
+# Potentially add Re-Exports to Exports
+# comtrade[grep("Re-Export", element), element := "Export"]
 
-comtrade[, imex := factor(gsub("^(Import|Export) (.*)$", "\\1", element))]
+comtrade[, imex := factor(element)]
 comtrade[, value := as.double(value)]
 comtrade[, item_code := as.integer(item_code)]
 
@@ -113,7 +113,7 @@ baci[, item_code := as.as.integer(item_code)]
 baci <- melt(baci, measure.vars = c("1000 US$", "tons"),
              variable.name = "unit", variable.factor = FALSE)
 # Convert from 1000 US$ to usd and from tons to tonnes
-baci[unit == "1000 US$", `:=`(value = value / 1000, unit = "usd")]
+baci[unit == "1000 US$", `:=`(value = value * 1000, unit = "usd")]
 baci[unit == "tons", `:=`(value = value / 0.9071847, unit = "tonnes")]
 
 # Store

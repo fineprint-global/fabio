@@ -21,10 +21,10 @@ files <- c(
   "cbs_live" = "CommodityBalances_LivestockFish_E_All_Data_(Normalized).zip",
   "fore_prod" = "Forestry_E_All_Data_(Normalized).zip",
   "fore_trad" = "Forestry_Trade_Flows_E_All_Data_(Normalized).zip",
-  "fish_prod" = "GlobalProduction_2018.1.2.zip")
+  "fish_prod" = "GlobalProduction_2019.1.0.zip")
 
 # Files to extract from the ZIP archives
-extr <- c(rep("", length(files) - 1), "TS_FI_PRODUCTION.csv")
+extr <- c(rep(NA, length(files) - 1), "TS_FI_PRODUCTION.csv")
 
 name <- names(files)
 
@@ -74,7 +74,8 @@ col_types <- list(
 
 fa_dl(file = files, link = links, path = path_fao)
 
-fa_extract(zip = files, path = path_fao, name = name,
+fa_extract(zip = paste0(path_fao, files),
+           path_out = path_fao, name = name,
            extr = extr, col_types = col_types)
 
 
