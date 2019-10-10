@@ -86,13 +86,6 @@ cbs[, `:=`(production = ifelse(is.na(value), production, production + value),
 
 # Ethanol -----------------------------------------------------------------
 
-# National aggregates of ethanol imports
-eth_imp <- aggregate(value ~ to_code + to, FUN = sum,
-                     data = btd[unit == "tons" & item_code == 2659])
-# National aggregates of ethanol exports
-eth_exp <- aggregate(value ~ from_code + from, FUN = sum,
-                     data = btd[unit == "tons" & item_code == 2659])
-
 cat("\nAdding ethanol production data.\n")
 
 eth <- readRDS("data/tidy/eth_tidy.rds")
@@ -116,25 +109,31 @@ cat("Using EIA/IEA ethanol production values where FAO's",
 eth_cbs[production < value, production := value]
 eth_cbs[, value := NULL]
 
-# Use national aggregates for imports / exports
-eth_cbs <- merge(eth_cbs, eth_exp[, c("from_code", "value")],
-                 by.x = "area_code", by.y = "from_code", all.x = TRUE)
+cat("\nUse national aggregates for ethanol trade.\n")
+eth_imps <- btd[item_code == 2659 & unit == "tonnes",
+                list(value = sum(value, na.rm = TRUE)),
+                by = list(to_code, to)]
+eth_exps <- btd[item_code == 2659 & unit == "tonnes",
+                list(value = sum(value, na.rm = TRUE)),
+                by = list(from_code, from)]
+
 eth_cbs <- merge(eth_cbs, eth_imp[, c("to_code", "value")],
                  by.x = "area_code", by.y = "to_code", all.x = TRUE)
+eth_cbs <- merge(eth_cbs, eth_exp[, c("from_code", "value")],
+                 by.x = "area_code", by.y = "from_code", all.x = TRUE)
 
 cat("Overwrite CBS imports and exports of Ethanol with BTD data.")
-eth_cbs[, `:=`(exports = value.x, imports = value.y,
+eth_cbs[, `:=`(imports = value.x, exports = value.y,
                value.x = NULL, value.y = NULL)]
 eth_cbs <- dt_replace(eth_cbs, is.na, 0, cols = c("exports",  "imports"))
 
+cat("\nReduce exports where they surpass total_supply.\n")
 eth_cbs[, `:=`(total_supply = production + imports,
                other = total_supply - exports - stock_addition)]
-
-# Balance CBS
 eth_cbs[other < 0, `:=`(exports = exports + other, other = 0)]
 
 # Kick original cbs[item_code == 2659, ] and integrate this instead
-
+cbs <- rbindlist(list(cbs[item_code != 2659], eth_cbs))
 
 # Estimate missing CBS ----------------------------------------------------
 
