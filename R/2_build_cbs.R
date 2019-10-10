@@ -135,6 +135,7 @@ eth_cbs[other < 0, `:=`(exports = exports + other, other = 0)]
 # Kick original cbs[item_code == 2659, ] and integrate this instead
 cbs <- rbindlist(list(cbs[item_code != 2659], eth_cbs))
 
+
 # Estimate missing CBS ----------------------------------------------------
 
 cat("\nAdding crop data.\n")
@@ -144,12 +145,23 @@ crop <- readRDS("data/tidy/crop_tidy.rds")
 crop_prod <- crop[element == "Production" & unit == "tonnes", ]
 crop_prod[, `:=`(element = NULL, unit = NULL)]
 
-# Do TCF on this?
+# Add imports
+tcf <- fread("inst/cbs_tcf.csv")
+# Items with multiple sources
+dupe_i <- tcf$item_code[duplicated(tcf$item_code)]
+# Sources with multiple items
+dupe_s <- tcf$source_code[duplicated(tcf$source_code)]
+
+setkey(crop_prod, item_code, item)
+setkey(tcf, item_code, item)
+tcf <- merge(tcf, crop_prod[, c("item_code", "item", "area_code",
+                                "area", "year", "value")], all.x = TRUE)
+
 
 cat("\nJoining cbs and crop production using keys.\n")
 setkey(cbs, area, area_code, item, item_code, year)
 setkey(crop_prod, area, area_code, item, item_code, year)
-cbs <- merge(cbs, crop_prod, all.x = TRUE, all.y = TRUE)
+# cbs <- merge(cbs, crop_prod, all.x = TRUE, all.y = TRUE)
 
 cat("\nFilling missing cbs production with crop production data. Items:\n",
     paste0(unique(cbs[is.na(production) & !is.na(value), item]),
@@ -175,18 +187,7 @@ cat("Skipped filling cbs livestock. See Issues #22, #23 and #24.")
   # use TCF_prod.csv
   # estimate share of sugar beet and cane in sugar and molasses production
 
-tcf <- fread("inst/cbs_tcf.csv")
-# Items with multiple sources
-dupe_i <- tcf$item_code[duplicated(tcf$item_code)]
-# Sources with multiple items
-dupe_s <- tcf$source_code[duplicated(tcf$source_code)]
 
-setkey(crop_prod, item_code, item)
-setkey(tcf, item_code, item)
-tcf <- merge(tcf,
-             crop_prod[, c("item_code", "item", "area_code", "area", "year",
-                       "value")],
-             all.x = TRUE)
 tcf[, `:=`(processing = ifelse(is.na(tcf), processing, production / tcf))]
 
 tcf[item_code %in% dupe_i, denom := sum(production),
