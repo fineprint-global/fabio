@@ -112,20 +112,22 @@ eth_cbs[, value := NULL]
 cat("\nUse national aggregates for ethanol trade.\n")
 eth_imps <- btd[item_code == 2659 & unit == "tonnes",
                 list(value = sum(value, na.rm = TRUE)),
-                by = list(to_code, to)]
+                by = list(to_code, year, item_code)]
 eth_exps <- btd[item_code == 2659 & unit == "tonnes",
                 list(value = sum(value, na.rm = TRUE)),
-                by = list(from_code, from)]
+                by = list(from_code, year, item_code)]
 
-eth_cbs <- merge(eth_cbs, eth_imp[, c("to_code", "value")],
-                 by.x = "area_code", by.y = "to_code", all.x = TRUE)
-eth_cbs <- merge(eth_cbs, eth_exp[, c("from_code", "value")],
-                 by.x = "area_code", by.y = "from_code", all.x = TRUE)
+eth_cbs <- merge(eth_cbs, eth_imps,
+                 by.x = c("area_code", "year", "item_code"),
+                 by.y = c("to_code", "year", "item_code"), all.x = TRUE)
+eth_cbs <- merge(eth_cbs, eth_exps,
+                 by.x = c("area_code", "year", "item_code"),
+                 by.y = c("from_code", "year", "item_code"), all.x = TRUE)
 
-cat("Overwrite CBS imports and exports of Ethanol with BTD data.")
+cat("\nOverwrite CBS imports and exports of Ethanol with BTD data.\n")
 eth_cbs[, `:=`(imports = value.x, exports = value.y,
                value.x = NULL, value.y = NULL)]
-eth_cbs <- dt_replace(eth_cbs, is.na, 0, cols = c("exports",  "imports"))
+eth_cbs <- dt_replace(eth_cbs, is.na, 0, cols = c("exports", "imports"))
 
 cat("\nReduce exports where they surpass total_supply.\n")
 eth_cbs[, `:=`(total_supply = production + imports,
@@ -133,7 +135,7 @@ eth_cbs[, `:=`(total_supply = production + imports,
 eth_cbs[other < 0, `:=`(exports = exports + other, other = 0)]
 
 # Kick original cbs[item_code == 2659, ] and integrate this instead
-cbs <- rbindlist(list(cbs[item_code != 2659], eth_cbs))
+cbs <- rbindlist(list(cbs[item_code != 2659], eth_cbs), use.names = TRUE)
 
 
 # Estimate missing CBS ----------------------------------------------------
@@ -143,9 +145,28 @@ cat("\nAdding crop data.\n")
 crop <- readRDS("data/tidy/crop_tidy.rds")
 
 crop_prod <- crop[element == "Production" & unit == "tonnes", ]
-crop_prod[, `:=`(element = NULL, unit = NULL)]
+crop_prod[, `:=`(production = value, value = NULL, element = NULL, unit = NULL)]
 
-# Add imports
+# Add trade data
+crop_imps <- btd[item_code %in% crop_prod$item_code & unit == "tonnes",
+                 list(value = sum(value, na.rm = TRUE)),
+                 by = list(to_code, year, item_code)]
+crop_exps <- btd[item_code %in% crop_prod$item_code & unit == "tonnes",
+                 list(value = sum(value, na.rm = TRUE)),
+                 by = list(from_code, year, item_code)]
+
+crop_prod <- merge(crop_prod, crop_imps,
+                   by.x = c("area_code", "year", "item_code"),
+                   by.y = c("to_code", "year", "item_code"), all.x = TRUE)
+crop_prod <- merge(crop_prod, crop_exps,
+                   by.x = c("area_code", "year", "item_code"),
+                   by.y = c("from_code", "year", "item_code"), all.x = TRUE)
+cat("\nAdd trade data from BTD to crop_prod.\n")
+crop_prod[, `:=`(imports = value.x, exports = value.y,
+                 value.x = NULL, value.y = NULL)]
+crop_prod <- dt_replace(crop_prod, is.na, 0, cols = c("exports", "imports"))
+
+# Apply TCF
 tcf <- fread("inst/cbs_tcf.csv")
 # Items with multiple sources
 dupe_i <- tcf$item_code[duplicated(tcf$item_code)]
