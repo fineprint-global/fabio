@@ -80,20 +80,20 @@ cbs <- dt_replace(cbs, function(x) {`<`(x, 0)}, value = 0,
                            "food", "losses", "other", "processing",
                            "production", "seed"))
 
-cat("Recoding `total_supply` from",
-    "`production + imports - exports + stock_withdrawal`", "to",
-    "`production + imports`.\n")
+cat("Recoding 'total_supply' from",
+    "'production + imports - exports + stock_withdrawal'", "to",
+    "'production + imports'.\n")
 cbs[, total_supply := production + imports]
 
-# Add more intuitive `stock_addition` and fix discrepancies with `total_supply`
+# Add more intuitive 'stock_addition' and fix discrepancies with 'total_supply'
 cbs[, stock_addition := -stock_withdrawal]
 cat("Found ", cbs[stock_addition > total_supply, .N],
-    " occurences of `stock_addition` exceeding `total_supply`.\n",
+    " occurences of 'stock_addition' exceeding 'total_supply'.\n",
     "Keeping values as is.\n", sep = "")
 # cbs[stock_addition > total_supply, stock_addition := total_supply]
 
-# Rebalance uses, with `total_supply` and `stock_additions` treated as given
-cat("Add `balancing` column for supply and use discrepancies.")
+# Rebalance uses, with 'total_supply' and 'stock_additions' treated as given
+cat("\nAdd 'balancing' column for supply and use discrepancies.\n")
 cbs[, balancing := total_supply - stock_addition -
         (exports + food + feed + seed + losses + processing + other)]
 
@@ -127,7 +127,7 @@ btd <- dt_filter(btd, value > 0)
 
 btd[, imex := factor(gsub("^(Import|Export) (.*)$", "\\1", element))]
 
-# Apply TCF to observations with `unit` == "tonnes"
+# Apply TCF to observations with 'unit' == "tonnes"
 btd <- merge(btd, fread("inst/btd_tcf.csv"),
              by.x = "item_code", by.y = "item_code", all.x = TRUE)
 cat("Applying TCF to trade data, where `unit == 'tonnes'` applies.\n")

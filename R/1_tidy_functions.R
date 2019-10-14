@@ -24,7 +24,7 @@ dt_replace <- function(x, fun = is.na, value = 0, cols = seq_len(ncol(x))) {
   n_replaced <- 0
   for(col in cols) {
     fun_applied <- fun(x[[col]])
-    n_replaced <- n_replaced + sum(fun_applied)
+    n_replaced <- n_replaced + sum(fun_applied, na.rm = TRUE)
     set(x, i = which(fun_applied), j = col, value)
   }
 
