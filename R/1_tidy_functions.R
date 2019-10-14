@@ -174,7 +174,7 @@ area_merge <- function(x, orig, dest, col = "area_code", pattern = "*") {
 }
 
 
-tcf_apply <- function(x, na.rm = TRUE, filler = NULL, fun = `/`) {
+tcf_apply <- function(x, na.rm = TRUE, filler = 1L, fun = `/`) {
 
   n_na <- sum(is.na(x[["tcf"]]))
   if(n_na > 0) {

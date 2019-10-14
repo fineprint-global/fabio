@@ -43,18 +43,16 @@ cat("\nAdding information from BTD.\n")
 btd <- readRDS("data/btd_full.rds")
 
 # Imports
-imps <- btd[item_code %in% c(328, 254, 677, 2000, 2001, 866, 946,
-                             976, 1016, 1034, 2029, 1096, 1107, 1110,
-                             1126, 1157, 1140, 1150, 1171, 843) &
-            unit != "usd", # tonnes and head remain (mutually exclusive)
+imps <- btd[unit != "usd", # tonnes, head, m3 and litres remain
             list(value = sum(value, na.rm = TRUE)),
             by = list(to_code, to, item_code, item, year, unit)]
+imps <- dcast(imps, to_code + to + item_code + item + year ~ unit,
+              value.var = "value")
+# We prefer head or m3 if available, otherwise tonnes
+imps[, value := ifelse(!is.na(head), head, ifelse(!is.na(m3), m3, tonnes))]
 
 # Exports
-exps <- btd[item_code %in% c(328, 254, 677, 2000, 2001, 866, 946,
-                             976, 1016, 1034, 2029, 1096, 1107, 1110,
-                             1126, 1157, 1140, 1150, 1171, 843) &
-            unit != "usd", # tonnes and head remain (mutually exclusive)
+exps <- btd[unit != "usd", # tonnes, head, m3 and litres remain
             list(value = sum(value, na.rm = TRUE)),
             by = list(from_code, from, item_code, item, year, unit)]
 
@@ -67,7 +65,8 @@ cbs <- merge(
 cbs[, `:=`(imports = ifelse(is.na(imports), value, imports),
            value = NULL)]
 cbs <- merge(
-  cbs, exps[, c("from_code", "from", "item_code", "item", "year", "value")],
+  cbs, exps[,
+    c("from_code", "from", "item_code", "item", "year", "value")],
   by.x = c("area_code", "area", "item_code", "item", "year"),
   by.y = c("from_code", "from", "item_code", "item", "year"),
   all.x = TRUE, all.y = TRUE)
@@ -137,6 +136,8 @@ eth_cbs[other < 0, `:=`(exports = exports + other, other = 0)]
 # Kick original cbs[item_code == 2659, ] and integrate this instead
 cbs <- rbindlist(list(cbs[item_code != 2659], eth_cbs), use.names = TRUE)
 
+# Rebalance columns -------------------------------------------------------
+
 
 # Estimate missing CBS ----------------------------------------------------
 
@@ -166,23 +167,6 @@ crop_prod[, `:=`(imports = value.x, exports = value.y,
                  value.x = NULL, value.y = NULL)]
 crop_prod <- dt_replace(crop_prod, is.na, 0, cols = c("exports", "imports"))
 
-# Apply TCF
-tcf <- fread("inst/cbs_tcf.csv")
-# Items with multiple sources
-dupe_i <- tcf$item_code[duplicated(tcf$item_code)]
-# Sources with multiple items
-dupe_s <- tcf$source_code[duplicated(tcf$source_code)]
-
-setkey(crop_prod, item_code, item)
-setkey(tcf, item_code, item)
-tcf <- merge(tcf, crop_prod[, c("item_code", "item", "area_code",
-                                "area", "year", "value")], all.x = TRUE)
-
-
-cat("\nJoining cbs and crop production using keys.\n")
-setkey(cbs, area, area_code, item, item_code, year)
-setkey(crop_prod, area, area_code, item, item_code, year)
-# cbs <- merge(cbs, crop_prod, all.x = TRUE, all.y = TRUE)
 
 cat("\nFilling missing cbs production with crop production data. Items:\n",
     paste0(unique(cbs[is.na(production) & !is.na(value), item]),
@@ -190,6 +174,25 @@ cat("\nFilling missing cbs production with crop production data. Items:\n",
     ".\n", sep = "")
 cbs[is.na(production), production := value]
 cbs[, value := NULL]
+
+# # Apply TCF
+# tcf <- fread("inst/cbs_tcf.csv")
+# # Items with multiple sources
+# dupe_i <- tcf$item_code[duplicated(tcf$item_code)]
+# # Sources with multiple items
+# dupe_s <- tcf$source_code[duplicated(tcf$source_code)]
+
+# setkey(crop_prod, item_code, item)
+# setkey(tcf, item_code, item)
+# tcf <- merge(tcf, crop_prod, all.x = TRUE)
+
+# cat("\nApplying TCF to crop production.\n")
+# tcf[, processing := production / tcf]
+
+# Estimate gaps and shares of co-products and co-processes
+#
+cat("\nSkipped derivation of processing from supply and TCFs.\n")
+
 
 # cat("\nFilling missing cbs seed with crop seed data.\n")
 # crop_seed <- crop[element == "Seed", ]
@@ -203,30 +206,6 @@ cat("\nSkipped filling cbs seed.",
 # Only "Meat indigenous, ..." is missing. These need not be filled.
 # Some items are available as stocks instead of production.
 cat("Skipped filling cbs livestock. See Issues #22, #23 and #24.")
-
-# Estimate required processing inputs for processed products
-  # use TCF_prod.csv
-  # estimate share of sugar beet and cane in sugar and molasses production
-
-
-tcf[, `:=`(processing = ifelse(is.na(tcf), processing, production / tcf))]
-
-tcf[item_code %in% dupe_i, denom := sum(production),
-    by = list(item_code, area_code, year)]
-tcf[item_code %in% dupe_i, processing := processing / denom * production]
-
-x[source_code %in% dupe_i, denom := sum(production),
-    by = list(item_code, area_code, year)]
-x[source_code %in% dupe_s, processing := processing / denom * production]
-
-
-sugar <- tcf[item_code %in% c(2544, 2818)]
-
-
-# Estimate gaps for co-products
-
-# Maybe allocate supply to uses here
-
 
 
 # Allocate supply to uses -------------------------------------------------
