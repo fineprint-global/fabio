@@ -5,8 +5,6 @@ source("R/1_tidy_functions.R")
 regions <- fread("inst/regions_full.csv")
 items <- fread("inst/items_full.csv")
 
-years <- 1986:2013
-
 
 # CBS ---------------------------------------------------------------------
 
@@ -241,7 +239,7 @@ cat("\nAdd 'balancing' column for supply and use discrepancies.\n")
 cbs[, balancing := total_supply - stock_addition -
         (exports + food + feed + seed + losses + processing + other)]
 
-cat("\nAllocate remaining supply to uses.\n")
+cat("\nAllocate remaining supply from 'balance' to uses.\n")
 cat("\nHops and live animals to 'processing'.\n")
 cbs[item_code %in% c(677, 866, 946, 976, 1016, 1034, 2029, 1096, 1107, 1110,
                      1126, 1157, 1140, 1150, 1171) & balance > 0,
