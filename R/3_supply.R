@@ -3,26 +3,51 @@ library(data.table)
 
 regions <- fread("inst/regions_full.csv")
 items <- fread("inst/items_full.csv")
-shares <- fread("inst/items_supply-shares.csv")
-supply <- fread("inst/items_supply.csv")
 
 
 # Supply ------------------------------------------------------------------
 
 btd <- readRDS("data/btd_full.rds")
 cbs <- readRDS("data/cbs_full.rds")
+supply <- fread("inst/items_supply.csv")
 
-# Allocate production to supplying processes (incl. double-counting)
-for(year) {for(region) {for(item){
-sup[region & item & year] <- cbs[region & item & year, production]
-}}}
+cat("Allocate production to supplying processes (incl. double-counting).\n")
+# Check whether this should really be production (see Issue #37)
+sup <- merge(
+  cbs[, c("area_code", "area", "year", "item_code", "item", "production")],
+  supply, all = TRUE,
+  by = c("item_code", "item"), allow.cartesian = TRUE)
 
-# Calculate supply shares
-shares <- merge(shares[source == "live"], live[element == "Production"])
-shares <- shares[, list(value = sum(value, na.rm = TRUE)), list(...)]
-basis <- shares[, list(value = sum(value, na.rm = TRUE)), list(...)]
 
-sup <- sup * shares
+cat("Calculate supply shares for livestock products.\n")
+shares <- fread("inst/items_supply-shares.csv")
+live <- readRDS("data/tidy/live_tidy.rds")
+
+shares <- merge(shares[source == "live"], live[element == "Production"],
+  by.x = c("base_code", "base"), by.y = c("item_code", "item"), all.x = TRUE)
+
+# Aggregate values
+shares <- shares[, list(value = sum(value, na.rm = TRUE)),
+                 by = list(area_code, area, year, proc_code, proc,
+                           comm_code, item_code, item)]
+# Add totals
+shares <- merge(
+  shares, all.x = TRUE,
+  shares[, list(total = sum(value, na.rm = TRUE)),
+         by = list(area_code, area, year, comm_code, item_code, item)])
+
+shares[, share := value / total]
+
+sup <- merge(
+  sup, shares[, c("area_code", "year", "comm_code", "proc_code", "share")],
+  by = c("area_code", "year", "comm_code", "proc_code"), all.x = TRUE)
+
+cat("Applying livestock shares to",
+  sup[comm_code %in% shares$comm_code, .N], "observations.\n")
+sup[is.na(share) & comm_code %in% shares$comm_code, production := 0]
+sup[!is.na(share) & comm_code %in% shares$comm_code,
+    production := production * share]
+
 
 # Calculate supply shares for other animal products based on meat shares
 # Calculate supply shares for oil cakes
