@@ -49,6 +49,13 @@ sup[!is.na(share) & comm_code %in% shares$comm_code,
     production := production * share]
 
 
+shares_meat <- sup[comm_code %in% c("c115", "c116", "c117", "c118", "c119"),
+                   list(area_code, year, proc,
+                        share = production / sum(production, na.rm = TRUE))]
+
+sup[comm_code %in% c("c120", "c121", "c122", "c123", "c124"),
+    share]
+
 # Calculate supply shares for other animal products based on meat shares
 # Calculate supply shares for oil cakes
 
