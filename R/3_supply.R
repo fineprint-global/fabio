@@ -15,8 +15,7 @@ cat("Allocate production to supplying processes (incl. double-counting).\n")
 # Check whether this should really be production (see Issue #37)
 sup <- merge(
   cbs[, c("area_code", "area", "year", "item_code", "item", "production")],
-  supply, all = TRUE,
-  by = c("item_code", "item"), allow.cartesian = TRUE)
+  supply, by = c("item_code", "item"), all.x = TRUE, allow.cartesian = TRUE)
 
 
 cat("Calculate supply shares for livestock products.\n")
@@ -48,13 +47,19 @@ sup[is.na(share) & comm_code %in% shares$comm_code, production := 0]
 sup[!is.na(share) & comm_code %in% shares$comm_code,
     production := production * share]
 
+cat("Applying meat shares to",
+  sup[comm_code %in% c("c120", "c121", "c122", "c123", "c124"), .N],
+  "observations.\n")
+# In the original we subset a year and a region
+# Then we calculate `shares = prod / sum(prod`
+shares_m <- sup[comm_code %in% c("c115", "c116", "c117", "c118", "c119"),
+                list(proc, share_m = production / sum(production, na.rm = TRUE)),
+                by = list(area_code, year)]
+shares_m[is.nan(share_m), share_m := 0]
 
-shares_meat <- sup[comm_code %in% c("c115", "c116", "c117", "c118", "c119"),
-                   list(area_code, year, proc,
-                        share = production / sum(production, na.rm = TRUE))]
+sup <- merge(sup, shares_m, by = c("area_code", "year", "proc"), all.x = TRUE)
 
-sup[comm_code %in% c("c120", "c121", "c122", "c123", "c124"),
-    share]
+summary(sup[comm_code %in% c("c120", "c121", "c122", "c123", "c124") & !is.na(share_m), .(share, share_m)])
 
 # Calculate supply shares for other animal products based on meat shares
 # Calculate supply shares for oil cakes
