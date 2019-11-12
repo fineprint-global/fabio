@@ -49,17 +49,34 @@ sup[!is.na(share) & comm_code %in% shares$comm_code,
 
 cat("Applying meat shares to",
   sup[comm_code %in% c("c120", "c121", "c122", "c123", "c124"), .N],
-  "observations.\n")
-# In the original we subset a year and a region
-# Then we calculate `shares = prod / sum(prod`
+  "observations of animal products.\n")
 shares_m <- sup[comm_code %in% c("c115", "c116", "c117", "c118", "c119"),
                 list(proc, share_m = production / sum(production, na.rm = TRUE)),
                 by = list(area_code, year)]
 shares_m[is.nan(share_m), share_m := 0]
 
 sup <- merge(sup, shares_m, by = c("area_code", "year", "proc"), all.x = TRUE)
+# Check whether results are correct -
+# Shares of "Hides and skins" are often available and applied beforehand
+sup[is.na(share) & !is.na(share_m) &
+    comm_code %in% c("c120", "c121", "c122", "c123", "c124"),
+    `:=`(production = production * share_m, share_m = NULL)]
 
-summary(sup[comm_code %in% c("c120", "c121", "c122", "c123", "c124") & !is.na(share_m), .(share, share_m)])
+cat("Applying oil extraction shares to",
+  sup[comm_code %in% c("c090"), .N],
+  "observations of oilseed cakes.\n")
+shares_o <- sup[comm_code %in% c("c079", "c080", "c081"),
+                list(proc, share_o = production / sum(production, na.rm = TRUE)),
+                by = list(area_code, year)]
+shares_o[is.nan(share_o), share_o := 0]
+
+sup <- merge(sup, shares_o, by = c("area_code", "year", "proc"), all.x = TRUE)
+sup[is.na(share) & !is.na(share_o) &
+    comm_code %in% c("c120", "c121", "c122", "c123", "c124"),
+    `:=`(production = production * share_o, share_o = NULL)]
+
+
+
 
 # Calculate supply shares for other animal products based on meat shares
 # Calculate supply shares for oil cakes
