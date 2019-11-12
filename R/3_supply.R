@@ -76,9 +76,32 @@ sup[is.na(share) & !is.na(share_o) &
     `:=`(production = production * share_o, share_o = NULL)]
 
 
+# Fill prices using BTD ---------------------------------------------------
 
+sup_usd <- sup
 
-# Calculate supply shares for other animal products based on meat shares
-# Calculate supply shares for oil cakes
+prices <- btd[, list(value = sum(value, na.rm = TRUE)),
+              by = list(from, from_code, item_code, item, unit, year)]
+prices <- dcast(prices,
+      from + from_code + item + item_code + year ~ unit, value.var = "value")
+# Prices of item Alcohol are problematic.
+# Estimation based on available values of tonnes does not seem to work.
+# See Issue #42, for now I'll assume alcohol weighs 1kg per liter and fill
+# tonnes accordingly, unless no liter value is available.
+prices[item_code == 2659 & litres > 0, `:=`(tonnes = litres / 1000)]
+prices[, price := usd / tonnes]
 
-# Fill prices using BTD
+# Originally prices were capped at 20% / 500% of the world average
+# Quantiles might be more robust - we'll go for the 5th and 95th one.
+summary(prices[, list(
+  q1 = quantile(price, c(0.05), na.rm = TRUE),
+  q5 = median(price, na.rm = TRUE),
+  q9 = quantile(price, c(0.95), na.rm = TRUE),
+  mean = mean(price, na.rm = TRUE)), by = list(item)])
+
+prices_world <- prices[, list(tonnes = sum(tonnes, na.rm = TRUE),
+                              usd = sum(usd, na.rm = TRUE)),
+                       by = list(item, item_code, year)]
+prices_world[, price := usd / tonnes]
+
+prices[]
