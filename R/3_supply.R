@@ -89,7 +89,8 @@ prices <- dcast(prices,
 # See Issue #42, for now I'll assume alcohol weighs 1kg per liter and fill
 # tonnes accordingly, unless no liter value is available.
 prices[item_code == 2659 & litres > 0, `:=`(tonnes = litres / 1000)]
-prices[, price := usd / tonnes]
+prices[, price := ifelse(tonnes != 0, usd / tonnes,
+                    ifelse(head != 0, usd / head, usd / m3))]
 
 # Originally prices were capped at 20% / 500% of the world average
 # Quantiles might be more robust - we'll go for the 5th and 95th one.
@@ -99,9 +100,12 @@ summary(prices[, list(
   q9 = quantile(price, c(0.95), na.rm = TRUE),
   mean = mean(price, na.rm = TRUE)), by = list(item)])
 
-prices_world <- prices[, list(tonnes = sum(tonnes, na.rm = TRUE),
-                              usd = sum(usd, na.rm = TRUE)),
+na_sum <- function(x) {ifelse(all(is.na(x)), NA_real_, sum(x, na.rm = TRUE))}
+prices_world <- prices[, list(usd = na_sum(usd),
+                              tonnes = na_sum(tonnes), head = na_sum(head),
+                              litres = na_sum(litres), m3 = na_sum(m3)),
                        by = list(item, item_code, year)]
-prices_world[, price := usd / tonnes]
+prices_world[, price := ifelse(tonnes != 0, usd / tonnes,
+                          ifelse(head != 0, usd / head, usd / m3))]
 
 prices[]
