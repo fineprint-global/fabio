@@ -125,3 +125,7 @@ prices[is.na(price), price := price_world]
 cat("Filling ", prices[is.na(price) & !is.na(price_q50), .N],
   " missing prices with median item prices.", sep = "")
 prices[is.na(price), price := price_q50]
+
+# We're still missing the following items:
+unique(prices[is.na(price), item])
+# Weird since we have at least some values for value and quantity
