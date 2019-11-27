@@ -85,7 +85,7 @@ prices <- btd[, list(value = sum(value, na.rm = TRUE)),
 prices <- dcast(prices,
       from + from_code + item + item_code + year ~ unit, value.var = "value")
 # Prices of item Alcohol are problematic.
-# Estimation based on available values of tonnes does not seem to work.
+# Estimation just based on available values of tonnes does not seem to work.
 # See Issue #42, for now I'll assume alcohol weighs 1kg per liter and fill
 # tonnes accordingly, unless no liter value is available.
 prices[item_code == 2659 & litres > 0, `:=`(tonnes = litres / 1000)]
@@ -94,18 +94,34 @@ prices[, price := ifelse(tonnes != 0, usd / tonnes,
 
 # Originally prices were capped at 20% / 500% of the world average
 # Quantiles might be more robust - we'll go for the 5th and 95th one.
-summary(prices[, list(
-  q1 = quantile(price, c(0.05), na.rm = TRUE),
-  q5 = median(price, na.rm = TRUE),
-  q9 = quantile(price, c(0.95), na.rm = TRUE),
-  mean = mean(price, na.rm = TRUE)), by = list(item)])
+# We might want to add a yearly element.
+caps <- prices[, list(price_q95 = quantile(price, .95, na.rm = TRUE),
+                      price_q50 = quantile(price, .50, na.rm = TRUE),
+                      price_q05 = quantile(price, .05, na.rm = TRUE)),
+               by = list(item)]
+prices <- merge(prices, caps, by = "item", all.x = TRUE)
 
+cat("Capping ", prices[price > price_q95 | price < price_q05, .N],
+  " prices at the specific item's 95th and 5th quantiles.\n", sep = "")
+prices[, price := ifelse(price > price_q95, price_q95,
+                    ifelse(price < price_q05, price_q05, price))]
+
+# Get worldprices to fill gaps
 na_sum <- function(x) {ifelse(all(is.na(x)), NA_real_, sum(x, na.rm = TRUE))}
 prices_world <- prices[, list(usd = na_sum(usd),
                               tonnes = na_sum(tonnes), head = na_sum(head),
                               litres = na_sum(litres), m3 = na_sum(m3)),
                        by = list(item, item_code, year)]
-prices_world[, price := ifelse(tonnes != 0, usd / tonnes,
-                          ifelse(head != 0, usd / head, usd / m3))]
+prices_world[, price_world := ifelse(tonnes != 0, usd / tonnes,
+                                ifelse(head != 0, usd / head, usd / m3))]
+prices <- merge(
+  prices, prices_world[, c("year", "item_code", "item", "price_world")],
+  by = c("year", "item_code", "item"), all.x = TRUE)
 
-prices[]
+cat("Filling ", prices[is.na(price) & !is.na(price_world), .N],
+  " missing prices with worldprices.", sep = "")
+prices[is.na(price), price := price_world]
+
+cat("Filling ", prices[is.na(price) & !is.na(price_q50), .N],
+  " missing prices with median item prices.", sep = "")
+prices[is.na(price), price := price_q50]
