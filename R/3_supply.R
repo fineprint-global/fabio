@@ -89,8 +89,8 @@ prices <- dcast(prices,
 # See Issue #42, for now I'll assume alcohol weighs 1kg per liter and fill
 # tonnes accordingly, unless no liter value is available.
 prices[item_code == 2659 & litres > 0, `:=`(tonnes = litres / 1000)]
-prices[, price := ifelse(tonnes != 0, usd / tonnes,
-                    ifelse(head != 0, usd / head, usd / m3))]
+prices[, price := ifelse(tonnes != 0 & !is.na(tonnes), usd / tonnes,
+                    ifelse(head != 0 & !is.na(head), usd / head, usd / m3))]
 
 # Originally prices were capped at 20% / 500% of the world average
 # Quantiles might be more robust - we'll go for the 5th and 95th one.
@@ -119,13 +119,19 @@ prices <- merge(
   by = c("year", "item_code", "item"), all.x = TRUE)
 
 cat("Filling ", prices[is.na(price) & !is.na(price_world), .N],
-  " missing prices with worldprices.", sep = "")
+  " missing prices with worldprices.\n", sep = "")
 prices[is.na(price), price := price_world]
 
 cat("Filling ", prices[is.na(price) & !is.na(price_q50), .N],
-  " missing prices with median item prices.", sep = "")
+  " missing prices with median item prices.\n", sep = "")
 prices[is.na(price), price := price_q50]
 
-# We're still missing the following items:
-unique(prices[is.na(price), item])
-# Weird since we have at least some values for value and quantity
+sup_usd <- merge(sup_usd, all.x = TRUE,
+  prices[, c("from_code", "from", "item", "item_code", "year", "price")],
+  by.x = c("area_code", "area", "item", "item_code", "year"),
+  by.y = c("from_code", "from", "item", "item_code", "year"))
+
+
+# Store results -----------------------------------------------------------
+
+saveRDS(sup_usd, "data/sup.rds")
