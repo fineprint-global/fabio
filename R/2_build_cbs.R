@@ -209,6 +209,7 @@ cbs[, `:=`(exports = ifelse(is.na(exports), value, exports), value = NULL)]
 
 # Estimate gaps and shares of co-products and co-processes
 cat("\nSkipped derivation of processing from supply and TCFs.\n")
+# Also see Issue #47, i.e. add country-specific TCFs here as well
 
 
 # Rebalance columns -------------------------------------------------------
