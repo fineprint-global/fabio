@@ -126,9 +126,9 @@ btd <- dt_filter(btd, !item_code %in%
 btd <- dt_filter(btd, value > 0)
 
 btd[, imex := factor(gsub("^(Import|Export) (.*)$", "\\1", element))]
-
+t
 # Apply TCF to observations with 'unit' == "tonnes"
-btd <- merge(btd, fread("inst/btd_tcf.csv"),
+btd <- merge(btd, fread("inst/tcf_btd.csv"),
              by.x = "item_code", by.y = "item_code", all.x = TRUE)
 cat("Applying TCF to trade data, where `unit == 'tonnes'` applies.\n")
 btd[unit != "tonnes", tcf := 1]

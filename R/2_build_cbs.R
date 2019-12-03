@@ -14,7 +14,7 @@ cbs <- readRDS("data/tidy/cbs_tidy.rds")
 
 cat("Removing items from CBS that are not used in the FAO-MRIO:\n\t",
     paste0(unique(cbs[!item_code %in% items$item_code, item]),
-           sep = "", collapse = ", "), ".\n", sep = "")
+           sep = "", collapse = "; "), ".\n", sep = "")
 # Particularly fish and aggregates
 cbs <- dt_filter(cbs, item_code %in% items$item_code)
 
@@ -47,7 +47,7 @@ cbs <- merge(cbs, crop_prod,
 
 cat("\nFilling missing cbs production with crop production data. Items:\n",
     paste0(unique(cbs[is.na(production) & !is.na(value), item]),
-           collapse = ", "),
+           collapse = "; "),
     ".\n", sep = "")
 cbs[is.na(production), production := value]
 cbs[, value := NULL]
@@ -81,6 +81,7 @@ cbs <- merge(cbs, live,
   by = c("area_code", "area", "year", "item_code", "item"), all = TRUE)
 cbs[!is.na(value), production := value]
 cbs[, value := NULL]
+
 
 cat("\nAdding ethanol production data to CBS.\n")
 
@@ -208,7 +209,7 @@ cbs[, `:=`(exports = ifelse(is.na(exports), value, exports), value = NULL)]
 # Estimate missing CBS ----------------------------------------------------
 
 # # Apply TCF
-# tcf <- fread("inst/cbs_tcf.csv")
+# tcf <- fread("inst/tcf_cbs.csv")
 # # Items with multiple sources
 # dupe_i <- tcf$item_code[duplicated(tcf$item_code)]
 # # Sources with multiple items
