@@ -59,14 +59,28 @@ cat("\nSkipped filling cbs seed.",
     "Apparently data is dropped in newer versions. See Issue #19.\n")
 
 
-# cat("\nfilling missing livestock data.\n")
-# live <- readRDS("data/tidy/live_tidy.rds")
-# live <- live[element == "Production" & unit == "head", ]
-# setkey(live, area, area_code, item, item_code, year)
-# Only "Meat indigenous, ..." is missing. These need not be filled.
-# Some items are available as stocks instead of production.
-cat("Skipped filling cbs livestock. See Issues #22, #23 and #24.")
+cat("\nFilling missing livestock data.\n") # See Issues #22, #23. #24 and #49.
 
+live <- readRDS("data/tidy/live_tidy.rds")
+
+live <- live[element == "Production" & unit == "head", ]
+live[, `:=`(element = NULL, unit = NULL)]
+
+# Do this until concordances are fixed (see Issue #49)
+src_item <- c(1137, 944, 1032, 1012, 1775, 1055, 1120, 1144, 972, 1161, 1154, 1122, 1124)
+tgt_item <- c(1126, 866, 1016, 976, 2029, 1034, 1096, 1140, 946, 1157, 1150, 1107, 1110)
+tgt_name <- c("Camels", "Cattle", "Goats", "Sheep", "Poultry Birds", "Pigs",
+  "Horses", "Rabbits and hares", "Buffaloes", "Camelids, other",
+  "Rodents, other", "Asses", "Mules")
+conc <- match(live$item_code, src_item)
+live[, `:=`(item_code = tgt_item[conc], item = tgt_name[conc])]
+live <- live[!is.na(item_code), ]
+# End of concordance-fix (Issue #49)
+
+cbs <- merge(cbs, live,
+  by = c("area_code", "area", "year", "item_code", "item"), all = TRUE)
+cbs[!is.na(value), production := value]
+cbs[, value := NULL]
 
 cat("\nAdding ethanol production data to CBS.\n")
 
