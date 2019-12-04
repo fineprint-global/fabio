@@ -1,0 +1,9 @@
+proc_code,proc,item_code,item,conversion
+p091,Horses husbandry,1096,Horses,3.65
+p092,Asses husbandry,1107,Asses,2.19
+p093,Mules husbandry,1110,Mules,2.19
+p094,Camels husbandry,1126,Camels,3.65
+p095,"Camelids husbandry, other",1157,"Camelids, other",3.65
+p096,Rabbits husbandry,1140,Rabbits and hares,0.0365
+p097,"Rodents husbandry, other",1150,"Rodents, other",0.0365
+p098,"Live animals husbandry, other",1171,Animals live nes,1.825

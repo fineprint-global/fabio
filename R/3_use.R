@@ -120,3 +120,42 @@ rm(eth)
 
 
 # Feed use ----------------------------------------------------------------
+
+# Use animal stocks
+live <- readRDS("data/tidy/live_tidy.rds")
+
+# Feed supply
+feed_sup <- cbs[feed > 0, c("area_code", "item_code", "year", "feed")]
+# Convert to dry matter
+feed_sup <- merge(feed_sup, items[, c("item_code", "moisture", "feedtype")],
+  by = c("item_code"))
+feed_sup[, dry := feed * (1 - moisture)]
+
+# Requirements
+
+# Estimates from Krausmann et al. (2008)
+conv_k <- fread("inst/conv_krausmann.csv")
+
+feed_req <- merge(conv_k,
+  live[, c("area_code", "area", "item_code", "year", "value")],
+  by = c("item_code"), all.x = TRUE)
+feed_req[, `:=`(
+  total = value * conversion,
+  crops = 0, residues = 0, grass = 0, scavenging = 0, animals = 0)]
+
+# Estimates from Bouwman et al. (2013)
+conv_b <- fread("inst/conv_bouwman.csv")
+
+# Extend estimates to full timeline (weighted)
+rbindlist(lapply(unique(use$year), function(y, conv_b) {
+  years_avail <- unique(conv_b$year)
+  if(y %in% years_avail) {return(conv_b[year == y, ])}
+  # Get closest years and weigh their conversions
+  years <- years_avail[-which.max(abs(years_avail - y))] # Works with three
+  weights <- abs(years - y) / sum(abs(years - y))
+  conversions <- conv_b$conversion[conv_b$year == years[1]] * weights[1] +
+    conv_b$conversion[conv_b$year == years[2]] * weights[2]
+  conv_b[year == years[1],
+    .(item, feedtype, year = y, region_code, region, conversion = conversions)]
+}, conv_b = conv_b))
+
