@@ -136,26 +136,57 @@ feed_sup[, dry := feed * (1 - moisture)]
 # Estimates from Krausmann et al. (2008)
 conv_k <- fread("inst/conv_krausmann.csv")
 
-feed_req <- merge(conv_k,
+feed_req_k <- merge(conv_k,
   live[, c("area_code", "area", "item_code", "year", "value")],
   by = c("item_code"), all.x = TRUE)
-feed_req[, `:=`(
+feed_req_k[, `:=`(
   total = value * conversion,
   crops = 0, residues = 0, grass = 0, scavenging = 0, animals = 0)]
 
 # Estimates from Bouwman et al. (2013)
 conv_b <- fread("inst/conv_bouwman.csv")
+conc_b <- fread("inst/conc_bouwman.csv")
+
+# Add process-information
+conv_b <- merge(conv_b, conc_b,
+  by = "item", all.x = TRUE, allow.cartesian = TRUE)
+# Add country-information
+conv_b <- merge(conv_b,
+  regions[, .(area_code = code, area = name, region_code)],
+  by = c("region_code"), all.x = TRUE, allow.cartesian = TRUE)
 
 # Extend estimates to full timeline (weighted)
-rbindlist(lapply(unique(use$year), function(y, conv_b) {
+conv_b <- rbindlist(lapply(unique(use$year), function(y, conv_b) {
   years_avail <- unique(conv_b$year)
-  if(y %in% years_avail) {return(conv_b[year == y, ])}
+  if(y %in% years_avail) { # No need to interpolate
+    return(conv_b[year == y,
+        .(area_code, item, year, proc_code, feedtype, type, conversion)])}
   # Get closest years and weigh their conversions
   years <- years_avail[-which.max(abs(years_avail - y))] # Works with three
   weights <- abs(years - y) / sum(abs(years - y))
   conversions <- conv_b$conversion[conv_b$year == years[1]] * weights[1] +
     conv_b$conversion[conv_b$year == years[2]] * weights[2]
-  conv_b[year == years[1],
-    .(item, feedtype, year = y, region_code, region, conversion = conversions)]
+  conv_b[year == years[1], .(area_code, item, year = y,
+    proc_code, feedtype, type, conversion = conversions)]
 }, conv_b = conv_b))
+
+cat("Calculating feed demand from supply for the following items:\n\t",
+  paste0(collapse = "; ", unique(sup[item_code %in%
+    c(2848, 2731, 2732, 2733, 2734, 2735, 2736, 2737, 2748, 2749, 843), item])),
+  ".\n", sep = "")
+feed_req_b <- sup[item_code %in%
+  c(2848, 2731, 2732, 2733, 2734, 2735, 2736, 2737, 2748, 2749, 843)]
+
+feed_req_b[, type := ifelse(item_code == 2848, "milk", "meat")]
+# To-do: Still need proc concordance (see Issue #51)
+
+cat("Skipping estimation of domestic meat production.\n")
+# Estimated export shares (2013) - Median: 0.000000; Mean: 0.028150
+
+# At ~390
+
+
+
+
+
 
