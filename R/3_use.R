@@ -175,18 +175,33 @@ cat("Calculating feed demand from supply for the following items:\n\t",
     c(2848, 2731, 2732, 2733, 2734, 2735, 2736, 2737, 2748, 2749, 843), item])),
   ".\n", sep = "")
 feed_req_b <- sup[item_code %in%
-  c(2848, 2731, 2732, 2733, 2734, 2735, 2736, 2737, 2748, 2749, 843)]
+  c(2848, 2731, 2732, 2733, 2734, 2735, 2736, 2737, 2748, 2749, 843),
+  c("area_code", "year", "proc_code", "item_code", "comm_code", "production")]
 
 feed_req_b[, type := ifelse(item_code == 2848, "milk", "meat")]
-# To-do: Still need proc concordance (see Issue #51)
+
+cat("Skipping recoding processes,",
+  "e.g. from 'Cattle slaughtering' to 'Cattle husbandry'.\n")
 
 cat("Skipping estimation of domestic meat production.\n")
 # Estimated export shares (2013) - Median: 0.000000; Mean: 0.028150
 
-# At ~390
+feed_req_b <- merge(
+  feed_req_b,
+  conv_b[, c("area_code", "year", "proc_code", "type", "feedtype", "conversion")],
+  by = c("area_code", "year", "proc_code", "type"), all.x = TRUE)
+
+feed_req_b[, converted := production * conversion]
+
+feed_req_b <- dcast(feed_req_b, value.var = "converted",
+  area_code + year + proc_code + item_code + comm_code + type ~ feedtype)
+feed_req_b[, total := animal_products + feed_crops + grass +
+  residues + scavenging]
+feed_req_b <- feed_req_b[!is.na(total)]
 
 
 
-
-
-
+# fore_trad <- dcast(fore_trad,
+#                    reporter_code + reporter + partner_code + partner +
+#                      item_code + item + year + imex ~ unit,
+#                    value.var = "value")
