@@ -83,7 +83,8 @@ fa_extract(zip = paste0(path_fao, files),
 
 # This file is no longer downloadable from the FAO and needs to be requested.
 
-x <- unzip(paste0(path_fao, "Production_Crops_Primary.zip"), exdir = path_fao)
+x <- unzip(paste0(path_fao, "Production_Crops_Primary.zip"),
+  exdir = gsub("(.*)/", "\\1", path_out))
 y <- fread(x, colClasses = c("numeric", "character", "numeric", "character",
                              "numeric", "character", "numeric",
                              "numeric", "character", "numeric", "character"))

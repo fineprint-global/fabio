@@ -70,15 +70,15 @@ fa_extract <- function(
 
   if(length(zip) == 1 && length(extr) > 1 || is.null(extr)) {
     if(v) cat("Extracting multiple files from a single ZIP archive\n")
-    csv <- unzip(zip, extr, exdir = path_out, ...)
+    csv <- unzip(zip, extr, exdir = gsub("(.*)/", "\\1", path_out), ...)
   } else {
     if(v) cat("Extracting single files from multiple ZIP archives\n")
     csv <- vector("character", length(zip))
     for(i in seq_along(zip)) {
-      if(is.null(extr[i]) || nchar(extr[i]) == 0) {
+      if(is.na(extr[i]) || nchar(extr[i]) == 0) {
         extr[i] <- unzip(zip[i], list = TRUE)[[1]]
       }
-      csv[i] <- unzip(zip[i], extr[i], exdir = path_out)
+      csv[i] <- unzip(zip[i], extr[i], exdir = gsub("(.*)/", "\\1", path_out))
     }
   }
 
