@@ -1,106 +1,106 @@
 item,feedtype,year,region_code,region,conversion
-Beef cattle,animal_products,1970,1,Canada,0.010747528
-Beef cattle,animal_products,1970,3,Central America,0.014114956
-Beef cattle,animal_products,1970,14,East asia,0.049593695
-Beef cattle,animal_products,1970,7,Eastern Africa,0.00582022
-Beef cattle,animal_products,1970,10,Eastern Europe,0.038507496
-Beef cattle,animal_products,1970,11,Former USSR,0.071587301
-Beef cattle,animal_products,1970,17,Japan,0.040025933
-Beef cattle,animal_products,1970,12,Middle East,0.135931535
-Beef cattle,animal_products,1970,5,Northern Africa,0.051174405
-Beef cattle,animal_products,1970,16,Oceania,0.016262443
-Beef cattle,animal_products,1970,9,OECD Europe,0.050473736
-Beef cattle,animal_products,1970,4,South America,0.014408917
-Beef cattle,animal_products,1970,13,South Asia,0.140647659
-Beef cattle,animal_products,1970,15,South East Asia,0.026449553
-Beef cattle,animal_products,1970,8,Southern Africa,0.014508264
-Beef cattle,animal_products,1970,2,USA,0.026331047
-Beef cattle,animal_products,1970,6,Western Africa,0.003243666
-Beef cattle,animal_products,1995,1,Canada,0.013321505
-Beef cattle,animal_products,1995,3,Central America,0.010777164
-Beef cattle,animal_products,1995,14,East asia,0.009851395
-Beef cattle,animal_products,1995,7,Eastern Africa,0.012455183
-Beef cattle,animal_products,1995,10,Eastern Europe,0.031510942
-Beef cattle,animal_products,1995,11,Former USSR,0.065163901
-Beef cattle,animal_products,1995,17,Japan,0.028708291
-Beef cattle,animal_products,1995,12,Middle East,0.068966578
-Beef cattle,animal_products,1995,5,Northern Africa,0.023535792
-Beef cattle,animal_products,1995,16,Oceania,0.012385914
-Beef cattle,animal_products,1995,9,OECD Europe,0.052190522
-Beef cattle,animal_products,1995,4,South America,0.017550762
-Beef cattle,animal_products,1995,13,South Asia,0.132462588
-Beef cattle,animal_products,1995,15,South East Asia,0.019051421
-Beef cattle,animal_products,1995,8,Southern Africa,0.016126428
-Beef cattle,animal_products,1995,2,USA,0.022389828
-Beef cattle,animal_products,1995,6,Western Africa,0.004793108
-Beef cattle,animal_products,2030,1,Canada,0.012262936
-Beef cattle,animal_products,2030,3,Central America,0.008945326
-Beef cattle,animal_products,2030,14,East asia,0.008636309
-Beef cattle,animal_products,2030,7,Eastern Africa,0.009168232
-Beef cattle,animal_products,2030,10,Eastern Europe,0.032942146
-Beef cattle,animal_products,2030,11,Former USSR,0.056829583
-Beef cattle,animal_products,2030,17,Japan,0.018057092
-Beef cattle,animal_products,2030,12,Middle East,0.060476262
-Beef cattle,animal_products,2030,5,Northern Africa,0.023638715
-Beef cattle,animal_products,2030,16,Oceania,0.011480138
-Beef cattle,animal_products,2030,9,OECD Europe,0.031913632
-Beef cattle,animal_products,2030,4,South America,0.018999106
-Beef cattle,animal_products,2030,13,South Asia,0.08945769
-Beef cattle,animal_products,2030,15,South East Asia,0.013878464
-Beef cattle,animal_products,2030,8,Southern Africa,0.013177603
-Beef cattle,animal_products,2030,2,USA,0.020749982
-Beef cattle,animal_products,2030,6,Western Africa,0.003211229
-Beef cattle,feed_crops,1970,1,Canada,9.852356833
-Beef cattle,feed_crops,1970,3,Central America,2.420248254
-Beef cattle,feed_crops,1970,14,East asia,36.77619904
-Beef cattle,feed_crops,1970,7,Eastern Africa,0.300505389
-Beef cattle,feed_crops,1970,10,Eastern Europe,4.862435639
-Beef cattle,feed_crops,1970,11,Former USSR,4.10335933
-Beef cattle,feed_crops,1970,17,Japan,6.81911726
-Beef cattle,feed_crops,1970,12,Middle East,13.28300047
-Beef cattle,feed_crops,1970,5,Northern Africa,4.853345269
-Beef cattle,feed_crops,1970,16,Oceania,1.007880052
-Beef cattle,feed_crops,1970,9,OECD Europe,2.822664911
-Beef cattle,feed_crops,1970,4,South America,1.36217769
-Beef cattle,feed_crops,1970,13,South Asia,2.179451759
-Beef cattle,feed_crops,1970,15,South East Asia,7.567677437
-Beef cattle,feed_crops,1970,8,Southern Africa,2.897354711
-Beef cattle,feed_crops,1970,2,USA,7.432530971
-Beef cattle,feed_crops,1970,6,Western Africa,1.356797282
-Beef cattle,feed_crops,1995,1,Canada,12.21194504
-Beef cattle,feed_crops,1995,3,Central America,1.847927274
-Beef cattle,feed_crops,1995,14,East asia,7.305301063
-Beef cattle,feed_crops,1995,7,Eastern Africa,0.64307693
-Beef cattle,feed_crops,1995,10,Eastern Europe,3.978963685
-Beef cattle,feed_crops,1995,11,Former USSR,3.735172257
-Beef cattle,feed_crops,1995,17,Japan,4.890959029
-Beef cattle,feed_crops,1995,12,Middle East,6.739297749
-Beef cattle,feed_crops,1995,5,Northern Africa,2.232118245
-Beef cattle,feed_crops,1995,16,Oceania,0.76762859
-Beef cattle,feed_crops,1995,9,OECD Europe,2.918673462
-Beef cattle,feed_crops,1995,4,South America,1.659198706
-Beef cattle,feed_crops,1995,13,South Asia,2.05261733
-Beef cattle,feed_crops,1995,15,South East Asia,5.450942956
-Beef cattle,feed_crops,1995,8,Southern Africa,3.187814878
-Beef cattle,feed_crops,1995,2,USA,6.320032928
-Beef cattle,feed_crops,1995,6,Western Africa,2.004915302
-Beef cattle,feed_crops,2030,1,Canada,11.24154505
-Beef cattle,feed_crops,2030,3,Central America,1.533827623
-Beef cattle,feed_crops,2030,14,East asia,6.404253752
-Beef cattle,feed_crops,2030,7,Eastern Africa,0.473367471
-Beef cattle,feed_crops,2030,10,Eastern Europe,4.159685273
-Beef cattle,feed_crops,2030,11,Former USSR,3.257452008
-Beef cattle,feed_crops,2030,17,Japan,3.076341211
-Beef cattle,feed_crops,2030,12,Middle East,5.90963832
-Beef cattle,feed_crops,2030,5,Northern Africa,2.241879373
-Beef cattle,feed_crops,2030,16,Oceania,0.711492243
-Beef cattle,feed_crops,2030,9,OECD Europe,1.784720069
-Beef cattle,feed_crops,2030,4,South America,1.796120971
-Beef cattle,feed_crops,2030,13,South Asia,1.386220867
-Beef cattle,feed_crops,2030,15,South East Asia,3.970869932
-Beef cattle,feed_crops,2030,8,Southern Africa,2.604901584
-Beef cattle,feed_crops,2030,2,USA,5.857149736
-Beef cattle,feed_crops,2030,6,Western Africa,1.34322885
+Beef cattle,animals,1970,1,Canada,0.010747528
+Beef cattle,animals,1970,3,Central America,0.014114956
+Beef cattle,animals,1970,14,East asia,0.049593695
+Beef cattle,animals,1970,7,Eastern Africa,0.00582022
+Beef cattle,animals,1970,10,Eastern Europe,0.038507496
+Beef cattle,animals,1970,11,Former USSR,0.071587301
+Beef cattle,animals,1970,17,Japan,0.040025933
+Beef cattle,animals,1970,12,Middle East,0.135931535
+Beef cattle,animals,1970,5,Northern Africa,0.051174405
+Beef cattle,animals,1970,16,Oceania,0.016262443
+Beef cattle,animals,1970,9,OECD Europe,0.050473736
+Beef cattle,animals,1970,4,South America,0.014408917
+Beef cattle,animals,1970,13,South Asia,0.140647659
+Beef cattle,animals,1970,15,South East Asia,0.026449553
+Beef cattle,animals,1970,8,Southern Africa,0.014508264
+Beef cattle,animals,1970,2,USA,0.026331047
+Beef cattle,animals,1970,6,Western Africa,0.003243666
+Beef cattle,animals,1995,1,Canada,0.013321505
+Beef cattle,animals,1995,3,Central America,0.010777164
+Beef cattle,animals,1995,14,East asia,0.009851395
+Beef cattle,animals,1995,7,Eastern Africa,0.012455183
+Beef cattle,animals,1995,10,Eastern Europe,0.031510942
+Beef cattle,animals,1995,11,Former USSR,0.065163901
+Beef cattle,animals,1995,17,Japan,0.028708291
+Beef cattle,animals,1995,12,Middle East,0.068966578
+Beef cattle,animals,1995,5,Northern Africa,0.023535792
+Beef cattle,animals,1995,16,Oceania,0.012385914
+Beef cattle,animals,1995,9,OECD Europe,0.052190522
+Beef cattle,animals,1995,4,South America,0.017550762
+Beef cattle,animals,1995,13,South Asia,0.132462588
+Beef cattle,animals,1995,15,South East Asia,0.019051421
+Beef cattle,animals,1995,8,Southern Africa,0.016126428
+Beef cattle,animals,1995,2,USA,0.022389828
+Beef cattle,animals,1995,6,Western Africa,0.004793108
+Beef cattle,animals,2030,1,Canada,0.012262936
+Beef cattle,animals,2030,3,Central America,0.008945326
+Beef cattle,animals,2030,14,East asia,0.008636309
+Beef cattle,animals,2030,7,Eastern Africa,0.009168232
+Beef cattle,animals,2030,10,Eastern Europe,0.032942146
+Beef cattle,animals,2030,11,Former USSR,0.056829583
+Beef cattle,animals,2030,17,Japan,0.018057092
+Beef cattle,animals,2030,12,Middle East,0.060476262
+Beef cattle,animals,2030,5,Northern Africa,0.023638715
+Beef cattle,animals,2030,16,Oceania,0.011480138
+Beef cattle,animals,2030,9,OECD Europe,0.031913632
+Beef cattle,animals,2030,4,South America,0.018999106
+Beef cattle,animals,2030,13,South Asia,0.08945769
+Beef cattle,animals,2030,15,South East Asia,0.013878464
+Beef cattle,animals,2030,8,Southern Africa,0.013177603
+Beef cattle,animals,2030,2,USA,0.020749982
+Beef cattle,animals,2030,6,Western Africa,0.003211229
+Beef cattle,crops,1970,1,Canada,9.852356833
+Beef cattle,crops,1970,3,Central America,2.420248254
+Beef cattle,crops,1970,14,East asia,36.77619904
+Beef cattle,crops,1970,7,Eastern Africa,0.300505389
+Beef cattle,crops,1970,10,Eastern Europe,4.862435639
+Beef cattle,crops,1970,11,Former USSR,4.10335933
+Beef cattle,crops,1970,17,Japan,6.81911726
+Beef cattle,crops,1970,12,Middle East,13.28300047
+Beef cattle,crops,1970,5,Northern Africa,4.853345269
+Beef cattle,crops,1970,16,Oceania,1.007880052
+Beef cattle,crops,1970,9,OECD Europe,2.822664911
+Beef cattle,crops,1970,4,South America,1.36217769
+Beef cattle,crops,1970,13,South Asia,2.179451759
+Beef cattle,crops,1970,15,South East Asia,7.567677437
+Beef cattle,crops,1970,8,Southern Africa,2.897354711
+Beef cattle,crops,1970,2,USA,7.432530971
+Beef cattle,crops,1970,6,Western Africa,1.356797282
+Beef cattle,crops,1995,1,Canada,12.21194504
+Beef cattle,crops,1995,3,Central America,1.847927274
+Beef cattle,crops,1995,14,East asia,7.305301063
+Beef cattle,crops,1995,7,Eastern Africa,0.64307693
+Beef cattle,crops,1995,10,Eastern Europe,3.978963685
+Beef cattle,crops,1995,11,Former USSR,3.735172257
+Beef cattle,crops,1995,17,Japan,4.890959029
+Beef cattle,crops,1995,12,Middle East,6.739297749
+Beef cattle,crops,1995,5,Northern Africa,2.232118245
+Beef cattle,crops,1995,16,Oceania,0.76762859
+Beef cattle,crops,1995,9,OECD Europe,2.918673462
+Beef cattle,crops,1995,4,South America,1.659198706
+Beef cattle,crops,1995,13,South Asia,2.05261733
+Beef cattle,crops,1995,15,South East Asia,5.450942956
+Beef cattle,crops,1995,8,Southern Africa,3.187814878
+Beef cattle,crops,1995,2,USA,6.320032928
+Beef cattle,crops,1995,6,Western Africa,2.004915302
+Beef cattle,crops,2030,1,Canada,11.24154505
+Beef cattle,crops,2030,3,Central America,1.533827623
+Beef cattle,crops,2030,14,East asia,6.404253752
+Beef cattle,crops,2030,7,Eastern Africa,0.473367471
+Beef cattle,crops,2030,10,Eastern Europe,4.159685273
+Beef cattle,crops,2030,11,Former USSR,3.257452008
+Beef cattle,crops,2030,17,Japan,3.076341211
+Beef cattle,crops,2030,12,Middle East,5.90963832
+Beef cattle,crops,2030,5,Northern Africa,2.241879373
+Beef cattle,crops,2030,16,Oceania,0.711492243
+Beef cattle,crops,2030,9,OECD Europe,1.784720069
+Beef cattle,crops,2030,4,South America,1.796120971
+Beef cattle,crops,2030,13,South Asia,1.386220867
+Beef cattle,crops,2030,15,South East Asia,3.970869932
+Beef cattle,crops,2030,8,Southern Africa,2.604901584
+Beef cattle,crops,2030,2,USA,5.857149736
+Beef cattle,crops,2030,6,Western Africa,1.34322885
 Beef cattle,grass,1970,1,Canada,19.35844992
 Beef cattle,grass,1970,3,Central America,58.95361061
 Beef cattle,grass,1970,14,East asia,265.3320697
@@ -254,108 +254,108 @@ Beef cattle,scavenging,2030,15,South East Asia,7.547335575
 Beef cattle,scavenging,2030,8,Southern Africa,2.952571079
 Beef cattle,scavenging,2030,2,USA,0
 Beef cattle,scavenging,2030,6,Western Africa,2.982874586
-Dairy cattle,animal_products,1970,1,Canada,0.000757001
-Dairy cattle,animal_products,1970,3,Central America,0.001390594
-Dairy cattle,animal_products,1970,14,East asia,0.000794575
-Dairy cattle,animal_products,1970,7,Eastern Africa,0.000618494
-Dairy cattle,animal_products,1970,10,Eastern Europe,0.003352145
-Dairy cattle,animal_products,1970,11,Former USSR,0.005748141
-Dairy cattle,animal_products,1970,17,Japan,0.003012223
-Dairy cattle,animal_products,1970,12,Middle East,0.003354773
-Dairy cattle,animal_products,1970,5,Northern Africa,0.005514828
-Dairy cattle,animal_products,1970,16,Oceania,0.000743348
-Dairy cattle,animal_products,1970,9,OECD Europe,0.003205217
-Dairy cattle,animal_products,1970,4,South America,0.002060748
-Dairy cattle,animal_products,1970,13,South Asia,0.003796517
-Dairy cattle,animal_products,1970,15,South East Asia,0.001727164
-Dairy cattle,animal_products,1970,8,Southern Africa,0.000576552
-Dairy cattle,animal_products,1970,2,USA,0.001672732
-Dairy cattle,animal_products,1970,6,Western Africa,0.000271494
-Dairy cattle,animal_products,1995,1,Canada,0.000632191
-Dairy cattle,animal_products,1995,3,Central America,0.001397001
-Dairy cattle,animal_products,1995,14,East asia,0.000583453
-Dairy cattle,animal_products,1995,7,Eastern Africa,0.00071545
-Dairy cattle,animal_products,1995,10,Eastern Europe,0.003099843
-Dairy cattle,animal_products,1995,11,Former USSR,0.005680215
-Dairy cattle,animal_products,1995,17,Japan,0.002967202
-Dairy cattle,animal_products,1995,12,Middle East,0.003549759
-Dairy cattle,animal_products,1995,5,Northern Africa,0.005123248
-Dairy cattle,animal_products,1995,16,Oceania,0.000692583
-Dairy cattle,animal_products,1995,9,OECD Europe,0.002827595
-Dairy cattle,animal_products,1995,4,South America,0.001930716
-Dairy cattle,animal_products,1995,13,South Asia,0.002998998
-Dairy cattle,animal_products,1995,15,South East Asia,0.001251437
-Dairy cattle,animal_products,1995,8,Southern Africa,0.001244872
-Dairy cattle,animal_products,1995,2,USA,0.001408197
-Dairy cattle,animal_products,1995,6,Western Africa,0.000258664
-Dairy cattle,animal_products,2030,1,Canada,0.000636152
-Dairy cattle,animal_products,2030,3,Central America,0.001317753
-Dairy cattle,animal_products,2030,14,East asia,0.000517677
-Dairy cattle,animal_products,2030,7,Eastern Africa,0.000679852
-Dairy cattle,animal_products,2030,10,Eastern Europe,0.002942692
-Dairy cattle,animal_products,2030,11,Former USSR,0.004946363
-Dairy cattle,animal_products,2030,17,Japan,0.002957149
-Dairy cattle,animal_products,2030,12,Middle East,0.003151098
-Dairy cattle,animal_products,2030,5,Northern Africa,0.00419966
-Dairy cattle,animal_products,2030,16,Oceania,0.000671809
-Dairy cattle,animal_products,2030,9,OECD Europe,0.003039408
-Dairy cattle,animal_products,2030,4,South America,0.002147572
-Dairy cattle,animal_products,2030,13,South Asia,0.003590242
-Dairy cattle,animal_products,2030,15,South East Asia,0.000699157
-Dairy cattle,animal_products,2030,8,Southern Africa,0.001940585
-Dairy cattle,animal_products,2030,2,USA,0.001369152
-Dairy cattle,animal_products,2030,6,Western Africa,0.000240146
-Dairy cattle,feed_crops,1970,1,Canada,0.693949761
-Dairy cattle,feed_crops,1970,3,Central America,0.260243769
-Dairy cattle,feed_crops,1970,14,East asia,0.602626443
-Dairy cattle,feed_crops,1970,7,Eastern Africa,0.034258809
-Dairy cattle,feed_crops,1970,10,Eastern Europe,0.423283542
-Dairy cattle,feed_crops,1970,11,Former USSR,0.32948148
-Dairy cattle,feed_crops,1970,17,Japan,0.513184869
-Dairy cattle,feed_crops,1970,12,Middle East,0.334316427
-Dairy cattle,feed_crops,1970,5,Northern Africa,0.533385929
-Dairy cattle,feed_crops,1970,16,Oceania,0.046069705
-Dairy cattle,feed_crops,1970,9,OECD Europe,0.179246782
-Dairy cattle,feed_crops,1970,4,South America,0.212715245
-Dairy cattle,feed_crops,1970,13,South Asia,0.067776831
-Dairy cattle,feed_crops,1970,15,South East Asia,0.519932565
-Dairy cattle,feed_crops,1970,8,Southern Africa,0.118951696
-Dairy cattle,feed_crops,1970,2,USA,0.47216636
-Dairy cattle,feed_crops,1970,6,Western Africa,0.117998625
-Dairy cattle,feed_crops,1995,1,Canada,0.579534882
-Dairy cattle,feed_crops,1995,3,Central America,0.26144287
-Dairy cattle,feed_crops,1995,14,East asia,0.442506252
-Dairy cattle,feed_crops,1995,7,Eastern Africa,0.03962924
-Dairy cattle,feed_crops,1995,10,Eastern Europe,0.391424771
-Dairy cattle,feed_crops,1995,11,Former USSR,0.325587987
-Dairy cattle,feed_crops,1995,17,Japan,0.505514778
-Dairy cattle,feed_crops,1995,12,Middle East,0.353747603
-Dairy cattle,feed_crops,1995,5,Northern Africa,0.495512923
-Dairy cattle,feed_crops,1995,16,Oceania,0.042923481
-Dairy cattle,feed_crops,1995,9,OECD Europe,0.158128831
-Dairy cattle,feed_crops,1995,4,South America,0.199293033
-Dairy cattle,feed_crops,1995,13,South Asia,0.053539234
-Dairy cattle,feed_crops,1995,15,South East Asia,0.376723245
-Dairy cattle,feed_crops,1995,8,Southern Africa,0.253549374
-Dairy cattle,feed_crops,1995,2,USA,0.397495333
-Dairy cattle,feed_crops,1995,6,Western Africa,0.112422637
-Dairy cattle,feed_crops,2030,1,Canada,0.583166249
-Dairy cattle,feed_crops,2030,3,Central America,0.246611802
-Dairy cattle,feed_crops,2030,14,East asia,0.39261995
-Dairy cattle,feed_crops,2030,7,Eastern Africa,0.037657453
-Dairy cattle,feed_crops,2030,10,Eastern Europe,0.371580938
-Dairy cattle,feed_crops,2030,11,Former USSR,0.283523795
-Dairy cattle,feed_crops,2030,17,Japan,0.503801944
-Dairy cattle,feed_crops,2030,12,Middle East,0.314019456
-Dairy cattle,feed_crops,2030,5,Northern Africa,0.406184837
-Dairy cattle,feed_crops,2030,16,Oceania,0.041636004
-Dairy cattle,feed_crops,2030,9,OECD Europe,0.169974163
-Dairy cattle,feed_crops,2030,4,South America,0.221677338
-Dairy cattle,feed_crops,2030,13,South Asia,0.064094344
-Dairy cattle,feed_crops,2030,15,South East Asia,0.21046912
-Dairy cattle,feed_crops,2030,8,Southern Africa,0.392942847
-Dairy cattle,feed_crops,2030,2,USA,0.386474069
-Dairy cattle,feed_crops,2030,6,Western Africa,0.104374135
+Dairy cattle,animals,1970,1,Canada,0.000757001
+Dairy cattle,animals,1970,3,Central America,0.001390594
+Dairy cattle,animals,1970,14,East asia,0.000794575
+Dairy cattle,animals,1970,7,Eastern Africa,0.000618494
+Dairy cattle,animals,1970,10,Eastern Europe,0.003352145
+Dairy cattle,animals,1970,11,Former USSR,0.005748141
+Dairy cattle,animals,1970,17,Japan,0.003012223
+Dairy cattle,animals,1970,12,Middle East,0.003354773
+Dairy cattle,animals,1970,5,Northern Africa,0.005514828
+Dairy cattle,animals,1970,16,Oceania,0.000743348
+Dairy cattle,animals,1970,9,OECD Europe,0.003205217
+Dairy cattle,animals,1970,4,South America,0.002060748
+Dairy cattle,animals,1970,13,South Asia,0.003796517
+Dairy cattle,animals,1970,15,South East Asia,0.001727164
+Dairy cattle,animals,1970,8,Southern Africa,0.000576552
+Dairy cattle,animals,1970,2,USA,0.001672732
+Dairy cattle,animals,1970,6,Western Africa,0.000271494
+Dairy cattle,animals,1995,1,Canada,0.000632191
+Dairy cattle,animals,1995,3,Central America,0.001397001
+Dairy cattle,animals,1995,14,East asia,0.000583453
+Dairy cattle,animals,1995,7,Eastern Africa,0.00071545
+Dairy cattle,animals,1995,10,Eastern Europe,0.003099843
+Dairy cattle,animals,1995,11,Former USSR,0.005680215
+Dairy cattle,animals,1995,17,Japan,0.002967202
+Dairy cattle,animals,1995,12,Middle East,0.003549759
+Dairy cattle,animals,1995,5,Northern Africa,0.005123248
+Dairy cattle,animals,1995,16,Oceania,0.000692583
+Dairy cattle,animals,1995,9,OECD Europe,0.002827595
+Dairy cattle,animals,1995,4,South America,0.001930716
+Dairy cattle,animals,1995,13,South Asia,0.002998998
+Dairy cattle,animals,1995,15,South East Asia,0.001251437
+Dairy cattle,animals,1995,8,Southern Africa,0.001244872
+Dairy cattle,animals,1995,2,USA,0.001408197
+Dairy cattle,animals,1995,6,Western Africa,0.000258664
+Dairy cattle,animals,2030,1,Canada,0.000636152
+Dairy cattle,animals,2030,3,Central America,0.001317753
+Dairy cattle,animals,2030,14,East asia,0.000517677
+Dairy cattle,animals,2030,7,Eastern Africa,0.000679852
+Dairy cattle,animals,2030,10,Eastern Europe,0.002942692
+Dairy cattle,animals,2030,11,Former USSR,0.004946363
+Dairy cattle,animals,2030,17,Japan,0.002957149
+Dairy cattle,animals,2030,12,Middle East,0.003151098
+Dairy cattle,animals,2030,5,Northern Africa,0.00419966
+Dairy cattle,animals,2030,16,Oceania,0.000671809
+Dairy cattle,animals,2030,9,OECD Europe,0.003039408
+Dairy cattle,animals,2030,4,South America,0.002147572
+Dairy cattle,animals,2030,13,South Asia,0.003590242
+Dairy cattle,animals,2030,15,South East Asia,0.000699157
+Dairy cattle,animals,2030,8,Southern Africa,0.001940585
+Dairy cattle,animals,2030,2,USA,0.001369152
+Dairy cattle,animals,2030,6,Western Africa,0.000240146
+Dairy cattle,crops,1970,1,Canada,0.693949761
+Dairy cattle,crops,1970,3,Central America,0.260243769
+Dairy cattle,crops,1970,14,East asia,0.602626443
+Dairy cattle,crops,1970,7,Eastern Africa,0.034258809
+Dairy cattle,crops,1970,10,Eastern Europe,0.423283542
+Dairy cattle,crops,1970,11,Former USSR,0.32948148
+Dairy cattle,crops,1970,17,Japan,0.513184869
+Dairy cattle,crops,1970,12,Middle East,0.334316427
+Dairy cattle,crops,1970,5,Northern Africa,0.533385929
+Dairy cattle,crops,1970,16,Oceania,0.046069705
+Dairy cattle,crops,1970,9,OECD Europe,0.179246782
+Dairy cattle,crops,1970,4,South America,0.212715245
+Dairy cattle,crops,1970,13,South Asia,0.067776831
+Dairy cattle,crops,1970,15,South East Asia,0.519932565
+Dairy cattle,crops,1970,8,Southern Africa,0.118951696
+Dairy cattle,crops,1970,2,USA,0.47216636
+Dairy cattle,crops,1970,6,Western Africa,0.117998625
+Dairy cattle,crops,1995,1,Canada,0.579534882
+Dairy cattle,crops,1995,3,Central America,0.26144287
+Dairy cattle,crops,1995,14,East asia,0.442506252
+Dairy cattle,crops,1995,7,Eastern Africa,0.03962924
+Dairy cattle,crops,1995,10,Eastern Europe,0.391424771
+Dairy cattle,crops,1995,11,Former USSR,0.325587987
+Dairy cattle,crops,1995,17,Japan,0.505514778
+Dairy cattle,crops,1995,12,Middle East,0.353747603
+Dairy cattle,crops,1995,5,Northern Africa,0.495512923
+Dairy cattle,crops,1995,16,Oceania,0.042923481
+Dairy cattle,crops,1995,9,OECD Europe,0.158128831
+Dairy cattle,crops,1995,4,South America,0.199293033
+Dairy cattle,crops,1995,13,South Asia,0.053539234
+Dairy cattle,crops,1995,15,South East Asia,0.376723245
+Dairy cattle,crops,1995,8,Southern Africa,0.253549374
+Dairy cattle,crops,1995,2,USA,0.397495333
+Dairy cattle,crops,1995,6,Western Africa,0.112422637
+Dairy cattle,crops,2030,1,Canada,0.583166249
+Dairy cattle,crops,2030,3,Central America,0.246611802
+Dairy cattle,crops,2030,14,East asia,0.39261995
+Dairy cattle,crops,2030,7,Eastern Africa,0.037657453
+Dairy cattle,crops,2030,10,Eastern Europe,0.371580938
+Dairy cattle,crops,2030,11,Former USSR,0.283523795
+Dairy cattle,crops,2030,17,Japan,0.503801944
+Dairy cattle,crops,2030,12,Middle East,0.314019456
+Dairy cattle,crops,2030,5,Northern Africa,0.406184837
+Dairy cattle,crops,2030,16,Oceania,0.041636004
+Dairy cattle,crops,2030,9,OECD Europe,0.169974163
+Dairy cattle,crops,2030,4,South America,0.221677338
+Dairy cattle,crops,2030,13,South Asia,0.064094344
+Dairy cattle,crops,2030,15,South East Asia,0.21046912
+Dairy cattle,crops,2030,8,Southern Africa,0.392942847
+Dairy cattle,crops,2030,2,USA,0.386474069
+Dairy cattle,crops,2030,6,Western Africa,0.104374135
 Dairy cattle,grass,1970,1,Canada,0.543144907
 Dairy cattle,grass,1970,3,Central America,1.474354241
 Dairy cattle,grass,1970,14,East asia,1.364378416
@@ -509,108 +509,108 @@ Dairy cattle,scavenging,2030,15,South East Asia,0.21882518
 Dairy cattle,scavenging,2030,8,Southern Africa,0.193795722
 Dairy cattle,scavenging,2030,2,USA,0
 Dairy cattle,scavenging,2030,6,Western Africa,0.199103118
-Pigs,animal_products,1970,1,Canada,0.006228444
-Pigs,animal_products,1970,3,Central America,0.01236519
-Pigs,animal_products,1970,14,East asia,0.00343813
-Pigs,animal_products,1970,7,Eastern Africa,0.009281819
-Pigs,animal_products,1970,10,Eastern Europe,0.043401793
-Pigs,animal_products,1970,11,Former USSR,0.086970493
-Pigs,animal_products,1970,17,Japan,0.016402815
-Pigs,animal_products,1970,12,Middle East,0.036558616
-Pigs,animal_products,1970,5,Northern Africa,0
-Pigs,animal_products,1970,16,Oceania,0.05479215
-Pigs,animal_products,1970,9,OECD Europe,0.071445443
-Pigs,animal_products,1970,4,South America,0.022251469
-Pigs,animal_products,1970,13,South Asia,0.009072455
-Pigs,animal_products,1970,15,South East Asia,0.001747735
-Pigs,animal_products,1970,8,Southern Africa,0.005914885
-Pigs,animal_products,1970,2,USA,0.018814141
-Pigs,animal_products,1970,6,Western Africa,0.00283248
-Pigs,animal_products,1995,1,Canada,0.004842615
-Pigs,animal_products,1995,3,Central America,0.010247652
-Pigs,animal_products,1995,14,East asia,0.002178524
-Pigs,animal_products,1995,7,Eastern Africa,0.007692308
-Pigs,animal_products,1995,10,Eastern Europe,0.03375695
-Pigs,animal_products,1995,11,Former USSR,0.071122536
-Pigs,animal_products,1995,17,Japan,0.012753188
-Pigs,animal_products,1995,12,Middle East,0.03030303
-Pigs,animal_products,1995,5,Northern Africa,0
-Pigs,animal_products,1995,16,Oceania,0.042600897
-Pigs,animal_products,1995,9,OECD Europe,0.055548832
-Pigs,animal_products,1995,4,South America,0.018440905
-Pigs,animal_products,1995,13,South Asia,0.007518797
-Pigs,animal_products,1995,15,South East Asia,0.001448436
-Pigs,animal_products,1995,8,Southern Africa,0.004901961
-Pigs,animal_products,1995,2,USA,0.014627995
-Pigs,animal_products,1995,6,Western Africa,0.002347418
-Pigs,animal_products,2030,1,Canada,0.004842615
-Pigs,animal_products,2030,3,Central America,0.010000348
-Pigs,animal_products,2030,14,East asia,0.002031622
-Pigs,animal_products,2030,7,Eastern Africa,0.007611092
-Pigs,animal_products,2030,10,Eastern Europe,0.031731533
-Pigs,animal_products,2030,11,Former USSR,0.067063913
-Pigs,animal_products,2030,17,Japan,0.012753188
-Pigs,animal_products,2030,12,Middle East,0.028271996
-Pigs,animal_products,2030,5,Northern Africa,0
-Pigs,animal_products,2030,16,Oceania,0.042600897
-Pigs,animal_products,2030,9,OECD Europe,0.055548832
-Pigs,animal_products,2030,4,South America,0.017912433
-Pigs,animal_products,2030,13,South Asia,0.007337348
-Pigs,animal_products,2030,15,South East Asia,0.001406927
-Pigs,animal_products,2030,8,Southern Africa,0.004850206
-Pigs,animal_products,2030,2,USA,0.014627995
-Pigs,animal_products,2030,6,Western Africa,0.002322634
-Pigs,feed_crops,1970,1,Canada,4.793771556
-Pigs,feed_crops,1970,3,Central America,4.78763481
-Pigs,feed_crops,1970,14,East asia,3.84656187
-Pigs,feed_crops,1970,7,Eastern Africa,3.190718181
-Pigs,feed_crops,1970,10,Eastern Europe,6.256598207
-Pigs,feed_crops,1970,11,Former USSR,6.213029507
-Pigs,feed_crops,1970,17,Japan,4.783597185
-Pigs,feed_crops,1970,12,Middle East,4.463441384
-Pigs,feed_crops,1970,5,Northern Africa,4.5
-Pigs,feed_crops,1970,16,Oceania,4.74520785
-Pigs,feed_crops,1970,9,OECD Europe,4.728554557
-Pigs,feed_crops,1970,4,South America,4.777748531
-Pigs,feed_crops,1970,13,South Asia,3.190927545
-Pigs,feed_crops,1970,15,South East Asia,3.198252265
-Pigs,feed_crops,1970,8,Southern Africa,3.994085115
-Pigs,feed_crops,1970,2,USA,4.781185859
-Pigs,feed_crops,1970,6,Western Africa,3.99716752
-Pigs,feed_crops,1995,1,Canada,3.727157385
-Pigs,feed_crops,1995,3,Central America,3.967752348
-Pigs,feed_crops,1995,14,East asia,2.437321476
-Pigs,feed_crops,1995,7,Eastern Africa,2.644307692
-Pigs,feed_crops,1995,10,Eastern Europe,4.86624305
-Pigs,feed_crops,1995,11,Former USSR,5.080877464
-Pigs,feed_crops,1995,17,Japan,3.719246812
-Pigs,feed_crops,1995,12,Middle East,3.69969697
-Pigs,feed_crops,1995,5,Northern Africa,3.758
-Pigs,feed_crops,1995,16,Oceania,3.689399103
-Pigs,feed_crops,1995,9,OECD Europe,3.676451168
-Pigs,feed_crops,1995,4,South America,3.959559095
-Pigs,feed_crops,1995,13,South Asia,2.644481203
-Pigs,feed_crops,1995,15,South East Asia,2.650551564
-Pigs,feed_crops,1995,8,Southern Africa,3.310098039
-Pigs,feed_crops,1995,2,USA,3.717372005
-Pigs,feed_crops,1995,6,Western Africa,3.312652582
-Pigs,feed_crops,2030,1,Canada,3.727157385
-Pigs,feed_crops,2030,3,Central America,3.871999652
-Pigs,feed_crops,2030,14,East asia,2.272968378
-Pigs,feed_crops,2030,7,Eastern Africa,2.616388908
-Pigs,feed_crops,2030,10,Eastern Europe,4.574268467
-Pigs,feed_crops,2030,11,Former USSR,4.790936087
-Pigs,feed_crops,2030,17,Japan,3.719246812
-Pigs,feed_crops,2030,12,Middle East,3.451728004
-Pigs,feed_crops,2030,5,Northern Africa,3.758
-Pigs,feed_crops,2030,16,Oceania,3.689399103
-Pigs,feed_crops,2030,9,OECD Europe,3.676451168
-Pigs,feed_crops,2030,4,South America,3.846087567
-Pigs,feed_crops,2030,13,South Asia,2.580662652
-Pigs,feed_crops,2030,15,South East Asia,2.574593073
-Pigs,feed_crops,2030,8,Southern Africa,3.275149794
-Pigs,feed_crops,2030,2,USA,3.717372005
-Pigs,feed_crops,2030,6,Western Africa,3.277677366
+Pigs,animals,1970,1,Canada,0.006228444
+Pigs,animals,1970,3,Central America,0.01236519
+Pigs,animals,1970,14,East asia,0.00343813
+Pigs,animals,1970,7,Eastern Africa,0.009281819
+Pigs,animals,1970,10,Eastern Europe,0.043401793
+Pigs,animals,1970,11,Former USSR,0.086970493
+Pigs,animals,1970,17,Japan,0.016402815
+Pigs,animals,1970,12,Middle East,0.036558616
+Pigs,animals,1970,5,Northern Africa,0
+Pigs,animals,1970,16,Oceania,0.05479215
+Pigs,animals,1970,9,OECD Europe,0.071445443
+Pigs,animals,1970,4,South America,0.022251469
+Pigs,animals,1970,13,South Asia,0.009072455
+Pigs,animals,1970,15,South East Asia,0.001747735
+Pigs,animals,1970,8,Southern Africa,0.005914885
+Pigs,animals,1970,2,USA,0.018814141
+Pigs,animals,1970,6,Western Africa,0.00283248
+Pigs,animals,1995,1,Canada,0.004842615
+Pigs,animals,1995,3,Central America,0.010247652
+Pigs,animals,1995,14,East asia,0.002178524
+Pigs,animals,1995,7,Eastern Africa,0.007692308
+Pigs,animals,1995,10,Eastern Europe,0.03375695
+Pigs,animals,1995,11,Former USSR,0.071122536
+Pigs,animals,1995,17,Japan,0.012753188
+Pigs,animals,1995,12,Middle East,0.03030303
+Pigs,animals,1995,5,Northern Africa,0
+Pigs,animals,1995,16,Oceania,0.042600897
+Pigs,animals,1995,9,OECD Europe,0.055548832
+Pigs,animals,1995,4,South America,0.018440905
+Pigs,animals,1995,13,South Asia,0.007518797
+Pigs,animals,1995,15,South East Asia,0.001448436
+Pigs,animals,1995,8,Southern Africa,0.004901961
+Pigs,animals,1995,2,USA,0.014627995
+Pigs,animals,1995,6,Western Africa,0.002347418
+Pigs,animals,2030,1,Canada,0.004842615
+Pigs,animals,2030,3,Central America,0.010000348
+Pigs,animals,2030,14,East asia,0.002031622
+Pigs,animals,2030,7,Eastern Africa,0.007611092
+Pigs,animals,2030,10,Eastern Europe,0.031731533
+Pigs,animals,2030,11,Former USSR,0.067063913
+Pigs,animals,2030,17,Japan,0.012753188
+Pigs,animals,2030,12,Middle East,0.028271996
+Pigs,animals,2030,5,Northern Africa,0
+Pigs,animals,2030,16,Oceania,0.042600897
+Pigs,animals,2030,9,OECD Europe,0.055548832
+Pigs,animals,2030,4,South America,0.017912433
+Pigs,animals,2030,13,South Asia,0.007337348
+Pigs,animals,2030,15,South East Asia,0.001406927
+Pigs,animals,2030,8,Southern Africa,0.004850206
+Pigs,animals,2030,2,USA,0.014627995
+Pigs,animals,2030,6,Western Africa,0.002322634
+Pigs,crops,1970,1,Canada,4.793771556
+Pigs,crops,1970,3,Central America,4.78763481
+Pigs,crops,1970,14,East asia,3.84656187
+Pigs,crops,1970,7,Eastern Africa,3.190718181
+Pigs,crops,1970,10,Eastern Europe,6.256598207
+Pigs,crops,1970,11,Former USSR,6.213029507
+Pigs,crops,1970,17,Japan,4.783597185
+Pigs,crops,1970,12,Middle East,4.463441384
+Pigs,crops,1970,5,Northern Africa,4.5
+Pigs,crops,1970,16,Oceania,4.74520785
+Pigs,crops,1970,9,OECD Europe,4.728554557
+Pigs,crops,1970,4,South America,4.777748531
+Pigs,crops,1970,13,South Asia,3.190927545
+Pigs,crops,1970,15,South East Asia,3.198252265
+Pigs,crops,1970,8,Southern Africa,3.994085115
+Pigs,crops,1970,2,USA,4.781185859
+Pigs,crops,1970,6,Western Africa,3.99716752
+Pigs,crops,1995,1,Canada,3.727157385
+Pigs,crops,1995,3,Central America,3.967752348
+Pigs,crops,1995,14,East asia,2.437321476
+Pigs,crops,1995,7,Eastern Africa,2.644307692
+Pigs,crops,1995,10,Eastern Europe,4.86624305
+Pigs,crops,1995,11,Former USSR,5.080877464
+Pigs,crops,1995,17,Japan,3.719246812
+Pigs,crops,1995,12,Middle East,3.69969697
+Pigs,crops,1995,5,Northern Africa,3.758
+Pigs,crops,1995,16,Oceania,3.689399103
+Pigs,crops,1995,9,OECD Europe,3.676451168
+Pigs,crops,1995,4,South America,3.959559095
+Pigs,crops,1995,13,South Asia,2.644481203
+Pigs,crops,1995,15,South East Asia,2.650551564
+Pigs,crops,1995,8,Southern Africa,3.310098039
+Pigs,crops,1995,2,USA,3.717372005
+Pigs,crops,1995,6,Western Africa,3.312652582
+Pigs,crops,2030,1,Canada,3.727157385
+Pigs,crops,2030,3,Central America,3.871999652
+Pigs,crops,2030,14,East asia,2.272968378
+Pigs,crops,2030,7,Eastern Africa,2.616388908
+Pigs,crops,2030,10,Eastern Europe,4.574268467
+Pigs,crops,2030,11,Former USSR,4.790936087
+Pigs,crops,2030,17,Japan,3.719246812
+Pigs,crops,2030,12,Middle East,3.451728004
+Pigs,crops,2030,5,Northern Africa,3.758
+Pigs,crops,2030,16,Oceania,3.689399103
+Pigs,crops,2030,9,OECD Europe,3.676451168
+Pigs,crops,2030,4,South America,3.846087567
+Pigs,crops,2030,13,South Asia,2.580662652
+Pigs,crops,2030,15,South East Asia,2.574593073
+Pigs,crops,2030,8,Southern Africa,3.275149794
+Pigs,crops,2030,2,USA,3.717372005
+Pigs,crops,2030,6,Western Africa,3.277677366
 Pigs,residues,1970,1,Canada,3.2
 Pigs,residues,1970,3,Central America,3.2
 Pigs,residues,1970,14,East asia,7.15
@@ -662,108 +662,108 @@ Pigs,residues,2030,15,South East Asia,3.864
 Pigs,residues,2030,8,Southern Africa,3.28
 Pigs,residues,2030,2,USA,2.488
 Pigs,residues,2030,6,Western Africa,3.28
-Poultry,animal_products,1970,1,Canada,0.003207416
-Poultry,animal_products,1970,3,Central America,0.007641755
-Poultry,animal_products,1970,14,East asia,0.001702892
-Poultry,animal_products,1970,7,Eastern Africa,0.009472388
-Poultry,animal_products,1970,10,Eastern Europe,0.024127675
-Poultry,animal_products,1970,11,Former USSR,0.04828674
-Poultry,animal_products,1970,17,Japan,0.008399776
-Poultry,animal_products,1970,12,Middle East,0.021420345
-Poultry,animal_products,1970,5,Northern Africa,0.01745514
-Poultry,animal_products,1970,16,Oceania,0.02672977
-Poultry,animal_products,1970,9,OECD Europe,0.035721667
-Poultry,animal_products,1970,4,South America,0.013821206
-Poultry,animal_products,1970,13,South Asia,0.004976907
-Poultry,animal_products,1970,15,South East Asia,0.001046559
-Poultry,animal_products,1970,8,Southern Africa,0.004995779
-Poultry,animal_products,1970,2,USA,0.009356804
-Poultry,animal_products,1970,6,Western Africa,0.002340561
-Poultry,animal_products,1995,1,Canada,0.002493766
-Poultry,animal_products,1995,3,Central America,0.006327373
-Poultry,animal_products,1995,14,East asia,0.001077466
-Poultry,animal_products,1995,7,Eastern Africa,0.007843137
-Poultry,animal_products,1995,10,Eastern Europe,0.018771331
-Poultry,animal_products,1995,11,Former USSR,0.037567084
-Poultry,animal_products,1995,17,Japan,0.006530825
-Poultry,animal_products,1995,12,Middle East,0.017736046
-Poultry,animal_products,1995,5,Northern Africa,0.014452856
-Poultry,animal_products,1995,16,Oceania,0.020782396
-Poultry,animal_products,1995,9,OECD Europe,0.027773596
-Poultry,animal_products,1995,4,South America,0.011443958
-Poultry,animal_products,1995,13,South Asia,0.004120879
-Poultry,animal_products,1995,15,South East Asia,0.000866551
-Poultry,animal_products,1995,8,Southern Africa,0.004136505
-Poultry,animal_products,1995,2,USA,0.007274915
-Poultry,animal_products,1995,6,Western Africa,0.001937984
-Poultry,animal_products,2030,1,Canada,0.002493766
-Poultry,animal_products,2030,3,Central America,0.005700749
-Poultry,animal_products,2030,14,East asia,0.001006254
-Poultry,animal_products,2030,7,Eastern Africa,0.007483187
-Poultry,animal_products,2030,10,Eastern Europe,0.016744606
-Poultry,animal_products,2030,11,Former USSR,0.034766453
-Poultry,animal_products,2030,17,Japan,0.006530825
-Poultry,animal_products,2030,12,Middle East,0.015979578
-Poultry,animal_products,2030,5,Northern Africa,0.013300817
-Poultry,animal_products,2030,16,Oceania,0.020782396
-Poultry,animal_products,2030,9,OECD Europe,0.027773596
-Poultry,animal_products,2030,4,South America,0.01008948
-Poultry,animal_products,2030,13,South Asia,0.003712773
-Poultry,animal_products,2030,15,South East Asia,0.000768175
-Poultry,animal_products,2030,8,Southern Africa,0.003956657
-Poultry,animal_products,2030,2,USA,0.007274915
-Poultry,animal_products,2030,6,Western Africa,0.001858405
-Poultry,feed_crops,1970,1,Canada,2.996792584
-Poultry,feed_crops,1970,3,Central America,2.842358245
-Poultry,feed_crops,1970,14,East asia,2.308297108
-Poultry,feed_crops,1970,7,Eastern Africa,1.990527612
-Poultry,feed_crops,1970,10,Eastern Europe,3.725872325
-Poultry,feed_crops,1970,11,Former USSR,3.70171326
-Poultry,feed_crops,1970,17,Japan,2.991600224
-Poultry,feed_crops,1970,12,Middle East,4.028579655
-Poultry,feed_crops,1970,5,Northern Africa,3.93254486
-Poultry,feed_crops,1970,16,Oceania,2.57327023
-Poultry,feed_crops,1970,9,OECD Europe,2.964278333
-Poultry,feed_crops,1970,4,South America,2.936178794
-Poultry,feed_crops,1970,13,South Asia,2.495023093
-Poultry,feed_crops,1970,15,South East Asia,1.748953441
-Poultry,feed_crops,1970,8,Southern Africa,2.495004221
-Poultry,feed_crops,1970,2,USA,2.990643196
-Poultry,feed_crops,1970,6,Western Africa,2.497659439
-Poultry,feed_crops,1995,1,Canada,2.330006234
-Poultry,feed_crops,1995,3,Central America,2.353472627
-Poultry,feed_crops,1995,14,East asia,1.460522534
-Poultry,feed_crops,1995,7,Eastern Africa,1.648156863
-Poultry,feed_crops,1995,10,Eastern Europe,2.898728669
-Poultry,feed_crops,1995,11,Former USSR,2.879932916
-Poultry,feed_crops,1995,17,Japan,2.325969175
-Poultry,feed_crops,1995,12,Middle East,3.335663954
-Poultry,feed_crops,1995,5,Northern Africa,3.256147144
-Poultry,feed_crops,1995,16,Oceania,2.000717604
-Poultry,feed_crops,1995,9,OECD Europe,2.304726404
-Poultry,feed_crops,1995,4,South America,2.431156042
-Poultry,feed_crops,1995,13,South Asia,2.065879121
-Poultry,feed_crops,1995,15,South East Asia,1.448133449
-Poultry,feed_crops,1995,8,Southern Africa,2.065863495
-Poultry,feed_crops,1995,2,USA,2.325225085
-Poultry,feed_crops,1995,6,Western Africa,2.068062016
-Poultry,feed_crops,2030,1,Canada,2.330006234
-Poultry,feed_crops,2030,3,Central America,2.120399251
-Poultry,feed_crops,2030,14,East asia,1.363993746
-Poultry,feed_crops,2030,7,Eastern Africa,1.572516813
-Poultry,feed_crops,2030,10,Eastern Europe,2.585755394
-Poultry,feed_crops,2030,11,Former USSR,2.665233547
-Poultry,feed_crops,2030,17,Japan,2.325969175
-Poultry,feed_crops,2030,12,Middle East,3.005320422
-Poultry,feed_crops,2030,5,Northern Africa,2.996599183
-Poultry,feed_crops,2030,16,Oceania,2.000717604
-Poultry,feed_crops,2030,9,OECD Europe,2.304726404
-Poultry,feed_crops,2030,4,South America,2.14341052
-Poultry,feed_crops,2030,13,South Asia,1.861287227
-Poultry,feed_crops,2030,15,South East Asia,1.283731825
-Poultry,feed_crops,2030,8,Southern Africa,1.976043343
-Poultry,feed_crops,2030,2,USA,2.325225085
-Poultry,feed_crops,2030,6,Western Africa,1.983141595
+Poultry,animals,1970,1,Canada,0.003207416
+Poultry,animals,1970,3,Central America,0.007641755
+Poultry,animals,1970,14,East asia,0.001702892
+Poultry,animals,1970,7,Eastern Africa,0.009472388
+Poultry,animals,1970,10,Eastern Europe,0.024127675
+Poultry,animals,1970,11,Former USSR,0.04828674
+Poultry,animals,1970,17,Japan,0.008399776
+Poultry,animals,1970,12,Middle East,0.021420345
+Poultry,animals,1970,5,Northern Africa,0.01745514
+Poultry,animals,1970,16,Oceania,0.02672977
+Poultry,animals,1970,9,OECD Europe,0.035721667
+Poultry,animals,1970,4,South America,0.013821206
+Poultry,animals,1970,13,South Asia,0.004976907
+Poultry,animals,1970,15,South East Asia,0.001046559
+Poultry,animals,1970,8,Southern Africa,0.004995779
+Poultry,animals,1970,2,USA,0.009356804
+Poultry,animals,1970,6,Western Africa,0.002340561
+Poultry,animals,1995,1,Canada,0.002493766
+Poultry,animals,1995,3,Central America,0.006327373
+Poultry,animals,1995,14,East asia,0.001077466
+Poultry,animals,1995,7,Eastern Africa,0.007843137
+Poultry,animals,1995,10,Eastern Europe,0.018771331
+Poultry,animals,1995,11,Former USSR,0.037567084
+Poultry,animals,1995,17,Japan,0.006530825
+Poultry,animals,1995,12,Middle East,0.017736046
+Poultry,animals,1995,5,Northern Africa,0.014452856
+Poultry,animals,1995,16,Oceania,0.020782396
+Poultry,animals,1995,9,OECD Europe,0.027773596
+Poultry,animals,1995,4,South America,0.011443958
+Poultry,animals,1995,13,South Asia,0.004120879
+Poultry,animals,1995,15,South East Asia,0.000866551
+Poultry,animals,1995,8,Southern Africa,0.004136505
+Poultry,animals,1995,2,USA,0.007274915
+Poultry,animals,1995,6,Western Africa,0.001937984
+Poultry,animals,2030,1,Canada,0.002493766
+Poultry,animals,2030,3,Central America,0.005700749
+Poultry,animals,2030,14,East asia,0.001006254
+Poultry,animals,2030,7,Eastern Africa,0.007483187
+Poultry,animals,2030,10,Eastern Europe,0.016744606
+Poultry,animals,2030,11,Former USSR,0.034766453
+Poultry,animals,2030,17,Japan,0.006530825
+Poultry,animals,2030,12,Middle East,0.015979578
+Poultry,animals,2030,5,Northern Africa,0.013300817
+Poultry,animals,2030,16,Oceania,0.020782396
+Poultry,animals,2030,9,OECD Europe,0.027773596
+Poultry,animals,2030,4,South America,0.01008948
+Poultry,animals,2030,13,South Asia,0.003712773
+Poultry,animals,2030,15,South East Asia,0.000768175
+Poultry,animals,2030,8,Southern Africa,0.003956657
+Poultry,animals,2030,2,USA,0.007274915
+Poultry,animals,2030,6,Western Africa,0.001858405
+Poultry,crops,1970,1,Canada,2.996792584
+Poultry,crops,1970,3,Central America,2.842358245
+Poultry,crops,1970,14,East asia,2.308297108
+Poultry,crops,1970,7,Eastern Africa,1.990527612
+Poultry,crops,1970,10,Eastern Europe,3.725872325
+Poultry,crops,1970,11,Former USSR,3.70171326
+Poultry,crops,1970,17,Japan,2.991600224
+Poultry,crops,1970,12,Middle East,4.028579655
+Poultry,crops,1970,5,Northern Africa,3.93254486
+Poultry,crops,1970,16,Oceania,2.57327023
+Poultry,crops,1970,9,OECD Europe,2.964278333
+Poultry,crops,1970,4,South America,2.936178794
+Poultry,crops,1970,13,South Asia,2.495023093
+Poultry,crops,1970,15,South East Asia,1.748953441
+Poultry,crops,1970,8,Southern Africa,2.495004221
+Poultry,crops,1970,2,USA,2.990643196
+Poultry,crops,1970,6,Western Africa,2.497659439
+Poultry,crops,1995,1,Canada,2.330006234
+Poultry,crops,1995,3,Central America,2.353472627
+Poultry,crops,1995,14,East asia,1.460522534
+Poultry,crops,1995,7,Eastern Africa,1.648156863
+Poultry,crops,1995,10,Eastern Europe,2.898728669
+Poultry,crops,1995,11,Former USSR,2.879932916
+Poultry,crops,1995,17,Japan,2.325969175
+Poultry,crops,1995,12,Middle East,3.335663954
+Poultry,crops,1995,5,Northern Africa,3.256147144
+Poultry,crops,1995,16,Oceania,2.000717604
+Poultry,crops,1995,9,OECD Europe,2.304726404
+Poultry,crops,1995,4,South America,2.431156042
+Poultry,crops,1995,13,South Asia,2.065879121
+Poultry,crops,1995,15,South East Asia,1.448133449
+Poultry,crops,1995,8,Southern Africa,2.065863495
+Poultry,crops,1995,2,USA,2.325225085
+Poultry,crops,1995,6,Western Africa,2.068062016
+Poultry,crops,2030,1,Canada,2.330006234
+Poultry,crops,2030,3,Central America,2.120399251
+Poultry,crops,2030,14,East asia,1.363993746
+Poultry,crops,2030,7,Eastern Africa,1.572516813
+Poultry,crops,2030,10,Eastern Europe,2.585755394
+Poultry,crops,2030,11,Former USSR,2.665233547
+Poultry,crops,2030,17,Japan,2.325969175
+Poultry,crops,2030,12,Middle East,3.005320422
+Poultry,crops,2030,5,Northern Africa,2.996599183
+Poultry,crops,2030,16,Oceania,2.000717604
+Poultry,crops,2030,9,OECD Europe,2.304726404
+Poultry,crops,2030,4,South America,2.14341052
+Poultry,crops,2030,13,South Asia,1.861287227
+Poultry,crops,2030,15,South East Asia,1.283731825
+Poultry,crops,2030,8,Southern Africa,1.976043343
+Poultry,crops,2030,2,USA,2.325225085
+Poultry,crops,2030,6,Western Africa,1.983141595
 Poultry,residues,1970,1,Canada,1
 Poultry,residues,1970,3,Central America,2.15
 Poultry,residues,1970,14,East asia,3.19
@@ -815,108 +815,108 @@ Poultry,residues,2030,15,South East Asia,2.3855
 Poultry,residues,2030,8,Southern Africa,1.98
 Poultry,residues,2030,2,USA,0.7775
 Poultry,residues,2030,6,Western Africa,1.985
-Sheep and goats,animal_products,1970,1,Canada,0.000995034
-Sheep and goats,animal_products,1970,3,Central America,0.003191246
-Sheep and goats,animal_products,1970,14,East asia,0.000724184
-Sheep and goats,animal_products,1970,7,Eastern Africa,0.001129247
-Sheep and goats,animal_products,1970,10,Eastern Europe,0.01951205
-Sheep and goats,animal_products,1970,11,Former USSR,0.032242026
-Sheep and goats,animal_products,1970,17,Japan,0.027935206
-Sheep and goats,animal_products,1970,12,Middle East,0.019447629
-Sheep and goats,animal_products,1970,5,Northern Africa,0.014998229
-Sheep and goats,animal_products,1970,16,Oceania,0.005315977
-Sheep and goats,animal_products,1970,9,OECD Europe,0.011411361
-Sheep and goats,animal_products,1970,4,South America,0.003018897
-Sheep and goats,animal_products,1970,13,South Asia,0.019092723
-Sheep and goats,animal_products,1970,15,South East Asia,0.001260168
-Sheep and goats,animal_products,1970,8,Southern Africa,0.000145174
-Sheep and goats,animal_products,1970,2,USA,0.003025408
-Sheep and goats,animal_products,1970,6,Western Africa,0.000287789
-Sheep and goats,animal_products,1995,1,Canada,0.001663239
-Sheep and goats,animal_products,1995,3,Central America,0.003436239
-Sheep and goats,animal_products,1995,14,East asia,0.000712608
-Sheep and goats,animal_products,1995,7,Eastern Africa,0.001882546
-Sheep and goats,animal_products,1995,10,Eastern Europe,0.015966841
-Sheep and goats,animal_products,1995,11,Former USSR,0.029349007
-Sheep and goats,animal_products,1995,17,Japan,0.02003631
-Sheep and goats,animal_products,1995,12,Middle East,0.018810655
-Sheep and goats,animal_products,1995,5,Northern Africa,0.013730197
-Sheep and goats,animal_products,1995,16,Oceania,0.004815049
-Sheep and goats,animal_products,1995,9,OECD Europe,0.0117995
-Sheep and goats,animal_products,1995,4,South America,0.004815044
-Sheep and goats,animal_products,1995,13,South Asia,0.019874523
-Sheep and goats,animal_products,1995,15,South East Asia,0.001286675
-Sheep and goats,animal_products,1995,8,Southern Africa,0.000304917
-Sheep and goats,animal_products,1995,2,USA,0.00393799
-Sheep and goats,animal_products,1995,6,Western Africa,0.000435649
-Sheep and goats,animal_products,2030,1,Canada,0.001736888
-Sheep and goats,animal_products,2030,3,Central America,0.003346933
-Sheep and goats,animal_products,2030,14,East asia,0.000584184
-Sheep and goats,animal_products,2030,7,Eastern Africa,0.001661832
-Sheep and goats,animal_products,2030,10,Eastern Europe,0.016692043
-Sheep and goats,animal_products,2030,11,Former USSR,0.025595334
-Sheep and goats,animal_products,2030,17,Japan,0.012602544
-Sheep and goats,animal_products,2030,12,Middle East,0.016324989
-Sheep and goats,animal_products,2030,5,Northern Africa,0.014845754
-Sheep and goats,animal_products,2030,16,Oceania,0.004606547
-Sheep and goats,animal_products,2030,9,OECD Europe,0.007215197
-Sheep and goats,animal_products,2030,4,South America,0.006095651
-Sheep and goats,animal_products,2030,13,South Asia,0.014628144
-Sheep and goats,animal_products,2030,15,South East Asia,0.001044001
-Sheep and goats,animal_products,2030,8,Southern Africa,0.002062059
-Sheep and goats,animal_products,2030,2,USA,0.004183793
-Sheep and goats,animal_products,2030,6,Western Africa,0.000334681
-Sheep and goats,feed_crops,1970,1,Canada,0.912156365
-Sheep and goats,feed_crops,1970,3,Central America,0.327039439
-Sheep and goats,feed_crops,1970,14,East asia,0.301755966
-Sheep and goats,feed_crops,1970,7,Eastern Africa,0.0236348
-Sheep and goats,feed_crops,1970,10,Eastern Europe,2.46383426
-Sheep and goats,feed_crops,1970,11,Former USSR,1.848101792
-Sheep and goats,feed_crops,1970,17,Japan,4.759250608
-Sheep and goats,feed_crops,1970,12,Middle East,1.644411221
-Sheep and goats,feed_crops,1970,5,Northern Africa,1.230765664
-Sheep and goats,feed_crops,1970,16,Oceania,0.162073331
-Sheep and goats,feed_crops,1970,9,OECD Europe,0.638162524
-Sheep and goats,feed_crops,1970,4,South America,0.170031178
-Sheep and goats,feed_crops,1970,13,South Asia,0.038170959
-Sheep and goats,feed_crops,1970,15,South East Asia,0.153803952
-Sheep and goats,feed_crops,1970,8,Southern Africa,0.016042058
-Sheep and goats,feed_crops,1970,2,USA,0.853989658
-Sheep and goats,feed_crops,1970,6,Western Africa,0.045680726
-Sheep and goats,feed_crops,1995,1,Canada,1.524706739
-Sheep and goats,feed_crops,1995,3,Central America,0.352146348
-Sheep and goats,feed_crops,1995,14,East asia,0.29693249
-Sheep and goats,feed_crops,1995,7,Eastern Africa,0.039401123
-Sheep and goats,feed_crops,1995,10,Eastern Europe,2.016172094
-Sheep and goats,feed_crops,1995,11,Former USSR,1.682274933
-Sheep and goats,feed_crops,1995,17,Japan,3.413535629
-Sheep and goats,feed_crops,1995,12,Middle East,1.590551382
-Sheep and goats,feed_crops,1995,5,Northern Africa,1.126710045
-Sheep and goats,feed_crops,1995,16,Oceania,0.146801058
-Sheep and goats,feed_crops,1995,9,OECD Europe,0.659868628
-Sheep and goats,feed_crops,1995,4,South America,0.271194247
-Sheep and goats,feed_crops,1995,13,South Asia,0.039733965
-Sheep and goats,feed_crops,1995,15,South East Asia,0.157039095
-Sheep and goats,feed_crops,1995,8,Southern Africa,0.033693927
-Sheep and goats,feed_crops,1995,2,USA,1.111586208
-Sheep and goats,feed_crops,1995,6,Western Africa,0.069150607
-Sheep and goats,feed_crops,2030,1,Canada,1.592221427
-Sheep and goats,feed_crops,2030,3,Central America,0.342994264
-Sheep and goats,feed_crops,2030,14,East asia,0.243420412
-Sheep and goats,feed_crops,2030,7,Eastern Africa,0.034781642
-Sheep and goats,feed_crops,2030,10,Eastern Europe,2.10774514
-Sheep and goats,feed_crops,2030,11,Former USSR,1.467115699
-Sheep and goats,feed_crops,2030,17,Japan,2.147063648
-Sheep and goats,feed_crops,2030,12,Middle East,1.380373677
-Sheep and goats,feed_crops,2030,5,Northern Africa,1.218253472
-Sheep and goats,feed_crops,2030,16,Oceania,0.140444243
-Sheep and goats,feed_crops,2030,9,OECD Europe,0.403498644
-Sheep and goats,feed_crops,2030,4,South America,0.343320973
-Sheep and goats,feed_crops,2030,13,South Asia,0.029245188
-Sheep and goats,feed_crops,2030,15,South East Asia,0.127420669
-Sheep and goats,feed_crops,2030,8,Southern Africa,0.227861761
-Sheep and goats,feed_crops,2030,2,USA,1.180969773
-Sheep and goats,feed_crops,2030,6,Western Africa,0.053123984
+Sheep and goats,animals,1970,1,Canada,0.000995034
+Sheep and goats,animals,1970,3,Central America,0.003191246
+Sheep and goats,animals,1970,14,East asia,0.000724184
+Sheep and goats,animals,1970,7,Eastern Africa,0.001129247
+Sheep and goats,animals,1970,10,Eastern Europe,0.01951205
+Sheep and goats,animals,1970,11,Former USSR,0.032242026
+Sheep and goats,animals,1970,17,Japan,0.027935206
+Sheep and goats,animals,1970,12,Middle East,0.019447629
+Sheep and goats,animals,1970,5,Northern Africa,0.014998229
+Sheep and goats,animals,1970,16,Oceania,0.005315977
+Sheep and goats,animals,1970,9,OECD Europe,0.011411361
+Sheep and goats,animals,1970,4,South America,0.003018897
+Sheep and goats,animals,1970,13,South Asia,0.019092723
+Sheep and goats,animals,1970,15,South East Asia,0.001260168
+Sheep and goats,animals,1970,8,Southern Africa,0.000145174
+Sheep and goats,animals,1970,2,USA,0.003025408
+Sheep and goats,animals,1970,6,Western Africa,0.000287789
+Sheep and goats,animals,1995,1,Canada,0.001663239
+Sheep and goats,animals,1995,3,Central America,0.003436239
+Sheep and goats,animals,1995,14,East asia,0.000712608
+Sheep and goats,animals,1995,7,Eastern Africa,0.001882546
+Sheep and goats,animals,1995,10,Eastern Europe,0.015966841
+Sheep and goats,animals,1995,11,Former USSR,0.029349007
+Sheep and goats,animals,1995,17,Japan,0.02003631
+Sheep and goats,animals,1995,12,Middle East,0.018810655
+Sheep and goats,animals,1995,5,Northern Africa,0.013730197
+Sheep and goats,animals,1995,16,Oceania,0.004815049
+Sheep and goats,animals,1995,9,OECD Europe,0.0117995
+Sheep and goats,animals,1995,4,South America,0.004815044
+Sheep and goats,animals,1995,13,South Asia,0.019874523
+Sheep and goats,animals,1995,15,South East Asia,0.001286675
+Sheep and goats,animals,1995,8,Southern Africa,0.000304917
+Sheep and goats,animals,1995,2,USA,0.00393799
+Sheep and goats,animals,1995,6,Western Africa,0.000435649
+Sheep and goats,animals,2030,1,Canada,0.001736888
+Sheep and goats,animals,2030,3,Central America,0.003346933
+Sheep and goats,animals,2030,14,East asia,0.000584184
+Sheep and goats,animals,2030,7,Eastern Africa,0.001661832
+Sheep and goats,animals,2030,10,Eastern Europe,0.016692043
+Sheep and goats,animals,2030,11,Former USSR,0.025595334
+Sheep and goats,animals,2030,17,Japan,0.012602544
+Sheep and goats,animals,2030,12,Middle East,0.016324989
+Sheep and goats,animals,2030,5,Northern Africa,0.014845754
+Sheep and goats,animals,2030,16,Oceania,0.004606547
+Sheep and goats,animals,2030,9,OECD Europe,0.007215197
+Sheep and goats,animals,2030,4,South America,0.006095651
+Sheep and goats,animals,2030,13,South Asia,0.014628144
+Sheep and goats,animals,2030,15,South East Asia,0.001044001
+Sheep and goats,animals,2030,8,Southern Africa,0.002062059
+Sheep and goats,animals,2030,2,USA,0.004183793
+Sheep and goats,animals,2030,6,Western Africa,0.000334681
+Sheep and goats,crops,1970,1,Canada,0.912156365
+Sheep and goats,crops,1970,3,Central America,0.327039439
+Sheep and goats,crops,1970,14,East asia,0.301755966
+Sheep and goats,crops,1970,7,Eastern Africa,0.0236348
+Sheep and goats,crops,1970,10,Eastern Europe,2.46383426
+Sheep and goats,crops,1970,11,Former USSR,1.848101792
+Sheep and goats,crops,1970,17,Japan,4.759250608
+Sheep and goats,crops,1970,12,Middle East,1.644411221
+Sheep and goats,crops,1970,5,Northern Africa,1.230765664
+Sheep and goats,crops,1970,16,Oceania,0.162073331
+Sheep and goats,crops,1970,9,OECD Europe,0.638162524
+Sheep and goats,crops,1970,4,South America,0.170031178
+Sheep and goats,crops,1970,13,South Asia,0.038170959
+Sheep and goats,crops,1970,15,South East Asia,0.153803952
+Sheep and goats,crops,1970,8,Southern Africa,0.016042058
+Sheep and goats,crops,1970,2,USA,0.853989658
+Sheep and goats,crops,1970,6,Western Africa,0.045680726
+Sheep and goats,crops,1995,1,Canada,1.524706739
+Sheep and goats,crops,1995,3,Central America,0.352146348
+Sheep and goats,crops,1995,14,East asia,0.29693249
+Sheep and goats,crops,1995,7,Eastern Africa,0.039401123
+Sheep and goats,crops,1995,10,Eastern Europe,2.016172094
+Sheep and goats,crops,1995,11,Former USSR,1.682274933
+Sheep and goats,crops,1995,17,Japan,3.413535629
+Sheep and goats,crops,1995,12,Middle East,1.590551382
+Sheep and goats,crops,1995,5,Northern Africa,1.126710045
+Sheep and goats,crops,1995,16,Oceania,0.146801058
+Sheep and goats,crops,1995,9,OECD Europe,0.659868628
+Sheep and goats,crops,1995,4,South America,0.271194247
+Sheep and goats,crops,1995,13,South Asia,0.039733965
+Sheep and goats,crops,1995,15,South East Asia,0.157039095
+Sheep and goats,crops,1995,8,Southern Africa,0.033693927
+Sheep and goats,crops,1995,2,USA,1.111586208
+Sheep and goats,crops,1995,6,Western Africa,0.069150607
+Sheep and goats,crops,2030,1,Canada,1.592221427
+Sheep and goats,crops,2030,3,Central America,0.342994264
+Sheep and goats,crops,2030,14,East asia,0.243420412
+Sheep and goats,crops,2030,7,Eastern Africa,0.034781642
+Sheep and goats,crops,2030,10,Eastern Europe,2.10774514
+Sheep and goats,crops,2030,11,Former USSR,1.467115699
+Sheep and goats,crops,2030,17,Japan,2.147063648
+Sheep and goats,crops,2030,12,Middle East,1.380373677
+Sheep and goats,crops,2030,5,Northern Africa,1.218253472
+Sheep and goats,crops,2030,16,Oceania,0.140444243
+Sheep and goats,crops,2030,9,OECD Europe,0.403498644
+Sheep and goats,crops,2030,4,South America,0.343320973
+Sheep and goats,crops,2030,13,South Asia,0.029245188
+Sheep and goats,crops,2030,15,South East Asia,0.127420669
+Sheep and goats,crops,2030,8,Southern Africa,0.227861761
+Sheep and goats,crops,2030,2,USA,1.180969773
+Sheep and goats,crops,2030,6,Western Africa,0.053123984
 Sheep and goats,grass,1970,1,Canada,24.92093681
 Sheep and goats,grass,1970,3,Central America,94.70324849
 Sheep and goats,grass,1970,14,East asia,19.30468686

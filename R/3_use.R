@@ -140,7 +140,8 @@ feed_req_k <- merge(conv_k,
   live[, c("area_code", "area", "item_code", "year", "value")],
   by = c("item_code"), all.x = TRUE)
 feed_req_k[, `:=`(
-  total = value * conversion,
+  total = value * conversion, value = NULL, conversion = NULL,
+  area = NULL, item = NULL, proc = NULL, # Kick these
   crops = 0, residues = 0, grass = 0, scavenging = 0, animals = 0)]
 
 # Estimates from Bouwman et al. (2013)
@@ -180,28 +181,40 @@ feed_req_b <- sup[item_code %in%
 
 feed_req_b[, type := ifelse(item_code == 2848, "milk", "meat")]
 
-cat("Skipping recoding processes,",
+cat("Recoding processes,",
   "e.g. from 'Cattle slaughtering' to 'Cattle husbandry'.\n")
+vsub <- function(a, b, x) {
+  stopifnot(length(a) == length(b))
+  for(i in seq_along(a)) {x <- gsub(a[i], b[i], x)}
+  return(x)
+}
+proc_source <- c("p104","p105","p106","p107","p108","p109")
+proc_target <- c("p085","p086","p087","p088","p089","p090")
+feed_req_b[, proc_code := vsub(proc_source, proc_target, proc_code)]
+rm(proc_source, proc_target)
 
 cat("Skipping estimation of domestic meat production.\n")
 # Estimated export shares (2013) - Median: 0.000000; Mean: 0.028150
 
-feed_req_b <- merge(
+feed_req_b <- merge(all.x = TRUE, allow.cartesian = TRUE,
   feed_req_b,
   conv_b[, c("area_code", "year", "proc_code", "type", "feedtype", "conversion")],
-  by = c("area_code", "year", "proc_code", "type"), all.x = TRUE)
+  by = c("area_code", "year", "proc_code", "type"))
 
 feed_req_b[, converted := production * conversion]
 
 feed_req_b <- dcast(feed_req_b, value.var = "converted",
   area_code + year + proc_code + item_code + comm_code + type ~ feedtype)
-feed_req_b[, total := animal_products + feed_crops + grass +
-  residues + scavenging]
+feed_req_b[, `:=`(
+  total = animals + crops + grass + residues + scavenging,
+  comm_code = NULL, type = NULL, `NA` = NULL, # Kick these
+  item_code = 0)]
+# Original subsets to >0
 feed_req_b <- feed_req_b[!is.na(total)]
+feed_req_b[, lapply(.SD, na_sum),
+  by = list(area_code, year, proc_code, item_code)]
 
+feed_req <- rbind(feed_req_b, feed_req_k)
+rm(feed_req_k, feed_req_b)
 
-
-# fore_trad <- dcast(fore_trad,
-#                    reporter_code + reporter + partner_code + partner +
-#                      item_code + item + year + imex ~ unit,
-#                    value.var = "value")
+# At line #431
