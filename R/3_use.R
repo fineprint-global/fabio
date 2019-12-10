@@ -3,7 +3,7 @@ library(data.table)
 
 regions <- fread("inst/regions_full.csv")
 items <- fread("inst/items_full.csv")
-tcf <- fread("inst/use_tcf.csv", header = TRUE, sep = ";")
+tcf <- fread("inst/tcf_use.csv")
 
 cbs <- readRDS("data/cbs_full.rds")
 btd <- readRDS("data/btd_full.rds")
@@ -255,9 +255,9 @@ feed_req[item_code != 0,
 feed_req[, `:=`(animals_f = NULL, crops_f = NULL, grass_f = NULL,
   residues_f = NULL, scavenging_f = NULL)]
 
-# At line #431
-x <- feed_req[area_code == 1 & year == 2013 & item_code == 0]
-sums <- colSums(feed_req[, 5:9])
-total <- sum(feed_req[, total])
+# Adapt feed-crops to available crop-supply
+feed_bounds <- feed_sup[, list(dry = na_sum(dry)),
+  by = c("area_code", "year", "feedtype")]
 
-x[, animals] / total * sums[1]
+
+
