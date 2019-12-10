@@ -72,7 +72,18 @@ eth <- merge(eth, eth_tcf[, c("area_code", "item_code", "value")],
 
 eth[, `:=`(pot_oth = other * tcf, pot_proc = processing * tcf)]
 
-na_sum <- function(x) {ifelse(all(is.na(x)), NA_real_, sum(x, na.rm = TRUE))}
+na_sum <- function(..., rowwise = TRUE) {
+  dots <- list(...)
+  if(length(dots) == 1) { # Base
+    ifelse(all(is.na(dots[[1]])), NA_real_, sum(dots[[1]], na.rm = TRUE))
+  } else { # Recurse
+    if(rowwise) {
+      x <- do.call(cbind, dots)
+      return(apply(x, 1, na_sum))
+    }
+    return(na_sum(vapply(dots, na_sum, double(1L))))
+  }
+}
 eth_total <- eth[,
   list(pot_oth_t = na_sum(pot_oth),
        pot_proc_t = na_sum(pot_proc)),
@@ -203,12 +214,17 @@ feed_req_b <- merge(all.x = TRUE, allow.cartesian = TRUE,
 
 feed_req_b[, converted := production * conversion]
 
-feed_req_b <- dcast(feed_req_b, value.var = "converted",
+feed_req_b <- dcast(feed_req_b, value.var = "converted", fun.aggregate = na_sum,
   area_code + year + proc_code + item_code + comm_code + type ~ feedtype)
-feed_req_b[, `:=`(
-  total = animals + crops + grass + residues + scavenging,
-  comm_code = NULL, type = NULL, `NA` = NULL, # Kick these
-  item_code = 0)]
+# Kick unwanted columns
+feed_req_b[, `:=`(comm_code = NULL, type = NULL, `NA` = NULL, item_code = 0)]
+# Aggregate over items (all now 0)
+feed_req_b <- feed_req_b[, list(
+  animals = na_sum(animals), crops = na_sum(crops), grass = na_sum(grass),
+  residues = na_sum(residues), scavenging = na_sum(scavenging)),
+  by = list(area_code, year, proc_code, item_code)]
+feed_req_b[, `:=`(total = na_sum(animals, crops, grass, residues, scavenging))]
+
 # Original subsets to >0
 feed_req_b <- feed_req_b[!is.na(total)]
 feed_req_b[, lapply(.SD, na_sum),
@@ -217,4 +233,31 @@ feed_req_b[, lapply(.SD, na_sum),
 feed_req <- rbind(feed_req_b, feed_req_k)
 rm(feed_req_k, feed_req_b)
 
+# Allocate total feed demand from Krausmann
+feed_alloc <- feed_req[item_code == 0,
+  lapply(list(animals, crops, grass, residues, scavenging, total), na_sum),
+  by = list(area_code, year)]
+feed_alloc <- feed_alloc[total > 0, list(area_code, year,
+  animals_f = V1 / V6, crops_f = V2 / V6, grass_f = V3 / V6,
+  residues_f = V4 / V6, scavenging_f = V5 / V6)]
+
+feed_req <- merge(feed_req, feed_alloc,
+  by = c("area_code", "year"), all.x = TRUE)
+# Use a 1 - 2 - 2 - 1 - 1 split if no info is available
+feed_req[is.na(animals_f),
+  `:=`(animals_f = 1 / 7, crops_f = 2 / 7, grass_f = 2 / 7,
+       residues_f = 1 / 7, scavenging_f = 1 / 7)]
+feed_req[item_code != 0,
+  `:=`(animals = total * animals_f, crops = total * crops_f,
+       grass = total * grass_f, residues = total * residues_f,
+       scavenging = total * scavenging_f)]
+# Kick factors again
+feed_req[, `:=`(animals_f = NULL, crops_f = NULL, grass_f = NULL,
+  residues_f = NULL, scavenging_f = NULL)]
+
 # At line #431
+x <- feed_req[area_code == 1 & year == 2013 & item_code == 0]
+sums <- colSums(feed_req[, 5:9])
+total <- sum(feed_req[, total])
+
+x[, animals] / total * sums[1]
