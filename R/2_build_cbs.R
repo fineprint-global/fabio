@@ -255,23 +255,23 @@ cat("\nAdd 'balancing' column for supply and use discrepancies.\n")
 cbs[, balancing := total_supply - stock_addition -
         (exports + food + feed + seed + losses + processing + other)]
 
-cat("\nAllocate remaining supply from 'balance' to uses.\n")
+cat("\nAllocate remaining supply from 'balancing' to uses.\n")
 cat("\nHops and live animals to 'processing'.\n")
 cbs[item_code %in% c(677, 866, 946, 976, 1016, 1034, 2029, 1096, 1107, 1110,
-                     1126, 1157, 1140, 1150, 1171) & balance > 0,
-    `:=`(processing = balance, balance = 0)]
+                     1126, 1157, 1140, 1150, 1171) & balancing > 0,
+    `:=`(processing = balancing, balancing = 0)]
 
 cat("\nNon-food crops to 'other'.\n")
 cbs[item_code %in% c(2662, 2663, 2664, 2665, 2666, 2667, 2671, 2672, 2659,
-                     2661, 2746, 2748, 2747) & balance > 0,
-    `:=`(other = balance, balance = 0)]
+                     2661, 2746, 2748, 2747) & balancing > 0,
+    `:=`(other = balancing, balancing = 0)]
 
 cat("\nFeed crops to 'feed'.\n")
 cbs[item_code %in% c(2536, 2537, 2555, 2559, 2544, 2590, 2591, 2592, 2593,
-                     2594, 2595, 2596, 2597, 2598) & balance > 0,
-    `:=`(feed = balance, balance = 0)]
+                     2594, 2595, 2596, 2597, 2598) & balancing > 0,
+    `:=`(feed = balancing, balancing = 0)]
 cat("\nRest to 'food'.\n")
-cbs[balance > 0, `:=`(food = balance, balance = 0)]
+cbs[balancing > 0, `:=`(food = balancing, balancing = 0)]
 
 
 # Save --------------------------------------------------------------------

@@ -46,6 +46,7 @@ cat("Applying livestock shares to",
 sup[is.na(share) & comm_code %in% shares$comm_code, production := 0]
 sup[!is.na(share) & comm_code %in% shares$comm_code,
     production := production * share]
+sup[, share := NULL]
 
 cat("Applying meat shares to",
   sup[comm_code %in% c("c120", "c121", "c122", "c123", "c124"), .N],
@@ -60,7 +61,8 @@ sup <- merge(sup, shares_m, by = c("area_code", "year", "proc"), all.x = TRUE)
 # Shares of "Hides and skins" are often available and applied beforehand
 sup[is.na(share) & !is.na(share_m) &
     comm_code %in% c("c120", "c121", "c122", "c123", "c124"),
-    `:=`(production = production * share_m, share_m = NULL)]
+    `:=`(production = production * share_m)]
+sup[, share_m := NULL]
 
 cat("Applying oil extraction shares to",
   sup[comm_code %in% c("c090"), .N],
@@ -73,8 +75,8 @@ shares_o[is.nan(share_o), share_o := 0]
 sup <- merge(sup, shares_o, by = c("area_code", "year", "proc"), all.x = TRUE)
 sup[is.na(share) & !is.na(share_o) &
     comm_code %in% c("c120", "c121", "c122", "c123", "c124"),
-    `:=`(production = production * share_o, share_o = NULL)]
-
+    `:=`(production = production * share_o)]
+sup[, share_o := NULL]
 
 # Fill prices using BTD ---------------------------------------------------
 
