@@ -43,7 +43,7 @@ crop <- readRDS("data/tidy/crop_tidy.rds")
 crop_prod <- crop[element == "Production" & unit == "tonnes", ]
 crop_prod[, `:=`(element = NULL, unit = NULL)]
 cbs <- merge(cbs, crop_prod,
-  by = c("area_code", "area", "item_code", "item", "year"), all.x = TRUE)
+  by = c("area_code", "area", "item_code", "item", "year"), all = TRUE)
 
 cat("\nFilling missing cbs production with crop production data. Items:\n",
     paste0(unique(cbs[is.na(production) & !is.na(value), item]),
