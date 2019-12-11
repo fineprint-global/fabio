@@ -120,7 +120,7 @@ cat("\nGiving preference to units in the following order:\n",
 
 # Imports
 imps <- btd[unit != "usd" & item_code %in% cbs$item_code,
-            list(value = sum(value, na.rm = TRUE)),
+            list(value = na_sum(value)),
             by = list(to_code, to, item_code, item, year, unit)]
 imps <- dcast(imps, to_code + to + item_code + item + year ~ unit,
               value.var = "value")
@@ -128,9 +128,9 @@ imps[, value := ifelse(!is.na(head), head, ifelse(!is.na(m3), m3, tonnes))]
 
 # Exports
 exps <- btd[unit != "usd" & item_code %in% cbs$item_code,
-            list(value = sum(value, na.rm = TRUE)),
+            list(value = na_sum(value)),
             by = list(from_code, from, item_code, item, year, unit)]
-exps <- dcast(exps, to_code + to + item_code + item + year ~ unit,
+exps <- dcast(exps, from_code + from + item_code + item + year ~ unit,
               value.var = "value")
 exps[, value := ifelse(!is.na(head), head, ifelse(!is.na(m3), m3, tonnes))]
 
@@ -236,10 +236,10 @@ cbs <- dt_replace(cbs, function(x) {`<`(x, 0)}, value = 0,
                            "food", "losses", "other", "processing",
                            "production", "seed"))
 
-cat("\nAdjust ", cbs[total_supply != production + imports, .N],
+cat("\nAdjust ", cbs[total_supply != na_sum(production, imports), .N],
     " observations of 'total_supply' to ",
     "`total_supply = production + imports`.\n", sep = "")
-cbs[, total_supply := production + imports]
+cbs[, total_supply := na_sum(production, imports)]
 
 cat("\nCap out 'exports' (N = ", cbs[exports > total_supply, .N],
     "), 'processing' (N = ", cbs[processing > total_supply, .N],
@@ -249,11 +249,11 @@ cbs[exports > total_supply, exports := total_supply]
 cbs[processing > total_supply, processing := total_supply]
 cbs[seed > total_supply, seed := total_supply]
 
-cat("\nSkipping capping out 'exports' at `total_supply - seed - processing`.\n")
+cat("\nSkipped capping out 'exports' at `total_supply - seed - processing`.\n")
 
 cat("\nAdd 'balancing' column for supply and use discrepancies.\n")
-cbs[, balancing := total_supply - stock_addition -
-        (exports + food + feed + seed + losses + processing + other)]
+cbs[, balancing := na_sum(total_supply,
+  -stock_addition, -exports, -food, -feed, -seed, -losses, -processing, -other)]
 
 cat("\nAllocate remaining supply from 'balancing' to uses.\n")
 cat("\nHops and live animals to 'processing'.\n")
@@ -267,8 +267,8 @@ cbs[item_code %in% c(2662, 2663, 2664, 2665, 2666, 2667, 2671, 2672, 2659,
     `:=`(other = balancing, balancing = 0)]
 
 cat("\nFeed crops to 'feed'.\n")
-cbs[item_code %in% c(2536, 2537, 2555, 2559, 2544, 2590, 2591, 2592, 2593,
-                     2594, 2595, 2596, 2597, 2598) & balancing > 0,
+cbs[item_code %in% c(2000, 2536, 2537, 2555, 2559, 2544, 2590, 2591, 2592,
+                     2593, 2594, 2595, 2596, 2597, 2598) & balancing > 0,
     `:=`(feed = balancing, balancing = 0)]
 cat("\nRest to 'food'.\n")
 cbs[balancing > 0, `:=`(food = balancing, balancing = 0)]

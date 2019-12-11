@@ -83,7 +83,7 @@ cbs <- dt_replace(cbs, function(x) {`<`(x, 0)}, value = 0,
 cat("Recoding 'total_supply' from",
     "'production + imports - exports + stock_withdrawal'", "to",
     "'production + imports'.\n")
-cbs[, total_supply := production + imports]
+cbs[, total_supply := na_sum(production, imports)]
 
 # Add more intuitive 'stock_addition' and fix discrepancies with 'total_supply'
 cbs[, stock_addition := -stock_withdrawal]
@@ -94,8 +94,8 @@ cat("Found ", cbs[stock_addition > total_supply, .N],
 
 # Rebalance uses, with 'total_supply' and 'stock_additions' treated as given
 cat("\nAdd 'balancing' column for supply and use discrepancies.\n")
-cbs[, balancing := total_supply - stock_addition -
-        (exports + food + feed + seed + losses + processing + other)]
+cbs[, balancing := na_sum(total_supply,
+  -stock_addition, -exports, -food, -feed, -seed, -losses, -processing, -other)]
 
 # Store
 saveRDS(cbs, "data/tidy/cbs_tidy.rds")
@@ -141,7 +141,7 @@ cat("Aggregating BTD items to the level of CBS.\n")
 item_match <- match(btd[["item_code"]], btd_conc[["btd_item_code"]])
 btd[, `:=`(item_code = btd_conc$cbs_item_code[item_match],
            item = btd_conc$cbs_item[item_match])]
-btd <- btd[, list(value = sum(value)),
+btd <- btd[, list(value = na_sum(value)),
            by = .(reporter_code, reporter, partner_code, partner,
                   item_code, item, year, imex, unit)]
 cat("Aggregation from", length(item_match), "to", nrow(btd), "observations.\n")
@@ -237,7 +237,7 @@ cat("Aggregating forestry trade items to the level of forestry production.\n")
 item_match <- match(fore_trad[["item_code"]], fore_conc[["trad_item_code"]])
 fore_trad[, `:=`(item_code = fore_conc$prod_item_code[item_match],
                  item = fore_conc$prod_item[item_match])]
-fore_trad <- fore_trad[, list(value = sum(value)),
+fore_trad <- fore_trad[, list(value = na_sum(value)),
                        by = .(reporter_code, reporter, partner_code, partner,
                               item_code, item, year, imex, unit)]
 cat("Aggregation from", length(item_match), "to",
@@ -280,7 +280,7 @@ crop <- merge(crop, crop_conc,
 crop <- tcf_apply(crop, fun = `*`, na.rm = TRUE)
 
 # Aggregate
-crop <- crop[, list(value = sum(value)),
+crop <- crop[, list(value = na_sum(value)),
              by = .(area_code, area, element, year, unit,
                     cbs_item_code, cbs_item)]
 crop <- dt_rename(crop, drop = FALSE,
@@ -307,7 +307,7 @@ crop_prim <- merge(crop_prim, crop_conc,
 crop_prim <- dt_filter(crop_prim, cbs_item_code == 2000)
 
 # Aggregate
-crop_prim <- crop_prim[, list(value = sum(value)),
+crop_prim <- crop_prim[, list(value = na_sum(value)),
                        by = .(area_code, area, element, year, unit,
                               cbs_item_code, cbs_item)]
 crop_prim <- dt_rename(crop_prim, drop = FALSE,
@@ -343,7 +343,7 @@ live <- merge(live, live_conc,
 live <- dt_filter(live, !is.na(cbs_item_code))
 
 # Aggregate
-live <- live[, list(value = sum(value)),
+live <- live[, list(value = na_sum(value)),
              by = .(area_code, area, element, year, unit,
                     cbs_item_code, cbs_item)]
 live <- dt_rename(live, drop = FALSE, rename = c("cbs_item_code" = "item_code",

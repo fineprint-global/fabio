@@ -209,3 +209,17 @@ flow_pref <- function(x, pref = "Import") {
 
   return(x)
 }
+
+
+na_sum <- function(..., rowwise = TRUE) {
+  dots <- list(...)
+  if(length(dots) == 1) { # Base
+    ifelse(all(is.na(dots[[1]])), NA_real_, sum(dots[[1]], na.rm = TRUE))
+  } else { # Recurse
+    if(rowwise) {
+      x <- do.call(cbind, dots)
+      return(apply(x, 1, na_sum))
+    }
+    return(na_sum(vapply(dots, na_sum, double(1L))))
+  }
+}

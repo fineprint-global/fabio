@@ -233,11 +233,11 @@ feed_req_b[, lapply(.SD, na_sum),
 feed_req <- rbind(feed_req_b, feed_req_k)
 rm(feed_req_k, feed_req_b)
 
-# Allocate total feed demand from Krausmann
+# Allocate total feed demand from Krausmann to the Bouwman split
 feed_alloc <- feed_req[item_code == 0,
   lapply(list(animals, crops, grass, residues, scavenging, total), na_sum),
   by = list(area_code, year)]
-feed_alloc <- feed_alloc[total > 0, list(area_code, year,
+feed_alloc <- feed_alloc[V6 > 0, list(area_code, year,
   animals_f = V1 / V6, crops_f = V2 / V6, grass_f = V3 / V6,
   residues_f = V4 / V6, scavenging_f = V5 / V6)]
 
@@ -256,8 +256,33 @@ feed_req[, `:=`(animals_f = NULL, crops_f = NULL, grass_f = NULL,
   residues_f = NULL, scavenging_f = NULL)]
 
 # Adapt feed-crops to available crop-supply
-feed_bounds <- feed_sup[, list(dry = na_sum(dry)),
-  by = c("area_code", "year", "feedtype")]
+feed_bounds <- merge(
+  dcast(feed_sup, value.var = "dry", fun.aggregate = na_sum,
+    area_code + year + item_code ~ feedtype),
+  feed_req[, list(animals = na_sum(animals), crops = na_sum(animals),
+    grass = na_sum(grass), residues = na_sum(residues), total = na_sum(total),
+    scavenging = na_sum(residues)), by = c("area_code", "year", "item_code")],
+  by = c("area_code", "year", "item_code"))
 
 
+
+
+
+
+
+feed_bounds <- merge(
+  feed_sup[, list(supply = na_sum(dry)),
+    by = c("area_code", "year", "feedtype")],
+  feed_req[, list(demand = na_sum(demand)),
+    by = c("area_code", "year", "feedtype")],
+  by = c("area_code", "year", "feedtype"))
+
+x <- feed_req[,
+  lapply(list(animals, crops, grass, residues, scavenging, total), na_sum),
+  by = c("area_code", "year")]
+
+melt(feed_req, id.vars = c("area_code", "year"))
+
+
+feed_req[area_code == 1 & year == 2013]
 

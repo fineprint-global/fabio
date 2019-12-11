@@ -107,7 +107,7 @@ for(col in c("importer_code", "exporter_code")) {
 }
 baci <- dt_filter(baci, !is.na(importer) & !is.na(exporter))
 
-baci[, item_code := as.as.integer(item_code)]
+baci[, item_code := as.integer(category)]
 
 # 2019-06-07: Introduce unit variable
 baci <- melt(baci, measure.vars = c("1000 US$", "tons"),
