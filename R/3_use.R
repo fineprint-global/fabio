@@ -233,7 +233,8 @@ feed_req_b[, lapply(.SD, na_sum),
 feed_req <- rbind(feed_req_b, feed_req_k)
 rm(feed_req_k, feed_req_b)
 
-# Allocate total feed demand from Krausmann to the Bouwman split
+
+# Allocate total feed demand from Krausmann to the Bouwman split -----
 feed_alloc <- feed_req[item_code == 0,
   lapply(list(animals, crops, grass, residues, scavenging, total), na_sum),
   by = list(area_code, year)]
@@ -255,34 +256,51 @@ feed_req[item_code != 0,
 feed_req[, `:=`(animals_f = NULL, crops_f = NULL, grass_f = NULL,
   residues_f = NULL, scavenging_f = NULL)]
 
-# Adapt feed-crops to available crop-supply
+
+# Adapt feed-demand to available feed-supply -----
 feed_bounds <- merge(
   dcast(feed_sup, value.var = "dry", fun.aggregate = na_sum,
-    area_code + year + item_code ~ feedtype),
-  feed_req[, list(animals = na_sum(animals), crops = na_sum(animals),
-    grass = na_sum(grass), residues = na_sum(residues), total = na_sum(total),
-    scavenging = na_sum(residues)), by = c("area_code", "year", "item_code")],
-  by = c("area_code", "year", "item_code"))
-
-
-
-
-
-
+    area_code + year ~ feedtype),
+  feed_req[, list(animals_r = na_sum(animals), crops_r = na_sum(animals),
+    grass_r = na_sum(grass),
+    residues_r = na_sum(residues), scavenging_r = na_sum(residues),
+    total_r = na_sum(total)),
+    by = c("area_code", "year", "proc_code")],
+  by = c("area_code", "year"), )
 
 feed_bounds <- merge(
-  feed_sup[, list(supply = na_sum(dry)),
-    by = c("area_code", "year", "feedtype")],
-  feed_req[, list(demand = na_sum(demand)),
-    by = c("area_code", "year", "feedtype")],
-  by = c("area_code", "year", "feedtype"))
+  feed_bounds[, list(animals_o = na_sum(animals_r), crops_o = na_sum(animals_r),
+    grass_o = na_sum(grass_r), total_o = na_sum(total_r)),
+    by = c("area_code", "year")],
+  feed_bounds, by = c("area_code", "year"))
 
-x <- feed_req[,
-  lapply(list(animals, crops, grass, residues, scavenging, total), na_sum),
-  by = c("area_code", "year")]
+# Crops
+feed_bounds[, `:=`(
+  crops_r = crops_r * crops / crops_o,
+  animals_r = animals_r * (total_o - crops_o) / (total_o - crops),
+  grass_r = grass_r * (total_o - crops_o) / (total_o - crops),
+  residues_r = residues_r * (total_o - crops_o) / (total_o - crops),
+  scavenging_r = scavenging_r * (total_o - crops_o) / (total_o - crops)
+)]
 
-melt(feed_req, id.vars = c("area_code", "year"))
+# Animals
+feed_bounds[, `:=`(
+  animals_r = animals_r * animals / animals_o,
+  crops_r = crops_r * (total_o - animals_o) / (total_o - animals),
+  grass_r = grass_r * (total_o - animals_o) / (total_o - animals),
+  residues_r = residues_r * (total_o - animals_o) / (total_o - animals),
+  scavenging_r = scavenging_r * (total_o - animals_o) / (total_o - animals)
+)]
+
+# Grass
+feed_bounds[, `:=`(
+  grass_r = grass_r * grass / grass_o,
+  crops_r = crops_r * (total_o - grass_o) / (total_o - grass),
+  animals_r = animals_r * (total_o - grass_o) / (total_o - grass),
+  residues_r = residues_r * (total_o - grass_o) / (total_o - grass),
+  scavenging_r = scavenging_r * (total_o - grass_o) / (total_o - grass)
+)]
 
 
-feed_req[area_code == 1 & year == 2013]
+
 
