@@ -301,6 +301,35 @@ feed_bounds[, `:=`(
   scavenging_r = scavenging_r * (total_o - grass_o) / (total_o - grass)
 )]
 
+feed_bounds[, `:=`(crops = NULL, grass = NULL, animals = NULL)]
+# _r is requirement per process
+# _o is requirement over all processes
+
+# Allocate feed-use -----
+
+use_feed <- merge(
+  use[type == "feed", list(use = na_sum(use)),
+    by = c("area_code", "year", "item_code", "proc_code")],
+  dcast(feed_sup, value.var = "dry", fun.aggregate = na_sum,
+    area_code + year + item_code ~ feedtype),
+  by = c("area_code", "year", "item_code"))
+
+use_feed <- merge(use_feed,
+  use_feed[, list(animals_t = na_sum(animals), crops_t = na_sum(crops),
+  grass_t = na_sum(grass)), by = c("area_code", "year", "proc_code")],
+  by = c("area_code", "year", "proc_code"))
+
+use_feed <- merge(use_feed, feed_bounds, by = c("area_code", "year", "proc_code"))
+
+use_feed[, `:=`(
+  crops = crops * crops_r / crops_t,
+  animals = animals * animals_r / animals_t,
+  grass = grass * grass_r / grass_t
+)]
+
+
+
+
 
 
 
