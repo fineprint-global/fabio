@@ -42,6 +42,12 @@ crop <- readRDS("data/tidy/crop_tidy.rds")
 
 crop_prod <- crop[element == "Production" & unit == "tonnes", ]
 crop_prod[, `:=`(element = NULL, unit = NULL)]
+cat("Add grazing item.\n")
+graze <- crop_prod[item_code == 2000, ]
+crop_prod <- rbindlist(list(
+  crop_prod,
+  graze[, `:=`(item = "Grazing", item_code = 2001, value = 0)]
+))
 cbs <- merge(cbs, crop_prod,
   by = c("area_code", "area", "item_code", "item", "year"), all = TRUE)
 

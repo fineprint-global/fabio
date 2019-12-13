@@ -15,7 +15,7 @@ cat("Allocate production to supplying processes (incl. double-counting).\n")
 # Check whether this should really be production (see Issue #37)
 sup <- merge(
   cbs[, c("area_code", "area", "year", "item_code", "item", "production")],
-  sup, by = c("item_code", "item"), all.x = TRUE, allow.cartesian = TRUE)
+  sup, by = c("item_code", "item"), all = TRUE, allow.cartesian = TRUE)
 
 
 cat("Calculate supply shares for livestock products.\n")
