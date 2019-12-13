@@ -354,9 +354,78 @@ cbs[, grazing := NULL]
 rm(feed)
 
 # Allocate feedstocks to production of alcoholic beverages and sweeteners -----
+opt_tcf <- fread("inst/tcf_optim.csv")
+opt_in <- fread("inst/optim_in.csv")
+opt_out <- fread("inst/optim_out.csv")
 
+input <- merge(opt_in,
+  cbs[, c("area_code", "year", "item_code", "processing")],
+  by = "item_code", all.x = TRUE)
+input <- input[is.finite(processing) & processing > 0]
+output <- merge(opt_out,
+  cbs[, c("area_code", "year", "item_code", "production")],
+  by = "item_code", all.x = TRUE)
+output <- output[is.finite(production) & production > 0]
 
+opt_tcf <- opt_tcf[is.finite(value), ]
 
+# Subset to needed TCF and get weights
+opt_tcf <- opt_tcf[inp_code %in% opt_in$item_code &
+  out_code %in% opt_out$item_code, ]
+weight_out <- opt_tcf[, list(weight = mean(value)),
+  by = c("out_code", "area_code")]
 
+# Subset to available TCF
+input <- input[item_code %in% opt_tcf$inp_code]
+output <- output[item_code %in% opt_tcf$out_code]
 
+# This we do per area and per year
+results <- lapply(sort(unique(input$area_code)), function(x) {
+  inp_x <- input[area_code == x, ]
+  out_x <- output[area_code == x, ]
+  tcf_x <- opt_tcf[area_code == x, ]
+  wt_x <- weight_out[area_code == x, ]
+  res <- lapply(sort(unique(input$year)), function(y) {
+    inp_xy <- inp_x[year == y, ]
+    out_xy <- out_x[year == y, ]
+    tcf_xy <- tcf_x[inp_code %in% inp_xy$item_code &
+      out_code %in% out_xy$item_code, ]
+    wt_xy <- wt_x[out_code %in% out_xy$item_code, ]
+    opt <- optim(
+      par = rep(0, nrow(tcf_xy)), fn = function(par) {
+        I <- tcf_xy[, .(inp_code, par = par)][,
+          list(x = na_sum(par)), by = c("inp_code")]
+        O <- tcf_xy[, .(out_code, par = par * value)][,
+          list(x = na_sum(par)), by = c("out_code")]
+        sum(((out_xy$production - O$x) / wt_xy$weight) ^ 2) +
+          sum((inp_xy$processing - I$x) ^ 2)
+    }, method = "L-BFGS-B", lower = 0, upper = Inf) # See #57
+    tcf_xy[, .(area_code, inp_code, out_code, value,
+      result_in = opt$par, year = y)]
+  })
+  rbindlist(res)
+})
+results <- rbindlist(results)
+results[, `:=`(result_out = result_in * value,
+  item_code = inp_code,
+  type = "optim",
+  proc_code =
+    ifelse(out_code == 2658, "p083", # Do a switch
+      ifelse(out_code == 2657, "p082",
+        ifelse(out_code == 2656, "p081", "p066"))))]
 
+use <- merge(use,
+  results[, c("area_code", "year", "item_code", "proc_code", "type", "result_in")],
+  by = c("area_code", "year", "item_code", "proc_code", "type"), all.x = TRUE)
+use[!is.na(result_in), use := result_in]
+use[, result_in := NULL]
+cbs <- merge(cbs,
+  results[, c("area_code", "year", "item_code", "result_in")],
+  by = c("area_code", "year", "item_code"), all.x = TRUE)
+cbs[!is.na(result_in), processing := processing - result_in]
+cbs[, result_in := NULL]
+
+# Allocation of seed and waste
+
+saveRDS(cbs, "data/cbs_final.rds")
+saveRDS(use, "data/use_final.rds")
