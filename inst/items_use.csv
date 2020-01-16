@@ -1245,6 +1245,8 @@ p098,"Live animals husbandry, other",c123,2749,Meat Meal,feed
 p098,"Live animals husbandry, other",c001,2805,Rice (Milled Equivalent),feed
 p098,"Live animals husbandry, other",c067,2818,"Sugar, Refined Equiv",feed
 p098,"Live animals husbandry, other",c111,2848,Milk - Excluding Butter,feed
+p099,Dairy cattle husbandry,c061,2000,Fodder crops,feed
+p099,Dairy cattle husbandry,c062,2001,Grazing,feed
 p099,Dairy cattle husbandry,c002,2511,Wheat and products,feed
 p099,Dairy cattle husbandry,c003,2513,Barley and products,feed
 p099,Dairy cattle husbandry,c004,2514,Maize and products,feed
@@ -1312,6 +1314,8 @@ p099,Dairy cattle husbandry,c123,2749,Meat Meal,feed
 p099,Dairy cattle husbandry,c001,2805,Rice (Milled Equivalent),feed
 p099,Dairy cattle husbandry,c067,2818,"Sugar, Refined Equiv",feed
 p099,Dairy cattle husbandry,c111,2848,Milk - Excluding Butter,feed
+p100,Dairy buffaloes husbandry,c061,2000,Fodder crops,feed
+p100,Dairy buffaloes husbandry,c062,2001,Grazing,feed
 p100,Dairy buffaloes husbandry,c002,2511,Wheat and products,feed
 p100,Dairy buffaloes husbandry,c003,2513,Barley and products,feed
 p100,Dairy buffaloes husbandry,c004,2514,Maize and products,feed
@@ -1379,6 +1383,8 @@ p100,Dairy buffaloes husbandry,c123,2749,Meat Meal,feed
 p100,Dairy buffaloes husbandry,c001,2805,Rice (Milled Equivalent),feed
 p100,Dairy buffaloes husbandry,c067,2818,"Sugar, Refined Equiv",feed
 p100,Dairy buffaloes husbandry,c111,2848,Milk - Excluding Butter,feed
+p101,Dairy sheep husbandry,c061,2000,Fodder crops,feed
+p101,Dairy sheep husbandry,c062,2001,Grazing,feed
 p101,Dairy sheep husbandry,c002,2511,Wheat and products,feed
 p101,Dairy sheep husbandry,c003,2513,Barley and products,feed
 p101,Dairy sheep husbandry,c004,2514,Maize and products,feed
@@ -1446,6 +1452,8 @@ p101,Dairy sheep husbandry,c123,2749,Meat Meal,feed
 p101,Dairy sheep husbandry,c001,2805,Rice (Milled Equivalent),feed
 p101,Dairy sheep husbandry,c067,2818,"Sugar, Refined Equiv",feed
 p101,Dairy sheep husbandry,c111,2848,Milk - Excluding Butter,feed
+p102,Dairy goats husbandry,c061,2000,Fodder crops,feed
+p102,Dairy goats husbandry,c062,2001,Grazing,feed
 p102,Dairy goats husbandry,c002,2511,Wheat and products,feed
 p102,Dairy goats husbandry,c003,2513,Barley and products,feed
 p102,Dairy goats husbandry,c004,2514,Maize and products,feed
@@ -1513,6 +1521,8 @@ p102,Dairy goats husbandry,c123,2749,Meat Meal,feed
 p102,Dairy goats husbandry,c001,2805,Rice (Milled Equivalent),feed
 p102,Dairy goats husbandry,c067,2818,"Sugar, Refined Equiv",feed
 p102,Dairy goats husbandry,c111,2848,Milk - Excluding Butter,feed
+p103,Dairy camels husbandry,c061,2000,Fodder crops,feed
+p103,Dairy camels husbandry,c062,2001,Grazing,feed
 p103,Dairy camels husbandry,c002,2511,Wheat and products,feed
 p103,Dairy camels husbandry,c003,2513,Barley and products,feed
 p103,Dairy camels husbandry,c004,2514,Maize and products,feed

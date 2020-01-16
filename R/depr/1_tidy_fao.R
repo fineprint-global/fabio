@@ -420,7 +420,6 @@ foddercrops <- data.frame(
     "Forage and silage, green oilseeds",
     "Forage and silage, legumes",
     "Cabbage for fodder",
-    "Mixed Grasses and Legumes",
     "Turnips for fodder",
     "Beets for fodder",
     "Carrots for fodder",
