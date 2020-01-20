@@ -80,7 +80,7 @@ code,iso3c,name,eia,iea,baci,fish,region_code,region
 82,GIB,Gibraltar,Gibraltar,Gibraltar,292,292,9,OECD Europe
 83,KIR,Kiribati,Kiribati,,296,296,16,Oceania
 84,GRC,Greece,Greece,Greece,300,300,9,OECD Europe
-85,GRL,Greenland,Greenland,,304,304,18,Greenland
+85,GRL,Greenland,Greenland,,304,304,9,OECD Europe
 86,GRD,Grenada,Grenada,,308,308,3,Central America
 87,GLP,Guadeloupe,Guadeloupe,,,312,3,Central America
 88,GUM,Guam,Guam,,316,316,16,Oceania

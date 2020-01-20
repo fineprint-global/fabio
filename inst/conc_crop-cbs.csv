@@ -19,7 +19,7 @@ crop_item_code,crop_item,cbs_item_code,cbs_item,tcf
 125,Cassava,2532,Cassava and products,1
 135,Yautia (cocoyam),2534,"Roots, Other",1
 136,Taro (cocoyam),2534,"Roots, Other",1
-137,Yams,2534,"Roots, Other",1
+137,Yams,2535,Yams,1
 149,"Roots and tubers, nes",2534,"Roots, Other",1
 156,Sugar cane,2536,Sugar cane,1
 157,Sugar beet,2537,Sugar beet,1
@@ -104,7 +104,7 @@ crop_item_code,crop_item,cbs_item_code,cbs_item,tcf
 495,"Tangerines, mandarins, clementines, satsumas",2611,"Oranges, Mandarines",1
 497,Lemons and limes,2612,"Lemons, Limes and products",1
 507,Grapefruit (inc. pomelos),2613,Grapefruit and products,1
-512,"Fruit, citrus nes",2625,"Fruits, Other",1
+512,"Fruit, citrus nes",2625,"Citrus, Other",1
 515,Apples,2617,Apples and products,1
 521,Pears,2625,"Fruits, Other",1
 523,Quinces,2625,"Fruits, Other",1
@@ -185,13 +185,13 @@ crop_item_code,crop_item,cbs_item_code,cbs_item,tcf
 636,"Forage and silage, maize",2000,Fodder crops,1
 637,"Forage and silage, sorghum",2000,Fodder crops,1
 638,"Forage and silage, rye grass",2000,Fodder crops,1
-639,"Forage and silage, grasses nes",2000,Fodder crops,1
+639,"Forage and silage, grasses nes",,,
 640,"Forage and silage, clover",2000,Fodder crops,1
 641,"Forage and silage, alfalfa",2000,Fodder crops,1
 642,"Forage and silage, green oilseeds",2000,Fodder crops,1
 643,"Forage and silage, legumes",2000,Fodder crops,1
 644,Cabbage for fodder,2000,Fodder crops,1
-645,Mixed Grasses and Legumes,2000,Fodder crops,1
+645,Mixed Grasses and Legumes,,,
 646,Turnips for fodder,2000,Fodder crops,1
 647,Beets for fodder,2000,Fodder crops,1
 648,Carrots for fodder,2000,Fodder crops,1
