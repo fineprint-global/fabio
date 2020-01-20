@@ -156,62 +156,6 @@ cbs <- merge(
 cbs[, `:=`(exports = ifelse(is.na(exports), value, exports), value = NULL)]
 
 
-# Ethanol -----------------------------------------------------------------
-
-# 2019-10-14: We do not aggregate over all years anymore, so we can treat
-# ethanol trade in the steps above.
-
-# cat("\nAdding ethanol production data.\n")
-
-# eth <- readRDS("data/tidy/eth_tidy.rds")
-
-# # Keep one unit and recode for merging
-# eth <- eth[, `:=`(unit = NULL,
-#                   item = "Alcohol, Non-Food", item_code = 2659)]
-
-# eth_cbs <- merge(cbs[item_code == 2659, ], eth, all = TRUE,
-#                  by = c("area_code", "area", "year", "item", "item_code"))
-
-# eth_cbs <- dt_replace(eth_cbs, is.na, 0,
-#                       cols = c("total_supply", "exports",  "imports",
-#                                "processing", "production",
-#                                "feed", "food", "losses", "other", "seed",
-#                                "stock_withdrawal", "stock_addition"))
-
-# cat("Using EIA/IEA ethanol production values where FAO's",
-#     "CBS are not (or under-) reported.\n")
-# eth_cbs[production < value | is.na(production), production := value]
-# eth_cbs[, value := NULL]
-
-# cat("\nUse national aggregates for ethanol trade.\n")
-# eth_imps <- btd[item_code == 2659 & unit == "tonnes",
-#                 list(value = sum(value, na.rm = TRUE)),
-#                 by = list(to_code, year, item_code)]
-# eth_exps <- btd[item_code == 2659 & unit == "tonnes",
-#                 list(value = sum(value, na.rm = TRUE)),
-#                 by = list(from_code, year, item_code)]
-
-# eth_cbs <- merge(eth_cbs, eth_imps,
-#                  by.x = c("area_code", "year", "item_code"),
-#                  by.y = c("to_code", "year", "item_code"), all.x = TRUE)
-# eth_cbs <- merge(eth_cbs, eth_exps,
-#                  by.x = c("area_code", "year", "item_code"),
-#                  by.y = c("from_code", "year", "item_code"), all.x = TRUE)
-
-# cat("\nOverwrite CBS imports and exports of Ethanol with BTD data.\n")
-# eth_cbs[, `:=`(imports = value.x, exports = value.y,
-#                value.x = NULL, value.y = NULL)]
-# eth_cbs <- dt_replace(eth_cbs, is.na, 0, cols = c("exports", "imports"))
-
-# cat("\nReduce exports where they surpass total_supply.\n")
-# eth_cbs[, `:=`(total_supply = production + imports,
-#                other = total_supply - exports - stock_addition)]
-# eth_cbs[other < 0, `:=`(exports = exports + other, other = 0)]
-
-# Kick original cbs[item_code == 2659, ] and integrate this instead
-# cbs <- rbindlist(list(cbs[item_code != 2659], eth_cbs), use.names = TRUE)
-
-
 # Estimate missing CBS ----------------------------------------------------
 
 # # Apply TCF
@@ -265,19 +209,19 @@ cat("\nAllocate remaining supply from 'balancing' to uses.\n")
 cat("\nHops and live animals to 'processing'.\n")
 cbs[item_code %in% c(677, 866, 946, 976, 1016, 1034, 2029, 1096, 1107, 1110,
                      1126, 1157, 1140, 1150, 1171) & balancing > 0,
-    `:=`(processing = balancing, balancing = 0)]
+    `:=`(processing = processing + balancing, balancing = 0)]
 
 cat("\nNon-food crops to 'other'.\n")
 cbs[item_code %in% c(2662, 2663, 2664, 2665, 2666, 2667, 2671, 2672, 2659,
                      2661, 2746, 2748, 2747) & balancing > 0,
-    `:=`(other = balancing, balancing = 0)]
+    `:=`(other = other + balancing, balancing = 0)]
 
 cat("\nFeed crops to 'feed'.\n")
 cbs[item_code %in% c(2000, 2536, 2537, 2555, 2559, 2544, 2590, 2591, 2592,
                      2593, 2594, 2595, 2596, 2597, 2598) & balancing > 0,
-    `:=`(feed = balancing, balancing = 0)]
+    `:=`(feed = feed + balancing, balancing = 0)]
 cat("\nRest to 'food'.\n")
-cbs[balancing > 0, `:=`(food = balancing, balancing = 0)]
+cbs[balancing > 0, `:=`(food = food + balancing, balancing = 0)]
 
 
 # Save --------------------------------------------------------------------
