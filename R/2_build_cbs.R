@@ -30,6 +30,8 @@ fore[, `:=`(total_supply = production + imports,
             stock_withdrawal = 0, stock_addition = 0,
             feed = 0, food = 0, losses = 0, processing = 0,
             seed = 0, balancing = 0)]
+fore[other < 0, `:=`(stock_addition = -other,
+                     stock_addition = other, other = 0)]
 
 cbs <- rbindlist(list(cbs, fore), use.names = TRUE)
 
