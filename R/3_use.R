@@ -307,14 +307,15 @@ feed_bounds <- merge(
     by = c("area_code", "year", "proc_code")],
   by = c("area_code", "year"))
 
+# Add totals over processes
 feed_bounds <- merge(
   feed_bounds[, list(animals_o = na_sum(animals_r), crops_o = na_sum(crops_r),
-    grass_o = na_sum(grass_r), fodder_o = na_sum(fodder),
+    grass_o = na_sum(grass_r), fodder_o = na_sum(fodder_r),
     total_o = na_sum(total_r)),
     by = c("area_code", "year")],
   feed_bounds, by = c("area_code", "year"))
 
-# Bounds, see #56 - scaling up doesn't work most of the time (0 requirement)
+# Use up supply (process percentage), note that there is no grass supply per se
 feed_bounds[, `:=`(
   crops_r = crops_r * crops / crops_o,
   animals_r = animals_r * animals / animals_o,
@@ -322,8 +323,8 @@ feed_bounds[, `:=`(
   grass_r = grass_r)]
 
 feed_bounds[, `:=`(crops = NULL, animals = NULL, fodder = NULL)]
-# _r is requirement per process
-# _o is requirement over all processes
+# "_r" is requirement per process
+# "_o" is requirement over all processes
 
 
 # Allocate feed-use -----
@@ -331,55 +332,47 @@ feed_bounds[, `:=`(crops = NULL, animals = NULL, fodder = NULL)]
 feed <- merge(
   use[type == "feed", list(use = na_sum(use)),
     by = c("area_code", "year", "item_code", "proc_code")],
-  dcast(feed_sup,
+  dcast(feed_sup[, !c("moisture"), with = FALSE],
     value.var = "dry", fun.aggregate = na_sum,
-    area_code + year + item_code + moisture ~ feedtype),
+    area_code + year + item_code ~ feedtype),
   by = c("area_code", "year", "item_code"), all.x = TRUE)
 
+# Add totals over items
 feed <- merge(feed,
-  feed[, list(animals_t = na_sum(animals), crops_t = na_sum(crops),
-    grass_t = na_sum(grass), fodder_t = na_sum(fodder)),
+  feed[, list(animals_t = na_sum(animals),
+    crops_t = na_sum(crops), fodder_t = na_sum(fodder)),
     by = c("area_code", "year", "proc_code")],
   by = c("area_code", "year", "proc_code"))
+# "" is supply per item
+# "_t" is supply over all items
 
 feed <- merge(feed, feed_bounds, by = c("area_code", "year", "proc_code"))
 
 # Set use to demand (process level) * supply (item level) / supply (all items)
-# Note that supply (per item) / supply == 1 for grass (only Fodder crops)
-# We split grass into Fodder crops and grazing according to gaps
 feed[, `:=`(
   crops = crops * crops_r / crops_t,
   animals = animals * animals_r / animals_t,
-  fodder = fodder * fodder_r / fodder_t
-)]
-grazing <- feed[item_code == 2000, c("area_code", "year", "proc_code", "grass")]
-grazing[, `:=`(item_code = 2001, grass_graze = grass, grass = NULL)]
-feed[item_code == 2000, grass := grass * (1 - grazing_pct)]
-feed <- merge(feed, grazing,
-  by = c("area_code", "year", "proc_code", "item_code"), all.x = TRUE)
-feed[item_code == 2001, grass := grass_graze * grazing_pct]
+  fodder = fodder * fodder_r / fodder_t)]
 
 # Moisture
+feed <- merge(feed, items[, c("item_code", "moisture")], by = "item_code")
 feed[, `:=`(crops = crops / (1 - moisture),
-  animals = animals / (1 - moisture), grass = grass / (1 - moisture))]
+  animals = animals / (1 - moisture), fodder = fodder / (1 - moisture))]
 
-# Move to relevant column and cheat by replacing NAs with 0
-feed[, `:=`(
-  crops = ifelse(is.finite(crops), crops, NA),
-  animals = ifelse(is.finite(animals), animals, NA),
-  grass = ifelse(is.finite(grass), grass, NA))]
-feed[, use_feed := na_sum(crops, animals, grass)]
+# Move to relevant column, note that grass is equal to the demand
+feed[, use_feed := na_sum(crops, animals, fodder, grass_r)]
 
 # Add feed use back to the use table
 use <- merge(use,
   feed[, c("area_code", "year", "proc_code", "item_code", "use_feed")],
-  by = c("area_code", "item_code", "year", "proc_code"), all.x = TRUE)
+  by = c("area_code", "year", "item_code", "proc_code"), all.x = TRUE)
 use[!is.na(use_feed), `:=`(use = use_feed)]
 use[, `:=`(use_feed = NULL)]
 
-# Add grazing to the supply
+# Add grazing (use_feed of item_code 2001 == grass_r) to supply and balances
 grazing <- feed[item_code == 2001, list(grazing = na_sum(use_feed)),
-  by = c("area_code", "year", "item_code")]
+    by = c("area_code", "year", "item_code")]
+
 sup <- merge(sup, grazing,
   by = c("area_code", "year", "item_code"), all.x = TRUE)
 sup[item_code == 2001, production := grazing]
@@ -391,7 +384,7 @@ cbs[item_code == 2001, `:=`(
   production = grazing, total_supply = na_sum(grazing, imports))]
 cbs[, grazing := NULL]
 
-rm(feed)
+rm(feed, grazing)
 
 # Allocate feedstocks to production of alcoholic beverages and sweeteners -----
 opt_tcf <- fread("inst/tcf_optim.csv")
