@@ -18,7 +18,7 @@ use <- fread("inst/items_use.csv")
 use <- merge(
   cbs,
   # cbs[, c("area_code", "area", "year", "item_code", "item")],
-  use[item_code != 843],
+  use[item_code != 843, ],
   by = c("item_code", "item"), all = TRUE, allow.cartesian = TRUE)
 use[, use := NA_real_]
 
@@ -85,6 +85,7 @@ na_sum <- function(..., rowwise = TRUE) {
     return(na_sum(vapply(dots, na_sum, double(1L))))
   }
 }
+
 eth_total <- eth[,
   list(pot_oth_t = na_sum(pot_oth),
        pot_proc_t = na_sum(pot_proc)),
@@ -226,8 +227,6 @@ proc_target <- c("p085","p086","p087","p088","p089","p090")
 feed_req_b[, proc_code := vsub(proc_source, proc_target, proc_code)]
 rm(proc_source, proc_target)
 
-cat("Skipping estimation of domestic meat production.\n")
-# Estimated export shares (2013) - Median: 0.000000; Mean: 0.028150
 
 feed_req_b <- merge(all.x = TRUE, allow.cartesian = TRUE,
   feed_req_b,
@@ -398,6 +397,7 @@ opt_out <- fread("inst/optim_out.csv")
 input <- merge(opt_in,
   cbs[, c("area_code", "year", "item_code", "processing")],
   by = "item_code", all.x = TRUE)
+
 input <- input[is.finite(processing) & processing > 0]
 output <- merge(opt_out,
   cbs[, c("area_code", "year", "item_code", "production")],
@@ -423,7 +423,7 @@ input[is.na(processing), processing := 0]
 output[is.na(production), production := 0]
 
 # Optimise allocation -----
-
+# This takes a very long time! Parallelisation should work by default.
 results <- lapply(sort(unique(input$area_code)), function(x) {
   # Per area
   inp_x <- input[area_code == x, ]
@@ -440,7 +440,7 @@ results <- lapply(sort(unique(input$area_code)), function(x) {
       out_code %in% out_xy$item_code, ]
     wt_xy <- wt_x[out_code %in% out_xy$item_code, ]
     # Optimise on country x & year y
-    opt <- optim(par = rep(0, nrow(tcf_xy)),
+    opt <- optim(par = rep(0, nrow(tcf_xy)), # To-do: vectorise further
       fn = function(par) {
         I <- tcf_xy[, .(inp_code, par = par)][,
           list(x = na_sum(par)), by = c("inp_code")]
@@ -483,7 +483,42 @@ cbs <- merge(cbs,
 cbs[!is.na(result_in), processing := na_sum(processing, -result_in)]
 cbs[, result_in := NULL]
 
-# Allocation of seed and waste -----
+
+# Allocation of seed -----
+
+seed_sup <- merge(sup,
+  sup[, list(total = na_sum(production)),
+    by = c("area_code", "item_code", "year")],
+  by = c("area_code", "item_code", "year"), all.x = TRUE)
+seed_sup[, share := ifelse(total == 0, NA, production / total)]
+
+# Add to seed-balances and filter to relevant ones
+seed_sup <- merge(seed_sup,
+  cbs[seed > 0, c("area_code", "item_code", "year", "seed")],
+  by = c("area_code", "item_code", "year"), all.x = TRUE)
+seed_sup[, share_s := seed * share]
+seed_sup <- seed_sup[, list(share_s = na_sum(share_s)),
+  by = c("area_code", "item_code", "proc_code", "year")]
+seed_sup <- seed_sup[share_s > 0, ]
+
+# Add seed use to the use table
+use <- merge(use,
+  seed_sup[, .(area_code, year, item_code, proc_code,
+    type = "seedwaste", share_s)],
+  by = c("area_code", "year", "item_code", "proc_code", "type"), all.x = TRUE)
+use[!is.na(share_s) & type == "seedwaste", use := share_s]
+use[, share_s := NULL]
+
+# Allocate the rest of processing to food balances -----
+cbs[processing > 0, `:=`(food = na_sum(food, processing), processing = 0)]
+
+
+# Allocate final demand from balances -----
+use_fd <- cbs[, c("area_code", "item_code", "year",
+  "food", "other", "stock_addition", "stock_withdrawal", "balancing")]
+
+
+# Save -----
 
 saveRDS(cbs, "data/cbs_final.rds")
 saveRDS(use, "data/use_final.rds")

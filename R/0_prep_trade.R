@@ -4,7 +4,6 @@
 library(data.table)
 library(comtradr)
 source("R/0_prep_functions.R")
-ct_register_token(Sys.getenv("COMTRADE_TOKEN"))
 path_trade <- "input/trade/"
 
 
@@ -33,6 +32,13 @@ saveRDS(baci_sel, paste0(path_trade, "baci_sel.rds"))
 
 
 # Comtrade ----------------------------------------------------------------
+
+# Register token - look in "~/.Renviron"
+COMTRADE_TOKEN <- Sys.getenv("COMTRADE_TOKEN")
+if(nchar(COMTRADE_TOKEN) == 0) {
+  stop("No 'COMTRADE_TOKEN' found in the environment. ",
+    "Please provide a token to use the Comtrade API.")
+} else {ct_register_token()}
 
 # Loop over possible reporters to circumvent API restrictions
 reporters <- readLines("inst/comtrade_reporters.txt", encoding = "UTF-8")
