@@ -75,8 +75,10 @@ live <- live[element == "Production" & unit == "head", ]
 live[, `:=`(element = NULL, unit = NULL)]
 
 # Do this until concordances are fixed (see Issue #49)
-src_item <- c(1137, 944, 1032, 1012, 1775, 1055, 1120, 1144, 972, 1161, 1154, 1122, 1124)
-tgt_item <- c(1126, 866, 1016, 976, 2029, 1034, 1096, 1140, 946, 1157, 1150, 1107, 1110)
+src_item <- c(1137, 944, 1032, 1012, 1775, 1055, 1120, 1144,
+  972, 1161, 1154, 1122, 1124)
+tgt_item <- c(1126, 866, 1016, 976, 2029, 1034, 1096, 1140,
+  946, 1157, 1150, 1107, 1110)
 tgt_name <- c("Camels", "Cattle", "Goats", "Sheep", "Poultry Birds", "Pigs",
   "Horses", "Rabbits and hares", "Buffaloes", "Camelids, other",
   "Rodents, other", "Asses", "Mules")
@@ -90,6 +92,7 @@ cbs <- merge(cbs, live,
 cbs[!is.na(value), production := value]
 cbs[, value := NULL]
 
+# Ethanol
 
 cat("\nAdding ethanol production data to CBS.\n")
 
@@ -114,6 +117,16 @@ eth_cbs[production < value | is.na(production), production := value]
 eth_cbs[, value := NULL]
 
 cbs <- rbindlist(list(cbs[item_code != 2659, ], eth_cbs), use.names = TRUE)
+
+
+# Create RoW --------------------------------------------------------------
+
+# Aggregate RoW countries in CBS
+cbs[!area_code %in% regions$area_code, `:=`(
+  area_code = 999, area = "Rest of World")]
+cbs <- cbs[, lapply(.SD, na_sum),
+  by = c("area_code", "area", "item_code", "item", "year")]
+
 
 
 # Add BTD data ------------------------------------------------------------

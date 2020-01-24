@@ -175,4 +175,7 @@ rm(fish_com, fish_com_fill, fish_baci)
 # Merge and save ----------------------------------------------------------
 
 btd_full <- rbindlist(list(btd, fore, eth, fish), use.names = TRUE)
+btd_full <- btd_full[, list(value = na_sum(value)),
+  by = c("item_code", "item",
+    "from", "from_code", "to", "to_code", "year", "unit")]
 saveRDS(btd_full, "data/btd_full.rds")
