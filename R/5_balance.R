@@ -42,21 +42,24 @@ build_back <- function(name, list, ids) {
   x <- list[[name]]
   row_na <- apply(x, 1, function(y) {all(is.na(y))})
   col_na <- apply(x, 2, function(y) {all(is.na(y))})
-  melt(cbind(ids[!row_na], as.matrix(x[!row_na, !col_na])),
+  out <- melt(cbind(ids[!row_na], as.matrix(x[!row_na, !col_na])),
     id.vars = c("year", "item_code"), na.rm = TRUE,
     variable.name = "area_code", value.name = name)
+  return(if(nrow(out) == 0) {NULL} else {out})
 }
 
 est_exp <- lapply(colnames(cbs_imp), spread_trade, cbs_imp, cbs_exp)
 names(est_exp) <- colnames(cbs_imp)
 est_exp <- lapply(colnames(cbs_imp), build_back, est_exp, ids)
 est_exp <- Reduce(function(x, y) {
-  merge(x, y, by = c("year", "item_code"),
+  if(is.null(y)) {if(is.null(x)) {return(NULL)} else {return(x)}}
+  merge(x, y, by = c("area_code", "year", "item_code"),
   sort = FALSE, all = TRUE, allow.cartesian = TRUE)}, est_exp)
 
 est_imp <- lapply(colnames(cbs_exp), spread_trade, cbs_exp, cbs_imp)
 names(est_imp) <- colnames(cbs_exp)
 est_imp <- lapply(colnames(cbs_exp), build_back, est_imp, ids)
 est_imp <- Reduce(function(x, y) {
+  if(is.null(y)) {if(is.null(x)) {return(NULL)} else {return(x)}}
   merge(x, y, by = c("year", "item_code"),
   sort = FALSE, all = TRUE, allow.cartesian = TRUE)}, est_imp)
