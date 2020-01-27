@@ -1,5 +1,6 @@
 
 library(data.table)
+source("R/1_tidy_functions.R")
 
 regions <- fread("inst/regions_full.csv")
 items <- fread("inst/items_full.csv")
@@ -72,19 +73,6 @@ eth <- merge(eth, eth_tcf[, c("area_code", "item_code", "value")],
   by = c("area_code", "item_code"), all = TRUE)
 
 eth[, `:=`(pot_oth = other * tcf, pot_proc = processing * tcf)]
-
-na_sum <- function(..., rowwise = TRUE) {
-  dots <- list(...)
-  if(length(dots) == 1) { # Base
-    ifelse(all(is.na(dots[[1]])), NA_real_, sum(dots[[1]], na.rm = TRUE))
-  } else { # Recurse
-    if(rowwise) {
-      x <- do.call(cbind, dots)
-      return(apply(x, 1, na_sum))
-    }
-    return(na_sum(vapply(dots, na_sum, double(1L))))
-  }
-}
 
 eth_total <- eth[,
   list(pot_oth_t = na_sum(pot_oth),
@@ -217,11 +205,6 @@ feed_req_b[, type := ifelse(item_code == 2848, "milk", "meat")]
 
 cat("Recoding processes,",
   "e.g. from 'Cattle slaughtering' to 'Cattle husbandry'.\n")
-vsub <- function(a, b, x) {
-  stopifnot(length(a) == length(b))
-  for(i in seq_along(a)) {x <- gsub(a[i], b[i], x)}
-  return(x)
-}
 proc_source <- c("p104","p105","p106","p107","p108","p109")
 proc_target <- c("p085","p086","p087","p088","p089","p090")
 feed_req_b[, proc_code := vsub(proc_source, proc_target, proc_code)]

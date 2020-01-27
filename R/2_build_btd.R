@@ -175,6 +175,28 @@ rm(fish_com, fish_com_fill, fish_baci)
 # Merge and save ----------------------------------------------------------
 
 btd_full <- rbindlist(list(btd, fore, eth, fish), use.names = TRUE)
+
+# Replace negatives with 0
+btd <- dt_replace(btd, function(x) {`<`(x, 0)}, value = 0, cols = "value")
+
+# Filter to needed items
+btd <- btd[item_code %in% items$item_code, ]
+
+# Recode missing countries to RoW
+btd <- btd[!from_code %in% regions, `:=`(
+  from_code = 999, from = "Rest of World")]
+btd <- btd[!to_code %in% regions, `:=`(
+  to_code = 999, to = "Rest of World")]
+
+# Remove unspecified and adjustment countries from the BTD
+btd <- btd[!from_code %in% c(252, 254) & !to_code %in% c(252, 254), ]
+
+# Aggregate RoW countries in BTD
+btd[, lapply(.SD, na_sum),
+  by = c("area_code", "area", "item_code", "item", "year")]
+
+
+# Store
 btd_full <- btd_full[, list(value = na_sum(value)),
   by = c("item_code", "item",
     "from", "from_code", "to", "to_code", "year", "unit")]

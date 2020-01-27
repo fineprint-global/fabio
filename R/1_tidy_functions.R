@@ -223,3 +223,10 @@ na_sum <- function(..., rowwise = TRUE) {
     return(na_sum(vapply(dots, na_sum, double(1L))))
   }
 }
+
+
+vsub <- function(a, b, x) {
+  stopifnot(length(a) == length(b))
+  for(i in seq_along(a)) {x <- gsub(a[i], b[i], x)}
+  return(x)
+}
