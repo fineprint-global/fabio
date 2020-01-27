@@ -50,11 +50,13 @@ build_back <- function(name, list, ids) {
 est_exp <- lapply(colnames(cbs_imp), spread_trade, cbs_imp, cbs_exp)
 names(est_exp) <- colnames(cbs_imp)
 est_exp <- lapply(colnames(cbs_imp), build_back, est_exp, ids)
-est_exp <- do.call(merge, est_exp, by = c("year", "item_code",
-  sort = FALSE, all = TRUE, allow.cartesian = TRUE)
+est_exp <- Reduce(function(x, y) {
+  merge(x, y, by = c("year", "item_code"),
+  sort = FALSE, all = TRUE, allow.cartesian = TRUE)}, est_exp)
 
 est_imp <- lapply(colnames(cbs_exp), spread_trade, cbs_exp, cbs_imp)
 names(est_imp) <- colnames(cbs_exp)
 est_imp <- lapply(colnames(cbs_exp), build_back, est_imp, ids)
-est_imp <- do.call(merge, est_imp, by = c("year", "item_code",
-  sort = FALSE, all = TRUE, allow.cartesian = TRUE)
+est_imp <- Reduce(function(x, y) {
+  merge(x, y, by = c("year", "item_code"),
+  sort = FALSE, all = TRUE, allow.cartesian = TRUE)}, est_imp)
