@@ -224,7 +224,7 @@ cat("\nAllocate remaining supply from 'balancing' to uses.\n")
 cat("\nHops and live animals to 'processing'.\n")
 cbs[item_code %in% c(677, 866, 946, 976, 1016, 1034, 2029, 1096, 1107, 1110,
                      1126, 1157, 1140, 1150, 1171) & balancing > 0,
-    `:=`(processing = na_sum(processing, balancing) balancing = 0)]
+    `:=`(processing = na_sum(processing, balancing), balancing = 0)]
 
 cat("\nNon-food crops to 'other'.\n")
 cbs[item_code %in% c(2662, 2663, 2664, 2665, 2666, 2667, 2671, 2672, 2659,

@@ -3,85 +3,64 @@ library("data.table")
 library("Matrix")
 source("R/1_tidy_functions.R")
 
+years <- 1986:2017
+
 
 # BTD ---------------------------------------------------------------------
 
-cat("\nEstimating BTD from CBS.\n")
-
+btd <- readRDS("data/btd_full.rds")
+btd_est <- readRDS("data/btd_est.rds")
 cbs <- readRDS("data/cbs_full.rds")
 
+areas <- unique(cbs$area_code)
+items <- unique(cbs$item_code)
 
-# Cast import and export columns
-cbs_imp <- dcast(cbs[, c("area_code", "year", "item_code", "imports")],
-  year + item_code ~ area_code, value.var = "imports", fun.aggregate = na_sum)
-cbs_exp <- dcast(cbs[, c("area_code", "year", "item_code", "exports")],
-  year + item_code ~ area_code, value.var = "exports", fun.aggregate = na_sum)
+# Adjust CBS to have equalt export and import numbers per item per year
+cbs_bal <- cbs[, list(exp_t = na_sum(exports), imp_t = na_sum(imports)),
+  by = c("year", "item_code", "item")]
+cbs_bal[, `:=`(diff = na_sum(exp_t, -imp_t), exp_t = NULL, imp_t = NULL,
+  area_code = 999, area = "Rest of World")]
+# Absorb discrepancies in "RoW"
+cbs <- merge(cbs, cbs_bal,
+  by = c("year", "item_code", "item", "area_code", "area"), all = TRUE)
+cbs[area_code == 999, `:=`(
+  exports = ifelse(diff < 0, na_sum(exports, -diff), exports),
+  imports = ifelse(diff > 0, na_sum(imports, diff), imports))]
+cbs[, diff := NULL]
 
-rm(cbs); gc()
+rm(cbs_bal); gc()
 
-# Check equivalence of year, item_code and areas.
-stopifnot(all(cbs_exp[, c(1, 2)] == cbs_imp[, c(1, 2)]),
-  all(names(cbs_exp) == names(cbs_imp)))
-cbs_ids <- cbs_imp[, c("year", "item_code")]
-
-# Use the Matrix package for efficient operations
-cbs_imp <- as(cbs_imp[, c(-1, -2)], "Matrix")
-cbs_exp <- as(cbs_exp[, c(-1, -2)], "Matrix")
-
-
-spread_trade <- function(x, split_matr, inp_matr) {
-  split_matr[, x] <- 0 # No internal "exports" / "imports"
-  split_sums <- rowSums(split_matr, na.rm = TRUE)
-  split_sums <- ifelse(split_sums == 0, NA, split_sums) # Avoid NaN
-  split_matr / split_sums * inp_matr[, x]
-}
-
-build_estimates <- function(name, list, ids, kick_0 = TRUE) {
-  x <- list[[name]]
-  row_na <- apply(x, 1, function(y) {all(is.na(y))})
-  col_na <- apply(x, 2, function(y) {all(is.na(y))})
-  out <- melt(cbind(ids[!row_na], as.matrix(x[!row_na, !col_na])),
-    id.vars = c("year", "item_code"), na.rm = TRUE,
-    variable.name = "area_code")
-  if(nrow(out) == 0) {return(NULL)}
-  # Make sure encoding is right, to reduce memory load
-  out[, `:=`(year = as.integer(year), item_code = as.integer(item_code),
-    area_code = as.integer(area_code), inp_code = as.integer(name))]
-  # Consider not carrying over 0 values
-  if(kick_0) {out[value != 0, ]} else{out}
-}
+# Rebalance supply and use
+cat("\nAdjust ", cbs[total_supply != na_sum(production, imports), .N],
+    " observations of 'total_supply' to ",
+    "`total_supply = production + imports`.\n", sep = "")
+cbs[, total_supply := na_sum(production, imports)]
+# To-do: Check whether we should just do this for "RoW"
+cat("\nUpdate 'balancing' column with discrepancies.\n")
+cbs[, balancing := na_sum(total_supply,
+  -stock_addition, -exports, -food, -feed, -seed, -losses, -processing, -other)]
 
 
-cat("\nPreparing to estimate trade shares. Memory demand may exceed 16GB.\n")
+# Only keep relevant units in BTD
+btd <- btd[unit %in% c("tonnes", "head", "m3"), ]
+btd_est <- btd_est[year %in% years & item_code %in% items, ]
 
-# Spread exports according to import shares
-est_exp <- lapply(colnames(cbs_imp), spread_trade, cbs_imp, cbs_exp)
-names(est_exp) <- colnames(cbs_imp)
-est_exp <- lapply(colnames(cbs_imp), build_estimates, est_exp, cbs_ids)
-est_exp <- rbindlist(est_exp)
-est_exp <- est_exp[, .(year, item_code,
-  to_code = area_code, from_code = inp_code, exp_spread = value)]
+# Get data on target (CBS) trade
+exp <- btd[, list(value = na_sum(value)),
+  by = c("year", "from_code", "item_code")]
+imp <- btd[, list(value = na_sum(value)),
+  by = c("year", "to_code", "item_code")]
 
-# Spread imports according to export shares
-est_imp <- lapply(colnames(cbs_exp), spread_trade, cbs_exp, cbs_imp)
-names(est_imp) <- colnames(cbs_exp)
-est_imp <- lapply(colnames(cbs_exp), build_estimates, est_imp, cbs_ids)
-est_imp <- rbindlist(est_imp)
-est_imp <- est_imp[, .(year, item_code,
-  from_code = area_code, to_code = inp_code, imp_spread = value)]
+# Create info on target trade
+exp <- cbs[, c("year", "area_code", "item_code", "exports")]
+imp <- cbs[, c("year", "area_code", "item_code", "imports")]
 
-rm(cbs_exp, cbs_imp, cbs_ids); gc()
+target <- merge(exp, imp, by = c("year", "item_code", "area_code"), all = TRUE)
 
-# Merge import-share and export-share based estimates
-btd_est <- merge(est_exp, est_imp,
-  by = c("year", "item_code", "from_code", "to_code"), all = TRUE)
-rm(est_exp, est_imp); gc()
+# Create array mapping importers to exporters per item per year
+mapping <- as.data.table(array(NA,
+  dim = c(length(areas), length(areas), length(items), length(years)),
+  dimnames = list(areas, areas, items, years)))
 
-# Average the estimates - note that 0 estimates may be considered NA
-btd_est[, `:=`(exp_spread = NULL, imp_spread = NULL,
-  value = ifelse(is.na(exp_spread), imp_spread,
-    ifelse(is.na(imp_spread), exp_spread,
-      na_sum(imp_spread, exp_spread) / 2)))]
-
-# Store result ---
-saveRDS(btd_est, "data/btd_est.rds")
+# Fill this fucker with >=0 values from btd, then from btd_est
+# Then RAS it per year per item (using `target`)

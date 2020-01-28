@@ -5,7 +5,7 @@ source("R/1_tidy_functions.R")
 regions <- fread("inst/regions_full.csv")
 items <- fread("inst/items_full.csv")
 
-years <- 1986:2013
+years <- 1986:2017
 
 # Comtrade and BACI are used for ethanol and fishery trade
 comtrade <- readRDS("data/tidy/comtrade_tidy.rds")

@@ -82,7 +82,7 @@ rm(est_exp, est_imp); gc()
 btd_est[, `:=`(exp_spread = NULL, imp_spread = NULL,
   value = ifelse(is.na(exp_spread), imp_spread,
     ifelse(is.na(imp_spread), exp_spread,
-      na_sum(imp_spread, exp_spread) / 2)))]
+      (imp_spread + exp_spread) / 2)))]
 
 
 # Store result ----------------a--------------------------------------------
