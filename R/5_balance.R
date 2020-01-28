@@ -28,6 +28,7 @@ cbs_ids <- cbs_imp[, c("year", "item_code")]
 cbs_imp <- as(cbs_imp[, c(-1, -2)], "Matrix")
 cbs_exp <- as(cbs_exp[, c(-1, -2)], "Matrix")
 
+
 spread_trade <- function(x, split_matr, inp_matr) {
   split_matr[, x] <- 0 # No internal "exports" / "imports"
   split_sums <- rowSums(split_matr, na.rm = TRUE)
@@ -35,7 +36,7 @@ spread_trade <- function(x, split_matr, inp_matr) {
   split_matr / split_sums * inp_matr[, x]
 }
 
-build_back <- function(name, list, ids, kick_0 = TRUE) {
+build_estimates <- function(name, list, ids, kick_0 = TRUE) {
   x <- list[[name]]
   row_na <- apply(x, 1, function(y) {all(is.na(y))})
   col_na <- apply(x, 2, function(y) {all(is.na(y))})
@@ -50,10 +51,13 @@ build_back <- function(name, list, ids, kick_0 = TRUE) {
   if(kick_0) {out[value != 0, ]} else{out}
 }
 
+
+cat("\nPreparing to estimate trade shares. Memory demand may exceed 16GB.\n")
+
 # Spread exports according to import shares
 est_exp <- lapply(colnames(cbs_imp), spread_trade, cbs_imp, cbs_exp)
 names(est_exp) <- colnames(cbs_imp)
-est_exp <- lapply(colnames(cbs_imp), build_back, est_exp, cbs_ids)
+est_exp <- lapply(colnames(cbs_imp), build_estimates, est_exp, cbs_ids)
 est_exp <- rbindlist(est_exp)
 est_exp <- est_exp[, .(year, item_code,
   to_code = area_code, from_code = inp_code, exp_spread = value)]
@@ -61,7 +65,7 @@ est_exp <- est_exp[, .(year, item_code,
 # Spread imports according to export shares
 est_imp <- lapply(colnames(cbs_exp), spread_trade, cbs_exp, cbs_imp)
 names(est_imp) <- colnames(cbs_exp)
-est_imp <- lapply(colnames(cbs_exp), build_back, est_imp, cbs_ids)
+est_imp <- lapply(colnames(cbs_exp), build_estimates, est_imp, cbs_ids)
 est_imp <- rbindlist(est_imp)
 est_imp <- est_imp[, .(year, item_code,
   from_code = area_code, to_code = inp_code, imp_spread = value)]
