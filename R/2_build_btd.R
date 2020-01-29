@@ -183,9 +183,9 @@ btd <- dt_replace(btd, function(x) {`<`(x, 0)}, value = 0, cols = "value")
 btd <- btd[item_code %in% items$item_code, ]
 
 # Recode missing countries to RoW
-btd <- btd[!from_code %in% regions$code, `:=`(
+btd <- btd[!from_code %in% regions[cbs == TRUE, code], `:=`(
   from_code = 999, from = "RoW")]
-btd <- btd[!to_code %in% regions$code, `:=`(
+btd <- btd[!to_code %in% regions[cbs == TRUE, code], `:=`(
   to_code = 999, to = "RoW")]
 
 # Remove unspecified and adjustment countries from the BTD

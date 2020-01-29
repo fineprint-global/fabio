@@ -19,19 +19,20 @@ dt_rename <- function(x, rename, drop = TRUE) {
 }
 
 
-dt_replace <- function(x, fun = is.na, value = 0, cols = seq_len(ncol(x))) {
+dt_replace <- function(x, fun = is.na, value = 0,
+  cols = seq_len(ncol(x)), verbose = TRUE) {
 
   n_replaced <- 0
   for(col in cols) {
     fun_applied <- fun(x[[col]])
-    n_replaced <- n_replaced + sum(fun_applied, na.rm = TRUE)
+    if(verbose) {n_replaced <- n_replaced + sum(fun_applied, na.rm = TRUE)}
     set(x, i = which(fun_applied), j = col, value)
   }
-
-  cat("Replaced ", n_replaced, " values where `", deparse(substitute(fun)),
+  if(verbose) {
+    cat("Replaced ", n_replaced, " values where `", deparse(substitute(fun)),
       "` (applies to columns ", paste0("'", cols, "'", collapse = ", "),
       ") with ", value, ".\n", sep = "")
-
+  }
   return(x)
 }
 

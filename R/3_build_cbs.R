@@ -122,7 +122,7 @@ cbs <- rbindlist(list(cbs[item_code != 2659, ], eth_cbs), use.names = TRUE)
 # Create RoW --------------------------------------------------------------
 
 # Aggregate RoW countries in CBS
-cbs[!area_code %in% regions$area_code, `:=`(
+cbs[!area_code %in% regions[cbs == TRUE, code], `:=`(
   area_code = 999, area = "RoW")]
 cbs <- cbs[, lapply(.SD, na_sum),
   by = c("area_code", "area", "item_code", "item", "year")]
