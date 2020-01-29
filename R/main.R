@@ -1,9 +1,9 @@
 
 # 0_prep ------------------------------------------------------------------
 
-library(data.table) # 1.12.0
-library(comtradr) # 0.2.2
-# library(openxlsx) # 4.1.0
+library("data.table") # 1.12.0
+library("comtradr") # 0.2.2
+# library("openxlsx") # 4.1.0
 
 source("R/0_prep_functions.R")
 

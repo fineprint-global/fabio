@@ -1,7 +1,7 @@
 
 # Tidying -----------------------------------------------------------------
 
-library(data.table) # 1.12.0
+library("data.table") # 1.12.0
 source("R/1_tidy_functions.R")
 regions <- fread("inst/regions_full.csv", encoding = "UTF-8")
 years <- 1986:2013

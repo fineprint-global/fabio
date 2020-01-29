@@ -1,5 +1,5 @@
 
-library(data.table)
+library("data.table")
 
 regions <- fread("inst/regions_full.csv")
 items <- fread("inst/items_full.csv")

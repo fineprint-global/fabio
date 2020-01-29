@@ -1,8 +1,8 @@
 
 # Trade -------------------------------------------------------------------
 
-library(data.table)
-library(comtradr)
+library("data.table")
+library("comtradr")
 source("R/0_prep_functions.R")
 path_trade <- "input/trade/"
 

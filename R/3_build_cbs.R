@@ -1,5 +1,5 @@
 
-library(data.table)
+library("data.table")
 source("R/1_tidy_functions.R")
 
 regions <- fread("inst/regions_full.csv")
