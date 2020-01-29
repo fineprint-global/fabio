@@ -184,9 +184,9 @@ btd <- btd[item_code %in% items$item_code, ]
 
 # Recode missing countries to RoW
 btd <- btd[!from_code %in% regions$code, `:=`(
-  from_code = 999, from = "Rest of World")]
+  from_code = 999, from = "RoW")]
 btd <- btd[!to_code %in% regions$code, `:=`(
-  to_code = 999, to = "Rest of World")]
+  to_code = 999, to = "RoW")]
 
 # Remove unspecified and adjustment countries from the BTD
 btd <- btd[!from_code %in% c(252, 254) & !to_code %in% c(252, 254), ]

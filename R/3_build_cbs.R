@@ -31,7 +31,7 @@ fore[, `:=`(total_supply = production + imports,
             feed = 0, food = 0, losses = 0, processing = 0,
             seed = 0, balancing = 0)]
 fore[other < 0, `:=`(stock_addition = -other,
-                     stock_addition = other, other = 0)]
+                     stock_withdrawal = other, other = 0)]
 
 cbs <- rbindlist(list(cbs, fore), use.names = TRUE)
 
@@ -123,7 +123,7 @@ cbs <- rbindlist(list(cbs[item_code != 2659, ], eth_cbs), use.names = TRUE)
 
 # Aggregate RoW countries in CBS
 cbs[!area_code %in% regions$area_code, `:=`(
-  area_code = 999, area = "Rest of World")]
+  area_code = 999, area = "RoW")]
 cbs <- cbs[, lapply(.SD, na_sum),
   by = c("area_code", "area", "item_code", "item", "year")]
 
@@ -197,9 +197,8 @@ cat("\nSkipped derivation of processing from supply and TCFs.\n")
 cat("\nRebalance CBS.\n")
 
 cbs <- dt_replace(cbs, function(x) {`<`(x, 0)}, value = 0,
-                  cols = c("total_supply", "imports", "exports", "feed",
-                           "food", "losses", "other", "processing",
-                           "production", "seed"))
+  cols = c("total_supply", "imports", "exports", "feed", "food", "losses",
+    "other", "processing", "production", "seed"))
 
 cat("\nAdjust ", cbs[total_supply != na_sum(production, imports), .N],
     " observations of 'total_supply' to ",
