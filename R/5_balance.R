@@ -83,7 +83,8 @@ for(y in years) {
   mapping <- merge(mapping,
     btd_est[year == y, .(from_code, to_code, item_code, val_est = value)],
     by = c("from_code", "to_code", "item_code"), all.x = TRUE)
-  mapping[, `:=`(val_est = NULL, value = ifelse(is.na(value), val_est, value))]
+  mapping[, `:=`(val_est = NULL,
+    value = ifelse(is.na(value), ifelse(is.na(val_est), 0, val_est), value))]
   # Prepare target-constraints for RAS
   constraint <- merge(constr_templ,
     target[year == y, c("area_code", "item_code", "imports", "exports")],
@@ -97,7 +98,6 @@ for(y in years) {
     split(mapping, by = "item_code", keep.by = FALSE),
     function(x) {
       out <- dcast(x, from_code ~ to_code, value.var = "value")[, -"from_code"]
-      out <- dt_replace(out, is.na, 0, verbose = FALSE)
       as(out, "Matrix")})
 
   # Run iterative proportional fitting per item
