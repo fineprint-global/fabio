@@ -22,7 +22,7 @@ items <- unique(cbs$item_code)
 cbs_bal <- cbs[, list(exp_t = na_sum(exports), imp_t = na_sum(imports)),
   by = c("year", "item_code", "item")]
 cbs_bal[, `:=`(diff = na_sum(exp_t, -imp_t), exp_t = NULL, imp_t = NULL,
-  area_code = 999, area = "Rest of World")]
+  area_code = 999, area = "RoW")]
 # Absorb the discrepancies in "RoW"
 cbs <- merge(cbs, cbs_bal,
   by = c("year", "item_code", "item", "area_code", "area"), all = TRUE)
@@ -97,7 +97,8 @@ for(y in years) {
   mapping_ras <- lapply(
     split(mapping, by = "item_code", keep.by = FALSE),
     function(x) {
-      out <- dcast(x, from_code ~ to_code, value.var = "value")[, -"from_code"]
+      out <- dcast(x, from_code ~ to_code,
+        fun.aggregate = sum, value.var = "value")[, -"from_code"]
       as(out, "Matrix")})
 
   # Run iterative proportional fitting per item
@@ -108,6 +109,8 @@ for(y in years) {
       target.data = constraint[item_code == i, .(exports, imports)])$x.hat
   }
 
+  cat("Storing year ", y, ".\n", sep = "")
+  saveRDS(mapping_ras, paste0("data/btd_bal-", y, ".rds"))
   # out <- lapply(mapping_ras, collapse_items())
   # save | prep for stacking years
 }
