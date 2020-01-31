@@ -74,7 +74,11 @@ constr_templ <- data.table(
 # Then do some iterative proportional fitting to approximate target values
 # Note that we loop this over years, so memory requirements can easily be
 # if necessary.
-for(y in years) {
+btd_bal <- vector("list", length(years))
+names(btd_bal) <- years
+
+for(i in seq_along(years)) {
+  y <- years[i]
   # Add BTD values to the template
   mapping <- merge(mapping_templ,
     btd[year == y, c("from_code", "to_code", "item_code", "value")],
@@ -102,15 +106,14 @@ for(y in years) {
       as(out, "Matrix")})
 
   # Run iterative proportional fitting per item
-  # To-do: This could easily be parallelised
+  # To-do: This could be parallelised
   for(i in as.character(items)) {
     mapping_ras[[i]] <- Ipfp(mapping_ras[[i]],
       target.list = list(1, 2), iter = 100,
       target.data = constraint[item_code == i, .(exports, imports)])$x.hat
   }
-
+  btd_bal[[i]] <- mapping_ras
   cat("Storing year ", y, ".\n", sep = "")
-  saveRDS(mapping_ras, paste0("data/btd_bal-", y, ".rds"))
-  # out <- lapply(mapping_ras, collapse_items())
-  # save | prep for stacking years
 }
+
+saveRDS(btd_bal, "data/btd_bal.rds")
