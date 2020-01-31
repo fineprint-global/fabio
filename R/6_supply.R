@@ -7,8 +7,8 @@ items <- fread("inst/items_full.csv")
 
 # Supply ------------------------------------------------------------------
 
-btd <- readRDS("data/btd_full.rds")
-cbs <- readRDS("data/cbs_full.rds")
+btd <- readRDS("data/btd.rds")
+cbs <- readRDS("data/cbs_bal.rds")
 sup <- fread("inst/items_supply.csv")
 
 cat("Allocate production to supplying processes (incl. double-counting).\n")

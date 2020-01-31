@@ -112,8 +112,17 @@ for(i in seq_along(years)) {
       target.list = list(1, 2), iter = 100,
       target.data = constraint[item_code == i, .(exports, imports)])$x.hat
   }
-  btd_bal[[i]] <- mapping_ras
-  cat("Storing year ", y, ".\n", sep = "")
+  btd_bal[[i]] <- lapply(names(mapping_ras), function(name) {
+    out <- mapping_ras[[name]]
+    out <- data.table(from_code = colnames(out), as.matrix(out))
+    out <- melt(out, id.vars = c("from_code"), variable.name = "to_code")
+    out[, .(item_code = name, from_code = as.integer(from_code),
+      to_code = as.integer(to_code), value)]
+  })
+
+  cat("Calculated year ", y, ".\n", sep = "")
 }
 
+# Store the balanced sheets -----------------------------------------------
 saveRDS(btd_bal, "data/btd_bal.rds")
+saveRDS(cbs, "data/cbs_bal.rds")

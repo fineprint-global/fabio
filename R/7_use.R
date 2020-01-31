@@ -6,8 +6,8 @@ regions <- fread("inst/regions_full.csv")
 items <- fread("inst/items_full.csv")
 tcf <- fread("inst/tcf_use.csv")
 
-cbs <- readRDS("data/cbs_full.rds")
-btd <- readRDS("data/btd_full.rds")
+cbs <- readRDS("data/cbs_bal.rds")
+btd <- readRDS("data/btd_bal.rds")
 sup <- readRDS("data/sup.rds")
 
 use <- fread("inst/items_use.csv")
