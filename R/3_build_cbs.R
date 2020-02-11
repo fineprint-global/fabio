@@ -1,5 +1,6 @@
 
 library("data.table")
+library("Matrix")
 source("R/1_tidy_functions.R")
 
 regions <- fread("inst/regions_full.csv")
@@ -47,16 +48,87 @@ crop_prod[, `:=`(element = NULL, unit = NULL)]
 cat("Add grazing item.\n")
 graze <- crop_prod[item_code == 2000, ]
 crop_prod <- rbindlist(list(
-  crop_prod,
-  graze[, `:=`(item = "Grazing", item_code = 2001, value = 0)]
-))
-cbs <- merge(cbs, crop_prod,
-  by = c("area_code", "area", "item_code", "item", "year"), all = TRUE)
+  crop_prod, graze[, `:=`(item = "Grazing", item_code = 2001, value = 0)]))
+
+# Technical conversion factors to fill processing use
+
+tcf <- fread("inst/tcf_cbs.csv")
+
+C <- dcast(tcf, item_code ~ source_code, fill = 0, value.var = "tcf")
+tcf_codes <- list(C[, item_code], as.integer(colnames(C[, -1])))
+C <- as(C[, -1], "Matrix")
+dimnames(C) <- tcf_codes
+
+tcf_prod <- crop_prod[item_code %in% unlist(tcf_codes),
+  c("year", "area_code", "item_code", "value")]
+setkey(tcf_prod, year, area_code, item_code)
+
+years <- sort(unique(tcf_prod$year))
+areas <- sort(unique(tcf_prod$area_code))
+
+output <- tcf_prod[data.table(expand.grid(year = years,
+  area_code = areas, item_code = tcf_codes[[1]]))]
+input <- tcf_prod[data.table(expand.grid(year = years,
+  area_code = areas, item_code = tcf_codes[[2]]))]
+
+dt_replace(output, is.na, 0, cols = "value")
+dt_replace(input, is.na, 0, cols = "value")
+
+out <- vector("list", length(years) * length(areas))
+k <- 1
+
+# results <- lapply(years, function(x) {
+  for(x in years) {
+  # Per year
+  output_x <- output[year == x, ]
+  input_x <- input[year == x, ]
+  # res <- lapply(areas, function(y) {
+    for(y in areas) {
+    # Per area
+    output_y <- output_x[area_code == y, value]
+    input_y <- input_x[area_code == y, value]
+    # Skip if no data is available
+    out[[k]] <- if(all(output_y == 0) || all(input_y == 0)) {
+      0
+    } else {
+      calc_processing(y = output_y, z = input_y, C = C, cap = TRUE)
+    }
+    k <- k + 1
+    }
+  # })
+  # names(res) <- areas
+  # return(res)
+  }
+# })
+
+calc_processing <- function(y, z, C, cap = FALSE) {
+  Z <- diag(z)
+  X <- C %*% Z # X holds the potential output of every input
+  x <- rowSums(X) # x is the potential output
+  exists <- x != 0 # exists kicks 0 potential outputs
+  if(!any(exists)) {return(0)}
+  # P holds implied processing use
+  #   X / x is the percentage-split across inputs
+  #   y / x is the required percentage of total output demand
+  P <- .sparseDiagonal(sum(exists), y[exists] / x[exists]) %*%
+    (X[exists, ] / x[exists]) %*% Z
+  processing <- colSums(P)
+  # We might want to cap processing at available production
+  if(cap) {
+    counter <<- counter + 1
+    processing[processing > z] <- z[processing > z]
+  }
+  return(processing)
+}
+
+
+
 
 cat("\nFilling missing cbs production with crop production data. Items:\n",
-    paste0(unique(cbs[is.na(production) & !is.na(value), item]),
-           collapse = "; "),
-    ".\n", sep = "")
+  paste0(unique(cbs[is.na(production) & !is.na(value), item]), collapse = "; "),
+  ".\n", sep = "")
+cbs <- merge(cbs, crop_prod,
+  by = c("area_code", "area", "item_code", "item", "year"), all = TRUE)
 cbs[is.na(production), production := value]
 cbs[, value := NULL]
 
@@ -74,7 +146,7 @@ live <- readRDS("data/tidy/live_tidy.rds")
 live <- live[element == "Production" & unit == "head", ]
 live[, `:=`(element = NULL, unit = NULL)]
 
-# Do this until concordances are fixed (see Issue #49)
+# Map "Meat indigenous, ..." items to CBS items
 src_item <- c(1137, 944, 1032, 1012, 1775, 1055, 1120, 1144,
   972, 1161, 1154, 1122, 1124)
 tgt_item <- c(1126, 866, 1016, 976, 2029, 1034, 1096, 1140,
@@ -85,14 +157,13 @@ tgt_name <- c("Camels", "Cattle", "Goats", "Sheep", "Poultry Birds", "Pigs",
 conc <- match(live$item_code, src_item)
 live[, `:=`(item_code = tgt_item[conc], item = tgt_name[conc])]
 live <- live[!is.na(item_code), ]
-# End of concordance-fix (Issue #49)
 
 cbs <- merge(cbs, live,
   by = c("area_code", "area", "year", "item_code", "item"), all = TRUE)
 cbs[!is.na(value), production := value]
 cbs[, value := NULL]
 
-# Ethanol
+# Ethanol ---
 
 cat("\nAdding ethanol production data to CBS.\n")
 
@@ -128,7 +199,6 @@ cbs <- cbs[, lapply(.SD, na_sum),
   by = c("area_code", "area", "item_code", "item", "year")]
 
 
-
 # Add BTD data ------------------------------------------------------------
 
 cat("\nAdding information from BTD.\n")
@@ -137,7 +207,7 @@ btd <- readRDS("data/btd_full.rds")
 
 cat("\nGiving preference to units in the following order:\n",
     "\t'head' | 'm3' > 'tonnes'\n",
-    "We drop 'usd' and 'litres'.\n", sep = "")
+    "Drop 'usd' and 'litres'.\n", sep = "")
 
 # Imports
 imps <- btd[unit != "usd" & item_code %in% cbs$item_code,
