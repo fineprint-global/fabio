@@ -49,9 +49,9 @@ cat("Add grazing item.\n")
 graze <- crop_prod[item_code == 2000, ]
 crop_prod <- rbindlist(list(
   crop_prod, graze[, `:=`(item = "Grazing", item_code = 2001, value = 0)]))
+setkey(crop_prod, year, area_code, item_code)
 
-# Technical conversion factors to fill processing use
-
+# Technical conversion factors to fill processing use ---
 tcf <- fread("inst/tcf_cbs.csv")
 
 C <- dcast(tcf, item_code ~ source_code, fill = 0, value.var = "tcf")
@@ -61,76 +61,67 @@ dimnames(C) <- tcf_codes
 
 tcf_prod <- crop_prod[item_code %in% unlist(tcf_codes),
   c("year", "area_code", "item_code", "value")]
-setkey(tcf_prod, year, area_code, item_code)
-
+setkey(tcf_prod, year, area_code, item_code) # Quick merge & ensure item-order
 years <- sort(unique(tcf_prod$year))
 areas <- sort(unique(tcf_prod$area_code))
 
+# Production of items
 output <- tcf_prod[data.table(expand.grid(year = years,
   area_code = areas, item_code = tcf_codes[[1]]))]
+dt_replace(output, is.na, 0, cols = "value")
+# Production of source items
 input <- tcf_prod[data.table(expand.grid(year = years,
   area_code = areas, item_code = tcf_codes[[2]]))]
-
-dt_replace(output, is.na, 0, cols = "value")
 dt_replace(input, is.na, 0, cols = "value")
+# Processing of source items - to fill
+results <- tcf_prod[data.table(expand.grid(year = years,
+  area_code = areas, item_code = tcf_codes[[2]]))]
+setkey(results, year, area_code, item_code)
+results[, value := NA]
 
-out <- vector("list", length(years) * length(areas))
-k <- 1
-
-# results <- lapply(years, function(x) {
-  for(x in years) {
-  # Per year
-  output_x <- output[year == x, ]
-  input_x <- input[year == x, ]
-  # res <- lapply(areas, function(y) {
-    for(y in areas) {
-    # Per area
-    output_y <- output_x[area_code == y, value]
-    input_y <- input_x[area_code == y, value]
-    # Skip if no data is available
-    out[[k]] <- if(all(output_y == 0) || all(input_y == 0)) {
-      0
-    } else {
-      calc_processing(y = output_y, z = input_y, C = C, cap = TRUE)
-    }
-    k <- k + 1
-    }
-  # })
-  # names(res) <- areas
-  # return(res)
-  }
-# })
-
+# Calculate processing from outputs (y) and inputs (z), given TCF (C)
 calc_processing <- function(y, z, C, cap = FALSE) {
   Z <- diag(z)
   X <- C %*% Z # X holds the potential output of every input
   x <- rowSums(X) # x is the potential output
   exists <- x != 0 # exists kicks 0 potential outputs
-  if(!any(exists)) {return(0)}
+  if(!any(exists)) {return(rep(NA, length(z)))}
   # P holds implied processing use
   #   X / x is the percentage-split across inputs
   #   y / x is the required percentage of total output demand
   P <- .sparseDiagonal(sum(exists), y[exists] / x[exists]) %*%
     (X[exists, ] / x[exists]) %*% Z
   processing <- colSums(P)
-  # We might want to cap processing at available production
-  if(cap) {
-    counter <<- counter + 1
+  if(cap) { # We might want to cap processing at available production
     processing[processing > z] <- z[processing > z]
   }
   return(processing)
 }
 
+# Fill during a loop over years and areas (maybe vectorise)
+for(x in years) {
+  output_x <- output[year == x, ]
+  input_x <- input[year == x, ]
+  for(y in areas) {
+    output_y <- output_x[area_code == y, value]
+    input_y <- input_x[area_code == y, value]
+    # Skip if no data is available
+    if(all(output_y == 0) || all(input_y == 0)) {next}
+    results[year == x & area_code == y,
+      value := calc_processing(y = output_y, z = input_y, C = C, cap = FALSE)]
+  }
+}
+results <- results[!is.na(value), .(year, area_code, item_code, value2 = value)]
+crop_prod <- crop_prod[results][!is.na(value), ]
 
-
-
+# Add to CBS
+cbs <- merge(cbs, crop_prod,
+  by = c("area_code", "area", "item_code", "item", "year"), all = TRUE)
 cat("\nFilling missing cbs production with crop production data. Items:\n",
   paste0(unique(cbs[is.na(production) & !is.na(value), item]), collapse = "; "),
   ".\n", sep = "")
-cbs <- merge(cbs, crop_prod,
-  by = c("area_code", "area", "item_code", "item", "year"), all = TRUE)
-cbs[is.na(production), production := value]
-cbs[, value := NULL]
+cbs[is.na(production), `:=`(production = value, processing = value2)]
+cbs[, `:=`(value = NULL, value2 = NULL)]
 
 
 # cat("\nFilling missing cbs seed with crop seed data.\n")
@@ -175,12 +166,6 @@ eth <- eth[, `:=`(unit = NULL,
 
 eth_cbs <- merge(cbs[item_code == 2659, ], eth, all = TRUE,
                  by = c("area_code", "area", "year", "item", "item_code"))
-
-# eth_cbs <- dt_replace(eth_cbs, is.na, 0,
-#                       cols = c("total_supply", "exports",  "imports",
-#                                "processing", "production",
-#                                "feed", "food", "losses", "other", "seed",
-#                                "stock_withdrawal", "stock_addition"))
 
 cat("Using EIA/IEA ethanol production values where FAO's",
     "CBS are not (or under-) reported.\n")
@@ -239,27 +224,6 @@ cbs <- merge(
   by.y = c("from_code", "from", "item_code", "item", "year"),
   all.x = TRUE, all.y = TRUE)
 cbs[, `:=`(exports = ifelse(is.na(exports), value, exports), value = NULL)]
-
-
-# Estimate missing CBS ----------------------------------------------------
-
-# # Apply TCF
-# tcf <- fread("inst/tcf_cbs.csv")
-# # Items with multiple sources
-# dupe_i <- tcf$item_code[duplicated(tcf$item_code)]
-# # Sources with multiple items
-# dupe_s <- tcf$source_code[duplicated(tcf$source_code)]
-
-# setkey(crop_prod, item_code, item)
-# setkey(tcf, item_code, item)
-# tcf <- merge(tcf, crop_prod, all.x = TRUE)
-
-# cat("\nApplying TCF to crop production.\n")
-# tcf[, processing := production / tcf]
-
-# Estimate gaps and shares of co-products and co-processes
-cat("\nSkipped derivation of processing from supply and TCFs.\n")
-# Also see Issue #47, i.e. add country-specific TCFs here as well
 
 
 # Rebalance columns -------------------------------------------------------
