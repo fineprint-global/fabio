@@ -34,8 +34,7 @@ cat("Allocating live animals to slaughtering use. Applies to items:\n\t",
   ".\n", sep = "")
 use[type == "slaughtering", `:=`(use = processing, processing = 0)]
 
-
-# Crop TCF ----------------------------------------------------------------
+# Crop TCF
 
 
 

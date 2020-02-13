@@ -62,6 +62,7 @@ fore[other < 0, `:=`(stock_addition = -other,
                      stock_withdrawal = other, other = 0)]
 
 cbs <- rbindlist(list(cbs, fore), use.names = TRUE)
+rm(fore)
 
 
 # Fill crop production and processing -------------------------------------
@@ -79,9 +80,9 @@ crop_prod <- rbindlist(list(
 setkey(crop_prod, year, area_code, item_code)
 
 # Technical conversion factors to impute processing ---
-tcf <- fread("inst/tcf_cbs.csv")
+tcf_crop <- fread("inst/tcf_crop.csv")
 
-C <- dcast(tcf, item_code ~ source_code, fill = 0, value.var = "tcf")
+C <- dcast(tcf_crop, item_code ~ source_code, fill = 0, value.var = "tcf")
 tcf_codes <- list(C[, item_code], as.integer(colnames(C[, -1])))
 C <- as(C[, -1], "Matrix")
 dimnames(C) <- tcf_codes
@@ -157,7 +158,11 @@ cat("\nFilling missing cbs production with crop production data. Items:\n",
   ".\n", sep = "")
 cbs[is.na(production), `:=`(production = value,
   processing = na_sum(processing, value2))]
+
 cbs[, `:=`(value = NULL, value2 = NULL)]
+rm(crop, crop_prod, graze,
+  tcf_crop, tcf_codes, tcf_prod, input, output, result,
+  C, input_x, output_x, input_y, output_y)
 
 
 # Fill seed, livestock and ethanol production -----------------------------
@@ -190,7 +195,9 @@ live <- live[!is.na(item_code), ]
 cbs <- merge(cbs, live,
   by = c("area_code", "area", "year", "item_code", "item"), all = TRUE)
 cbs[!is.na(value), production := value]
+
 cbs[, value := NULL]
+rm(src_item, tgt_item, tgt_name, conc, live)
 
 # Ethanol ---
 
@@ -211,6 +218,7 @@ eth_cbs[production < value | is.na(production), production := value]
 eth_cbs[, value := NULL]
 
 cbs <- rbindlist(list(cbs[item_code != 2659, ], eth_cbs), use.names = TRUE)
+rm(eth, eth_cbs)
 
 
 # Add BTD data ------------------------------------------------------------
@@ -244,6 +252,19 @@ btd <- replace_RoW(btd, cols = c("from_code", "to_code"),
   codes = regions[cbs == TRUE, code])
 btd <- btd[, lapply(.SD, na_sum), by = c("from_code", "from", "to_code", "to",
   "item_code", "item", "unit", "year")]
+
+
+# Adjusting TCF crops -----------------------------------------------------
+
+tcf_cbs <- fread("inst/tcf_cbs.csv")
+
+C <- dcast(tcf_cbs, area_code + item_code ~ source_code, fill = 0,
+  fun.aggregate = na_sum, value.var = "tcf")
+tcf_codes <- list(C[, area_code], C[, item_code],
+  as.integer(colnames(C[, c(-1, -2)])))
+C <- as(C[, c(-1, -2)], "Matrix")
+dimnames(C) <- list(paste0(tcf_codes[[1]], "-", tcf_codes[[2]]), tcf_codes[[3]])
+
 
 
 # Rebalance columns -------------------------------------------------------

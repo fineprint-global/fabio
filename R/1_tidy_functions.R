@@ -234,14 +234,17 @@ vsub <- function(a, b, x) {
 
 
 replace_RoW <- function(x, cols = "area_code", codes) {
+
   name_cols <- gsub("(.*)_code", "\\1", cols)
+  n_replaced <- 0
   for(i in seq_along(cols)) {
-    dt_replace(x, fun = function(x) {!`%in%`(x, codes)},
-      value = 999, cols = cols[i])
-    if(grepl(paste0("^", name_cols[i], "$"), colnames(x))) {
-      dt_replace(x, fun = function(x) {!`%in%`(x, codes)},
-        value = 999, cols = name_cols[i])
-    }
+    fun_applied <- !x[[cols[i]]] %in% codes
+    n_replaced <- n_replaced + sum(fun_applied, na.rm = TRUE)
+    set(x, i = which(fun_applied), j = cols[i], 999)
+    set(x, i = which(fun_applied), j = name_cols[i], "RoW")
   }
+  cat("Aggregated ", n_replaced, " areas in columns ",
+    paste0("'", c(cols, name_cols), "'", collapse = ", "),
+    " to 999 / RoW.\n", sep = "")
   return(x)
 }
