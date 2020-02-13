@@ -168,13 +168,12 @@ fish <- rbind(fish_com, fish_baci)
 
 rm(fish_com, fish_com_fill, fish_baci)
 
-# To-do: Possibly estimate missing units
-# Estimate missing tonnes and litres from USD
+# To-do: Possibly estimate missing units, i.e. tonnes and litres from USD
 
 
 # Merge and save ----------------------------------------------------------
 
-btd_full <- rbindlist(list(btd, fore, eth, fish), use.names = TRUE)
+btd <- rbindlist(list(btd, fore, eth, fish), use.names = TRUE)
 
 # Replace negatives with 0
 btd <- dt_replace(btd, function(x) {`<`(x, 0)}, value = 0, cols = "value")
@@ -182,18 +181,16 @@ btd <- dt_replace(btd, function(x) {`<`(x, 0)}, value = 0, cols = "value")
 # Filter to needed items
 btd <- btd[item_code %in% items$item_code, ]
 
-# Recode missing countries to RoW
-btd <- btd[!from_code %in% regions[cbs == TRUE, code], `:=`(
-  from_code = 999, from = "RoW")]
-btd <- btd[!to_code %in% regions[cbs == TRUE, code], `:=`(
-  to_code = 999, to = "RoW")]
-
 # Remove unspecified and adjustment countries from the BTD
-btd <- btd[!from_code %in% c(252, 254) & !to_code %in% c(252, 254), ]
+cat("\nSkipped removing unspecified and adjustment countries from the BTD.\n")
+# btd <- btd[!from_code %in% c(252, 254) & !to_code %in% c(252, 254), ]
+
+# Aggregate values
+btd <- btd[, list(value = na_sum(value)),
+           by = c("item_code", "item",
+                  "from", "from_code", "to", "to_code", "year", "unit")]
 
 
 # Store -------------------------------------------------------------------
-btd_full <- btd_full[, list(value = na_sum(value)),
-  by = c("item_code", "item",
-    "from", "from_code", "to", "to_code", "year", "unit")]
-saveRDS(btd_full, "data/btd_full.rds")
+
+saveRDS(btd, "data/tidy/btd_full_tidy.rds")

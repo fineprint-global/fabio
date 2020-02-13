@@ -24,15 +24,14 @@ cbs <- dt_filter(cbs, item_code %in% items$item_code)
 
 cat("\nAdding information from BTD.\n")
 
-btd <- readRDS("data/btd_full.rds")
+btd <- readRDS("data/tidy/btd_full_tidy.rds")
 
 cat("\nGiving preference to units in the following order:\n",
     "\t'head' | 'm3' > 'tonnes'\n",
     "Dropping 'usd' and 'litres'.\n", sep = "")
-btd <- btd[unit != "usd" & item_code %in% items$item_code]
 
 # Imports
-imps <- btd[, list(value = na_sum(value)),
+imps <- btd[unit != "usd", list(value = na_sum(value)),
             by = list(to_code, item_code, year, unit)]
 imps <- dcast(imps, to_code + item_code + year ~ unit,
               value.var = "value")
@@ -40,7 +39,7 @@ imps[, `:=`(value = ifelse(!is.na(head), head, ifelse(!is.na(m3), m3, tonnes)),
   head = NULL, litres = NULL, m3 = NULL, tonnes = NULL)]
 
 # Exports
-exps <- btd[, list(value = na_sum(value)),
+exps <- btd[unit != "usd", list(value = na_sum(value)),
             by = list(from_code, item_code, year, unit)]
 exps <- dcast(exps, from_code + item_code + year ~ unit,
               value.var = "value")
@@ -157,7 +156,7 @@ cat("\nFilling missing cbs production with crop production data. Items:\n",
   paste0(unique(cbs[is.na(production) & !is.na(value), item]), collapse = "; "),
   ".\n", sep = "")
 cbs[is.na(production), `:=`(production = value,
-  processing = na_sum(processing, value2)]
+  processing = na_sum(processing, value2))]
 cbs[, `:=`(value = NULL, value2 = NULL)]
 
 
@@ -235,11 +234,17 @@ cbs[, `:=`(exports = ifelse(is.na(exports), value, exports), value = NULL)]
 
 # Create RoW --------------------------------------------------------------
 
-# Aggregate RoW countries in CBS
-cbs[!area_code %in% regions[cbs == TRUE, code], `:=`(
-  area_code = 999, area = "RoW")]
-cbs <- cbs[, lapply(.SD, na_sum),
-  by = c("area_code", "area", "item_code", "item", "year")]
+# # Aggregate RoW countries in CBS
+# cbs[!area_code %in% regions[cbs == TRUE, code], `:=`(
+#   area_code = 999, area = "RoW")]
+# cbs <- cbs[, lapply(.SD, na_sum),
+#   by = c("area_code", "area", "item_code", "item", "year")]
+#
+# # Aggregate RoW countries in BTD
+# btd <- btd[!from_code %in% regions[cbs == TRUE, code], `:=`(
+#   from_code = 999, from = "RoW")]
+# btd <- btd[!to_code %in% regions[cbs == TRUE, code], `:=`(
+#   to_code = 999, to = "RoW")]
 
 
 # Rebalance columns -------------------------------------------------------
@@ -291,3 +296,4 @@ cbs[balancing > 0, `:=`(food = na_sum(food, balancing), balancing = 0)]
 # Save --------------------------------------------------------------------
 
 saveRDS(cbs, "data/cbs_full.rds")
+saveRDS(btd, "data/btd_full.rds")

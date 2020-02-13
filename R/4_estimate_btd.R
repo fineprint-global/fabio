@@ -10,7 +10,6 @@ cat("\nEstimating BTD from CBS.\n")
 
 cbs <- readRDS("data/cbs_full.rds")
 
-
 # Cast import and export columns
 cbs_imp <- dcast(cbs[, c("area_code", "year", "item_code", "imports")],
   year + item_code ~ area_code, value.var = "imports", fun.aggregate = na_sum)

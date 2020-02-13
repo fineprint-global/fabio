@@ -107,10 +107,10 @@ for(i in seq_along(years)) {
 
   # Run iterative proportional fitting per item
   # To-do: This could be parallelised
-  for(i in as.character(items)) {
-    mapping_ras[[i]] <- Ipfp(mapping_ras[[i]],
+  for(j in as.character(items)) {
+    mapping_ras[[j]] <- Ipfp(mapping_ras[[j]],
       target.list = list(1, 2), iter = 100,
-      target.data = constraint[item_code == i, .(exports, imports)])$x.hat
+      target.data = constraint[item_code == j, .(exports, imports)])$x.hat
   }
   btd_bal[[i]] <- lapply(names(mapping_ras), function(name) {
     out <- mapping_ras[[name]]
