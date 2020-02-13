@@ -234,17 +234,16 @@ cbs[, `:=`(exports = ifelse(is.na(exports), value, exports), value = NULL)]
 
 # Create RoW --------------------------------------------------------------
 
-# # Aggregate RoW countries in CBS
-# cbs[!area_code %in% regions[cbs == TRUE, code], `:=`(
-#   area_code = 999, area = "RoW")]
-# cbs <- cbs[, lapply(.SD, na_sum),
-#   by = c("area_code", "area", "item_code", "item", "year")]
-#
-# # Aggregate RoW countries in BTD
-# btd <- btd[!from_code %in% regions[cbs == TRUE, code], `:=`(
-#   from_code = 999, from = "RoW")]
-# btd <- btd[!to_code %in% regions[cbs == TRUE, code], `:=`(
-#   to_code = 999, to = "RoW")]
+# Aggregate RoW countries in CBS
+cbs <- replace_RoW(cbs, codes = regions[cbs == TRUE, code])
+cbs <- cbs[, lapply(.SD, na_sum),
+  by = c("area_code", "area", "item_code", "item", "year")]
+
+# Aggregate RoW countries in BTD
+btd <- replace_RoW(btd, cols = c("from_code", "to_code"),
+  codes = regions[cbs == TRUE, code])
+btd <- btd[, lapply(.SD, na_sum), by = c("from_code", "from", "to_code", "to",
+  "item_code", "item", "unit", "year")]
 
 
 # Rebalance columns -------------------------------------------------------

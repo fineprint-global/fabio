@@ -182,13 +182,11 @@ btd <- dt_replace(btd, function(x) {`<`(x, 0)}, value = 0, cols = "value")
 btd <- btd[item_code %in% items$item_code, ]
 
 # Remove unspecified and adjustment countries from the BTD
-cat("\nSkipped removing unspecified and adjustment countries from the BTD.\n")
-# btd <- btd[!from_code %in% c(252, 254) & !to_code %in% c(252, 254), ]
+btd <- btd[!from_code %in% c(252, 254) & !to_code %in% c(252, 254), ]
 
 # Aggregate values
-btd <- btd[, list(value = na_sum(value)),
-           by = c("item_code", "item",
-                  "from", "from_code", "to", "to_code", "year", "unit")]
+btd <- btd[, list(value = na_sum(value)), by = c("item_code", "item",
+  "from", "from_code", "to", "to_code", "year", "unit")]
 
 
 # Store -------------------------------------------------------------------

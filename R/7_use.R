@@ -17,8 +17,7 @@ use <- fread("inst/items_use.csv")
 
 # Create long use table
 use <- merge(
-  cbs,
-  # cbs[, c("area_code", "area", "year", "item_code", "item")],
+  cbs, # cbs[, c("area_code", "area", "year", "item_code", "item")],
   use[item_code != 843, ],
   by = c("item_code", "item"), all = TRUE, allow.cartesian = TRUE)
 use[, use := NA_real_]
@@ -38,28 +37,6 @@ use[type == "slaughtering", `:=`(use = processing, processing = 0)]
 
 # Crop TCF ----------------------------------------------------------------
 
-# # FUCK >
-# # Allocate TCF crops
-# crop_tcf <- use[type == "TCF"]
-
-# # Dirty - don't do this
-# prcs <- u(crop_tcf$proc)
-# i <- 3
-# itms <- u(crop_tcf[proc == prcs[i], item])
-# prod <- u(tcf[Process == prcs[i], Prod.Code])
-# supply <- use[item_code == prod, production]
-
-# # Pseudo, 1 item
-# use$use[...] <- supply / tcf
-# use[use > processing, use = processing]
-# processing <- processing - use
-
-# # 2 item
-# tmp <- data.frame(
-#   proc = use[area_code == 1 & year == 2005 & item %in% itms, processing],
-#   item = use[area_code == 1 & year == 2005 & item %in% itms, item],
-#   prod = use[area_code == 1 & year == 2005 & item_code == prod, production])
-# # < THIS
 
 
 # Ethanol production ------------------------------------------------------

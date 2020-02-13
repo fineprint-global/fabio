@@ -231,3 +231,17 @@ vsub <- function(a, b, x) {
   for(i in seq_along(a)) {x <- gsub(a[i], b[i], x)}
   return(x)
 }
+
+
+replace_RoW <- function(x, cols = "area_code", codes) {
+  name_cols <- gsub("(.*)_code", "\\1", cols)
+  for(i in seq_along(cols)) {
+    dt_replace(x, fun = function(x) {!`%in%`(x, codes)},
+      value = 999, cols = cols[i])
+    if(grepl(paste0("^", name_cols[i], "$"), colnames(x))) {
+      dt_replace(x, fun = function(x) {!`%in%`(x, codes)},
+        value = 999, cols = name_cols[i])
+    }
+  }
+  return(x)
+}
