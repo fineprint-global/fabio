@@ -87,52 +87,36 @@ tcf_codes <- list(C[, item_code], as.integer(colnames(C[, -1])))
 C <- as(C[, -1], "Matrix")
 dimnames(C) <- tcf_codes
 
-tcf_prod <- crop_prod[item_code %in% unlist(tcf_codes),
+tcf_data <- crop_prod[item_code %in% unlist(tcf_codes),
   .(year, area_code, item_code, production = value)]
-setkey(tcf_prod, year, area_code, item_code) # Quick merge & ensure item-order
-years <- sort(unique(tcf_prod$year))
-areas <- sort(unique(tcf_prod$area_code))
+setkey(tcf_data, year, area_code, item_code) # Quick merge & ensure item-order
+years <- sort(unique(tcf_data$year))
+areas <- sort(unique(tcf_data$area_code))
 
 # Base processing on production + imports - exports
-tcf_prod[imps[, .(year, area_code = to_code, item_code, imports = value)],
+tcf_data[imps[, .(year, area_code = to_code, item_code, imports = value)],
   on = c("area_code", "item_code", "year"), imports := imports]
-tcf_prod[exps[, .(year, area_code = from_code, item_code, exports = value)],
+tcf_data[exps[, .(year, area_code = from_code, item_code, exports = value)],
   on = c("area_code", "item_code", "year"), exports := exports]
-tcf_prod[, `:=`(value = na_sum(production, imports, -exports),
+tcf_data[, `:=`(value = na_sum(production, imports, -exports),
   production = NULL, imports = NULL, exports = NULL)]
+tcf_data <- dt_replace(tcf_data, function(x) {`<`(x, 0)},
+  value = 0, cols = "value")
+
 
 # Production of items
-output <- tcf_prod[data.table(expand.grid(year = years,
+output <- tcf_data[data.table(expand.grid(year = years,
   area_code = areas, item_code = tcf_codes[[1]]))]
 dt_replace(output, is.na, 0, cols = "value")
 # Production of source items
-input <- tcf_prod[data.table(expand.grid(year = years,
+input <- tcf_data[data.table(expand.grid(year = years,
   area_code = areas, item_code = tcf_codes[[2]]))]
 dt_replace(input, is.na, 0, cols = "value")
 # Processing of source items - to fill
-results <- tcf_prod[data.table(expand.grid(year = years,
+results <- tcf_data[data.table(expand.grid(year = years,
   area_code = areas, item_code = tcf_codes[[2]]))]
 setkey(results, year, area_code, item_code)
 results[, value := NA]
-
-# Calculate processing from outputs (y) and inputs (z), given TCF (C)
-calc_processing <- function(y, z, C, cap = FALSE) {
-  Z <- diag(z)
-  X <- C %*% Z # X holds the potential output of every input
-  x <- rowSums(X) # x is the potential output
-  exists <- x != 0 # exists kicks 0 potential outputs
-  if(!any(exists)) {return(rep(NA, length(z)))}
-  # P holds implied processing use
-  #   X / x is the percentage-split across inputs
-  #   y / x is the required percentage of total output demand
-  P <- .sparseDiagonal(sum(exists), y[exists] / x[exists]) %*%
-    (X[exists, ] / x[exists]) %*% Z
-  processing <- colSums(P)
-  if(cap) { # We might want to cap processing at available production
-    processing[processing > z] <- z[processing > z]
-  }
-  return(processing)
-}
 
 # Fill during a loop over years and areas (maybe vectorise)
 for(x in years) {
@@ -161,7 +145,7 @@ cbs[is.na(production), `:=`(production = value,
 
 cbs[, `:=`(value = NULL, value2 = NULL)]
 rm(crop, crop_prod, graze,
-  tcf_crop, tcf_codes, tcf_prod, input, output, result,
+  tcf_crop, tcf_codes, tcf_data, input, output, result,
   C, input_x, output_x, input_y, output_y)
 
 
@@ -238,6 +222,7 @@ cbs <- merge(
   by.y = c("from_code", "item_code", "year"),
   all.x = TRUE, all.y = TRUE)
 cbs[, `:=`(exports = ifelse(is.na(exports), value, exports), value = NULL)]
+rm(imps, exps)
 
 
 # Create RoW --------------------------------------------------------------
@@ -264,6 +249,49 @@ tcf_codes <- list(C[, area_code], C[, item_code],
   as.integer(colnames(C[, c(-1, -2)])))
 C <- as(C[, c(-1, -2)], "Matrix")
 dimnames(C) <- list(paste0(tcf_codes[[1]], "-", tcf_codes[[2]]), tcf_codes[[3]])
+
+tcf_data <- cbs[area_code %in% tcf_codes[[1]] &
+  item_code %in% c(tcf_codes[[2]], tcf_codes[[3]]),
+  .(year, area_code, item_code, production, processing, imports, exports)]
+setkey(tcf_data, year, area_code, item_code) # Quick merge & ensure item-order
+years <- sort(unique(tcf_data$year))
+areas <- sort(unique(tcf_prod$area_code))
+
+# Base processing on production + imports - exports, cap at 0
+tcf_data[, `:=`(value = na_sum(production, imports, -exports),
+  production = NULL, imports = NULL, exports = NULL)]
+tcf_data <- dt_replace(tcf_data, function(x) {`<`(x, 0)},
+  value = 0, cols = "value")
+
+# Production of items
+output <- tcf_prod[data.table(expand.grid(year = years,
+  area_code = areas, item_code = tcf_codes[[2]]))]
+dt_replace(output, is.na, 0, cols = "value")
+# Production of source items
+input <- tcf_prod[data.table(expand.grid(year = years,
+  area_code = areas, item_code = tcf_codes[[3]]))]
+dt_replace(input, is.na, 0, cols = "value")
+# Processing of source items - to fill
+results <- tcf_prod[data.table(expand.grid(year = years,
+  area_code = areas, item_code = tcf_codes[[3]]))]
+setkey(results, year, area_code, item_code)
+results[, value := NA]
+
+for(x in years) {
+  output_x <- output[year == x, value]
+  input_x <- input[year == x, value]
+  # Skip if no data is available
+  if(all(output_x == 0) || all(input_x == 0)) {next}
+  results[year == x,
+    value := calc_processing(y = output_x, z = input_x, C = C, cap = TRUE)]
+}
+
+merge(cbs, results[!is.na(value)],
+  by = c("year", "area_code", "item_code"), all.x = TRUE)
+cbs[!is.na(value), processing := value]
+
+cbs[, value := NULL]
+rm(tcf_cbs, tcf_codes, tcf_data, input, output, result, C, input_x, output_x)
 
 
 

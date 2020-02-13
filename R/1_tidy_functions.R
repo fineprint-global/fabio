@@ -248,3 +248,23 @@ replace_RoW <- function(x, cols = "area_code", codes) {
     " to 999 / RoW.\n", sep = "")
   return(x)
 }
+
+
+# Calculate processing from outputs (y) and inputs (z), given TCF (C)
+calc_processing <- function(y, z, C, cap = FALSE) {
+  Z <- diag(z)
+  X <- C %*% Z # X holds the potential output of every input
+  x <- rowSums(X) # x is the potential output
+  exists <- x != 0 # exists kicks 0 potential outputs
+  if(!any(exists)) {return(rep(NA, length(z)))}
+  # P holds implied processing use
+  #   X / x is the percentage-split across inputs
+  #   y / x is the required percentage of total output demand
+  P <- .sparseDiagonal(sum(exists), y[exists] / x[exists]) %*%
+    (X[exists, ] / x[exists]) %*% Z
+  processing <- colSums(P)
+  if(cap) { # We might want to cap processing at available production
+    processing[processing > z] <- z[processing > z]
+  }
+  return(processing)
+}
