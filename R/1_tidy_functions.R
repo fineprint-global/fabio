@@ -251,7 +251,7 @@ replace_RoW <- function(x, cols = "area_code", codes) {
 
 
 # Calculate processing from outputs (y) and inputs (z), given TCF (C)
-calc_processing <- function(y, z, C, cap = FALSE) {
+calc_tcf <- function(y, z, C, cap = FALSE) {
   Z <- diag(z)
   X <- C %*% Z # X holds the potential output of every input
   x <- rowSums(X) # x is the potential output

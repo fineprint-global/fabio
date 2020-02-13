@@ -128,7 +128,7 @@ for(x in years) {
     # Skip if no data is available
     if(all(output_y == 0) || all(input_y == 0)) {next}
     results[year == x & area_code == y,
-      value := calc_processing(y = output_y, z = input_y, C = C, cap = FALSE)]
+      value := calc_tcf(y = output_y, z = input_y, C = C, cap = FALSE)]
   }
 }
 results <- results[!is.na(value), .(year, area_code, item_code, value2 = value)]
@@ -145,7 +145,7 @@ cbs[is.na(production), `:=`(production = value,
 
 cbs[, `:=`(value = NULL, value2 = NULL)]
 rm(crop, crop_prod, graze,
-  tcf_crop, tcf_codes, tcf_data, input, output, result, years, areas,
+  tcf_crop, tcf_codes, tcf_data, input, output, results, years, areas,
   C, input_x, output_x, input_y, output_y)
 
 

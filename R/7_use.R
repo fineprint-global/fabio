@@ -82,7 +82,7 @@ for(x in years) {
   # Skip if no data is available
   if(all(output_x == 0) || all(input_x == 0)) {next}
   results[year == x,
-    value := calc_processing(y = output_x, z = input_x, C = C, cap = TRUE)]
+    value := calc_tcf(y = output_x, z = input_x, C = C, cap = TRUE)]
 }
 
 merge(use, results[!is.na(value), ],
