@@ -7,7 +7,6 @@ items <- fread("inst/items_full.csv")
 tcf <- fread("inst/tcf_use.csv")
 
 cbs <- readRDS("data/cbs_bal.rds")
-btd <- readRDS("data/btd_bal.rds")
 sup <- readRDS("data/sup.rds")
 
 use <- fread("inst/items_use.csv")
@@ -65,10 +64,15 @@ tcf_data <- dt_replace(tcf_data, function(x) {`<`(x, 0)},
 # Production of items
 output <- tcf_prod[data.table(expand.grid(year = years,
   area_code = areas, item_code = tcf_codes[[2]]))]
+output[, `:=`(value = production,
+  production = NULL, imports = NULL, exports = NULL)]
 dt_replace(output, is.na, 0, cols = "value")
 # Production of source items
 input <- tcf_prod[data.table(expand.grid(year = years,
   area_code = areas, item_code = tcf_codes[[3]]))]
+input[, `:=`(value = na_sum(production, imports, -exports),
+  production = NULL, imports = NULL, exports = NULL)]
+dt_replace(input, function(x) {`<`(x, 0)}, value = 0, cols = "value")
 dt_replace(input, is.na, 0, cols = "value")
 # Processing of source items - to fill
 results <- tcf_prod[data.table(expand.grid(year = years,

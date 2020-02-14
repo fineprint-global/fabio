@@ -51,8 +51,7 @@ build_estimates <- function(name, list, ids, kick_0 = TRUE) {
 }
 
 
-cat("\nPreparing to estimate trade shares. ",
-  "More than 16GB of RAM may be beneficial or required.\n")
+cat("\nPreparing to estimate trade shares. Around 16GB of RAM are required.\n")
 
 # Spread exports according to import shares
 est_exp <- lapply(colnames(cbs_imp), spread_trade, cbs_imp, cbs_exp)

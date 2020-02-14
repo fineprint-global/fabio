@@ -61,6 +61,7 @@ imp <- cbs[, c("year", "area_code", "item_code", "imports")]
 target <- merge(exp, imp, by = c("year", "item_code", "area_code"), all = TRUE)
 
 
+# To-do: Rework merging and structures
 # Create a structure to map importers to exporters per item (+ targets)
 mapping_templ <- data.table(
   from_code = rep(areas, each = length(areas), times = length(items)),
@@ -73,7 +74,7 @@ constr_templ <- data.table(
 # Fill this structure per year with (1) btd values, (2) estimated values
 # Then do some iterative proportional fitting to approximate target values
 # Note that we loop this over years, so memory requirements can easily be
-# if necessary.
+# reduced if necessary.
 btd_bal <- vector("list", length(years))
 names(btd_bal) <- years
 
@@ -112,6 +113,14 @@ for(i in seq_along(years)) {
       target.list = list(1, 2), iter = 100,
       target.data = constraint[item_code == j, .(exports, imports)])$x.hat
   }
+  # ras_data <- parLapply(cl, as.character(items), function(j, map_list, constr) {
+  #   library("Matrix")
+  #   library("mipfp")
+  #   Ipfp(map_list[[j]], target.list = list(1, 2), iter = 100,
+  #     target.data = constr[item_code == j, .(exports, imports)])$x.hat
+  # }, mapping_ras, constraint)
+  # names(ras_data) <- as.character(items)
+
   btd_bal[[i]] <- lapply(names(mapping_ras), function(name) {
     out <- mapping_ras[[name]]
     out <- data.table(from_code = colnames(out), as.matrix(out))
@@ -119,9 +128,22 @@ for(i in seq_along(years)) {
     out[, .(item_code = name, from_code = as.integer(from_code),
       to_code = as.integer(to_code), value)]
   })
+  # btd_bal[[i]] <- parLapply(cl, names(ras_data), function(name, data) {
+  #   out <- data[[name]]
+  #   out <- data.table(from_code = colnames(out), as.matrix(out))
+  #   out <- melt(out, id.vars = c("from_code"), variable.name = "to_code")
+  #   out[, .(item_code = name, from_code = as.integer(from_code),
+  #     to_code = as.integer(to_code), value)]
+  # })
 
   cat("Calculated year ", y, ".\n", sep = "")
 }
+
+# One datatable per year
+btd_bal <- lapply(btd_bal, rbindlist)
+# One datatable
+btd_bal <- rbindlist(btd_bal)
+
 
 # Store the balanced sheets -----------------------------------------------
 saveRDS(btd_bal, "data/btd_bal.rds")

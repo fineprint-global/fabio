@@ -98,19 +98,19 @@ tcf_data[imps[, .(year, area_code = to_code, item_code, imports = value)],
   on = c("area_code", "item_code", "year"), imports := imports]
 tcf_data[exps[, .(year, area_code = from_code, item_code, exports = value)],
   on = c("area_code", "item_code", "year"), exports := exports]
-tcf_data[, `:=`(value = na_sum(production, imports, -exports),
-  production = NULL, imports = NULL, exports = NULL)]
-tcf_data <- dt_replace(tcf_data, function(x) {`<`(x, 0)},
-  value = 0, cols = "value")
-
 
 # Production of items
 output <- tcf_data[data.table(expand.grid(year = years,
   area_code = areas, item_code = tcf_codes[[1]]))]
+output[, `:=`(value = production,
+  production = NULL, imports = NULL, exports = NULL)]
 dt_replace(output, is.na, 0, cols = "value")
 # Production of source items
 input <- tcf_data[data.table(expand.grid(year = years,
   area_code = areas, item_code = tcf_codes[[2]]))]
+input[, `:=`(value = na_sum(production, imports, -exports),
+  production = NULL, imports = NULL, exports = NULL)]
+dt_replace(input, function(x) {`<`(x, 0)}, value = 0, cols = "value")
 dt_replace(input, is.na, 0, cols = "value")
 # Processing of source items - to fill
 results <- tcf_data[data.table(expand.grid(year = years,

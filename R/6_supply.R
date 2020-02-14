@@ -7,7 +7,7 @@ items <- fread("inst/items_full.csv")
 
 # Supply ------------------------------------------------------------------
 
-btd <- readRDS("data/btd.rds")
+btd <- readRDS("data/btd_full.rds")
 cbs <- readRDS("data/cbs_bal.rds")
 sup <- fread("inst/items_supply.csv")
 
