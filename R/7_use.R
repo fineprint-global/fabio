@@ -4,7 +4,6 @@ source("R/1_tidy_functions.R")
 
 regions <- fread("inst/regions_full.csv")
 items <- fread("inst/items_full.csv")
-tcf <- fread("inst/tcf_use.csv")
 
 cbs <- readRDS("data/cbs_bal.rds")
 sup <- readRDS("data/sup.rds")
@@ -41,7 +40,7 @@ cat("Allocating part of the TCF crops to TCF use. Applies to items:\n\t",
 
 tcf_cbs <- fread("inst/tcf_cbs.csv")
 
-C <- dcast(tcf_cbs, area_code + item_code ~ source_code, fill = 0,
+C <- dcast(tcf_cbs, item_code + area_code ~ source_code, fill = 0,
   fun.aggregate = na_sum, value.var = "tcf")
 tcf_codes <- list(C[, area_code], C[, item_code],
   as.integer(colnames(C[, c(-1, -2)])))
@@ -53,32 +52,27 @@ tcf_data <- use[area_code %in% tcf_codes[[1]] &
   .(year, area_code, item_code, production, processing, imports, exports)]
 setkey(tcf_data, year, area_code, item_code) # Quick merge & ensure item-order
 years <- sort(unique(tcf_data$year))
-areas <- sort(unique(tcf_prod$area_code))
-
-# Base processing on production + imports - exports, cap at 0
-tcf_data[, `:=`(value = na_sum(production, imports, -exports),
-  production = NULL, imports = NULL, exports = NULL)]
-tcf_data <- dt_replace(tcf_data, function(x) {`<`(x, 0)},
-  value = 0, cols = "value")
+areas <- unique(tcf_codes[[1]])
 
 # Production of items
-output <- tcf_prod[data.table(expand.grid(year = years,
-  area_code = areas, item_code = tcf_codes[[2]]))]
+output <- tcf_data[data.table(expand.grid(year = years,
+  area_code = areas, item_code = unique(tcf_codes[[2]])))]
 output[, `:=`(value = production,
-  production = NULL, imports = NULL, exports = NULL)]
+  production = NULL, processing = NULL, imports = NULL, exports = NULL)]
 dt_replace(output, is.na, 0, cols = "value")
 # Production of source items
-input <- tcf_prod[data.table(expand.grid(year = years,
-  area_code = areas, item_code = tcf_codes[[3]]))]
+input <- tcf_data[data.table(expand.grid(year = years,
+  area_code = areas, item_code = unique(tcf_codes[[3]])))]
 input[, `:=`(value = na_sum(production, imports, -exports),
-  production = NULL, imports = NULL, exports = NULL)]
+  production = NULL, processing = NULL, imports = NULL, exports = NULL)]
 dt_replace(input, function(x) {`<`(x, 0)}, value = 0, cols = "value")
 dt_replace(input, is.na, 0, cols = "value")
 # Processing of source items - to fill
-results <- tcf_prod[data.table(expand.grid(year = years,
+results <- tcf_data[data.table(expand.grid(year = years,
   area_code = areas, item_code = tcf_codes[[3]]))]
 setkey(results, year, area_code, item_code)
-results[, value := NA]
+results[, `:=`(value = NA,
+  production = NULL, processing = NULL, imports = NULL, exports = NULL)]
 
 for(x in years) {
   output_x <- output[year == x, value]
