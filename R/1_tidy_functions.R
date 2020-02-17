@@ -250,8 +250,8 @@ replace_RoW <- function(x, cols = "area_code", codes) {
 }
 
 
-# Calculate processing from outputs (y) and inputs (z), given TCF (C)
-calc_tcf <- function(y, z, C, cap = FALSE) {
+# Fill processing from outputs (y) and inputs (z), given TCF (C)
+fill_tcf <- function(y, z, C, cap = TRUE) {
   Z <- diag(z)
   X <- C %*% Z # X holds the potential output of every input
   x <- rowSums(X) # x is the potential output
@@ -263,8 +263,24 @@ calc_tcf <- function(y, z, C, cap = FALSE) {
   P <- .sparseDiagonal(sum(exists), y[exists] / x[exists]) %*%
     (X[exists, ] / x[exists]) %*% Z
   processing <- colSums(P)
-  if(cap) { # We might want to cap processing at available production
-    processing[processing > z] <- z[processing > z]
-  }
+  if(cap) {processing[processing > z] <- z[processing > z]}
   return(processing)
+}
+
+
+# Split processing use over processes
+split_tcf <- function(y, z, C, cap = TRUE) {
+  Z <- diag(z)
+  X <- C %*% Z
+  x <- rowSums(X)
+  exists <- x != 0 # exists kicks 0 potential outputs
+  if(!any(exists)) {return(rep(NA, length(z)))}
+  P <- .sparseDiagonal(sum(exists), y[exists] / x[exists]) %*%
+    (X[exists, ] / x[exists]) %*% Z
+  if(cap) {
+    cap <- colSums(P) / z
+    cap[cap < 1] <- 1 # Don't want to scale up
+    P <- P %*% diag(1 / cap)
+  }
+  return(P)
 }

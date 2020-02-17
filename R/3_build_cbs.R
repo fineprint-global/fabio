@@ -128,7 +128,7 @@ for(x in years) {
     # Skip if no data is available
     if(all(output_y == 0) || all(input_y == 0)) {next}
     results[year == x & area_code == y,
-      value := calc_tcf(y = output_y, z = input_y, C = C, cap = FALSE)]
+      value := fill_tcf(y = output_y, z = input_y, C = C, cap = TRUE)]
   }
 }
 results <- results[!is.na(value), .(year, area_code, item_code, value2 = value)]
