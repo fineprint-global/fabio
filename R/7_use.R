@@ -1,5 +1,6 @@
 
 library("data.table")
+library("Matrix")
 source("R/1_tidy_functions.R")
 
 regions <- fread("inst/regions_full.csv")
@@ -40,57 +41,81 @@ cat("Allocating part of the TCF crops to TCF use. Applies to items:\n\t",
 
 tcf_cbs <- fread("inst/tcf_cbs.csv")
 
-C <- dcast(tcf_cbs, proc_code + area_code ~ source_code, fill = 0,
-  fun.aggregate = na_sum, value.var = "tcf")
-tcf_codes <- list(C[, area_code], C[, proc_code],
-  as.integer(colnames(C[, c(-1, -2)])))
-C <- as(C[, c(-1, -2)], "Matrix")
-dimnames(C) <- list(paste0(tcf_codes[[1]], "-", tcf_codes[[2]]), tcf_codes[[3]])
+tcf_codes <- list(sort(unique(tcf_cbs$area_code)), sort(unique(tcf_cbs$item_code)),
+  sort(unique(tcf_cbs$source_code)))
+C <- lapply(tcf_codes[[1]], function(x) {
+  out <- dcast(tcf_cbs[area_code == x], item_code ~ source_code, fill = 0,
+    fun.aggregate = na_sum, value.var = "tcf")
+  setkey(out, item_code)
+  out <- as(out[, -1], "Matrix")
+})
+C <- lapply(C, `dimnames<-`, list(tcf_codes[[2]], tcf_codes[[3]]))
+names(C) <- tcf_codes[[1]]
 
 tcf_data <- use[area_code %in% tcf_codes[[1]] &
-  proc_code %in% c(tcf_codes[[2]], tcf_codes[[3]]),
-  .(year, area_code, proc_code, production, processing)]
-setkey(tcf_data, year, area_code, proc_code) # Quick merge & ensure item-order
+  item_code %in% c(tcf_codes[[2]]) | item_code %in% tcf_codes[[3]],
+  .(year, area_code, item_code, production, processing)]
+tcf_data <- tcf_data[!duplicated(tcf_data), ] # Duplicates from proc_code
+setkey(tcf_data, year, area_code, item_code)
 years <- sort(unique(tcf_data$year))
-areas <- unique(tcf_codes[[1]])
+areas <- tcf_codes[[1]]
 
 # Production in processes
 output <- tcf_data[data.table(expand.grid(year = years,
-  area_code = areas, proc_code = unique(tcf_codes[[2]])))]
+  area_code = areas, item_code = tcf_codes[[2]]))]
 output[, `:=`(value = production, production = NULL, processing = NULL)]
 dt_replace(output, is.na, 0, cols = "value")
+# output <- output[!duplicated(output), ] # Kick duplicates (from item_code)
+
 # Processing of source items
 input <- tcf_data[data.table(expand.grid(year = years,
   area_code = areas, item_code = tcf_codes[[3]]))]
 input[, `:=`(value = processing, production = NULL, processing = NULL)]
 dt_replace(input, is.na, 0, cols = "value")
+# output <- output[!duplicated(output), ] # Kick duplicates (from proc_code)
+
 # Processing per process - to fill
 results <- tcf_data[data.table(expand.grid(year = years, area_code = areas,
-  item_code = tcf_codes[[3]], proc_code = unique(tcf_codes[[2]])))]
-setkey(results, year, area_code, proc_code, item_code)
-results[, `:=`(value = NA, production = NULL, processing = NULL)]
+  item_code = tcf_codes[[3]], item_code_proc = tcf_codes[[2]]))]
+setkey(results, item_code_proc, item_code)
+results[, `:=`(value = 0, production = NULL, processing = NULL)]
 
 for(x in years) {
-  output_x <- output[year == x, value]
-  input_x <- input[year == x, value]
-  # Skip if no data is available
-  if(all(output_x == 0) || all(input_x == 0)) {next}
-
-  out <- data.table(split_tcf(y = output_x, z = input_x, C = C, cap = TRUE))
-  colnames(out) <- input[year == x, item_code]
-  out[, proc_code := output[year == x, proc_code]]
-
-  results[year == x,
-    value := calc_tcf(y = output_x, z = input_x, C = C, cap = TRUE)]
+  output_x <- output[year == x, ]
+  input_x <- input[year == x, ]
+  for(y in areas) {
+    output_y <- output_x[area_code == y, value]
+    input_y <- input_x[area_code == y, value]
+    # Skip if no data is available
+    if(all(output_y == 0) || all(input_y == 0)) {next}
+    out <- split_tcf(y = output_y, z = input_y,
+      C = C[[as.character(y)]], cap = TRUE)
+    if(is.na(out)) {next}
+    results[year == x & area_code == y &
+      item_code_proc %in% out$item_code_proc, # item_code is always ordered
+      value := out$value]
+  }
 }
+results[, proc_code :=
+  tcf_cbs[match(results$item_code_proc, tcf_cbs$item_code), proc_code]]
 
-merge(use, results[!is.na(value), ],
+results_proc <- results[, value = na_sum(value),
+  by = list("year", "area_code", "item_code")]
+results_use <- results[, value = na_sum(value),
+  by = list("year", "area_code", "proc_code")]
+
+use <- merge(use, results_proc,
+  by = c("year", "area_code", "item_code"), all.x = TRUE)
+use[!is.na(value), `:=`(processing = processing - value)]
+use[, value := NULL]
+use <- merge(use, results_use,
   by = c("year", "area_code", "proc_code"), all.x = TRUE)
-use[!is.na(value), `:=`(use = value, processing = processing - value)]
+use[!is.na(value), `:=`(use = value)]
+use[, value := NULL]
 
-cbs[, value := NULL]
 rm(tcf_cbs, tcf_codes, tcf_data, years, areas,
-  input, output, result, C, input_x, output_x)
+  results, results_proc, results_use, C,
+  input, output, input_x, output_x, input_y, output_y)
 
 
 # Ethanol production ------------------------------------------------------

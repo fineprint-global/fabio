@@ -274,13 +274,22 @@ split_tcf <- function(y, z, C, cap = TRUE) {
   X <- C %*% Z
   x <- rowSums(X)
   exists <- x != 0 # exists kicks 0 potential outputs
-  if(!any(exists)) {return(rep(NA, length(z)))}
+  if(!any(exists)) {return(NA)}
   P <- .sparseDiagonal(sum(exists), y[exists] / x[exists]) %*%
     (X[exists, ] / x[exists]) %*% Z
   if(cap) {
-    cap <- colSums(P) / z
+    P[, !exists] <- 0
+    cap <- colSums(P)[exists] / z[exists]
     cap[cap < 1] <- 1 # Don't want to scale up
-    P <- P %*% diag(1 / cap)
+    P[, exists] <- P[, exists] %*% diag(1 / cap)
   }
-  return(P)
+  out <- data.table(as.matrix(P))
+  colnames(out) <- colnames(C)
+  out[, item_code_proc := rownames(C)[exists]]
+  out <- melt(out, id.vars = "item_code_proc", variable.name = "item_code",
+    variable.factor = FALSE)
+  out[, `:=`(item_code_proc = as.integer(item_code_proc),
+    item_code = as.integer(item_code))]
+
+  return(out)
 }

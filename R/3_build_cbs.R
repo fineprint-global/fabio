@@ -116,7 +116,7 @@ dt_replace(input, is.na, 0, cols = "value")
 results <- tcf_data[data.table(expand.grid(year = years,
   area_code = areas, item_code = tcf_codes[[2]]))]
 setkey(results, year, area_code, item_code)
-results[, `:=`(value == NA, production = NULL, imports = NULL, exports = NULL)]
+results[, `:=`(value = NA, production = NULL, imports = NULL, exports = NULL)]
 
 # Fill during a loop over years and areas (maybe vectorise)
 for(x in years) {
