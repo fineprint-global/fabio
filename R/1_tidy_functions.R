@@ -278,10 +278,11 @@ split_tcf <- function(y, z, C, cap = TRUE) {
   P <- .sparseDiagonal(sum(exists), y[exists] / x[exists]) %*%
     (X[exists, ] / x[exists]) %*% Z
   if(cap) {
-    P[, !exists] <- 0
-    cap <- colSums(P)[exists] / z[exists]
+    cap <- rep(0, length(z))
+    exists_inp <- z != 0
+    cap[exists_inp] <- colSums(P)[exists_inp] / z[exists_inp]
     cap[cap < 1] <- 1 # Don't want to scale up
-    P[, exists] <- P[, exists] %*% diag(1 / cap)
+    P <- P %*% diag(1 / cap)
   }
   out <- data.table(as.matrix(P))
   colnames(out) <- colnames(C)

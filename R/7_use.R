@@ -43,14 +43,14 @@ tcf_cbs <- fread("inst/tcf_cbs.csv")
 
 tcf_codes <- list(sort(unique(tcf_cbs$area_code)), sort(unique(tcf_cbs$item_code)),
   sort(unique(tcf_cbs$source_code)))
-C <- lapply(tcf_codes[[1]], function(x) {
+Cs <- lapply(tcf_codes[[1]], function(x) {
   out <- dcast(tcf_cbs[area_code == x], item_code ~ source_code, fill = 0,
     fun.aggregate = na_sum, value.var = "tcf")
   setkey(out, item_code)
   out <- as(out[, -1], "Matrix")
 })
-C <- lapply(C, `dimnames<-`, list(tcf_codes[[2]], tcf_codes[[3]]))
-names(C) <- tcf_codes[[1]]
+Cs <- lapply(Cs, `dimnames<-`, list(tcf_codes[[2]], tcf_codes[[3]]))
+names(Cs) <- tcf_codes[[1]]
 
 tcf_data <- use[area_code %in% tcf_codes[[1]] &
   item_code %in% c(tcf_codes[[2]]) | item_code %in% tcf_codes[[3]],
@@ -77,7 +77,7 @@ dt_replace(input, is.na, 0, cols = "value")
 # Processing per process - to fill
 results <- tcf_data[data.table(expand.grid(year = years, area_code = areas,
   item_code = tcf_codes[[3]], item_code_proc = tcf_codes[[2]]))]
-setkey(results, item_code_proc, item_code)
+setkey(results, item_code, item_code_proc)
 results[, `:=`(value = 0, production = NULL, processing = NULL)]
 
 for(x in years) {
@@ -89,33 +89,31 @@ for(x in years) {
     # Skip if no data is available
     if(all(output_y == 0) || all(input_y == 0)) {next}
     out <- split_tcf(y = output_y, z = input_y,
-      C = C[[as.character(y)]], cap = TRUE)
-    if(is.na(out)) {next}
+      C = Cs[[as.character(y)]], cap = TRUE)
+    if(length(out) == 1 && is.na(out)) {next}
     results[year == x & area_code == y &
       item_code_proc %in% out$item_code_proc, # item_code is always ordered
       value := out$value]
   }
 }
-results[, proc_code :=
-  tcf_cbs[match(results$item_code_proc, tcf_cbs$item_code), proc_code]]
+results[, `:=`(proc_code =
+  tcf_cbs[match(results$item_code_proc, tcf_cbs$item_code), proc_code],
+  item_code_proc = NULL)]
 
-results_proc <- results[, value = na_sum(value),
-  by = list("year", "area_code", "item_code")]
-results_use <- results[, value = na_sum(value),
-  by = list("year", "area_code", "proc_code")]
-
-use <- merge(use, results_proc,
+# Subtract from processing per item, disregard processes
+use <- merge(use, results[, list(value = na_sum(value)),
+  by = c("year", "area_code", "item_code")],
   by = c("year", "area_code", "item_code"), all.x = TRUE)
 use[!is.na(value), `:=`(processing = processing - value)]
 use[, value := NULL]
-use <- merge(use, results_use,
-  by = c("year", "area_code", "proc_code"), all.x = TRUE)
+# Add to processing use, per item and process
+use <- merge(use, results,
+  by = c("year", "area_code", "proc_code", "item_code"), all.x = TRUE)
 use[!is.na(value), `:=`(use = value)]
 use[, value := NULL]
 
 rm(tcf_cbs, tcf_codes, tcf_data, years, areas,
-  results, results_proc, results_use, C,
-  input, output, input_x, output_x, input_y, output_y)
+  results, C, input, output, input_x, output_x, input_y, output_y)
 
 
 # Ethanol production ------------------------------------------------------
@@ -548,7 +546,17 @@ use <- merge(use,
 use[!is.na(share_s) & type == "seedwaste", use := share_s]
 use[, share_s := NULL]
 
-# Allocate the rest of processing to food balances -----
+
+# Adjust CBS processing with new use information -----
+
+stop()
+use_proc <- use[, .(area_code, item_code, year, value = processing)]
+use_proc <- use_proc[!duplicated(use_proc)] # Due to use split over processes
+merge(cbs, use_proc, by = c("area_code", "item_code", "year"))
+cbs[!is.na(value), `:=`(processing = na_sum(processing, -value))]
+cbs[, value := NULL]
+
+# Allocate the remainder to food
 cbs[processing > 0, `:=`(food = na_sum(food, processing), processing = 0)]
 
 
