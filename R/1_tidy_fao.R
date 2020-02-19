@@ -354,7 +354,7 @@ live <- dt_filter(live, value > 0)
 live[unit == "1000 Head", `:=`(value = value * 1000, unit = "Head")]
 live[unit == "Head", `:=`(unit = "head")]
 # Recode "1000 US$" to "usd"
-live[unit == "1000 US$", `:=`(value = value * 1000, unit = "usd")]
+# live[unit == "1000 US$", `:=`(value = value * 1000, unit = "usd")] # None
 
 
 # Store

@@ -112,9 +112,8 @@ baci[, item_code := as.integer(category)]
 # 2019-06-07: Introduce unit variable
 baci <- melt(baci, measure.vars = c("1000 US$", "tons"),
              variable.name = "unit", variable.factor = FALSE)
-# Convert from 1000 US$ to usd and from tons to tonnes
+# Convert from 1000 US$ to usd
 baci[unit == "1000 US$", `:=`(value = value * 1000, unit = "usd")]
-baci[unit == "tons", `:=`(value = value / 0.9071847, unit = "tonnes")]
 
 # Store
 saveRDS(baci, "data/tidy/baci_tidy.rds")

@@ -126,7 +126,7 @@ rm(eth_com, eth_com_fill, eth_baci)
 cat("\nAdding fishery trade data.\n")
 
 # Comtrade is used for `year < 1995`
-fish_com <- comtrade[grep("^030[1-4]$", item_code), ]
+fish_com <- comtrade[grep("^.*30[1-4]$", item_code), ]
 
 # Change from reporting & partner country to receiving & supplying country
 fish_com[, `:=`(from = ifelse(imex == "Import", partner, reporter),

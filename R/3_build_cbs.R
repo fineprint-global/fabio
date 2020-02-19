@@ -73,10 +73,6 @@ crop <- readRDS("data/tidy/crop_tidy.rds")
 
 crop_prod <- crop[element == "Production" & unit == "tonnes", ]
 crop_prod[, `:=`(element = NULL, unit = NULL)]
-cat("Add grazing item.\n")
-graze <- crop_prod[item_code == 2000, ]
-crop_prod <- rbindlist(list(
-  crop_prod, graze[, `:=`(item = "Grazing", item_code = 2001, value = 0)]))
 setkey(crop_prod, year, area_code, item_code)
 
 # Technical conversion factors to impute processing ---
@@ -116,7 +112,8 @@ dt_replace(input, is.na, 0, cols = "value")
 results <- tcf_data[data.table(expand.grid(year = years,
   area_code = areas, item_code = tcf_codes[[2]]))]
 setkey(results, year, area_code, item_code)
-results[, `:=`(value = NA, production = NULL, imports = NULL, exports = NULL)]
+results[, `:=`(value = NA_real_,
+  production = NULL, imports = NULL, exports = NULL)]
 
 # Fill during a loop over years and areas (maybe vectorise)
 for(x in years) {
@@ -132,7 +129,8 @@ for(x in years) {
   }
 }
 results <- results[!is.na(value), .(year, area_code, item_code, value2 = value)]
-crop_prod <- crop_prod[results][!is.na(value), ]
+crop_prod <- merge(crop_prod, results,
+  by = c("year", "area_code", "item_code"), all.x = TRUE)
 
 # Add to CBS ---
 cbs <- merge(cbs, crop_prod,
@@ -144,7 +142,7 @@ cbs[is.na(production), `:=`(production = value,
   processing = na_sum(processing, value2))]
 
 cbs[, `:=`(value = NULL, value2 = NULL)]
-rm(crop, crop_prod, graze,
+rm(crop, crop_prod,
   tcf_crop, tcf_codes, tcf_data, input, output, results, years, areas,
   C, input_x, output_x, input_y, output_y)
 

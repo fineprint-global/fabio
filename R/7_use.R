@@ -113,7 +113,7 @@ use[!is.na(value), `:=`(use = value)]
 use[, value := NULL]
 
 rm(tcf_cbs, tcf_codes, tcf_data, years, areas,
-  results, C, input, output, input_x, output_x, input_y, output_y)
+  results, Cs, input, output, input_x, output_x, input_y, output_y)
 
 
 # Ethanol production ------------------------------------------------------
