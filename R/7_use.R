@@ -9,15 +9,20 @@ items <- fread("inst/items_full.csv")
 cbs <- readRDS("data/cbs_bal.rds")
 sup <- readRDS("data/sup.rds")
 
-use <- fread("inst/items_use.csv")
+use_items <- fread("inst/items_use.csv")
 
 
 # Use ---------------------------------------------------------------------
 
+# Add grazing to the CBS (later filled with feed requirements)
+grazing <- unique(cbs[, c("year", "area", "area_code")])
+grazing[, `:=`(item = "Grazing", item_code = 2001)]
+cbs <- rbindlist(list(cbs, grazing), use.names = TRUE, fill = TRUE)
+
 # Create long use table
 use <- merge(
   cbs, # cbs[, c("area_code", "area", "year", "item_code", "item")],
-  use[item_code != 843, ],
+  use_items[item_code != 843, ],
   by = c("item_code", "item"), all = TRUE, allow.cartesian = TRUE)
 use[, use := NA_real_]
 

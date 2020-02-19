@@ -138,6 +138,7 @@ for(i in seq_along(years)) {
 
   cat("Calculated year ", y, ".\n", sep = "")
 }
+# Todo: Non-convergence should be fine, investigate at some point
 
 # One datatable per year
 btd_bal <- lapply(btd_bal, rbindlist)
