@@ -32,16 +32,16 @@ cat("\nGiving preference to units in the following order:\n",
 
 # Imports
 imps <- btd[unit != "usd", list(value = na_sum(value)),
-            by = list(to_code, item_code, year, unit)]
-imps <- dcast(imps, to_code + item_code + year ~ unit,
+            by = list(to_code, to, item_code, item, year, unit)]
+imps <- dcast(imps, to_code + to + item_code + item + year ~ unit,
               value.var = "value")
 imps[, `:=`(value = ifelse(!is.na(head), head, ifelse(!is.na(m3), m3, tonnes)),
   head = NULL, litres = NULL, m3 = NULL, tonnes = NULL)]
 
 # Exports
 exps <- btd[unit != "usd", list(value = na_sum(value)),
-            by = list(from_code, item_code, year, unit)]
-exps <- dcast(exps, from_code + item_code + year ~ unit,
+            by = list(from_code, from, item_code, item, year, unit)]
+exps <- dcast(exps, from_code + from + item_code + item + year ~ unit,
               value.var = "value")
 exps[, `:=`(value = ifelse(!is.na(head), head, ifelse(!is.na(m3), m3, tonnes)),
   head = NULL, litres = NULL, m3 = NULL, tonnes = NULL)]
@@ -208,16 +208,16 @@ rm(eth, eth_cbs)
 cat("\nAdding missing export and import data to CBS from BTD.\n")
 cbs <- merge(
   cbs, imps[item_code %in% cbs$item_code,
-    c("to_code", "item_code", "year", "value")],
-  by.x = c("area_code", "item_code", "year"),
-  by.y = c("to_code", "item_code", "year"),
+    c("to_code", "to", "item_code", "item", "year", "value")],
+  by.x = c("area_code", "area", "item_code", "item", "year"),
+  by.y = c("to_code", "to", "item_code", "item", "year"),
   all.x = TRUE, all.y = TRUE)
 cbs[, `:=`(imports = ifelse(is.na(imports), value, imports), value = NULL)]
 cbs <- merge(
   cbs, exps[item_code %in% cbs$item_code,
-    c("from_code", "item_code", "year", "value")],
-  by.x = c("area_code", "item_code", "year"),
-  by.y = c("from_code", "item_code", "year"),
+    c("from_code", "from", "item_code", "item", "year", "value")],
+  by.x = c("area_code", "area", "item_code", "item", "year"),
+  by.y = c("from_code", "from", "item_code", "item", "year"),
   all.x = TRUE, all.y = TRUE)
 cbs[, `:=`(exports = ifelse(is.na(exports), value, exports), value = NULL)]
 rm(imps, exps)
