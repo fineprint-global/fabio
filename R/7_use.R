@@ -31,12 +31,23 @@ cat("Allocating crops going directly to a process. Applies to items:\n\t",
   paste0(unique(use[type == "100%", item]), collapse = "; "),
   ".\n", sep = "")
 use[type == "100%", `:=`(use = processing, processing = 0)]
+# Reduce processing in CBS
+cbs <- merge(cbs, use[type == "100%" & !is.na(use) & use > 0,
+  c("area_code", "year", "item_code", "use")], all.x = TRUE)
+cbs[!is.na(use), processing := na_sum(processing, -use)]
+cbs[, use := NULL]
 
 # Slaughtering
 cat("Allocating live animals to slaughtering use. Applies to items:\n\t",
   paste0(unique(use[type == "slaughtering", item]), collapse = "; "),
   ".\n", sep = "")
 use[type == "slaughtering", `:=`(use = processing, processing = 0)]
+# Reduce processing
+cbs <- merge(cbs, use[type == "slaughtering" & !is.na(use) & use > 0,
+  c("area_code", "year", "item_code", "use")], all.x = TRUE)
+cbs[!is.na(use), processing := na_sum(processing, -use)]
+cbs[, use := NULL]
+
 
 # Crop TCF ---
 
@@ -105,17 +116,18 @@ results[, `:=`(proc_code =
   tcf_cbs[match(results$item_code_proc, tcf_cbs$item_code), proc_code],
   item_code_proc = NULL)]
 
-# Subtract from processing per item, disregard processes
-use <- merge(use, results[, list(value = na_sum(value)),
-  by = c("year", "area_code", "item_code")],
-  by = c("year", "area_code", "item_code"), all.x = TRUE)
-use[!is.na(value), `:=`(processing = processing - value)]
-use[, value := NULL]
-# Add to processing use, per item and process
+# Add to use (per item and process)
 use <- merge(use, results,
   by = c("year", "area_code", "proc_code", "item_code"), all.x = TRUE)
 use[!is.na(value), `:=`(use = value)]
 use[, value := NULL]
+
+# Subtract from cbs processing (per item)
+merge(cbs, results[, list(value = na_sum(value)),
+  by = c("year", "area_code", "item_code")], all.x = TRUE)
+cbs[!is.na(value), processing := na_sum(processing, -value)]
+cbs[, value := NULL]
+
 
 rm(tcf_cbs, tcf_codes, tcf_data, years, areas,
   results, Cs, input, output, input_x, output_x, input_y, output_y)
@@ -154,28 +166,30 @@ eth[, value := NULL]
 eth <- merge(eth,
   cbs[item_code == 2659, .(area_code, year, eth_prod = production)],
   by = c("area_code", "year"), all.x = TRUE)
-# First use up `other`, then `processing` for ethanol production
+# First use up other, then processing for ethanol production
 eth[, `:=`(
   eth_oth = eth_prod * share_oth / tcf,
   eth_proc = ifelse(eth_prod > pot_oth_t,
     (eth_prod - pot_oth_t) * share_proc / tcf, 0))]
-# Cap values at available `other` and `processing`
+# Cap values at available other and processing
 eth[, `:=`(
   eth_oth = ifelse(eth_oth > other, other, eth_oth),
   eth_proc = ifelse(eth_proc > processing, processing, eth_proc))]
-# Reduce `other` and `processing` and allocate ethanol specifics to `use`
-eth[, `:=`(
-  use = eth_oth + eth_proc,
-  other = other - eth_oth, processing = processing - eth_proc
-)]
+eth[, `:=`(use = na_sum(eth_oth, eth_proc))]
+
+# Reduce other and processing in cbs allocate ethanol use
+cbs <- merge(cbs, eth[!is.na(use),
+  .("year", "area_code", "item_code", "eth_oth", "eth_proc")], all.x = TRUE)
+cbs[, `:=`(
+  processing = na_sum(processing, -eth_proc), other = na_sum(other, -eth_oth))]
+cbs[, `:=`(eth_proc = NULL, eth_oth = NULL)]
 
 eth <- eth[!is.na(use), .(area_code, item_code, year, proc_code = "p084",
-  processing_eth = processing, other_eth = other, use_eth = use)]
+  use_eth = use)]
 use <- merge(use, eth,
   by = c("area_code", "item_code", "year", "proc_code"), all.x = TRUE)
-use[!is.na(use_eth), `:=`(
-  use = use_eth, other = other_eth, processing = processing_eth)]
-use[, `:=`(use_eth = NULL, other_eth = NULL, processing_eth = NULL)]
+use[!is.na(use_eth), `:=`(use = use_eth)]
+use[, `:=`(use_eth = NULL)]
 rm(eth)
 
 
@@ -505,13 +519,11 @@ results <- lapply(sort(unique(input$area_code)), function(x) {
 
 results <- rbindlist(results)
 
-results[, `:=`(result_out = result_in * value,
-  item_code = inp_code, type = "optim")]
 # Add process information
 results[, proc_code := ifelse(out_code == 2658, "p083",
   ifelse(out_code == 2657, "p082", ifelse(out_code == 2656, "p081", "p066")))]
 
-# Add optimisation results to use and balances
+# Add optimisation results to use (full detail) and cbs (item detail)
 use <- merge(use,
   results[, c("area_code", "year", "item_code",
     "proc_code", "type", "result_in")],
@@ -520,7 +532,8 @@ use[!is.na(result_in) & type == "optim", use := result_in]
 use[, result_in := NULL]
 
 cbs <- merge(cbs,
-  results[, c("area_code", "year", "item_code", "result_in")],
+  results[, list(result_in = na_sum(result_in)),
+    by = c("area_code", "year", "item_code")],
   by = c("area_code", "year", "item_code"), all.x = TRUE)
 cbs[!is.na(result_in), processing := na_sum(processing, -result_in)]
 cbs[, result_in := NULL]
@@ -554,7 +567,7 @@ use[, share_s := NULL]
 
 # Adjust CBS processing with new use information -----
 
-stop()
+
 use_proc <- use[, .(area_code, item_code, year, value = processing)]
 use_proc <- use_proc[!duplicated(use_proc)] # Due to use split over processes
 merge(cbs, use_proc, by = c("area_code", "item_code", "year"))
