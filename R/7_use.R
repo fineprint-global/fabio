@@ -564,26 +564,17 @@ use <- merge(use,
 use[!is.na(share_s) & type == "seedwaste", use := share_s]
 use[, share_s := NULL]
 
-
-# Adjust CBS processing with new use information -----
-
-
-use_proc <- use[, .(area_code, item_code, year, value = processing)]
-use_proc <- use_proc[!duplicated(use_proc)] # Due to use split over processes
-merge(cbs, use_proc, by = c("area_code", "item_code", "year"))
-cbs[!is.na(value), `:=`(processing = na_sum(processing, -value))]
-cbs[, value := NULL]
-
-# Allocate the remainder to food
+# Allocate the remainder of processing use to food
 cbs[processing > 0, `:=`(food = na_sum(food, processing), processing = 0)]
 
 
 # Allocate final demand from balances -----
-use_fd <- cbs[, c("area_code", "item_code", "year",
-  "food", "other", "stock_addition", "stock_withdrawal", "balancing")]
+use_fd <- cbs[, c("year", "area_code", "area", "item_code", "item",
+  "food", "other", "stock_addition", "balancing")]
 
 
 # Save -----
 
 saveRDS(cbs, "data/cbs_final.rds")
 saveRDS(use, "data/use_final.rds")
+saveRDS(use_fd, "data/use_fd_final.rds")
