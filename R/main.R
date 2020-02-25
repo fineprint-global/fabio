@@ -22,3 +22,16 @@ source("R/0_prep_trade.R")
 source("R/1_tidy_fao.R")
 source("R/1_tidy_eth.R")
 source("R/1_tidy_trade.R")
+
+source("R/2_build_btd.R")
+
+source("R/3_build_cbs.R")
+
+source("R/4_estimate_btd.R")
+
+source("R/5_balance.R")
+
+source("R/6_supply.R")
+
+source("R/7_use.R")
+

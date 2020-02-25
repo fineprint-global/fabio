@@ -33,7 +33,8 @@ cat("Allocating crops going directly to a process. Applies to items:\n\t",
 use[type == "100%", `:=`(use = processing, processing = 0)]
 # Reduce processing in CBS
 cbs <- merge(cbs, use[type == "100%" & !is.na(use) & use > 0,
-  c("area_code", "year", "item_code", "use")], all.x = TRUE)
+  c("area_code", "year", "item_code", "use")],
+  by = c("area_code", "year", "item_code"), all.x = TRUE)
 cbs[!is.na(use), processing := na_sum(processing, -use)]
 cbs[, use := NULL]
 
@@ -44,7 +45,8 @@ cat("Allocating live animals to slaughtering use. Applies to items:\n\t",
 use[type == "slaughtering", `:=`(use = processing, processing = 0)]
 # Reduce processing
 cbs <- merge(cbs, use[type == "slaughtering" & !is.na(use) & use > 0,
-  c("area_code", "year", "item_code", "use")], all.x = TRUE)
+  c("area_code", "year", "item_code", "use")],
+  by = c("area_code", "year", "item_code"), all.x = TRUE)
 cbs[!is.na(use), processing := na_sum(processing, -use)]
 cbs[, use := NULL]
 
@@ -123,8 +125,9 @@ use[!is.na(value), `:=`(use = value)]
 use[, value := NULL]
 
 # Subtract from cbs processing (per item)
-merge(cbs, results[, list(value = na_sum(value)),
-  by = c("year", "area_code", "item_code")], all.x = TRUE)
+cbs <- merge(cbs, results[, list(value = na_sum(value)),
+  by = c("year", "area_code", "item_code")],
+  by = c("area_code", "year", "item_code"), all.x = TRUE)
 cbs[!is.na(value), processing := na_sum(processing, -value)]
 cbs[, value := NULL]
 
@@ -179,7 +182,8 @@ eth[, `:=`(use = na_sum(eth_oth, eth_proc))]
 
 # Reduce other and processing in cbs allocate ethanol use
 cbs <- merge(cbs, eth[!is.na(use),
-  .("year", "area_code", "item_code", "eth_oth", "eth_proc")], all.x = TRUE)
+  c("year", "area_code", "item_code", "eth_oth", "eth_proc")],
+  by = c("area_code", "year", "item_code"), all.x = TRUE)
 cbs[, `:=`(
   processing = na_sum(processing, -eth_proc), other = na_sum(other, -eth_oth))]
 cbs[, `:=`(eth_proc = NULL, eth_oth = NULL)]
@@ -578,3 +582,4 @@ use_fd <- cbs[, c("year", "area_code", "area", "item_code", "item",
 saveRDS(cbs, "data/cbs_final.rds")
 saveRDS(use, "data/use_final.rds")
 saveRDS(use_fd, "data/use_fd_final.rds")
+saveRDS(sup, "data/sup_final.rds")
