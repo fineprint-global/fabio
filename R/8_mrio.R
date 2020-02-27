@@ -9,19 +9,20 @@ items <- fread("inst/items_full.csv")
 sup <- readRDS("data/sup_final.rds")
 
 cbs <- readRDS("data/cbs_final.rds")
-btd <- readRDS("data/btd_final.rds")
+btd <- readRDS("data/btd_full.rds")
+
 use <- readRDS("data/use_final.rds")
+
+years <- seq(1986, 2013)
+areas <- unique(cbs$area_code)
+processes <- unique(use$proc_code)
+commodities <- unique(use$comm_code)
 
 
 # Supply ---
 
-years <- seq(1986, 2013)
-areas <- unique(sup$area_code)
-processes <- unique(sup$proc_code)
-commodities <- unique(sup$comm_code)
-
 template <- data.table(expand.grid(
-  proc_code = processes, comm_code = commodities))
+  proc_code = processes, comm_code = commodities, stringsAsFactors = FALSE))
 setkey(template, proc_code, comm_code)
 
 mr_sup_m <- lapply(years, function(x) {
@@ -56,37 +57,105 @@ mr_sup_p <- lapply(years, function(x) {
 
 names(mr_sup_m) <- names(mr_sup_p) <- years
 
+saveRDS(mr_sup_m, "data/mr_sup_m.rds")
+saveRDS(mr_sup_p, "data/mr_sup_p.rds")
+
+
+# CBS and BTD ---
+
+template <- data.table(expand.grid(
+  from_code = areas, to_code = areas,
+  comm_code = commodities, stringsAsFactors = FALSE))
+setkey(template, from_code, comm_code, to_code)
+
+
+btd[, comm_code := items$comm_code[match(btd$item_code, items$item_code)]]
+
+btd_cast <- lapply(years, function(x, btd_x) {
+  out <- dcast(merge(template,
+    btd_x[year == x, .(from_code, to_code, comm_code, value)],
+    by = c("from_code", "to_code", "comm_code"), all.x = TRUE),
+    from_code + comm_code ~ to_code,
+    value.var = "value", fun.aggregate = sum, na.rm = TRUE, fill = 0)
+  Matrix(data.matrix(out[, c(-1, -2)]), sparse = TRUE,
+    dimnames = list(paste0(out$from_code, "-", out$comm_code),
+      colnames(out)[c(-1, -2)]))
+}, btd_x = btd[, .(year, from_code, to_code, comm_code, value)])
+
+cbs[, comm_code := items$comm_code[match(cbs$item_code, items$item_code)]]
+
+cbs_cast <- lapply(years, function(x, cbs_x) {
+  out <- dcast(merge(template[, .(area_code = from_code, comm_code)],
+    cbs_x[year == x, .(area_code, comm_code, production)],
+    by = c("area_code", "comm_code"), all.x = TRUE),
+    area_code + comm_code ~ area_code,
+    value.var = "production", fun.aggregate = sum, na.rm = TRUE, fill = 0)
+  Matrix(data.matrix(out[, c(-1, -2)]), sparse = TRUE,
+    dimnames = list(paste0(out$area_code, "-", out$comm_code),
+      colnames(out)[c(-1, -2)]))
+}, cbs_x = cbs[, .(year, area_code, comm_code, production)])
+
+total <- mapply(`+`, cbs_cast, btd_cast)
+names(cbs_cast) <- names(btd_cast) <- names(total) <- years
+
+comms <- gsub("(^[0-9]+)-(c[0-9]+)", "\\2", rownames(total[[1]]))
+is <- as.numeric(vapply(unique(comms), function(x) {which(comms == x)},
+  numeric(length(unique(areas)))))
+js <- rep(seq_along(areas), each = length(unique(comms)))
+agg <- Matrix::sparseMatrix(i = is, j = js)
+
+total_shares <- lapply(total, function(x, agg, js) {
+  x_agg <- crossprod(x, agg)
+  # x_svd <- svd(x_agg)
+  # x_svd$d <- pmax(x_svd$d, 1e-12)
+  # x_pseudoinv <- x_svd$u %*% diag(1 / x_svd$d) %*% t(x_svd$v)
+  # x %*% x_pseudoinv
+  x / x_agg[js, ]
+}, agg = agg, js = js)
+
 
 # Use ---
 
-# per year?
-
-btd$comm_code <- code
-dcast(btd, from_code + comm_code ~ to_code)
-
-cbs$comm_code <- code
-dcast(cbs, area_code + comm_code ~ area_code)
-
-total <- cbs + btd
-
-total_agg <- total[, list(value = na_sum(value)), by = "comm_code"]
-total_agg[match(total$comm_code, total_agg$comm_code)]
-
-# != 0
-supply_shares <- total / total_agg
+template <- data.table(expand.grid(
+  area_code = areas, proc_code = processes, comm_code = commodities,
+  stringsAsFactors = FALSE))
+setkey(template, area_code, proc_code, comm_code)
 
 
-use <- dcast(use, comm_code ~ area_code + proc_code, value.var = "use")
+use_cast <- lapply(years, function(x, use_x) {
+  out <- dcast(merge(template[, .(area_code, proc_code, comm_code)],
+    use_x[year == x, .(area_code, proc_code, comm_code, use)],
+    by = c("area_code", "proc_code", "comm_code"), all.x = TRUE),
+    comm_code ~ area_code + proc_code,
+    value.var = "use", fun.aggregate = sum, na.rm = TRUE, fill = 0)
+  Matrix(data.matrix(out[, c(-1)]), sparse = TRUE,
+    dimnames = list(out$comm_code, colnames(out)[-1]))
+}, use_x = use[, .(year, area_code, proc_code, comm_code, use)])
 
-mr_use <- use[match(total$comm_code, use$comm_code)]
-Matrix(data.matrix(mr_use))
+mr_use <- mapply(function(x, y) {
+  mr_x <- x[rep(seq_along(commodities), length(areas)), ]
+  for(j in seq_along(areas)) {
+    mr_x[, seq(1 + (j - 1) * length(processes), j * length(processes))] <-
+      mr_x[, seq(1 + (j - 1) * length(processes), j * length(processes))] * y
+  }
+  return(mr_x)
+}, use_cast, total_shares)
 
-mr_use * supply_shares
 
+use_fd <- readRDS("data/use_fd_final.rds")
 
-mr_use_fd <- use_fd[match()]
-Matrix(data.matrix(use_fd))
+mr_use_fd <- lapply(years, function(x, use_fd_x) {
+  use_fd_x <- use_fd_x[year == x, .(area_code, proc_code, comm_code,
+    food, other, stock_addition, balancing)]
+  use_fd_x[rep(seq_along(commodities), length(areas)), ]gst
+}, use_fd[, .(year, area_code, proc_code, comm_code,
+  food, other, stock_addition, balancing)])
 
-mr_use_fd * supply_shares
-
-saveRDS()
+mr_use_fd <- mapply(function(x, y) {
+  mr_x <- x[rep(seq_along(commodities), length(areas)), ]
+  for(j in seq_along(areas)) {
+    mr_x[, seq(1 + (j - 1) * 4, j * 4)] <-
+      mr_x[, seq(1 + (j - 1) * 4, j * 4)] * y
+  }
+  return(mr_x)
+}, mr_use_fd, total_shares)
