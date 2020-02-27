@@ -154,7 +154,7 @@ use_fd <- readRDS("data/use_fd_final.rds")
 mr_use_fd <- lapply(years, function(x, use_fd_x) {
   use_fd_x <- use_fd_x[year == x, .(area_code, proc_code, comm_code,
     food, other, stock_addition, balancing)]
-  use_fd_x[rep(seq_along(commodities), length(areas)), ]gst
+  use_fd_x[rep(seq_along(commodities), length(areas)), ]
 }, use_fd[, .(year, area_code, proc_code, comm_code,
   food, other, stock_addition, balancing)])
 
@@ -169,3 +169,28 @@ mr_use_fd <- mapply(function(x, y) {
 }, mr_use_fd, total_shares)
 
 saveRDS(mr_use_fd, "data/mr_use_fd.rds")
+
+
+# MRIO Table ---
+
+# Mass
+trans_m <- lapply(mr_sup_m, function(x) {
+  out <- as.matrix(x / rowSums(x))
+  out[!is.finite(out)] <- 0 # See Issue #75
+  return(as(out, "Matrix"))
+})
+
+Z_m <- mapply(function(x, y) {
+  x %*% y
+}, x = mr_use, y = trans_m)
+
+# Price
+trans_p <- lapply(mr_sup_m, function(x) {
+  out <- as.matrix(x / rowSums(x))
+  out[!is.finite(out)] <- 0 # See Issue #75
+  return(as(out, "Matrix"))
+})
+
+Z_p <- mapply(function(x, y) {
+  x %*% y
+}, x = mr_use, y = trans_p)
