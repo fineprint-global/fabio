@@ -110,7 +110,9 @@ total_shares <- lapply(total, function(x, agg, js) {
   # x_svd$d <- pmax(x_svd$d, 1e-12)
   # x_pseudoinv <- x_svd$u %*% diag(1 / x_svd$d) %*% t(x_svd$v)
   # x %*% x_pseudoinv
-  x / x_agg[js, ]
+  out <- as.matrix(x / x_agg[js, ])
+  out[!is.finite(out)] <- 0 # See Issue #75
+  return(as(out, "Matrix"))
 }, agg = agg, js = js)
 
 
@@ -134,13 +136,18 @@ use_cast <- lapply(years, function(x, use_x) {
 
 mr_use <- mapply(function(x, y) {
   mr_x <- x[rep(seq_along(commodities), length(areas)), ]
-  for(j in seq_along(areas)) {
-    mr_x[, seq(1 + (j - 1) * length(processes), j * length(processes))] <-
-      mr_x[, seq(1 + (j - 1) * length(processes), j * length(processes))] * y
+  n_proc <- length(processes)
+  for(j in seq_along(areas)) { # Could do this vectorised
+    mr_x[, seq(1 + (j - 1) * n_proc, j * n_proc)] <-
+      mr_x[, seq(1 + (j - 1) * n_proc, j * n_proc)] * y[, j]
   }
   return(mr_x)
 }, use_cast, total_shares)
 
+saveRDS(mr_use, "data/mr_use.rds")
+
+
+# Use FD ---
 
 use_fd <- readRDS("data/use_fd_final.rds")
 
@@ -153,9 +160,12 @@ mr_use_fd <- lapply(years, function(x, use_fd_x) {
 
 mr_use_fd <- mapply(function(x, y) {
   mr_x <- x[rep(seq_along(commodities), length(areas)), ]
-  for(j in seq_along(areas)) {
-    mr_x[, seq(1 + (j - 1) * 4, j * 4)] <-
-      mr_x[, seq(1 + (j - 1) * 4, j * 4)] * y
+  n_proc <- 4L
+  for(j in seq_along(areas)) { # Could do this vectorised
+    mr_x[, seq(1 + (j - 1) * n_proc, j * n_proc)] <-
+      mr_x[, seq(1 + (j - 1) * n_proc, j * n_proc)] * y[, j]
   }
   return(mr_x)
 }, mr_use_fd, total_shares)
+
+saveRDS(mr_use_fd, "data/mr_use_fd.rds")
