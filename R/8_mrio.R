@@ -12,6 +12,7 @@ cbs <- readRDS("data/cbs_final.rds")
 btd <- readRDS("data/btd_full.rds")
 
 use <- readRDS("data/use_final.rds")
+use_fd <- readRDS("data/use_fd_final.rds")
 
 years <- seq(1986, 2013)
 areas <- unique(cbs$area_code)
@@ -149,21 +150,32 @@ saveRDS(mr_use, "data/mr_use.rds")
 
 # Use FD ---
 
-use_fd <- readRDS("data/use_fd_final.rds")
+template <- data.table(expand.grid(
+  area_code = areas, comm_code = commodities,
+  variable = c("food", "other", "stock_addition", "balancing"),
+  stringsAsFactors = FALSE))
+setkey(template, area_code, comm_code, variable)
+
+use_fd[, comm_code := items$comm_code[match(use_fd$item_code, items$item_code)]]
+use_fd <- melt(use_fd[, .(year, area_code, comm_code,
+  food, other, stock_addition, balancing)],
+  id.vars = c("year", "area_code", "comm_code"))
 
 mr_use_fd <- lapply(years, function(x, use_fd_x) {
-  use_fd_x <- use_fd_x[year == x, .(area_code, proc_code, comm_code,
-    food, other, stock_addition, balancing)]
-  use_fd_x[rep(seq_along(commodities), length(areas)), ]
-}, use_fd[, .(year, area_code, proc_code, comm_code,
-  food, other, stock_addition, balancing)])
+  out <- dcast(merge(template[, .(area_code, comm_code, variable)],
+    use_fd_x[year == x, .(area_code, comm_code, variable, value)],
+    by = c("area_code", "comm_code", "variable"), all.x = TRUE),
+    comm_code ~ area_code + variable,
+    value.var = "value", fun.aggregate = sum, na.rm = TRUE, fill = 0)
+  Matrix(data.matrix(out[, -1]), sparse = TRUE,
+    dimnames = list(out$comm_code, colnames(out)[-1]))
+}, use_fd[, .(year, area_code, comm_code, variable, value)])
 
 mr_use_fd <- mapply(function(x, y) {
-  mr_x <- x[rep(seq_along(commodities), length(areas)), ]
   n_proc <- 4L
   for(j in seq_along(areas)) { # Could do this vectorised
-    mr_x[, seq(1 + (j - 1) * n_proc, j * n_proc)] <-
-      mr_x[, seq(1 + (j - 1) * n_proc, j * n_proc)] * y[, j]
+    x[, seq(1 + (j - 1) * n_proc, j * n_proc)] <-
+      x[, seq(1 + (j - 1) * n_proc, j * n_proc)] * y[, j]
   }
   return(mr_x)
 }, mr_use_fd, total_shares)
