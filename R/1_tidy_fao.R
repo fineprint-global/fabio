@@ -213,7 +213,8 @@ fore_trad <- dt_rename(fore_trad, rename)
 
 # Country / Area adjustments
 for(col in c("reporter_code", "partner_code")) {
-  fore_trad <- area_kick(fore_trad, groups = TRUE, col = col)
+  fore_trad <- area_kick(fore_trad, code = 351, pattern = "China",
+    groups = TRUE, col = col)
   fore_trad <- area_merge(fore_trad, orig = 62, dest = 238,
                           pattern = "Ethiopia", col = col)
   fore_trad <- area_fix(fore_trad, regions, col = col)
@@ -221,9 +222,9 @@ for(col in c("reporter_code", "partner_code")) {
 
 # Cut down to certain products
 fore_trad <- dt_filter(fore_trad, item_code %in%
-                         c("Industrial roundwood, coniferous" = 1651,
-                           "Industrial roundwood, non-coniferous tropical" = 1657,
-                           "Industrial roundwood, non-coniferous non-tropical" = 1670))
+  c("Industrial roundwood, coniferous" = 1651,
+    "Industrial roundwood, non-coniferous tropical" = 1657,
+    "Industrial roundwood, non-coniferous non-tropical" = 1670))
 # fore_trad <- dt_filter(fore_trad, unit != "m3")
 # Recode "1000 US$" to "usd"
 fore_trad[unit == "1000 US$", `:=`(value = value * 1000, unit = "usd")]
