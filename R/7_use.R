@@ -529,15 +529,15 @@ results[, proc_code := ifelse(out_code == 2658, "p083",
 
 # Add optimisation results to use (full detail) and cbs (item detail)
 use <- merge(use,
-  results[, c("area_code", "year", "item_code",
-    "proc_code", "type", "result_in")],
+  results[, .(area_code, year, item_code = inp_code, type = "optim",
+    proc_code, result_in)],
   by = c("area_code", "year", "item_code", "proc_code", "type"), all.x = TRUE)
 use[!is.na(result_in) & type == "optim", use := result_in]
 use[, result_in := NULL]
 
 cbs <- merge(cbs,
   results[, list(result_in = na_sum(result_in)),
-    by = c("area_code", "year", "item_code")],
+    by = .(area_code, year, item_code = inp_code)],
   by = c("area_code", "year", "item_code"), all.x = TRUE)
 cbs[!is.na(result_in), processing := na_sum(processing, -result_in)]
 cbs[, result_in := NULL]
