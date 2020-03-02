@@ -10,11 +10,15 @@ cat("\nEstimating BTD from CBS.\n")
 
 cbs <- readRDS("data/cbs_full.rds")
 
+# dt_replace(cbs, fun = is.na, value = 0, cols = c("imports", "exports"))
+
 # Cast import and export columns
 cbs_imp <- dcast(cbs[, c("area_code", "year", "item_code", "imports")],
-  year + item_code ~ area_code, value.var = "imports", fun.aggregate = na_sum)
+  year + item_code ~ area_code, value.var = "imports", fun.aggregate = na_sum,
+  fill = 0)
 cbs_exp <- dcast(cbs[, c("area_code", "year", "item_code", "exports")],
-  year + item_code ~ area_code, value.var = "exports", fun.aggregate = na_sum)
+  year + item_code ~ area_code, value.var = "exports", fun.aggregate = na_sum,
+  fill = 0)
 
 rm(cbs); gc()
 
@@ -41,7 +45,7 @@ build_estimates <- function(name, list, ids, kick_0 = TRUE) {
   col_na <- apply(x, 2, function(y) {all(is.na(y))})
   out <- melt(cbind(ids[!row_na], as.matrix(x[!row_na, !col_na])),
     id.vars = c("year", "item_code"), na.rm = TRUE,
-    variable.name = "area_code")
+    variable.name = "area_code", variable.factor = FALSE)
   if(nrow(out) == 0) {return(NULL)}
   # Make sure encoding is right, to reduce memory load
   out[, `:=`(year = as.integer(year), item_code = as.integer(item_code),

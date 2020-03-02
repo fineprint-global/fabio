@@ -172,10 +172,11 @@ mr_use_fd <- lapply(years, function(x, use_fd_x) {
 }, use_fd[, .(year, area_code, comm_code, variable, value)])
 
 mr_use_fd <- mapply(function(x, y) {
+  mr_x <- x[rep(seq_along(commodities), length(areas)), ]
   n_proc <- 4L
   for(j in seq_along(areas)) { # Could do this vectorised
-    x[, seq(1 + (j - 1) * n_proc, j * n_proc)] <-
-      x[, seq(1 + (j - 1) * n_proc, j * n_proc)] * y[, j]
+    mr_x[, seq(1 + (j - 1) * n_proc, j * n_proc)] <-
+      mr_x[, seq(1 + (j - 1) * n_proc, j * n_proc)] * y[, j]
   }
   return(mr_x)
 }, mr_use_fd, total_shares)

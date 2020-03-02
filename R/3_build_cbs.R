@@ -140,6 +140,7 @@ cat("\nFilling missing cbs production with crop production data. Items:\n",
   ".\n", sep = "")
 cbs[is.na(production), `:=`(production = value,
   processing = na_sum(processing, value2))]
+cbs[is.na(processing) | processing == 0, `:=`(processing = value2)]
 
 cbs[, `:=`(value = NULL, value2 = NULL)]
 rm(crop, crop_prod,
@@ -255,9 +256,12 @@ cat("\nCap out 'exports' (N = ", cbs[exports > total_supply, .N],
     "), 'processing' (N = ", cbs[processing > total_supply, .N],
     ") and 'seed' (N = ", cbs[seed > total_supply, .N],
     ") uses exceeding 'total_supply'.\n", sep = "")
-cbs[exports > total_supply, exports := total_supply]
-cbs[processing > total_supply, processing := total_supply]
-cbs[seed > total_supply, seed := total_supply]
+cbs[exports > (total_supply + stock_withdrawal),
+  exports := (total_supply + stock_withdrawal)]
+cbs[processing > (total_supply + stock_withdrawal),
+  processing := (total_supply + stock_withdrawal)]
+cbs[seed > (total_supply + stock_withdrawal),
+  seed := (total_supply + stock_withdrawal)]
 
 cat("\nSkipped capping out 'exports' at `total_supply - seed - processing`.\n")
 
@@ -268,20 +272,20 @@ cbs[, balancing := na_sum(total_supply,
 cat("\nAllocate remaining supply from 'balancing' to uses.\n")
 cat("\nHops and live animals to 'processing'.\n")
 cbs[item_code %in% c(677, 866, 946, 976, 1016, 1034, 2029, 1096, 1107, 1110,
-                     1126, 1157, 1140, 1150, 1171) & balancing > 0,
+  1126, 1157, 1140, 1150, 1171) & balancing > 0,
     `:=`(processing = na_sum(processing, balancing), balancing = 0)]
 
 cat("\nNon-food crops to 'other'.\n")
 cbs[item_code %in% c(2662, 2663, 2664, 2665, 2666, 2667, 2671, 2672, 2659,
-                     2661, 2746, 2748, 2747) & balancing > 0,
+  1864, 1866, 1867, 2661, 2746, 2748, 2747) & balancing > 0,
     `:=`(other = na_sum(other, balancing), balancing = 0)]
 
 cat("\nFeed crops to 'feed'.\n")
 cbs[item_code %in% c(2000, 2536, 2537, 2555, 2559, 2544, 2590, 2591, 2592,
-                     2593, 2594, 2595, 2596, 2597, 2598) & balancing > 0,
+  2749, 2593, 2594, 2595, 2596, 2597, 2598) & balancing > 0,
     `:=`(feed = feed + balancing, balancing = 0)]
-cat("\nRest to 'food'.\n")
-cbs[balancing > 0, `:=`(food = na_sum(food, balancing), balancing = 0)]
+# cat("\nRest to 'food'.\n")
+# cbs[balancing > 0, `:=`(food = na_sum(food, balancing), balancing = 0)]
 
 
 # Save --------------------------------------------------------------------
