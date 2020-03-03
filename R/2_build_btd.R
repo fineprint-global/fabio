@@ -64,9 +64,9 @@ fore <- dt_filter(fore, from_code != to_code)
 #   dt$year <- x
 #   return(dt)
 # }, data = fore, obs = which(fore[, year] == 1997))
-
-fore <- rbind(rbindlist(fore_fill), fore)
-rm(fore_fill)
+#
+# fore <- rbind(rbindlist(fore_fill), fore)
+# rm(fore_fill)
 
 
 # Ethanol -----------------------------------------------------------------

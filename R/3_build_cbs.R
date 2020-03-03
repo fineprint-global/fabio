@@ -27,24 +27,24 @@ cat("\nAdding information from BTD.\n")
 btd <- readRDS("data/tidy/btd_full_tidy.rds")
 
 cat("\nGiving preference to units in the following order:\n",
-    "\t'head' | 'm3' > 'tonnes'\n",
-    "Dropping 'usd' and 'litres'.\n", sep = "")
+    "\t 'm3' > 'tonnes'\n",
+    "Dropping 'usd', 'head' and 'litres'.\n", sep = "")
 
 # Imports
-imps <- btd[unit != "usd", list(value = na_sum(value)),
+imps <- btd[! unit %in% c("usd","head"), list(value = na_sum(value)),
             by = list(to_code, to, item_code, item, year, unit)]
 imps <- dcast(imps, to_code + to + item_code + item + year ~ unit,
               value.var = "value")
-imps[, `:=`(value = ifelse(!is.na(head), head, ifelse(!is.na(m3), m3, tonnes)),
-  head = NULL, litres = NULL, m3 = NULL, tonnes = NULL)]
+imps[, `:=`(value = ifelse(!is.na(m3), m3, tonnes),
+  litres = NULL, m3 = NULL, tonnes = NULL)]
 
 # Exports
-exps <- btd[unit != "usd", list(value = na_sum(value)),
+exps <- btd[! unit %in% c("usd","head"), list(value = na_sum(value)),
             by = list(from_code, from, item_code, item, year, unit)]
 exps <- dcast(exps, from_code + from + item_code + item + year ~ unit,
               value.var = "value")
-exps[, `:=`(value = ifelse(!is.na(head), head, ifelse(!is.na(m3), m3, tonnes)),
-  head = NULL, litres = NULL, m3 = NULL, tonnes = NULL)]
+exps[, `:=`(value = ifelse(!is.na(m3), m3, tonnes),
+  litres = NULL, m3 = NULL, tonnes = NULL)]
 
 
 # Forestry ----------------------------------------------------------------
@@ -175,12 +175,36 @@ conc <- match(live$item_code, src_item)
 live[, `:=`(item_code = tgt_item[conc], item = tgt_name[conc])]
 live <- live[!is.na(item_code), ]
 
+# Map "Meat, ..." items to CBS items
+src_item_alt <- c(1127, 867, 1017, 977, 1808, 1035, 1097, 1141,
+                  947, 1158, 1151, 1108, 1111)
+live_alt <- readRDS("data/tidy/live_tidy.rds")
+live_alt <- live_alt[element == "Producing Animals/Slaughtered" & unit == "head", ]
+live_alt[, `:=`(element = NULL, unit = NULL)]
+conc <- match(live_alt$item_code, src_item_alt)
+live_alt[, `:=`(item_code = tgt_item[conc], item = tgt_name[conc])]
+live_alt <- live_alt[!is.na(item_code), ]
+
+live <- merge(live, live_alt, by = c("area_code","area","year","item_code","item"), all = TRUE)
+live[ , `:=`(value = ifelse(is.na(value.x), value.y, ifelse(value.x==0, value.y, value.x)),
+             value.x = NULL, value.y = NULL)]
+
+# add trade data
+live_trad <- readRDS("data/tidy/live_tidy.rds")
+
+live_imp <- live_trad[element == "Import Quantity" & unit == "head", ]
+live_exp <- live_trad[element == "Export Quantity" & unit == "head", ]
+conc_imp <- match(paste(live$area_code,live$year,live$item_code), paste(live_imp$area_code,live_imp$year,live_imp$item_code))
+conc_exp <- match(paste(live$area_code,live$year,live$item_code), paste(live_exp$area_code,live_exp$year,live_exp$item_code))
+live[, `:=`(value2 = live_imp$value[conc_imp],
+            value3 = live_exp$value[conc_exp])]
+
 cbs <- merge(cbs, live,
   by = c("area_code", "area", "year", "item_code", "item"), all = TRUE)
-cbs[!is.na(value), production := value]
+cbs[!is.na(value), `:=`(production = value, imports = value2, exports = value3)]
 
-cbs[, value := NULL]
-rm(src_item, tgt_item, tgt_name, conc, live)
+cbs[, `:=`(value = NULL, value2 = NULL, value3 = NULL)]
+rm(src_item, tgt_item, tgt_name, conc, live, live_trad, live_alt, live_conc, live_imp, live_exp, conc_imp, conc_exp)
 
 # Ethanol ---
 
@@ -270,8 +294,8 @@ cbs[, balancing := na_sum(total_supply,
   -stock_addition, -exports, -food, -feed, -seed, -losses, -processing, -other)]
 
 cat("\nAllocate remaining supply from 'balancing' to uses.\n")
-cat("\nHops and live animals to 'processing'.\n")
-cbs[item_code %in% c(677, 866, 946, 976, 1016, 1034, 2029, 1096, 1107, 1110,
+cat("\nHops, oil palm fruit and live animals to 'processing'.\n")
+cbs[item_code %in% c(254, 677, 866, 946, 976, 1016, 1034, 2029, 1096, 1107, 1110,
   1126, 1157, 1140, 1150, 1171) & balancing > 0,
     `:=`(processing = na_sum(processing, balancing), balancing = 0)]
 
@@ -281,10 +305,11 @@ cbs[item_code %in% c(2662, 2663, 2664, 2665, 2666, 2667, 2671, 2672, 2659,
     `:=`(other = na_sum(other, balancing), balancing = 0)]
 
 cat("\nFeed crops to 'feed'.\n")
-cbs[item_code %in% c(2000, 2536, 2537, 2555, 2559, 2544, 2590, 2591, 2592,
-  2749, 2593, 2594, 2595, 2596, 2597, 2598) & balancing > 0,
+cbs[item_code %in% c(2000, 2001, 2536, 2537, 2555, 2559, 2544, 2590, 2591, 2592,
+  2749, 2593, 2594, 2595, 2596, 2597, 2598, 328) & balancing > 0,
     `:=`(feed = feed + balancing, balancing = 0)]
-# cat("\nRest to 'food'.\n")
+
+cat("\nRest is mostly 'food' and 'feed' but remains in 'balancing'.\n")
 # cbs[balancing > 0, `:=`(food = na_sum(food, balancing), balancing = 0)]
 
 

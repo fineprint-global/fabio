@@ -125,14 +125,14 @@ area_kick <- function(x, code, col = "area_code", pattern = "*", groups = TRUE) 
 
   # Remove country groups
   if(groups) {
-    n_groups <- x[idx >= 5000, .N]
+    n_groups <- x[idx >= 5000 | idx %in% c(269,268,266,261), .N]
     cat("Found", n_groups, "observations of grouped areas.\n")
     if(n_groups > 0) {
       cat("Removing observations of:\n\t",
-          paste0("'", unique(x[[col_name]][idx >= 5000]), "'", collapse = ", "),
+          paste0("'", unique(x[[col_name]][idx >= 5000 | idx %in% c(269,268,266,261)]), "'", collapse = ", "),
           ".\n", sep = "")
     }
-    x <- x[idx < 5000, ]
+    x <- x[idx < 5000 & ! idx %in% c(269,268,266,261), ]
   }
 
   return(x)

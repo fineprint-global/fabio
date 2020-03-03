@@ -123,7 +123,7 @@ btd <- dt_filter(btd, !item_code %in%
                      "Vitamins" = 853, "Hair, goat, coarse" = 1031,
                      "Beehives" = 1181, "Beeswax" = 1183, "Hair, fine" = 1218,
                      "Crude materials" = 1293, "Waxes vegetable" = 1296))
-btd <- dt_filter(btd, value > 0)
+btd <- dt_filter(btd, value >= 0)
 
 btd[, imex := factor(gsub("^(Import|Export) (.*)$", "\\1", element))]
 
@@ -186,7 +186,7 @@ fore_prod <- dt_filter(fore_prod, item_code %in%
                          c("Wood fuel" = 1864,
                            "Industrial roundwood, coniferous" = 1866,
                            "Industrial roundwood, non-coniferous" = 1867))
-fore_prod <- dt_filter(fore_prod, value > 0)
+fore_prod <- dt_filter(fore_prod, value >= 0)
 # fore_prod <- dt_filter(fore_prod, unit != "1000 US$")
 # Recode "1000 US$" to "usd"
 fore_prod[unit == "1000 US$", `:=`(value = value * 1000, unit = "usd")]
@@ -287,7 +287,7 @@ crop <- crop[, list(value = na_sum(value)),
 crop <- dt_rename(crop, drop = FALSE,
                   rename = c("cbs_item_code" = "item_code",
                              "cbs_item" = "item"))
-crop <- dt_filter(crop, value > 0)
+crop <- dt_filter(crop, value >= 0)
 
 #
 # Primary
@@ -314,7 +314,7 @@ crop_prim <- crop_prim[, list(value = na_sum(value)),
 crop_prim <- dt_rename(crop_prim, drop = FALSE,
                        rename = c("cbs_item_code" = "item_code",
                                   "cbs_item" = "item"))
-crop_prim <- dt_filter(crop_prim, value > 0)
+crop_prim <- dt_filter(crop_prim, value >= 0)
 
 #
 # Bind all parts & store
@@ -328,9 +328,13 @@ cat("\nTidying livestocks.\n")
 
 live_conc <- fread("inst/conc_live-cbs.csv")
 
+live_trad <- readRDS("input/fao/live_trad.rds")
+live_trad[`Item Code` %in% c(1057,1068,1079,1083) , `Item Code` := 2029]
+
 live <- rbind(readRDS("input/fao/live_prod.rds"),
               readRDS("input/fao/live_proc.rds"),
-              readRDS("input/fao/live_prim.rds"))
+              readRDS("input/fao/live_prim.rds"),
+              live_trad)
 
 live <- dt_rename(live, rename)
 
@@ -349,7 +353,7 @@ live <- live[, list(value = na_sum(value)),
                     cbs_item_code, cbs_item)]
 live <- dt_rename(live, drop = FALSE, rename = c("cbs_item_code" = "item_code",
                                                  "cbs_item" = "item"))
-live <- dt_filter(live, value > 0)
+live <- dt_filter(live, value >= 0)
 
 # Recode "1000 Head" to "head"
 live[unit == "1000 Head", `:=`(value = value * 1000, unit = "Head")]

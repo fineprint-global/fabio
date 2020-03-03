@@ -149,7 +149,7 @@ code,iso3c,name,eia,iea,baci,fish,region_code,region,cbs
 151,ANT,Netherlands Antilles,Netherlands Antilles,Netherlands Antilles / Curaçao,530,530,3,Central America,TRUE
 152,NTZ,Neutral Zone,"","",,536,12,Middle East,FALSE
 153,NCL,New Caledonia,New Caledonia,"",540,540,16,Oceania,TRUE
-154,MKD,The former Yugoslav Republic of Macedonia,Macedonia,Former Yugoslav Republic of Macedonia,807,807,10,Eastern Europe,TRUE
+154,MKD,North Macedonia,Macedonia,Former Yugoslav Republic of Macedonia,807,807,10,Eastern Europe,TRUE
 155,VUT,Vanuatu,Vanuatu,"",548,548,16,Oceania,TRUE
 156,NZL,New Zealand,New Zealand,New Zealand,554,554,16,Oceania,TRUE
 157,NIC,Nicaragua,Nicaragua,Nicaragua,558,558,3,Central America,TRUE
@@ -203,7 +203,7 @@ code,iso3c,name,eia,iea,baci,fish,region_code,region,cbs
 206,SDN,Sudan (former),Sudan and South Sudan,Sudan,729,736,7,Eastern Africa,FALSE
 207,SUR,Suriname,Suriname,Suriname,740,740,4,South America,TRUE
 208,TJK,Tajikistan,Tajikistan,Tajikistan,762,762,11,Former USSR,TRUE
-209,SWZ,Swaziland,Swaziland,"",,748,8,Southern Africa,TRUE
+209,SWZ,Eswatini,Swaziland,"",,748,8,Southern Africa,TRUE
 210,SWE,Sweden,Sweden,Sweden,752,752,9,OECD Europe,TRUE
 211,CHE,Switzerland,Switzerland,Switzerland,757,756,9,OECD Europe,TRUE
 212,SYR,Syrian Arab Republic,Syria,Syrian Arab Republic,760,760,12,Middle East,TRUE
@@ -256,6 +256,6 @@ code,iso3c,name,eia,iea,baci,fish,region_code,region,cbs
 277,SSD,South Sudan,"",South Sudan,728,728,7,Eastern Africa,TRUE
 279,CUW,Curaçao,"","",531,,3,Central America,FALSE
 281,MAF,Saint-Martin (French Part),"","",,,3,Central America,FALSE
-299,PSE,Occupied Palestinian Territory,Palestinian Territories,"",275,275,12,Middle East,FALSE
+299,PSE,Palestine,Palestinian Territories,"",275,275,12,Middle East,FALSE
 351,CHN,China,"","",,,14,East Asia,FALSE
 999,ROW,RoW,"","",,,,"",TRUE
