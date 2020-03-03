@@ -81,11 +81,8 @@ btd_est <- merge(est_exp, est_imp,
 rm(est_exp, est_imp); gc()
 
 # Average the estimates - note that 0 estimates may be considered NA
-btd_est[, `:=`(exp_spread = NULL, imp_spread = NULL,
-  value = ifelse(is.na(exp_spread), imp_spread,
-    ifelse(is.na(imp_spread), exp_spread,
-      (imp_spread + exp_spread) / 2)))]
-
+btd_est[, `:=`(value = (imp_spread + exp_spread) / 2,
+  exp_spread = NULL, imp_spread = NULL)]
 
 # Store result ----------------a--------------------------------------------
 saveRDS(btd_est, "data/btd_est.rds")

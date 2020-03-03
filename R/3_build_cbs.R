@@ -252,10 +252,10 @@ cat("\nAdjust ", cbs[total_supply != na_sum(production, imports), .N],
     "`total_supply = production + imports`.\n", sep = "")
 cbs[, total_supply := na_sum(production, imports)]
 
-cat("\nCap out 'exports' (N = ", cbs[exports > total_supply, .N],
-    "), 'processing' (N = ", cbs[processing > total_supply, .N],
-    ") and 'seed' (N = ", cbs[seed > total_supply, .N],
-    ") uses exceeding 'total_supply'.\n", sep = "")
+cat("\nCap out 'exports' (N = ", cbs[exports > (total_supply + stock_withdrawal), .N],
+  "), 'processing' (N = ", cbs[processing > (total_supply + stock_withdrawal), .N],
+  ") and 'seed' (N = ", cbs[seed > (total_supply + stock_withdrawal), .N],
+  ") uses exceeding 'total_supply' + 'stock_withdrawal'.\n", sep = "")
 cbs[exports > (total_supply + stock_withdrawal),
   exports := (total_supply + stock_withdrawal)]
 cbs[processing > (total_supply + stock_withdrawal),

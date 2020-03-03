@@ -31,9 +31,9 @@ mr_sup_m <- lapply(years, function(x) {
     sup_x <- sup_y[area_code == y, .(proc_code, comm_code, production)]
     out <- if(nrow(sup_x) == 0) {
       template[, .(proc_code, comm_code, production = 0)]
-    } else {template[sup_x]}
+    } else {merge(template, sup_x, all.x = TRUE)}
     out <- tryCatch(dcast(out, proc_code ~ comm_code,
-      value.var = "production", fun.aggregate = na_sum, fill = 0),
+      value.var = "production", fun.aggregate = sum, na.rm = TRUE, fill = 0),
       error = function(e) {stop("Issue at ", x, "-", y, ": ", e)})
     Matrix(data.matrix(out[, c(-1)]), sparse = TRUE,
       dimnames = list(out$proc_code, colnames(out)[-1]))
@@ -46,9 +46,9 @@ mr_sup_p <- lapply(years, function(x) {
     sup_x <- sup_y[area_code == y, .(proc_code, comm_code, price)]
     out <- if(nrow(sup_x) == 0) {
       template[, .(proc_code, comm_code, price = 0)]
-    } else {template[sup_x]}
+    } else {merge(template, sup_x, all.x = TRUE)}
     out <- tryCatch(dcast(out, proc_code ~ comm_code,
-      value.var = "price", fun.aggregate = na_sum, fill = 0),
+      value.var = "price", fun.aggregate = sum, na.rm = TRUE, fill = 0),
       error = function(e) {stop("Issue at ", x, "-", y, ": ", e)})
     Matrix(data.matrix(out[, c(-1)]), sparse = TRUE,
       dimnames = list(out$proc_code, colnames(out)[-1]))
@@ -185,6 +185,11 @@ saveRDS(mr_use_fd, "data/mr_use_fd.rds")
 
 
 # MRIO Table ---
+
+mr_sup_m <- readRDS("data/mr_sup_m.rds")
+mr_sup_p <- readRDS("data/mr_sup_p.rds")
+mr_use <- readRDS("data/mr_use.rds")
+
 
 # Mass
 trans_m <- lapply(mr_sup_m, function(x) {
