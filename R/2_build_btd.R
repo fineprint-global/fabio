@@ -58,12 +58,12 @@ fore[, imex := NULL]
 # Exclude intra-regional trade flows
 fore <- dt_filter(fore, from_code != to_code)
 
-# Fill < 1997 with 1997
-fore_fill <- lapply(seq(years[1], 1996), function(x, data, obs) {
-  dt <- data[obs, ]
-  dt$year <- x
-  return(dt)
-}, data = fore, obs = which(fore[, year] == 1997))
+# Fill < 1997 with 1997 (or not)
+# fore_fill <- lapply(seq(years[1], 1996), function(x, data, obs) {
+#   dt <- data[obs, ]
+#   dt$year <- x
+#   return(dt)
+# }, data = fore, obs = which(fore[, year] == 1997))
 
 fore <- rbind(rbindlist(fore_fill), fore)
 rm(fore_fill)

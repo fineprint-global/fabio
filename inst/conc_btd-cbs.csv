@@ -1,4 +1,7 @@
 btd_item_code,cbs_item_code,cbs_item
+639,2000,Fodder crops
+640,2000,Fodder crops
+643,2000,Fodder crops
 15,2511,Wheat and products
 16,2511,Wheat and products
 17,2600,Brans
@@ -61,7 +64,6 @@ btd_item_code,cbs_item_code,cbs_item
 166,2543,"Sweeteners, Other"
 167,2543,"Sweeteners, Other"
 168,2818,"Sugar, Refined Equiv"
-169,2000,Fodder crops
 171,2818,"Sugar, Refined Equiv"
 172,2543,"Sweeteners, Other"
 173,2543,"Sweeteners, Other"
@@ -230,17 +232,11 @@ btd_item_code,cbs_item_code,cbs_item
 622,2625,"Fruits, Other"
 623,2625,"Fruits, Other"
 626,2625,"Fruits, Other"
-628,2000,Fodder crops
-630,2000,Fodder crops
 631,,"Waters,ice etc"
 633,2543,"Sweeteners, Other"
 634,2658,"Beverages, Alcoholic"
-635,2000,Fodder crops
 646,2000,Fodder crops
 651,2000,Fodder crops
-652,2000,Fodder crops
-653,2000,Fodder crops
-654,2000,Fodder crops
 656,2630,Coffee and products
 657,2630,Coffee and products
 658,2630,Coffee and products
@@ -286,11 +282,7 @@ btd_item_code,cbs_item_code,cbs_item
 836,2672,Rubber
 837,2672,Rubber
 843,843,Pet food
-845,2000,Fodder crops
-846,2000,Fodder crops
-850,2000,Fodder crops
 853,,Vitamins
-855,2000,Fodder crops
 858,2000,Fodder crops
 859,2000,Fodder crops
 862,2000,Fodder crops

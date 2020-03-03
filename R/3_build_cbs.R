@@ -140,7 +140,7 @@ cat("\nFilling missing cbs production with crop production data. Items:\n",
   ".\n", sep = "")
 cbs[is.na(production), `:=`(production = value,
   processing = na_sum(processing, value2))]
-cbs[is.na(processing) | processing == 0, `:=`(processing = value2)]
+# cbs[is.na(processing) | processing == 0, `:=`(processing = value2)]
 
 cbs[, `:=`(value = NULL, value2 = NULL)]
 rm(crop, crop_prod,
