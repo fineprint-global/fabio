@@ -114,6 +114,17 @@ eth_baci <- dt_rename(eth_baci, drop = FALSE,
 # Bind Comtrade & BACI
 eth <- rbind(eth_com, eth_baci)
 
+# dcast(eth, . ~ unit, fun.aggregate = na_sum)
+# eth[is.na(kg) & !is.na(litres), kg := 0.7893 * litres]
+# eth_agg <- eth[!is.na(kg) & usd > 0, list(price_kg = na_sum(usd) / na_sum(kg)),
+#   by = c("year")] # Aggregate
+# eth <- merge(eth, eth_agg, by = c("year"), all.x = TRUE)
+# eth[is.na(kg), kg := usd / price_kg]
+# eth[, price_kg := NULL]
+
+# eth <- melt(eth, measure.vars = c("kg", "usd", "litres"),
+#   variable.name = "unit")
+
 rm(eth_com, eth_com_fill, eth_baci)
 
 # To-do: Possibly estimate missing units
