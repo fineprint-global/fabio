@@ -51,7 +51,7 @@ btd <- btd[unit %in% c("tonnes", "head", "m3"), ]
 btd_est <- btd_est[year %in% years & item_code %in% items, ]
 
 # Have RoW start at least at 1 so it can always be scaled
-btd[(from_code == 999 | to_code == 999) & value == 0, value := 1]
+btd[((from_code == 999 & to_code != 999) | (from_code != 999 & to_code == 999)) & value == 0, value := 1]
 # Then kick out values <= 0 and use estimates for those
 btd <- btd[value > 0, ]
 

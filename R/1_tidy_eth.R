@@ -23,10 +23,10 @@ eth_eia <- melt(eth_eia, id.vars = c("area", "area_code"),
                 variable.name = "year", value.name = "value_eia",
                 variable.factor = FALSE)
 
-cat("Converting from ktoe to tonnes",
-    "(1 tonne == 1 ktoe / 0.64 toe/tonne * 1000 tonnes/kt).\n")
+cat("Converting from 1000 barrels/day to tonnes/year",
+    "(1000 bbl/d == 365.25 d/y * 158987.3 l/1000 bbl * 0.0007893 tonnes/l).\n")
 eth_eia <- dt_filter(eth_eia, !is.na(value_eia))
-eth_eia[, `:=`(value_eia = round(value_eia / 0.64 * 1000, 4),
+eth_eia[, `:=`(value_eia = round(value_eia * 365.25 * 158.9873 * 0.7893, 3),
                unit = "tonnes")]
 
 rm(country_match)
@@ -50,10 +50,10 @@ eth_iea <- melt(eth_iea, id.vars = c("area", "area_code"),
                 variable.name = "year", value.name = "value_iea",
                 variable.factor = FALSE)
 
-cat("Converting from k_barrels/day to tonnes/year",
-    "(ton/y == 1000 bbl/d * 365.25 d/y * 158.9873 l/bbl * 0.7893 kg/l).\n")
+cat("Converting from ktoe to tonnes",
+    "(1 ktoe == 919.09 tonnes).\n")
 eth_iea <- dt_filter(eth_iea, !is.na(value_iea))
-eth_iea[, `:=`(value_iea = round(value_iea * 365.25 * 158.9873 * 0.7893, 4),
+eth_iea[, `:=`(value_iea = round(value_iea * 919.09, 3),
                unit = "tonnes")]
 
 rm(country_match)

@@ -28,7 +28,7 @@ btd <- readRDS("data/tidy/btd_full_tidy.rds")
 
 cat("\nGiving preference to units in the following order:\n",
     "\t 'm3' > 'tonnes'\n",
-    "Dropping 'usd', 'head' and 'litres'.\n", sep = "")
+    "Dropping 'usd' and 'head'.\n", sep = "")
 
 # Imports
 imps <- btd[! unit %in% c("usd","head"), list(value = na_sum(value)),
@@ -36,7 +36,7 @@ imps <- btd[! unit %in% c("usd","head"), list(value = na_sum(value)),
 imps <- dcast(imps, to_code + to + item_code + item + year ~ unit,
               value.var = "value")
 imps[, `:=`(value = ifelse(!is.na(m3), m3, tonnes),
-  litres = NULL, m3 = NULL, tonnes = NULL)]
+            m3 = NULL, tonnes = NULL)]
 
 # Exports
 exps <- btd[! unit %in% c("usd","head"), list(value = na_sum(value)),
@@ -44,7 +44,7 @@ exps <- btd[! unit %in% c("usd","head"), list(value = na_sum(value)),
 exps <- dcast(exps, from_code + from + item_code + item + year ~ unit,
               value.var = "value")
 exps[, `:=`(value = ifelse(!is.na(m3), m3, tonnes),
-  litres = NULL, m3 = NULL, tonnes = NULL)]
+            m3 = NULL, tonnes = NULL)]
 
 
 # Forestry ----------------------------------------------------------------
@@ -140,7 +140,9 @@ cat("\nFilling missing cbs production with crop production data. Items:\n",
   ".\n", sep = "")
 cbs[is.na(production), `:=`(production = value,
   processing = na_sum(processing, value2))]
-# cbs[is.na(processing) | processing == 0, `:=`(processing = value2)]
+# currently value2 is always na where processing is na
+# but this might change in the future and we should not miss these values then
+cbs[is.na(processing), `:=`(processing = value2)]
 
 cbs[, `:=`(value = NULL, value2 = NULL)]
 rm(crop, crop_prod,
@@ -204,7 +206,7 @@ cbs <- merge(cbs, live,
 cbs[!is.na(value), `:=`(production = value, imports = value2, exports = value3)]
 
 cbs[, `:=`(value = NULL, value2 = NULL, value3 = NULL)]
-rm(src_item, tgt_item, tgt_name, conc, live, live_trad, live_alt, live_conc, live_imp, live_exp, conc_imp, conc_exp)
+rm(src_item, tgt_item, tgt_name, conc, live, live_trad, live_alt, live_imp, live_exp, conc_imp, conc_exp)
 
 # Ethanol ---
 
@@ -276,18 +278,18 @@ cat("\nAdjust ", cbs[total_supply != na_sum(production, imports), .N],
     "`total_supply = production + imports`.\n", sep = "")
 cbs[, total_supply := na_sum(production, imports)]
 
-cat("\nCap out 'exports' (N = ", cbs[exports > (total_supply + stock_withdrawal), .N],
-  "), 'processing' (N = ", cbs[processing > (total_supply + stock_withdrawal), .N],
-  ") and 'seed' (N = ", cbs[seed > (total_supply + stock_withdrawal), .N],
-  ") uses exceeding 'total_supply' + 'stock_withdrawal'.\n", sep = "")
-cbs[exports > (total_supply + stock_withdrawal),
-  exports := (total_supply + stock_withdrawal)]
-cbs[processing > (total_supply + stock_withdrawal),
-  processing := (total_supply + stock_withdrawal)]
-cbs[seed > (total_supply + stock_withdrawal),
-  seed := (total_supply + stock_withdrawal)]
+# cat("\nCap out 'exports' (N = ", cbs[exports > (total_supply + stock_withdrawal), .N],
+#   "), 'processing' (N = ", cbs[processing > (total_supply + stock_withdrawal), .N],
+#   ") and 'seed' (N = ", cbs[seed > (total_supply + stock_withdrawal), .N],
+#   ") uses exceeding 'total_supply' + 'stock_withdrawal'.\n", sep = "")
+# cbs[exports > (total_supply + stock_withdrawal),
+#   exports := (total_supply + stock_withdrawal)]
+# cbs[processing > (total_supply + stock_withdrawal),
+#   processing := (total_supply + stock_withdrawal)]
+# cbs[seed > (total_supply + stock_withdrawal),
+#   seed := (total_supply + stock_withdrawal)]
 
-cat("\nSkipped capping out 'exports' at `total_supply - seed - processing`.\n")
+cat("\nSkipped capping out 'exports', 'seed' and 'processing' at 'total_supply + stock_withdrawal'.\n")
 
 cat("\nAdd 'balancing' column for supply and use discrepancies.\n")
 cbs[, balancing := na_sum(total_supply,

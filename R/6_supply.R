@@ -91,19 +91,16 @@ sup[, share := NULL]
 
 # Fill prices using BTD ---------------------------------------------------
 
-sup_usd <- sup
+prices <- dcast(btd, from + from_code + to + to_code + item + item_code + year ~ unit,
+                value.var = "value")
+prices <- prices[!is.na(usd) & usd > 0, list(usd = sum(usd, na.rm = TRUE),
+                                             head = sum(head, na.rm = TRUE),
+                                             tonnes = sum(tonnes, na.rm = TRUE),
+                                             m3 = sum(m3, na.rm = TRUE)),
+                 by = list(from, from_code, item_code, item, year)]
 
-prices <- btd[, list(value = sum(value, na.rm = TRUE)),
-  by = list(from, from_code, item_code, item, unit, year)]
-prices <- dcast(prices,
-  from + from_code + item + item_code + year ~ unit, value.var = "value")
-# Prices of item Alcohol are problematic.
-# Estimation just based on available values of tonnes does not seem to work.
-# See Issue #42, for now I'll assume alcohol weighs 1kg per liter and fill
-# tonnes accordingly, unless no liter value is available.
-prices[item_code == 2659 & litres > 0, `:=`(tonnes = litres / 1000)]
 prices[, price := ifelse(tonnes != 0 & !is.na(tonnes), usd / tonnes,
-  ifelse(head != 0 & !is.na(head), usd / head, usd / m3))]
+  ifelse(head != 0 & !is.na(head), usd / head, ifelse(m3 != 0, usd / m3, NA)))]
 
 # Originally prices were capped at 20% / 500% of the world average
 # Quantiles might be more robust - we'll go for the 5th and 95th one.
@@ -121,12 +118,11 @@ prices[, price := ifelse(price > price_q95, price_q95,
 
 # Get worldprices to fill gaps
 na_sum <- function(x) {ifelse(all(is.na(x)), NA_real_, sum(x, na.rm = TRUE))}
-prices_world <- prices[, list(usd = na_sum(usd),
+prices_world <- prices[!is.na(usd), list(usd = na_sum(usd),
   tonnes = na_sum(tonnes), head = na_sum(head),
-  litres = na_sum(litres), m3 = na_sum(m3)),
-  by = list(item, item_code, year)]
-prices_world[, price_world := ifelse(tonnes != 0, usd / tonnes,
-  ifelse(head != 0, usd / head, usd / m3))]
+  m3 = na_sum(m3)), by = list(item, item_code, year)]
+prices_world[, price_world := ifelse(head != 0, usd / head,
+  ifelse(tonnes != 0, usd / tonnes, usd / m3))]
 prices <- merge(
   prices, prices_world[, c("year", "item_code", "item", "price_world")],
   by = c("year", "item_code", "item"), all.x = TRUE)
@@ -139,7 +135,7 @@ cat("Filling ", prices[is.na(price) & !is.na(price_q50), .N],
   " missing prices with median item prices.\n", sep = "")
 prices[is.na(price), price := price_q50]
 
-sup_usd <- merge(sup_usd, all.x = TRUE,
+sup <- merge(sup, all.x = TRUE,
   prices[, c("from_code", "from", "item", "item_code", "year", "price")],
   by.x = c("area_code", "area", "item", "item_code", "year"),
   by.y = c("from_code", "from", "item", "item_code", "year"))
@@ -147,4 +143,4 @@ sup_usd <- merge(sup_usd, all.x = TRUE,
 
 # Store results -----------------------------------------------------------
 
-saveRDS(sup_usd, "data/sup.rds")
+saveRDS(sup, "data/sup.rds")

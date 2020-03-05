@@ -26,7 +26,7 @@ rename_baci <- c(
   "i" = "exporter",
   "j" = "importer",
   "v" = "1000 US$",
-  "q" = "tons"
+  "q" = "tonnes"
 )
 
 
@@ -51,35 +51,40 @@ for(col in c("reporter_code", "partner_code")) {
 }
 comtrade <- dt_filter(comtrade, !is.na(reporter) & !is.na(partner))
 
-comtrade <- dt_filter(comtrade, !unit %in% c("No Quantity", "Number of items"))
-
-# Potentially add Re-Exports to Exports
-# comtrade[grep("Re-Export", element), element := "Export"]
+# add Re-Exports to Exports
+comtrade[grep("Re-Export", element), element := "Export"]
 
 comtrade[, imex := factor(element)]
 comtrade[, value := as.double(value)]
 comtrade[, item_code := as.integer(item_code)]
+
+cat("Converting Ethanol from litres to kilograms", "(1l == 0.7893kg).\n")
+comtrade[unit == "Volume in litres" & item_code == 2207, `:=`(value = value * 0.7893, unit = "Weight in kilograms")]
 
 comtrade <- dcast(comtrade,
                   reporter_code + reporter + partner_code + partner +
                     year + imex + item_code + item +
                     usd ~ unit,
                   value.var = "value", fun.aggregate = sum)
+comtrade[, `:=`(`No Quantity` = NULL, `Number of items` = NULL)]
 comtrade <- dt_rename(comtrade, drop = FALSE,
-                      c("Weight in kilograms" = "kg",
-                        "Volume in litres" = "litres"))
-# 2019-06-07: Use a unit variable
-comtrade <- melt(comtrade, measure.vars = c("usd", "litres", "kg"),
-                 variable.name = "unit", variable.factor = FALSE)
+                      c("Weight in kilograms" = "kg"))
 # Convert from kg to tonnes
-comtrade[unit == "kg", `:=`(value = value / 1000, unit = "tonnes")]
+comtrade[, `:=`(tonnes = kg / 1000, kg = NULL)]
 
-## cat("Converting Ethanol from kilograms to litres and vice versa",
-#     "(1l == 0.7893kg).\n")
-# comtrade[, `:=`(litres = as.double(litres),
-#                 kg = as.double(kg))]
-# comtrade[is.na(litres) & item_code == 2207, litres := kg / 0.7893]
-# comtrade[is.na(kg) & item_code == 2207, kg := litres * 0.7893]
+# estimate missing quantities using global average price per item and year
+comtrade_agg <- comtrade[!is.na(tonnes) & usd > 0, list(price_per_tonne = na_sum(usd) / na_sum(tonnes)),
+                         by = c("year", "item_code")] # Aggregate
+comtrade <- merge(comtrade, comtrade_agg, by = c("year", "item_code"), all.x = TRUE)
+comtrade[is.na(tonnes) | tonnes == 0, tonnes := round(usd / price_per_tonne, 3)]
+comtrade[, price_per_tonne := NULL]
+
+# Use a unit variable
+comtrade <- melt(comtrade, measure.vars = c("usd", "tonnes"),
+                 variable.name = "unit", variable.factor = FALSE)
+# Aggregate
+comtrade <- comtrade[, list(value = na_sum(value)),
+                     by = c("year", "item_code", "item", "reporter_code", "reporter", "partner_code", "partner", "unit", "imex")]
 
 # Store
 saveRDS(comtrade, "data/tidy/comtrade_tidy.rds")
@@ -109,11 +114,19 @@ baci <- dt_filter(baci, !is.na(importer) & !is.na(exporter))
 
 baci[, item_code := as.integer(category)]
 
-# 2019-06-07: Introduce unit variable
-baci <- melt(baci, measure.vars = c("1000 US$", "tons"),
-             variable.name = "unit", variable.factor = FALSE)
 # Convert from 1000 US$ to usd
-baci[unit == "1000 US$", `:=`(value = value * 1000, unit = "usd")]
+baci[, `:=`(usd = `1000 US$` * 1000, `1000 US$` = NULL)]
+
+# estimate missing quantities using global average price per item and year
+baci_agg <- baci[!is.na(tonnes) & usd > 0, list(price_per_tonne = na_sum(usd) / na_sum(tonnes)),
+                         by = c("year", "item_code")] # Aggregate
+baci <- merge(baci, baci_agg, by = c("year", "item_code"), all.x = TRUE)
+baci[is.na(tonnes) | tonnes == 0, tonnes := round(usd / price_per_tonne, 3)]
+baci[, price_per_tonne := NULL]
+
+# 2019-06-07: Introduce unit variable
+baci <- melt(baci, measure.vars = c("usd", "tonnes"),
+             variable.name = "unit", variable.factor = FALSE)
 
 # Store
 saveRDS(baci, "data/tidy/baci_tidy.rds")
