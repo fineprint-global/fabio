@@ -90,7 +90,7 @@ input <- tcf_data[data.table(expand.grid(year = years,
   area_code = areas, item_code = tcf_codes[[3]]))]
 input[, `:=`(value = processing, production = NULL, processing = NULL)]
 dt_replace(input, is.na, 0, cols = "value")
-# output <- output[!duplicated(output), ] # Kick duplicates (from proc_code)
+# input <- input[!duplicated(input), ] # Kick duplicates (from proc_code)
 
 # Processing per process - to fill
 results <- tcf_data[data.table(expand.grid(year = years, area_code = areas,
@@ -216,7 +216,7 @@ feed_sup[, dry := feed * (1 - moisture)]
 conv_k <- fread("inst/conv_krausmann.csv")
 
 feed_req_k <- merge(conv_k,
-  live[, c("area_code", "area", "item_code", "year", "value")],
+  live[element == "Stocks", c("area_code", "area", "item_code", "year", "value")],
   by = c("item_code"), all.x = TRUE)
 feed_req_k[, `:=`(
   total = value * conversion, value = NULL, conversion = NULL,
@@ -295,23 +295,23 @@ feed_req_b <- merge(all.x = TRUE, allow.cartesian = TRUE,
   by = c("area_code", "year", "proc_code", "type", "item"))
 
 # Consider estimating requirements of fodder crops, see Issue #60
-feed_req_b[, converted := production * conversion]
+feed_req_b[, converted := round(production * conversion, 3)]
 
 feed_req_b <- dcast(feed_req_b, value.var = "converted", fun.aggregate = na_sum,
   area_code + year + proc_code + item_code + item + type ~ feedtype)
 # Kick unwanted columns
-feed_req_b[, `:=`(type = NULL, `NA` = NULL, item_code = 0)]
-# Aggregate over items (all now 0)
-feed_req_b <- feed_req_b[, list(
-  animals = na_sum(animals), crops = na_sum(crops), grass = na_sum(grass),
-  residues = na_sum(residues), scavenging = na_sum(scavenging)),
-  by = list(area_code, year, proc_code, item, item_code)]
+feed_req_b[, `:=`(type = NULL, item_code = 0)]
+# # Aggregate over items (all now 0)
+# feed_req_b <- feed_req_b[, list(
+#   animals = na_sum(animals), crops = na_sum(crops), grass = na_sum(grass),
+#   residues = na_sum(residues), scavenging = na_sum(scavenging)),
+#   by = list(area_code, year, proc_code, item, item_code)]
 
 # Create column for fodder crops from residues
 feed_req_b[, `:=`(
-  fodder = ifelse(item == "Pigs", residues * 0.2, # 0.2 for pigs
-    ifelse(item == "Poultry", 0, residues * 0.8)))] # 0.8 for ruminants
-feed_req_b[, `:=`(residues = residues - fodder, item = NULL)]
+  fodder = ifelse(item == "Pigs", residues * 0.1, # 0.1 for pigs
+    ifelse(item == "Poultry", 0, residues * 0.7)))] # 0.7 for ruminants
+feed_req_b[, `:=`(residues = round(residues - fodder, 3), item = NULL)]
 
 # Create total
 feed_req_b[, total := na_sum(animals, crops, grass, fodder,
@@ -319,8 +319,8 @@ feed_req_b[, total := na_sum(animals, crops, grass, fodder,
 
 # Original subsets to >0
 feed_req_b <- feed_req_b[!is.na(total)]
-feed_req_b[, lapply(.SD, na_sum),
-  by = list(area_code, year, proc_code, item_code)]
+# feed_req_b[, lapply(.SD, na_sum),
+#   by = list(area_code, year, proc_code, item_code)]
 
 # Integrate Bouwman and Krausmann feed requirements
 feed_req <- rbind(feed_req_b, feed_req_k)
@@ -335,17 +335,18 @@ feed_alloc <- feed_req[item_code == 0,
 feed_alloc <- feed_alloc[V7 > 0, list(area_code, year,
   animals_f = V1 / V7, crops_f = V2 / V7, grass_f = V3 / V7,
   fodder_f  = V4 / V7, residues_f = V5 / V7, scavenging_f = V6 / V7)]
+feed_alloc[is.na(feed_alloc)] <- 0
 
 feed_req <- merge(feed_req, feed_alloc,
   by = c("area_code", "year"), all.x = TRUE)
-# Use a 1 - 2 - 1 - 1 - 1 - 1 split if no info is available
+# Use global average split if no info is available
 feed_req[, `:=`(
-  animals_f = ifelse(is.na(animals_f), 1 / 7, animals_f),
-  crops_f = ifelse(is.na(crops_f), 2 / 7, crops_f),
-  grass_f = ifelse(is.na(grass_f), 1 / 7, grass_f),
-  fodder_f = ifelse(is.na(fodder_f), 1 / 7, fodder_f),
-  residues_f = ifelse(is.na(residues_f), 1 / 7, residues_f),
-  scavenging_f = ifelse(is.na(scavenging_f), 1 / 7, scavenging_f))]
+  animals_f = ifelse(is.na(animals_f), mean(animals_f), animals_f),
+  crops_f = ifelse(is.na(crops_f), mean(crops_f), crops_f),
+  grass_f = ifelse(is.na(grass_f), mean(grass_f), grass_f),
+  fodder_f = ifelse(is.na(fodder_f), mean(fodder_f), fodder_f),
+  residues_f = ifelse(is.na(residues_f), mean(residues_f), residues_f),
+  scavenging_f = ifelse(is.na(scavenging_f), mean(scavenging_f), scavenging_f))]
 feed_req[item_code != 0,
   `:=`(animals = total * animals_f, crops = total * crops_f,
        grass = total * grass_f, residues = total * residues_f,
@@ -359,7 +360,7 @@ feed_req[, `:=`(animals_f = NULL, crops_f = NULL, grass_f = NULL,
 feed_bounds <- merge(
   dcast(feed_sup, value.var = "dry", fun.aggregate = na_sum,
     area_code + year ~ feedtype),
-  feed_req[, list(animals_r = na_sum(animals), crops_r = na_sum(animals),
+  feed_req[, list(animals_r = na_sum(animals), crops_r = na_sum(crops),
     grass_r = na_sum(grass), fodder_r = na_sum(fodder),
     residues_r = na_sum(residues), scavenging_r = na_sum(scavenging),
     total_r = na_sum(total)),
@@ -370,18 +371,20 @@ feed_bounds <- merge(
 feed_bounds <- merge(
   feed_bounds[, list(animals_o = na_sum(animals_r), crops_o = na_sum(crops_r),
     grass_o = na_sum(grass_r), fodder_o = na_sum(fodder_r),
-    total_o = na_sum(total_r)),
+    residues_o = na_sum(residues_r), total_o = na_sum(total_r)),
     by = c("area_code", "year")],
   feed_bounds, by = c("area_code", "year"))
 
 # Use up supply (process percentage), note that there is no grass supply per se
 feed_bounds[, `:=`(
-  crops_r = crops_r * crops / crops_o,
-  animals_r = animals_r * animals / animals_o,
-  fodder_r = fodder_r * fodder / fodder_o,
+  crops_r = crops_r / crops_o * crops,
+  animals_r = animals_r / animals_o * animals,
+  fodder_r = fodder_r / fodder_o * fodder,
+  residues_r = residues_r / residues_o * residues,
   grass_r = grass_r)]
 
-feed_bounds[, `:=`(crops = NULL, animals = NULL, fodder = NULL)]
+feed_bounds[, `:=`(crops = NULL, animals = NULL, fodder = NULL, residues = NULL, crops_o = NULL,
+                   animals_o = NULL, fodder_o = NULL, residues_o = NULL, grass_o = NULL, total_o = NULL)]
 # "_r" is requirement per process
 # "_o" is requirement over all processes
 
@@ -398,8 +401,8 @@ feed <- merge(
 
 # Add totals over items
 feed <- merge(feed,
-  feed[, list(animals_t = na_sum(animals),
-    crops_t = na_sum(crops), fodder_t = na_sum(fodder)),
+  feed[, list(animals_t = na_sum(animals), crops_t = na_sum(crops),
+              fodder_t = na_sum(fodder), residues_t = na_sum(residues)),
     by = c("area_code", "year", "proc_code")],
   by = c("area_code", "year", "proc_code"))
 # "" is supply per item
@@ -407,19 +410,27 @@ feed <- merge(feed,
 
 feed <- merge(feed, feed_bounds, by = c("area_code", "year", "proc_code"))
 
-# Set use to demand (process level) * supply (item level) / supply (all items)
+# Set use to demand (process level) / supply (all items) * supply (item level)
 feed[, `:=`(
-  crops = crops * crops_r / crops_t,
-  animals = animals * animals_r / animals_t,
-  fodder = fodder * fodder_r / fodder_t)]
+  crops = crops_r / crops_t * crops,
+  animals = animals_r / animals_t * animals,
+  residues = residues_r / residues_t * residues,
+  fodder = fodder_r / fodder_t * fodder,
+  grass = grass_r)]
+
+feed[item_code != 2001, grass := 0]
+feed[, `:=`(crops_r = NULL, animals_r = NULL, fodder_r = NULL, residues_r = NULL,
+            grass_r = NULL, scavenging_r = NULL, total_r = NULL, crops_t = NULL,
+            animals_t = NULL, fodder_t = NULL, residues_t = NULL)]
 
 # Moisture
 feed <- merge(feed, items[, c("item_code", "moisture")], by = "item_code")
-feed[, `:=`(crops = crops / (1 - moisture),
-  animals = animals / (1 - moisture), fodder = fodder / (1 - moisture))]
+feed[, `:=`(crops = crops / (1 - moisture), residues = residues / (1 - moisture),
+  animals = animals / (1 - moisture), fodder = fodder / (1 - moisture),
+  grass = grass / (1 - moisture))]
 
 # Move to relevant column, note that grass is equal to the demand
-feed[, use_feed := na_sum(crops, animals, fodder, grass_r)]
+feed[, use_feed := na_sum(crops, animals, fodder, residues, grass)]
 
 # Add feed use back to the use table
 use <- merge(use,

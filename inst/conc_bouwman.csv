@@ -1,6 +1,9 @@
 proc_code,type,item
 p099,milk,Dairy cattle
 p100,milk,Dairy cattle
+p101,milk,Dairy cattle
+p102,milk,Dairy cattle
+p103,milk,Dairy cattle
 p085,meat,Beef cattle
 p086,meat,Beef cattle
 p087,meat,Sheep and goats

@@ -309,7 +309,7 @@ cbs[item_code %in% c(2662, 2663, 2664, 2665, 2666, 2667, 2671, 2672, 2659,
 cat("\nFeed crops to 'feed'.\n")
 cbs[item_code %in% c(2000, 2001, 2536, 2537, 2555, 2559, 2544, 2590, 2591, 2592,
   2749, 2593, 2594, 2595, 2596, 2597, 2598, 328) & balancing > 0,
-    `:=`(feed = feed + balancing, balancing = 0)]
+    `:=`(feed = na_sum(feed, balancing), balancing = 0)]
 
 cat("\nRest is mostly 'food' and 'feed' but remains in 'balancing'.\n")
 # cbs[balancing > 0, `:=`(food = na_sum(food, balancing), balancing = 0)]
