@@ -26,7 +26,7 @@ template <- data.table(expand.grid(
   proc_code = processes, comm_code = commodities, stringsAsFactors = FALSE))
 setkey(template, proc_code, comm_code)
 
-mr_sup_m <- lapply(years, function(x) {
+mr_sup_mass <- lapply(years, function(x) {
   matrices <- lapply(areas, function(y, sup_y) {
     sup_x <- sup_y[area_code == y, .(proc_code, comm_code, production)]
     out <- if(nrow(sup_x) == 0) {
@@ -41,25 +41,28 @@ mr_sup_m <- lapply(years, function(x) {
   bdiag(matrices)
 })
 
-mr_sup_p <- lapply(years, function(x) {
+sup[! is.na(price) & is.finite(price), value := production * price]
+sup[is.na(price) | !is.finite(price), value := production]
+
+mr_sup_value <- lapply(years, function(x) {
   matrices <- lapply(areas, function(y, sup_y) {
-    sup_x <- sup_y[area_code == y, .(proc_code, comm_code, price)]
+    sup_x <- sup_y[area_code == y, .(proc_code, comm_code, value)]
     out <- if(nrow(sup_x) == 0) {
-      template[, .(proc_code, comm_code, price = 0)]
+      template[, .(proc_code, comm_code, value = 0)]
     } else {merge(template, sup_x, all.x = TRUE)}
     out <- tryCatch(dcast(out, proc_code ~ comm_code,
-      value.var = "price", fun.aggregate = sum, na.rm = TRUE, fill = 0),
+      value.var = "value", fun.aggregate = sum, na.rm = TRUE, fill = 0),
       error = function(e) {stop("Issue at ", x, "-", y, ": ", e)})
     Matrix(data.matrix(out[, c(-1)]), sparse = TRUE,
       dimnames = list(out$proc_code, colnames(out)[-1]))
-  }, sup_y = sup[year == x, .(area_code, proc_code, comm_code, price)])
+  }, sup_y = sup[year == x, .(area_code, proc_code, comm_code, value)])
   bdiag(matrices)
 })
 
-names(mr_sup_m) <- names(mr_sup_p) <- years
+names(mr_sup_mass) <- names(mr_sup_value) <- years
 
-saveRDS(mr_sup_m, "data/mr_sup_m.rds")
-saveRDS(mr_sup_p, "data/mr_sup_p.rds")
+saveRDS(mr_sup_mass, "data/mr_sup_mass.rds")
+saveRDS(mr_sup_value, "data/mr_sup_value.rds")
 
 
 # CBS and BTD ---
@@ -152,7 +155,7 @@ saveRDS(mr_use, "data/mr_use.rds")
 
 template <- data.table(expand.grid(
   area_code = areas, comm_code = commodities,
-  variable = c("food", "other", "stock_addition", "balancing"),
+  variable = c("food", "other", "losses", "stock_addition", "balancing"),
   stringsAsFactors = FALSE))
 setkey(template, area_code, comm_code, variable)
 
@@ -181,13 +184,15 @@ mr_use_fd <- mapply(function(x, y) {
   return(mr_x)
 }, mr_use_fd, total_shares)
 
+mr_use_fd <- lapply(mr_use_fd, round)
+
 saveRDS(mr_use_fd, "data/mr_use_fd.rds")
 
 
 # MRIO Table ---
 
-mr_sup_m <- readRDS("data/mr_sup_m.rds")
-mr_sup_p <- readRDS("data/mr_sup_p.rds")
+mr_sup_m <- readRDS("data/mr_sup_mass.rds")
+mr_sup_v <- readRDS("data/mr_sup_value.rds")
 mr_use <- readRDS("data/mr_use.rds")
 
 
@@ -202,13 +207,21 @@ Z_m <- mapply(function(x, y) {
   x %*% y
 }, x = mr_use, y = trans_m)
 
-# Price
-trans_p <- lapply(mr_sup_m, function(x) {
+Z_m <- lapply(Z_m, round)
+saveRDS(Z_m, "data/Z_mass.rds")
+
+
+# Value
+trans_v <- lapply(mr_sup_v, function(x) {
   out <- as.matrix(x / rowSums(x))
   out[!is.finite(out)] <- 0 # See Issue #75
   return(as(out, "Matrix"))
 })
 
-Z_p <- mapply(function(x, y) {
+Z_v <- mapply(function(x, y) {
   x %*% y
-}, x = mr_use, y = trans_p)
+}, x = mr_use, y = trans_v)
+
+Z_v <- lapply(Z_v, round)
+saveRDS(Z_v, "data/Z_value.rds")
+
