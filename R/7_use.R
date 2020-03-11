@@ -533,6 +533,9 @@ results <- lapply(sort(unique(input$area_code)), function(x) {
 })
 
 results <- rbindlist(results)
+results[, result_in := round(result_in)]
+# saveRDS(results, "./data/optim_results.rds")
+# results <- readRDS("./data/optim_results.rds")
 
 # Add process information
 results[, proc_code := ifelse(out_code == 2658, "p083",
@@ -579,13 +582,13 @@ use <- merge(use,
 use[!is.na(share_s) & type == "seedwaste", use := share_s]
 use[, share_s := NULL]
 
-# Allocate the remainder of processing use to food
-cbs[processing > 0, `:=`(food = na_sum(food, processing), processing = 0)]
+# Allocate the remainder of processing use to balancing
+cbs[processing > 0, `:=`(food = na_sum(balancing, processing), processing = 0)]
 
 
 # Allocate final demand from balances -----
 use_fd <- cbs[, c("year", "area_code", "area", "item_code", "item",
-  "food", "other", "stock_addition", "balancing")]
+  "food", "other", "losses", "stock_addition", "balancing")]
 
 
 # Save -----
