@@ -74,7 +74,10 @@ fa_extract(zip = paste0(path_fao, files),
 # Add primary crop production ---------------------------------------------
 
 # This file is no longer downloadable from the FAO and needs to be requested.
-
+if(!file.exists(paste0(path_fao, "Production_Crops_Primary.zip"))) {
+  stop("The file `Production_Crops_Primary.zip` is no longer available",
+    "online. Please request the file and provide it to continue.")
+}
 x <- unzip(paste0(path_fao, "Production_Crops_Primary.zip"),
   exdir = gsub("(.*)/", "\\1", path_out))
 y <- fread(x,
