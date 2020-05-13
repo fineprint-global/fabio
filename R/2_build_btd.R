@@ -20,11 +20,11 @@ btd <- readRDS("data/tidy/btd_tidy.rds")
 
 # Change from reporting & partner country to receiving & supplying country
 btd[, `:=`(from = ifelse(imex == "Import", partner, reporter),
-           from_code = ifelse(imex == "Import", partner_code, reporter_code),
-           to = ifelse(imex == "Import", reporter, partner),
-           to_code = ifelse(imex == "Import", reporter_code, partner_code),
-           reporter = NULL, reporter_code = NULL,
-           partner = NULL, partner_code = NULL)]
+  from_code = ifelse(imex == "Import", partner_code, reporter_code),
+  to = ifelse(imex == "Import", reporter, partner),
+  to_code = ifelse(imex == "Import", reporter_code, partner_code),
+  reporter = NULL, reporter_code = NULL,
+  partner = NULL, partner_code = NULL)]
 
 # Give preference to import flows over export flows
 btd <- flow_pref(btd, pref = "Import")
@@ -32,9 +32,6 @@ btd[, imex := NULL]
 
 # Exclude intra-regional trade flows
 btd <- dt_filter(btd, from_code != to_code)
-
-# To-do: Possibly estimate missing units
-# USD are generally available, tonnes and head are not
 
 
 # Forestry ----------------------------------------------------------------
@@ -45,11 +42,11 @@ fore <- readRDS("data/tidy/fore_trad_tidy.rds")
 
 # Change from reporting & partner country to receiving & supplying country
 fore[, `:=`(from = ifelse(imex == "Import", partner, reporter),
-            from_code = ifelse(imex == "Import", partner_code, reporter_code),
-            to = ifelse(imex == "Import", reporter, partner),
-            to_code = ifelse(imex == "Import", reporter_code, partner_code),
-            reporter = NULL, reporter_code = NULL,
-            partner = NULL, partner_code = NULL)]
+  from_code = ifelse(imex == "Import", partner_code, reporter_code),
+  to = ifelse(imex == "Import", reporter, partner),
+  to_code = ifelse(imex == "Import", reporter_code, partner_code),
+  reporter = NULL, reporter_code = NULL,
+  partner = NULL, partner_code = NULL)]
 
 # Give preference to import flows over export flows
 fore <- flow_pref(fore, pref = "Import")
@@ -78,12 +75,11 @@ eth_com <- comtrade[grep("2207", item_code), ]
 
 # Change from reporting & partner country to receiving & supplying country
 eth_com[, `:=`(from = ifelse(imex == "Import", partner, reporter),
-               from_code = ifelse(imex == "Import", partner_code, reporter_code),
-               to = ifelse(imex == "Import", reporter, partner),
-               to_code = ifelse(imex == "Import", reporter_code, partner_code),
-               item = "Alcohol, Non-Food", item_code = 2659,
-               reporter = NULL, reporter_code = NULL,
-               partner = NULL, partner_code = NULL)]
+  from_code = ifelse(imex == "Import", partner_code, reporter_code),
+  to = ifelse(imex == "Import", reporter, partner),
+  to_code = ifelse(imex == "Import", reporter_code, partner_code),
+  item = "Alcohol, Non-Food", item_code = 2659,
+  reporter = NULL, reporter_code = NULL, partner = NULL, partner_code = NULL)]
 
 # Give preference to import flows over export flows
 eth_com <- flow_pref(eth_com, pref = "Import")
@@ -104,12 +100,11 @@ eth_com <- rbind(rbindlist(eth_com_fill), eth_com)
 
 # BACI is used for `year >= 1995`
 eth_baci <- baci[grep("^2207[0-9]*$", category), ]
-eth_baci[, `:=`(item = "Alcohol, Non-Food", item_code = 2659,
-                category = NULL)]
+eth_baci[, `:=`(item = "Alcohol, Non-Food", item_code = 2659, category = NULL)]
 
 eth_baci <- dt_rename(eth_baci, drop = FALSE,
-                      rename = c("exporter" = "from", "exporter_code" = "from_code",
-                                 "importer" = "to", "importer_code" = "to_code"))
+  rename = c("exporter" = "from", "exporter_code" = "from_code",
+    "importer" = "to", "importer_code" = "to_code"))
 
 # Bind Comtrade & BACI
 eth <- rbind(eth_com, eth_baci)
@@ -126,12 +121,11 @@ fish_com <- comtrade[grep("^.*30[1-4]$", item_code), ]
 
 # Change from reporting & partner country to receiving & supplying country
 fish_com[, `:=`(from = ifelse(imex == "Import", partner, reporter),
-                from_code = ifelse(imex == "Import", partner_code, reporter_code),
-                to = ifelse(imex == "Import", reporter, partner),
-                to_code = ifelse(imex == "Import", reporter_code, partner_code),
-                item = "Fish, Seafood", item_code = 2960,
-                reporter = NULL, reporter_code = NULL,
-                partner = NULL, partner_code = NULL)]
+  from_code = ifelse(imex == "Import", partner_code, reporter_code),
+  to = ifelse(imex == "Import", reporter, partner),
+  to_code = ifelse(imex == "Import", reporter_code, partner_code),
+  item = "Fish, Seafood", item_code = 2960,
+  reporter = NULL, reporter_code = NULL, partner = NULL, partner_code = NULL)]
 
 # Give preference to import flows over export flows
 fish_com <- flow_pref(fish_com, pref = "Import")
@@ -152,12 +146,11 @@ fish_com <- rbind(rbindlist(fish_com_fill), fish_com)
 
 # BACI is used for `year >= 1995`
 fish_baci <- baci[grep("^30[1-4]", category), ]
-fish_baci[, `:=`(item = "Fish, Seafood", item_code = 2960,
-                 category = NULL)]
+fish_baci[, `:=`(item = "Fish, Seafood", item_code = 2960, category = NULL)]
 
 fish_baci <- dt_rename(fish_baci, drop = FALSE,
-                       rename = c("exporter" = "from", "exporter_code" = "from_code",
-                                  "importer" = "to", "importer_code" = "to_code"))
+  rename = c("exporter" = "from", "exporter_code" = "from_code",
+    "importer" = "to", "importer_code" = "to_code"))
 
 # Bind Comtrade & BACI
 fish <- rbind(fish_com, fish_baci)

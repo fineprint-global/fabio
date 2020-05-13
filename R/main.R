@@ -23,15 +23,23 @@ source("R/1_tidy_fao.R")
 source("R/1_tidy_eth.R")
 source("R/1_tidy_trade.R")
 
+# Build full BTD, integrating trade data
 source("R/2_build_btd.R")
 
+# Build full CBS, integrating production data, etc.
 source("R/3_build_cbs.R")
 
+# Estimate trade shares from the CBS
 source("R/4_estimate_btd.R")
 
+# Balance trade using RAS
 source("R/5_balance.R")
 
+# Create the supply structure
 source("R/6_supply.R")
 
+# Create the use structure
 source("R/7_use.R")
 
+# Build MRIO blocks
+source("R/8_mrio.R")

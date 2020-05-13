@@ -110,10 +110,6 @@ agg <- Matrix::sparseMatrix(i = is, j = js)
 
 total_shares <- lapply(total, function(x, agg, js) {
   x_agg <- crossprod(x, agg)
-  # x_svd <- svd(x_agg)
-  # x_svd$d <- pmax(x_svd$d, 1e-12)
-  # x_pseudoinv <- x_svd$u %*% diag(1 / x_svd$d) %*% t(x_svd$v)
-  # x %*% x_pseudoinv
   out <- as.matrix(x / x_agg[js, ])
   out[!is.finite(out)] <- 0 # See Issue #75
   return(as(out, "Matrix"))

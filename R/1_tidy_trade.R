@@ -47,7 +47,7 @@ comtrade[, `:=`(reporter = regions$name[reporter_match],
   partner_code = regions$code[partner_match])]
 for(col in c("reporter_code", "partner_code")) {
   comtrade <- area_merge(comtrade, orig = 62, dest = 238,
-                         col = col, pattern = "Ethiopia")
+    col = col, pattern = "Ethiopia")
 }
 comtrade <- dt_filter(comtrade, !is.na(reporter) & !is.na(partner))
 
