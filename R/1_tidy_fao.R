@@ -57,7 +57,7 @@ rename <- c(
 cat("\nTidying CBS.\n")
 
 cbs <- rbind(readRDS("input/fao/cbs_crop.rds"),
-             readRDS("input/fao/cbs_live.rds"))
+  readRDS("input/fao/cbs_live.rds"))
 
 cbs <- dt_rename(cbs, rename, drop = TRUE)
 
@@ -67,29 +67,27 @@ cbs <- area_merge(cbs, orig = 62, dest = 238, pattern = "Ethiopia")
 cbs <- area_fix(cbs, regions)
 
 # Widen by element
-cbs <- dcast(cbs,
-             area_code + area + item_code + item + year ~ element,
-             value.var = "value")
+cbs <- dcast(cbs, area_code + area + item_code + item + year ~ element,
+  value.var = "value")
 cbs <- dt_rename(cbs, rename, drop = FALSE)
 
 # Replace NA values with 0
 cbs <- dt_replace(cbs, is.na, value = 0)
 # Make sure values are not negative
 cbs <- dt_replace(cbs, function(x) {`<`(x, 0)}, value = 0,
-                  cols = c("total_supply", "imports", "exports", "feed",
-                           "food", "losses", "other", "processing",
-                           "production", "seed"))
+  cols = c("total_supply", "imports", "exports", "feed", "food", "losses",
+    "other", "processing", "production", "seed"))
 
 cat("Recoding 'total_supply' from",
-    "'production + imports - exports + stock_withdrawal'", "to",
-    "'production + imports'.\n")
+  "'production + imports - exports + stock_withdrawal'", "to",
+  "'production + imports'.\n")
 cbs[, total_supply := na_sum(production, imports)]
 
 # Add more intuitive 'stock_addition' and fix discrepancies with 'total_supply'
 cbs[, stock_addition := -stock_withdrawal]
 cat("Found ", cbs[stock_addition > total_supply, .N],
-    " occurences of 'stock_addition' exceeding 'total_supply'.\n",
-    "Keeping values as is.\n", sep = "")
+  " occurences of 'stock_addition' exceeding 'total_supply'.\n",
+  "Keeping values as is.\n", sep = "")
 # cbs[stock_addition > total_supply, stock_addition := total_supply]
 
 # Rebalance uses, with 'total_supply' and 'stock_additions' treated as given
@@ -118,18 +116,17 @@ for(col in c("reporter_code", "partner_code")) {
 }
 
 # Cut down on the size
-btd <- dt_filter(btd, !item_code %in%
-                   c("Waters,ice etc" = 631, "Cotton waste" = 769,
-                     "Vitamins" = 853, "Hair, goat, coarse" = 1031,
-                     "Beehives" = 1181, "Beeswax" = 1183, "Hair, fine" = 1218,
-                     "Crude materials" = 1293, "Waxes vegetable" = 1296))
+btd <- dt_filter(btd, !item_code %in% c("Waters,ice etc" = 631,
+  "Cotton waste" = 769, "Vitamins" = 853, "Hair, goat, coarse" = 1031,
+  "Beehives" = 1181, "Beeswax" = 1183, "Hair, fine" = 1218,
+  "Crude materials" = 1293, "Waxes vegetable" = 1296))
 btd <- dt_filter(btd, value >= 0)
 
 btd[, imex := factor(gsub("^(Import|Export) (.*)$", "\\1", element))]
 
 # Apply TCF to observations with 'unit' == "tonnes"
 btd <- merge(btd, fread("inst/tcf_btd.csv"),
-             by.x = "item_code", by.y = "item_code", all.x = TRUE)
+  by.x = "item_code", by.y = "item_code", all.x = TRUE)
 cat("Applying TCF to trade data, where `unit == 'tonnes'` applies.\n")
 btd[unit != "tonnes", tcf := 1]
 btd <- tcf_apply(btd, na.rm = FALSE, filler = 1, fun = `/`)
@@ -140,10 +137,9 @@ btd_conc <- fread("inst/conc_btd-cbs.csv")
 cat("Aggregating BTD items to the level of CBS.\n")
 item_match <- match(btd[["item_code"]], btd_conc[["btd_item_code"]])
 btd[, `:=`(item_code = btd_conc$cbs_item_code[item_match],
-           item = btd_conc$cbs_item[item_match])]
-btd <- btd[, list(value = na_sum(value)),
-           by = .(reporter_code, reporter, partner_code, partner,
-                  item_code, item, year, imex, unit)]
+  item = btd_conc$cbs_item[item_match])]
+btd <- btd[, list(value = na_sum(value)), by = .(reporter_code, reporter,
+  partner_code, partner, item_code, item, year, imex, unit)]
 cat("Aggregation from", length(item_match), "to", nrow(btd), "observations.\n")
 
 # Recode "1000 Head" to "head"
@@ -151,15 +147,6 @@ btd[unit == "1000 Head", `:=`(value = value * 1000, unit = "Head")]
 btd[unit == "Head", `:=`(unit = "head")]
 # Recode "1000 US$" to "usd"
 btd[unit == "1000 US$", `:=`(value = value * 1000, unit = "usd")]
-
-# 2019-06-07: Keep unit variable
-# Widen by unit
-# btd <- dcast(btd,
-#              reporter_code + reporter + partner_code + partner +
-#                item_code + item + year + imex ~ unit,
-#              value.var = "value")
-# btd <- dt_rename(btd, rename, drop = FALSE)
-# btd <- dt_replace(btd, is.na, value = 0)
 
 # Store
 saveRDS(btd, "data/tidy/btd_tidy.rds")
@@ -182,10 +169,9 @@ fore_prod <- area_merge(fore_prod, orig = 62, dest = 238, pattern = "Ethiopia")
 fore_prod <- area_fix(fore_prod, regions)
 
 # Cut down to certain products
-fore_prod <- dt_filter(fore_prod, item_code %in%
-                         c("Wood fuel" = 1864,
-                           "Industrial roundwood, coniferous" = 1866,
-                           "Industrial roundwood, non-coniferous" = 1867))
+fore_prod <- dt_filter(fore_prod, item_code %in% c("Wood fuel" = 1864,
+  "Industrial roundwood, coniferous" = 1866,
+  "Industrial roundwood, non-coniferous" = 1867))
 fore_prod <- dt_filter(fore_prod, value >= 0)
 # fore_prod <- dt_filter(fore_prod, unit != "1000 US$")
 # Recode "1000 US$" to "usd"
@@ -197,8 +183,7 @@ fore_prod[, imex := factor(gsub("^(Import|Export) (.*)$", "\\1", element))]
 fore_prod <- dt_filter(fore_prod, unit == "m3")
 fore_prod[, unit := NULL]
 fore_prod <- dcast(fore_prod,
-                   area_code + area + item_code + item + year ~ imex,
-                   value.var = "value")
+  area_code + area + item_code + item + year ~ imex, value.var = "value")
 fore_prod <- dt_rename(fore_prod, rename, drop = FALSE)
 
 # Store
@@ -216,7 +201,7 @@ for(col in c("reporter_code", "partner_code")) {
   fore_trad <- area_kick(fore_trad, code = 351, pattern = "China",
     groups = TRUE, col = col)
   fore_trad <- area_merge(fore_trad, orig = 62, dest = 238,
-                          pattern = "Ethiopia", col = col)
+    pattern = "Ethiopia", col = col)
   fore_trad <- area_fix(fore_trad, regions, col = col)
 }
 
@@ -237,21 +222,12 @@ fore_conc <- fread("inst/conc_forestry.csv")
 cat("Aggregating forestry trade items to the level of forestry production.\n")
 item_match <- match(fore_trad[["item_code"]], fore_conc[["trad_item_code"]])
 fore_trad[, `:=`(item_code = fore_conc$prod_item_code[item_match],
-                 item = fore_conc$prod_item[item_match])]
+  item = fore_conc$prod_item[item_match])]
 fore_trad <- fore_trad[, list(value = na_sum(value)),
-                       by = .(reporter_code, reporter, partner_code, partner,
-                              item_code, item, year, imex, unit)]
+  by = .(reporter_code, reporter, partner_code, partner,
+    item_code, item, year, imex, unit)]
 cat("Aggregation from", length(item_match), "to",
-    nrow(fore_trad), "observations.\n")
-
-# 2019-06-07: Keep unit variable
-# Widen by unit
-# fore_trad <- dcast(fore_trad,
-#                    reporter_code + reporter + partner_code + partner +
-#                      item_code + item + year + imex ~ unit,
-#                    value.var = "value")
-# fore_trad <- dt_rename(fore_trad, rename, drop = FALSE)
-# fore_trad <- dt_replace(fore_trad, is.na, value = 0)
+  nrow(fore_trad), "observations.\n")
 
 # Store
 saveRDS(fore_trad, "data/tidy/fore_trad_tidy.rds")
@@ -267,7 +243,7 @@ crop_conc <- fread("inst/conc_crop-cbs.csv")
 #
 # Production
 crop <- rbind(readRDS("input/fao/crop_prod.rds"),
-              readRDS("input/fao/crop_proc.rds"))
+  readRDS("input/fao/crop_proc.rds"))
 
 crop <- dt_rename(crop, rename, drop = TRUE)
 
@@ -277,16 +253,14 @@ crop <- area_merge(crop, orig = 62, dest = 238, pattern = "Ethiopia")
 crop <- area_fix(crop, regions)
 
 crop <- merge(crop, crop_conc,
-              by.x = "item_code", by.y = "crop_item_code", all.x = TRUE)
+  by.x = "item_code", by.y = "crop_item_code", all.x = TRUE)
 crop <- tcf_apply(crop, fun = `*`, na.rm = TRUE)
 
 # Aggregate
 crop <- crop[, list(value = na_sum(value)),
-             by = .(area_code, area, element, year, unit,
-                    cbs_item_code, cbs_item)]
+  by = .(area_code, area, element, year, unit, cbs_item_code, cbs_item)]
 crop <- dt_rename(crop, drop = FALSE,
-                  rename = c("cbs_item_code" = "item_code",
-                             "cbs_item" = "item"))
+  rename = c("cbs_item_code" = "item_code", "cbs_item" = "item"))
 crop <- dt_filter(crop, value >= 0)
 
 #
@@ -304,16 +278,14 @@ crop_prim <- dt_filter(crop_prim, element != "Yield")
 
 # Only keep fodder crops
 crop_prim <- merge(crop_prim, crop_conc,
-                   by.x = "item_code", by.y = "crop_item_code", all.x = TRUE)
+  by.x = "item_code", by.y = "crop_item_code", all.x = TRUE)
 crop_prim <- dt_filter(crop_prim, cbs_item_code == 2000)
 
 # Aggregate
 crop_prim <- crop_prim[, list(value = na_sum(value)),
-                       by = .(area_code, area, element, year, unit,
-                              cbs_item_code, cbs_item)]
+  by = .(area_code, area, element, year, unit, cbs_item_code, cbs_item)]
 crop_prim <- dt_rename(crop_prim, drop = FALSE,
-                       rename = c("cbs_item_code" = "item_code",
-                                  "cbs_item" = "item"))
+  rename = c("cbs_item_code" = "item_code", "cbs_item" = "item"))
 crop_prim <- dt_filter(crop_prim, value >= 0)
 
 #
@@ -329,12 +301,13 @@ cat("\nTidying livestocks.\n")
 live_conc <- fread("inst/conc_live-cbs.csv")
 
 live_trad <- readRDS("input/fao/live_trad.rds")
-live_trad[`Item Code` %in% c(1057,1068,1079,1083) , `Item Code` := 2029]
+# I think this could be done cleaner
+live_trad[`Item Code` %in% c(1057, 1068, 1079, 1083) , `Item Code` := 2029]
 
 live <- rbind(readRDS("input/fao/live_prod.rds"),
-              readRDS("input/fao/live_proc.rds"),
-              readRDS("input/fao/live_prim.rds"),
-              live_trad)
+  readRDS("input/fao/live_proc.rds"),
+  readRDS("input/fao/live_prim.rds"),
+  live_trad)
 
 live <- dt_rename(live, rename)
 
@@ -344,15 +317,14 @@ live <- area_merge(live, orig = 62, dest = 238, pattern = "Ethiopia")
 live <- area_fix(live, regions)
 
 live <- merge(live, live_conc,
-              by.x = "item_code", by.y = "live_item_code", all.x = TRUE)
+  by.x = "item_code", by.y = "live_item_code", all.x = TRUE)
 live <- dt_filter(live, !is.na(cbs_item_code))
 
 # Aggregate
 live <- live[, list(value = na_sum(value)),
-             by = .(area_code, area, element, year, unit,
-                    cbs_item_code, cbs_item)]
-live <- dt_rename(live, drop = FALSE, rename = c("cbs_item_code" = "item_code",
-                                                 "cbs_item" = "item"))
+  by = .(area_code, area, element, year, unit, cbs_item_code, cbs_item)]
+live <- dt_rename(live, drop = FALSE,
+  rename = c("cbs_item_code" = "item_code", "cbs_item" = "item"))
 live <- dt_filter(live, value >= 0)
 
 # Recode "1000 Head" to "head"
@@ -380,8 +352,7 @@ fish[, source := ifelse(source_code == 4, "Capture", "Aquaculture")]
 # Country / Area adjustments
 country_match <- match(fish[["country"]], regions[["fish"]])
 fish[, `:=`(area = regions$name[country_match],
-            area_code = regions$code[country_match],
-            country = NULL)]
+  area_code = regions$code[country_match], country = NULL)]
 
 fish <- dt_filter(fish, !is.na(area))
 

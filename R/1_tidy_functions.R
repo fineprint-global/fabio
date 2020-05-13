@@ -1,4 +1,5 @@
 
+# Rename variables in a datatable, drop unspecified ones
 dt_rename <- function(x, rename, drop = TRUE) {
 
   found <- names(x)[names(x) %in% names(rename)]
@@ -18,7 +19,7 @@ dt_rename <- function(x, rename, drop = TRUE) {
   x
 }
 
-
+# Replace values where `fun` applies
 dt_replace <- function(x, fun = is.na, value = 0,
   cols = seq_len(ncol(x)), verbose = TRUE) {
 
@@ -37,6 +38,7 @@ dt_replace <- function(x, fun = is.na, value = 0,
 }
 
 
+# Filter a datatable verbosely
 dt_filter <- function(x, subset, select, na.rm = TRUE) {
 
   # Evaluate subset
@@ -59,9 +61,11 @@ dt_filter <- function(x, subset, select, na.rm = TRUE) {
     vars <- eval(substitute(select), nl, parent.frame())
   }
   cat("Removing ", x[!r, .N], " observations via `", deparse(e), "`.\n", sep = "")
-  if(na_count > 0) {cat(if(na.rm) {"Included"} else {"Excluded"},
-                        " were a total of ", na_count,
-                        " NA values that could not be compared.\n", sep = "")}
+  if(na_count > 0) {
+    cat(if(na.rm) {"Included"} else {"Excluded"},
+    " were a total of ", na_count,
+    " NA values that could not be compared.\n", sep = "")
+  }
 
   return(x[r, vars, with = FALSE])
 }
@@ -70,6 +74,7 @@ dt_filter <- function(x, subset, select, na.rm = TRUE) {
 # Area adjustments --------------------------------------------------------
 
 
+# Fix area codes
 area_fix <- function(x, regions, col = "area_code") {
 
   col_name <- gsub("(.*)_code", "\\1", col)
@@ -79,14 +84,14 @@ area_fix <- function(x, regions, col = "area_code") {
     na_codes <- unique(x[[col]][is.na(matched)])
     if(all(na_codes >= 5000)) {
       message("Found no match for grouped areas:\n\t",
-              paste0(unique(x[[col_name]][is.na(matched)]), " - ",
-                     na_codes, collapse = ", "),
-              ".\n", "")
+        paste0(unique(x[[col_name]][is.na(matched)]), " - ",
+          na_codes, collapse = ", "),
+        ".\n", "")
     } else {
       stop("Found no match for:\n\t",
-           paste0(unique(x[[col_name]][is.na(matched)]), " - ",
-                  na_codes, collapse = ", "),
-           ".\n")
+        paste0(unique(x[[col_name]][is.na(matched)]), " - ",
+          na_codes, collapse = ", "),
+        ".\n")
     }
   }
   x[[col_name]] <- regions[matched, name]
@@ -95,6 +100,7 @@ area_fix <- function(x, regions, col = "area_code") {
 }
 
 
+# Kick out area codes, check the name via pattern
 area_kick <- function(x, code, col = "area_code", pattern = "*", groups = TRUE) {
 
   # Vector to use for subsetting
@@ -116,7 +122,8 @@ area_kick <- function(x, code, col = "area_code", pattern = "*", groups = TRUE) 
         cat("Removing observations of '", name, "' from the table.\n", sep = "")
       } else {
         message("Column with names not found. Skipping pattern-check.\n")
-        cat("Removing observations of area '", code, "' from the table.\n", sep = "")
+        cat("Removing observations of area '", code,
+          "' from the table.\n", sep = "")
       }
     }
     x <- x[idx != code, ]
@@ -125,20 +132,23 @@ area_kick <- function(x, code, col = "area_code", pattern = "*", groups = TRUE) 
 
   # Remove country groups
   if(groups) {
-    n_groups <- x[idx >= 5000 | idx %in% c(269,268,266,261), .N]
+    # To-do: the four three-digit exceptions could be handled cleaner.
+    n_groups <- x[idx >= 5000 | idx %in% c(269, 268, 266, 261), .N]
     cat("Found", n_groups, "observations of grouped areas.\n")
     if(n_groups > 0) {
       cat("Removing observations of:\n\t",
-          paste0("'", unique(x[[col_name]][idx >= 5000 | idx %in% c(269,268,266,261)]), "'", collapse = ", "),
-          ".\n", sep = "")
+        paste0("'", unique(x[[col_name]][idx >= 5000 |
+          idx %in% c(269, 268, 266, 261)]), "'", collapse = ", "),
+        ".\n", sep = "")
     }
-    x <- x[idx < 5000 & ! idx %in% c(269,268,266,261), ]
+    x <- x[idx < 5000 & ! idx %in% c(269, 268, 266, 261), ]
   }
 
   return(x)
 }
 
 
+# Merge areas
 area_merge <- function(x, orig, dest, col = "area_code", pattern = "*") {
 
   # Vector to use for subsetting
@@ -175,6 +185,7 @@ area_merge <- function(x, orig, dest, col = "area_code", pattern = "*") {
 }
 
 
+# Apply technical conversion factors to values
 tcf_apply <- function(x, na.rm = TRUE, filler = 1L, fun = `/`) {
 
   n_na <- sum(is.na(x[["tcf"]]))
@@ -197,6 +208,7 @@ tcf_apply <- function(x, na.rm = TRUE, filler = 1L, fun = `/`) {
 }
 
 
+# Give preference to a certain flow
 flow_pref <- function(x, pref = "Import") {
 
   x[, id := paste(from_code, to_code, item_code, year, sep = "_")]
@@ -212,6 +224,7 @@ flow_pref <- function(x, pref = "Import") {
 }
 
 
+# Recursive sum over vectors with NA, returns NA if all values are NA
 na_sum <- function(..., rowwise = TRUE) {
   dots <- list(...)
   if(length(dots) == 1) { # Base
@@ -226,6 +239,7 @@ na_sum <- function(..., rowwise = TRUE) {
 }
 
 
+# Vectorised version of gsub
 vsub <- function(a, b, x) {
   stopifnot(length(a) == length(b))
   for(i in seq_along(a)) {x <- gsub(a[i], b[i], x)}
@@ -233,6 +247,7 @@ vsub <- function(a, b, x) {
 }
 
 
+# Replace RoW values
 replace_RoW <- function(x, cols = "area_code", codes) {
 
   name_cols <- gsub("(.*)_code", "\\1", cols)
