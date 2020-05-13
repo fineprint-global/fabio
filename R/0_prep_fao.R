@@ -30,46 +30,36 @@ name <- names(files)
 
 # Links to the files
 links <- c(rep("http://fenixservices.fao.org/faostat/static/bulkdownloads/",
-               length(files) - 1),
-           "http://www.fao.org/fishery/static/Data/")
+  length(files) - 1), "http://www.fao.org/fishery/static/Data/")
 
 # Column types to possibly skip some
 col_types <- list(
   "crop_prod" = c("numeric", "character", "numeric", "character", "numeric",
-                  "character", "numeric", "numeric", "character", "numeric",
-                  "character"),
+    "character", "numeric", "numeric", "character", "numeric", "character"),
   "crop_proc" = c("numeric", "character", "numeric", "character", "numeric",
-                  "character", "numeric", "numeric", "character", "numeric",
-                  "character"),
+    "character", "numeric", "numeric", "character", "numeric", "character"),
   "live_prod" = c("numeric", "character", "numeric", "character", "numeric",
-                  "character", "numeric", "numeric", "character", "numeric",
-                  "character"),
+    "character", "numeric", "numeric", "character", "numeric", "character"),
   "live_prim" = c("numeric", "character", "numeric", "character", "numeric",
-                  "character", "numeric", "numeric", "character", "numeric",
-                  "character"),
+    "character", "numeric", "numeric", "character", "numeric", "character"),
   "live_proc" = c("numeric", "character", "numeric", "character", "numeric",
-                  "character", "numeric", "numeric", "character", "numeric",
-                  "character"),
+    "character", "numeric", "numeric", "character", "numeric", "character"),
   "live_trad" = c("numeric", "character", "numeric", "character", "numeric",
-                  "character", "numeric", "numeric", "character", "numeric",
-                  "character"),
+    "character", "numeric", "numeric", "character", "numeric", "character"),
   "btd_prod" = c("numeric", "character", "numeric", "character", "numeric",
-                 "character", "numeric", "character", "numeric", "numeric",
-                 "character", "numeric", "character"),
+    "character", "numeric", "character", "numeric", "numeric", "character",
+    "numeric", "character"),
   "cbs_crop" = c("numeric", "character", "numeric", "character", "numeric",
-                 "character", "numeric", "numeric", "character", "numeric",
-                 "character"),
+    "character", "numeric", "numeric", "character", "numeric", "character"),
   "cbs_live" = c("numeric", "character", "numeric", "character", "numeric",
-                 "character", "numeric", "numeric", "character", "numeric",
-                 "character"),
+    "character", "numeric", "numeric", "character", "numeric", "character"),
   "fore_prod" = c("numeric", "character", "numeric", "character", "numeric",
-                  "character", "numeric", "numeric", "character", "numeric",
-                  "character"),
+    "character", "numeric", "numeric", "character", "numeric", "character"),
   "fore_trad" = c("numeric", "character", "numeric", "character", "numeric",
-                  "character", "numeric", "character", "numeric", "numeric",
-                  "character", "numeric", "character"),
+    "character", "numeric", "character", "numeric", "numeric", "character",
+    "numeric", "character"),
   "fish_prod" = c("integer", "integer", "integer", "character", "integer",
-                  "character", "numeric", "NULL")
+    "character", "numeric", "NULL")
 )
 
 
@@ -78,8 +68,7 @@ col_types <- list(
 fa_dl(file = files, link = links, path = path_fao)
 
 fa_extract(zip = paste0(path_fao, files),
-           path_out = path_fao, name = name,
-           extr = extr, col_types = col_types)
+  path_out = path_fao, name = name, extr = extr, col_types = col_types)
 
 
 # Add primary crop production ---------------------------------------------
@@ -88,8 +77,8 @@ fa_extract(zip = paste0(path_fao, files),
 
 x <- unzip(paste0(path_fao, "Production_Crops_Primary.zip"),
   exdir = gsub("(.*)/", "\\1", path_out))
-y <- fread(x, colClasses = c("numeric", "character", "numeric", "character",
-                             "numeric", "character", "numeric",
-                             "numeric", "character", "numeric", "character"))
+y <- fread(x,
+  colClasses = c("numeric", "character", "numeric", "character", "numeric",
+    "character", "numeric", "numeric", "character", "numeric", "character"))
 file.remove(x)
 saveRDS(y, paste0(path_fao, "crop_prim.rds"))

@@ -42,9 +42,9 @@ comtrade <- dt_rename(comtrade, rename_comtrade, drop = TRUE)
 reporter_match <- match(comtrade[["reporter"]], regions[["iso3c"]])
 partner_match <- match(comtrade[["partner"]], regions[["iso3c"]])
 comtrade[, `:=`(reporter = regions$name[reporter_match],
-                reporter_code = regions$code[reporter_match],
-                partner = regions$name[partner_match],
-                partner_code = regions$code[partner_match])]
+  reporter_code = regions$code[reporter_match],
+  partner = regions$name[partner_match],
+  partner_code = regions$code[partner_match])]
 for(col in c("reporter_code", "partner_code")) {
   comtrade <- area_merge(comtrade, orig = 62, dest = 238,
                          col = col, pattern = "Ethiopia")
@@ -59,32 +59,37 @@ comtrade[, value := as.double(value)]
 comtrade[, item_code := as.integer(item_code)]
 
 cat("Converting Ethanol from litres to kilograms", "(1l == 0.7893kg).\n")
-comtrade[unit == "Volume in litres" & item_code == 2207, `:=`(value = value * 0.7893, unit = "Weight in kilograms")]
+comtrade[unit == "Volume in litres" & item_code == 2207,
+  `:=`(value = value * 0.7893, unit = "Weight in kilograms")]
 
 comtrade <- dcast(comtrade,
-                  reporter_code + reporter + partner_code + partner +
-                    year + imex + item_code + item +
-                    usd ~ unit,
-                  value.var = "value", fun.aggregate = sum)
+  reporter_code + reporter + partner_code + partner + year + imex +
+  item_code + item + usd ~ unit, value.var = "value", fun.aggregate = sum)
 comtrade[, `:=`(`No Quantity` = NULL, `Number of items` = NULL)]
-comtrade <- dt_rename(comtrade, drop = FALSE,
-                      c("Weight in kilograms" = "kg"))
+comtrade <- dt_rename(comtrade, drop = FALSE, c("Weight in kilograms" = "kg"))
 # Convert from kg to tonnes
 comtrade[, `:=`(tonnes = kg / 1000, kg = NULL)]
 
-# estimate missing quantities using global average price per item and year
-comtrade_agg <- comtrade[!is.na(tonnes) & usd > 0, list(price_per_tonne = na_sum(usd) / na_sum(tonnes)),
-                         by = c("year", "item_code")] # Aggregate
-comtrade <- merge(comtrade, comtrade_agg, by = c("year", "item_code"), all.x = TRUE)
-comtrade[is.na(tonnes) | tonnes == 0, tonnes := round(usd / price_per_tonne, 3)]
+# Estimate missing quantities using global average price per item and year
+
+# Aggregate
+comtrade_agg <- comtrade[!is.na(tonnes) & usd > 0,
+  list(price_per_tonne = na_sum(usd) / na_sum(tonnes)),
+  by = c("year", "item_code")]
+comtrade <- merge(comtrade, comtrade_agg,
+  by = c("year", "item_code"), all.x = TRUE)
+comtrade[is.na(tonnes) | tonnes == 0,
+  tonnes := round(usd / price_per_tonne, 3)]
 comtrade[, price_per_tonne := NULL]
 
 # Use a unit variable
 comtrade <- melt(comtrade, measure.vars = c("usd", "tonnes"),
-                 variable.name = "unit", variable.factor = FALSE)
+  variable.name = "unit", variable.factor = FALSE)
+
 # Aggregate
 comtrade <- comtrade[, list(value = na_sum(value)),
-                     by = c("year", "item_code", "item", "reporter_code", "reporter", "partner_code", "partner", "unit", "imex")]
+  by = c("year", "item_code", "item", "reporter_code", "reporter",
+    "partner_code", "partner", "unit", "imex")]
 
 # Store
 saveRDS(comtrade, "data/tidy/comtrade_tidy.rds")
@@ -103,12 +108,13 @@ baci <- dt_rename(baci, rename_baci, drop = TRUE)
 importer_match <- match(baci[["importer"]], regions[["baci"]])
 exporter_match <- match(baci[["exporter"]], regions[["baci"]])
 baci[, `:=`(importer = regions$name[importer_match],
-            importer_code = regions$code[importer_match],
-            exporter = regions$name[exporter_match],
-            exporter_code = regions$code[exporter_match])]
+  importer_code = regions$code[importer_match],
+  exporter = regions$name[exporter_match],
+  exporter_code = regions$code[exporter_match])]
+
 for(col in c("importer_code", "exporter_code")) {
   baci <- area_merge(baci, orig = 62, dest = 238,
-                     col = col, pattern = "Ethiopia")
+    col = col, pattern = "Ethiopia")
 }
 baci <- dt_filter(baci, !is.na(importer) & !is.na(exporter))
 
@@ -117,16 +123,19 @@ baci[, item_code := as.integer(category)]
 # Convert from 1000 US$ to usd
 baci[, `:=`(usd = `1000 US$` * 1000, `1000 US$` = NULL)]
 
-# estimate missing quantities using global average price per item and year
-baci_agg <- baci[!is.na(tonnes) & usd > 0, list(price_per_tonne = na_sum(usd) / na_sum(tonnes)),
-                         by = c("year", "item_code")] # Aggregate
+# Estimate missing quantities using global average price per item and year
+
+# Aggregate
+baci_agg <- baci[!is.na(tonnes) & usd > 0,
+  list(price_per_tonne = na_sum(usd) / na_sum(tonnes)),
+  by = c("year", "item_code")]
 baci <- merge(baci, baci_agg, by = c("year", "item_code"), all.x = TRUE)
 baci[is.na(tonnes) | tonnes == 0, tonnes := round(usd / price_per_tonne, 3)]
 baci[, price_per_tonne := NULL]
 
 # 2019-06-07: Introduce unit variable
 baci <- melt(baci, measure.vars = c("usd", "tonnes"),
-             variable.name = "unit", variable.factor = FALSE)
+  variable.name = "unit", variable.factor = FALSE)
 
 # Store
 saveRDS(baci, "data/tidy/baci_tidy.rds")

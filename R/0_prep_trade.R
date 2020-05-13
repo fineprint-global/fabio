@@ -21,9 +21,8 @@ name <- names(file)
 
 col_types <- rep("iiiidd", length(extr))
 
-baci_full <- fa_extract(paste0(path_trade, file),
-                        path_out = path_trade, name = name,
-                        extr = extr, col_types = col_types, stack = TRUE)
+baci_full <- fa_extract(paste0(path_trade, file), path_out = path_trade,
+  name = name, extr = extr, col_types = col_types, stack = TRUE)
 
 baci_sel <- readRDS(baci_full)
 # Select fish (30___) and ethanol (2207__)

@@ -51,7 +51,8 @@ btd <- btd[unit %in% c("tonnes", "head", "m3"), ]
 btd_est <- btd_est[year %in% years & item_code %in% items, ]
 
 # Have RoW start at least at 1 so it can always be scaled
-btd[((from_code == 999 & to_code != 999) | (from_code != 999 & to_code == 999)) & value == 0, value := 1]
+btd[((from_code == 999 & to_code != 999) | (from_code != 999 & to_code == 999)) &
+  value == 0, value := 1]
 # Then kick out values <= 0 and use estimates for those
 btd <- btd[value > 0, ]
 
@@ -61,7 +62,6 @@ imp <- cbs[, c("year", "area_code", "item_code", "imports")]
 target <- merge(exp, imp, by = c("year", "item_code", "area_code"), all = TRUE)
 
 
-# To-do: Rework merging and structures
 # Create a structure to map importers to exporters per item (+ targets)
 mapping_templ <- data.table(
   from_code = rep(areas, each = length(areas), times = length(items)),
@@ -107,19 +107,11 @@ for(i in seq_along(years)) {
       as(out, "Matrix")})
 
   # Run iterative proportional fitting per item
-  # To-do: This could be parallelised
   for(j in as.character(items)) {
     mapping_ras[[j]] <- Ipfp(mapping_ras[[j]],
       target.list = list(1, 2), iter = 100,
       target.data = constraint[item_code == j, .(exports, imports)])$x.hat
   }
-  # ras_data <- parLapply(cl, as.character(items), function(j, map_list, constr) {
-  #   library("Matrix")
-  #   library("mipfp")
-  #   Ipfp(map_list[[j]], target.list = list(1, 2), iter = 100,
-  #     target.data = constr[item_code == j, .(exports, imports)])$x.hat
-  # }, mapping_ras, constraint)
-  # names(ras_data) <- as.character(items)
 
   btd_bal[[i]] <- lapply(names(mapping_ras), function(name) {
     out <- mapping_ras[[name]]
@@ -128,17 +120,10 @@ for(i in seq_along(years)) {
     out[, .(item_code = name, from_code = as.integer(from_code),
       to_code = as.integer(to_code), value)]
   })
-  # btd_bal[[i]] <- parLapply(cl, names(ras_data), function(name, data) {
-  #   out <- data[[name]]
-  #   out <- data.table(from_code = colnames(out), as.matrix(out))
-  #   out <- melt(out, id.vars = c("from_code"), variable.name = "to_code")
-  #   out[, .(item_code = name, from_code = as.integer(from_code),
-  #     to_code = as.integer(to_code), value)]
-  # })
 
   cat("Calculated year ", y, ".\n", sep = "")
 }
-# Todo: Non-convergence should be fine, investigate at some point
+# Todo: Check out non-convergence in detail
 
 # One datatable per year
 btd_bal <- lapply(btd_bal, rbindlist)

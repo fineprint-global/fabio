@@ -91,13 +91,12 @@ sup[, share := NULL]
 
 # Fill prices using BTD ---------------------------------------------------
 
-prices <- dcast(btd, from + from_code + to + to_code + item + item_code + year ~ unit,
-                value.var = "value")
-prices <- prices[!is.na(usd) & usd > 0, list(usd = sum(usd, na.rm = TRUE),
-                                             head = sum(head, na.rm = TRUE),
-                                             tonnes = sum(tonnes, na.rm = TRUE),
-                                             m3 = sum(m3, na.rm = TRUE)),
-                 by = list(from, from_code, item_code, item, year)]
+prices <- dcast(btd, from + from_code + to + to_code +
+  item + item_code + year ~ unit, value.var = "value")
+prices <- prices[!is.na(usd) & usd > 0,
+  list(usd = sum(usd, na.rm = TRUE), head = sum(head, na.rm = TRUE),
+    tonnes = sum(tonnes, na.rm = TRUE), m3 = sum(m3, na.rm = TRUE)),
+    by = list(from, from_code, item_code, item, year)]
 
 prices[, price := ifelse(tonnes != 0 & !is.na(tonnes), usd / tonnes,
   ifelse(head != 0 & !is.na(head), usd / head, ifelse(m3 != 0, usd / m3, NA)))]
