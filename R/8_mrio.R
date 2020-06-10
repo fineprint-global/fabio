@@ -22,41 +22,63 @@ commodities <- unique(use$comm_code)
 
 # Supply ---
 
+# Template to always get full tables
 template <- data.table(expand.grid(
   proc_code = processes, comm_code = commodities, stringsAsFactors = FALSE))
 setkey(template, proc_code, comm_code)
 
+# List with block-diagonal supply matrices, per year
 mr_sup_mass <- lapply(years, function(x) {
+
   matrices <- lapply(areas, function(y, sup_y) {
+    # Get supply for area y and merge with the template
     sup_x <- sup_y[area_code == y, .(proc_code, comm_code, production)]
     out <- if(nrow(sup_x) == 0) {
       template[, .(proc_code, comm_code, production = 0)]
     } else {merge(template, sup_x, all.x = TRUE)}
+
+    # Cast the datatable to convert into a matrix
     out <- tryCatch(dcast(out, proc_code ~ comm_code,
       value.var = "production", fun.aggregate = sum, na.rm = TRUE, fill = 0),
       error = function(e) {stop("Issue at ", x, "-", y, ": ", e)})
-    Matrix(data.matrix(out[, c(-1)]), sparse = TRUE,
-      dimnames = list(out$proc_code, colnames(out)[-1]))
+
+    # Return a (sparse) matrix of supply for region y and year x
+    return(Matrix(data.matrix(out[, c(-1)]), sparse = TRUE,
+      dimnames = list(out$proc_code, colnames(out)[-1])))
+
   }, sup_y = sup[year == x, .(area_code, proc_code, comm_code, production)])
-  bdiag(matrices)
+
+  # Return a block-diagonal matrix with all countries for year x
+  return(bdiag(matrices))
 })
 
-sup[! is.na(price) & is.finite(price), value := production * price]
+# Issue #84
+sup[!is.na(price) & is.finite(price), value := production * price]
 sup[is.na(price) | !is.finite(price), value := production]
 
+# List with block-diagonal supply matrices in value, per year
 mr_sup_value <- lapply(years, function(x) {
+
   matrices <- lapply(areas, function(y, sup_y) {
+    # Get supply for area y and merge with the template
     sup_x <- sup_y[area_code == y, .(proc_code, comm_code, value)]
     out <- if(nrow(sup_x) == 0) {
       template[, .(proc_code, comm_code, value = 0)]
     } else {merge(template, sup_x, all.x = TRUE)}
+
+    # Cast the datatable to convert into a matrix
     out <- tryCatch(dcast(out, proc_code ~ comm_code,
       value.var = "value", fun.aggregate = sum, na.rm = TRUE, fill = 0),
       error = function(e) {stop("Issue at ", x, "-", y, ": ", e)})
-    Matrix(data.matrix(out[, c(-1)]), sparse = TRUE,
-      dimnames = list(out$proc_code, colnames(out)[-1]))
+
+    # Return a (sparse) matrix of supply for region y and year x
+    return(Matrix(data.matrix(out[, c(-1)]), sparse = TRUE,
+      dimnames = list(out$proc_code, colnames(out)[-1])))
+
   }, sup_y = sup[year == x, .(area_code, proc_code, comm_code, value)])
-  bdiag(matrices)
+
+  # Return a block-diagonal matrix with all countries for year x
+  return(bdiag(matrices))
 })
 
 names(mr_sup_mass) <- names(mr_sup_value) <- years
@@ -67,80 +89,100 @@ saveRDS(mr_sup_value, "data/mr_sup_value.rds")
 
 # CBS and BTD ---
 
+# Template to always get full tables
 template <- data.table(expand.grid(
   from_code = areas, to_code = areas,
   comm_code = commodities, stringsAsFactors = FALSE))
 setkey(template, from_code, comm_code, to_code)
 
-
 btd[, comm_code := items$comm_code[match(btd$item_code, items$item_code)]]
+cbs[, comm_code := items$comm_code[match(cbs$item_code, items$item_code)]]
 
+# Yearly list of BTD in matrix format
 btd_cast <- lapply(years, function(x, btd_x) {
+  # Cast to convert to matrix
   out <- dcast(merge(template,
     btd_x[year == x, .(from_code, to_code, comm_code, value)],
     by = c("from_code", "to_code", "comm_code"), all.x = TRUE),
     from_code + comm_code ~ to_code,
     value.var = "value", fun.aggregate = sum, na.rm = TRUE, fill = 0)
-  Matrix(data.matrix(out[, c(-1, -2)]), sparse = TRUE,
+
+  return(Matrix(data.matrix(out[, c(-1, -2)]), sparse = TRUE,
     dimnames = list(paste0(out$from_code, "-", out$comm_code),
-      colnames(out)[c(-1, -2)]))
+      colnames(out)[c(-1, -2)])))
+
 }, btd_x = btd[, .(year, from_code, to_code, comm_code, value)])
 
-cbs[, comm_code := items$comm_code[match(cbs$item_code, items$item_code)]]
-
+# Yearly list of CBS in matrix format
 cbs_cast <- lapply(years, function(x, cbs_x) {
+  # Cast to convert to matrix
   out <- dcast(merge(template[, .(area_code = from_code, comm_code)],
     cbs_x[year == x, .(area_code, comm_code, production)],
     by = c("area_code", "comm_code"), all.x = TRUE),
     area_code + comm_code ~ area_code,
     value.var = "production", fun.aggregate = sum, na.rm = TRUE, fill = 0)
-  Matrix(data.matrix(out[, c(-1, -2)]), sparse = TRUE,
+
+  return(Matrix(data.matrix(out[, c(-1, -2)]), sparse = TRUE,
     dimnames = list(paste0(out$area_code, "-", out$comm_code),
-      colnames(out)[c(-1, -2)]))
+      colnames(out)[c(-1, -2)])))
+
 }, cbs_x = cbs[, .(year, area_code, comm_code, production)])
 
+# Create total supply, per year
 total <- mapply(`+`, cbs_cast, btd_cast)
 names(cbs_cast) <- names(btd_cast) <- names(total) <- years
 
+# Get commodities and their positions from total supply
 comms <- gsub("(^[0-9]+)-(c[0-9]+)", "\\2", rownames(total[[1]]))
 is <- as.numeric(vapply(unique(comms), function(x) {which(comms == x)},
   numeric(length(unique(areas)))))
 js <- rep(seq_along(areas), each = length(unique(comms)))
 agg <- Matrix::sparseMatrix(i = is, j = js)
 
+# Build supply shares, per year
 total_shares <- lapply(total, function(x, agg, js) {
-  x_agg <- crossprod(x, agg)
-  out <- as.matrix(x / x_agg[js, ])
+  x_agg <- crossprod(x, agg) # Aggregate total supply
+  out <- as.matrix(x / x_agg[js, ]) # Calculate shares
+
   out[!is.finite(out)] <- 0 # See Issue #75
+
   return(as(out, "Matrix"))
 }, agg = agg, js = js)
 
 
 # Use ---
 
+# Template to always get full tables
 template <- data.table(expand.grid(
   area_code = areas, proc_code = processes, comm_code = commodities,
   stringsAsFactors = FALSE))
 setkey(template, area_code, proc_code, comm_code)
 
-
+# List with use matrices, per year
 use_cast <- lapply(years, function(x, use_x) {
+  # Cast use to convert to a matrix
   out <- dcast(merge(template[, .(area_code, proc_code, comm_code)],
     use_x[year == x, .(area_code, proc_code, comm_code, use)],
     by = c("area_code", "proc_code", "comm_code"), all.x = TRUE),
     comm_code ~ area_code + proc_code,
     value.var = "use", fun.aggregate = sum, na.rm = TRUE, fill = 0)
-  Matrix(data.matrix(out[, c(-1)]), sparse = TRUE,
-    dimnames = list(out$comm_code, colnames(out)[-1]))
+
+  return(Matrix(data.matrix(out[, c(-1)]), sparse = TRUE,
+    dimnames = list(out$comm_code, colnames(out)[-1])))
+
 }, use_x = use[, .(year, area_code, proc_code, comm_code, use)])
 
+# Apply supply shares to the use matrix
 mr_use <- mapply(function(x, y) {
+  # Repeat use values, then adapted according to shares
   mr_x <- x[rep(seq_along(commodities), length(areas)), ]
   n_proc <- length(processes)
-  for(j in seq_along(areas)) { # Could do this vectorised
+
+  for(j in seq_along(areas)) { # Per country j
     mr_x[, seq(1 + (j - 1) * n_proc, j * n_proc)] <-
       mr_x[, seq(1 + (j - 1) * n_proc, j * n_proc)] * y[, j]
   }
+
   return(mr_x)
 }, use_cast, total_shares)
 
@@ -149,6 +191,7 @@ saveRDS(mr_use, "data/mr_use.rds")
 
 # Use FD ---
 
+# Template to always get full tables
 template <- data.table(expand.grid(
   area_code = areas, comm_code = commodities,
   variable = c("food", "other", "losses", "stock_addition", "balancing"),
