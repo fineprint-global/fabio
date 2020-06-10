@@ -136,13 +136,14 @@ names(cbs_cast) <- names(btd_cast) <- names(total) <- years
 comms <- gsub("(^[0-9]+)-(c[0-9]+)", "\\2", rownames(total[[1]]))
 is <- as.numeric(vapply(unique(comms), function(x) {which(comms == x)},
   numeric(length(unique(areas)))))
-js <- rep(seq_along(areas), each = length(unique(comms)))
+js <- rep(seq(unique(comms)), each = length(unique(areas)))
 agg <- Matrix::sparseMatrix(i = is, j = js)
 
 # Build supply shares, per year
 total_shares <- lapply(total, function(x, agg, js) {
-  x_agg <- crossprod(x, agg) # Aggregate total supply
-  out <- as.matrix(x / x_agg[js, ]) # Calculate shares
+  x_agg <- colSums(crossprod(x, agg)) # Aggregate total supply
+  # Calculate shares
+  out <- as.matrix(x / x_agg[rep(seq(length(x_agg)), dim(x)[2])])
 
   out[!is.finite(out)] <- 0 # See Issue #75
 
