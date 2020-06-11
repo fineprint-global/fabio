@@ -137,6 +137,7 @@ comms <- gsub("(^[0-9]+)-(c[0-9]+)", "\\2", rownames(total[[1]]))
 is <- as.numeric(vapply(unique(comms), function(x) {which(comms == x)},
   numeric(length(unique(areas)))))
 js <- rep(seq(unique(comms)), each = length(unique(areas)))
+# Matrix used to aggregate over commodities
 agg <- Matrix::sparseMatrix(i = is, j = js)
 
 # Build supply shares, per year
@@ -204,16 +205,20 @@ use_fd <- melt(use_fd[, .(year, area_code, comm_code,
   food, other, stock_addition, balancing)],
   id.vars = c("year", "area_code", "comm_code"))
 
+# List with final use matrices, per year
 mr_use_fd <- lapply(years, function(x, use_fd_x) {
+  # Cast final use to convert to a matrix
   out <- dcast(merge(template[, .(area_code, comm_code, variable)],
     use_fd_x[year == x, .(area_code, comm_code, variable, value)],
     by = c("area_code", "comm_code", "variable"), all.x = TRUE),
     comm_code ~ area_code + variable,
     value.var = "value", fun.aggregate = sum, na.rm = TRUE, fill = 0)
+
   Matrix(data.matrix(out[, -1]), sparse = TRUE,
     dimnames = list(out$comm_code, colnames(out)[-1]))
 }, use_fd[, .(year, area_code, comm_code, variable, value)])
 
+# Apply supply shares to the final use matrix
 mr_use_fd <- mapply(function(x, y) {
   mr_x <- x[rep(seq_along(commodities), length(areas)), ]
   n_proc <- 4L
