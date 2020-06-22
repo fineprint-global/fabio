@@ -143,10 +143,11 @@ agg <- Matrix::sparseMatrix(i = is, j = js)
 # Build supply shares, per year
 total_shares <- lapply(total, function(x, agg, js) {
   # x_agg <- colSums(crossprod(x, agg)) # Aggregate total supply (all countries)
-  x_agg <- crossprod(x, agg) # Aggregate total supply (all countries)
+  x_agg <- crossprod(x, agg) # Aggregate total supply (per country)
   denom <- data.table(as.matrix(t(x_agg)))
-  # Calculate shares
+  # Calculate shares (all countries)
   # out <- as.matrix(x / x_agg[rep(seq(length(x_agg)), dim(x)[2])])
+  # Calculate shares (per country)
   out <- x / as.matrix(denom[rep(seq(length(commodities)), 192), ])
 
   out[!is.finite(out)] <- 0 # See Issue #75
