@@ -111,7 +111,7 @@ btd_cast <- lapply(years, function(x, btd_x) {
     dimnames = list(paste0(out$from_code, "-", out$comm_code),
       colnames(out)[c(-1, -2)])))
 
-}, btd_x = btd[, .(year, from_code, to_code, comm_code, value)])
+}, btd_x = btd[unit == "tonnes", .(year, from_code, to_code, comm_code, value)])
 
 # Yearly list of CBS in matrix format
 cbs_cast <- lapply(years, function(x, cbs_x) {
@@ -142,9 +142,13 @@ agg <- Matrix::sparseMatrix(i = is, j = js)
 
 # Build supply shares, per year
 total_shares <- lapply(total, function(x, agg, js) {
-  x_agg <- colSums(crossprod(x, agg)) # Aggregate total supply
-  # Calculate shares
-  out <- as.matrix(x / x_agg[rep(seq(length(x_agg)), dim(x)[2])])
+  # x_agg <- colSums(crossprod(x, agg)) # Aggregate total supply (all countries)
+  x_agg <- crossprod(x, agg) # Aggregate total supply (per country)
+  denom <- data.table(as.matrix(t(x_agg)))
+  # Calculate shares (all countries)
+  # out <- as.matrix(x / x_agg[rep(seq(length(x_agg)), dim(x)[2])])
+  # Calculate shares (per country)
+  out <- x / as.matrix(denom[rep(seq(length(commodities)), 192), ])
 
   out[!is.finite(out)] <- 0 # See Issue #75
 
