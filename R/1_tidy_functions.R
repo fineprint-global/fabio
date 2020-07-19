@@ -217,7 +217,7 @@ flow_pref <- function(x, pref = "Import") {
   cat("Dropping ", length(to_kick), " observations as preference is given to ",
       pref, ".\n", sep = "")
 
-  x[imex == pref | !id %in% to_kick]
+  x <- x[imex == pref | !id %in% to_kick]
   x[, id := NULL]
 
   return(x)
@@ -275,9 +275,9 @@ fill_tcf <- function(y, z, C, cap = TRUE) {
   # P holds implied processing use
   #   X / x is the percentage-split across inputs
   #   y / x is the required percentage of total output demand
-  P <- .sparseDiagonal(sum(exists), y[exists] / x[exists]) %*%
-    (X[exists, ] / x[exists]) %*% Z
-  processing <- colSums(P)
+  P <- (X[exists, ] / x[exists]) * y[exists] / C[exists,]
+  if(class(P)!="numeric") { processing <- colSums(P, na.rm = T)
+  } else processing <- tidyr::replace_na(P, 0)
   if(cap) {processing[processing > z] <- z[processing > z]}
   return(processing)
 }
@@ -290,12 +290,18 @@ split_tcf <- function(y, z, C, cap = TRUE) {
   x <- rowSums(X)
   exists <- x != 0 # exists kicks 0 potential outputs
   if(!any(exists)) {return(NA)}
-  P <- .sparseDiagonal(sum(exists), y[exists] / x[exists]) %*%
-    (X[exists, ] / x[exists]) %*% Z
+  P <- ((X[exists, ] / x[exists]) * y[exists]) / C[exists,]
+  P[is.na(P)] <- 0
+  # P <- .sparseDiagonal(sum(exists), y[exists] / x[exists]) %*%
+  #   (X[exists, ] / x[exists]) %*% Z
   if(cap) {
     cap <- rep(0, length(z))
     exists_inp <- z != 0
-    cap[exists_inp] <- colSums(P)[exists_inp] / z[exists_inp]
+    if(class(P)!="numeric") {
+      cap[exists_inp] <- colSums(P)[exists_inp] / z[exists_inp]
+    } else {
+      cap[exists_inp] <- P[exists_inp] / z[exists_inp]
+    }
     cap[cap < 1] <- 1 # Don't want to scale up
     P <- P %*% diag(1 / cap)
   }

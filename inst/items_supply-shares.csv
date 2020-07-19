@@ -29,59 +29,63 @@ p104,Cattle slaughtering,c122,2748,Hides and skins,live,919,"Hides, cattle, fres
 p105,Buffaloes slaughtering,c122,2748,Hides and skins,live,957,"Hides, buffalo, fresh"
 p106,Sheep slaughtering,c122,2748,Hides and skins,live,999,"Skins, sheep, with wool"
 p107,Goat slaughtering,c122,2748,Hides and skins,live,1025,"Skins, goat, fresh"
-p104,Cattle slaughtering,c120,2736,"Offals, Edible",supply,867,"Meat, cattle"
-p105,Buffaloes slaughtering,c120,2736,"Offals, Edible",supply,947,"Meat, buffalo"
-p106,Sheep slaughtering,c120,2736,"Offals, Edible",supply,977,"Meat, sheep"
-p107,Goat slaughtering,c120,2736,"Offals, Edible",supply,1017,"Meat, goat"
-p108,Pigs slaughtering,c120,2736,"Offals, Edible",supply,1097,"Meat, horse"
-p109,Poultry slaughtering,c120,2736,"Offals, Edible",supply,1108,"Meat, ass"
-p110,Horses slaughtering,c120,2736,"Offals, Edible",supply,1111,"Meat, mule"
-p111,Asses slaughtering,c120,2736,"Offals, Edible",supply,1127,"Meat, camel"
-p112,Mules slaughtering,c120,2736,"Offals, Edible",supply,1158,"Meat, other camelids"
-p113,Camels slaughtering,c120,2736,"Offals, Edible",supply,1141,"Meat, rabbit"
-p114,"Camelids slaughtering, other",c120,2736,"Offals, Edible",supply,1151,"Meat, other rodents"
-p115,Rabbits slaughtering,c120,2736,"Offals, Edible",supply,1163,"Meat, game"
-p116,"Rodents slaughtering, other",c120,2736,"Offals, Edible",supply,1166,"Meat, nes"
-p117,"Live animals slaughtering, other",c120,2736,"Offals, Edible",supply,2735,"Meat, Other"
-p104,Cattle slaughtering,c121,2737,"Fats, Animals, Raw",supply,2731,Bovine Meat
-p105,Buffaloes slaughtering,c121,2737,"Fats, Animals, Raw",supply,2731,Bovine Meat
-p106,Sheep slaughtering,c121,2737,"Fats, Animals, Raw",supply,2732,Mutton & Goat Meat
-p107,Goat slaughtering,c121,2737,"Fats, Animals, Raw",supply,2732,Mutton & Goat Meat
-p108,Pigs slaughtering,c121,2737,"Fats, Animals, Raw",supply,2733,Pigmeat
-p109,Poultry slaughtering,c121,2737,"Fats, Animals, Raw",supply,2734,Poultry Meat
-p110,Horses slaughtering,c121,2737,"Fats, Animals, Raw",supply,2735,"Meat, Other"
-p111,Asses slaughtering,c121,2737,"Fats, Animals, Raw",supply,2735,"Meat, Other"
-p112,Mules slaughtering,c121,2737,"Fats, Animals, Raw",supply,2735,"Meat, Other"
-p113,Camels slaughtering,c121,2737,"Fats, Animals, Raw",supply,2735,"Meat, Other"
-p114,"Camelids slaughtering, other",c121,2737,"Fats, Animals, Raw",supply,2735,"Meat, Other"
-p115,Rabbits slaughtering,c121,2737,"Fats, Animals, Raw",supply,2735,"Meat, Other"
-p116,"Rodents slaughtering, other",c121,2737,"Fats, Animals, Raw",supply,2735,"Meat, Other"
-p117,"Live animals slaughtering, other",c121,2737,"Fats, Animals, Raw",supply,2735,"Meat, Other"
-p104,Cattle slaughtering,c123,2749,Meat Meal,supply,2731,Bovine Meat
-p105,Buffaloes slaughtering,c123,2749,Meat Meal,supply,2731,Bovine Meat
-p106,Sheep slaughtering,c123,2749,Meat Meal,supply,2732,Mutton & Goat Meat
-p107,Goat slaughtering,c123,2749,Meat Meal,supply,2732,Mutton & Goat Meat
-p108,Pigs slaughtering,c123,2749,Meat Meal,supply,2733,Pigmeat
-p109,Poultry slaughtering,c123,2749,Meat Meal,supply,2734,Poultry Meat
-p110,Horses slaughtering,c123,2749,Meat Meal,supply,2735,"Meat, Other"
-p111,Asses slaughtering,c123,2749,Meat Meal,supply,2735,"Meat, Other"
-p112,Mules slaughtering,c123,2749,Meat Meal,supply,2735,"Meat, Other"
-p113,Camels slaughtering,c123,2749,Meat Meal,supply,2735,"Meat, Other"
-p114,"Camelids slaughtering, other",c123,2749,Meat Meal,supply,2735,"Meat, Other"
-p115,Rabbits slaughtering,c123,2749,Meat Meal,supply,2735,"Meat, Other"
-p116,"Rodents slaughtering, other",c123,2749,Meat Meal,supply,2735,"Meat, Other"
-p117,"Live animals slaughtering, other",c123,2749,Meat Meal,supply,2735,"Meat, Other"
-p104,Cattle slaughtering,c124,843,Pet food,supply,2731,Bovine Meat
-p105,Buffaloes slaughtering,c124,843,Pet food,supply,2731,Bovine Meat
-p106,Sheep slaughtering,c124,843,Pet food,supply,2732,Mutton & Goat Meat
-p107,Goat slaughtering,c124,843,Pet food,supply,2732,Mutton & Goat Meat
-p108,Pigs slaughtering,c124,843,Pet food,supply,2733,Pigmeat
-p109,Poultry slaughtering,c124,843,Pet food,supply,2734,Poultry Meat
-p110,Horses slaughtering,c124,843,Pet food,supply,2735,"Meat, Other"
-p111,Asses slaughtering,c124,843,Pet food,supply,2735,"Meat, Other"
-p112,Mules slaughtering,c124,843,Pet food,supply,2735,"Meat, Other"
-p113,Camels slaughtering,c124,843,Pet food,supply,2735,"Meat, Other"
-p114,"Camelids slaughtering, other",c124,843,Pet food,supply,2735,"Meat, Other"
-p115,Rabbits slaughtering,c124,843,Pet food,supply,2735,"Meat, Other"
-p116,"Rodents slaughtering, other",c124,843,Pet food,supply,2735,"Meat, Other"
-p117,"Live animals slaughtering, other",c124,843,Pet food,supply,2735,"Meat, Other"
+p104,Cattle slaughtering,c120,2736,"Offals, Edible",live,867,"Meat, cattle"
+p105,Buffaloes slaughtering,c120,2736,"Offals, Edible",live,947,"Meat, buffalo"
+p106,Sheep slaughtering,c120,2736,"Offals, Edible",live,977,"Meat, sheep"
+p107,Goat slaughtering,c120,2736,"Offals, Edible",live,1017,"Meat, goat"
+p108,Pigs slaughtering,c120,2736,"Offals, Edible",live,1035,"Meat, pig"
+p109,Poultry slaughtering,c120,2736,"Offals, Edible",live,1808,"Meat, Poultry"
+p110,Horses slaughtering,c120,2736,"Offals, Edible",live,1097,"Meat, horse"
+p111,Asses slaughtering,c120,2736,"Offals, Edible",live,1108,"Meat, ass"
+p112,Mules slaughtering,c120,2736,"Offals, Edible",live,1111,"Meat, mule"
+p113,Camels slaughtering,c120,2736,"Offals, Edible",live,1127,"Meat, camel"
+p114,"Camelids slaughtering, other",c120,2736,"Offals, Edible",live,1158,"Meat, other camelids"
+p115,Rabbits slaughtering,c120,2736,"Offals, Edible",live,1141,"Meat, rabbit"
+p116,"Rodents slaughtering, other",c120,2736,"Offals, Edible",live,1151,"Meat, other rodents"
+p117,"Live animals slaughtering, other",c120,2736,"Offals, Edible",live,1163,"Meat, game"
+p117,"Live animals slaughtering, other",c120,2736,"Offals, Edible",live,1166,"Meat, nes"
+p104,Cattle slaughtering,c121,2737,"Fats, Animals, Raw",live,867,"Meat, cattle"
+p105,Buffaloes slaughtering,c121,2737,"Fats, Animals, Raw",live,947,"Meat, buffalo"
+p106,Sheep slaughtering,c121,2737,"Fats, Animals, Raw",live,977,"Meat, sheep"
+p107,Goat slaughtering,c121,2737,"Fats, Animals, Raw",live,1017,"Meat, goat"
+p108,Pigs slaughtering,c121,2737,"Fats, Animals, Raw",live,2733,Pigmeat
+p109,Poultry slaughtering,c121,2737,"Fats, Animals, Raw",live,2734,Poultry Meat
+p110,Horses slaughtering,c121,2737,"Fats, Animals, Raw",live,1097,"Meat, horse"
+p111,Asses slaughtering,c121,2737,"Fats, Animals, Raw",live,1108,"Meat, ass"
+p112,Mules slaughtering,c121,2737,"Fats, Animals, Raw",live,1111,"Meat, mule"
+p113,Camels slaughtering,c121,2737,"Fats, Animals, Raw",live,1127,"Meat, camel"
+p114,"Camelids slaughtering, other",c121,2737,"Fats, Animals, Raw",live,1158,"Meat, other camelids"
+p115,Rabbits slaughtering,c121,2737,"Fats, Animals, Raw",live,1141,"Meat, rabbit"
+p116,"Rodents slaughtering, other",c121,2737,"Fats, Animals, Raw",live,1151,"Meat, other rodents"
+p117,"Live animals slaughtering, other",c121,2737,"Fats, Animals, Raw",live,1163,"Meat, game"
+p117,"Live animals slaughtering, other",c121,2737,"Fats, Animals, Raw",live,1166,"Meat, nes"
+p104,Cattle slaughtering,c123,2749,Meat Meal,live,867,"Meat, cattle"
+p105,Buffaloes slaughtering,c123,2749,Meat Meal,live,947,"Meat, buffalo"
+p106,Sheep slaughtering,c123,2749,Meat Meal,live,977,"Meat, sheep"
+p107,Goat slaughtering,c123,2749,Meat Meal,live,1017,"Meat, goat"
+p108,Pigs slaughtering,c123,2749,Meat Meal,live,2733,Pigmeat
+p109,Poultry slaughtering,c123,2749,Meat Meal,live,2734,Poultry Meat
+p110,Horses slaughtering,c123,2749,Meat Meal,live,1097,"Meat, horse"
+p111,Asses slaughtering,c123,2749,Meat Meal,live,1108,"Meat, ass"
+p112,Mules slaughtering,c123,2749,Meat Meal,live,1111,"Meat, mule"
+p113,Camels slaughtering,c123,2749,Meat Meal,live,1127,"Meat, camel"
+p114,"Camelids slaughtering, other",c123,2749,Meat Meal,live,1158,"Meat, other camelids"
+p115,Rabbits slaughtering,c123,2749,Meat Meal,live,1141,"Meat, rabbit"
+p116,"Rodents slaughtering, other",c123,2749,Meat Meal,live,1151,"Meat, other rodents"
+p117,"Live animals slaughtering, other",c123,2749,Meat Meal,live,1163,"Meat, game"
+p117,"Live animals slaughtering, other",c123,2749,Meat Meal,live,1166,"Meat, nes"
+p104,Cattle slaughtering,c124,843,Pet food,live,867,"Meat, cattle"
+p105,Buffaloes slaughtering,c124,843,Pet food,live,947,"Meat, buffalo"
+p106,Sheep slaughtering,c124,843,Pet food,live,977,"Meat, sheep"
+p107,Goat slaughtering,c124,843,Pet food,live,1017,"Meat, goat"
+p108,Pigs slaughtering,c124,843,Pet food,live,2733,Pigmeat
+p109,Poultry slaughtering,c124,843,Pet food,live,2734,Poultry Meat
+p110,Horses slaughtering,c124,843,Pet food,live,1097,"Meat, horse"
+p111,Asses slaughtering,c124,843,Pet food,live,1108,"Meat, ass"
+p112,Mules slaughtering,c124,843,Pet food,live,1111,"Meat, mule"
+p113,Camels slaughtering,c124,843,Pet food,live,1127,"Meat, camel"
+p114,"Camelids slaughtering, other",c124,843,Pet food,live,1158,"Meat, other camelids"
+p115,Rabbits slaughtering,c124,843,Pet food,live,1141,"Meat, rabbit"
+p116,"Rodents slaughtering, other",c124,843,Pet food,live,1151,"Meat, other rodents"
+p117,"Live animals slaughtering, other",c124,843,Pet food,live,1163,"Meat, game"
+p117,"Live animals slaughtering, other",c124,843,Pet food,live,1166,"Meat, nes"

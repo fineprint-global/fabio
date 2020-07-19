@@ -57,10 +57,7 @@ btd[((from_code == 999 & to_code != 999) | (from_code != 999 & to_code == 999)) 
 btd <- btd[value > 0, ]
 
 # Get info on target trade from CBS
-exp <- cbs[, c("year", "area_code", "item_code", "exports")]
-imp <- cbs[, c("year", "area_code", "item_code", "imports")]
-target <- merge(exp, imp, by = c("year", "item_code", "area_code"), all = TRUE)
-
+target <- cbs[year %in% years, c("year", "area_code", "item_code", "exports", "imports")]
 
 # Create a structure to map importers to exporters per item (+ targets)
 mapping_templ <- data.table(
@@ -88,8 +85,6 @@ for(i in seq_along(years)) {
   mapping <- merge(mapping,
     btd_est[year == y, .(from_code, to_code, item_code, val_est = value)],
     by = c("from_code", "to_code", "item_code"), all.x = TRUE)
-  mapping[, `:=`(val_est = NULL,
-    value = ifelse(is.na(value), ifelse(is.na(val_est), 0, val_est), value))]
   # Prepare target-constraints for RAS
   constraint <- merge(constr_templ,
     target[year == y, c("area_code", "item_code", "imports", "exports")],
@@ -97,6 +92,25 @@ for(i in seq_along(years)) {
   # Replace NA constraints with 0
   constraint[, `:=`(imports = ifelse(is.na(imports), 0, imports),
     exports = ifelse(is.na(exports), 0, exports))]
+
+  # Eliminate estimates where data exist
+  mapping[, val_est := ifelse(is.na(value), val_est, NA)]
+  # Calculate totals for values and estimates per exporting country and item
+  mapping[, `:=`(value_sum = na_sum(value), val_est_sum = na_sum(val_est)),
+          by = c("from_code","item_code")]
+  # Add export target
+  mapping[, val_target := constraint$exports[match(paste(mapping$from_code, mapping$item_code),
+                                                   paste(constraint$area_code, constraint$item_code))]]
+  # Calculate export gap
+  mapping[, gap := na_sum(val_target, -value_sum)]
+  # Downscale export estimates in order not to exceed the total gap between reported exports and target values
+  mapping[, val_est := ifelse(gap > 0, ifelse(gap < val_est_sum, val_est / val_est_sum * gap, val_est), NA)]
+
+  # Assign estimates to value column with a weight of 10%
+  mapping[, `:=`(
+    value = ifelse(is.na(value), ifelse(is.na(val_est), 0, val_est * 0.1), value),
+    val_est = NULL)]
+
 
   # Restructure in a list with matrices per item
   mapping_ras <- lapply(
@@ -117,13 +131,12 @@ for(i in seq_along(years)) {
     out <- mapping_ras[[name]]
     out <- data.table(from_code = colnames(out), as.matrix(out))
     out <- melt(out, id.vars = c("from_code"), variable.name = "to_code")
-    out[, .(item_code = name, from_code = as.integer(from_code),
+    out[, .(item_code = as.integer(name), from_code = as.integer(from_code),
       to_code = as.integer(to_code), value)]
   })
 
   cat("Calculated year ", y, ".\n", sep = "")
 }
-# Todo: Check out non-convergence in detail
 
 # One datatable per year
 btd_bal <- lapply(btd_bal, rbindlist)

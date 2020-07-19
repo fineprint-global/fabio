@@ -27,23 +27,23 @@ cat("\nAdding information from BTD.\n")
 btd <- readRDS("data/tidy/btd_full_tidy.rds")
 
 cat("\nGiving preference to units in the following order:\n",
-  "\t 'm3' > 'tonnes'\n", "Dropping 'usd' and 'head'.\n", sep = "")
+  "\t 'm3' > 'head' > 'tonnes'\n", "Dropping 'usd'.\n", sep = "")
 
 # Imports
-imps <- btd[!unit %in% c("usd", "head"), list(value = na_sum(value)),
+imps <- btd[!unit %in% c("usd"), list(value = na_sum(value)),
   by = list(to_code, to, item_code, item, year, unit)]
 imps <- dcast(imps, to_code + to + item_code + item + year ~ unit,
   value.var = "value")
-imps[, `:=`(value = ifelse(!is.na(m3), m3, tonnes),
-  m3 = NULL, tonnes = NULL)]
+imps[, `:=`(value = ifelse(!is.na(m3), m3, ifelse(!is.na(head), head, tonnes)),
+  m3 = NULL, head = NULL, tonnes = NULL)]
 
 # Exports
-exps <- btd[!unit %in% c("usd", "head"), list(value = na_sum(value)),
+exps <- btd[!unit %in% c("usd"), list(value = na_sum(value)),
   by = list(from_code, from, item_code, item, year, unit)]
 exps <- dcast(exps, from_code + from + item_code + item + year ~ unit,
   value.var = "value")
-exps[, `:=`(value = ifelse(!is.na(m3), m3, tonnes),
-  m3 = NULL, tonnes = NULL)]
+exps[, `:=`(value = ifelse(!is.na(m3), m3, ifelse(!is.na(head), head, tonnes)),
+  m3 = NULL, head = NULL, tonnes = NULL)]
 
 
 # Forestry ----------------------------------------------------------------
@@ -57,14 +57,13 @@ fore[, `:=`(total_supply = production + imports,
   stock_withdrawal = 0, stock_addition = 0,
   feed = 0, food = 0, losses = 0, processing = 0,
   seed = 0, balancing = 0)]
-fore[other < 0, `:=`(stock_addition = -other,
-  stock_withdrawal = other, other = 0)]
+fore[other < 0, `:=`(balancing = other, other = 0)]
 
 cbs <- rbindlist(list(cbs, fore), use.names = TRUE)
 rm(fore)
 
 
-# Fill crop production and processing -------------------------------------
+# Fill crop production where missing -------------------------------------
 
 cat("\nAdding crop data.\n")
 
@@ -74,6 +73,22 @@ crop_prod <- crop[element == "Production" & unit == "tonnes", ]
 crop_prod[, `:=`(element = NULL, unit = NULL)]
 setkey(crop_prod, year, area_code, item_code)
 
+# Add production to CBS where is.na or is zero ---
+cbs <- merge(cbs, crop_prod,
+             by = c("area_code", "area", "item_code", "item", "year"), all.x = TRUE)
+cat("\nFilling missing cbs production with crop production data. Items:\n",
+    paste0(unique(cbs[(is.na(production) | production == 0) & !is.na(value), item]), collapse = "; "),
+    ".\n", sep = "")
+cbs[(is.na(production) | production == 0), production := value]
+cbs[, value := NULL]
+
+
+
+# Estimate cbs for items/countries not included -------------------------------------
+
+# Filter countries and items that are not yet in CBS
+addcbs <- dt_filter(crop_prod, ! paste(area_code,item_code,year) %in% paste(cbs$area_code,cbs$item_code,cbs$year))
+
 # Technical conversion factors to impute processing ---
 tcf_crop <- fread("inst/tcf_crop.csv")
 
@@ -82,7 +97,7 @@ tcf_codes <- list(C[, item_code], as.integer(colnames(C[, -1])))
 C <- as(C[, -1], "Matrix")
 dimnames(C) <- tcf_codes
 
-tcf_data <- crop_prod[item_code %in% unlist(tcf_codes),
+tcf_data <- addcbs[item_code %in% unlist(tcf_codes),
   .(year, area_code, item_code, production = value)]
 setkey(tcf_data, year, area_code, item_code) # Quick merge & ensure item-order
 years <- sort(unique(tcf_data$year))
@@ -124,42 +139,41 @@ for(x in years) {
     # Skip if no data is available
     if(all(output_y == 0) || all(input_y == 0)) {next}
     results[year == x & area_code == y,
-      value := fill_tcf(y = output_y, z = input_y, C = C, cap = TRUE)]
+      value := fill_tcf(y = output_y, z = input_y, C = C, cap = FALSE)]
   }
 }
-results <- results[!is.na(value), .(year, area_code, item_code, value2 = value)]
-crop_prod <- merge(crop_prod, results,
-  by = c("year", "area_code", "item_code"), all.x = TRUE)
+results <- results[!is.na(value), .(year, area_code, item_code, processing = value)]
+
+# Allocate uses
+addcbs[, `:=`(production = value, value = NULL)]
+addcbs[, exports := exps$value[match(paste(addcbs$year, addcbs$area_code, addcbs$item_code),
+  paste(exps$year, exps$from_code, exps$item_code))]]
+addcbs[, imports := imps$value[match(paste(addcbs$year, addcbs$area_code, addcbs$item_code),
+  paste(imps$year, imps$to_code, imps$item_code))]]
+addcbs[, total_supply := na_sum(production,imports)]
+# allocate processing inputs to 'processing'
+addcbs[, processing := results$processing[match(paste(addcbs$year, addcbs$area_code, addcbs$item_code),
+                                                paste(results$year, results$area_code, results$item_code))]]
+# allocate rest to 'unspecified'
+addcbs[, unspecified := na_sum(total_supply,-processing,-exports)]
+
+# cat("\nFilling missing cbs seed with crop seed data.\n")
+# crop_seed <- crop[element == "Seed", ]
+cat("\nSkip filling cbs seed.",
+  "Apparently data on seed is not reported in newer faostat versions.\n")
 
 # Add to CBS ---
-cbs <- merge(cbs, crop_prod,
-  by = c("area_code", "area", "item_code", "item", "year"), all = TRUE)
-cat("\nFilling missing cbs production with crop production data. Items:\n",
-  paste0(unique(cbs[is.na(production) & !is.na(value), item]), collapse = "; "),
-  ".\n", sep = "")
-cbs[is.na(production), `:=`(production = value,
-  processing = na_sum(processing, value2))]
-# MB: Currently value2 is always NA where processing is NA, but this might change
-# in the future and we should not miss these values then.
-# cbs[is.na(processing), `:=`(processing = value2)]
-# NK: I do not think that this is required, as it's done above - when processing
-# is NA, but value2 is not, the result is just value2. See na_sum().
+cat("\nAdding ", nrow(addcbs), " missing cbs accounts.\n", sep = "")
+cbs <- dplyr::bind_rows(cbs, addcbs)
 
-cbs[, `:=`(value = NULL, value2 = NULL)]
-rm(crop, crop_prod,
+rm(crop, crop_prod, addcbs,
   tcf_crop, tcf_codes, tcf_data, input, output, results, years, areas,
   C, input_x, output_x, input_y, output_y)
 
 
-# Fill seed, livestock and ethanol production -----------------------------
+# Fill livestock and ethanol production -----------------------------
 
-# cat("\nFilling missing cbs seed with crop seed data.\n")
-# crop_seed <- crop[element == "Seed", ]
-cat("\nSkipped filling cbs seed.",
-  "Apparently data is dropped in newer versions. See Issue #19.\n")
-
-
-cat("\nFilling missing livestock data.\n") # See Issues #22, #23. #24 and #49.
+cat("\nFilling missing livestock data.\n")
 
 live <- readRDS("data/tidy/live_tidy.rds")
 
@@ -207,17 +221,19 @@ conc_imp <- match(paste(live$area_code, live$year, live$item_code),
 conc_exp <- match(paste(live$area_code, live$year, live$item_code),
   paste(live_exp$area_code, live_exp$year, live_exp$item_code))
 
-live[, `:=`(value_imp = live_imp$value[conc_imp],
-  value_exp = live_exp$value[conc_exp])]
+live[, `:=`(imports = live_imp$value[conc_imp],
+  exports = live_exp$value[conc_exp],
+  production = value,
+  value = NULL)]
+live[, `:=`(total_supply = na_sum(production, imports),
+     processing = na_sum(production, imports))]
 
-cbs <- merge(cbs, live,
-  by = c("area_code", "area", "year", "item_code", "item"), all = TRUE)
-cbs[!is.na(value), `:=`(production = value,
-  imports = value_imp, exports = value_exp)]
-cbs[, `:=`(value = NULL, value_imp = NULL, value_exp = NULL)]
+cbs <- dplyr::bind_rows(cbs, live)
 
 rm(src_item, tgt_item, tgt_name, conc, live, live_trad, live_alt,
   live_imp, live_exp, conc_imp, conc_exp)
+
+
 
 # Ethanol ---
 
@@ -241,19 +257,18 @@ cbs <- rbindlist(list(cbs[item_code != 2659, ], eth_cbs), use.names = TRUE)
 rm(eth, eth_cbs)
 
 
+
 # Add BTD data ------------------------------------------------------------
 
 cat("\nAdding missing export and import data to CBS from BTD.\n")
 cbs <- merge(
-  cbs, imps[item_code %in% cbs$item_code,
-    c("to_code", "to", "item_code", "item", "year", "value")],
+  cbs, imps[, c("to_code", "to", "item_code", "item", "year", "value")],
   by.x = c("area_code", "area", "item_code", "item", "year"),
   by.y = c("to_code", "to", "item_code", "item", "year"),
   all.x = TRUE, all.y = TRUE)
 cbs[, `:=`(imports = ifelse(is.na(imports), value, imports), value = NULL)]
 cbs <- merge(
-  cbs, exps[item_code %in% cbs$item_code,
-    c("from_code", "from", "item_code", "item", "year", "value")],
+  cbs, exps[, c("from_code", "from", "item_code", "item", "year", "value")],
   by.x = c("area_code", "area", "item_code", "item", "year"),
   by.y = c("from_code", "from", "item_code", "item", "year"),
   all.x = TRUE, all.y = TRUE)
@@ -273,6 +288,19 @@ btd <- replace_RoW(btd, cols = c("from_code", "to_code"),
   codes = regions[cbs == TRUE, code])
 btd <- btd[, lapply(.SD, na_sum), by = c("from_code", "from", "to_code", "to",
   "item_code", "item", "unit", "year")]
+
+# Remove ROW-internal trade from CBS
+intra <- btd[from_code==to_code & unit=="tonnes", sum(value), by=c("from_code","from","item_code","item","year")]
+cbs <- merge(cbs, intra,
+  by.x = c("area_code", "area", "item_code", "item", "year"),
+  by.y = c("from_code", "from", "item_code", "item", "year"),
+  all.x = TRUE)
+cbs[, `:=`(exports = ifelse(!is.na(V1), na_sum(exports,-V1), exports),
+           imports = ifelse(!is.na(V1), na_sum(imports,-V1), imports),
+           V1 = NULL)]
+rm(intra)
+
+# Remove ROW-internal trade from BTD
 btd <- dt_filter(btd, from_code != to_code)
 
 
@@ -284,36 +312,45 @@ cbs <- dt_replace(cbs, function(x) {`<`(x, 0)}, value = 0,
   cols = c("total_supply", "imports", "exports", "feed", "food", "losses",
     "other", "processing", "production", "seed"))
 
+cat("\nAdjust ", cbs[is.na(production) & na_sum(production, imports, stock_withdrawal) <
+      na_sum(exports, feed, food, losses, other, processing, seed, balancing, unspecified), .N],
+    " observations of 'production' to ",
+    "`production = exports + feed + food + losses + other + processing + seed + balancing + unspecified",
+    " - stock_withdrawal - imports`.\n", sep = "")
+cbs[is.na(production) & na_sum(production, imports, stock_withdrawal) <
+      na_sum(exports, feed, food, losses, other, processing, seed, balancing, unspecified),
+    production := na_sum(exports, feed, food, losses, other, processing, seed, balancing, unspecified) -
+    na_sum(stock_withdrawal, imports)]
+
 cat("\nAdjust ", cbs[total_supply != na_sum(production, imports), .N],
   " observations of 'total_supply' to ",
   "`total_supply = production + imports`.\n", sep = "")
 cbs[, total_supply := na_sum(production, imports)]
 
-cat("\nSkipped capping out 'exports', 'seed' and 'processing' at",
+cat("\nSkip capping 'exports', 'seed' and 'processing' at",
   "'total_supply + stock_withdrawal'.\n")
 
 cat("\nAdd 'balancing' column for supply and use discrepancies.\n")
 cbs[, balancing := na_sum(total_supply,
-  -stock_addition, -exports, -food, -feed, -seed, -losses, -processing, -other)]
+  -stock_addition, -exports, -food, -feed, -seed, -losses, -processing, -other, -unspecified)]
 
 cat("\nAllocate remaining supply from 'balancing' to uses.\n")
 cat("\nHops, oil palm fruit and live animals to 'processing'.\n")
-cbs[item_code %in% c(254, 677, 866, 946, 976, 1016, 1034, 2029, 1096, 1107, 1110,
-  1126, 1157, 1140, 1150, 1171) & balancing > 0,
-  `:=`(processing = na_sum(processing, balancing), balancing = 0)]
+cbs[item_code %in% c(254, 328, 677, 866, 946, 976, 1016, 1034, 2029, 1096, 1107, 1110,
+  1126, 1157, 1140, 1150, 1171, 2562) & na_sum(balancing, unspecified) > 0,
+  `:=`(processing = na_sum(processing, balancing, unspecified), balancing = 0, unspecified = 0)]
 
 cat("\nNon-food crops to 'other'.\n")
 cbs[item_code %in% c(2662, 2663, 2664, 2665, 2666, 2667, 2671, 2672, 2659,
-  1864, 1866, 1867, 2661, 2746, 2748, 2747) & balancing > 0,
-  `:=`(other = na_sum(other, balancing), balancing = 0)]
+  1864, 1866, 1867, 2661, 2746, 2748, 2747) & na_sum(balancing, unspecified) > 0,
+  `:=`(other = na_sum(other, balancing, unspecified), balancing = 0, unspecified = 0)]
 
 cat("\nFeed crops to 'feed'.\n")
-cbs[item_code %in% c(2000, 2001, 2536, 2537, 2555, 2559, 2544, 2590, 2591, 2592,
-  2749, 2593, 2594, 2595, 2596, 2597, 2598, 328) & balancing > 0,
-  `:=`(feed = na_sum(feed, balancing), balancing = 0)]
+cbs[item_code %in% c(2000, 2001, 2555, 2559, 2590, 2591, 2592, 2593, 2594,
+  2595, 2596, 2597, 2598, 2749) & na_sum(balancing, unspecified) > 0,
+  `:=`(feed = na_sum(feed, balancing, unspecified), balancing = 0, unspecified = 0)]
 
-cat("\nRest is mostly 'food' and 'feed' but remains in 'balancing'.\n")
-# cbs[balancing > 0, `:=`(food = na_sum(food, balancing), balancing = 0)]
+cat("\nRest (mostly 'food', 'feed' and 'processing') remains in 'balancing' and 'unspecified'.\n")
 
 
 # Save --------------------------------------------------------------------

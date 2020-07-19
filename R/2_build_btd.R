@@ -55,15 +55,15 @@ fore[, imex := NULL]
 # Exclude intra-regional trade flows
 fore <- dt_filter(fore, from_code != to_code)
 
-# Fill < 1997 with 1997 (or not)
-# fore_fill <- lapply(seq(years[1], 1996), function(x, data, obs) {
-#   dt <- data[obs, ]
-#   dt$year <- x
-#   return(dt)
-# }, data = fore, obs = which(fore[, year] == 1997))
-#
-# fore <- rbind(rbindlist(fore_fill), fore)
-# rm(fore_fill)
+# Fill < 1997 with 1997
+fore_fill <- lapply(seq(years[1], 1996), function(x, data, obs) {
+  dt <- data[obs, ]
+  dt$year <- x
+  return(dt)
+}, data = fore, obs = which(fore[, year] == 1997))
+
+fore <- rbind(rbindlist(fore_fill), fore)
+rm(fore_fill)
 
 
 # Ethanol -----------------------------------------------------------------
@@ -134,7 +134,6 @@ fish_com[, imex := NULL]
 # Exclude intra-regional trade flows
 fish_com <- dt_filter(fish_com, from_code != to_code)
 
-# Fill gaps in tonnes
 # Fill < 1988 with 1988
 fish_com_fill <- lapply(seq(years[1], 1987), function(x, data, obs) {
   dt <- data[obs, ]
@@ -157,7 +156,6 @@ fish <- rbind(fish_com, fish_baci)
 
 rm(fish_com, fish_com_fill, fish_baci)
 
-# To-do: Possibly estimate missing units, i.e. tonnes and litres from USD
 
 
 # Merge and save ----------------------------------------------------------
@@ -167,10 +165,12 @@ btd <- rbindlist(list(btd, fore, eth, fish), use.names = TRUE)
 # Replace negatives with 0
 btd <- dt_replace(btd, function(x) {`<`(x, 0)}, value = 0, cols = "value")
 
-# Filter to needed items
+# Filter to needed items, i.e. exclude "Brans", "Infant food", "Miscellaneous",
+# "Miscellaneous" is particularly relevant for Norway (11% of total imports in 2013),
+# but also not irrelevant for many other countries
 btd <- btd[item_code %in% items$item_code, ]
 
-# Remove unspecified and adjustment countries from the BTD
+# Remove regions "unspecified" and "adjustment" from the BTD
 btd <- btd[!from_code %in% c(252, 254) & !to_code %in% c(252, 254), ]
 
 # Aggregate values

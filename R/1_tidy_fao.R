@@ -75,7 +75,7 @@ cbs <- dt_rename(cbs, rename, drop = FALSE)
 cbs <- dt_replace(cbs, is.na, value = 0)
 # Make sure values are not negative
 cbs <- dt_replace(cbs, function(x) {`<`(x, 0)}, value = 0,
-  cols = c("total_supply", "imports", "exports", "feed", "food", "losses",
+  cols = c("imports", "exports", "feed", "food", "losses",
     "other", "processing", "production", "seed"))
 
 cat("Recoding 'total_supply' from",
@@ -138,6 +138,8 @@ cat("Aggregating BTD items to the level of CBS.\n")
 item_match <- match(btd[["item_code"]], btd_conc[["btd_item_code"]])
 btd[, `:=`(item_code = btd_conc$cbs_item_code[item_match],
   item = btd_conc$cbs_item[item_match])]
+# remove items not included in btd_conc (mainly food wastes and by-products for feed)
+btd <- btd[!is.na(item_code)]
 btd <- btd[, list(value = na_sum(value)), by = .(reporter_code, reporter,
   partner_code, partner, item_code, item, year, imex, unit)]
 cat("Aggregation from", length(item_match), "to", nrow(btd), "observations.\n")
@@ -245,6 +247,7 @@ crop_conc <- fread("inst/conc_crop-cbs.csv")
 crop <- rbind(readRDS("input/fao/crop_prod.rds"),
   readRDS("input/fao/crop_proc.rds"))
 
+crop <- unique(crop)
 crop <- dt_rename(crop, rename, drop = TRUE)
 
 # Country / Area adjustments
@@ -301,7 +304,7 @@ cat("\nTidying livestocks.\n")
 live_conc <- fread("inst/conc_live-cbs.csv")
 
 live_trad <- readRDS("input/fao/live_trad.rds")
-# I think this could be done cleaner
+# aggregate chickens, turkeys, etc. into poultry
 live_trad[`Item Code` %in% c(1057, 1068, 1079, 1083) , `Item Code` := 2029]
 
 live <- rbind(readRDS("input/fao/live_prod.rds"),
@@ -331,7 +334,7 @@ live <- dt_filter(live, value >= 0)
 live[unit == "1000 Head", `:=`(value = value * 1000, unit = "Head")]
 live[unit == "Head", `:=`(unit = "head")]
 # Recode "1000 US$" to "usd"
-# live[unit == "1000 US$", `:=`(value = value * 1000, unit = "usd")] # None
+live[unit == "1000 US$", `:=`(value = value * 1000, unit = "usd")]
 
 
 # Store

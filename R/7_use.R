@@ -22,7 +22,7 @@ cbs <- rbindlist(list(cbs, grazing), use.names = TRUE, fill = TRUE)
 # Create long use table
 use <- merge(
   cbs, # cbs[, c("area_code", "area", "year", "item_code", "item")],
-  use_items[item_code != 843, ],
+  use_items,
   by = c("item_code", "item"), all = TRUE, allow.cartesian = TRUE)
 use[, use := NA_real_]
 
@@ -62,7 +62,7 @@ tcf_cbs <- fread("inst/tcf_cbs.csv")
 tcf_codes <- list(sort(unique(tcf_cbs$area_code)), sort(unique(tcf_cbs$item_code)),
   sort(unique(tcf_cbs$source_code)))
 Cs <- lapply(tcf_codes[[1]], function(x) {
-  out <- dcast(tcf_cbs[area_code == x], item_code ~ source_code, fill = 0,
+  out <- data.table::dcast(tcf_cbs[area_code == x], item_code ~ source_code, fill = 0,
     fun.aggregate = na_sum, value.var = "tcf")
   setkey(out, item_code)
   out <- as(out[, -1], "Matrix")
@@ -71,7 +71,7 @@ Cs <- lapply(Cs, `dimnames<-`, list(tcf_codes[[2]], tcf_codes[[3]]))
 names(Cs) <- tcf_codes[[1]]
 
 tcf_data <- use[area_code %in% tcf_codes[[1]] &
-  item_code %in% c(tcf_codes[[2]]) | item_code %in% tcf_codes[[3]],
+  (item_code %in% c(tcf_codes[[2]]) | item_code %in% tcf_codes[[3]]),
   .(year, area_code, item_code, production, processing)]
 tcf_data <- tcf_data[!duplicated(tcf_data), ] # Duplicates from proc_code
 setkey(tcf_data, year, area_code, item_code)
@@ -141,7 +141,7 @@ rm(tcf_cbs, tcf_codes, tcf_data, years, areas,
 eth_tcf <- fread("inst/tcf_eth.csv")
 
 eth <- cbs[item_code %in% eth_tcf$item_code, ]
-eth <- merge(eth, eth_tcf[area_code == 231, c("item_code", "tcf")],
+eth <- merge(eth, unique(eth_tcf[, c("item_code", "tcf")]),
   by = "item_code", all.x = TRUE)
 eth <- merge(eth, eth_tcf[, c("area_code", "item_code", "value")],
   by = c("area_code", "item_code"), all = TRUE)
@@ -297,7 +297,7 @@ feed_req_b <- merge(all.x = TRUE, allow.cartesian = TRUE,
 # Consider estimating requirements of fodder crops, see Issue #60
 feed_req_b[, converted := round(production * conversion, 3)]
 
-feed_req_b <- dcast(feed_req_b, value.var = "converted", fun.aggregate = na_sum,
+feed_req_b <- data.table::dcast(feed_req_b, value.var = "converted", fun.aggregate = na_sum,
   area_code + year + proc_code + item_code + item + type ~ feedtype)
 # Kick unwanted columns
 feed_req_b[, `:=`(type = NULL, item_code = 0)]
@@ -358,7 +358,7 @@ feed_req[, `:=`(animals_f = NULL, crops_f = NULL, grass_f = NULL,
 
 # Adapt feed-demand to available feed-supply -----
 feed_bounds <- merge(
-  dcast(feed_sup, value.var = "dry", fun.aggregate = na_sum,
+  data.table::dcast(feed_sup, value.var = "dry", fun.aggregate = na_sum,
     area_code + year ~ feedtype),
   feed_req[, list(animals_r = na_sum(animals), crops_r = na_sum(crops),
     grass_r = na_sum(grass), fodder_r = na_sum(fodder),
@@ -394,7 +394,7 @@ feed_bounds[, `:=`(crops = NULL, animals = NULL, fodder = NULL, residues = NULL,
 feed <- merge(
   use[type == "feed", list(use = na_sum(use)),
     by = c("area_code", "year", "item_code", "proc_code")],
-  dcast(feed_sup[, !c("moisture"), with = FALSE],
+  data.table::dcast(feed_sup[, !c("moisture"), with = FALSE],
     value.var = "dry", fun.aggregate = na_sum,
     area_code + year + item_code ~ feedtype),
   by = c("area_code", "year", "item_code"), all.x = TRUE)
@@ -588,7 +588,7 @@ cbs[processing > 0, `:=`(food = na_sum(balancing, processing), processing = 0)]
 
 # Allocate final demand from balances -----
 use_fd <- cbs[, c("year", "area_code", "area", "item_code", "item",
-  "food", "other", "losses", "stock_addition", "balancing")]
+  "food", "other", "losses", "stock_addition", "balancing", "unspecified")]
 
 
 # Save -----
