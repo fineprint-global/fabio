@@ -132,7 +132,7 @@ cbs[!is.na(value), processing := na_sum(processing, -value)]
 cbs[, value := NULL]
 
 
-rm(tcf_cbs, tcf_codes, tcf_data, years, areas,
+rm(tcf_cbs, tcf_codes, tcf_data, years, areas, out,
   results, Cs, input, output, input_x, output_x, input_y, output_y)
 
 
@@ -279,7 +279,7 @@ live_b <- live_b[!is.na(item_code), ]
 
 feed_req_b <- live_b[, .(area_code, year, item_code, item, proc_code,
   production = value)]
-rm(conc, live_b)
+rm(conc, live_b, tgt_code, tgt_proc, tgt_item, src_code)
 
 feed_req_b <- merge(all.x = TRUE, allow.cartesian = TRUE,
   feed_req_b,
@@ -384,7 +384,7 @@ cbs[item_code == 2001, `:=`(
 cbs[, grazing := NULL]
 
 # Clean up
-rm(feed, grazing)
+rm(feed, grazing, feed_req, feed_sup, live)
 
 
 # Optimise feedstock allocation -----
@@ -423,7 +423,7 @@ input[is.na(processing), processing := 0]
 output[is.na(production), production := 0]
 
 # Optimise allocation -----
-# This takes a very long time! Parallelisation should work by default.
+# This takes a very long time! Six cores are working in parallel for 15 hours.
 results <- lapply(sort(unique(input$area_code)), function(x) {
   # Per area
   inp_x <- input[area_code == x, ]
@@ -463,8 +463,8 @@ results <- lapply(sort(unique(input$area_code)), function(x) {
 
 results <- rbindlist(results)
 results[, result_in := round(result_in)]
-# saveRDS(results, "./data/optim_results.rds")
-# results <- readRDS("./data/optim_results.rds")
+# saveRDS(results, paste0("./data/optim_results_",Sys.Date(),".rds"))
+# results <- readRDS("./data/optim_results_2020-07-24.rds")
 
 # Add process information
 results[, proc_code := ifelse(out_code == 2658, "p083",
@@ -487,38 +487,22 @@ cbs[, result_in := NULL]
 
 
 # Allocation of seed -----
-
-seed_sup <- merge(sup,
-  sup[, list(total = na_sum(production)),
-    by = c("area_code", "item_code", "year")],
-  by = c("area_code", "item_code", "year"), all.x = TRUE)
-seed_sup[, share := ifelse(total == 0, NA, production / total)]
-
-# Add to seed-balances and filter to relevant ones
-seed_sup <- merge(seed_sup,
-  cbs[seed > 0, c("area_code", "item_code", "year", "seed")],
-  by = c("area_code", "item_code", "year"), all.x = TRUE)
-seed_sup[, share_s := seed * share]
-seed_sup <- seed_sup[, list(share_s = na_sum(share_s)),
-  by = c("area_code", "item_code", "proc_code", "year")]
-seed_sup <- seed_sup[share_s > 0, ]
-
-# Add seed use to the use table
 use <- merge(use,
-  seed_sup[, .(area_code, year, item_code, proc_code,
-    type = "seedwaste", share_s)],
-  by = c("area_code", "year", "item_code", "proc_code", "type"), all.x = TRUE)
-use[!is.na(share_s) & type == "seedwaste", use := share_s]
-use[, share_s := NULL]
+  cbs[, .(area_code, year, item_code, type = "seedwaste", seed_use = seed)],
+  by = c("area_code", "year", "item_code", "type"), all.x = TRUE)
+use[!is.na(seed_use) & type == "seedwaste", use := seed_use]
+use[, seed_use := NULL]
 
 # Allocate the remainder of processing use to balancing
-cbs[processing > 0, `:=`(food = na_sum(balancing, processing), processing = 0)]
+cbs[processing != 0, `:=`(balancing = na_sum(balancing, processing), processing = 0)]
 
 
 # Allocate final demand from balances -----
 use_fd <- cbs[, c("year", "area_code", "area", "item_code", "item",
   "food", "other", "losses", "stock_addition", "balancing", "unspecified")]
 
+use <- use[, c("year", "area_code", "area", "comm_code", "item_code", "item",
+               "proc_code", "proc", "type", "use")]
 
 # Save -----
 
