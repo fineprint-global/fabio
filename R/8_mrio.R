@@ -52,8 +52,9 @@ mr_sup_mass <- lapply(years, function(x) {
   return(bdiag(matrices))
 })
 
-# Issue #84
+# Convert to monetary values
 sup[!is.na(price) & is.finite(price), value := production * price]
+# If no price available, keep physical quantities
 sup[is.na(price) | !is.finite(price), value := production]
 
 # List with block-diagonal supply matrices in value, per year
@@ -97,6 +98,11 @@ setkey(template, from_code, comm_code, to_code)
 
 btd[, comm_code := items$comm_code[match(btd$item_code, items$item_code)]]
 cbs[, comm_code := items$comm_code[match(cbs$item_code, items$item_code)]]
+# Select head for live animals and tonnes or m3 for all other items
+btd <- btd[(comm_code %in% c("c097", "c098", "c099", "c100", "c101", "c102", "c103",
+  "c104", "c105", "c106", "c107", "c108", "c109", "c110") & unit == "head") |
+  (!comm_code %in% c("c097", "c098", "c099", "c100", "c101", "c102", "c103",
+  "c104", "c105", "c106", "c107", "c108", "c109", "c110") & unit != "usd")]
 
 # Yearly list of BTD in matrix format
 btd_cast <- lapply(years, function(x, btd_x) {
@@ -111,12 +117,17 @@ btd_cast <- lapply(years, function(x, btd_x) {
     dimnames = list(paste0(out$from_code, "-", out$comm_code),
       colnames(out)[c(-1, -2)])))
 
-}, btd_x = btd[unit == "tonnes", .(year, from_code, to_code, comm_code, value)])
+}, btd_x = btd[, .(year, from_code, to_code, comm_code, value)])
+
+# Template to always get full tables
+template <- data.table(expand.grid(
+  area_code = areas, comm_code = commodities, stringsAsFactors = FALSE))
+setkey(template, area_code, comm_code)
 
 # Yearly list of CBS in matrix format
 cbs_cast <- lapply(years, function(x, cbs_x) {
   # Cast to convert to matrix
-  out <- dcast(merge(template[, .(area_code = from_code, comm_code)],
+  out <- dcast(merge(template[, .(area_code, comm_code)],
     cbs_x[year == x, .(area_code, comm_code, production)],
     by = c("area_code", "comm_code"), all.x = TRUE),
     area_code + comm_code ~ area_code,
@@ -192,6 +203,7 @@ mr_use <- mapply(function(x, y) {
   return(mr_x)
 }, use_cast, total_shares)
 
+names(mr_use) <- years
 saveRDS(mr_use, "data/mr_use.rds")
 
 
@@ -200,13 +212,13 @@ saveRDS(mr_use, "data/mr_use.rds")
 # Template to always get full tables
 template <- data.table(expand.grid(
   area_code = areas, comm_code = commodities,
-  variable = c("food", "other", "losses", "stock_addition", "balancing"),
+  variable = c("food", "other", "losses", "stock_addition", "balancing", "unspecified"),
   stringsAsFactors = FALSE))
 setkey(template, area_code, comm_code, variable)
 
 use_fd[, comm_code := items$comm_code[match(use_fd$item_code, items$item_code)]]
 use_fd <- melt(use_fd[, .(year, area_code, comm_code,
-  food, other, stock_addition, balancing)],
+  food, other, losses, stock_addition, balancing, unspecified)],
   id.vars = c("year", "area_code", "comm_code"))
 
 # List with final use matrices, per year
@@ -225,17 +237,18 @@ mr_use_fd <- lapply(years, function(x, use_fd_x) {
 # Apply supply shares to the final use matrix
 mr_use_fd <- mapply(function(x, y) {
   mr_x <- x[rep(seq_along(commodities), length(areas)), ]
-  n_proc <- 4L
+  n_var <- length(unique(use_fd[,variable]))
   for(j in seq_along(areas)) { # Could do this vectorised
-    mr_x[, seq(1 + (j - 1) * n_proc, j * n_proc)] <-
-      mr_x[, seq(1 + (j - 1) * n_proc, j * n_proc)] * y[, j]
+    mr_x[, seq(1 + (j - 1) * n_var, j * n_var)] <-
+      mr_x[, seq(1 + (j - 1) * n_var, j * n_var)] * y[, j]
   }
   return(mr_x)
 }, mr_use_fd, total_shares)
 
 mr_use_fd <- lapply(mr_use_fd, round)
-
+names(mr_use_fd) <- years
 saveRDS(mr_use_fd, "data/mr_use_fd.rds")
+
 
 
 # MRIO Table ---
