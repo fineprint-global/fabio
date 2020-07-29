@@ -41,11 +41,9 @@ spread_trade <- function(x, split_matr, inp_matr) {
 
 build_estimates <- function(name, list, ids, kick_0 = TRUE) {
   x <- list[[name]]
-  row_na <- apply(x, 1, function(y) {all(is.na(y))})
-  col_na <- apply(x, 2, function(y) {all(is.na(y))})
-  out <- melt(cbind(ids[!row_na], as.matrix(x[!row_na, !col_na])),
-    id.vars = c("year", "item_code"), na.rm = TRUE,
-    variable.name = "area_code", variable.factor = FALSE)
+  out <- melt(cbind(ids, as.matrix(x)),
+              id.vars = c("year", "item_code"), na.rm = TRUE,
+              variable.name = "area_code", variable.factor = FALSE)
   if(nrow(out) == 0) {return(NULL)}
   # Make sure encoding is right, to reduce memory load
   out[, `:=`(year = as.integer(year), item_code = as.integer(item_code),

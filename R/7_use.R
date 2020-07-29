@@ -16,12 +16,12 @@ use_items <- fread("inst/items_use.csv")
 
 # Add grazing to the CBS (later filled with feed requirements)
 grazing <- unique(cbs[, c("year", "area", "area_code")])
-grazing[, `:=`(item = "Grazing", item_code = 2001)]
+grazing[, `:=`(item = "Grazing", item_code = 2001, comm_code = "c062")]
 cbs <- rbindlist(list(cbs, grazing), use.names = TRUE, fill = TRUE)
 
 # Create long use table
 use <- merge(
-  cbs, # cbs[, c("area_code", "area", "year", "item_code", "item")],
+  cbs[, c("area_code", "area", "year", "item_code", "item", "production", "processing")],
   use_items,
   by = c("item_code", "item"), all = TRUE, allow.cartesian = TRUE)
 use[, use := NA_real_]
@@ -204,7 +204,7 @@ live <- readRDS("data/tidy/live_tidy.rds")
 
 # Feed supply
 feed_sup <- cbs[feed > 0 | item_code %in% c(2000),
-  c("area_code", "item_code", "year", "feed")]
+  c("area_code", "area", "item_code", "item", "year", "feed")]
 # Convert to dry matter
 feed_sup <- merge(feed_sup, items[, c("item_code", "moisture", "feedtype")],
   by = c("item_code"), all.x = TRUE)
@@ -220,8 +220,7 @@ feed_req_k <- merge(conv_k,
   live[element == "Stocks", c("area_code", "area", "item_code", "year", "value")],
   by = c("item_code"), all.x = TRUE)
 feed_req_k[, `:=`(
-  total = value * conversion, value = NULL, conversion = NULL,
-  area = NULL, item = NULL, proc = NULL, # Kick these
+  total = value * conversion, value = NULL, conversion = NULL, item = NULL,
   crops = 0, residues = 0, grass = 0, fodder = 0, scavenging = 0, animals = 0)]
 
 # Estimates from Bouwman et al. (2013)
@@ -241,7 +240,7 @@ interpolate <- function(y, conv_b) {
   years_avail <- unique(conv_b$year)
   if(y %in% years_avail) { # No need to interpolate
     return(conv_b[year == y,
-        .(area_code, item, year, proc_code, feedtype, type, conversion)])}
+        .(area_code, area, item, year, proc_code, feedtype, type, conversion)])}
   # Get closest years and inter-/extrapolate their feed conversion rates
   years_min <- ifelse(y < min(years_avail), min(years_avail),
                       ifelse(y > max(years_avail), years_avail[2],
@@ -252,7 +251,7 @@ interpolate <- function(y, conv_b) {
   difference <- (conv_b$conversion[conv_b$year == year_max] -
     conv_b$conversion[conv_b$year == years_min]) / (year_max - years_min) * (y - years_min)
   data <- conv_b[year == years_min]
-  data[, .(area_code, item, year = y, proc_code, feedtype, type, conversion = conversion + difference)]
+  data[, .(area_code, area, item, year = y, proc_code, feedtype, type, conversion = conversion + difference)]
 }
 conv_b <- rbindlist(lapply(sort(unique(use$year)), interpolate, conv_b = conv_b))
 
@@ -277,7 +276,7 @@ live_b[, `:=`(item_code = tgt_code[conc],
   proc_code = tgt_proc[conc], item = tgt_item[conc])]
 live_b <- live_b[!is.na(item_code), ]
 
-feed_req_b <- live_b[, .(area_code, year, item_code, item, proc_code,
+feed_req_b <- live_b[, .(area_code, area, year, item_code, item, proc_code,
   production = value)]
 rm(conc, live_b, tgt_code, tgt_proc, tgt_item, src_code)
 
@@ -292,13 +291,17 @@ feed_req_b[, converted := round(production * conversion, 3)]
 
 # Aggregate over processes, areas, items and years
 feed_req_b <- data.table::dcast(feed_req_b, value.var = "converted", fun.aggregate = na_sum,
-  area_code + year + item + proc_code ~ feedtype)
+  area_code + area + year + item + proc_code ~ feedtype)
 
 # Create column for fodder crops from residues
 feed_req_b[, `:=`(
   fodder = ifelse(item == "Pigs", residues * 0.1, # 0.1 for pigs
     ifelse(item == "Poultry", 0, residues * 0.7)))] # 0.7 for ruminants
 feed_req_b[, `:=`(residues = round(residues - fodder, 3), item = NULL)]
+
+# Add missing variables
+processes <- unique(sup[, .(proc_code, proc)])
+feed_req_b[, proc := processes$proc[match(feed_req_b$proc_code, processes$proc_code)]]
 
 # Create total
 feed_req_b[, `:=`(total = na_sum(animals, crops, grass, fodder,
@@ -342,29 +345,31 @@ feed_req[, `:=`(animals_f = NULL, crops_f = NULL, grass_f = NULL,
 
 # Adapt feed-demand to available feed-supply -----
 feed_sup[, total_dry := na_sum(dry), by=c("area_code","year","feedtype")]
-feed_req <- data.table::melt(feed_req, id=c("area_code","year","proc_code"),
+feed_req <- data.table::melt(feed_req, id=c("area_code","area","year","proc_code","proc"),
   measure=c("crops","animals","residues","fodder","grass"),
   variable.name="feedtype", value.name="req")
 feed_req[, total_req := na_sum(req), by = c("area_code", "year", "feedtype")]
 
-feed <- merge(feed_sup[, .(area_code, year, item_code, feedtype, moisture,
+feed <- merge(feed_sup[, .(area_code, area, year, item_code, item, feedtype, moisture,
   sup_dry = dry, total_sup_dry = total_dry, sup_fresh = feed)],
-  feed_req, by=c("area_code", "year", "feedtype"), all = TRUE, allow.cartesian = TRUE)
+  feed_req, by=c("area_code", "area", "year", "feedtype"), all = TRUE, allow.cartesian = TRUE)
 
 feed[feedtype != "grass", req := req / total_req * total_sup_dry]
 
 # Allocate feed-use -----
 feed[feedtype != "grass", req := req / total_sup_dry * sup_dry]
-feed[feedtype == "grass", `:=`(item_code = 2001, moisture = 0.8)]
+feed[feedtype == "grass", `:=`(item_code = 2001, item = "Grazing", moisture = 0.8)]
 
 # Convert to fresh weight
 feed[, feed_use := round(req / (1 - moisture),0)]
 
-
 # Add feed use back to the use table
+feed[, comm_code := items$comm_code[match(feed$item_code, items$item_code)]]
 use <- merge(use,
-  feed[!is.na(feed_use), c("area_code", "year", "proc_code", "item_code", "feed_use")],
-  by = c("area_code", "year", "item_code", "proc_code"), all = TRUE)
+  feed[!is.na(feed_use), .(area_code, area, year, proc_code, proc, item_code, item, feed_use)],
+  by = c("area_code", "area", "year", "item_code", "item", "proc_code", "proc"), all = TRUE)
+conc <- match(use$item_code, items$item_code)
+use[, comm_code := items$comm_code[conc]]
 use[!is.na(feed_use), `:=`(use = feed_use)]
 use[, `:=`(feed_use = NULL)]
 
@@ -501,8 +506,11 @@ cbs[processing != 0, `:=`(balancing = na_sum(balancing, processing), processing 
 use_fd <- cbs[, c("year", "area_code", "area", "item_code", "item",
   "food", "other", "losses", "stock_addition", "balancing", "unspecified")]
 
+
+# Remove unneeded variables
 use <- use[, c("year", "area_code", "area", "comm_code", "item_code", "item",
                "proc_code", "proc", "type", "use")]
+
 
 # Save -----
 
