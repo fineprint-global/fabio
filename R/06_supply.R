@@ -75,7 +75,7 @@ sup[, share := NULL]
 
 # Fill prices using BTD ---------------------------------------------------
 
-prices <- as.data.table(dcast(btd, from + from_code + to + to_code +
+prices <- as.data.table(data.table::dcast(btd, from + from_code + to + to_code +
   item + item_code + year ~ unit, value.var = "value"))
 prices <- prices[!is.na(usd) & usd > 0,
   list(usd = sum(usd, na.rm = TRUE), head = sum(head, na.rm = TRUE),

@@ -1,7 +1,7 @@
 
 library("data.table")
 library("Matrix")
-source("R/1_tidy_functions.R")
+source("R/01_tidy_functions.R")
 
 regions <- fread("inst/regions_full.csv")
 items <- fread("inst/items_full.csv")
@@ -500,10 +500,11 @@ use[, seed_use := NULL]
 
 # Allocate the remainder of processing use to balancing
 cbs[processing != 0, `:=`(balancing = na_sum(balancing, processing), processing = 0)]
+cbs[, comm_code := items$comm_code[match(cbs$item_code, items$item_code)]]
 
 
 # Allocate final demand from balances -----
-use_fd <- cbs[, c("year", "area_code", "area", "item_code", "item",
+use_fd <- cbs[, c("year", "comm_code", "area_code", "area", "item_code", "item",
   "food", "other", "losses", "stock_addition", "balancing", "unspecified")]
 
 

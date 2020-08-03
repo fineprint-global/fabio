@@ -1,14 +1,12 @@
 library("data.table")
 library("Matrix")
-source("R/1_tidy_functions.R")
+source("R/01_tidy_functions.R")
 
 years <- seq(1986, 2013)
 
 Z_m <- readRDS("data/Z_mass.rds")
 Z_v <- readRDS("data/Z_value.rds")
 Y <- readRDS("data/mr_use_fd.rds")
-
-names(Z_m) <- names(Z_v) <- names(Y) <- years
 
 fabio_inverse <- function(year){
   print(year)

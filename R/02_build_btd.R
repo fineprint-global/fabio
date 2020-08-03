@@ -1,6 +1,6 @@
 
 library("data.table")
-source("R/1_tidy_functions.R")
+source("R/01_tidy_functions.R")
 
 regions <- fread("inst/regions_full.csv")
 items <- fread("inst/items_full.csv")
@@ -55,15 +55,15 @@ fore[, imex := NULL]
 # Exclude intra-regional trade flows
 fore <- dt_filter(fore, from_code != to_code)
 
-# Fill < 1997 with 1997
-fore_fill <- lapply(seq(years[1], 1996), function(x, data, obs) {
-  dt <- data[obs, ]
-  dt$year <- x
-  return(dt)
-}, data = fore, obs = which(fore[, year] == 1997))
-
-fore <- rbind(rbindlist(fore_fill), fore)
-rm(fore_fill)
+# # Fill < 1997 with 1997
+# fore_fill <- lapply(seq(years[1], 1996), function(x, data, obs) {
+#   dt <- data[obs, ]
+#   dt$year <- x
+#   return(dt)
+# }, data = fore, obs = which(fore[, year] == 1997))
+#
+# fore <- rbind(rbindlist(fore_fill), fore)
+# rm(fore_fill)
 
 
 # Ethanol -----------------------------------------------------------------
@@ -176,6 +176,13 @@ btd <- btd[!from_code %in% c(252, 254) & !to_code %in% c(252, 254), ]
 # Aggregate values
 btd <- btd[, list(value = na_sum(value)), by = c("item_code", "item",
   "from", "from_code", "to", "to_code", "year", "unit")]
+
+# Add commodity codes
+btd[, comm_code := items$comm_code[match(btd$item_code, items$item_code)]]
+
+# Subset to only keep head for live animals
+btd <- btd[!(comm_code %in% c("c097", "c098", "c099", "c100", "c101", "c102", "c103",
+                             "c104", "c105", "c106", "c107", "c108", "c109", "c110") & unit == "tonnes")]
 
 
 # Store -------------------------------------------------------------------

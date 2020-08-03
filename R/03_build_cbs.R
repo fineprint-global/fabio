@@ -1,7 +1,7 @@
 
 library("data.table")
 library("Matrix")
-source("R/1_tidy_functions.R")
+source("R/01_tidy_functions.R")
 
 regions <- fread("inst/regions_full.csv")
 items <- fread("inst/items_full.csv")
@@ -32,7 +32,7 @@ cat("\nGiving preference to units in the following order:\n",
 # Imports
 imps <- btd[!unit %in% c("usd"), list(value = na_sum(value)),
   by = list(to_code, to, item_code, item, year, unit)]
-imps <- dcast(imps, to_code + to + item_code + item + year ~ unit,
+imps <- data.table::dcast(imps, to_code + to + item_code + item + year ~ unit,
   value.var = "value")
 imps[, `:=`(value = ifelse(!is.na(m3), m3, ifelse(!is.na(head), head, tonnes)),
   m3 = NULL, head = NULL, tonnes = NULL)]
@@ -40,7 +40,7 @@ imps[, `:=`(value = ifelse(!is.na(m3), m3, ifelse(!is.na(head), head, tonnes)),
 # Exports
 exps <- btd[!unit %in% c("usd"), list(value = na_sum(value)),
   by = list(from_code, from, item_code, item, year, unit)]
-exps <- dcast(exps, from_code + from + item_code + item + year ~ unit,
+exps <- data.table::dcast(exps, from_code + from + item_code + item + year ~ unit,
   value.var = "value")
 exps[, `:=`(value = ifelse(!is.na(m3), m3, ifelse(!is.na(head), head, tonnes)),
   m3 = NULL, head = NULL, tonnes = NULL)]
@@ -92,7 +92,7 @@ addcbs <- dt_filter(crop_prod, ! paste(area_code,item_code,year) %in% paste(cbs$
 # Technical conversion factors to impute processing ---
 tcf_crop <- fread("inst/tcf_crop.csv")
 
-C <- dcast(tcf_crop, item_code ~ source_code, fill = 0, value.var = "tcf")
+C <- data.table::dcast(tcf_crop, item_code ~ source_code, fill = 0, value.var = "tcf")
 tcf_codes <- list(C[, item_code], as.integer(colnames(C[, -1])))
 C <- as(C[, -1], "Matrix")
 dimnames(C) <- tcf_codes
@@ -226,7 +226,7 @@ live[, `:=`(imports = live_imp$value[conc_imp],
   production = value,
   value = NULL)]
 live[, `:=`(total_supply = na_sum(production, imports),
-     processing = na_sum(production, imports))]
+     processing = na_sum(production, imports, -exports))]
 
 cbs <- dplyr::bind_rows(cbs, live)
 
@@ -287,7 +287,7 @@ cbs <- cbs[, lapply(.SD, na_sum),
 btd <- replace_RoW(btd, cols = c("from_code", "to_code"),
   codes = regions[cbs == TRUE, code])
 btd <- btd[, lapply(.SD, na_sum), by = c("from_code", "from", "to_code", "to",
-  "item_code", "item", "unit", "year")]
+  "comm_code", "item_code", "item", "unit", "year")]
 
 # Remove ROW-internal trade from CBS
 intra <- btd[from_code==to_code & unit=="tonnes", sum(value), by=c("from_code","from","item_code","item","year")]
@@ -309,7 +309,7 @@ btd <- dt_filter(btd, from_code != to_code)
 cat("\nRebalance CBS.\n")
 
 cbs <- dt_replace(cbs, function(x) {`<`(x, 0)}, value = 0,
-  cols = c("total_supply", "imports", "exports", "feed", "food", "losses",
+  cols = c("imports", "exports", "feed", "food", "losses",
     "other", "processing", "production", "seed"))
 
 cat("\nAdjust ", cbs[is.na(production) & na_sum(production, imports, stock_withdrawal) <

@@ -1,7 +1,7 @@
 
 library("data.table")
 library("Matrix")
-source("R/1_tidy_functions.R")
+source("R/01_tidy_functions.R")
 
 regions <- fread("inst/regions_full.csv")
 items <- fread("inst/items_full.csv")
@@ -9,7 +9,7 @@ items <- fread("inst/items_full.csv")
 sup <- readRDS("data/sup_final.rds")
 
 cbs <- readRDS("data/cbs_final.rds")
-btd <- readRDS("data/btd_full.rds")
+btd <- readRDS("data/btd_bal.rds")
 
 use <- readRDS("data/use_final.rds")
 use_fd <- readRDS("data/use_fd_final.rds")
@@ -38,7 +38,7 @@ mr_sup_mass <- lapply(years, function(x) {
     } else {merge(template, sup_x, all.x = TRUE)}
 
     # Cast the datatable to convert into a matrix
-    out <- tryCatch(dcast(out, proc_code ~ comm_code,
+    out <- tryCatch(data.table::dcast(out, proc_code ~ comm_code,
       value.var = "production", fun.aggregate = sum, na.rm = TRUE, fill = 0),
       error = function(e) {stop("Issue at ", x, "-", y, ": ", e)})
 
@@ -68,7 +68,7 @@ mr_sup_value <- lapply(years, function(x) {
     } else {merge(template, sup_x, all.x = TRUE)}
 
     # Cast the datatable to convert into a matrix
-    out <- tryCatch(dcast(out, proc_code ~ comm_code,
+    out <- tryCatch(data.table::dcast(out, proc_code ~ comm_code,
       value.var = "value", fun.aggregate = sum, na.rm = TRUE, fill = 0),
       error = function(e) {stop("Issue at ", x, "-", y, ": ", e)})
 
@@ -88,7 +88,7 @@ saveRDS(mr_sup_mass, "data/mr_sup_mass.rds")
 saveRDS(mr_sup_value, "data/mr_sup_value.rds")
 
 
-# CBS and BTD ---
+# Bilateral supply shares ---
 
 # Template to always get full tables
 template <- data.table(expand.grid(
@@ -96,18 +96,10 @@ template <- data.table(expand.grid(
   comm_code = commodities, stringsAsFactors = FALSE))
 setkey(template, from_code, comm_code, to_code)
 
-btd[, comm_code := items$comm_code[match(btd$item_code, items$item_code)]]
-cbs[, comm_code := items$comm_code[match(cbs$item_code, items$item_code)]]
-# Select head for live animals and tonnes or m3 for all other items
-btd <- btd[(comm_code %in% c("c097", "c098", "c099", "c100", "c101", "c102", "c103",
-  "c104", "c105", "c106", "c107", "c108", "c109", "c110") & unit == "head") |
-  (!comm_code %in% c("c097", "c098", "c099", "c100", "c101", "c102", "c103",
-  "c104", "c105", "c106", "c107", "c108", "c109", "c110") & unit != "usd")]
-
 # Yearly list of BTD in matrix format
 btd_cast <- lapply(years, function(x, btd_x) {
   # Cast to convert to matrix
-  out <- dcast(merge(template,
+  out <- data.table::dcast(merge(template,
     btd_x[year == x, .(from_code, to_code, comm_code, value)],
     by = c("from_code", "to_code", "comm_code"), all.x = TRUE),
     from_code + comm_code ~ to_code,
@@ -127,7 +119,7 @@ setkey(template, area_code, comm_code)
 # Yearly list of CBS in matrix format
 cbs_cast <- lapply(years, function(x, cbs_x) {
   # Cast to convert to matrix
-  out <- dcast(merge(template[, .(area_code, comm_code)],
+  out <- data.table::dcast(merge(template[, .(area_code, comm_code)],
     cbs_x[year == x, .(area_code, comm_code, production)],
     by = c("area_code", "comm_code"), all.x = TRUE),
     area_code + comm_code ~ area_code,
@@ -178,7 +170,7 @@ setkey(template, area_code, proc_code, comm_code)
 # List with use matrices, per year
 use_cast <- lapply(years, function(x, use_x) {
   # Cast use to convert to a matrix
-  out <- dcast(merge(template[, .(area_code, proc_code, comm_code)],
+  out <- data.table::dcast(merge(template[, .(area_code, proc_code, comm_code)],
     use_x[year == x, .(area_code, proc_code, comm_code, use)],
     by = c("area_code", "proc_code", "comm_code"), all.x = TRUE),
     comm_code ~ area_code + proc_code,
@@ -207,7 +199,7 @@ names(mr_use) <- years
 saveRDS(mr_use, "data/mr_use.rds")
 
 
-# Use FD ---
+# Final Demand ---
 
 # Template to always get full tables
 template <- data.table(expand.grid(
@@ -216,15 +208,14 @@ template <- data.table(expand.grid(
   stringsAsFactors = FALSE))
 setkey(template, area_code, comm_code, variable)
 
-use_fd[, comm_code := items$comm_code[match(use_fd$item_code, items$item_code)]]
 use_fd <- melt(use_fd[, .(year, area_code, comm_code,
   food, other, losses, stock_addition, balancing, unspecified)],
   id.vars = c("year", "area_code", "comm_code"))
 
 # List with final use matrices, per year
-mr_use_fd <- lapply(years, function(x, use_fd_x) {
+use_fd_cast <- lapply(years, function(x, use_fd_x) {
   # Cast final use to convert to a matrix
-  out <- dcast(merge(template[, .(area_code, comm_code, variable)],
+  out <- data.table::dcast(merge(template[, .(area_code, comm_code, variable)],
     use_fd_x[year == x, .(area_code, comm_code, variable, value)],
     by = c("area_code", "comm_code", "variable"), all.x = TRUE),
     comm_code ~ area_code + variable,
@@ -243,47 +234,10 @@ mr_use_fd <- mapply(function(x, y) {
       mr_x[, seq(1 + (j - 1) * n_var, j * n_var)] * y[, j]
   }
   return(mr_x)
-}, mr_use_fd, total_shares)
+}, use_fd_cast, total_shares)
 
 mr_use_fd <- lapply(mr_use_fd, round)
 names(mr_use_fd) <- years
-saveRDS(mr_use_fd, "data/mr_use_fd.rds")
+saveRDS(mr_use_fd, "data/Y.rds")
 
-
-
-# MRIO Table ---
-
-mr_sup_m <- readRDS("data/mr_sup_mass.rds")
-mr_sup_v <- readRDS("data/mr_sup_value.rds")
-mr_use <- readRDS("data/mr_use.rds")
-
-
-# Mass
-trans_m <- lapply(mr_sup_m, function(x) {
-  out <- as.matrix(x / rowSums(x))
-  out[!is.finite(out)] <- 0 # See Issue #75
-  return(as(out, "Matrix"))
-})
-
-Z_m <- mapply(function(x, y) {
-  x %*% y
-}, x = mr_use, y = trans_m)
-
-Z_m <- lapply(Z_m, round)
-saveRDS(Z_m, "data/Z_mass.rds")
-
-
-# Value
-trans_v <- lapply(mr_sup_v, function(x) {
-  out <- as.matrix(x / rowSums(x))
-  out[!is.finite(out)] <- 0 # See Issue #75
-  return(as(out, "Matrix"))
-})
-
-Z_v <- mapply(function(x, y) {
-  x %*% y
-}, x = mr_use, y = trans_v)
-
-Z_v <- lapply(Z_v, round)
-saveRDS(Z_v, "data/Z_value.rds")
 

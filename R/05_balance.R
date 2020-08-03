@@ -3,7 +3,7 @@ library("data.table")
 library("Matrix")
 library("mipfp")
 
-source("R/1_tidy_functions.R")
+source("R/01_tidy_functions.R")
 
 years <- 1986:2017
 
@@ -41,7 +41,7 @@ cbs[, total_supply := na_sum(production, imports)]
 # To-do: Check whether we should just do this for "RoW"
 cat("\nUpdate 'balancing' column with discrepancies.\n")
 cbs[, balancing := na_sum(total_supply,
-  -stock_addition, -exports, -food, -feed, -seed, -losses, -processing, -other)]
+  -stock_addition, -exports, -food, -feed, -seed, -losses, -processing, -other, -unspecified)]
 
 
 # Prepare for creating balanced BTD sheets --------------------------------
@@ -50,9 +50,11 @@ cbs[, balancing := na_sum(total_supply,
 btd <- btd[unit %in% c("tonnes", "head", "m3"), ]
 btd_est <- btd_est[year %in% years & item_code %in% items, ]
 
-# Have RoW start at least at 1 so it can always be scaled
-btd[((from_code == 999 & to_code != 999) | (from_code != 999 & to_code == 999)) &
-  value == 0, value := 1]
+# Start values are defined in btd_est
+# # Have RoW start at least at 1 so it can always be scaled
+# btd[((from_code == 999 & to_code != 999) | (from_code != 999 & to_code == 999)) &
+#   value == 0, value := 1]
+
 # Then kick out values <= 0 and use estimates for those
 btd <- btd[value > 0, ]
 
@@ -106,9 +108,9 @@ for(i in seq_along(years)) {
   # Downscale export estimates in order not to exceed the total gap between reported exports and target values
   mapping[, val_est := ifelse(gap > 0, ifelse(gap < val_est_sum, val_est / val_est_sum * gap, val_est), NA)]
 
-  # Assign estimates to value column with a weight of 10%
+  # Assign estimates to value column with a weight of 50%
   mapping[, `:=`(
-    value = ifelse(is.na(value), ifelse(is.na(val_est), 0, val_est * 0.1), value),
+    value = ifelse(is.na(value), ifelse(is.na(val_est), 0, val_est * 0.5), value),
     val_est = NULL)]
 
 
@@ -116,7 +118,7 @@ for(i in seq_along(years)) {
   mapping_ras <- lapply(
     split(mapping, by = "item_code", keep.by = FALSE),
     function(x) {
-      out <- dcast(x, from_code ~ to_code,
+      out <- data.table::dcast(x, from_code ~ to_code,
         fun.aggregate = sum, value.var = "value")[, -"from_code"]
       as(out, "Matrix")})
 
@@ -130,9 +132,9 @@ for(i in seq_along(years)) {
   btd_bal[[i]] <- lapply(names(mapping_ras), function(name) {
     out <- mapping_ras[[name]]
     out <- data.table(from_code = colnames(out), as.matrix(out))
-    out <- melt(out, id.vars = c("from_code"), variable.name = "to_code")
-    out[, .(item_code = as.integer(name), from_code = as.integer(from_code),
-      to_code = as.integer(to_code), value)]
+    out <- melt(out, id.vars = c("from_code"), variable.name = "to_code", variable.factor = FALSE)
+    out[, .(year = y, item_code = as.integer(name),
+      from_code = as.integer(from_code), to_code = as.integer(to_code), value)]
   })
 
   cat("Calculated year ", y, ".\n", sep = "")
@@ -142,6 +144,9 @@ for(i in seq_along(years)) {
 btd_bal <- lapply(btd_bal, rbindlist)
 # One datatable
 btd_bal <- rbindlist(btd_bal)
+# Add commodity codes
+items <- fread("inst/items_full.csv")
+btd_bal[, comm_code := items$comm_code[match(btd_bal$item_code, items$item_code)]]
 
 
 # Store the balanced sheets -----------------------------------------------

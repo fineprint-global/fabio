@@ -67,7 +67,7 @@ cbs <- area_merge(cbs, orig = 62, dest = 238, pattern = "Ethiopia")
 cbs <- area_fix(cbs, regions)
 
 # Widen by element
-cbs <- dcast(cbs, area_code + area + item_code + item + year ~ element,
+cbs <- data.table::dcast(cbs, area_code + area + item_code + item + year ~ element,
   value.var = "value")
 cbs <- dt_rename(cbs, rename, drop = FALSE)
 
@@ -184,7 +184,7 @@ fore_prod[, imex := factor(gsub("^(Import|Export) (.*)$", "\\1", element))]
 # Get this in the format of CBS
 fore_prod <- dt_filter(fore_prod, unit == "m3")
 fore_prod[, unit := NULL]
-fore_prod <- dcast(fore_prod,
+fore_prod <- data.table::dcast(fore_prod,
   area_code + area + item_code + item + year ~ imex, value.var = "value")
 fore_prod <- dt_rename(fore_prod, rename, drop = FALSE)
 
