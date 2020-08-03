@@ -21,7 +21,7 @@ Z_m <- mapply(function(x, y) {
 }, x = mr_use, y = trans_m)
 
 Z_m <- lapply(Z_m, round)
-saveRDS(Z_m, "data/Z_mass.rds")
+saveRDS(Z_m, "/mnt/nfs_fineprint/tmp/fabio/neu/Z_mass.rds")
 
 
 # Value
@@ -36,5 +36,5 @@ Z_v <- mapply(function(x, y) {
 }, x = mr_use, y = trans_v)
 
 Z_v <- lapply(Z_v, round)
-saveRDS(Z_v, "data/Z_value.rds")
+saveRDS(Z_v, "/mnt/nfs_fineprint/tmp/fabio/neu/Z_value.rds")
 
