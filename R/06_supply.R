@@ -8,7 +8,7 @@ items <- fread("inst/items_full.csv")
 # Supply ------------------------------------------------------------------
 
 btd <- readRDS("data/btd_full.rds")
-cbs <- readRDS("data/cbs_bal.rds")
+cbs <- readRDS("data/cbs_full.rds")
 sup <- fread("inst/items_supply.csv")
 
 cat("Allocate production to supplying processes.\n")
@@ -21,7 +21,8 @@ cbs <- rbindlist(list(cbs, grazing), use.names = TRUE, fill = TRUE)
 # Allocate production to supplying processes including double-counting
 sup <- merge(
   cbs[, c("area_code", "area", "year", "item_code", "item", "production")],
-  sup, by = c("item_code", "item"), all = TRUE, allow.cartesian = TRUE)
+  sup[item_code %in% unique(cbs$item_code)],
+  by = c("item_code", "item"), all = TRUE, allow.cartesian = TRUE)
 
 # Downscale double-counted production
 cat("Calculate supply shares for livestock products.\n")

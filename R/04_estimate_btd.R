@@ -3,6 +3,8 @@ library("data.table")
 library("Matrix")
 source("R/01_tidy_functions.R")
 
+years <- 1986:2013
+
 
 # BTD ---------------------------------------------------------------------
 
@@ -13,10 +15,10 @@ cbs <- readRDS("data/cbs_full.rds")
 # dt_replace(cbs, fun = is.na, value = 0, cols = c("imports", "exports"))
 
 # Cast import and export columns
-cbs_imp <- data.table::dcast(cbs[, c("area_code", "year", "item_code", "imports")],
+cbs_imp <- data.table::dcast(cbs[year %in% years, c("area_code", "year", "item_code", "imports")],
   year + item_code ~ area_code, value.var = "imports", fun.aggregate = na_sum,
   fill = 0)
-cbs_exp <- data.table::dcast(cbs[, c("area_code", "year", "item_code", "exports")],
+cbs_exp <- data.table::dcast(cbs[year %in% years, c("area_code", "year", "item_code", "exports")],
   year + item_code ~ area_code, value.var = "exports", fun.aggregate = na_sum,
   fill = 0)
 

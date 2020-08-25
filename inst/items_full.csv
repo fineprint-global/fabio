@@ -59,8 +59,8 @@ c057,2666,Abaca,tonnes,Primary crops,0,crops,Fibre crops
 c058,2667,"Hard Fibres, Other",tonnes,Primary crops,0,crops,Fibre crops
 c059,2671,Tobacco,tonnes,Primary crops,0,crops,"Tobacco, rubber"
 c060,2672,Rubber,tonnes,Primary crops,0,crops,"Tobacco, rubber"
-c061,2000,Fodder crops,tonnes,Primary crops,0.85,fodder,"Fodder crops, grazing"
-c062,2001,Grazing,tonnes,Primary crops,0.8,grass,"Fodder crops, grazing"
+c061,2000,Fodder crops,tonnes,Primary crops,0.85,fodder,"Fodder crops"
+c062,2001,Grazing,tonnes,Primary crops,0.8,grass,"Grazing"
 c063,2559,Cottonseed,tonnes,Crop products,0.1,crops,Fibre crops
 c064,2562,Palm kernels,tonnes,Crop products,0.1,crops,Oil crops
 c065,2541,Sugar non-centrifugal,tonnes,Crop products,0.01,residues,"Sugar, sweeteners"

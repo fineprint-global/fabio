@@ -5,7 +5,7 @@ source("R/01_tidy_functions.R")
 regions <- fread("inst/regions_full.csv")
 items <- fread("inst/items_full.csv")
 
-years <- 1986:2017
+years <- 1986:2013
 
 # Comtrade and BACI are used for ethanol and fishery trade
 comtrade <- readRDS("data/tidy/comtrade_tidy.rds")
@@ -162,16 +162,15 @@ rm(fish_com, fish_com_fill, fish_baci)
 
 btd <- rbindlist(list(btd, fore, eth, fish), use.names = TRUE)
 
-# Replace negatives with 0
-btd <- dt_replace(btd, function(x) {`<`(x, 0)}, value = 0, cols = "value")
+# Replace negatives with 0 (except for regions "Unspecified" and "Others (adjustments)")
+# (Not needed, because there are only negatives for these two regions.)
+# btd[value < 0 & !from_code %in% c(252,254) & !to_code %in% c(252,254),
+#     value := 0]
 
 # Filter to needed items, i.e. exclude "Brans", "Infant food", "Miscellaneous",
-# "Miscellaneous" is particularly relevant for Norway (11% of total imports in 2013),
-# but also not irrelevant for many other countries
+# ("Miscellaneous" is particularly relevant for Norway (11% of total imports in 2013),
+#   but somehow relevant also for many other countries)
 btd <- btd[item_code %in% items$item_code, ]
-
-# Remove regions "unspecified" and "adjustment" from the BTD
-btd <- btd[!from_code %in% c(252, 254) & !to_code %in% c(252, 254), ]
 
 # Aggregate values
 btd <- btd[, list(value = na_sum(value)), by = c("item_code", "item",
@@ -180,7 +179,7 @@ btd <- btd[, list(value = na_sum(value)), by = c("item_code", "item",
 # Add commodity codes
 btd[, comm_code := items$comm_code[match(btd$item_code, items$item_code)]]
 
-# Subset to only keep head for live animals
+# Subset to only keep head and usd for live animals
 btd <- btd[!(comm_code %in% c("c097", "c098", "c099", "c100", "c101", "c102", "c103",
                              "c104", "c105", "c106", "c107", "c108", "c109", "c110") & unit == "tonnes")]
 

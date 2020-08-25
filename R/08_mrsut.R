@@ -151,7 +151,7 @@ total_shares <- lapply(total, function(x, agg, js) {
   # Calculate shares (all countries)
   # out <- as.matrix(x / x_agg[rep(seq(length(x_agg)), dim(x)[2])])
   # Calculate shares (per country)
-  out <- x / as.matrix(denom[rep(seq(length(commodities)), 192), ])
+  out <- as.matrix(x / as.matrix(denom[rep(seq(length(commodities)), length(unique(cbs$area_code))), ]))
 
   out[!is.finite(out)] <- 0 # See Issue #75
 

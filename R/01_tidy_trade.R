@@ -1,6 +1,6 @@
 
 library("data.table")
-source("R/1_tidy_functions.R")
+source("R/01_tidy_functions.R")
 
 regions <- fread("inst/regions_full.csv")
 
@@ -48,6 +48,8 @@ comtrade[, `:=`(reporter = regions$name[reporter_match],
 for(col in c("reporter_code", "partner_code")) {
   comtrade <- area_merge(comtrade, orig = 62, dest = 238,
     col = col, pattern = "Ethiopia")
+  comtrade <- area_merge(comtrade, orig = 206, dest = 276,
+    col = col, pattern = "Sudan")
 }
 comtrade <- dt_filter(comtrade, !is.na(reporter) & !is.na(partner))
 
@@ -86,6 +88,12 @@ comtrade[, price_per_tonne := NULL]
 comtrade <- melt(comtrade, measure.vars = c("usd", "tonnes"),
   variable.name = "unit", variable.factor = FALSE)
 
+# Belgium-Luxembourg before 2000 together
+comtrade[reporter_code==255 & reporter=="Belgium" & year<2000,
+     `:=`(reporter_code=15, reporter="Belgium-Luxembourg")]
+comtrade[partner_code==255 & partner=="Belgium" & year<2000,
+     `:=`(partner_code=15, partner="Belgium-Luxembourg")]
+
 # Aggregate
 comtrade <- comtrade[, list(value = na_sum(value)),
   by = c("year", "item_code", "item", "reporter_code", "reporter",
@@ -115,8 +123,16 @@ baci[, `:=`(importer = regions$name[importer_match],
 for(col in c("importer_code", "exporter_code")) {
   baci <- area_merge(baci, orig = 62, dest = 238,
     col = col, pattern = "Ethiopia")
+  baci <- area_merge(baci, orig = 206, dest = 276,
+    col = col, pattern = "Sudan")
 }
 baci <- dt_filter(baci, !is.na(importer) & !is.na(exporter))
+
+# Belgium-Luxembourg before 2000 together
+baci[exporter_code==255 & exporter=="Belgium" & year<2000,
+     `:=`(exporter_code=15, exporter="Belgium-Luxembourg")]
+baci[importer_code==255 & importer=="Belgium" & year<2000,
+     `:=`(importer_code=15, importer="Belgium-Luxembourg")]
 
 baci[, item_code := as.integer(category)]
 
@@ -133,7 +149,7 @@ baci <- merge(baci, baci_agg, by = c("year", "item_code"), all.x = TRUE)
 baci[is.na(tonnes) | tonnes == 0, tonnes := round(usd / price_per_tonne, 3)]
 baci[, price_per_tonne := NULL]
 
-# 2019-06-07: Introduce unit variable
+# Introduce unit variable
 baci <- melt(baci, measure.vars = c("usd", "tonnes"),
   variable.name = "unit", variable.factor = FALSE)
 

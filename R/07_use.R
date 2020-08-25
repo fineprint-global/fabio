@@ -6,7 +6,7 @@ source("R/01_tidy_functions.R")
 regions <- fread("inst/regions_full.csv")
 items <- fread("inst/items_full.csv")
 
-cbs <- readRDS("data/cbs_bal.rds")
+cbs <- readRDS("data/cbs_full.rds")
 sup <- readRDS("data/sup.rds")
 
 use_items <- fread("inst/items_use.csv")
@@ -22,7 +22,7 @@ cbs <- rbindlist(list(cbs, grazing), use.names = TRUE, fill = TRUE)
 # Create long use table
 use <- merge(
   cbs[, c("area_code", "area", "year", "item_code", "item", "production", "processing")],
-  use_items,
+  use_items[item_code %in% unique(cbs$item_code) & item != "Pet food"],
   by = c("item_code", "item"), all = TRUE, allow.cartesian = TRUE)
 use[, use := NA_real_]
 
@@ -59,7 +59,7 @@ cat("Allocating part of the TCF crops to TCF use. Applies to items:\n\t",
 
 tcf_cbs <- fread("inst/tcf_cbs.csv")
 
-tcf_codes <- list(sort(unique(tcf_cbs$area_code)), sort(unique(tcf_cbs$item_code)),
+tcf_codes <- list(sort(unique(cbs$area_code[cbs$area_code %in% tcf_cbs$area_code])), sort(unique(tcf_cbs$item_code)),
   sort(unique(tcf_cbs$source_code)))
 Cs <- lapply(tcf_codes[[1]], function(x) {
   out <- data.table::dcast(tcf_cbs[area_code == x], item_code ~ source_code, fill = 0,
@@ -166,7 +166,7 @@ eth[!is.na(value), `:=`(share_oth = value, share_proc = value)]
 eth[, value := NULL]
 
 # Allocate according to ethanol production
-eth <- merge(eth,
+eth <- merge(eth[!is.na(area)],
   cbs[item_code == 2659, .(area_code, year, eth_prod = production)],
   by = c("area_code", "year"), all.x = TRUE)
 # First use up other, then processing for ethanol production
@@ -221,6 +221,7 @@ feed_req_k <- merge(conv_k,
   by = c("item_code"), all.x = TRUE)
 feed_req_k[, `:=`(
   total = value * conversion, value = NULL, conversion = NULL, item = NULL,
+  original_value = NULL,
   crops = 0, residues = 0, grass = 0, fodder = 0, scavenging = 0, animals = 0)]
 
 # Estimates from Bouwman et al. (2013)
@@ -343,6 +344,12 @@ feed_req[item_code != 0,
 feed_req[, `:=`(animals_f = NULL, crops_f = NULL, grass_f = NULL,
   fodder_f = NULL, residues_f = NULL, scavenging_f = NULL)]
 
+# Aggregate RoW countries in feed_req
+feed_req <- replace_RoW(feed_req, codes = regions[cbs == TRUE, code])
+feed_req <- feed_req[, lapply(.SD, na_sum),
+           by = c("area_code", "area", "proc_code", "proc", "year")]
+
+
 # Adapt feed-demand to available feed-supply -----
 feed_sup[, total_dry := na_sum(dry), by=c("area_code","year","feedtype")]
 feed_req <- data.table::melt(feed_req, id=c("area_code","area","year","proc_code","proc"),
@@ -428,7 +435,7 @@ input[is.na(processing), processing := 0]
 output[is.na(production), production := 0]
 
 # Optimise allocation -----
-# This takes a very long time! Six cores are working in parallel for 15 hours.
+# This takes a very long time! Six cores are working in parallel for ~20 hours.
 results <- lapply(sort(unique(input$area_code)), function(x) {
   # Per area
   inp_x <- input[area_code == x, ]
@@ -468,8 +475,10 @@ results <- lapply(sort(unique(input$area_code)), function(x) {
 
 results <- rbindlist(results)
 results[, result_in := round(result_in)]
-# saveRDS(results, paste0("./data/optim_results_",Sys.Date(),".rds"))
-# results <- readRDS("./data/optim_results_2020-07-24.rds")
+saveRDS(results, paste0("./data/optim_results_",Sys.Date(),".rds"))
+# results <- readRDS("./data/optim_results_2020-08-07.rds")
+# results <- readRDS("./data/optim_results_2020-08-11.rds")
+# results <- readRDS("./data/optim_results_2020-08-23.rds")
 
 # Add process information
 results[, proc_code := ifelse(out_code == 2658, "p083",

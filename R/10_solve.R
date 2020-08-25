@@ -6,14 +6,14 @@ library("Matrix")
 
 years <- seq(1986, 2013)
 
-Z_m <- readRDS("data/Z_mass.rds")
-Z_v <- readRDS("data/Z_value.rds")
-Y <- readRDS("data/Y.rds")
+Z_m <- readRDS("/mnt/nfs_fineprint/tmp/fabio/neu/Z_mass.rds")
+Z_v <- readRDS("/mnt/nfs_fineprint/tmp/fabio/neu/Z_value.rds")
+Y <- readRDS("/mnt/nfs_fineprint/tmp/fabio/neu/Y.rds")
+X <- readRDS("/mnt/nfs_fineprint/tmp/fabio/neu/X.rds")
 
-prep_solve <- function(year, Z, Y,
+prep_solve <- function(year, Z, Y, X,
   adj_X = FALSE, adj_A = TRUE, adj_diag = FALSE) {
 
-  X <- rowSums(Z) + rowSums(Y)
   if(adj_X) {X <- X + 1e-10}
 
   A <- Matrix(0, nrow(Z), ncol(Z))
@@ -28,8 +28,6 @@ prep_solve <- function(year, Z, Y,
 
   L_inv <- solve(L, tol = .Machine[["double.eps"]])
 
-  # L_inv2 <- solve(L, tol = 1.0e-40)
-
   return(L_inv)
 }
 
@@ -38,11 +36,13 @@ for(year in years){
 
   print(year)
 
-  L <- prep_solve(year = year, Z_m[[as.character(year)]], Y[[as.character(year)]])
+  L <- prep_solve(year = year, Z_m[[as.character(year)]],
+                  Y[[as.character(year)]], X[, as.character(year)])
   saveRDS(L, paste0("/mnt/nfs_fineprint/tmp/fabio/neu/", year, "_L_mass.rds"))
   # saveRDS(L, paste0("../wu_share/WU/Projekte/GRU/04_Daten/", year, "_L_mass.rds"))
 
-  L <- prep_solve(year = year, Z_v[[as.character(year)]], Y[[as.character(year)]])
+  L <- prep_solve(year = year, Z_v[[as.character(year)]],
+                  Y[[as.character(year)]], X[, as.character(year)])
   saveRDS(L, paste0("/mnt/nfs_fineprint/tmp/fabio/neu/", year, "_L_value.rds"))
   # saveRDS(L, paste0("../wu_share/WU/Projekte/GRU/04_Daten/", year, "_L_value.rds"))
 
@@ -50,23 +50,3 @@ for(year in years){
 
 
 
-# E <- readRDS("data/E.rds") # Dummy, replace
-#
-# footprint_lu <- function(L, E, Y,
-#   adj_F = TRUE,
-#   tol = .Machine[["double_.eps"]]) {
-#
-#   if(ncol(Y) == 1 || is.vector(Y)) {
-#     out <- E %*% solve(L, .sparseDiagonal(Y), tol = tol)
-#   } else {
-#     out <- apply(Y, 2, function(y) {
-#       E %*% solve(L, .sparseDiagonal(y), tol = tol)
-#     })
-#   }
-#
-#   if(adj_F) {F[F < 0] <- 0}
-#
-#   return(out)
-# }
-#
-# F <- footprint_lu(L, E, Y)

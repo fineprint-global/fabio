@@ -1397,6 +1397,12 @@ Viet Nam,237,p064,"Sugar production, non-centrifugal",c015,2536,Sugar cane,2541,
 Viet Nam,237,p065,Sugar production,c015,2536,Sugar cane,2818,"Sugar, Refined Equiv",0.092
 Viet Nam,237,p065,Sugar production,c016,2537,Sugar beet,2818,"Sugar, Refined Equiv",0.1288
 Viet Nam,237,p077,Ricebran Oil extraction,c001,2805,Rice (Milled Equivalent),2581,Ricebran Oil,0.14
+Ethiopia,238,p078,Maize Germ Oil extraction,c004,2514,Maize and products,2582,Maize Germ Oil,0.45
+Ethiopia,238,p080,Wine production,c043,2620,Grapes and products (excl wine),2655,Wine,0.75
+Ethiopia,238,p064,"Sugar production, non-centrifugal",c015,2536,Sugar cane,2541,Sugar non-centrifugal,0.09
+Ethiopia,238,p065,Sugar production,c015,2536,Sugar cane,2818,"Sugar, Refined Equiv",0.1012
+Ethiopia,238,p065,Sugar production,c016,2537,Sugar beet,2818,"Sugar, Refined Equiv",0.1288
+Ethiopia,238,p077,Ricebran Oil extraction,c001,2805,Rice (Milled Equivalent),2581,Ricebran Oil,0.14
 British Virgin Islands,239,p078,Maize Germ Oil extraction,c004,2514,Maize and products,2582,Maize Germ Oil,0.45
 British Virgin Islands,239,p080,Wine production,c043,2620,Grapes and products (excl wine),2655,Wine,0.7
 British Virgin Islands,239,p064,"Sugar production, non-centrifugal",c015,2536,Sugar cane,2541,Sugar non-centrifugal,0.09
@@ -1511,6 +1517,12 @@ Occupied Palestinian Territory,299,p064,"Sugar production, non-centrifugal",c015
 Occupied Palestinian Territory,299,p065,Sugar production,c015,2536,Sugar cane,2818,"Sugar, Refined Equiv",0.10285
 Occupied Palestinian Territory,299,p065,Sugar production,c016,2537,Sugar beet,2818,"Sugar, Refined Equiv",0.1309
 Occupied Palestinian Territory,299,p077,Ricebran Oil extraction,c001,2805,Rice (Milled Equivalent),2581,Ricebran Oil,0.14
+Sudan,276,p078,Maize Germ Oil extraction,c004,2514,Maize and products,2582,Maize Germ Oil,0.45
+Sudan,276,p080,Wine production,c043,2620,Grapes and products (excl wine),2655,Wine,0.7
+Sudan,276,p064,"Sugar production, non-centrifugal",c015,2536,Sugar cane,2541,Sugar non-centrifugal,0.09
+Sudan,276,p065,Sugar production,c015,2536,Sugar cane,2818,"Sugar, Refined Equiv",0.092
+Sudan,276,p065,Sugar production,c016,2537,Sugar beet,2818,"Sugar, Refined Equiv",0.1288
+Sudan,276,p077,Ricebran Oil extraction,c001,2805,Rice (Milled Equivalent),2581,Ricebran Oil,0.14
 South Sudan,277,p078,Maize Germ Oil extraction,c004,2514,Maize and products,2582,Maize Germ Oil,0.45
 South Sudan,277,p080,Wine production,c043,2620,Grapes and products (excl wine),2655,Wine,0.7
 South Sudan,277,p064,"Sugar production, non-centrifugal",c015,2536,Sugar cane,2541,Sugar non-centrifugal,0.09

@@ -1,6 +1,6 @@
 
 library("data.table")
-source("R/1_tidy_functions.R")
+source("R/01_tidy_functions.R")
 
 regions <- fread("inst/regions_full.csv")
 
@@ -64,6 +64,7 @@ cbs <- dt_rename(cbs, rename, drop = TRUE)
 # Country / Area adjustments
 cbs <- area_kick(cbs, code = 351, pattern = "China", groups = TRUE)
 cbs <- area_merge(cbs, orig = 62, dest = 238, pattern = "Ethiopia")
+cbs <- area_merge(cbs, orig = 206, dest = 276, pattern = "Sudan")
 cbs <- area_fix(cbs, regions)
 
 # Widen by element
@@ -112,6 +113,7 @@ btd <- dt_rename(btd, rename, drop = TRUE)
 for(col in c("reporter_code", "partner_code")) {
   btd <- area_kick(btd, code = 351, pattern = "China", groups = TRUE, col = col)
   btd <- area_merge(btd, orig = 62, dest = 238, pattern = "Ethiopia", col = col)
+  btd <- area_merge(btd, orig = 206, dest = 276, pattern = "Sudan", col = col)
   btd <- area_fix(btd, regions, col = col)
 }
 
@@ -126,7 +128,7 @@ btd[, imex := factor(gsub("^(Import|Export) (.*)$", "\\1", element))]
 
 # Apply TCF to observations with 'unit' == "tonnes"
 btd <- merge(btd, fread("inst/tcf_btd.csv"),
-  by.x = "item_code", by.y = "item_code", all.x = TRUE)
+  by = "item_code", all.x = TRUE)
 cat("Applying TCF to trade data, where `unit == 'tonnes'` applies.\n")
 btd[unit != "tonnes", tcf := 1]
 btd <- tcf_apply(btd, na.rm = FALSE, filler = 1, fun = `/`)
@@ -168,6 +170,7 @@ fore_prod <- dt_rename(fore_prod, rename, drop = TRUE)
 # Country / Area adjustments
 fore_prod <- area_kick(fore_prod, code = 351, pattern = "China", groups = TRUE)
 fore_prod <- area_merge(fore_prod, orig = 62, dest = 238, pattern = "Ethiopia")
+fore_prod <- area_merge(fore_prod, orig = 206, dest = 276, pattern = "Sudan")
 fore_prod <- area_fix(fore_prod, regions)
 
 # Cut down to certain products
@@ -204,6 +207,8 @@ for(col in c("reporter_code", "partner_code")) {
     groups = TRUE, col = col)
   fore_trad <- area_merge(fore_trad, orig = 62, dest = 238,
     pattern = "Ethiopia", col = col)
+  fore_trad <- area_merge(fore_trad, orig = 206, dest = 276,
+    pattern = "Sudan", col = col)
   fore_trad <- area_fix(fore_trad, regions, col = col)
 }
 
@@ -253,6 +258,7 @@ crop <- dt_rename(crop, rename, drop = TRUE)
 # Country / Area adjustments
 crop <- area_kick(crop, code = 351, pattern = "China", groups = TRUE)
 crop <- area_merge(crop, orig = 62, dest = 238, pattern = "Ethiopia")
+crop <- area_merge(crop, orig = 206, dest = 276, pattern = "Sudan")
 crop <- area_fix(crop, regions)
 
 crop <- merge(crop, crop_conc,
@@ -275,6 +281,7 @@ crop_prim <- dt_rename(crop_prim, rename, drop = TRUE)
 # Country / Area adjustments
 crop_prim <- area_kick(crop_prim, code = 351, pattern = "China", groups = TRUE)
 crop_prim <- area_merge(crop_prim, orig = 62, dest = 238, pattern = "Ethiopia")
+crop_prim <- area_merge(crop_prim, orig = 206, dest = 276, pattern = "Sudan")
 crop_prim <- area_fix(crop_prim, regions)
 
 crop_prim <- dt_filter(crop_prim, element != "Yield")
@@ -317,6 +324,7 @@ live <- dt_rename(live, rename)
 # Country / Area adjustments
 live <- area_kick(live, code = 351, pattern = "China", groups = TRUE)
 live <- area_merge(live, orig = 62, dest = 238, pattern = "Ethiopia")
+live <- area_merge(live, orig = 206, dest = 276, pattern = "Sudan")
 live <- area_fix(live, regions)
 
 live <- merge(live, live_conc,
@@ -361,6 +369,7 @@ fish <- dt_filter(fish, !is.na(area))
 
 fish <- area_kick(fish, code = 351, pattern = "China", groups = TRUE)
 fish <- area_merge(fish, orig = 62, dest = 238, pattern = "Ethiopia")
+fish <- area_merge(fish, orig = 206, dest = 276, pattern = "Sudan")
 fish <- area_fix(fish, regions)
 
 # Store

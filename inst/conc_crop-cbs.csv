@@ -46,7 +46,7 @@ crop_item_code,crop_item,cbs_item_code,cbs_item,tcf
 226,Areca nuts,2551,Nuts and products,1
 234,"Nuts, nes",2551,Nuts and products,1
 236,Soybeans,2555,Soyabeans,1
-242,"Groundnuts, with shell",2551,Nuts and products,1
+242,"Groundnuts, with shell",2556, "Groundnuts (Shelled Eq)",0.7
 249,Coconuts,2560,Coconuts - Incl Copra,1
 254,"Oil, palm fruit",254,"Oil, palm fruit",1
 256,Palm kernels,2562,Palm kernels,1

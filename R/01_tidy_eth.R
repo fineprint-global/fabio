@@ -1,6 +1,6 @@
 
 library("data.table")
-source("R/1_tidy_functions.R")
+source("R/01_tidy_functions.R")
 
 regions <- fread("inst/regions_full.csv")
 
@@ -20,6 +20,8 @@ eth_eia <- dt_filter(eth_eia, !is.na(area))
 
 eth_eia <- melt(eth_eia, id.vars = c("area", "area_code"),
   variable.name = "year", value.name = "value_eia", variable.factor = FALSE)
+
+eth_eia <- area_merge(eth_eia, orig = 62, dest = 238, pattern = "Ethiopia")
 
 cat("Converting from 1000 barrels/day to tonnes/year",
   "(1000 bbl/d == 365.25 d/y * 158987.3 l/1000 bbl * 0.0007893 tonnes/l).\n")
@@ -61,8 +63,10 @@ eth <- merge(eth_eia, eth_iea, all = TRUE)
 cat("Merging EIA and IEA ethanol - values chosen via `max(eia, iea)`.\n")
 eth[, `:=`(value = pmax(value_eia, value_iea, na.rm = TRUE),
   value_eia = NULL, value_iea = NULL, year = as.integer(year))]
-cat("Adding Sudan breakup.")
-eth[year > 2011 & area == "Sudan (former)", area := "Sudan"]
+
+eth <- area_merge(eth, orig = 62, dest = 238, pattern = "Ethiopia")
+eth <- area_merge(eth, orig = 206, dest = 276, pattern = "Sudan")
+eth <- area_fix(eth, regions)
 
 # Store
 saveRDS(eth, "data/tidy/eth_tidy.rds")
