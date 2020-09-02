@@ -110,99 +110,77 @@ p094,Camels husbandry,c106,1126,Camels,seedwaste
 p095,"Camelids husbandry, other",c107,1157,"Camelids, other",seedwaste
 p096,Rabbits husbandry,c108,1140,Rabbits and hares,seedwaste
 p097,"Rodents husbandry, other",c109,1150,"Rodents, other",seedwaste
-p098,"Live animals husbandry, other",c110,1171,"Live animals, other",seedwaste
-p099,Dairy cattle husbandry,c111,2848,Milk - Excluding Butter,seedwaste
-p100,Dairy buffaloes husbandry,c111,2848,Milk - Excluding Butter,seedwaste
-p101,Dairy sheep husbandry,c111,2848,Milk - Excluding Butter,seedwaste
-p102,Dairy goats husbandry,c111,2848,Milk - Excluding Butter,seedwaste
-p103,Dairy camels husbandry,c111,2848,Milk - Excluding Butter,seedwaste
-p099,Dairy cattle husbandry,c112,2740,"Butter, Ghee",seedwaste
-p100,Dairy buffaloes husbandry,c112,2740,"Butter, Ghee",seedwaste
-p101,Dairy sheep husbandry,c112,2740,"Butter, Ghee",seedwaste
-p102,Dairy goats husbandry,c112,2740,"Butter, Ghee",seedwaste
-p103,Dairy camels husbandry,c112,2740,"Butter, Ghee",seedwaste
-p087,Sheep husbandry,c114,2746,Wool (Clean Eq.),seedwaste
-p090,Poultry Birds farming,c113,2744,Eggs,seedwaste
-p104,Cattle slaughtering,c115,2731,Bovine Meat,seedwaste
-p105,Buffaloes slaughtering,c115,2731,Bovine Meat,seedwaste
-p106,Sheep slaughtering,c116,2732,Mutton & Goat Meat,seedwaste
-p107,Goat slaughtering,c116,2732,Mutton & Goat Meat,seedwaste
-p108,Pigs slaughtering,c117,2733,Pigmeat,seedwaste
-p109,Poultry slaughtering,c118,2734,Poultry Meat,seedwaste
-p110,Horses slaughtering,c119,2735,"Meat, Other",seedwaste
-p111,Asses slaughtering,c119,2735,"Meat, Other",seedwaste
-p112,Mules slaughtering,c119,2735,"Meat, Other",seedwaste
-p113,Camels slaughtering,c119,2735,"Meat, Other",seedwaste
-p114,"Camelids slaughtering, other",c119,2735,"Meat, Other",seedwaste
-p115,Rabbits slaughtering,c119,2735,"Meat, Other",seedwaste
-p116,"Rodents slaughtering, other",c119,2735,"Meat, Other",seedwaste
-p117,"Live animals slaughtering, other",c119,2735,"Meat, Other",seedwaste
-p104,Cattle slaughtering,c120,2736,"Offals, Edible",seedwaste
-p105,Buffaloes slaughtering,c120,2736,"Offals, Edible",seedwaste
-p106,Sheep slaughtering,c120,2736,"Offals, Edible",seedwaste
-p107,Goat slaughtering,c120,2736,"Offals, Edible",seedwaste
-p108,Pigs slaughtering,c120,2736,"Offals, Edible",seedwaste
-p109,Poultry slaughtering,c120,2736,"Offals, Edible",seedwaste
-p110,Horses slaughtering,c120,2736,"Offals, Edible",seedwaste
-p111,Asses slaughtering,c120,2736,"Offals, Edible",seedwaste
-p112,Mules slaughtering,c120,2736,"Offals, Edible",seedwaste
-p113,Camels slaughtering,c120,2736,"Offals, Edible",seedwaste
-p114,"Camelids slaughtering, other",c120,2736,"Offals, Edible",seedwaste
-p115,Rabbits slaughtering,c120,2736,"Offals, Edible",seedwaste
-p116,"Rodents slaughtering, other",c120,2736,"Offals, Edible",seedwaste
-p117,"Live animals slaughtering, other",c120,2736,"Offals, Edible",seedwaste
-p104,Cattle slaughtering,c121,2737,"Fats, Animals, Raw",seedwaste
-p105,Buffaloes slaughtering,c121,2737,"Fats, Animals, Raw",seedwaste
-p106,Sheep slaughtering,c121,2737,"Fats, Animals, Raw",seedwaste
-p107,Goat slaughtering,c121,2737,"Fats, Animals, Raw",seedwaste
-p108,Pigs slaughtering,c121,2737,"Fats, Animals, Raw",seedwaste
-p109,Poultry slaughtering,c121,2737,"Fats, Animals, Raw",seedwaste
-p110,Horses slaughtering,c121,2737,"Fats, Animals, Raw",seedwaste
-p111,Asses slaughtering,c121,2737,"Fats, Animals, Raw",seedwaste
-p112,Mules slaughtering,c121,2737,"Fats, Animals, Raw",seedwaste
-p113,Camels slaughtering,c121,2737,"Fats, Animals, Raw",seedwaste
-p114,"Camelids slaughtering, other",c121,2737,"Fats, Animals, Raw",seedwaste
-p115,Rabbits slaughtering,c121,2737,"Fats, Animals, Raw",seedwaste
-p116,"Rodents slaughtering, other",c121,2737,"Fats, Animals, Raw",seedwaste
-p117,"Live animals slaughtering, other",c121,2737,"Fats, Animals, Raw",seedwaste
-p104,Cattle slaughtering,c122,2748,Hides and skins,seedwaste
-p105,Buffaloes slaughtering,c122,2748,Hides and skins,seedwaste
-p106,Sheep slaughtering,c122,2748,Hides and skins,seedwaste
-p107,Goat slaughtering,c122,2748,Hides and skins,seedwaste
-p104,Cattle slaughtering,c123,2749,Meat Meal,seedwaste
-p105,Buffaloes slaughtering,c123,2749,Meat Meal,seedwaste
-p106,Sheep slaughtering,c123,2749,Meat Meal,seedwaste
-p107,Goat slaughtering,c123,2749,Meat Meal,seedwaste
-p108,Pigs slaughtering,c123,2749,Meat Meal,seedwaste
-p109,Poultry slaughtering,c123,2749,Meat Meal,seedwaste
-p110,Horses slaughtering,c123,2749,Meat Meal,seedwaste
-p111,Asses slaughtering,c123,2749,Meat Meal,seedwaste
-p112,Mules slaughtering,c123,2749,Meat Meal,seedwaste
-p113,Camels slaughtering,c123,2749,Meat Meal,seedwaste
-p114,"Camelids slaughtering, other",c123,2749,Meat Meal,seedwaste
-p115,Rabbits slaughtering,c123,2749,Meat Meal,seedwaste
-p116,"Rodents slaughtering, other",c123,2749,Meat Meal,seedwaste
-p117,"Live animals slaughtering, other",c123,2749,Meat Meal,seedwaste
-p104,Cattle slaughtering,c124,843,Pet food,seedwaste
-p105,Buffaloes slaughtering,c124,843,Pet food,seedwaste
-p106,Sheep slaughtering,c124,843,Pet food,seedwaste
-p107,Goat slaughtering,c124,843,Pet food,seedwaste
-p108,Pigs slaughtering,c124,843,Pet food,seedwaste
-p109,Poultry slaughtering,c124,843,Pet food,seedwaste
-p110,Horses slaughtering,c124,843,Pet food,seedwaste
-p111,Asses slaughtering,c124,843,Pet food,seedwaste
-p112,Mules slaughtering,c124,843,Pet food,seedwaste
-p113,Camels slaughtering,c124,843,Pet food,seedwaste
-p114,"Camelids slaughtering, other",c124,843,Pet food,seedwaste
-p115,Rabbits slaughtering,c124,843,Pet food,seedwaste
-p116,"Rodents slaughtering, other",c124,843,Pet food,seedwaste
-p117,"Live animals slaughtering, other",c124,843,Pet food,seedwaste
-p118,Beekeeping,c125,2745,Honey,seedwaste
-p119,Silkworm breeding,c126,2747,Silk,seedwaste
-p120,Fishing,c127,2960,"Fish, Seafood",seedwaste
-p121,Forestry,c128,1864,Wood fuel,seedwaste
-p121,Forestry,c129,1866,"Industrial roundwood, coniferous",seedwaste
-p121,Forestry,c130,1867,"Industrial roundwood, non-coniferous",seedwaste
+p099,Dairy cattle husbandry,c110,2848,Milk - Excluding Butter,seedwaste
+p100,Dairy buffaloes husbandry,c110,2848,Milk - Excluding Butter,seedwaste
+p101,Dairy sheep husbandry,c110,2848,Milk - Excluding Butter,seedwaste
+p102,Dairy goats husbandry,c110,2848,Milk - Excluding Butter,seedwaste
+p103,Dairy camels husbandry,c110,2848,Milk - Excluding Butter,seedwaste
+p099,Dairy cattle husbandry,c111,2740,"Butter, Ghee",seedwaste
+p100,Dairy buffaloes husbandry,c111,2740,"Butter, Ghee",seedwaste
+p101,Dairy sheep husbandry,c111,2740,"Butter, Ghee",seedwaste
+p102,Dairy goats husbandry,c111,2740,"Butter, Ghee",seedwaste
+p103,Dairy camels husbandry,c111,2740,"Butter, Ghee",seedwaste
+p087,Sheep husbandry,c113,2746,Wool (Clean Eq.),seedwaste
+p090,Poultry Birds farming,c112,2744,Eggs,seedwaste
+p104,Cattle slaughtering,c114,2731,Bovine Meat,seedwaste
+p105,Buffaloes slaughtering,c114,2731,Bovine Meat,seedwaste
+p106,Sheep slaughtering,c115,2732,Mutton & Goat Meat,seedwaste
+p107,Goat slaughtering,c115,2732,Mutton & Goat Meat,seedwaste
+p108,Pigs slaughtering,c116,2733,Pigmeat,seedwaste
+p109,Poultry slaughtering,c117,2734,Poultry Meat,seedwaste
+p110,Horses slaughtering,c118,2735,"Meat, Other",seedwaste
+p111,Asses slaughtering,c118,2735,"Meat, Other",seedwaste
+p112,Mules slaughtering,c118,2735,"Meat, Other",seedwaste
+p113,Camels slaughtering,c118,2735,"Meat, Other",seedwaste
+p114,"Camelids slaughtering, other",c118,2735,"Meat, Other",seedwaste
+p115,Rabbits slaughtering,c118,2735,"Meat, Other",seedwaste
+p116,"Rodents slaughtering, other",c118,2735,"Meat, Other",seedwaste
+p104,Cattle slaughtering,c119,2736,"Offals, Edible",seedwaste
+p105,Buffaloes slaughtering,c119,2736,"Offals, Edible",seedwaste
+p106,Sheep slaughtering,c119,2736,"Offals, Edible",seedwaste
+p107,Goat slaughtering,c119,2736,"Offals, Edible",seedwaste
+p108,Pigs slaughtering,c119,2736,"Offals, Edible",seedwaste
+p109,Poultry slaughtering,c119,2736,"Offals, Edible",seedwaste
+p110,Horses slaughtering,c119,2736,"Offals, Edible",seedwaste
+p111,Asses slaughtering,c119,2736,"Offals, Edible",seedwaste
+p112,Mules slaughtering,c119,2736,"Offals, Edible",seedwaste
+p113,Camels slaughtering,c119,2736,"Offals, Edible",seedwaste
+p114,"Camelids slaughtering, other",c119,2736,"Offals, Edible",seedwaste
+p115,Rabbits slaughtering,c119,2736,"Offals, Edible",seedwaste
+p116,"Rodents slaughtering, other",c119,2736,"Offals, Edible",seedwaste
+p104,Cattle slaughtering,c120,2737,"Fats, Animals, Raw",seedwaste
+p105,Buffaloes slaughtering,c120,2737,"Fats, Animals, Raw",seedwaste
+p106,Sheep slaughtering,c120,2737,"Fats, Animals, Raw",seedwaste
+p107,Goat slaughtering,c120,2737,"Fats, Animals, Raw",seedwaste
+p108,Pigs slaughtering,c120,2737,"Fats, Animals, Raw",seedwaste
+p109,Poultry slaughtering,c120,2737,"Fats, Animals, Raw",seedwaste
+p110,Horses slaughtering,c120,2737,"Fats, Animals, Raw",seedwaste
+p111,Asses slaughtering,c120,2737,"Fats, Animals, Raw",seedwaste
+p112,Mules slaughtering,c120,2737,"Fats, Animals, Raw",seedwaste
+p113,Camels slaughtering,c120,2737,"Fats, Animals, Raw",seedwaste
+p114,"Camelids slaughtering, other",c120,2737,"Fats, Animals, Raw",seedwaste
+p115,Rabbits slaughtering,c120,2737,"Fats, Animals, Raw",seedwaste
+p116,"Rodents slaughtering, other",c120,2737,"Fats, Animals, Raw",seedwaste
+p104,Cattle slaughtering,c121,2748,Hides and skins,seedwaste
+p105,Buffaloes slaughtering,c121,2748,Hides and skins,seedwaste
+p106,Sheep slaughtering,c121,2748,Hides and skins,seedwaste
+p107,Goat slaughtering,c121,2748,Hides and skins,seedwaste
+p104,Cattle slaughtering,c122,2749,Meat Meal,seedwaste
+p105,Buffaloes slaughtering,c122,2749,Meat Meal,seedwaste
+p106,Sheep slaughtering,c122,2749,Meat Meal,seedwaste
+p107,Goat slaughtering,c122,2749,Meat Meal,seedwaste
+p108,Pigs slaughtering,c122,2749,Meat Meal,seedwaste
+p109,Poultry slaughtering,c122,2749,Meat Meal,seedwaste
+p110,Horses slaughtering,c122,2749,Meat Meal,seedwaste
+p111,Asses slaughtering,c122,2749,Meat Meal,seedwaste
+p112,Mules slaughtering,c122,2749,Meat Meal,seedwaste
+p113,Camels slaughtering,c122,2749,Meat Meal,seedwaste
+p114,"Camelids slaughtering, other",c122,2749,Meat Meal,seedwaste
+p115,Rabbits slaughtering,c122,2749,Meat Meal,seedwaste
+p116,"Rodents slaughtering, other",c122,2749,Meat Meal,seedwaste
+p118,Beekeeping,c123,2745,Honey,seedwaste
+p119,Silkworm breeding,c124,2747,Silk,seedwaste
+p120,Fishing,c125,2960,"Fish, Seafood",seedwaste
 p064,"Sugar production, non-centrifugal",c015,2536,Sugar cane,TCF
 p065,Sugar production,c015,2536,Sugar cane,TCF
 p065,Sugar production,c016,2537,Sugar beet,TCF
@@ -213,6 +191,7 @@ p066,"Sweeteners production, Other",c010,2531,Potatoes and products,optim
 p066,"Sweeteners production, Other",c011,2532,Cassava and products,optim
 p066,"Sweeteners production, Other",c012,2533,Sweet potatoes,optim
 p066,"Sweeteners production, Other",c001,2805,Rice (Milled Equivalent),optim
+p066,"Sweeteners production, Other",c066,2544,Molasses,optim
 p063,Cotton production,c025,328,Seed cotton,100%
 p067,Soyabean Oil extraction,c021,2555,Soyabeans,100%
 p068,Groundnut Oil extraction,c022,2556,Groundnuts (Shelled Eq),100%
@@ -345,18 +324,18 @@ p085,Cattle husbandry,c042,2619,Dates,feed
 p085,Cattle husbandry,c044,2625,"Fruits, Other",feed
 p085,Cattle husbandry,c046,2633,Cocoa Beans and products,feed
 p085,Cattle husbandry,c051,2642,Cloves,feed
-p085,Cattle husbandry,c115,2731,Bovine Meat,feed
-p085,Cattle husbandry,c116,2732,Mutton & Goat Meat,feed
-p085,Cattle husbandry,c119,2735,"Meat, Other",feed
-p085,Cattle husbandry,c120,2736,"Offals, Edible",feed
-p085,Cattle husbandry,c121,2737,"Fats, Animals, Raw",feed
-p085,Cattle husbandry,c112,2740,"Butter, Ghee",feed
-p085,Cattle husbandry,c113,2744,Eggs,feed
-p085,Cattle husbandry,c125,2745,Honey,feed
-p085,Cattle husbandry,c123,2749,Meat Meal,feed
+p085,Cattle husbandry,c114,2731,Bovine Meat,feed
+p085,Cattle husbandry,c115,2732,Mutton & Goat Meat,feed
+p085,Cattle husbandry,c118,2735,"Meat, Other",feed
+p085,Cattle husbandry,c119,2736,"Offals, Edible",feed
+p085,Cattle husbandry,c120,2737,"Fats, Animals, Raw",feed
+p085,Cattle husbandry,c111,2740,"Butter, Ghee",feed
+p085,Cattle husbandry,c112,2744,Eggs,feed
+p085,Cattle husbandry,c123,2745,Honey,feed
+p085,Cattle husbandry,c122,2749,Meat Meal,feed
 p085,Cattle husbandry,c001,2805,Rice (Milled Equivalent),feed
 p085,Cattle husbandry,c067,2818,"Sugar, Refined Equiv",feed
-p085,Cattle husbandry,c111,2848,Milk - Excluding Butter,feed
+p085,Cattle husbandry,c110,2848,Milk - Excluding Butter,feed
 p086,Buffaloes husbandry,c061,2000,Fodder crops,feed
 p086,Buffaloes husbandry,c062,2001,Grazing,feed
 p086,Buffaloes husbandry,c002,2511,Wheat and products,feed
@@ -414,18 +393,18 @@ p086,Buffaloes husbandry,c042,2619,Dates,feed
 p086,Buffaloes husbandry,c044,2625,"Fruits, Other",feed
 p086,Buffaloes husbandry,c046,2633,Cocoa Beans and products,feed
 p086,Buffaloes husbandry,c051,2642,Cloves,feed
-p086,Buffaloes husbandry,c115,2731,Bovine Meat,feed
-p086,Buffaloes husbandry,c116,2732,Mutton & Goat Meat,feed
-p086,Buffaloes husbandry,c119,2735,"Meat, Other",feed
-p086,Buffaloes husbandry,c120,2736,"Offals, Edible",feed
-p086,Buffaloes husbandry,c121,2737,"Fats, Animals, Raw",feed
-p086,Buffaloes husbandry,c112,2740,"Butter, Ghee",feed
-p086,Buffaloes husbandry,c113,2744,Eggs,feed
-p086,Buffaloes husbandry,c125,2745,Honey,feed
-p086,Buffaloes husbandry,c123,2749,Meat Meal,feed
+p086,Buffaloes husbandry,c114,2731,Bovine Meat,feed
+p086,Buffaloes husbandry,c115,2732,Mutton & Goat Meat,feed
+p086,Buffaloes husbandry,c118,2735,"Meat, Other",feed
+p086,Buffaloes husbandry,c119,2736,"Offals, Edible",feed
+p086,Buffaloes husbandry,c120,2737,"Fats, Animals, Raw",feed
+p086,Buffaloes husbandry,c111,2740,"Butter, Ghee",feed
+p086,Buffaloes husbandry,c112,2744,Eggs,feed
+p086,Buffaloes husbandry,c123,2745,Honey,feed
+p086,Buffaloes husbandry,c122,2749,Meat Meal,feed
 p086,Buffaloes husbandry,c001,2805,Rice (Milled Equivalent),feed
 p086,Buffaloes husbandry,c067,2818,"Sugar, Refined Equiv",feed
-p086,Buffaloes husbandry,c111,2848,Milk - Excluding Butter,feed
+p086,Buffaloes husbandry,c110,2848,Milk - Excluding Butter,feed
 p091,Horses husbandry,c061,2000,Fodder crops,feed
 p091,Horses husbandry,c062,2001,Grazing,feed
 p091,Horses husbandry,c002,2511,Wheat and products,feed
@@ -483,18 +462,18 @@ p091,Horses husbandry,c042,2619,Dates,feed
 p091,Horses husbandry,c044,2625,"Fruits, Other",feed
 p091,Horses husbandry,c046,2633,Cocoa Beans and products,feed
 p091,Horses husbandry,c051,2642,Cloves,feed
-p091,Horses husbandry,c115,2731,Bovine Meat,feed
-p091,Horses husbandry,c116,2732,Mutton & Goat Meat,feed
-p091,Horses husbandry,c119,2735,"Meat, Other",feed
-p091,Horses husbandry,c120,2736,"Offals, Edible",feed
-p091,Horses husbandry,c121,2737,"Fats, Animals, Raw",feed
-p091,Horses husbandry,c112,2740,"Butter, Ghee",feed
-p091,Horses husbandry,c113,2744,Eggs,feed
-p091,Horses husbandry,c125,2745,Honey,feed
-p091,Horses husbandry,c123,2749,Meat Meal,feed
+p091,Horses husbandry,c114,2731,Bovine Meat,feed
+p091,Horses husbandry,c115,2732,Mutton & Goat Meat,feed
+p091,Horses husbandry,c118,2735,"Meat, Other",feed
+p091,Horses husbandry,c119,2736,"Offals, Edible",feed
+p091,Horses husbandry,c120,2737,"Fats, Animals, Raw",feed
+p091,Horses husbandry,c111,2740,"Butter, Ghee",feed
+p091,Horses husbandry,c112,2744,Eggs,feed
+p091,Horses husbandry,c123,2745,Honey,feed
+p091,Horses husbandry,c122,2749,Meat Meal,feed
 p091,Horses husbandry,c001,2805,Rice (Milled Equivalent),feed
 p091,Horses husbandry,c067,2818,"Sugar, Refined Equiv",feed
-p091,Horses husbandry,c111,2848,Milk - Excluding Butter,feed
+p091,Horses husbandry,c110,2848,Milk - Excluding Butter,feed
 p092,Asses husbandry,c061,2000,Fodder crops,feed
 p092,Asses husbandry,c062,2001,Grazing,feed
 p092,Asses husbandry,c002,2511,Wheat and products,feed
@@ -552,18 +531,18 @@ p092,Asses husbandry,c042,2619,Dates,feed
 p092,Asses husbandry,c044,2625,"Fruits, Other",feed
 p092,Asses husbandry,c046,2633,Cocoa Beans and products,feed
 p092,Asses husbandry,c051,2642,Cloves,feed
-p092,Asses husbandry,c115,2731,Bovine Meat,feed
-p092,Asses husbandry,c116,2732,Mutton & Goat Meat,feed
-p092,Asses husbandry,c119,2735,"Meat, Other",feed
-p092,Asses husbandry,c120,2736,"Offals, Edible",feed
-p092,Asses husbandry,c121,2737,"Fats, Animals, Raw",feed
-p092,Asses husbandry,c112,2740,"Butter, Ghee",feed
-p092,Asses husbandry,c113,2744,Eggs,feed
-p092,Asses husbandry,c125,2745,Honey,feed
-p092,Asses husbandry,c123,2749,Meat Meal,feed
+p092,Asses husbandry,c114,2731,Bovine Meat,feed
+p092,Asses husbandry,c115,2732,Mutton & Goat Meat,feed
+p092,Asses husbandry,c118,2735,"Meat, Other",feed
+p092,Asses husbandry,c119,2736,"Offals, Edible",feed
+p092,Asses husbandry,c120,2737,"Fats, Animals, Raw",feed
+p092,Asses husbandry,c111,2740,"Butter, Ghee",feed
+p092,Asses husbandry,c112,2744,Eggs,feed
+p092,Asses husbandry,c123,2745,Honey,feed
+p092,Asses husbandry,c122,2749,Meat Meal,feed
 p092,Asses husbandry,c001,2805,Rice (Milled Equivalent),feed
 p092,Asses husbandry,c067,2818,"Sugar, Refined Equiv",feed
-p092,Asses husbandry,c111,2848,Milk - Excluding Butter,feed
+p092,Asses husbandry,c110,2848,Milk - Excluding Butter,feed
 p093,Mules husbandry,c061,2000,Fodder crops,feed
 p093,Mules husbandry,c062,2001,Grazing,feed
 p093,Mules husbandry,c002,2511,Wheat and products,feed
@@ -621,18 +600,18 @@ p093,Mules husbandry,c042,2619,Dates,feed
 p093,Mules husbandry,c044,2625,"Fruits, Other",feed
 p093,Mules husbandry,c046,2633,Cocoa Beans and products,feed
 p093,Mules husbandry,c051,2642,Cloves,feed
-p093,Mules husbandry,c115,2731,Bovine Meat,feed
-p093,Mules husbandry,c116,2732,Mutton & Goat Meat,feed
-p093,Mules husbandry,c119,2735,"Meat, Other",feed
-p093,Mules husbandry,c120,2736,"Offals, Edible",feed
-p093,Mules husbandry,c121,2737,"Fats, Animals, Raw",feed
-p093,Mules husbandry,c112,2740,"Butter, Ghee",feed
-p093,Mules husbandry,c113,2744,Eggs,feed
-p093,Mules husbandry,c125,2745,Honey,feed
-p093,Mules husbandry,c123,2749,Meat Meal,feed
+p093,Mules husbandry,c114,2731,Bovine Meat,feed
+p093,Mules husbandry,c115,2732,Mutton & Goat Meat,feed
+p093,Mules husbandry,c118,2735,"Meat, Other",feed
+p093,Mules husbandry,c119,2736,"Offals, Edible",feed
+p093,Mules husbandry,c120,2737,"Fats, Animals, Raw",feed
+p093,Mules husbandry,c111,2740,"Butter, Ghee",feed
+p093,Mules husbandry,c112,2744,Eggs,feed
+p093,Mules husbandry,c123,2745,Honey,feed
+p093,Mules husbandry,c122,2749,Meat Meal,feed
 p093,Mules husbandry,c001,2805,Rice (Milled Equivalent),feed
 p093,Mules husbandry,c067,2818,"Sugar, Refined Equiv",feed
-p093,Mules husbandry,c111,2848,Milk - Excluding Butter,feed
+p093,Mules husbandry,c110,2848,Milk - Excluding Butter,feed
 p094,Camels husbandry,c061,2000,Fodder crops,feed
 p094,Camels husbandry,c062,2001,Grazing,feed
 p094,Camels husbandry,c002,2511,Wheat and products,feed
@@ -690,18 +669,18 @@ p094,Camels husbandry,c042,2619,Dates,feed
 p094,Camels husbandry,c044,2625,"Fruits, Other",feed
 p094,Camels husbandry,c046,2633,Cocoa Beans and products,feed
 p094,Camels husbandry,c051,2642,Cloves,feed
-p094,Camels husbandry,c115,2731,Bovine Meat,feed
-p094,Camels husbandry,c116,2732,Mutton & Goat Meat,feed
-p094,Camels husbandry,c119,2735,"Meat, Other",feed
-p094,Camels husbandry,c120,2736,"Offals, Edible",feed
-p094,Camels husbandry,c121,2737,"Fats, Animals, Raw",feed
-p094,Camels husbandry,c112,2740,"Butter, Ghee",feed
-p094,Camels husbandry,c113,2744,Eggs,feed
-p094,Camels husbandry,c125,2745,Honey,feed
-p094,Camels husbandry,c123,2749,Meat Meal,feed
+p094,Camels husbandry,c114,2731,Bovine Meat,feed
+p094,Camels husbandry,c115,2732,Mutton & Goat Meat,feed
+p094,Camels husbandry,c118,2735,"Meat, Other",feed
+p094,Camels husbandry,c119,2736,"Offals, Edible",feed
+p094,Camels husbandry,c120,2737,"Fats, Animals, Raw",feed
+p094,Camels husbandry,c111,2740,"Butter, Ghee",feed
+p094,Camels husbandry,c112,2744,Eggs,feed
+p094,Camels husbandry,c123,2745,Honey,feed
+p094,Camels husbandry,c122,2749,Meat Meal,feed
 p094,Camels husbandry,c001,2805,Rice (Milled Equivalent),feed
 p094,Camels husbandry,c067,2818,"Sugar, Refined Equiv",feed
-p094,Camels husbandry,c111,2848,Milk - Excluding Butter,feed
+p094,Camels husbandry,c110,2848,Milk - Excluding Butter,feed
 p095,"Camelids husbandry, other",c061,2000,Fodder crops,feed
 p095,"Camelids husbandry, other",c062,2001,Grazing,feed
 p095,"Camelids husbandry, other",c002,2511,Wheat and products,feed
@@ -759,18 +738,18 @@ p095,"Camelids husbandry, other",c042,2619,Dates,feed
 p095,"Camelids husbandry, other",c044,2625,"Fruits, Other",feed
 p095,"Camelids husbandry, other",c046,2633,Cocoa Beans and products,feed
 p095,"Camelids husbandry, other",c051,2642,Cloves,feed
-p095,"Camelids husbandry, other",c115,2731,Bovine Meat,feed
-p095,"Camelids husbandry, other",c116,2732,Mutton & Goat Meat,feed
-p095,"Camelids husbandry, other",c119,2735,"Meat, Other",feed
-p095,"Camelids husbandry, other",c120,2736,"Offals, Edible",feed
-p095,"Camelids husbandry, other",c121,2737,"Fats, Animals, Raw",feed
-p095,"Camelids husbandry, other",c112,2740,"Butter, Ghee",feed
-p095,"Camelids husbandry, other",c113,2744,Eggs,feed
-p095,"Camelids husbandry, other",c125,2745,Honey,feed
-p095,"Camelids husbandry, other",c123,2749,Meat Meal,feed
+p095,"Camelids husbandry, other",c114,2731,Bovine Meat,feed
+p095,"Camelids husbandry, other",c115,2732,Mutton & Goat Meat,feed
+p095,"Camelids husbandry, other",c118,2735,"Meat, Other",feed
+p095,"Camelids husbandry, other",c119,2736,"Offals, Edible",feed
+p095,"Camelids husbandry, other",c120,2737,"Fats, Animals, Raw",feed
+p095,"Camelids husbandry, other",c111,2740,"Butter, Ghee",feed
+p095,"Camelids husbandry, other",c112,2744,Eggs,feed
+p095,"Camelids husbandry, other",c123,2745,Honey,feed
+p095,"Camelids husbandry, other",c122,2749,Meat Meal,feed
 p095,"Camelids husbandry, other",c001,2805,Rice (Milled Equivalent),feed
 p095,"Camelids husbandry, other",c067,2818,"Sugar, Refined Equiv",feed
-p095,"Camelids husbandry, other",c111,2848,Milk - Excluding Butter,feed
+p095,"Camelids husbandry, other",c110,2848,Milk - Excluding Butter,feed
 p087,Sheep husbandry,c061,2000,Fodder crops,feed
 p087,Sheep husbandry,c062,2001,Grazing,feed
 p087,Sheep husbandry,c002,2511,Wheat and products,feed
@@ -828,18 +807,18 @@ p087,Sheep husbandry,c042,2619,Dates,feed
 p087,Sheep husbandry,c044,2625,"Fruits, Other",feed
 p087,Sheep husbandry,c046,2633,Cocoa Beans and products,feed
 p087,Sheep husbandry,c051,2642,Cloves,feed
-p087,Sheep husbandry,c115,2731,Bovine Meat,feed
-p087,Sheep husbandry,c116,2732,Mutton & Goat Meat,feed
-p087,Sheep husbandry,c119,2735,"Meat, Other",feed
-p087,Sheep husbandry,c120,2736,"Offals, Edible",feed
-p087,Sheep husbandry,c121,2737,"Fats, Animals, Raw",feed
-p087,Sheep husbandry,c112,2740,"Butter, Ghee",feed
-p087,Sheep husbandry,c113,2744,Eggs,feed
-p087,Sheep husbandry,c125,2745,Honey,feed
-p087,Sheep husbandry,c123,2749,Meat Meal,feed
+p087,Sheep husbandry,c114,2731,Bovine Meat,feed
+p087,Sheep husbandry,c115,2732,Mutton & Goat Meat,feed
+p087,Sheep husbandry,c118,2735,"Meat, Other",feed
+p087,Sheep husbandry,c119,2736,"Offals, Edible",feed
+p087,Sheep husbandry,c120,2737,"Fats, Animals, Raw",feed
+p087,Sheep husbandry,c111,2740,"Butter, Ghee",feed
+p087,Sheep husbandry,c112,2744,Eggs,feed
+p087,Sheep husbandry,c123,2745,Honey,feed
+p087,Sheep husbandry,c122,2749,Meat Meal,feed
 p087,Sheep husbandry,c001,2805,Rice (Milled Equivalent),feed
 p087,Sheep husbandry,c067,2818,"Sugar, Refined Equiv",feed
-p087,Sheep husbandry,c111,2848,Milk - Excluding Butter,feed
+p087,Sheep husbandry,c110,2848,Milk - Excluding Butter,feed
 p088,Goats husbandry,c061,2000,Fodder crops,feed
 p088,Goats husbandry,c062,2001,Grazing,feed
 p088,Goats husbandry,c002,2511,Wheat and products,feed
@@ -897,18 +876,18 @@ p088,Goats husbandry,c042,2619,Dates,feed
 p088,Goats husbandry,c044,2625,"Fruits, Other",feed
 p088,Goats husbandry,c046,2633,Cocoa Beans and products,feed
 p088,Goats husbandry,c051,2642,Cloves,feed
-p088,Goats husbandry,c115,2731,Bovine Meat,feed
-p088,Goats husbandry,c116,2732,Mutton & Goat Meat,feed
-p088,Goats husbandry,c119,2735,"Meat, Other",feed
-p088,Goats husbandry,c120,2736,"Offals, Edible",feed
-p088,Goats husbandry,c121,2737,"Fats, Animals, Raw",feed
-p088,Goats husbandry,c112,2740,"Butter, Ghee",feed
-p088,Goats husbandry,c113,2744,Eggs,feed
-p088,Goats husbandry,c125,2745,Honey,feed
-p088,Goats husbandry,c123,2749,Meat Meal,feed
+p088,Goats husbandry,c114,2731,Bovine Meat,feed
+p088,Goats husbandry,c115,2732,Mutton & Goat Meat,feed
+p088,Goats husbandry,c118,2735,"Meat, Other",feed
+p088,Goats husbandry,c119,2736,"Offals, Edible",feed
+p088,Goats husbandry,c120,2737,"Fats, Animals, Raw",feed
+p088,Goats husbandry,c111,2740,"Butter, Ghee",feed
+p088,Goats husbandry,c112,2744,Eggs,feed
+p088,Goats husbandry,c123,2745,Honey,feed
+p088,Goats husbandry,c122,2749,Meat Meal,feed
 p088,Goats husbandry,c001,2805,Rice (Milled Equivalent),feed
 p088,Goats husbandry,c067,2818,"Sugar, Refined Equiv",feed
-p088,Goats husbandry,c111,2848,Milk - Excluding Butter,feed
+p088,Goats husbandry,c110,2848,Milk - Excluding Butter,feed
 p089,Pigs farming,c061,2000,Fodder crops,feed
 p089,Pigs farming,c002,2511,Wheat and products,feed
 p089,Pigs farming,c003,2513,Barley and products,feed
@@ -965,18 +944,18 @@ p089,Pigs farming,c042,2619,Dates,feed
 p089,Pigs farming,c044,2625,"Fruits, Other",feed
 p089,Pigs farming,c046,2633,Cocoa Beans and products,feed
 p089,Pigs farming,c051,2642,Cloves,feed
-p089,Pigs farming,c115,2731,Bovine Meat,feed
-p089,Pigs farming,c116,2732,Mutton & Goat Meat,feed
-p089,Pigs farming,c119,2735,"Meat, Other",feed
-p089,Pigs farming,c120,2736,"Offals, Edible",feed
-p089,Pigs farming,c121,2737,"Fats, Animals, Raw",feed
-p089,Pigs farming,c112,2740,"Butter, Ghee",feed
-p089,Pigs farming,c113,2744,Eggs,feed
-p089,Pigs farming,c125,2745,Honey,feed
-p089,Pigs farming,c123,2749,Meat Meal,feed
+p089,Pigs farming,c114,2731,Bovine Meat,feed
+p089,Pigs farming,c115,2732,Mutton & Goat Meat,feed
+p089,Pigs farming,c118,2735,"Meat, Other",feed
+p089,Pigs farming,c119,2736,"Offals, Edible",feed
+p089,Pigs farming,c120,2737,"Fats, Animals, Raw",feed
+p089,Pigs farming,c111,2740,"Butter, Ghee",feed
+p089,Pigs farming,c112,2744,Eggs,feed
+p089,Pigs farming,c123,2745,Honey,feed
+p089,Pigs farming,c122,2749,Meat Meal,feed
 p089,Pigs farming,c001,2805,Rice (Milled Equivalent),feed
 p089,Pigs farming,c067,2818,"Sugar, Refined Equiv",feed
-p089,Pigs farming,c111,2848,Milk - Excluding Butter,feed
+p089,Pigs farming,c110,2848,Milk - Excluding Butter,feed
 p090,Poultry Birds farming,c002,2511,Wheat and products,feed
 p090,Poultry Birds farming,c003,2513,Barley and products,feed
 p090,Poultry Birds farming,c004,2514,Maize and products,feed
@@ -1032,18 +1011,18 @@ p090,Poultry Birds farming,c042,2619,Dates,feed
 p090,Poultry Birds farming,c044,2625,"Fruits, Other",feed
 p090,Poultry Birds farming,c046,2633,Cocoa Beans and products,feed
 p090,Poultry Birds farming,c051,2642,Cloves,feed
-p090,Poultry Birds farming,c115,2731,Bovine Meat,feed
-p090,Poultry Birds farming,c116,2732,Mutton & Goat Meat,feed
-p090,Poultry Birds farming,c119,2735,"Meat, Other",feed
-p090,Poultry Birds farming,c120,2736,"Offals, Edible",feed
-p090,Poultry Birds farming,c121,2737,"Fats, Animals, Raw",feed
-p090,Poultry Birds farming,c112,2740,"Butter, Ghee",feed
-p090,Poultry Birds farming,c113,2744,Eggs,feed
-p090,Poultry Birds farming,c125,2745,Honey,feed
-p090,Poultry Birds farming,c123,2749,Meat Meal,feed
+p090,Poultry Birds farming,c114,2731,Bovine Meat,feed
+p090,Poultry Birds farming,c115,2732,Mutton & Goat Meat,feed
+p090,Poultry Birds farming,c118,2735,"Meat, Other",feed
+p090,Poultry Birds farming,c119,2736,"Offals, Edible",feed
+p090,Poultry Birds farming,c120,2737,"Fats, Animals, Raw",feed
+p090,Poultry Birds farming,c111,2740,"Butter, Ghee",feed
+p090,Poultry Birds farming,c112,2744,Eggs,feed
+p090,Poultry Birds farming,c123,2745,Honey,feed
+p090,Poultry Birds farming,c122,2749,Meat Meal,feed
 p090,Poultry Birds farming,c001,2805,Rice (Milled Equivalent),feed
 p090,Poultry Birds farming,c067,2818,"Sugar, Refined Equiv",feed
-p090,Poultry Birds farming,c111,2848,Milk - Excluding Butter,feed
+p090,Poultry Birds farming,c110,2848,Milk - Excluding Butter,feed
 p096,Rabbits husbandry,c002,2511,Wheat and products,feed
 p096,Rabbits husbandry,c003,2513,Barley and products,feed
 p096,Rabbits husbandry,c004,2514,Maize and products,feed
@@ -1099,18 +1078,18 @@ p096,Rabbits husbandry,c042,2619,Dates,feed
 p096,Rabbits husbandry,c044,2625,"Fruits, Other",feed
 p096,Rabbits husbandry,c046,2633,Cocoa Beans and products,feed
 p096,Rabbits husbandry,c051,2642,Cloves,feed
-p096,Rabbits husbandry,c115,2731,Bovine Meat,feed
-p096,Rabbits husbandry,c116,2732,Mutton & Goat Meat,feed
-p096,Rabbits husbandry,c119,2735,"Meat, Other",feed
-p096,Rabbits husbandry,c120,2736,"Offals, Edible",feed
-p096,Rabbits husbandry,c121,2737,"Fats, Animals, Raw",feed
-p096,Rabbits husbandry,c112,2740,"Butter, Ghee",feed
-p096,Rabbits husbandry,c113,2744,Eggs,feed
-p096,Rabbits husbandry,c125,2745,Honey,feed
-p096,Rabbits husbandry,c123,2749,Meat Meal,feed
+p096,Rabbits husbandry,c114,2731,Bovine Meat,feed
+p096,Rabbits husbandry,c115,2732,Mutton & Goat Meat,feed
+p096,Rabbits husbandry,c118,2735,"Meat, Other",feed
+p096,Rabbits husbandry,c119,2736,"Offals, Edible",feed
+p096,Rabbits husbandry,c120,2737,"Fats, Animals, Raw",feed
+p096,Rabbits husbandry,c111,2740,"Butter, Ghee",feed
+p096,Rabbits husbandry,c112,2744,Eggs,feed
+p096,Rabbits husbandry,c123,2745,Honey,feed
+p096,Rabbits husbandry,c122,2749,Meat Meal,feed
 p096,Rabbits husbandry,c001,2805,Rice (Milled Equivalent),feed
 p096,Rabbits husbandry,c067,2818,"Sugar, Refined Equiv",feed
-p096,Rabbits husbandry,c111,2848,Milk - Excluding Butter,feed
+p096,Rabbits husbandry,c110,2848,Milk - Excluding Butter,feed
 p097,"Rodents husbandry, other",c002,2511,Wheat and products,feed
 p097,"Rodents husbandry, other",c003,2513,Barley and products,feed
 p097,"Rodents husbandry, other",c004,2514,Maize and products,feed
@@ -1166,85 +1145,18 @@ p097,"Rodents husbandry, other",c042,2619,Dates,feed
 p097,"Rodents husbandry, other",c044,2625,"Fruits, Other",feed
 p097,"Rodents husbandry, other",c046,2633,Cocoa Beans and products,feed
 p097,"Rodents husbandry, other",c051,2642,Cloves,feed
-p097,"Rodents husbandry, other",c115,2731,Bovine Meat,feed
-p097,"Rodents husbandry, other",c116,2732,Mutton & Goat Meat,feed
-p097,"Rodents husbandry, other",c119,2735,"Meat, Other",feed
-p097,"Rodents husbandry, other",c120,2736,"Offals, Edible",feed
-p097,"Rodents husbandry, other",c121,2737,"Fats, Animals, Raw",feed
-p097,"Rodents husbandry, other",c112,2740,"Butter, Ghee",feed
-p097,"Rodents husbandry, other",c113,2744,Eggs,feed
-p097,"Rodents husbandry, other",c125,2745,Honey,feed
-p097,"Rodents husbandry, other",c123,2749,Meat Meal,feed
+p097,"Rodents husbandry, other",c114,2731,Bovine Meat,feed
+p097,"Rodents husbandry, other",c115,2732,Mutton & Goat Meat,feed
+p097,"Rodents husbandry, other",c118,2735,"Meat, Other",feed
+p097,"Rodents husbandry, other",c119,2736,"Offals, Edible",feed
+p097,"Rodents husbandry, other",c120,2737,"Fats, Animals, Raw",feed
+p097,"Rodents husbandry, other",c111,2740,"Butter, Ghee",feed
+p097,"Rodents husbandry, other",c112,2744,Eggs,feed
+p097,"Rodents husbandry, other",c123,2745,Honey,feed
+p097,"Rodents husbandry, other",c122,2749,Meat Meal,feed
 p097,"Rodents husbandry, other",c001,2805,Rice (Milled Equivalent),feed
 p097,"Rodents husbandry, other",c067,2818,"Sugar, Refined Equiv",feed
-p097,"Rodents husbandry, other",c111,2848,Milk - Excluding Butter,feed
-p098,"Live animals husbandry, other",c002,2511,Wheat and products,feed
-p098,"Live animals husbandry, other",c003,2513,Barley and products,feed
-p098,"Live animals husbandry, other",c004,2514,Maize and products,feed
-p098,"Live animals husbandry, other",c005,2515,Rye and products,feed
-p098,"Live animals husbandry, other",c006,2516,Oats,feed
-p098,"Live animals husbandry, other",c007,2517,Millet and products,feed
-p098,"Live animals husbandry, other",c008,2518,Sorghum and products,feed
-p098,"Live animals husbandry, other",c009,2520,"Cereals, Other",feed
-p098,"Live animals husbandry, other",c010,2531,Potatoes and products,feed
-p098,"Live animals husbandry, other",c011,2532,Cassava and products,feed
-p098,"Live animals husbandry, other",c012,2533,Sweet potatoes,feed
-p098,"Live animals husbandry, other",c013,2534,"Roots, Other",feed
-p098,"Live animals husbandry, other",c014,2535,Yams,feed
-p098,"Live animals husbandry, other",c015,2536,Sugar cane,feed
-p098,"Live animals husbandry, other",c016,2537,Sugar beet,feed
-p098,"Live animals husbandry, other",c065,2541,Sugar non-centrifugal,feed
-p098,"Live animals husbandry, other",c068,2543,"Sweeteners, Other",feed
-p098,"Live animals husbandry, other",c066,2544,Molasses,feed
-p098,"Live animals husbandry, other",c017,2546,Beans,feed
-p098,"Live animals husbandry, other",c018,2547,Peas,feed
-p098,"Live animals husbandry, other",c019,2549,"Pulses, Other and products",feed
-p098,"Live animals husbandry, other",c021,2555,Soyabeans,feed
-p098,"Live animals husbandry, other",c022,2556,Groundnuts (Shelled Eq),feed
-p098,"Live animals husbandry, other",c023,2557,Sunflower seed,feed
-p098,"Live animals husbandry, other",c024,2558,Rape and Mustardseed,feed
-p098,"Live animals husbandry, other",c063,2559,Cottonseed,feed
-p098,"Live animals husbandry, other",c026,2560,Coconuts - Incl Copra,feed
-p098,"Live animals husbandry, other",c027,2561,Sesame seed,feed
-p098,"Live animals husbandry, other",c030,2570,"Oilcrops, Other",feed
-p098,"Live animals husbandry, other",c069,2571,Soyabean Oil,feed
-p098,"Live animals husbandry, other",c072,2574,Rape and Mustard Oil,feed
-p098,"Live animals husbandry, other",c075,2577,Palm Oil,feed
-p098,"Live animals husbandry, other",c077,2579,Sesameseed Oil,feed
-p098,"Live animals husbandry, other",c078,2580,Olive Oil,feed
-p098,"Live animals husbandry, other",c081,2586,"Oilcrops Oil, Other",feed
-p098,"Live animals husbandry, other",c082,2590,Soyabean Cake,feed
-p098,"Live animals husbandry, other",c083,2591,Groundnut Cake,feed
-p098,"Live animals husbandry, other",c084,2592,Sunflowerseed Cake,feed
-p098,"Live animals husbandry, other",c085,2593,Rape and Mustard Cake,feed
-p098,"Live animals husbandry, other",c086,2594,Cottonseed Cake,feed
-p098,"Live animals husbandry, other",c087,2595,Palmkernel Cake,feed
-p098,"Live animals husbandry, other",c088,2596,Copra Cake,feed
-p098,"Live animals husbandry, other",c089,2597,Sesameseed Cake,feed
-p098,"Live animals husbandry, other",c090,2598,"Oilseed Cakes, Other",feed
-p098,"Live animals husbandry, other",c031,2601,Tomatoes and products,feed
-p098,"Live animals husbandry, other",c032,2602,Onions,feed
-p098,"Live animals husbandry, other",c033,2605,"Vegetables, Other",feed
-p098,"Live animals husbandry, other",c034,2611,"Oranges, Mandarines",feed
-p098,"Live animals husbandry, other",c038,2615,Bananas,feed
-p098,"Live animals husbandry, other",c039,2616,Plantains,feed
-p098,"Live animals husbandry, other",c040,2617,Apples and products,feed
-p098,"Live animals husbandry, other",c042,2619,Dates,feed
-p098,"Live animals husbandry, other",c044,2625,"Fruits, Other",feed
-p098,"Live animals husbandry, other",c046,2633,Cocoa Beans and products,feed
-p098,"Live animals husbandry, other",c051,2642,Cloves,feed
-p098,"Live animals husbandry, other",c115,2731,Bovine Meat,feed
-p098,"Live animals husbandry, other",c116,2732,Mutton & Goat Meat,feed
-p098,"Live animals husbandry, other",c119,2735,"Meat, Other",feed
-p098,"Live animals husbandry, other",c120,2736,"Offals, Edible",feed
-p098,"Live animals husbandry, other",c121,2737,"Fats, Animals, Raw",feed
-p098,"Live animals husbandry, other",c112,2740,"Butter, Ghee",feed
-p098,"Live animals husbandry, other",c113,2744,Eggs,feed
-p098,"Live animals husbandry, other",c125,2745,Honey,feed
-p098,"Live animals husbandry, other",c123,2749,Meat Meal,feed
-p098,"Live animals husbandry, other",c001,2805,Rice (Milled Equivalent),feed
-p098,"Live animals husbandry, other",c067,2818,"Sugar, Refined Equiv",feed
-p098,"Live animals husbandry, other",c111,2848,Milk - Excluding Butter,feed
+p097,"Rodents husbandry, other",c110,2848,Milk - Excluding Butter,feed
 p099,Dairy cattle husbandry,c061,2000,Fodder crops,feed
 p099,Dairy cattle husbandry,c062,2001,Grazing,feed
 p099,Dairy cattle husbandry,c002,2511,Wheat and products,feed
@@ -1302,18 +1214,18 @@ p099,Dairy cattle husbandry,c042,2619,Dates,feed
 p099,Dairy cattle husbandry,c044,2625,"Fruits, Other",feed
 p099,Dairy cattle husbandry,c046,2633,Cocoa Beans and products,feed
 p099,Dairy cattle husbandry,c051,2642,Cloves,feed
-p099,Dairy cattle husbandry,c115,2731,Bovine Meat,feed
-p099,Dairy cattle husbandry,c116,2732,Mutton & Goat Meat,feed
-p099,Dairy cattle husbandry,c119,2735,"Meat, Other",feed
-p099,Dairy cattle husbandry,c120,2736,"Offals, Edible",feed
-p099,Dairy cattle husbandry,c121,2737,"Fats, Animals, Raw",feed
-p099,Dairy cattle husbandry,c112,2740,"Butter, Ghee",feed
-p099,Dairy cattle husbandry,c113,2744,Eggs,feed
-p099,Dairy cattle husbandry,c125,2745,Honey,feed
-p099,Dairy cattle husbandry,c123,2749,Meat Meal,feed
+p099,Dairy cattle husbandry,c114,2731,Bovine Meat,feed
+p099,Dairy cattle husbandry,c115,2732,Mutton & Goat Meat,feed
+p099,Dairy cattle husbandry,c118,2735,"Meat, Other",feed
+p099,Dairy cattle husbandry,c119,2736,"Offals, Edible",feed
+p099,Dairy cattle husbandry,c120,2737,"Fats, Animals, Raw",feed
+p099,Dairy cattle husbandry,c111,2740,"Butter, Ghee",feed
+p099,Dairy cattle husbandry,c112,2744,Eggs,feed
+p099,Dairy cattle husbandry,c123,2745,Honey,feed
+p099,Dairy cattle husbandry,c122,2749,Meat Meal,feed
 p099,Dairy cattle husbandry,c001,2805,Rice (Milled Equivalent),feed
 p099,Dairy cattle husbandry,c067,2818,"Sugar, Refined Equiv",feed
-p099,Dairy cattle husbandry,c111,2848,Milk - Excluding Butter,feed
+p099,Dairy cattle husbandry,c110,2848,Milk - Excluding Butter,feed
 p100,Dairy buffaloes husbandry,c061,2000,Fodder crops,feed
 p100,Dairy buffaloes husbandry,c062,2001,Grazing,feed
 p100,Dairy buffaloes husbandry,c002,2511,Wheat and products,feed
@@ -1371,18 +1283,18 @@ p100,Dairy buffaloes husbandry,c042,2619,Dates,feed
 p100,Dairy buffaloes husbandry,c044,2625,"Fruits, Other",feed
 p100,Dairy buffaloes husbandry,c046,2633,Cocoa Beans and products,feed
 p100,Dairy buffaloes husbandry,c051,2642,Cloves,feed
-p100,Dairy buffaloes husbandry,c115,2731,Bovine Meat,feed
-p100,Dairy buffaloes husbandry,c116,2732,Mutton & Goat Meat,feed
-p100,Dairy buffaloes husbandry,c119,2735,"Meat, Other",feed
-p100,Dairy buffaloes husbandry,c120,2736,"Offals, Edible",feed
-p100,Dairy buffaloes husbandry,c121,2737,"Fats, Animals, Raw",feed
-p100,Dairy buffaloes husbandry,c112,2740,"Butter, Ghee",feed
-p100,Dairy buffaloes husbandry,c113,2744,Eggs,feed
-p100,Dairy buffaloes husbandry,c125,2745,Honey,feed
-p100,Dairy buffaloes husbandry,c123,2749,Meat Meal,feed
+p100,Dairy buffaloes husbandry,c114,2731,Bovine Meat,feed
+p100,Dairy buffaloes husbandry,c115,2732,Mutton & Goat Meat,feed
+p100,Dairy buffaloes husbandry,c118,2735,"Meat, Other",feed
+p100,Dairy buffaloes husbandry,c119,2736,"Offals, Edible",feed
+p100,Dairy buffaloes husbandry,c120,2737,"Fats, Animals, Raw",feed
+p100,Dairy buffaloes husbandry,c111,2740,"Butter, Ghee",feed
+p100,Dairy buffaloes husbandry,c112,2744,Eggs,feed
+p100,Dairy buffaloes husbandry,c123,2745,Honey,feed
+p100,Dairy buffaloes husbandry,c122,2749,Meat Meal,feed
 p100,Dairy buffaloes husbandry,c001,2805,Rice (Milled Equivalent),feed
 p100,Dairy buffaloes husbandry,c067,2818,"Sugar, Refined Equiv",feed
-p100,Dairy buffaloes husbandry,c111,2848,Milk - Excluding Butter,feed
+p100,Dairy buffaloes husbandry,c110,2848,Milk - Excluding Butter,feed
 p101,Dairy sheep husbandry,c061,2000,Fodder crops,feed
 p101,Dairy sheep husbandry,c062,2001,Grazing,feed
 p101,Dairy sheep husbandry,c002,2511,Wheat and products,feed
@@ -1440,18 +1352,18 @@ p101,Dairy sheep husbandry,c042,2619,Dates,feed
 p101,Dairy sheep husbandry,c044,2625,"Fruits, Other",feed
 p101,Dairy sheep husbandry,c046,2633,Cocoa Beans and products,feed
 p101,Dairy sheep husbandry,c051,2642,Cloves,feed
-p101,Dairy sheep husbandry,c115,2731,Bovine Meat,feed
-p101,Dairy sheep husbandry,c116,2732,Mutton & Goat Meat,feed
-p101,Dairy sheep husbandry,c119,2735,"Meat, Other",feed
-p101,Dairy sheep husbandry,c120,2736,"Offals, Edible",feed
-p101,Dairy sheep husbandry,c121,2737,"Fats, Animals, Raw",feed
-p101,Dairy sheep husbandry,c112,2740,"Butter, Ghee",feed
-p101,Dairy sheep husbandry,c113,2744,Eggs,feed
-p101,Dairy sheep husbandry,c125,2745,Honey,feed
-p101,Dairy sheep husbandry,c123,2749,Meat Meal,feed
+p101,Dairy sheep husbandry,c114,2731,Bovine Meat,feed
+p101,Dairy sheep husbandry,c115,2732,Mutton & Goat Meat,feed
+p101,Dairy sheep husbandry,c118,2735,"Meat, Other",feed
+p101,Dairy sheep husbandry,c119,2736,"Offals, Edible",feed
+p101,Dairy sheep husbandry,c120,2737,"Fats, Animals, Raw",feed
+p101,Dairy sheep husbandry,c111,2740,"Butter, Ghee",feed
+p101,Dairy sheep husbandry,c112,2744,Eggs,feed
+p101,Dairy sheep husbandry,c123,2745,Honey,feed
+p101,Dairy sheep husbandry,c122,2749,Meat Meal,feed
 p101,Dairy sheep husbandry,c001,2805,Rice (Milled Equivalent),feed
 p101,Dairy sheep husbandry,c067,2818,"Sugar, Refined Equiv",feed
-p101,Dairy sheep husbandry,c111,2848,Milk - Excluding Butter,feed
+p101,Dairy sheep husbandry,c110,2848,Milk - Excluding Butter,feed
 p102,Dairy goats husbandry,c061,2000,Fodder crops,feed
 p102,Dairy goats husbandry,c062,2001,Grazing,feed
 p102,Dairy goats husbandry,c002,2511,Wheat and products,feed
@@ -1509,18 +1421,18 @@ p102,Dairy goats husbandry,c042,2619,Dates,feed
 p102,Dairy goats husbandry,c044,2625,"Fruits, Other",feed
 p102,Dairy goats husbandry,c046,2633,Cocoa Beans and products,feed
 p102,Dairy goats husbandry,c051,2642,Cloves,feed
-p102,Dairy goats husbandry,c115,2731,Bovine Meat,feed
-p102,Dairy goats husbandry,c116,2732,Mutton & Goat Meat,feed
-p102,Dairy goats husbandry,c119,2735,"Meat, Other",feed
-p102,Dairy goats husbandry,c120,2736,"Offals, Edible",feed
-p102,Dairy goats husbandry,c121,2737,"Fats, Animals, Raw",feed
-p102,Dairy goats husbandry,c112,2740,"Butter, Ghee",feed
-p102,Dairy goats husbandry,c113,2744,Eggs,feed
-p102,Dairy goats husbandry,c125,2745,Honey,feed
-p102,Dairy goats husbandry,c123,2749,Meat Meal,feed
+p102,Dairy goats husbandry,c114,2731,Bovine Meat,feed
+p102,Dairy goats husbandry,c115,2732,Mutton & Goat Meat,feed
+p102,Dairy goats husbandry,c118,2735,"Meat, Other",feed
+p102,Dairy goats husbandry,c119,2736,"Offals, Edible",feed
+p102,Dairy goats husbandry,c120,2737,"Fats, Animals, Raw",feed
+p102,Dairy goats husbandry,c111,2740,"Butter, Ghee",feed
+p102,Dairy goats husbandry,c112,2744,Eggs,feed
+p102,Dairy goats husbandry,c123,2745,Honey,feed
+p102,Dairy goats husbandry,c122,2749,Meat Meal,feed
 p102,Dairy goats husbandry,c001,2805,Rice (Milled Equivalent),feed
 p102,Dairy goats husbandry,c067,2818,"Sugar, Refined Equiv",feed
-p102,Dairy goats husbandry,c111,2848,Milk - Excluding Butter,feed
+p102,Dairy goats husbandry,c110,2848,Milk - Excluding Butter,feed
 p103,Dairy camels husbandry,c061,2000,Fodder crops,feed
 p103,Dairy camels husbandry,c062,2001,Grazing,feed
 p103,Dairy camels husbandry,c002,2511,Wheat and products,feed
@@ -1578,18 +1490,18 @@ p103,Dairy camels husbandry,c042,2619,Dates,feed
 p103,Dairy camels husbandry,c044,2625,"Fruits, Other",feed
 p103,Dairy camels husbandry,c046,2633,Cocoa Beans and products,feed
 p103,Dairy camels husbandry,c051,2642,Cloves,feed
-p103,Dairy camels husbandry,c115,2731,Bovine Meat,feed
-p103,Dairy camels husbandry,c116,2732,Mutton & Goat Meat,feed
-p103,Dairy camels husbandry,c119,2735,"Meat, Other",feed
-p103,Dairy camels husbandry,c120,2736,"Offals, Edible",feed
-p103,Dairy camels husbandry,c121,2737,"Fats, Animals, Raw",feed
-p103,Dairy camels husbandry,c112,2740,"Butter, Ghee",feed
-p103,Dairy camels husbandry,c113,2744,Eggs,feed
-p103,Dairy camels husbandry,c125,2745,Honey,feed
-p103,Dairy camels husbandry,c123,2749,Meat Meal,feed
+p103,Dairy camels husbandry,c114,2731,Bovine Meat,feed
+p103,Dairy camels husbandry,c115,2732,Mutton & Goat Meat,feed
+p103,Dairy camels husbandry,c118,2735,"Meat, Other",feed
+p103,Dairy camels husbandry,c119,2736,"Offals, Edible",feed
+p103,Dairy camels husbandry,c120,2737,"Fats, Animals, Raw",feed
+p103,Dairy camels husbandry,c111,2740,"Butter, Ghee",feed
+p103,Dairy camels husbandry,c112,2744,Eggs,feed
+p103,Dairy camels husbandry,c123,2745,Honey,feed
+p103,Dairy camels husbandry,c122,2749,Meat Meal,feed
 p103,Dairy camels husbandry,c001,2805,Rice (Milled Equivalent),feed
 p103,Dairy camels husbandry,c067,2818,"Sugar, Refined Equiv",feed
-p103,Dairy camels husbandry,c111,2848,Milk - Excluding Butter,feed
+p103,Dairy camels husbandry,c110,2848,Milk - Excluding Butter,feed
 p104,Cattle slaughtering,c097,866,Cattle,slaughtering
 p105,Buffaloes slaughtering,c098,946,Buffaloes,slaughtering
 p106,Sheep slaughtering,c099,976,Sheep,slaughtering
@@ -1603,4 +1515,3 @@ p113,Camels slaughtering,c106,1126,Camels,slaughtering
 p114,"Camelids slaughtering, other",c107,1157,"Camelids, other",slaughtering
 p115,Rabbits slaughtering,c108,1140,Rabbits and hares,slaughtering
 p116,"Rodents slaughtering, other",c109,1150,"Rodents, other",slaughtering
-p117,"Live animals slaughtering, other",c110,1171,"Live animals, other",slaughtering

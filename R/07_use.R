@@ -22,7 +22,7 @@ cbs <- rbindlist(list(cbs, grazing), use.names = TRUE, fill = TRUE)
 # Create long use table
 use <- merge(
   cbs[, c("area_code", "area", "year", "item_code", "item", "production", "processing")],
-  use_items[item_code %in% unique(cbs$item_code) & item != "Pet food"],
+  use_items[item_code %in% unique(cbs$item_code)],
   by = c("item_code", "item"), all = TRUE, allow.cartesian = TRUE)
 use[, use := NA_real_]
 
@@ -128,7 +128,7 @@ use[, value := NULL]
 cbs <- merge(cbs, results[, list(value = na_sum(value)),
   by = c("year", "area_code", "item_code")],
   by = c("area_code", "year", "item_code"), all.x = TRUE)
-cbs[!is.na(value), processing := na_sum(processing, -value)]
+cbs[!is.na(value), processing := round(na_sum(processing, -value))]
 cbs[, value := NULL]
 
 
@@ -479,6 +479,7 @@ saveRDS(results, paste0("./data/optim_results_",Sys.Date(),".rds"))
 # results <- readRDS("./data/optim_results_2020-08-07.rds")
 # results <- readRDS("./data/optim_results_2020-08-11.rds")
 # results <- readRDS("./data/optim_results_2020-08-23.rds")
+# results <- readRDS("./data/optim_results_2020-09-02.rds")
 
 # Add process information
 results[, proc_code := ifelse(out_code == 2658, "p083",

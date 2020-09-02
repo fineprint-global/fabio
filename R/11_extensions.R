@@ -2,9 +2,7 @@
 library(data.table)
 source("R/01_tidy_functions.R")
 
-no_data <- c("Pet food", "Live animals, other")
 items <- fread("inst/items_full.csv")
-items <- items[!item %in% no_data]
 regions <- fread("inst/regions_full.csv")
 regions <- regions[cbs==TRUE]
 nrreg <- nrow(regions)
@@ -47,4 +45,3 @@ E <- lapply(years, function(x, y) {
 names(E) <- years
 
 saveRDS(E, file="/mnt/nfs_fineprint/tmp/fabio/neu/E.rds")
-# saveRDS(E, file="~/wu_share/WU/Projekte/GRU/04_Daten/MRIO/IO data/FABIO data/neu/E.rds")

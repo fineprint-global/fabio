@@ -45,21 +45,21 @@ exps[, `:=`(value = ifelse(!is.na(m3), m3, ifelse(!is.na(head), head, tonnes)),
   m3 = NULL, head = NULL, tonnes = NULL)]
 
 
-# Forestry ----------------------------------------------------------------
-
-cat("\nAdding forestry production data.\n")
-
-fore <- readRDS("data/tidy/fore_prod_tidy.rds")
-
-fore[, `:=`(total_supply = na_sum(production, imports),
-  other = na_sum(production, imports, -exports),
-  stock_withdrawal = 0, stock_addition = 0,
-  feed = 0, food = 0, losses = 0, processing = 0,
-  seed = 0, balancing = 0)]
-fore[other < 0, `:=`(balancing = other, other = 0)]
-
-cbs <- rbindlist(list(cbs, fore), use.names = TRUE)
-rm(fore)
+# # Forestry ----------------------------------------------------------------
+#
+# cat("\nAdding forestry production data.\n")
+#
+# fore <- readRDS("data/tidy/fore_prod_tidy.rds")
+#
+# fore[, `:=`(total_supply = na_sum(production, imports),
+#   other = na_sum(production, imports, -exports),
+#   stock_withdrawal = 0, stock_addition = 0,
+#   feed = 0, food = 0, losses = 0, processing = 0,
+#   seed = 0, balancing = 0)]
+# fore[other < 0, `:=`(balancing = other, other = 0)]
+#
+# cbs <- rbindlist(list(cbs, fore), use.names = TRUE)
+# rm(fore)
 
 
 # Fill crop production where missing -------------------------------------
@@ -86,7 +86,8 @@ cbs[, value := NULL]
 # Estimate cbs for items/countries not included -------------------------------------
 
 # Filter countries and items that are not yet in CBS
-addcbs <- dt_filter(crop_prod, ! paste(area_code,item_code,year) %in% paste(cbs$area_code,cbs$item_code,cbs$year))
+addcbs <- dt_filter(crop_prod[item_code %in% items$item_code],
+                    ! paste(area_code,item_code,year) %in% paste(cbs$area_code,cbs$item_code,cbs$year))
 
 # Technical conversion factors to impute processing ---
 tcf_crop <- fread("inst/tcf_crop.csv")
@@ -174,7 +175,7 @@ rm(crop, crop_prod, addcbs,
   C, input_x, output_x, input_y, output_y)
 
 
-# Fill livestock and ethanol production -----------------------------
+# Fill livestock -----------------------------
 
 cat("\nFilling missing livestock data.\n")
 
@@ -217,8 +218,8 @@ live[ , `:=`(value =
 # Add trade data
 live_trad <- readRDS("data/tidy/live_tidy.rds")
 
-live_imp <- live_trad[element == "Import Quantity" & unit == "head", ]
-live_exp <- live_trad[element == "Export Quantity" & unit == "head", ]
+live_imp <- live_trad[element == "Import Quantity" & unit == "head" & item_code %in% items$item_code, ]
+live_exp <- live_trad[element == "Export Quantity" & unit == "head" & item_code %in% items$item_code, ]
 
 live <- merge(live[, .(area_code, area, item_code, item, year, production = value)],
               live_imp[, .(area_code, area, item_code, item, year, imports = value)],
@@ -254,12 +255,59 @@ live[, processing := na_sum(production, imports, -exports)]
 
 cbs <- dplyr::bind_rows(cbs, live)
 
-rm(src_item, tgt_item, tgt_name, conc, live, live_trad, live_alt,
-  live_imp, live_exp)
+rm(src_item, tgt_item, tgt_name, conc, live, live_trad, live_alt)
+
+
+# Estimate cbs for meat items/countries not included -------------------------------------
+
+live <- readRDS("data/tidy/live_tidy.rds")
+
+live <- live[element == "Production" & unit == "tonnes", ]
+live[, `:=`(element = NULL, unit = NULL)]
+
+# Map "Meat, ..." items to CBS items
+src_item <- c(1035,1097,1108,1111,1127,1141,1151,1158,1163,1166,1806,1807,1808)
+tgt_item <- c(2733,2735,2735,2735,2735,2735,2735,2735,2735,2735,2731,2732,2734)
+tgt_name <- c("Pigmeat","Meat, Other","Meat, Other","Meat, Other","Meat, Other",
+              "Meat, Other","Meat, Other","Meat, Other","Meat, Other","Meat, Other",
+              "Bovine Meat","Mutton & Goat Meat","Poultry Meat")
+conc <- match(live$item_code, src_item)
+live[, `:=`(item_code = tgt_item[conc], item = tgt_name[conc])]
+live <- live[!is.na(item_code), ]
+live[, `:=`(production = value, value = NULL)]
+
+# add trade values from btd
+live <- merge(
+  live,
+  imps[item_code %in% live[, item_code] & value > 0,
+       .(to_code, to, item_code, item, year, imports = value)],
+  by.x = c("area_code", "area", "item_code", "item", "year"),
+  by.y = c("to_code", "to", "item_code", "item", "year"),
+  all = TRUE)
+live <- merge(
+  live,
+  exps[item_code %in% live[, item_code] & value > 0,
+       .(from_code, from, item_code, item, year, exports = value)],
+  by.x = c("area_code", "area", "item_code", "item", "year"),
+  by.y = c("from_code", "from", "item_code", "item", "year"),
+  all = TRUE)
+
+# Filter countries and items that are not yet in CBS
+live <- live[!paste(area_code, item_code, year) %in% paste(cbs$area_code, cbs$item_code, cbs$year) & !is.na(production)]
+
+live[, total_supply := na_sum(production, imports)]
+# reduce exports where they exceed total supply
+live[, exports := ifelse(exports > total_supply, total_supply, exports)]
+live[, unspecified := na_sum(production, imports, -exports)]
+live[, balancing := 0]
+
+# Add to CBS ---
+cat("\nAdding ", nrow(live), " missing cbs accounts for meat items.\n", sep = "")
+cbs <- dplyr::bind_rows(cbs, live)
 
 
 
-# Ethanol ---
+# Fill Ethanol -----------------------------
 
 cat("\nAdding ethanol production data to CBS.\n")
 

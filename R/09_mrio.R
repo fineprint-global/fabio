@@ -38,29 +38,28 @@ Z_v <- lapply(Z_v, round)
 
 
 
+# Rebalance row sums in Z and Y -----------------------------------------
 
 library(data.table)
-
-# Remove items without data -----------------------------------------
-
-Y <- readRDS("/mnt/nfs_fineprint/tmp/fabio/neu/Y.rds")
-no_data <- c("Pet food", "Live animals, other")
-items <- fread("inst/items_full.csv")
-items <- items[!item %in% no_data]
 regions <- fread("inst/regions_full.csv")
 regions <- regions[cbs==TRUE]
+items <- fread("inst/items_full.csv")
+nrcom <- nrow(items)
+Y <- readRDS("/mnt/nfs_fineprint/tmp/fabio/neu/Y.rds")
 
-for(i in seq_along(Z_m)){
-  Z_m[[i]] <- Z_m[[i]][rownames(Z_m[[i]]) %in% items$comm_code,
-                       rownames(Z_m[[i]]) %in% items$comm_code]
-  Z_v[[i]] <- Z_v[[i]][rownames(Z_v[[i]]) %in% items$comm_code,
-                       rownames(Z_v[[i]]) %in% items$comm_code]
-  Y[[i]] <- Y[[i]][rownames(Y[[i]]) %in% items$comm_code,]
-}
+# # Remove items without data
+# no_data <- c("Pet food", "Live animals, other")
+# items <- items[!item %in% no_data]
+#
+# for(i in seq_along(Z_m)){
+#   Z_m[[i]] <- Z_m[[i]][rownames(Z_m[[i]]) %in% items$comm_code,
+#                        rownames(Z_m[[i]]) %in% items$comm_code]
+#   Z_v[[i]] <- Z_v[[i]][rownames(Z_v[[i]]) %in% items$comm_code,
+#                        rownames(Z_v[[i]]) %in% items$comm_code]
+#   Y[[i]] <- Y[[i]][rownames(Y[[i]]) %in% items$comm_code,]
+# }
 
-
-# Rebalance row sums in Z and Y -------------------------------------
-
+# Rebalance row sums
 for(i in seq_along(Z_m)){
 
   X <- rowSums(Z_m[[i]]) + rowSums(Y[[i]])

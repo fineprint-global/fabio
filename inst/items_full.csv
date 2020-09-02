@@ -108,24 +108,19 @@ c106,1126,Camels,1000 Head,Livestock,0,,Live animals
 c107,1157,"Camelids, other",1000 Head,Livestock,0,,Live animals
 c108,1140,Rabbits and hares,1000 Head,Livestock,0,,Live animals
 c109,1150,"Rodents, other",1000 Head,Livestock,0,,Live animals
-c110,1171,"Live animals, other",1000 Head,Livestock,0,,Live animals
-c111,2848,Milk - Excluding Butter,tonnes,Livestock products,0.875,animals,Milk
-c112,2740,"Butter, Ghee",tonnes,Livestock products,0.15,animals,Milk
-c113,2744,Eggs,tonnes,Livestock products,0.744,animals,Eggs
-c114,2746,Wool (Clean Eq.),tonnes,Livestock products,0,animals,"Hides, skins, wool"
-c115,2731,Bovine Meat,tonnes,Livestock products,0.65,animals,Meat
-c116,2732,Mutton & Goat Meat,tonnes,Livestock products,0.6,animals,Meat
-c117,2733,Pigmeat,tonnes,Livestock products,0.6,animals,Meat
-c118,2734,Poultry Meat,tonnes,Livestock products,0.6,animals,Meat
-c119,2735,"Meat, Other",tonnes,Livestock products,0.65,animals,Meat
-c120,2736,"Offals, Edible",tonnes,Livestock products,0.65,animals,Meat
-c121,2737,"Fats, Animals, Raw",tonnes,Livestock products,0.01,animals,Animal fats
-c122,2748,Hides and skins,tonnes,Livestock products,0,animals,"Hides, skins, wool"
-c123,2749,Meat Meal,tonnes,Livestock products,0.075,animals,Meat
-c124,843,Pet food,tonnes,Livestock products,0.65,animals,Meat
-c125,2745,Honey,tonnes,Livestock products,0.17,animals,Honey
-c126,2747,Silk,tonnes,Livestock products,0,animals,"Hides, skins, wool"
-c127,2960,"Fish, Seafood",tonnes,Fish,0.7,animals,Fish
-c128,1864,Wood fuel,m3,Wood,0,,Wood
-c129,1866,"Industrial roundwood, coniferous",m3,Wood,0,,Wood
-c130,1867,"Industrial roundwood, non-coniferous",m3,Wood,0,,Wood
+c110,2848,Milk - Excluding Butter,tonnes,Livestock products,0.875,animals,Milk
+c111,2740,"Butter, Ghee",tonnes,Livestock products,0.15,animals,Milk
+c112,2744,Eggs,tonnes,Livestock products,0.744,animals,Eggs
+c113,2746,Wool (Clean Eq.),tonnes,Livestock products,0,animals,"Hides, skins, wool"
+c114,2731,Bovine Meat,tonnes,Livestock products,0.65,animals,Meat
+c115,2732,Mutton & Goat Meat,tonnes,Livestock products,0.6,animals,Meat
+c116,2733,Pigmeat,tonnes,Livestock products,0.6,animals,Meat
+c117,2734,Poultry Meat,tonnes,Livestock products,0.6,animals,Meat
+c118,2735,"Meat, Other",tonnes,Livestock products,0.65,animals,Meat
+c119,2736,"Offals, Edible",tonnes,Livestock products,0.65,animals,Meat
+c120,2737,"Fats, Animals, Raw",tonnes,Livestock products,0.01,animals,Animal fats
+c121,2748,Hides and skins,tonnes,Livestock products,0,animals,"Hides, skins, wool"
+c122,2749,Meat Meal,tonnes,Livestock products,0.075,animals,Meat
+c123,2745,Honey,tonnes,Livestock products,0.17,animals,Honey
+c124,2747,Silk,tonnes,Livestock products,0,animals,"Hides, skins, wool"
+c125,2960,"Fish, Seafood",tonnes,Fish,0.7,animals,Fish

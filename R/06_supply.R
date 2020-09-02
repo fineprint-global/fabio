@@ -123,6 +123,14 @@ sup <- merge(sup, all.x = TRUE,
   by.x = c("area_code", "area", "item", "item_code", "year"),
   by.y = c("from_code", "from", "item", "item_code", "year"))
 
+# apply world average price where price is NA
+sup <- merge(sup, all.x = TRUE,
+  prices_world[, c("item", "item_code", "year", "price_world")],
+  by.x = c("item", "item_code", "year"),
+  by.y = c("item", "item_code", "year"))
+sup[, `:=`(price = ifelse(is.na(price), price_world, price),
+           price_world = NULL)]
+
 
 # Store results -----------------------------------------------------------
 
