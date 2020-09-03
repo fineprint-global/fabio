@@ -36,12 +36,14 @@ for(year in years){
 
   print(year)
 
-  L <- prep_solve(year = year, Z_m[[as.character(year)]],
-                  Y[[as.character(year)]], X[, as.character(year)])
+  L <- prep_solve(year = year, Z = Z_m[[as.character(year)]],
+                  Y = Y[[as.character(year)]], X = X[, as.character(year)],
+                  adj_diag = TRUE)
   saveRDS(L, paste0("/mnt/nfs_fineprint/tmp/fabio/neu/", year, "_L_mass.rds"))
 
-  L <- prep_solve(year = year, Z_v[[as.character(year)]],
-                  Y[[as.character(year)]], X[, as.character(year)])
+  L <- prep_solve(year = year, Z = Z_v[[as.character(year)]],
+                  Y = Y[[as.character(year)]], X = X[, as.character(year)],
+                  adj_diag = TRUE)
   saveRDS(L, paste0("/mnt/nfs_fineprint/tmp/fabio/neu/", year, "_L_value.rds"))
 
 }
