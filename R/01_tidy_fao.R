@@ -261,6 +261,9 @@ crop <- area_merge(crop, orig = 62, dest = 238, pattern = "Ethiopia")
 crop <- area_merge(crop, orig = 206, dest = 276, pattern = "Sudan")
 crop <- area_fix(crop, regions)
 
+# save before converting into primary equivalents
+saveRDS(crop, "data/tidy/crop_full.rds")
+
 crop <- merge(crop, crop_conc,
   by.x = "item_code", by.y = "crop_item_code", all.x = TRUE)
 crop <- tcf_apply(crop, fun = `*`, na.rm = TRUE)

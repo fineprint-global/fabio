@@ -1,0 +1,170 @@
+fao_code,fao_item,item_code,item,water_item,water_colname,description
+15,Wheat,2511,Wheat and products,Wheat,Wheat,"Triticum spp.: common (T. aestivum) durum (T. durum) spelt (T. spelta). Common and durum wheat are the main types. Among common wheat, the main varieties are spring and winter, hard and soft, and red and white. At the national level, different varieties s"
+27,"Rice, paddy",2805,Rice (Milled Equivalent),Rice,Rice,"Oryza spp., mainly oryza sativa. Rice grain after threshing and winnowing. Also known as rice in the husk and rough rice. Used mainly for human food."
+44,Barley,2513,Barley and products,Barely,Barely,"Hordeum spp.: two-row barley (H. disticum) six-row barley (H. hexasticum) four-row barley (H. vulgare). Tolerates poorer soils and lower temperatures better than does wheat. Varieties include with husk and without (naked). Used as a livestock feed, for ma"
+56,Maize,2514,Maize and products,Maize,Maize,"Zea mays Corn, Indian corn, mealies. A grain with a high germ content. At the national level, hybrid and ordinary maize should be reported separately owing to widely different yields and uses. Used largely for animal feed and commercial starch production."
+71,Rye,2515,Rye and products,Rye,Rye,"Secale cereale. A grain that is tolerant of poor soils, high latitudes and altitudes. Mainly used in making bread, whisky and beer. When fed to livestock, it is generally mixed with other grains."
+75,Oats,2516,Oats,Oats,Oats,"Avena spp., mainly Avena sativa. A plant with open, spreading panicle-bearing large spikelets. Used primarily in breakfast foods. Makes excellent fodder for horses."
+79,Millet,2517,Millet and products,Millet,Millet,"Including inter alia: barnyard or Japanese millet (Echinocloa frumentacea); ragi, finger or African millet (Eleusine coracana); teff (Eragrostis abyssinica); common, golden or proso millet (Panicum miliaceum); koda or ditch millet (Paspalum scrobiculatum)"
+83,Sorghum,2518,Sorghum and products,Sorghum,Sorghum,"Sorghum spp.: guinea corn (S. guineense); common, milo, feterita, kaffir corn (S. vulgare); durra, jowar, kaoliang (S. dura). A cereal that has both food and feed uses. Sorghum is a major food grain in most of Africa, where it is also used in traditional "
+89,Buckwheat,2520,"Cereals, Other",Buckwheat,Buckwheat,"Fagopyrum esculentum (Polygonaceae). A minor cereal cultivated primarily in northern regions. Buckwheat is considered a cereal, although it does not belong to the gramineous family."
+92,Quinoa,2520,"Cereals, Other",Quinoa,Quinoa,"Chenopodium quinoa (Chenopodiaceae). A minor cereal, which tolerates high altitudes, quinoa is cultivated primarily in andean countries. Used for food and to make chicha, a fermented beverage."
+94,Fonio,2520,"Cereals, Other",Fonio,Fonio,Digitaria spp.: fonio or findi (D. exilis); black fonio or hungry rice (D. iburua). A minor cereal of importance only in West Africa where it is eaten in place of rice during famines. The seeds are cooked by steaming the whole grain.
+97,Triticale,2520,"Cereals, Other",Triticale,Triticale,"A minor cereal that is a cross between wheat and rye, combining the quality and yield of wheat with the hardiness of rye."
+101,Canary seed,2520,"Cereals, Other",Canary seed,Canary.seed,Phalaris canariensis. Minor cereal normally used as bird feed.
+103,"Grain, mixed",2520,"Cereals, Other",Mixed grain,Mixed.grain,"A mixture of cereal species that are sown and harvested together. The mixture wheat/rye is known as meslin, but in trade is usually classified with wheat."
+108,"Cereals, nes",2520,"Cereals, Other","Cereals, nes",Cereals..nes,Including inter alia: canagua or coaihua (Chenopodium pallidicaule); quihuicha or Inca wheat (Amaranthus caudatus); adlay or Job's tears (Coix lacryma-jobi); wild rice (Zizania aquatica). Other cereal crops that are not identified separately because of th
+116,Potatoes,2531,Potatoes and products,Potato,Potato,"Solanum tuberosum Irish potato. A seasonal crop grown in temperate zones all over the world, but primarily in the northern hemisphere."
+122,Sweet potatoes,2533,Sweet potatoes,Sweet potatoes,Sweet.potatoes,"Ipomoea batatas. A seasonal crop grown in tropical and subtropical regions. Used mainly for human food. Trade data cover fresh and dried tubers, whether or not sliced or in the form or pellets."
+125,Cassava,2532,Cassava and products,Cassava,Cassava,"Manioc, mandioca, yuca (Manihot esculenta, syn. M. utilissima); yuca dulce (M. palmata, syn. M. dulcis). A semi-permanent crop grown in tropical and subtropical regions. Sometimes bitter and sweet cassavas are referred to as separate species, the former b"
+135,Yautia (cocoyam),2534,"Roots, Other",Yautia (cocoyam),Yautia..cocoyam.,"Xanthosoma spp.; malanga, new cocoyam, ocumo, tannia (X. sagittifolium). Several plants are included in this group, some with edible tubers and others with edible stems (also called aroids). Yautia is grown mainly in the Caribbean and is used for food. Tr"
+136,Taro (cocoyam),2534,"Roots, Other",Taro (coco yam),Taro..coco.yam.,"Dasheen, eddoe, taro, old cocoyam(Colocasia esculenta). Aroids cultivated for their edible starchy corms or underground stems. Taro is grown throughout the tropics for food. Trade data cover both fresh and dried taro."
+137,Yams,2535,Yams,Yams,Yams,"Dioscorea spp.. The principal edible yams are widely grown throughout the tropics. A starchy staple foodstuff, normally eaten as a vegetable, boiled, baked or fried. In West Africa they are consumed mainly as ""fufu"", a stiff glutinous dough. Trade data co"
+149,"Roots and tubers, nes",2534,"Roots, Other",Roots and tubers nes,Roots.and.tubers.nes,"Including inter alia: arracacha (Arracacoa xanthorrhiza); arrowroot (Maranta arundinacea); chufa (Cyperus esculentus); sago palm (Metroxylon spp.); oca and ullucu (Oxalis tuberosa and Ullucus tuberosus); yam bean, jicama (Pachyrxhizus erosus, P. angulatus"
+156,Sugar cane,2536,Sugar cane,Sugarcane,Sugarcane,"Saccharum officinarum. In some producing countries, marginal quantities of sugar cane are consumed, either directly as food or in the form of juice."
+157,Sugar beet,2537,Sugar beet,Sugarbeet,Sugarbeet,"Beta vulgaris var. altissima. In some producing countries, marginal quantities are consumed, either directly as food or in the preparation of jams."
+161,"Sugar crops, nes",2543,"Sweeteners, Other",Sugar crops nes,Sugar.crops.nes,"Including inter alia: sugar maple (Acer saccharum); sweet sorghum (Sorghum saccharatum); sugar palm (Arenga saccharifera). Includes minor sugar crops of local importance. In the case of saps, production is to be expressed in liquid equivalent."
+176,"Beans, dry",2546,Beans,"Beans, dry",Beans..dry,"Phaseolus spp.: kidney, haricot bean (Ph. vulgaris); lima, butter bean (Ph. lunatus); adzuki bean (Ph. angularis); mungo bean, golden, green gram (Ph. aureus); black gram, urd (Ph. mungo); scarlet runner bean (Ph. coccineus); rice bean (Ph. calcaratus); m"
+181,"Broad beans, horse beans, dry",2549,"Pulses, Other and products","Broad beans, dry",Broad.beans..dry,Vicia faba: horse-bean (var. equina); broad bean (var. major); field bean (var. minor).
+187,"Peas, dry",2547,Peas,"Peas, dry",Peas..dry,Garden pea (Pisum sativum); field pea (P. arvense).
+191,Chick peas,2549,"Pulses, Other and products",Chik-peas,Chik.peas,"Chickpea, Bengal gram, garbanzos (Cicer arietinum)."
+195,"Cow peas, dry",2549,"Pulses, Other and products","Cow peas, dry",Cow.peas..dry,"Cowpea, blackeye pea/bean (Vigna sinensis; Dolichos sinensis)."
+197,Pigeon peas,2549,"Pulses, Other and products",Pigeon peas,Pigeon.peas,"Pigeon pea, cajan pea, Congo bean (Cajanus cajan)."
+201,Lentils,2549,"Pulses, Other and products",Lentils,Lentils,Lens esculenta; Ervum lens.
+203,Bambara beans,2549,"Pulses, Other and products",Bambara beans,Bambara.beans,"Bambara groundnut, earth pea (Voandzeia subterranea). These beand are grown underground in a similar way to groundnuts."
+205,Vetches,2549,"Pulses, Other and products",Vetches,Vetches,Spring/common vetch (Vicia sativa). Used mainly for animal feed.
+210,Lupins,2549,"Pulses, Other and products",Lupins,Lupins,"Lupinus spp.. Used primarily for feed, though in some parts of Africa and in Latin America some varieties are cultivated for human food."
+211,"Pulses, nes",2549,"Pulses, Other and products",Pulses nes,Pulses.nes,Including inter alia: lablab or hyacinth bean (Dolichos spp.); jack or sword bean (Canavalia spp.); winged bean (Psophocarpus tetragonolobus); guar bean (Cyamopsis tetragonoloba); velvet bean (Stizolobium spp.); yam bean (Pachyrrhizus erosus);. Vigna spp.
+216,"Brazil nuts, with shell",2551,Nuts and products,Brazil nuts,Brazil.nuts,"Brazil, Para or cream nut (Bertholletia excelsa)."
+217,"Cashew nuts, with shell",2551,Nuts and products,Cashew nuts,Cashew.nuts,"Anacardium occidentale. Produced mainly in East Africa, India and Brazil."
+220,Chestnut,2551,Nuts and products,Chestnuts,Chestnuts,Castanea spp.: C. vesca; C. vulgaris; C. sativa. Produced mainly in Europe and Asia.
+221,"Almonds, with shell",2551,Nuts and products,Almonds,Almonds,"Prunus amygdalus; P. communis; Amygdalus communis. Produced mainly in Mediterranean countries, the United States and Asia."
+222,"Walnuts, with shell",2551,Nuts and products,Walnuts,Walnuts,"Jugland spp.: J. regia. Produced in temperate zones of the Northern Hemisphere, particularly in the United States."
+223,Pistachios,2551,Nuts and products,Pistachios,Pistachios,Pistacia vera. Produced mainly in the Near East and the United States.
+224,Kola nuts,2551,Nuts and products,Kolanuts,Kolanuts,"Kola, cola, Sudan cola nut (Cola nitida; C. vera; C. acuminata). Produced mainly in Africa. Kola nuts, containing 2.4 to 2.6% caffeine, are commonly chewed by the local population. Much used in Europe and America in the production of beverages."
+225,"Hazelnuts, with shell",2551,Nuts and products,Hazelnuts (filberts),Hazelnuts..filberts.,Corylus avellana. Produced mainly in Mediterranean countries and the United States.
+226,Areca nuts,2551,Nuts and products,Areca nuts (betel),Areca.nuts..betel.,"Areca, betel nut (Areca catechu). Produced mainly in the Far East. Areca nuts are used mainly as masticatory. These nuts contain alkaloids (arecoline and arecaidine)."
+234,"Nuts, nes",2551,Nuts and products,Nuts nes,Nuts.nes,"Including inter alia: pecan nut (Carya illinoensis); butter or swarri nut (Caryocar nuciferum); pili nut, Java almond, Chinese olives (Canarium spp.); paradise or sapucaia nut (Lecythis zabucajo); Queensland, macadamia nut (Macadamia ternifolia); pignolia"
+236,Soybeans,2555,Soyabeans,Soybean,Soybean,"Glycine soja. The most important oil crop. Also widely consumed as a bean and in the form of various derived products because of its high protein content, e.g. soya milk, meat, etc."
+242,"Groundnuts, with shell",2556,Groundnuts (Shelled Eq),Ground nut,Ground.nut,"Arachis hypogaea. For trade data, groundnuts in shell are converted at 70% and reported on a shelled basis."
+249,Coconuts,2560,Coconuts - Incl Copra,Coconuts,Coconuts,"Cocos nucifera Husked coconut. In shell, covered by the endocarp, while exocarp (the smooth outer skin) and mesocarp (the fibrous covering) are removed. Immature nuts contain a milky juice that is consumed as a refreshing drink. Mature nuts are consumed a"
+254,"Oil, palm fruit",254,"Oil, palm fruit",Oil palm,Oil.palm,Elaeis guineensis. The oil palm produces bunches containing a large number of fruits with the fleshy mesocarp enclosing a kernel that is covered by a very hard shell. FAO considers palm oil (coming from the pulp) and palm kernels to be primary products. T
+256,Palm kernels,2562,Palm kernels,,,Seeds of the oil palm. Babassu kernels (Orbignya speciosa) are often reported as palm kernels.
+257,"Oil, palm",2577,Palm Oil,,,"Obtained from the mesocarp of the fruit of the oil palm by pressure, and also by solvent from the residues of the pressure extraction."
+260,Olives,2563,Olives (including preserved),Olives,Olives,Olea europaea. Includes table olives and olives for oil.
+263,Karite nuts (sheanuts),2570,"Oilcrops, Other",Nuts nes,Nuts.nes,Butyrospermum parkii. Production data refer only to the nut contained in the fruit although the pulp around the nut is also edible.
+265,Castor oil seed,2570,"Oilcrops, Other",Castor beans,Castor.beans,"Ricinus communis. Valued mainly for their oil, which is used in pharmaceutical products. Ground seedcakes are used as fertilizers (castor oil pomace)."
+267,Sunflower seed,2557,Sunflower seed,Sunflower,Sunflower,Helianthus annuus. Valued mainly for its oil. Minor uses include as a human food and as feed for birds.
+270,Rapeseed,2558,Rape and Mustardseed,Rapeseed,Rapeseed,"Brassica napus var. oleifera. Valued mainly for its oil. Older varieties are rich in Erucic acid, which is considered unhealthy."
+275,Tung nuts,2570,"Oilcrops, Other",Nuts nes,Nuts.nes,Aleurites cordata; A. fordii. Valued mainly for their oil.
+277,Jojoba seed,2570,"Oilcrops, Other",Oilseeds nes,Oilseeds.nes,Simmondsia californica (syn. S. chinensis). From the shrub or small tree of the Buxaceae family.
+280,Safflower seed,2570,"Oilcrops, Other",Safflower seed,Safflower.seed,Carthamus tinctorius. Valued mainly for its oil. Minor uses include as a human food and as poultry feed.
+289,Sesame seed,2561,Sesame seed,sesame seed,sesame.seed,"Sesamum indicum. Valued for its oil, but also as a food, either raw or roasted, as well as in bakery products and other food preparations."
+292,Mustard seed,2558,Rape and Mustardseed,Mustard seed,Mustard.seed,"White mustard (Brassica alba; B. hirta; Sinapis alba); black mustard (Brassica nigra; Sinapis nigra). In addition to the oil extracted from them, white mustard seeds, may be processed into flour for food use. Black mustard seeds also yield oil and are pro"
+296,Poppy seed,2570,"Oilcrops, Other",Poppy seed,Poppy.seed,"Papaver somniferum. The source of opium, poppy seeds are also used in baking and confectionery."
+299,Melonseed,2570,"Oilcrops, Other",Melonseed,Melonseed,Cucumis melo. Includes seeds of other Cucurbitaceae.
+305,Tallowtree seed,2570,"Oilcrops, Other",Oilseeds nes,Oilseeds.nes,Borneo tallow tree (Shorea aptera; S. stenocarpa); Chinese tallow tree (Sapium sebiferum; Stillingia sebifera). Grown wild and cultivated. FAO considers vegetable tallow and stillingia oil to be primary products (see below).
+310,Kapok fruit,2570,"Oilcrops, Other",Kapok fruit,Kapok.fruit,"Ceiba pentandra, Bombacaceae. The fruit of kapok contains fibre and seeds, which FAO treats as primary crops."
+311,Kapokseed in shell,2570,"Oilcrops, Other",Oilseeds nes,Oilseeds.nes,The soft shell is approximately 40-50% of the total weight of the nut.
+328,Seed cotton,328,Seed cotton,Cotton,Cotton,"Gossypium spp.: Unginned cotton. Grown for both seed and for fibre. FAO considers cottonseed, cotton lint and linters to be primary products. Lint content ranges from 30 to 40%, seed 55 to 65%, and linters 2 to 5% though they are not always separated."
+329,Cottonseed,2559,Cottonseed,,,Used for extracting oil.
+333,Linseed,2570,"Oilcrops, Other",Linseed,Linseed,Linum usitatissimum Flaxseed. An annual herbaceous that is cultivated for its fibre as well as its oil.
+336,Hempseed,2570,"Oilcrops, Other",Hempseed,Hempseed,Cannabis sativa. An annual herbaceous that is cultivated for its fibre as well as its oil. In major producing countries oil is extracted from the seeds.
+339,Oilseeds nes,2570,"Oilcrops, Other",Oilseeds nes,Oilseeds.nes,Includes inter alia: beech nut (Fagus sylvatica);(Aleurites moluccana);(Carapa guineensis);(Croton tiglium);(Bassia latifolia);(Guizotia abyssinica);(Licania rigida);(Perilla frutescens);(Jatropha curcas);(Shorea robusta);(Pongamia glabra);(Astrocaryum sp
+358,Cabbages and other brassicas,2605,"Vegetables, Other",Cabbages,Cabbages,"Chinese, mustard cabbage, pak-choi (Brassica chinensis); white, red, savoy cabbage, Brussels sprouts, collards, kale and kohlrabi (Brassica oleracea all var. except botrytis)."
+366,Artichokes,2605,"Vegetables, Other",Artichokes,Artichokes,Cynara scolymus.
+367,Asparagus,2605,"Vegetables, Other",Asparagus,Asparagus,Asparagus officinalis.
+372,Lettuce and chicory,2605,"Vegetables, Other",Lettuce,Lettuce,Lactuca sativa; witloof chicory (Cichorium intybus var. foliosum); endive (C. endivia var. crispa); escarole chicory (C. endivia var. latifolia).
+373,Spinach,2605,"Vegetables, Other",Spinach,Spinach,Spinacia oleracea. Trade figures may include New Zealand spinach (Tetragonia espansa) and orache (garden) spinach (Atriplex hortensis).
+378,Cassava leaves,2532,Cassava and products,,,Manihot esculenta; M. utilissima. Young cassava leaves are eaten in some areas of Africa as a vegetable.
+388,Tomatoes,2601,Tomatoes and products,Tomatoes,Tomatoes,Lycopersicon esculentum.
+393,Cauliflowers and broccoli,2605,"Vegetables, Other",Cauliflower,Cauliflower,"Brassica oleracea var. botrytis, subvariety cauliflora and cymosa. Includes headed broccoli."
+394,"Pumpkins, squash and gourds",2605,"Vegetables, Other","Pumpkins, squash, gourds",Pumpkins..squash..gourds,Cucurbita spp. Includes marrows.
+397,Cucumbers and gherkins,2605,"Vegetables, Other",Cucumbers and gherkins,Cucumbers.and.gherkins,Cucumis sativus.
+399,Eggplants (aubergines),2605,"Vegetables, Other",Eggplants,Eggplants,Solanum melongena. Also called aubergines.
+401,"Chillies and peppers, green",2605,"Vegetables, Other","Chillies and peppers, green",Chillies.and.peppers..green,"Capsicum annuum; C. fructescens; Pimenta officinalis. Production data exclude crops cultivated explicitly as spices. In contrast, trade data include these crops, provided they are fresh, uncrushed and unground."
+402,"Onions, shallots, green",2602,Onions,"Onions + shallots, green",Onions...shallots..green,Shallots (Allium ascalonicum); onions (A. cepa); welsh onions (A. fistulosum). Young onions pulled before the bulb has enlarged; used especially in salads. Includes onion sets.
+403,"Onions, dry",2602,Onions,Onions,Onions,"Allium cepa. Includes onions at a mature stage, but not dehydrated onions."
+406,Garlic,2605,"Vegetables, Other",Garlic,Garlic,Allium sativum.
+407,"Leeks, other alliaceous vegetables",2605,"Vegetables, Other","Onions + shallots, green",Onions...shallots..green,"Leeks (Allium porrum); chives (A. schoenoprasum); other alliac. (Allium varieties except those of 402, 403 and 406)."
+414,"Beans, green",2605,"Vegetables, Other","Beans, green",Beans..green,Phaseolus and Vigna spp.. For shelling.
+417,"Peas, green",2605,"Vegetables, Other","Peas, green",Peas..green,"Pisum sativum. Mostly for shelling, but including edible- podded peas or sugar peas."
+420,"Vegetables, leguminous nes",2605,"Vegetables, Other","Beans, green",Beans..green,Vicia faba. For shelling.
+423,String beans,2605,"Vegetables, Other",String beans,String.beans,Phaseolus vulgaris; Vigna spp. Not for shelling.
+426,Carrots and turnips,2605,"Vegetables, Other",Carrots,Carrots,Daucus carota. Trade data may include turnips (Brassica rapa var. rapifera).
+430,Okra,2605,"Vegetables, Other",Okra,Okra,Abelmoschus esculentus; Hibiscus esculentus. Also called gombo.
+446,"Maize, green",2605,"Vegetables, Other",Green maize (corn),Green.maize..corn.,"Zea mays, particularly var. saccharata. Maize harvested green for food. Saccharata variety is commonly known as sweet corn."
+449,Mushrooms and truffles,2605,"Vegetables, Other",Vegetables fresh nes,Vegetables.fresh.nes,Including inter alia: Boletus edulis; Agaricus campestris; Morchella spp. and Tuber magnatum. Cultivated or spontaneous. Includes truffles.
+459,Chicory roots,2605,"Vegetables, Other",Carrots,Carrots,Horium intybus; C. sativum. Unroasted chicory roots.
+461,Carobs,2605,"Vegetables, Other",Carobs,Carobs,"Ceratonia siliqua Carob-tree, locust bean. Includes also seeds. Mainly used as an animal feed and for industrial purposes. Rich in pectin."
+463,"Vegetables, fresh nes",2605,"Vegetables, Other",Vegetables fresh nes,Vegetables.fresh.nes,"Including inter alia: bamboo shoots (Bambusa spp.); beets, chards (Beta vulgaris); capers (Capparis spinosa); cardoons (Cynara cardunculus); celery (Apium graveolens); chervil (Anthriscus cerefolium); cress (Lepidium sativum); fennel (Foeniculum vulgare);"
+486,Bananas,2615,Bananas,Banana,Banana,Musa sapientum; M. cavendishii; M. nana. Bananas are normally eaten raw. Trade figures may include dried bananas. Data should be reported excluding the weight of the central stalk.
+489,Plantains,2616,Plantains,Plantains,Plantains,Musa paradisiaca. Generally known as a cooking banana. Data should be reported excluding the weight of the central stalk.
+490,Oranges,2611,"Oranges, Mandarines",Oranges,Oranges,"Common, sweet orange (Citrus sinensis); bitter orange (C. aurantium). Bitter oranges are used primarily in the preparation of marmalade."
+495,"Tangerines, mandarins, clementines, satsumas",2611,"Oranges, Mandarines","Tangerin, mandarin, clement, satsma",Tangerin..mandarin..clement..satsma,"Mandarin, tangerine (Citrus reticulata); clementine, satsuma (C. unshiu)."
+497,Lemons and limes,2612,"Lemons, Limes and products",Lemons and limes,Lemons.and.limes,Lemon (Citrus limon); sour lime (C. aurantifolia); sweet lime (C. limetta).
+507,Grapefruit (inc. pomelos),2613,Grapefruit and products,Grapefruit and pomelos,Grapefruit.and.pomelos,Citrus maxima; C. grandis; C. paradisi.
+512,"Fruit, citrus nes",2614,"Citrus, Other",Citrus fruit nes,Citrus.fruit.nes,Including inter alia: bergamot (Citrus bergamia); citron (C. medica var. cedrata); chinotto (C. myrtifolia); kumquat (Fortunella japonica). Some minor varieties of citrus are used primarily in the preparation of perfumes and soft drinks.
+515,Apples,2617,Apples and products,Appels,Appels,Malus pumila; M. sylvestris; M. communis; Pyrus malus.
+521,Pears,2625,"Fruits, Other",Pears,Pears,Pyrus communis.
+523,Quinces,2625,"Fruits, Other",Appels,Appels,Cydonia oblonga; C. vulgaris; C. japonica.
+526,Apricots,2625,"Fruits, Other",Apricots,Apricots,Prunus armeniaca.
+530,"Cherries, sour",2625,"Fruits, Other",Sour cherries,Sour.cherries,Prunus cerasus; Cerasus acida.
+531,Cherries,2625,"Fruits, Other",Cherries,Cherries,"Mazzard, sweet cherry (Prunus avium; Cerasus avium); hard-fleshed cherry (var. duracina); heart cherry (var. juliana)."
+534,Peaches and nectarines,2625,"Fruits, Other",Peaches and nectarines,Peaches.and.nectarines,Prunus persica; Amygdalus persica; Persica laevis.
+536,Plums and sloes,2625,"Fruits, Other",Plums,Plums,"Greengage, mirabelle, damson (Prunus domestica); sloe (P. spinosa)."
+541,"Fruit, stone nes",2625,"Fruits, Other","Stone fruit nes, fresh",Stone.fruit.nes..fresh,"Other stone fruit not separately identified. In some countries, apricots, cherries, peaches, nectarines and plums are reported under this general category."
+542,"Fruit, pome nes",2625,"Fruits, Other",Appels,Appels,"Other pome fruit not separately identified. In some countries apples, pears and quinces are reported under this general category."
+544,Strawberries,2625,"Fruits, Other",Strawberries,Strawberries,Fragaria spp..
+547,Raspberries,2625,"Fruits, Other",Raspberries,Raspberries,"Ubus idaeus. Trade data may include blackberries, mulberries and loganberries (a cross between the raspberry and blackberry)."
+549,Gooseberries,2625,"Fruits, Other",Gooseberries,Gooseberries,"Ribes grossularia. Trade data may sometimes include black, white or red currants."
+550,Currants,2625,"Fruits, Other",Currants,Currants,Black (Ribes nigrum); red and white (R. rubrum). Trade data may sometimes include gooseberries.
+552,Blueberries,2625,"Fruits, Other",Blueberries,Blueberries,"European blueberry, wild bilberry, whortleberry (Vaccinium myrtillus); American blueberry (V. corymbosum). Trade data may include cranberries, myrtle berries and other fruits of the genus Vaccinium."
+554,Cranberries,2625,"Fruits, Other",Cranberries,Cranberries,"American cranberry (Vaccinium macrocarpon); European cranberry (V. oxycoccus). Trade data may include blueberries, myrtle berries and other fruits of the genus Vaccinium."
+558,Berries nes,2625,"Fruits, Other",Berries nes,Berries.nes,"Including inter alia: blackberry (Morus nigra); loganberry; white, red mulberry (M. alba; M. rubra); myrtle berry (Myrtus communis) huckleberry, dangleberry (Gaylussacia spp.). Other berries not separately identified. In some countries, some or all of the"
+560,Grapes,2620,Grapes and products (excl wine),Grapes,Grapes,Vitis vinifera. Includes both table and wine grapes.
+567,Watermelons,2605,"Vegetables, Other",Watermelons,Watermelons,Citrullus vulgaris.
+568,"Melons, other (inc.cantaloupes)",2605,"Vegetables, Other",Cantaloupes and other melons,Cantaloupes.and.other.melons,Cucumis melo;.
+569,Figs,2625,"Fruits, Other",Figs,Figs,Ficus carica.
+571,"Mangoes, mangosteens, guavas",2625,"Fruits, Other",Mangoes,Mangoes,"Mangifera indica. Trade figures may include dried mangoes, guavas and mangosteens, including both fresh and dried."
+572,Avocados,2625,"Fruits, Other",Avocados,Avocados,Persea americana.
+574,Pineapples,2618,Pineapples and products,Pineapples,Pineapples,Ananas comosus; A. sativ. Trade figures may include dried pineapples.
+577,Dates,2619,Dates,Date palm,Date.palm,Phoenix dactylifera. Includes fresh and dried fruit.
+587,Persimmons,2625,"Fruits, Other",Fruit fresh nes,Fruit.fresh.nes,Diospyros kaki: D. virginiana.
+591,Cashewapple,2625,"Fruits, Other",Cashewapple,Cashewapple,"Anacardium occidentale. The thickened, fleshy stem below the cashew nut. When soft it is used for jam."
+592,Kiwi fruit,2625,"Fruits, Other",Kiwi fruit,Kiwi.fruit,Actinidia chinensis.
+600,Papayas,2625,"Fruits, Other",Papayas,Papayas,Carica papaya.
+603,"Fruit, tropical fresh nes",2625,"Fruits, Other",Fruit tropical fresh nes,Fruit.tropical.fresh.nes,"Including inter alia: breadfruit (Artocarpus incisa); carambola (Averrhoa carambola); cherimoya, custard apple (Annona spp.); durian (Durio zibethinus); feijoa (Feijoa sellowiana); guava (Psidium guajava); hog plum, mombin (Spondias spp.); jackfruit (Arto"
+619,"Fruit, fresh nes",2625,"Fruits, Other",Fruit fresh nes,Fruit.fresh.nes,Including inter alia: azarole (Crataegus azarolus); babaco (Carica pentagona); elderberry (Sambucus nigra); jujube (Zizyphus jujuba); litchi (nephelium litchi); loquat (Eriobotrya japonica); medlar (Mespilus germanica); pawpaw (Asimina triloba); pomegrana
+656,"Coffee, green",2630,Coffee and products,Coffee,Coffee,"Coffea spp. (arabica, robusta, liberica). Raw coffee in all forms."
+661,"Cocoa, beans",2633,Cocoa Beans and products,Cocoa,Cocoa,"Theobroma cacao. The seeds contained in the fruit of the cacao- tree, including whole or broken, raw or roasted."
+667,Tea,2635,Tea (including mate),Tea,Tea,"Camellia sinensis; Thea sinensis; Thea assaamica. Includes green tea (unfermented), black tea (fermented), and partially fermented tea. Excludes green tea eaten as a vegetable."
+671,Maté,2635,Tea (including mate),Tea,Tea,Ilex paraguayensis. The dried leaves of certain shrubs of the holly family which grow in South America. Prepared in a way similar to tea.
+677,Hops,677,Hops,Hops,Hops,"Humulus lupulus. Hop cones, fresh or dried, whether or not ground, powdered or in the form of pellets. Includes lupuline, a yellow resinous powder that covers the hop cones. Mainly used in the brewing industry to give flavour to beer."
+687,Pepper (piper spp.),2640,Pepper,"Pepper, white/long/black",Pepper..white.long.black,"Black, white pepper (Piper nigrum); long pepper (P. longum). Perennial climbing vines. Includes whole, crushed or ground berries. Black pepper is produced from partially ripe berries, while white pepper is from fully ripe berries which have had the outer "
+689,"Chillies and peppers, dry",2641,Pimento,"Pimento, allspice",Pimento..allspice,"Red and cayenne pepper, paprika, chillies (Capsicum frutescens; C. annuum); allspice, Jamaica pepper (Pimenta officinalis). Uncrushed or unground fresh pimentos are considered to be vegetables."
+692,Vanilla,2645,"Spices, Other",Vanilla,Vanilla,"Vanilla planifolia; V. pompona. The fruit (or bean) of a climbing plant of the orchid family. Includes whole, crushed or ground."
+693,Cinnamon (canella),2645,"Spices, Other",Cinnamon (canella),Cinnamon..canella.,"Ceylon cinnamon (Cinnamomum zeylanicum); Chinese, common cinnamon, cassia (C. cassia). The inner bark of young branches of certain trees of the Laurus family. Includes cinnamon- tree flowers, cinnamon fruit and cinnamon waste (chips), whether whole, crush"
+698,Cloves,2642,Cloves,"Cloves, whole + stem",Cloves..whole...stem,"Eugenia caryophyllata; Caryophyllus aromaticus. The whole fruit of the clove tree, including the flowers picked before maturity and dried in the sun, and the stems of the clove flowers."
+702,"Nutmeg, mace and cardamoms",2645,"Spices, Other","Nutmeg, Mace., Cardamons",Nutmeg..Mace...Cardamons,"Nutmeg, mace (Myristica fragrans); cluster cardamon (Elettaria cardamomum); other cardamons (Aframomum angustifolium; A. hambury; Amomun aromaticum; A. cardamomum); Malaguetta pepper, grains of paradise (Aframomum melegueta). Nutmeg is the inner brown ker"
+711,"Anise, badian, fennel, coriander",2645,"Spices, Other","Ansie, badian, fennel",Ansie..badian..fennel,Include: anise (Pimpinella anisum); badian or star anise (Illicium verum); caraway (Carum carvi); coriander (Coriandrum sativum); cumin (Cuminum cyminum); fennel (Foeniculum vulgare); juniper berries (Juniperus communis). Seeds and berries from the variou
+720,Ginger,2645,"Spices, Other",Ginger,Ginger,"Zingiber officinale. Rhizome of a perennial herb. It also is used for making beverages. Includes fresh, provisionally preserved or dried, whereas ginger preserved in sugar or syrup is excluded."
+723,"Spices, nes",2645,"Spices, Other",Spices nes,Spices.nes,Including inter alia: bay leaves (Laurus nobilis); dill seed (Anethum graveolens); fenugreek seed (Trigonella foenum-graecum); saffron (Crocus sativus); thyme (Thymus vulgaris); turmeric (Curcuma longa). Other spices that are not identified separately bec
+748,Peppermint,2645,"Spices, Other",Peppermint,Peppermint,"Mentha spp.: M. piperita. Leaves and flowers are used in the perfumery, food and other industries."
+754,"Pyrethrum, dried",2645,"Spices, Other",Spices nes,Spices.nes,"Chrysanthemum cinerariifolium. Includes leaves, stems and flowers. For insecticides, fungicides and similar products."
+767,Cotton lint,2661,Cotton lint,,,"Gossypium spp. Fibres from ginning seed cotton that have not been carded or combed. Trade data also include fibres that have been cleaned, bleached, dyed or rendered absorbent."
+773,Flax fibre and tow,2664,"Soft-Fibres, Other",Flax fibre and tow,Flax.fibre.and.tow,"Broken, scutched, hackled etc. but not spun. Traditionally, FAO has used this commodity to identify production in its raw state; in reality, the primary agricultural product is the commodity 771, which can either be used for the production of fibre or for"
+777,Hemp tow waste,2664,"Soft-Fibres, Other",Hemp fiber and tow (hemp tow waste),Hemp.fiber.and.tow..hemp.tow.waste.,"Cannabis sativa. This plant is cultivated for seed as well as for fibre. The fibre is obtained from the stem of the plant. Trade data include raw, retted, scutched, combed fibre, tow and waste."
+778,Kapok fibre,2664,"Soft-Fibres, Other",,,"Ceiba pentandra. This plant is cultivated for seed as well as for fibre. Trade data cover only fibres that have been crushed, carded or combed for spinning."
+780,Jute,2662,Jute,Jute,Jute,"White jute (Corchorus capsularis); red jute, tossa (C. olitorius). Trade data cover raw or processed jute (but not spun), tow and waste, yarn waste and garnetted stock and may include jute-like fibres."
+782,"Bastfibres, other",2663,Jute-Like Fibres,Jute-like fibres,Jute.like.fibres,"Including inter alia: China jute (Abutilon avicennae); Congo jute, malva, paka (Urena lobata; U. sinuata); Indian flax (Abroma augusta); kenaf, meshta (Hibiscus cannabinus); rosella hemp (H. sabdariffa); sunn hemp (Crotalaria juncea). This definition cove"
+788,Ramie,2667,"Hard Fibres, Other",Ramie,Ramie,"China grass, white ramie (Boehmeria nivea); rhea, green ramie (B. tenacissima). Ramie fibre is obtained from the bast of the plant. For trade coverage see 780."
+789,Sisal,2665,Sisal,Sisal,Sisal,"Agave sisalana. Sisal fibre is obtained from the leaves of the plant. It also is used as an ornamental plant. Trade data cover fibres that are raw, prepared for spinning, and tow and waste, including yarn waste and garnetted stock."
+800,Agave fibres nes,2667,"Hard Fibres, Other",Agave fibers nes,Agave.fibers.nes,"Including inter alia: Haiti hemp (Agave foetida); henequen (A. fourcroydes); ixtle, tampico (A. lecheguilla); maguey (A. cantala); pita (A. americana); Salvador hemp (A. letonae). See 789. The leaves of some agave varieties are used for the production of "
+809,Manila fibre (abaca),2666,Abaca,Abaca (Manila hemp),Abaca..Manila.hemp.,Musa textilis. The fibre is obtained from stalks of certain banana trees. For trade coverage see 789.
+813,Coir,2667,"Hard Fibres, Other",,,Cocos nucifera. Coir fibre is obtained from the fibrous covering of the mesocarp. For trade coverage see 789.
+821,Fibre crops nes,2667,"Hard Fibres, Other",Fiber crops nes,Fiber.crops.nes,"Including inter alia: alfa, esparto (Lygeum spartum; Stipa tenacissima); bowstring hemp (Sansevieria spp.); caroa (Neoglaziovia variegata); fuque fibre (Furcraea macrophylla); Mauritius hemp (F. gigantea); New Zealand flax (Phormium tenax); palma ixtle (S"
+826,"Tobacco, unmanufactured",2671,Tobacco,Tobacco,Tobacco,"Nicotiana tabacum. Unmanufactured dry tobacco, including refuse that is not stemmed or stripped, or is partly or wholly stemmed or stripped."
+836,"Rubber, natural",2672,Rubber,Natural rubber,Natural.rubber,"Hevea brasiliensis Latex. The liquid secreted by the rubber tree. Includes stabilized or concentrated latex and prevulcanized rubber latex. In trade figures, liquid weight is converted to dry weight at 60%."
+,,2000,Fodder crops,Fodder crops/Managed grass,Fodder.crops.Managed.grass,
+,,2001,Grazing,Fodder crops/Managed grass,Fodder.crops.Managed.grass,
