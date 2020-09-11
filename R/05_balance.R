@@ -117,9 +117,6 @@ for(i in seq_along(years)) {
 btd_bal <- lapply(btd_bal, rbindlist)
 # One datatable
 btd_bal <- rbindlist(btd_bal)
-# Add commodity codes
-items <- fread("inst/items_full.csv")
-btd_bal[, comm_code := items$comm_code[match(btd_bal$item_code, items$item_code)]]
 
 
 # Store the balanced sheets -----------------------------------------------

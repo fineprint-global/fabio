@@ -47,19 +47,7 @@ items <- fread("inst/items_full.csv")
 nrcom <- nrow(items)
 Y <- readRDS("/mnt/nfs_fineprint/tmp/fabio/neu/Y.rds")
 
-# # Remove items without data
-# no_data <- c("Pet food", "Live animals, other")
-# items <- items[!item %in% no_data]
-#
-# for(i in seq_along(Z_m)){
-#   Z_m[[i]] <- Z_m[[i]][rownames(Z_m[[i]]) %in% items$comm_code,
-#                        rownames(Z_m[[i]]) %in% items$comm_code]
-#   Z_v[[i]] <- Z_v[[i]][rownames(Z_v[[i]]) %in% items$comm_code,
-#                        rownames(Z_v[[i]]) %in% items$comm_code]
-#   Y[[i]] <- Y[[i]][rownames(Y[[i]]) %in% items$comm_code,]
-# }
-
-# Rebalance row sums
+# Rebalance row sums for each year
 for(i in seq_along(Z_m)){
 
   X <- rowSums(Z_m[[i]]) + rowSums(Y[[i]])

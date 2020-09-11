@@ -32,18 +32,23 @@ prep_solve <- function(year, Z, Y, X,
 }
 
 
+years <- 1986:2013
+years_singular <- c(1986,1994,2002,2009)
+
 for(year in years){
 
   print(year)
 
+  adjust <- ifelse(year %in% years_singular, TRUE, FALSE)
+
   L <- prep_solve(year = year, Z = Z_m[[as.character(year)]],
                   Y = Y[[as.character(year)]], X = X[, as.character(year)],
-                  adj_diag = TRUE)
+                  adj_diag = adjust)
   saveRDS(L, paste0("/mnt/nfs_fineprint/tmp/fabio/neu/", year, "_L_mass.rds"))
 
   L <- prep_solve(year = year, Z = Z_v[[as.character(year)]],
                   Y = Y[[as.character(year)]], X = X[, as.character(year)],
-                  adj_diag = TRUE)
+                  adj_diag = adjust)
   saveRDS(L, paste0("/mnt/nfs_fineprint/tmp/fabio/neu/", year, "_L_value.rds"))
 
 }

@@ -9,7 +9,7 @@ items <- fread("inst/items_full.csv")
 sup <- readRDS("data/sup_final.rds")
 
 cbs <- readRDS("data/cbs_final.rds")
-btd <- readRDS("data/btd_bal.rds")
+btd <- readRDS("data/btd_final.rds")
 
 use <- readRDS("data/use_final.rds")
 use_fd <- readRDS("data/use_fd_final.rds")
@@ -39,12 +39,12 @@ mr_sup_mass <- lapply(years, function(x) {
 
     # Cast the datatable to convert into a matrix
     out <- tryCatch(data.table::dcast(out, proc_code ~ comm_code,
-      value.var = "production", fun.aggregate = sum, na.rm = TRUE, fill = 0),
-      error = function(e) {stop("Issue at ", x, "-", y, ": ", e)})
+                                      value.var = "production", fun.aggregate = sum, na.rm = TRUE, fill = 0),
+                    error = function(e) {stop("Issue at ", x, "-", y, ": ", e)})
 
     # Return a (sparse) matrix of supply for region y and year x
     return(Matrix(data.matrix(out[, c(-1)]), sparse = TRUE,
-      dimnames = list(out$proc_code, colnames(out)[-1])))
+                  dimnames = list(out$proc_code, colnames(out)[-1])))
 
   }, sup_y = sup[year == x, .(area_code, proc_code, comm_code, production)])
 
@@ -69,12 +69,12 @@ mr_sup_value <- lapply(years, function(x) {
 
     # Cast the datatable to convert into a matrix
     out <- tryCatch(data.table::dcast(out, proc_code ~ comm_code,
-      value.var = "value", fun.aggregate = sum, na.rm = TRUE, fill = 0),
-      error = function(e) {stop("Issue at ", x, "-", y, ": ", e)})
+                                      value.var = "value", fun.aggregate = sum, na.rm = TRUE, fill = 0),
+                    error = function(e) {stop("Issue at ", x, "-", y, ": ", e)})
 
     # Return a (sparse) matrix of supply for region y and year x
     return(Matrix(data.matrix(out[, c(-1)]), sparse = TRUE,
-      dimnames = list(out$proc_code, colnames(out)[-1])))
+                  dimnames = list(out$proc_code, colnames(out)[-1])))
 
   }, sup_y = sup[year == x, .(area_code, proc_code, comm_code, value)])
 
@@ -97,46 +97,27 @@ template <- data.table(expand.grid(
 setkey(template, from_code, comm_code, to_code)
 
 # Yearly list of BTD in matrix format
+# Note that btd_final includes not only re-export adjusted bilateral trade flows,
+# but also domestic production for domestic use, i.e. it gives the sources
+# (domestic and imported) of each country's domestic use of any item.
 btd_cast <- lapply(years, function(x, btd_x) {
   # Cast to convert to matrix
   out <- data.table::dcast(merge(template,
-    btd_x[year == x, .(from_code, to_code, comm_code, value)],
-    by = c("from_code", "to_code", "comm_code"), all.x = TRUE),
-    from_code + comm_code ~ to_code,
-    value.var = "value", fun.aggregate = sum, na.rm = TRUE, fill = 0)
+                                 btd_x[year == x, .(from_code, to_code, comm_code, value)],
+                                 by = c("from_code", "to_code", "comm_code"), all.x = TRUE),
+                           from_code + comm_code ~ to_code,
+                           value.var = "value", fun.aggregate = sum, na.rm = TRUE, fill = 0)
 
   return(Matrix(data.matrix(out[, c(-1, -2)]), sparse = TRUE,
-    dimnames = list(paste0(out$from_code, "-", out$comm_code),
-      colnames(out)[c(-1, -2)])))
+                dimnames = list(paste0(out$from_code, "-", out$comm_code),
+                                colnames(out)[c(-1, -2)])))
 
 }, btd_x = btd[, .(year, from_code, to_code, comm_code, value)])
 
-# Template to always get full tables
-template <- data.table(expand.grid(
-  area_code = areas, comm_code = commodities, stringsAsFactors = FALSE))
-setkey(template, area_code, comm_code)
+names(btd_cast) <- years
 
-# Yearly list of CBS in matrix format
-cbs_cast <- lapply(years, function(x, cbs_x) {
-  # Cast to convert to matrix
-  out <- data.table::dcast(merge(template[, .(area_code, comm_code)],
-    cbs_x[year == x, .(area_code, comm_code, production)],
-    by = c("area_code", "comm_code"), all.x = TRUE),
-    area_code + comm_code ~ area_code,
-    value.var = "production", fun.aggregate = sum, na.rm = TRUE, fill = 0)
-
-  return(Matrix(data.matrix(out[, c(-1, -2)]), sparse = TRUE,
-    dimnames = list(paste0(out$area_code, "-", out$comm_code),
-      colnames(out)[c(-1, -2)])))
-
-}, cbs_x = cbs[, .(year, area_code, comm_code, production)])
-
-# Create total supply, per year
-total <- mapply(`+`, cbs_cast, btd_cast)
-names(cbs_cast) <- names(btd_cast) <- names(total) <- years
-
-# Get commodities and their positions from total supply
-comms <- gsub("(^[0-9]+)-(c[0-9]+)", "\\2", rownames(total[[1]]))
+# Get commodities and their positions from total supply for domestic use
+comms <- gsub("(^[0-9]+)-(c[0-9]+)", "\\2", rownames(btd_cast[[1]]))
 is <- as.numeric(vapply(unique(comms), function(x) {which(comms == x)},
   numeric(length(unique(areas)))))
 js <- rep(seq(unique(comms)), each = length(unique(areas)))
@@ -144,16 +125,18 @@ js <- rep(seq(unique(comms)), each = length(unique(areas)))
 agg <- Matrix::sparseMatrix(i = is, j = js)
 
 # Build supply shares, per year
-total_shares <- lapply(total, function(x, agg, js) {
+supply_shares <- lapply(btd_cast, function(x, agg, js) {
   # x_agg <- colSums(crossprod(x, agg)) # Aggregate total supply (all countries)
   x_agg <- crossprod(x, agg) # Aggregate total supply (per country)
   denom <- data.table(as.matrix(t(x_agg)))
-  # Calculate shares (all countries)
-  # out <- as.matrix(x / x_agg[rep(seq(length(x_agg)), dim(x)[2])])
   # Calculate shares (per country)
   out <- as.matrix(x / as.matrix(denom[rep(seq(length(commodities)), length(unique(cbs$area_code))), ]))
-
   out[!is.finite(out)] <- 0 # See Issue #75
+
+  # source is domestic, where no sources given in btd_final
+  for(i in 1:nrow(regions[cbs==TRUE])){
+    out[nrow(items)*(i-1)+62, i] <- 1
+  }
 
   return(as(out, "Matrix"))
 }, agg = agg, js = js)
@@ -193,7 +176,7 @@ mr_use <- mapply(function(x, y) {
   }
 
   return(mr_x)
-}, use_cast, total_shares)
+}, use_cast, supply_shares)
 
 names(mr_use) <- years
 saveRDS(mr_use, "data/mr_use.rds")
@@ -234,7 +217,7 @@ mr_use_fd <- mapply(function(x, y) {
       mr_x[, seq(1 + (j - 1) * n_var, j * n_var)] * y[, j]
   }
   return(mr_x)
-}, use_fd_cast, total_shares)
+}, use_fd_cast, supply_shares)
 
 mr_use_fd <- lapply(mr_use_fd, round)
 names(mr_use_fd) <- years
