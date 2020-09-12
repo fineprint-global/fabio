@@ -6,10 +6,10 @@ library("Matrix")
 
 years <- seq(1986, 2013)
 
-Z_m <- readRDS("/mnt/nfs_fineprint/tmp/fabio/neu/Z_mass.rds")
-Z_v <- readRDS("/mnt/nfs_fineprint/tmp/fabio/neu/Z_value.rds")
-Y <- readRDS("/mnt/nfs_fineprint/tmp/fabio/neu/Y.rds")
-X <- readRDS("/mnt/nfs_fineprint/tmp/fabio/neu/X.rds")
+Z_m <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v2/Z_mass.rds")
+Z_v <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v2/Z_value.rds")
+Y <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v2/Y.rds")
+X <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v2/X.rds")
 
 prep_solve <- function(year, Z, Y, X,
   adj_X = FALSE, adj_A = TRUE, adj_diag = FALSE) {
@@ -44,12 +44,12 @@ for(year in years){
   L <- prep_solve(year = year, Z = Z_m[[as.character(year)]],
                   Y = Y[[as.character(year)]], X = X[, as.character(year)],
                   adj_diag = adjust)
-  saveRDS(L, paste0("/mnt/nfs_fineprint/tmp/fabio/neu/", year, "_L_mass.rds"))
+  saveRDS(L, paste0("/mnt/nfs_fineprint/tmp/fabio/v2/", year, "_L_mass.rds"))
 
   L <- prep_solve(year = year, Z = Z_v[[as.character(year)]],
                   Y = Y[[as.character(year)]], X = X[, as.character(year)],
                   adj_diag = adjust)
-  saveRDS(L, paste0("/mnt/nfs_fineprint/tmp/fabio/neu/", year, "_L_value.rds"))
+  saveRDS(L, paste0("/mnt/nfs_fineprint/tmp/fabio/v2/", year, "_L_value.rds"))
 
 }
 
