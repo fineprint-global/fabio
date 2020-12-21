@@ -76,3 +76,33 @@ saveRDS(Y, "/mnt/nfs_fineprint/tmp/fabio/v2/Y.rds")
 saveRDS(X, "/mnt/nfs_fineprint/tmp/fabio/v2/X.rds")
 
 
+
+
+# redistribute balancing over all uses proportionally ---------------------------------------------
+regions <- fread("inst/regions_full.csv")
+regions <- regions[cbs==TRUE]
+items <- fread("inst/items_full.csv")
+nrcom <- nrow(items)
+nrreg <- nrow(regions)
+nrfd <- ncol(Y[[1]])/nrreg
+i=28
+for(i in seq_along(Z_m)){
+  reg=1
+  for(reg in seq_len(nrow(regions))){
+    z_range <- (nrcom*(reg-1)+1):(nrcom*reg)
+    y_range <- (nrfd*(reg-1)+1):(nrfd*reg)
+    Z_sum <- rowSums(Z_m[[i]][, z_range])
+    Y_sum <- rowSums(Y[[i]][, y_range])
+    balancing <- as.vector(Y[[i]][, grepl("balancing", colnames(Y[[i]]))][, reg])
+    balancing <- balancing / as.vector(Z_sum + Y_sum - balancing)
+    balancing[!is.finite(balancing)] <- 0
+    Z_m[[i]][, z_range] <- Z_m[[i]][, z_range] * (1 + balancing)
+    Z_v[[i]][, z_range] <- Z_v[[i]][, z_range] * (1 + balancing)
+    Y[[i]][, y_range] <- Y[[i]][, y_range] * (1 + balancing)
+  }
+}
+
+saveRDS(Z_m, "/mnt/nfs_fineprint/tmp/fabio/v2/Z_mass_b.rds")
+saveRDS(Z_v, "/mnt/nfs_fineprint/tmp/fabio/v2/Z_value_b.rds")
+saveRDS(Y, "/mnt/nfs_fineprint/tmp/fabio/v2/Y_b.rds")
+

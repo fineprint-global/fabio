@@ -1,49 +1,55 @@
 library("data.table")
 library("Matrix")
-source("R/01_tidy_functions.R")
 
-years <- seq(1986, 2013)
 
-Z_m <- readRDS("/mnt/nfs_fineprint/tmp/fabio/neu/Z_mass.rds")
-Z_v <- readRDS("/mnt/nfs_fineprint/tmp/fabio/neu/Z_value.rds")
-Y <- readRDS("/mnt/nfs_fineprint/tmp/fabio/neu/Y.rds")
-X <- readRDS("/mnt/nfs_fineprint/tmp/fabio/neu/X.rds")
+# Leontief inverse ---
 
-fabio_inverse <- function(year){
-  print(year)
+prep_solve <- function(year, Z, Y, X,
+                       adj_X = FALSE, adj_A = TRUE, adj_diag = FALSE) {
 
-  Z_m_y <- Z_m[[as.character(year)]]
-  Z_v_y <- Z_v[[as.character(year)]]
-  Y_y <- Y[[as.character(year)]]
-  X_y <- X[[as.character(year)]]
+  if(adj_X) {X <- X + 1e-10}
 
-  A <- t(t(Z_m_y) / X_y)
-  A[!is.finite(A)] <- 0
-  A[A < 0] <- 0
-  diag(A)[diag(A)==1] <- 1 - 1e-10
+  A <- Matrix(0, nrow(Z), ncol(Z))
+  idx <- X != 0
+  A[, idx] <- t(t(Z[, idx]) / X[idx])
+  if(adj_A) {A[A < 0] <- 0}
 
-  L <- diag(nrow(A))-A
-  L <- solve(L, tol = 1.0e-40)
-  L[L<0] <- 0
-  saveRDS(L, paste0("/mnt/nfs_fineprint/tmp/fabio/neu/", year, "_L_mass.rds"))
-  # saveRDS(L, paste0("../wu_share/WU/Projekte/GRU/04_Daten/MRIO/IO data/FABIO data/neu/", year, "_L_mass.rds"))
+  if(adj_diag) {diag(A)[diag(A) == 1] <- 1 - 1e-10}
+  L <- .sparseDiagonal(nrow(A)) - A
 
-  # invert Z_price
-  A <- t(t(Z_v_y)/X)
-  A[] <- 0
-  A[A<0] <- 0
-  diag(A)[diag(A)==1] <- 1 - 1e-10
+  lu(L) # Computes LU decomposition and stores it in L
 
-  L <- diag(nrow(A))-A
-  L <- solve(L, tol = 1.0e-40)
-  L[L<0] <- 0
-  saveRDS(L, paste0("/mnt/nfs_fineprint/tmp/fabio/neu/", year, "_L_price.rds"))
-  # saveRDS(L, paste0("../wu_share/WU/Projekte/GRU/04_Daten/MRIO/IO data/FABIO data/neu/", year, "_L_value.rds"))
+  L_inv <- solve(L, tol = .Machine[["double.eps"]])
+
+  return(L_inv)
 }
 
+
+years <- seq(1986, 2013)
+years_singular <- c(1986,1994,2002,2009)
+
+Z_m <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v2/Z_mass.rds")
+Z_v <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v2/Z_value.rds")
+Y <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v2/Y.rds")
+X <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v2/X.rds")
 
 
 for(year in years){
-  fabio_inverse(year=year)
+
+  print(year)
+
+  adjust <- ifelse(year %in% years_singular, TRUE, FALSE)
+
+  L <- prep_solve(year = year, Z = Z_m[[as.character(year)]],
+                  Y = Y[[as.character(year)]], X = X[, as.character(year)],
+                  adj_diag = adjust)
+  saveRDS(L, paste0("/mnt/nfs_fineprint/tmp/fabio/v2/", year, "_L_mass.rds"))
+
+  L <- prep_solve(year = year, Z = Z_v[[as.character(year)]],
+                  Y = Y[[as.character(year)]], X = X[, as.character(year)],
+                  adj_diag = adjust)
+  saveRDS(L, paste0("/mnt/nfs_fineprint/tmp/fabio/v2/", year, "_L_value.rds"))
+
 }
+
 
