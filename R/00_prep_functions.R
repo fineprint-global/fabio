@@ -62,23 +62,28 @@ fa_dl <- function(
 #' )
 #' }
 fa_extract <- function(
-  zip, path_out, name, extr = NULL,
+  path_in, files, path_out, name, extr = NULL,
   col_types = NULL, stack = FALSE,
   rm = TRUE, v = TRUE, ...) {
 
+  zip = paste0(path_in, files)
   dest_rds <- paste0(path_out, name, ".rds")
 
   if(length(zip) == 1 && length(extr) > 1 || is.null(extr)) {
     if(v) cat("Extracting multiple files from a single ZIP archive\n")
-    csv <- unzip(zip, extr, exdir = gsub("(.*)/", "\\1", path_out), ...)
+    csv <- unzip(zip, extr, exdir = gsub("(.*)/", "\\1", path_out))
   } else {
     if(v) cat("Extracting single files from multiple ZIP archives\n")
     csv <- vector("character", length(zip))
     for(i in seq_along(zip)) {
       if(is.na(extr[i]) || nchar(extr[i]) == 0) {
-        extr[i] <- unzip(zip[i], list = TRUE)[[1]]
+        extr[i] <- unzip(zip[i], list = TRUE)[[1]][1]
       }
-      csv[i] <- unzip(zip[i], extr[i], exdir = gsub("(.*)/", "\\1", path_out))
+      # if(file.info(zip[i])$size > 200000000) {
+        csv[i] <- paste0(path_out, ifelse(!is.na(extr[i]), extr[i], sub("zip", "csv", zip[i])))
+        if(grepl("\\(|\\)", zip[i])) file.rename(zip[i], gsub("\\(|\\)", "", zip[i]))
+        decompress_file(path_out, gsub("\\(|\\)", "", files[i]))
+      # } else { csv[i] <- unzip(zip[i], extr[i], exdir = gsub("(.*)/", "\\1", path_out)) }
     }
   }
 
@@ -98,4 +103,55 @@ fa_extract <- function(
   if(rm) file.remove(csv)
 
   dest_rds
+}
+
+
+#' @title Extract zipped files >= 4GB
+#' @description Extract files >= 4GB from a ZIP archive without truncation.
+#'
+#' @param directory Path to the folder containing the ZIP archive.
+#' @param file File name of the ZIP archive.
+#' @param .file_cache Allows to skip uncompression.
+#'
+#' @return Unzipped content of a ZIP archive.
+#'
+#' @examples
+#' \dontrun{
+#' decompress_file(
+#'   "./input/fao/",
+#'   "GlobalProduction_2018.1.2.zip"
+#' )
+#' }
+#' @source https://stackoverflow.com/questions/42740206/r-possible-truncation-of-4gb-file
+decompress_file <- function(directory, file, .file_cache = FALSE) {
+
+  if (.file_cache == TRUE) {
+    print("decompression skipped")
+  } else {
+
+    # Set working directory for decompression
+    # simplifies unzip directory location behavior
+    wd <- getwd()
+    setwd(directory)
+
+    # Run decompression
+    decompression <-
+      system2("unzip",
+              args = c("-o", # include override flag
+                       file),
+              stdout = TRUE)
+
+    # uncomment to delete archive once decompressed
+    # file.remove(file)
+
+    # Reset working directory
+    setwd(wd); rm(wd)
+
+    # Test for success criteria
+    # change the search depending on
+    # your implementation
+    if (grepl("Warning message", tail(decompression, 1))) {
+      print(decompression)
+    }
+  }
 }

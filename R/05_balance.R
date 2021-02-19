@@ -67,6 +67,15 @@ for(i in seq_along(years)) {
   # Replace NA constraints with 0
   constraint[, `:=`(imports = ifelse(is.na(imports), 0, imports),
     exports = ifelse(is.na(exports), 0, exports))]
+  # Balance imports and exports
+  # Adjust constraints to have equal export and import numbers per item per year
+  # This is very helpful for the iterative proportional fitting of bilateral trade data
+  trade_bal <- constraint[, list(exp_t = sum(exports, na.rm = TRUE),
+    imp_t = sum(imports, na.rm = TRUE)), by = c("item_code")]
+  constraint <- merge(constraint, trade_bal,
+    by = c("item_code"), all.x = TRUE)
+  constraint[, `:=`(imports = ifelse(imp_t > exp_t, imports / imp_t * exp_t, imports),
+                    exports = ifelse(exp_t > imp_t, exports / exp_t * imp_t, exports))]
 
   # Eliminate estimates where data exist
   mapping[, val_est := ifelse(is.na(value), val_est, NA)]

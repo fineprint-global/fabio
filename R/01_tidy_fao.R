@@ -9,11 +9,16 @@ regions <- fread("inst/regions_full.csv")
 
 rename <- c(
   "Area Code" = "area_code",
+  "AreaCode" = "area_code",
   "Area" = "area",
+  "AreaName" = "area",
   "Item Code" = "item_code",
+  "ItemCode" = "item_code",
   "Item" = "item",
+  "ItemName" = "item",
   # "Element Code" = "element_code",
   "Element" = "element",
+  "ElementName" = "element",
   # "Year Code" = "year_code",
   "Year" = "year",
   "Unit" = "unit",
@@ -282,6 +287,7 @@ crop_prim <- readRDS("input/fao/crop_prim.rds")
 crop_prim <- dt_rename(crop_prim, rename, drop = TRUE)
 
 # Country / Area adjustments
+crop_prim <- crop_prim[!is.na(area_code), ]
 crop_prim <- area_kick(crop_prim, code = 351, pattern = "China", groups = TRUE)
 crop_prim <- area_merge(crop_prim, orig = 62, dest = 238, pattern = "Ethiopia")
 crop_prim <- area_merge(crop_prim, orig = 206, dest = 276, pattern = "Sudan")
@@ -296,7 +302,7 @@ crop_prim <- dt_filter(crop_prim, cbs_item_code == 2000)
 
 # Aggregate
 crop_prim <- crop_prim[, list(value = na_sum(value)),
-  by = .(area_code, area, element, year, unit, cbs_item_code, cbs_item)]
+  by = .(area_code, area, element, unit, year, cbs_item_code, cbs_item)]
 crop_prim <- dt_rename(crop_prim, drop = FALSE,
   rename = c("cbs_item_code" = "item_code", "cbs_item" = "item"))
 crop_prim <- dt_filter(crop_prim, value >= 0)
@@ -326,6 +332,7 @@ live <- dt_rename(live, rename)
 
 # Country / Area adjustments
 live <- area_kick(live, code = 351, pattern = "China", groups = TRUE)
+live <- area_kick(live, code = 265, groups = FALSE)
 live <- area_merge(live, orig = 62, dest = 238, pattern = "Ethiopia")
 live <- area_merge(live, orig = 206, dest = 276, pattern = "Sudan")
 live <- area_fix(live, regions)

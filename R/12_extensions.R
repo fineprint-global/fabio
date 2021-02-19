@@ -1,5 +1,6 @@
 
 library(data.table)
+library(tidyverse)
 source("R/01_tidy_functions.R")
 
 items <- fread("inst/items_full.csv")
@@ -7,6 +8,7 @@ regions <- fread("inst/regions_full.csv")
 nrreg <- nrow(regions[cbs==TRUE])
 nrcom <- nrow(items)
 
+X <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v2/X.rds")
 grassland_yields <- fread("input/grazing/grazing.csv")
 water_crop <- fread("input/water/water_crop.csv")
 water_fodder <- water_crop[water_item == "Fodder crops/Managed grass"]
@@ -122,6 +124,17 @@ E <- lapply(years, function(x, y) {
   template[is.na(green), green := 0]
   template[, `:=`(landuse = round(landuse), biomass = round(biomass),
     blue = round(blue), green = round(green))]
+
+  # fill gaps in land use with global average yields
+  yields <- template[, .(comm_code, landuse, biomass)] %>%
+    group_by(comm_code) %>%
+    summarize(yield = na_sum(biomass) / na_sum(landuse))
+  template[, yield := yields$yield[match(template$comm_code, yields$comm_code)]]
+  template[landuse == 0 & biomass > 0 & is.finite(yield), landuse := round(biomass / yield)]
+  template[, yield := NULL]
+  template[, output := X[,as.character(x)]]
+  template[landuse>0 & output>0 & biomass==0, biomass := output]
+  template[, output := NULL]
 
 }, crop[, .(year, element, area_code, item_code, value)])
 

@@ -22,7 +22,7 @@ rename_comtrade <- c(
 
 rename_baci <- c(
   "t" = "year",
-  "hs6" = "category",
+  "k" = "category",
   "i" = "exporter",
   "j" = "importer",
   "v" = "1000 US$",

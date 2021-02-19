@@ -53,7 +53,7 @@ for(i in seq_along(years)) {
                                fun.aggregate = sum, value.var = "value")[, -"from_code"]
       as(out, "Matrix")})
 
-  # Run iterative proportional fitting per item
+  # Run re-export reallocation per item
   for(j in as.character(items)) {
     data <- merge(data.table(area_code = areas),
                   cbs[year==y & item_code==as.integer(j),
@@ -66,10 +66,12 @@ for(i in seq_along(years)) {
     denom <- data$total_use
     denom[denom == 0] <- 1
     mat <- mapping_reex[[j]]
-    # catch problem with one data point in year 2002
-    # trade with 1107 (Asses) from 250 (Dem. rep. Congo) to 251 (Zambia)
-    # reduce value from 30 to 20
-    if(y==2002 & j=="1107") mat[185,184] <- mat[185,184]/3*2
+    # catch problems:
+    # 2001: trade with 1107 (Asses) from 33 (Canada) to 251 (United States of America)
+    ## 2002: trade with 1107 (Asses) from 250 (Dem. rep. Congo) to 251 (Zambia)
+    # reduce values by one third
+    if(y==2001 & j=="1107") mat[25,174] <- mat[25,174]/3*2
+    # if(y==2002 & j=="1107") mat[185,184] <- mat[185,184]/3*2
     mat <- t(t(mat) / denom)
     mat <- diag(nrow(mat)) - mat
     mat <- solve(mat)

@@ -104,7 +104,7 @@ crop_item_code,crop_item,cbs_item_code,cbs_item,tcf
 495,"Tangerines, mandarins, clementines, satsumas",2611,"Oranges, Mandarines",1
 497,Lemons and limes,2612,"Lemons, Limes and products",1
 507,Grapefruit (inc. pomelos),2613,Grapefruit and products,1
-512,"Fruit, citrus nes",2625,"Fruits, Other",1
+512,"Fruit, citrus nes",2614,"Citrus, Other",1
 515,Apples,2617,Apples and products,1
 521,Pears,2625,"Fruits, Other",1
 523,Quinces,2625,"Fruits, Other",1
@@ -157,8 +157,8 @@ crop_item_code,crop_item,cbs_item_code,cbs_item,tcf
 777,Hemp tow waste,2664,"Soft-Fibres, Other",1
 778,Kapok fibre,2664,"Soft-Fibres, Other",1
 780,Jute,2662,Jute,1
-782,"Bastfibres, other",2667,"Hard Fibres, Other",1
-788,Ramie,2667,"Hard Fibres, Other",1
+782,"Bastfibres, other",2663,"Jute-Like Fibres",1
+788,Ramie,2664,"Soft-Fibres, Other",1
 789,Sisal,2665,Sisal,1
 800,Agave fibres nes,2667,"Hard Fibres, Other",1
 809,Manila fibre (abaca),2666,Abaca,1

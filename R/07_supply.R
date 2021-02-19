@@ -80,11 +80,11 @@ prices <- as.data.table(data.table::dcast(btd, from + from_code + to + to_code +
   item + item_code + year ~ unit, value.var = "value"))
 prices <- prices[!is.na(usd) & usd > 0,
   list(usd = sum(usd, na.rm = TRUE), head = sum(head, na.rm = TRUE),
-    tonnes = sum(tonnes, na.rm = TRUE), m3 = sum(m3, na.rm = TRUE)),
+    tonnes = sum(tonnes, na.rm = TRUE)),
     by = list(from, from_code, item_code, item, year)]
 
 prices[, price := ifelse(tonnes != 0 & !is.na(tonnes), usd / tonnes,
-  ifelse(head != 0 & !is.na(head), usd / head, ifelse(m3 != 0, usd / m3, NA)))]
+  ifelse(head != 0 & !is.na(head), usd / head, NA))]
 
 # Cap prices at 5th and 95th quantiles.
 # We might want to add a yearly element.
@@ -102,10 +102,10 @@ prices[, price := ifelse(price > price_q95, price_q95,
 # Get worldprices to fill gaps
 na_sum <- function(x) {ifelse(all(is.na(x)), NA_real_, sum(x, na.rm = TRUE))}
 prices_world <- prices[!is.na(usd), list(usd = na_sum(usd),
-  tonnes = na_sum(tonnes), head = na_sum(head),
-  m3 = na_sum(m3)), by = list(item, item_code, year)]
+  tonnes = na_sum(tonnes), head = na_sum(head)),
+  by = list(item, item_code, year)]
 prices_world[, price_world := ifelse(head != 0, usd / head,
-  ifelse(tonnes != 0, usd / tonnes, usd / m3))]
+  usd / tonnes)]
 prices <- merge(
   prices, prices_world[, c("year", "item_code", "item", "price_world")],
   by = c("year", "item_code", "item"), all.x = TRUE)

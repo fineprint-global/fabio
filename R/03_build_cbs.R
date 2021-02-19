@@ -26,23 +26,23 @@ cat("\nAdding information from BTD.\n")
 btd <- readRDS("data/tidy/btd_full_tidy.rds")
 
 cat("\nGiving preference to units in the following order:\n",
-  "\t 'm3' > 'head' > 'tonnes'\n", "Dropping 'usd'.\n", sep = "")
+  "\t 'head' > 'tonnes'\n", "Dropping 'usd'.\n", sep = "")
 
 # Imports
 imps <- btd[!unit %in% c("usd"), list(value = na_sum(value)),
   by = list(to_code, to, item_code, item, year, unit)]
 imps <- data.table::dcast(imps, to_code + to + item_code + item + year ~ unit,
   value.var = "value")
-imps[, `:=`(value = ifelse(!is.na(m3), m3, ifelse(!is.na(head), head, tonnes)),
-  m3 = NULL, head = NULL, tonnes = NULL)]
+imps[, `:=`(value = ifelse(!is.na(head), head, tonnes),
+  head = NULL, tonnes = NULL)]
 
 # Exports
 exps <- btd[!unit %in% c("usd"), list(value = na_sum(value)),
   by = list(from_code, from, item_code, item, year, unit)]
 exps <- data.table::dcast(exps, from_code + from + item_code + item + year ~ unit,
   value.var = "value")
-exps[, `:=`(value = ifelse(!is.na(m3), m3, ifelse(!is.na(head), head, tonnes)),
-  m3 = NULL, head = NULL, tonnes = NULL)]
+exps[, `:=`(value = ifelse(!is.na(head), head, tonnes),
+  head = NULL, tonnes = NULL)]
 
 
 # # Forestry ----------------------------------------------------------------
@@ -423,7 +423,7 @@ cbs[balancing < 0 & !is.na(other) & other >= -balancing,
     `:=`(other = na_sum(other, balancing),
          balancing = 0)]
 
-cat("\nAdjust 'other' for ", cbs[balancing < 0 &
+cat("\nAdjust 'unspecified' for ", cbs[balancing < 0 &
     !is.na(unspecified) & unspecified >= -balancing, .N],
     " observations, where `balancing < 0` and `unspecified >= -balancing` to ",
     "`unspecified = unspecified + balancing`.\n", sep = "")
@@ -431,7 +431,7 @@ cbs[balancing < 0 & !is.na(unspecified) & unspecified >= -balancing,
     `:=`(unspecified = na_sum(unspecified, balancing),
          balancing = 0)]
 
-cat("\nAdjust 'stock' for ", cbs[balancing < 0 &
+cat("\nAdjust 'stock_addition' for ", cbs[balancing < 0 &
     !is.na(stock_addition) & stock_addition >= -balancing, .N],
     " observations, where `balancing < 0` and `stock_addition >= -balancing` to ",
     "`stock_addition = stock_addition + balancing`.\n", sep = "")
@@ -441,7 +441,7 @@ cbs[balancing < 0 & !is.na(stock_addition) & stock_addition >= -balancing,
          balancing = 0)]
 
 cat("\nAdjust uses proportionally for ", cbs[balancing < 0, .N],
-    " observations, where `balancing < 0` to", sep = "")
+    " observations, where `balancing < 0`", sep = "")
 cbs[, divisor := na_sum(exports, other, processing, seed, food, feed, stock_addition)]
 cbs[balancing < 0 & divisor >= -balancing,
     `:=`(stock_addition = round(na_sum(stock_addition, (balancing / divisor * stock_addition))),
@@ -472,53 +472,54 @@ cat("\nSkip capping 'exports', 'seed' and 'processing' at",
   "'total_supply + stock_withdrawal'.\n")
 
 
-# Balance CBS imports and exports -------------------------------------------------------
-
-# Adjust CBS to have equal export and import numbers per item per year
-# This is very helpful for the iterative proportional fitting of bilateral trade data
-cbs_bal <- cbs[, list(exp_t = sum(exports, na.rm = TRUE), imp_t = sum(imports, na.rm = TRUE)),
-               by = c("year", "item_code", "item")]
-cbs_bal[, `:=`(diff = na_sum(exp_t, -imp_t), exp_t = NULL, imp_t = NULL,
-               area_code = 999, area = "RoW")]
-# Absorb the discrepancies in "RoW"
-cbs <- merge(cbs, cbs_bal,
-             by = c("year", "item_code", "item", "area_code", "area"), all = TRUE)
-cbs[area_code == 999, `:=`(
-  exports = ifelse(diff < 0, na_sum(exports, -diff), exports),
-  imports = ifelse(diff > 0, na_sum(imports, diff), imports))]
-cbs[, diff := NULL]
-
-rm(cbs_bal); gc()
-
-# Rebalance RoW
-cbs[, balancing := na_sum(production, imports, stock_withdrawal,
-                          -exports, -food, -feed, -seed, -losses, -processing, -other, -unspecified)]
-
-cbs[, divisor := na_sum(other, processing, seed, food, feed, stock_addition, unspecified)]
-cbs[balancing < 0 & divisor >= -balancing,
-    `:=`(stock_addition = round(na_sum(stock_addition, (balancing / divisor * stock_addition))),
-         unspecified = round(na_sum(unspecified, (balancing / divisor * unspecified))),
-         processing = round(na_sum(processing, (balancing / divisor * processing))),
-         other = round(na_sum(other, (balancing / divisor * other))),
-         seed = round(na_sum(seed, (balancing / divisor * seed))),
-         food = round(na_sum(food, (balancing / divisor * food))),
-         feed = round(na_sum(feed, (balancing / divisor * feed))),
-         balancing = 0)]
-cbs[, `:=`(stock_withdrawal = -stock_addition, divisor = NULL,
-           balancing = na_sum(production, imports, stock_withdrawal,
-          -exports, -food, -feed, -seed, -losses, -processing, -other, -unspecified))]
-cbs[balancing < 0,
-    `:=`(production = na_sum(production, -balancing),
-         balancing = 0)]
-cbs[, total_supply := na_sum(production, imports)]
+# # Balance CBS imports and exports -------------------------------------------------------
+# # --> This balancing step was moved to script 05_balance.R
+#
+# # Adjust CBS to have equal export and import numbers per item per year
+# # This is very helpful for the iterative proportional fitting of bilateral trade data
+# cbs_bal <- cbs[, list(exp_t = sum(exports, na.rm = TRUE), imp_t = sum(imports, na.rm = TRUE)),
+#                by = c("year", "item_code", "item")]
+# cbs_bal[, `:=`(diff = na_sum(exp_t, -imp_t), exp_t = NULL, imp_t = NULL,
+#                area_code = 999, area = "RoW")]
+# # Absorb the discrepancies in "RoW"
+# cbs <- merge(cbs, cbs_bal,
+#              by = c("year", "item_code", "item", "area_code", "area"), all = TRUE)
+# cbs[area_code == 999, `:=`(
+#   exports = ifelse(diff < 0, na_sum(exports, -diff), exports),
+#   imports = ifelse(diff > 0, na_sum(imports, diff), imports))]
+# cbs[, diff := NULL]
+#
+# rm(cbs_bal); gc()
+#
+# # Rebalance RoW
+# cbs[, balancing := na_sum(production, imports, stock_withdrawal,
+#                           -exports, -food, -feed, -seed, -losses, -processing, -other, -unspecified)]
+#
+# cbs[, divisor := na_sum(other, processing, seed, food, feed, stock_addition, unspecified)]
+# cbs[balancing < 0 & divisor >= -balancing,
+#     `:=`(stock_addition = round(na_sum(stock_addition, (balancing / divisor * stock_addition))),
+#          unspecified = round(na_sum(unspecified, (balancing / divisor * unspecified))),
+#          processing = round(na_sum(processing, (balancing / divisor * processing))),
+#          other = round(na_sum(other, (balancing / divisor * other))),
+#          seed = round(na_sum(seed, (balancing / divisor * seed))),
+#          food = round(na_sum(food, (balancing / divisor * food))),
+#          feed = round(na_sum(feed, (balancing / divisor * feed))),
+#          balancing = 0)]
+# cbs[, `:=`(stock_withdrawal = -stock_addition, divisor = NULL,
+#            balancing = na_sum(production, imports, stock_withdrawal,
+#           -exports, -food, -feed, -seed, -losses, -processing, -other, -unspecified))]
+# cbs[balancing < 0,
+#     `:=`(production = na_sum(production, -balancing),
+#          balancing = 0)]
+# cbs[, total_supply := na_sum(production, imports)]
 
 
 
 cat("\nAllocate remaining supply from 'unspecified' and 'balancing' to uses.\n")
 
-cat("\nHops, oil palm fruit and live animals to 'processing'.\n")
+cat("\nHops, oil palm fruit, palm kernels, sugar crops and live animals to 'processing'.\n")
 cbs[item_code %in% c(254, 328, 677, 866, 946, 976, 1016, 1034, 2029, 1096, 1107, 1110,
-  1126, 1157, 1140, 1150, 1171, 2562) & na_sum(unspecified, balancing) > 0,
+  1126, 1157, 1140, 1150, 1171, 2536, 2537, 2562) & na_sum(unspecified, balancing) > 0,
   `:=`(processing = na_sum(processing, unspecified, balancing),
        unspecified = 0, balancing = 0)]
 
@@ -534,7 +535,7 @@ cbs[item_code %in% c(2000, 2001, 2555, 2559, 2590, 2591, 2592, 2593, 2594,
   `:=`(feed = na_sum(feed, unspecified, balancing),
        unspecified = 0, balancing = 0)]
 
-cat("\nRest (mostly 'food', 'feed' and 'processing') remains in 'unspecified'.\n")
+cat("\nRest (mostly 'food', 'feed' and 'processing') remains in 'unspecified' and 'balancing'.\n")
 
 
 # Save --------------------------------------------------------------------

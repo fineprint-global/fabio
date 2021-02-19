@@ -67,7 +67,7 @@ col_types <- list(
 
 fa_dl(file = files, link = links, path = path_fao)
 
-fa_extract(zip = paste0(path_fao, files),
+fa_extract(path_in = path_fao, files = files,
   path_out = path_fao, name = name, extr = extr, col_types = col_types)
 
 
@@ -79,9 +79,9 @@ if(!file.exists(paste0(path_fao, "Production_Crops_Primary.zip"))) {
     "online. Please request the file and provide it to continue.")
 }
 x <- unzip(paste0(path_fao, "Production_Crops_Primary.zip"),
-  exdir = gsub("(.*)/", "\\1", path_out))
+  exdir = gsub("(.*)/", "\\1", path_fao))
 y <- fread(x,
-  colClasses = c("numeric", "character", "numeric", "character", "numeric",
-    "character", "numeric", "numeric", "character", "numeric", "character"))
+  colClasses = c("character", "character", "numeric", "character", "numeric", "character",
+                 "numeric", "character", "numeric", "numeric", "character", "character", "character"))
 file.remove(x)
 saveRDS(y, paste0(path_fao, "crop_prim.rds"))

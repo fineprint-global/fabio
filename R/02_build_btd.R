@@ -117,7 +117,7 @@ rm(eth_com, eth_com_fill, eth_baci)
 cat("\nAdding fishery trade data.\n")
 
 # Comtrade is used for `year < 1995`
-fish_com <- comtrade[grep("^.*30[1-4]$", item_code), ]
+fish_com <- comtrade[grep("^.*30[1-5]$", item_code), ]
 
 # Change from reporting & partner country to receiving & supplying country
 fish_com[, `:=`(from = ifelse(imex == "Import", partner, reporter),
@@ -144,7 +144,7 @@ fish_com_fill <- lapply(seq(years[1], 1987), function(x, data, obs) {
 fish_com <- rbind(rbindlist(fish_com_fill), fish_com)
 
 # BACI is used for `year >= 1995`
-fish_baci <- baci[grep("^30[1-4]", category), ]
+fish_baci <- baci[grep("^30[1-5]", category), ]
 fish_baci[, `:=`(item = "Fish, Seafood", item_code = 2960, category = NULL)]
 
 fish_baci <- dt_rename(fish_baci, drop = FALSE,

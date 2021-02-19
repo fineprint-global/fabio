@@ -458,15 +458,19 @@ results <- lapply(sort(unique(input$area_code)), function(x) {
           list(x = na_sum(par)), by = c("inp_code")]
         O <- tcf_xy[, .(out_code, par = par * value)][,
           list(x = na_sum(par)), by = c("out_code")]
-        # Get errors (Ensuring correct order)
-        prod_err <- out_xy$production[match(O$out_code, out_xy$item_code)] - O$x
-        proc_err <- inp_xy$processing[match(I$inp_code, inp_xy$item_code)] - I$x
-        # Production loss - sum of squared errors (weighted)
-        prod_loss <- sum((prod_err / wt_xy$weight) ^ 2)
-        # Processing loss - sum of squared negative and absolute positive errors
-        proc_loss <- sum(proc_err[proc_err > 0], proc_err[proc_err < 0] ^ 2)
-        return(prod_loss + proc_loss)
+        # Get absolute deviations from target (ensuring correct order, output deviations weighted)
+        prod_tgt <- out_xy$production[match(O$out_code, out_xy$item_code)]
+        prod_err <- abs(prod_tgt - O$x) / wt_xy$weight
+        proc_tgt <- inp_xy$processing[match(I$inp_code, inp_xy$item_code)]
+        proc_err <- abs(proc_tgt - I$x)
+        # Get relative deviations from target weighted by maximum absolute error
+        prod_err_rel <- abs(prod_tgt - O$x) / prod_tgt * max(prod_err)
+        proc_err_rel <- abs(proc_tgt - I$x) / proc_tgt * max(proc_err)
+        # Sum of squared absolute deviations + 50% of weighted relative deviation
+        return(sum(prod_err^2) + sum(proc_err^2) + (sum(prod_err_rel^2) + sum(proc_err_rel^2)) / 2)
     }, method = "L-BFGS-B", lower = 0, upper = Inf)
+    # check results
+    # data <- dplyr::mutate(tcf_xy, result_in = opt$par, year = y)
     tcf_xy[, .(area_code, inp_code, out_code, value,
       result_in = opt$par, year = y)]
   })
@@ -476,10 +480,7 @@ results <- lapply(sort(unique(input$area_code)), function(x) {
 results <- rbindlist(results)
 results[, result_in := round(result_in)]
 saveRDS(results, paste0("./data/optim_results_",Sys.Date(),".rds"))
-# results <- readRDS("./data/optim_results_2020-08-07.rds")
-# results <- readRDS("./data/optim_results_2020-08-11.rds")
-# results <- readRDS("./data/optim_results_2020-08-23.rds")
-# results <- readRDS("./data/optim_results_2020-09-02.rds")
+# results <- readRDS("./data/optim_results_2021-02-18.rds")
 
 # Add process information
 results[, proc_code := ifelse(out_code == 2658, "p083",
