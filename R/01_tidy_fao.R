@@ -54,7 +54,8 @@ rename <- c(
   "SPECIES" = "species",
   "YEAR" = "year",
   "UNIT" = "unit",
-  "QUANTITY" = "value"
+  "QUANTITY" = "value",
+  "Months" = "months"
 )
 
 # CBS ---------------------------------------------------------------------
@@ -358,6 +359,29 @@ live[unit == "1000 US$", `:=`(value = value * 1000, unit = "usd")]
 # Store
 saveRDS(live, "data/tidy/live_tidy.rds")
 rm(live, live_conc)
+
+
+# Prices -------------------------------------------------------------------
+
+cat("\nTidying prices.\n")
+
+crop_conc <- fread("inst/conc_crop-cbs.csv")
+
+prices <- readRDS("input/fao/prices.rds")
+prices <- dt_rename(prices, rename, drop = TRUE)
+
+# Country / Area adjustments
+prices <- area_kick(prices, code = 351, pattern = "China", groups = TRUE)
+prices <- area_merge(prices, orig = 62, dest = 238, pattern = "Ethiopia")
+prices <- area_merge(prices, orig = 206, dest = 276, pattern = "Sudan")
+prices <- area_fix(prices, regions)
+
+prices <- merge(prices, crop_conc[, .(crop_item_code, cbs_item_code, cbs_item, tcf)],
+  by.x = "item_code", by.y = "crop_item_code", all.x = TRUE)
+
+# Store
+saveRDS(prices, "data/tidy/prices_tidy.rds")
+rm(prices, crop_conc)
 
 
 # Fish --------------------------------------------------------------------

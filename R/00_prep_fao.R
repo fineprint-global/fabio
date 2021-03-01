@@ -21,6 +21,7 @@ files <- c(
   "cbs_live" = "CommodityBalances_LivestockFish_E_All_Data_(Normalized).zip",
   "fore_prod" = "Forestry_E_All_Data_(Normalized).zip",
   "fore_trad" = "Forestry_Trade_Flows_E_All_Data_(Normalized).zip",
+  "prices" = "Prices_E_All_Data_(Normalized).zip",
   "fish_prod" = "GlobalProduction_2019.1.0.zip")
 
 # Files to extract from the ZIP archives
@@ -58,6 +59,9 @@ col_types <- list(
   "fore_trad" = c("numeric", "character", "numeric", "character", "numeric",
     "character", "numeric", "character", "numeric", "numeric", "character",
     "numeric", "character"),
+  "prices" = c("integer", "character", "integer", "character", "integer",
+    "character", "integer", "integer", "integer", "character", "character",
+    "numeric", "NULL"),
   "fish_prod" = c("integer", "integer", "integer", "character", "integer",
     "character", "numeric", "NULL")
 )
