@@ -103,8 +103,9 @@ E <- lapply(years, function(x, y) {
   template[, grazing := NULL]
 
   # add water footprints
-  template[, blue := water_lvst$blue[water_lvst$year == x][match(paste0(template$area_code, template$item_code),
-    paste0(water_lvst$area_code, water_lvst$item_code))]]
+  water <- water_lvst[water_lvst$year == x]
+  template[, blue := water$blue[match(paste0(template$area_code, template$item_code),
+    paste0(water$area_code, water$item_code))]]
   template[, green := as.numeric(water_pasture$value[match(template$area_code, water_pasture$area_code)]) * biomass]
   template[item_code != 2001, green := 0]
   template[, `:=`(fodder_blue = water_fodder$blue[match(template$area_code, water_fodder$area_code)],
