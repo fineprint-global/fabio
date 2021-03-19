@@ -265,7 +265,8 @@ cat("Calculating feed demand from supply for the following items:\n\t",
 live_b <- live[element == "Production" & unit == "tonnes", ]
 live_b[, `:=`(element = NULL, unit = NULL)]
 
-src_code <- c(944, 972, 1012, 1032, 1055, 1775, 882, 951, 982, 1020, 1130)
+# src_code <- c(944, 972, 1012, 1032, 1055, 1775, 882, 951, 982, 1020, 1130)
+src_code <- c(867, 947, 977, 1017, 1035, 1808, 882, 951, 982, 1020, 1130)
 tgt_code <- c(866, 946, 976, 1016, 1034, 2029, 2848, 2848, 2848, 2848, 2848)
 tgt_proc <- c("p085", "p086", "p087", "p088", "p089", "p090", "p099", "p100",
   "p101", "p102", "p103")
