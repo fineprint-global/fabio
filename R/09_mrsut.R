@@ -130,7 +130,7 @@ supply_shares <- lapply(btd_cast, function(x, agg, js) {
   x_agg <- crossprod(x, agg) # Aggregate total supply (per country)
   denom <- data.table(as.matrix(t(x_agg)))
   # Calculate shares (per country)
-  out <- as.matrix(x / as.matrix(denom[rep(seq(length(commodities)), length(unique(cbs$area_code))), ]))
+  out <- as.matrix(x / as.matrix(denom[rep(seq(length(commodities)), length(areas)), ]))
   out[!is.finite(out)] <- 0 # See Issue #75
 
   # source is domestic, where no sources given in btd_final

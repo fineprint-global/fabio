@@ -37,6 +37,8 @@ names(btd_final) <- years
 
 for(i in seq_along(years)) {
   y <- years[i]
+  cat("Calculating year ", y, ".\n", sep = "")
+
   # Add BTD values to the template
   mapping <- merge(mapping_templ,
                    btd[year == y, c("from_code", "to_code", "item_code", "value")],
@@ -89,8 +91,6 @@ for(i in seq_along(years)) {
     out[, .(year = y, item_code = as.integer(name),
             from_code = as.integer(from_code), to_code = as.integer(to_code), value)]
   })
-
-  cat("Calculated year ", y, ".\n", sep = "")
 }
 
 # One datatable per year

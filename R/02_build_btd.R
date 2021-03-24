@@ -180,8 +180,7 @@ btd <- btd[, list(value = na_sum(value)), by = c("item_code", "item",
 btd[, comm_code := items$comm_code[match(btd$item_code, items$item_code)]]
 
 # Subset to only keep head and usd for live animals
-btd <- btd[!(comm_code %in% c("c097", "c098", "c099", "c100", "c101", "c102", "c103",
-                             "c104", "c105", "c106", "c107", "c108", "c109", "c110") & unit == "tonnes")]
+btd <- btd[!(comm_code %in% items[comm_group == "Live animals", comm_code] & unit == "tonnes")]
 
 
 # Store -------------------------------------------------------------------

@@ -99,7 +99,7 @@ E <- lapply(years, function(x, y) {
   template[, grazing := grass$production[match(template$area_code, grass$area_code)]]
   template[item_code==2001, biomass := grazing]
   template[, grazing := grassland_yields$t_per_ha[match(template$area_code,grassland_yields$area_code)]]
-  template[item_code==2001, landuse := biomass / grazing]
+  template[item_code==2001, landuse := round(biomass / grazing)]
   template[, grazing := NULL]
 
   # add water footprints
