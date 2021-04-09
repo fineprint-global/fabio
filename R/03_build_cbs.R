@@ -23,43 +23,43 @@ cbs <- dt_filter(cbs, item_code %in% items$item_code)
 
 cat("\nAdding information from BTD.\n")
 
-btd <- readRDS("data/tidy/btd_full_tidy.rds")
+btd <- readRDS("data/tidy/btd_full_tidy_wood.rds")
 
 cat("\nGiving preference to units in the following order:\n",
-  "\t 'head' > 'tonnes'\n", "Dropping 'usd'.\n", sep = "")
+  "\t 'm3' > 'head' > 'tonnes'\n", "Dropping 'usd'.\n", sep = "")
 
 # Imports
 imps <- btd[!unit %in% c("usd"), list(value = na_sum(value)),
   by = list(to_code, to, item_code, item, year, unit)]
 imps <- data.table::dcast(imps, to_code + to + item_code + item + year ~ unit,
   value.var = "value")
-imps[, `:=`(value = ifelse(!is.na(head), head, tonnes),
-  head = NULL, tonnes = NULL)]
+imps[, `:=`(value = ifelse(!is.na(m3), m3, ifelse(!is.na(head), head, tonnes)),
+  m3 = NULL, head = NULL, tonnes = NULL)]
 
 # Exports
 exps <- btd[!unit %in% c("usd"), list(value = na_sum(value)),
   by = list(from_code, from, item_code, item, year, unit)]
 exps <- data.table::dcast(exps, from_code + from + item_code + item + year ~ unit,
   value.var = "value")
-exps[, `:=`(value = ifelse(!is.na(head), head, tonnes),
-  head = NULL, tonnes = NULL)]
+exps[, `:=`(value = ifelse(!is.na(m3), m3, ifelse(!is.na(head), head, tonnes)),
+  m3 = NULL, head = NULL, tonnes = NULL)]
 
 
-# # Forestry ----------------------------------------------------------------
-#
-# cat("\nAdding forestry production data.\n")
-#
-# fore <- readRDS("data/tidy/fore_prod_tidy.rds")
-#
-# fore[, `:=`(total_supply = na_sum(production, imports),
-#   other = na_sum(production, imports, -exports),
-#   stock_withdrawal = 0, stock_addition = 0,
-#   feed = 0, food = 0, losses = 0, processing = 0,
-#   seed = 0, balancing = 0)]
-# fore[other < 0, `:=`(balancing = other, other = 0)]
-#
-# cbs <- rbindlist(list(cbs, fore), use.names = TRUE)
-# rm(fore)
+# Forestry ----------------------------------------------------------------
+
+cat("\nAdding forestry production data.\n")
+
+fore <- readRDS("data/tidy/fore_prod_tidy.rds")
+
+fore[, `:=`(total_supply = na_sum(production, imports),
+  other = na_sum(production, imports, -exports),
+  stock_withdrawal = 0, stock_addition = 0,
+  feed = 0, food = 0, losses = 0, processing = 0,
+  seed = 0, balancing = 0)]
+fore[other < 0, `:=`(balancing = other, other = 0)]
+
+cbs <- rbindlist(list(cbs, fore), use.names = TRUE)
+rm(fore)
 
 
 # Fill crop production where missing -------------------------------------
@@ -540,5 +540,5 @@ cat("\nRest (mostly 'food', 'feed' and 'processing') remains in 'unspecified' an
 
 # Save --------------------------------------------------------------------
 
-saveRDS(cbs, "data/cbs_full.rds")
-saveRDS(btd, "data/btd_full.rds")
+saveRDS(cbs, "data/cbs_full_wood.rds")
+saveRDS(btd, "data/btd_full_wood.rds")

@@ -181,3 +181,6 @@ p116,"Rodents slaughtering, other",c122,2749,Meat Meal
 p118,Beekeeping,c123,2745,Honey
 p119,Silkworm breeding,c124,2747,Silk
 p120,Fishing,c125,2960,"Fish, Seafood"
+p121,Forestry,c126,1864,"Wood fuel"
+p121,Forestry,c127,1866,"Industrial roundwood, coniferous"
+p121,Forestry,c128,1867,"Industrial roundwood, non-coniferous"

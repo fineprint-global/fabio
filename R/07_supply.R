@@ -7,8 +7,8 @@ items <- fread("inst/items_full.csv")
 
 # Supply ------------------------------------------------------------------
 
-btd <- readRDS("data/btd_full.rds")
-cbs <- readRDS("data/cbs_full.rds")
+btd <- readRDS("data/btd_full_wood.rds")
+cbs <- readRDS("data/cbs_full_wood.rds")
 sup <- fread("inst/items_supply.csv")
 
 
@@ -176,7 +176,7 @@ prices <- prices[grepl("Milk", item) & months == "Annual value" &
   unit == "USD", .(item, area_code, area, year, value)]
 prices[, item := stringr::word(item, -1)]
 prices <- tidyr::spread(prices, item, value)
-prices[, milk := rowMeans(.SD, na.rm = TRUE),
+prices <- prices[, list(area_code, area, year, cow, milk = rowMeans(.SD, na.rm = TRUE)),
   by = c("area_code", "area", "year"),
   .SDcols = c("buffalo", "camel", "goat", "sheep")]
 prices[!is.na(cow), milk := cow]
@@ -203,4 +203,4 @@ sup[, `:=`(milk = NULL, milk_earliest = NULL, milk_avg = NULL)]
 
 # Store results -----------------------------------------------------------
 
-saveRDS(sup, "data/sup.rds")
+saveRDS(sup, "data/sup_wood.rds")

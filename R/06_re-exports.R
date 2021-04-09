@@ -9,8 +9,8 @@ years <- 1986:2013
 
 # BTD ---------------------------------------------------------------------
 
-btd <- readRDS("data/btd_bal.rds")
-cbs <- readRDS("data/cbs_full.rds")
+btd <- readRDS("data/btd_bal_wood.rds")
+cbs <- readRDS("data/cbs_full_wood.rds")
 
 areas <- sort(unique(cbs$area_code))
 items <- unique(cbs$item_code)
@@ -103,4 +103,4 @@ btd_final[, comm_code := items$comm_code[match(btd_final$item_code, items$item_c
 
 
 # Store the balanced sheets -----------------------------------------------
-saveRDS(btd_final, "data/btd_final.rds")
+saveRDS(btd_final, "data/btd_final_wood.rds")

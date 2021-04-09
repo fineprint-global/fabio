@@ -6,13 +6,13 @@ source("R/01_tidy_functions.R")
 regions <- fread("inst/regions_full.csv")
 items <- fread("inst/items_full.csv")
 
-sup <- readRDS("data/sup_final.rds")
+sup <- readRDS("data/sup_final_wood.rds")
 
-cbs <- readRDS("data/cbs_final.rds")
-btd <- readRDS("data/btd_final.rds")
+cbs <- readRDS("data/cbs_final_wood.rds")
+btd <- readRDS("data/btd_final_wood.rds")
 
-use <- readRDS("data/use_final.rds")
-use_fd <- readRDS("data/use_fd_final.rds")
+use <- readRDS("data/use_final_wood.rds")
+use_fd <- readRDS("data/use_fd_final_wood.rds")
 
 years <- seq(1986, 2013)
 areas <- unique(cbs$area_code)
@@ -84,8 +84,8 @@ mr_sup_value <- lapply(years, function(x) {
 
 names(mr_sup_mass) <- names(mr_sup_value) <- years
 
-saveRDS(mr_sup_mass, "data/mr_sup_mass.rds")
-saveRDS(mr_sup_value, "data/mr_sup_value.rds")
+saveRDS(mr_sup_mass, "data/mr_sup_wood_mass.rds")
+saveRDS(mr_sup_value, "data/mr_sup_wood_value.rds")
 
 
 # Bilateral supply shares ---
@@ -179,7 +179,7 @@ mr_use <- mapply(function(x, y) {
 }, use_cast, supply_shares)
 
 names(mr_use) <- years
-saveRDS(mr_use, "data/mr_use.rds")
+saveRDS(mr_use, "data/mr_use_wood.rds")
 
 
 # Final Demand ---
@@ -221,6 +221,6 @@ mr_use_fd <- mapply(function(x, y) {
 
 mr_use_fd <- lapply(mr_use_fd, round)
 names(mr_use_fd) <- years
-saveRDS(mr_use_fd, "/mnt/nfs_fineprint/tmp/fabio/v2/Y.rds")
+saveRDS(mr_use_fd, "/mnt/nfs_fineprint/tmp/fabio/v2/wood/Y.rds")
 
 

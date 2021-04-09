@@ -1515,3 +1515,6 @@ p113,Camels slaughtering,c106,1126,Camels,slaughtering
 p114,"Camelids slaughtering, other",c107,1157,"Camelids, other",slaughtering
 p115,Rabbits slaughtering,c108,1140,Rabbits and hares,slaughtering
 p116,"Rodents slaughtering, other",c109,1150,"Rodents, other",slaughtering
+p121,Forestry,c126,1864,Wood fuel,seedwaste
+p121,Forestry,c127,1866,"Industrial roundwood, coniferous",seedwaste
+p121,Forestry,c128,1867,"Industrial roundwood, non-coniferous",seedwaste

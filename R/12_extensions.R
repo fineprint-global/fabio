@@ -8,7 +8,7 @@ regions <- fread("inst/regions_full.csv")
 nrreg <- nrow(regions[cbs==TRUE])
 nrcom <- nrow(items)
 
-X <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v2/X.rds")
+X <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v2/wood/X.rds")
 grassland_yields <- fread("input/grazing/grazing.csv")
 water_crop <- fread("input/water/water_crop.csv")
 water_fodder <- water_crop[water_item == "Fodder crops/Managed grass"]
@@ -69,7 +69,7 @@ water_lvst <- rbind(meat, stocks)
 rm(live, meat, stocks, src_item, tgt_item, tgt_name)
 
 # read production data
-sup <- readRDS("data/sup_final.rds")
+sup <- readRDS("data/sup_final_wood.rds")
 crop <- readRDS("./data/tidy/crop_tidy.rds")
 crop[!area_code %in% regions[cbs==TRUE, code], `:=`(area_code = 999, area = "ROW")]
 crop <- crop[, list(value = na_sum(value)),
@@ -104,8 +104,8 @@ E <- lapply(years, function(x, y) {
 
   # add water footprints
   water <- water_lvst[water_lvst$year == x]
-  template[, blue := water$blue[match(paste0(template$area_code, template$item_code),
-    paste0(water$area_code, water$item_code))]]
+  template[, blue := water$blue[match(paste(template$area_code, template$item_code),
+    paste(water$area_code, water$item_code))]]
   template[, green := as.numeric(water_pasture$value[match(template$area_code, water_pasture$area_code)]) * biomass]
   template[item_code != 2001, green := 0]
   template[, `:=`(fodder_blue = water_fodder$blue[match(template$area_code, water_fodder$area_code)],
@@ -136,10 +136,11 @@ E <- lapply(years, function(x, y) {
   template[, yield := NULL]
   template[, output := X[,as.character(x)]]
   template[landuse>0 & output>0 & biomass==0, biomass := output]
+  template[comm_code %in% c("c126","c127","c128"), biomass := output]
   template[, output := NULL]
 
 }, crop[, .(year, element, area_code, item_code, value)])
 
 names(E) <- years
 
-saveRDS(E, file="/mnt/nfs_fineprint/tmp/fabio/v2/E.rds")
+saveRDS(E, file="/mnt/nfs_fineprint/tmp/fabio/v2/wood/E.rds")

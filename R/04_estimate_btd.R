@@ -10,7 +10,7 @@ years <- 1986:2013
 
 cat("\nEstimating BTD from CBS.\n")
 
-cbs <- readRDS("data/cbs_full.rds")
+cbs <- readRDS("data/cbs_full_wood.rds")
 
 # dt_replace(cbs, fun = is.na, value = 0, cols = c("imports", "exports"))
 
@@ -85,4 +85,4 @@ btd_est[, `:=`(value = (imp_spread + exp_spread) / 2,
   exp_spread = NULL, imp_spread = NULL)]
 
 # Store result ------------------------------------------------------------
-saveRDS(btd_est, "data/btd_est.rds")
+saveRDS(btd_est, "data/btd_est_wood.rds")

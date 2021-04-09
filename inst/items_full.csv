@@ -124,3 +124,6 @@ c122,2749,Meat Meal,tonnes,Livestock products,0.075,animals,Meat
 c123,2745,Honey,tonnes,Livestock products,0.17,animals,Honey
 c124,2747,Silk,tonnes,Livestock products,0,animals,"Hides, skins, wool"
 c125,2960,"Fish, Seafood",tonnes,Fish,0.7,animals,Fish
+c126,1864,Wood fuel,m3,Wood,0,NA,Wood
+c127,1866,"Industrial roundwood, coniferous",m3,Wood,0,NA,Wood
+c128,1867,"Industrial roundwood, non-coniferous",m3,Wood,0,NA,Wood
