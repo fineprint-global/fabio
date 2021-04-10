@@ -1,9 +1,9 @@
 library(Matrix)
 
 # Matrices necessary
-sup <- readODS::read_ods("inst/fabio-exiobase.ods", sheet = 1, skip = 1)
-use <- readODS::read_ods("inst/fabio-exiobase.ods", sheet = 2, skip = 1)
-conc <- readODS::read_ods("inst/fabio-exiobase.ods", sheet = 3)
+sup <- readODS::read_ods("inst/fabio-exiobase_wood.ods", sheet = 1, skip = 1)
+use <- readODS::read_ods("inst/fabio-exiobase_wood.ods", sheet = 2, skip = 1)
+conc <- readODS::read_ods("inst/fabio-exiobase_wood.ods", sheet = 3)
 
 conc$FABIO_code <- 1:nrow(conc)
 # Move NAs to extra column to drop, allocate at some point
@@ -24,7 +24,7 @@ Cou <- Cou_NA[, 1:49] # Remove 50th column of countries missing in EXIOBASE
 Y_all <- readRDS(paste0("/mnt/nfs_fineprint/tmp/fabio/v2/wood/Y.rds"))
 
 # Function to create the hybrid part for a certain year
-hybridise <- function(year, Sup, Use, Cou, Y_all) {
+hybridise <- function(year, Sup, Use, Cou, Y_all, nrreg = 192, nrcom = 128) {
 
   require(Matrix) # Necessary for forked processes
 
@@ -62,10 +62,10 @@ hybridise <- function(year, Sup, Use, Cou, Y_all) {
   }
 
   # Compute the hybrid part from Oth and T
-  B <- Matrix(0, nrow = 192 * 125, ncol = 49 * 200, sparse = TRUE)
+  B <- Matrix(0, nrow = nrreg * nrcom, ncol = 49 * 200, sparse = TRUE)
   for(i in 1:49) {
     B[, (1 + 200 * (i - 1)):(200 * i)] <-
-      do.call(rbind, replicate(192, T[[i]], simplify = FALSE)) * Oth[, i]
+      do.call(rbind, replicate(nrreg, T[[i]], simplify = FALSE)) * Oth[, i]
   }
 
   B
