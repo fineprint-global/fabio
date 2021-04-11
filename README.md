@@ -1,9 +1,9 @@
 # FABIO v2 + wood
 ### The Food and Agriculture Biomass Input-Output database + wood commodities
 
-FABIO provides a set of multi-regional physical supply-use and input-output tables covering global agriculture and forestry. The work is based on mostly freely available data from FAOSTAT, IEA, EIA, and UN Comtrade/BACI. FABIO currently covers 191 countries + RoW, 121 processes and 128 commodities for 1986-2013.
+FABIO provides a set of multi-regional physical supply-use and input-output tables covering global agriculture and forestry. The work is based on mostly freely available data from FAOSTAT, IEA, EIA, and UN Comtrade/BACI. FABIO currently covers 191 countries + RoW, 121 processes and 125 agricultural and food commodities for 1986-2013. This branch of the fabio repository furthermore includes 3 wood products.
 
-This repository provides all codes used to generate version 2 of the FABIO database.
+This repository provides all codes used to generate version 2 (+ wood) of the FABIO database.
 
 ### How to cite
 
