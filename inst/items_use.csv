@@ -61,7 +61,7 @@ p059,Tobacco production,c059,2671,Tobacco,seedwaste
 p060,Rubber production,c060,2672,Rubber,seedwaste
 p061,Fodder crops production,c061,2000,Fodder crops,seedwaste
 p062,Grazing production,c062,2001,Grazing,seedwaste
-p063,Cotton production,c063,2559,Cottonseed,seedwaste
+p025,Seed cotton production,c063,2559,Cottonseed,seedwaste
 p063,Cotton production,c096,2661,Cotton lint,seedwaste
 p064,"Sugar production, non-centrifugal",c065,2541,Sugar non-centrifugal,seedwaste
 p065,Sugar production,c066,2544,Molasses,seedwaste
