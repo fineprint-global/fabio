@@ -98,15 +98,15 @@ E <- lapply(years, function(x, y) {
   grass[is.na(production), production := 0]
   template[, grazing := grass$production[match(template$area_code, grass$area_code)]]
   template[item_code==2001, biomass := grazing]
-  template[, grazing := grassland_yields$t_per_ha[match(template$area_code,grassland_yields$area_code)]]
-  template[item_code==2001, landuse := round(biomass / grazing)]
+  template[, grazing := grassland_yields$t_dm_per_ha[match(template$area_code,grassland_yields$area_code)]]
+  template[item_code==2001, landuse := round((biomass * 0.2) / grazing)]
   template[, grazing := NULL]
 
   # add water footprints
   water <- water_lvst[water_lvst$year == x]
   template[, blue := water$blue[match(paste(template$area_code, template$item_code),
     paste(water$area_code, water$item_code))]]
-  template[, green := as.numeric(water_pasture$value[match(template$area_code, water_pasture$area_code)]) * biomass]
+  template[, green := as.numeric(water_pasture$value[match(template$area_code, water_pasture$area_code)]) * (biomass * 0.2)]
   template[item_code != 2001, green := 0]
   template[, `:=`(fodder_blue = water_fodder$blue[match(template$area_code, water_fodder$area_code)],
                   fodder_green = water_fodder$green[match(template$area_code, water_fodder$area_code)])]
