@@ -21,6 +21,8 @@ prep_solve <- function(year, Z, Y, X,
 
   L_inv <- solve(L, tol = .Machine[["double.eps"]])
 
+  L_inv[L_inv<0] <- 0
+
   return(L_inv)
 }
 
