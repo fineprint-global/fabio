@@ -17,7 +17,7 @@ water_fodder <- merge(regions[cbs==TRUE, .(area_code = code, area = name, water_
   by = c("water_code", "water_area"), all.x = TRUE, allow.cartesian = TRUE)
 water_fodder <- dcast(water_fodder, area_code + area ~ water_type, fun=sum)
 water_lvst <- fread("input/water/water_lvst.csv")
-water_pasture <- fread("input/water/water_pasture.csv")
+water_pasture <- grassland_yields %>% select(area_code, area, iso3c, continent, m3_per_ha)
 
 # calculate crop water footprint
 water_crop <- merge(regions[, .(area_code = code, area = name, water_code, water_area)],
@@ -98,15 +98,20 @@ E <- lapply(years, function(x, y) {
   grass[is.na(production), production := 0]
   template[, grazing := grass$production[match(template$area_code, grass$area_code)]]
   template[item_code==2001, biomass := grazing]
-  template[, grazing := grassland_yields$t_dm_per_ha[match(template$area_code,grassland_yields$area_code)]]
+  template[, grazing := grassland_yields$t_per_ha[match(template$area_code,grassland_yields$area_code)]]
   template[item_code==2001, landuse := round((biomass * 0.2) / grazing)]
   template[, grazing := NULL]
+
+  # cap grazing landuse at 80% of a country's land area
+  template[, landarea := grassland_yields$land_1000ha[match(template$area_code,grassland_yields$area_code)]]
+  template[item == "Grazing", landuse := ifelse((landuse / 1000) > (landarea * 0.8), (landarea * 1000 * 0.8), landuse)]
+  template[, landarea := NULL]
 
   # add water footprints
   water <- water_lvst[water_lvst$year == x]
   template[, blue := water$blue[match(paste(template$area_code, template$item_code),
     paste(water$area_code, water$item_code))]]
-  template[, green := as.numeric(water_pasture$value[match(template$area_code, water_pasture$area_code)]) * (biomass * 0.2)]
+  template[, green := as.numeric(water_pasture$m3_per_ha[match(template$area_code, water_pasture$area_code)]) * landuse]
   template[item_code != 2001, green := 0]
   template[, `:=`(fodder_blue = water_fodder$blue[match(template$area_code, water_fodder$area_code)],
                   fodder_green = water_fodder$green[match(template$area_code, water_fodder$area_code)])]

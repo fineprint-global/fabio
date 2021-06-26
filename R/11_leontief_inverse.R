@@ -4,7 +4,7 @@ library("Matrix")
 
 # Leontief inverse ---
 
-prep_solve <- function(year, Z, Y, X,
+prep_solve <- function(year, Z, X,
                        adj_X = FALSE, adj_A = TRUE, adj_diag = FALSE) {
 
   if(adj_X) {X <- X + 1e-10}
@@ -43,15 +43,42 @@ for(year in years){
   adjust <- ifelse(year %in% years_singular, TRUE, FALSE)
 
   L <- prep_solve(year = year, Z = Z_m[[as.character(year)]],
-                  Y = Y[[as.character(year)]], X = X[, as.character(year)],
-                  adj_diag = adjust)
+                  X = X[, as.character(year)], adj_diag = adjust)
+  L[L<0] <- 0
   saveRDS(L, paste0("/mnt/nfs_fineprint/tmp/fabio/v2/", year, "_L_mass.rds"))
 
   L <- prep_solve(year = year, Z = Z_v[[as.character(year)]],
-                  Y = Y[[as.character(year)]], X = X[, as.character(year)],
-                  adj_diag = adjust)
+                  X = X[, as.character(year)], adj_diag = adjust)
+  L[L<0] <- 0
   saveRDS(L, paste0("/mnt/nfs_fineprint/tmp/fabio/v2/", year, "_L_value.rds"))
+
+
+  # add losses at the main diagonal of Z and remove from Y
+  Yi <- Y[[as.character(year)]]
+  losses <- rowSums(as.matrix(Yi[, grepl("losses", colnames(Yi))]))
+  Yi[, grepl("losses", colnames(Yi))] <- 0
+  Y[[as.character(year)]] <- Yi
+  Zi <- Z_m[[as.character(year)]]
+  diag(Zi) <- diag(Zi) + losses
+  Z_m[[as.character(year)]] <- Zi
+  Zi <- Z_v[[as.character(year)]]
+  diag(Zi) <- diag(Zi) + losses
+  Z_v[[as.character(year)]] <- Zi
+
+  L <- prep_solve(year = year, Z = Z_m[[as.character(year)]],
+                  X = X[, as.character(year)], adj_diag = adjust)
+  L[L<0] <- 0
+  saveRDS(L, paste0("/mnt/nfs_fineprint/tmp/fabio/v2/losses/", year, "_L_mass.rds"))
+
+  L <- prep_solve(year = year, Z = Z_v[[as.character(year)]],
+                  X = X[, as.character(year)], adj_diag = adjust)
+  L[L<0] <- 0
+  saveRDS(L, paste0("/mnt/nfs_fineprint/tmp/fabio/v2/losses/", year, "_L_value.rds"))
 
 }
 
+saveRDS(X, "/mnt/nfs_fineprint/tmp/fabio/v2/losses/X.rds")
+saveRDS(Y, "/mnt/nfs_fineprint/tmp/fabio/v2/losses/Y.rds")
+saveRDS(Z_m, "/mnt/nfs_fineprint/tmp/fabio/v2/losses/Z_mass.rds")
+saveRDS(Z_v, "/mnt/nfs_fineprint/tmp/fabio/v2/losses/Z_value.rds")
 

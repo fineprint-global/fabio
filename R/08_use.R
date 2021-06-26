@@ -297,8 +297,8 @@ feed_req_b <- data.table::dcast(feed_req_b, value.var = "converted", fun.aggrega
 
 # Create column for fodder crops from residues
 feed_req_b[, `:=`(
-  fodder = ifelse(item == "Pigs", residues * 0.1, # 0.1 for pigs
-    ifelse(item == "Poultry", 0, residues * 0.7)))] # 0.7 for ruminants
+  fodder = ifelse(item == "Pigs", residues * 0.05, # 0.05 for pigs
+    ifelse(item == "Poultry", 0, residues * 0.85)))] # 0.85 for ruminants
 feed_req_b[, `:=`(residues = round(residues - fodder, 3), item = NULL)]
 
 # Add missing variables
