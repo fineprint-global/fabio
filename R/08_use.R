@@ -295,11 +295,15 @@ feed_req_b[, converted := round(production * conversion, 3)]
 feed_req_b <- data.table::dcast(feed_req_b, value.var = "converted", fun.aggregate = na_sum,
   area_code + area + year + item + proc_code ~ feedtype)
 
-# Create column for fodder crops from residues
+# Define share of fodder crops in residues
 feed_req_b[, `:=`(
-  fodder = ifelse(item == "Pigs", residues * 0.05, # 0.05 for pigs
-    ifelse(item == "Poultry", 0, residues * 0.85)))] # 0.85 for ruminants
-feed_req_b[, `:=`(residues = round(residues - fodder, 3), item = NULL)]
+  fodder = ifelse(item == "Pigs", residues * 0.025, # 0.025 for pigs, 0 for poultry
+  ifelse(item == "Poultry", 0, residues * 0.5)))] # 0.5 for ruminants
+# Define share of oilcakes in residues
+feed_req_b[, `:=`(
+  residues = round(ifelse(item %in% c("Pigs", "Poultry", "Dairy cattle"), residues * 0.5,
+  ifelse(item == "Beef cattle", residues * 0.1, residues * 0.05)), # 0.05 for sheep and goats
+  3))]
 
 # Add missing variables
 processes <- unique(sup[, .(proc_code, proc)])
@@ -307,7 +311,7 @@ feed_req_b[, proc := processes$proc[match(feed_req_b$proc_code, processes$proc_c
 
 # Create total
 feed_req_b[, `:=`(total = na_sum(animals, crops, grass, fodder,
-  residues, scavenging), item_code = 0)]
+  residues, scavenging), item_code = 0, item = NULL)]
 
 # Integrate Bouwman and Krausmann feed requirements
 feed_req <- rbind(feed_req_b[total > 0], feed_req_k[!is.na(total) & total > 0])
@@ -336,11 +340,17 @@ feed_req[, `:=`(
   residues_f = ifelse(is.na(residues_f), mean(residues_f, na.rm = TRUE), residues_f),
   scavenging_f = ifelse(is.na(scavenging_f), mean(scavenging_f, na.rm = TRUE), scavenging_f))]
 # This simple procedure assumes equal feed composition for
-# Horses, Asses, Mules, Camels, Camelids, other, Rabbits and hares, Rodents, other
-feed_req[item_code != 0,
+# Horses, Asses, Mules, Camels, Camelids, other
+feed_req[item_code != 0 & !proc %in% c("Rabbits husbandry", "Rodents husbandry, other"),
   `:=`(animals = total * animals_f, crops = total * crops_f,
        grass = total * grass_f, fodder = total * fodder_f, residues = total * residues_f,
        scavenging = total * scavenging_f)]
+# Rabbits and hares, Rodents, other
+feed_req[item_code != 0 & proc %in% c("Rabbits husbandry", "Rodents husbandry, other"),
+  `:=`(animals = total * animals_f, crops = total * (crops_f + grass_f),
+       grass = 0, fodder = total * fodder_f, residues = total * residues_f,
+       scavenging = total * scavenging_f)]
+
 # Kick factors again
 feed_req[, `:=`(animals_f = NULL, crops_f = NULL, grass_f = NULL,
   fodder_f = NULL, residues_f = NULL, scavenging_f = NULL)]
