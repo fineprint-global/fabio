@@ -209,11 +209,15 @@ tcf_apply <- function(x, na.rm = TRUE, filler = 1L, fun = `/`) {
 
 
 # Give preference to a certain flow
-flow_pref <- function(x, pref = "Import") {
+flow_pref <- function(x, pref = "Import", pure = FALSE) {
 
   x[, id := paste(from_code, to_code, item_code, year, sep = "_")]
 
-  to_kick <- x[imex != pref & id %in% x[imex == pref, id], id]
+  if(pure == TRUE){
+    to_kick <- x[imex != pref, id]
+  } else {
+    to_kick <- x[imex != pref & id %in% x[imex == pref, id], id]
+  }
   cat("Dropping ", length(to_kick), " observations as preference is given to ",
       pref, ".\n", sep = "")
 

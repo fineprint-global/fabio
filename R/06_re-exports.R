@@ -61,7 +61,7 @@ for(i in seq_along(years)) {
                   cbs[year==y & item_code==as.integer(j),
                       .(area_code, production, dom_use, total_use, dom_share = production / total_use)],
                   by = "area_code", all = TRUE)
-    data[is.na(dom_use), dom_use := 0]
+    data[is.na(dom_use) | dom_use < 0, dom_use := 0]
     data[is.na(total_use), total_use := 0]
     data[is.na(dom_share), dom_share := 0]
 
