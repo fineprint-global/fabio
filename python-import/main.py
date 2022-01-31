@@ -37,7 +37,7 @@ import pandas as pd
 
 if True:
     
-    fabio_filepath = "data/fabio_v2/fabio_v2/" # Default (can be changed)
+    fabio_filepath = "data/" # Default (can be changed)
     fabio_year = "2013" # Default (can be changed)
 
     fabio_items = fabio.read(
