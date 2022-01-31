@@ -128,7 +128,7 @@ class read():
 
     def __init__(
         self,
-        path = "data/fabio_v2/fabio_v2/",
+        path = "data/",
         year = 2013
         ):
         """Init.
