@@ -2,19 +2,24 @@
 # Ethanol -----------------------------------------------------------------
 
 library("data.table")
+library("stringr" )
 # library("openxlsx")
+
 path_eth <- "input/ethanol/"
 
 
 # EIA data ----------------------------------------------------------------
 
-eth1_extent <- 1980:2014
-eth1_cols <- c("NULL", "character", "NULL", rep("numeric", length(eth1_extent)))
-eth1_prod <- fread(paste0(path_eth, "eia_biofuels_production.csv"),
-  skip = 8, check.names = FALSE, nrows = 227,
-  colClasses = eth1_cols, na.strings = c("-", "--", "", "NA"))
+eth1_extent <- 1980:2019
+eth1_cols <- c("NULL", "character", rep("character", length(eth1_extent)))
+
+eth1_prod <- fread(paste0(path_eth, "eia_biofuels_production_19.csv"),
+                   skip = 3, check.names = FALSE, nrows = 230,
+                   colClasses = eth1_cols, na.strings = c("-", "--", "", "NA"))
 
 names(eth1_prod) <- c("country", eth1_extent)
+eth1_prod <- eth1_prod[,(as.character(eth1_extent)) := lapply(.SD,as.numeric),.SDcols=as.character(eth1_extent)]
+eth1_prod[, country := str_trim(country)]
 
 if(!eth1_prod[[1]][1] == "Afghanistan" &&
   !eth1_prod[[1]][nrow(eth1_prod)] == "Zimbabwe") {
@@ -35,7 +40,7 @@ saveRDS(eth1_prod, paste0(path_eth, "eth_eia.rds"))
 eth2_cols <- c("NULL", "NULL", "character", "NULL",
   "NULL", "NULL", "character", "NULL",
   "integer", "NULL", "numeric", "NULL", "NULL")
-eth2_prod <- fread(paste0(path_eth, "iea_renewables_production.csv"),
+eth2_prod <- fread(paste0(path_eth, "iea_renewables_production_20.csv"),
   colClasses = eth2_cols)
 eth2_prod <- subset(eth2_prod, PRODUCT == "BIOGASOL")[, -2]
 eth2_extent <- min(eth2_prod$TIME):max(eth2_prod$TIME)

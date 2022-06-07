@@ -82,7 +82,6 @@ cbs[!is.na(value) & (is.na(production) | production == 0), production := value]
 cbs[, value := NULL]
 
 
-
 # Estimate cbs for items/countries not included -------------------------------------
 
 # Filter countries and items that are not yet in CBS
@@ -156,8 +155,14 @@ addcbs[, processing := results$processing[match(paste(addcbs$year, addcbs$area_c
                                                 paste(results$year, results$area_code, results$item_code))]]
 # Allocate 'Seed cotton', 'Oil, palm fruit', 'Hops', 'Sugar cane' and 'Palm kernels' supply to processing
 addcbs[item_code %in% c(254, 328, 677, 2536, 2562), processing := na_sum(total_supply, -exports)]
+
+# add 'Cotton lint', 'Jute', 'Jute-Like Fibres', 'Soft-Fibres', 'Other Sisal', 'Abaca',
+# 'Hard Fibres, Other', 'Tobacco', and 'Rubber' to other uses
+addcbs[item_code %in% c(2662,2663,2664,2665,2666,2667,2671,2672), other := na_sum(total_supply, -exports)]
+
+
 # allocate rest to 'unspecified'
-addcbs[, unspecified := na_sum(total_supply,-processing,-exports)]
+addcbs[, unspecified := na_sum(total_supply,-processing, -other, -exports)]
 addcbs[, balancing := 0]
 addcbs[unspecified < 0, `:=`(balancing = unspecified, unspecified = 0)]
 
@@ -170,50 +175,175 @@ cat("\nSkip filling cbs seed.",
 cat("\nAdding ", nrow(addcbs), " missing cbs accounts.\n", sep = "")
 cbs <- dplyr::bind_rows(cbs, addcbs)
 
-rm(crop, crop_prod, addcbs,
+rm(crop_prod, addcbs,
   tcf_crop, tcf_codes, tcf_data, input, output, results, years, areas,
   C, input_x, output_x, input_y, output_y)
 
 
+# Oilcrop cakes after 2013: impute production from primary crop processing use / oil production ------------
+
+crp_item <- c(2555,2552,2557,2558,2559,2562,2560,2561,2570)
+crp_name <- c("Soyabeans", "Groundnuts", "Sunflower seed", "Rape and Mustardseed", "Cottonseed", "Palm kernels", "Coconuts - Incl Copra", "Sesame seed", "Oilcrops, Other")
+cak_item <- c(2590,2591,2592,2593,2594,2595,2596,2597,2598)
+cak_name <- c("Soyabean Cake", "Groundnut Cake", "Sunflowerseed Cake", "Rape and Mustard Cake", "Cottonseed Cake", "Palmkernel Cake", "Copra Cake", "Sesameseed Cake", "Oilseed Cakes, Other")
+oil_item <- c(2571,2572,2573,2574,2575,2576,2578,2579,2586)
+oil_name <- c("Soyabean Oil", "Groundnut Oil", "Sunflowerseed Oil", "Rape and Mustard Oil", "Cottonseed Oil", "Palmkernel Oil", "Coconut Oil", "Sesameseed Oil", "Oilcrops Oil, Other")
+
+# extract oilcrop prcessing and cake + oil production
+cbs_crp_proc <- cbs[item_code %in% crp_item, .(area_code, area, item_code, item, year, processing)]
+cbs_cak_prod <- cbs[item_code %in% cak_item, .(area_code, area, item_code, item, year, production)]
+cbs_oil_prod <- cbs[item_code %in% oil_item, .(area_code, area, item_code, item, year, production)]
+
+# match cake production with crop processing and oil output
+conc <- match(cbs_cak_prod$item_code, cak_item)
+cbs_cak_prod[, `:=`(source_item = crp_item[conc], source_name = crp_name[conc],
+               oil_item = oil_item[conc], oil_name = oil_name[conc])]
+cbs_cak_prod <- merge(cbs_cak_prod, cbs_crp_proc,
+                 by.x = c("area_code", "area", "source_item", "source_name", "year"),
+                 by.y = c("area_code", "area", "item_code", "item", "year"),
+                 all.x = TRUE)
+cbs_cak_prod <- merge(cbs_cak_prod, cbs_oil_prod[,.(area_code, area, item_code, item, year, oil_production = production)],
+                 by.x = c("area_code", "area", "oil_item", "oil_name", "year"),
+                 by.y = c("area_code", "area", "item_code", "item", "year"),
+                 all.x = TRUE)
+cbs_cak_prod <- cbs_cak_prod[production > 0,]
+#cbs_cak_prod <- cbs_cak_prod[production == 0, production := NA]
+
+# compute annual conversion factors / cake-to-oil factors
+cbs_cak_prod[, `:=`(tcf = ifelse(is.finite(production / processing), production / processing, NA),
+               cof = ifelse(is.finite(production / oil_production), production / oil_production, NA))]
+# compute averages across all available years
+cak_conv <- cbs_cak_prod[, .(tcf = mean(tcf, na.rm = TRUE), cof = mean(cof, na.rm = TRUE)), by = .(area_code, area, item_code, item, source_item, source_name, oil_item, oil_name)]
+# fill NAs with global averages
+cak_conv_glob <- cak_conv[, .(tcf_global = mean(tcf, na.rm = TRUE),
+                              cof_global = mean(cof, na.rm = TRUE)),
+                          by = .(item_code)]
+#cak_conv[, `:=` (tcf_global = mean(tcf, na.rm = TRUE), cof_global = mean(cof, na.rm = TRUE)), by = .(item_code, item, source_item, source_name, oil_item, oil_name)]
+cak_conv <- merge(cak_conv, cak_conv_glob, by = c("item_code"))
+cak_conv[, `:=` (tcf = ifelse(is.na(tcf), tcf_global, tcf),
+                 cof = ifelse(is.na(cof), cof_global, cof))]
+cak_conv[,`:=` ( tcf_global = NULL, cof_global = NULL)]
+# NOTE: if we want derive cake production also for countries who never had cake production before 2013, we need an addition step tp fill tcf/cof witj global averages for these cases!
+
+# apply factors to cbs in following order: if processing > 0, use tcf, and if processing = 0 but oil production > 0, use cof
+yrs <- 2014:2019
+#cak_base <- cbs_crp_proc[, ]
+#cbs_cak <- merge(cak_conv, data.table(year = 2014:2019), by = NULL)
+cake <- cbind(cak_conv[rep(1:nrow(cak_conv), each = length(yrs))], year = yrs[rep(1:length(yrs), nrow(cak_conv))])
+cake <- merge(cake, cbs_crp_proc[processing > 0,],
+                 by.x = c("area_code", "area", "source_item", "source_name", "year"),
+                 by.y = c("area_code", "area", "item_code", "item", "year"),
+                 all.x  = TRUE) # all.y = TRUE
+cake <- merge(cake, cbs_oil_prod[production > 0,][,.(area_code, area, item_code, item, year, oil_production = production)],
+                 by.x = c("area_code", "area", "oil_item", "oil_name", "year"),
+                 by.y = c("area_code", "area", "item_code", "item", "year"),
+                 all.x = TRUE) #  all.y = TRUE
+cake[, `:=` (processing = ifelse(is.na(processing), 0, processing),
+                oil_production = ifelse(is.na(oil_production), 0, oil_production)) ]
+# filter relevant years for extrapolation
+cake <- cake[year > 2013,]
+# apply factors
+cake[, production := ifelse(processing > 0, processing * tcf, ifelse(oil_production > 0, oil_production * cof, 0))]
+
+# TODO: in case oil + cake production exceed source processing input, correct via cof
+# discuss if we should adjust cbs for this!
+cake[(production + oil_production) > processing, oil_production := production * cof]
+
+# add trade
+cak_imp <- crop[element == "Import Quantity" & unit == "tonnes" & item_code %in% cak_item & year %in% yrs, ]
+cak_exp <- crop[element == "Export Quantity" & unit == "tonnes" & item_code %in% cak_item & year %in% yrs, ]
+cak_imp[, `:=`(element = NULL, unit = NULL)]
+cak_exp[, `:=`(element = NULL, unit = NULL)]
+
+cake <- merge(cake[, .(area_code, area, item_code, item, year, production)],
+              cak_imp[, .(area_code, area, item_code, item, year, imports = value)],
+              by = c("area_code", "area", "item_code", "item", "year"),
+              all = TRUE)
+cake <- merge(cake,
+              cak_exp[, .(area_code, area, item_code, item, year, exports = value)],
+              by = c("area_code", "area", "item_code", "item", "year"),
+              all = TRUE)
+
+# add trade values from btd in case they are missing in live_trad
+cake <- merge(
+  cake,
+  imps[item_code %in% cak_item & value > 0 & year %in% yrs,  # these are in heads as well
+       c("to_code", "to", "item_code", "item", "year", "value")],
+  by.x = c("area_code", "area", "item_code", "item", "year"),
+  by.y = c("to_code", "to", "item_code", "item", "year"),
+  all = TRUE)
+cake[, `:=`(imports = ifelse(is.na(imports), value, imports), value = NULL)]
+cake <- merge(
+  cake,
+  exps[item_code %in% cak_item & value > 0 & year %in% yrs,
+       c("from_code", "from", "item_code", "item", "year", "value")],
+  by.x = c("area_code", "area", "item_code", "item", "year"),
+  by.y = c("from_code", "from", "item_code", "item", "year"),
+  all = TRUE)
+cake[, `:=`(exports = ifelse(is.na(exports), value, exports), value = NULL)]
+
+# compute total supply
+cake[, total_supply := na_sum(production, imports)]
+# reduce exports where they exceed total supply (per definition not the case any more!)
+cake[, exports := ifelse(exports > total_supply, total_supply, exports)]
+# all uses are assumed to go to feed
+# TODO: check if appropriate! in a few cases, cakes are also used for "other"
+cake[, feed := na_sum(production, imports, -exports)]
+cake <- cake[total_supply >= 0, ]
+
+# Add to CBS ---
+cat("\nAdding ", nrow(cake), " missing oilseed cake accounts.\n", sep = "")
+cbs <- dplyr::bind_rows(cbs, cake)
+
+rm(crp_item, crp_name, cak_item, cak_name, oil_item, oil_name,
+   cbs_cak_prod, cbs_crp_proc, cbs_oil_prod,
+   cak_conv, cak_conv_glob, yrs,
+   cak_imp, cak_exp, cake)
+
+
 # Fill livestock -----------------------------
+
+# NOTE: this creates cbs for live animals not contained in cbs
 
 cat("\nFilling missing livestock data.\n")
 
-live <- readRDS("data/tidy/live_tidy.rds")
+# live <- readRDS("data/tidy/live_tidy.rds")
+#
+# live <- live[element == "Production" & unit == "head", ] # this is empty!!
+# live[, `:=`(element = NULL, unit = NULL)]
 
-live <- live[element == "Production" & unit == "head", ]
+
+# # Map "Meat indigenous, ..." items to CBS items
+# --> no longer present in production data! Replace by computing production + imp - exp
+#src_item <- c(1137, 944, 1032, 1012, 1775, 1055, 1120, 1144,
+#   972, 1161, 1154, 1122, 1124)
+tgt_item <- c(1126, 866, 1016, 976, 2029, 1034, 1096, 1140,
+   946, 1157, 1150, 1107, 1110)
+tgt_name <- c("Camels", "Cattle", "Goats", "Sheep", "Poultry Birds", "Pigs",
+   "Horses", "Rabbits and hares", "Buffaloes", "Camelids, other",
+   "Rodents, other", "Asses", "Mules")
+#conc <- match(live$item_code, src_item)
+#live[, `:=`(item_code = tgt_item[conc], item = tgt_name[conc])]
+#live <- live[!is.na(item_code), ]
+
+# Map "Meat, ..." items to CBS items
+src_item <- c(1127, 867, 1017, 977, 1808, 1035, 1097, 1141,
+  947, 1158, 1151, 1108, 1111)
+
+live <- readRDS("data/tidy/live_tidy.rds")
+live <- live[element == "Producing Animals/Slaughtered" &
+  unit == "head", ]
 live[, `:=`(element = NULL, unit = NULL)]
 
-# Map "Meat indigenous, ..." items to CBS items
-src_item <- c(1137, 944, 1032, 1012, 1775, 1055, 1120, 1144,
-  972, 1161, 1154, 1122, 1124)
-tgt_item <- c(1126, 866, 1016, 976, 2029, 1034, 1096, 1140,
-  946, 1157, 1150, 1107, 1110)
-tgt_name <- c("Camels", "Cattle", "Goats", "Sheep", "Poultry Birds", "Pigs",
-  "Horses", "Rabbits and hares", "Buffaloes", "Camelids, other",
-  "Rodents, other", "Asses", "Mules")
 conc <- match(live$item_code, src_item)
 live[, `:=`(item_code = tgt_item[conc], item = tgt_name[conc])]
 live <- live[!is.na(item_code), ]
 
-# Map "Meat, ..." items to CBS items
-src_item_alt <- c(1127, 867, 1017, 977, 1808, 1035, 1097, 1141,
-  947, 1158, 1151, 1108, 1111)
-
-live_alt <- readRDS("data/tidy/live_tidy.rds")
-live_alt <- live_alt[element == "Producing Animals/Slaughtered" &
-  unit == "head", ]
-live_alt[, `:=`(element = NULL, unit = NULL)]
-
-conc <- match(live_alt$item_code, src_item_alt)
-live_alt[, `:=`(item_code = tgt_item[conc], item = tgt_name[conc])]
-live_alt <- live_alt[!is.na(item_code), ]
-
-live <- merge(live, live_alt,
-  by = c("area_code", "area", "year", "item_code", "item"), all = TRUE)
-live[ , `:=`(value =
-  ifelse(is.na(value.x), value.y, ifelse(value.x == 0, value.y, value.x)),
-  value.x = NULL, value.y = NULL)]
+#live <- merge(live, live_alt,
+#  by = c("area_code", "area", "year", "item_code", "item"), all = TRUE)
+#live[ , `:=`(value =
+#  ifelse(is.na(value.x), value.y, ifelse(value.x == 0, value.y, value.x)),
+#  value.x = NULL, value.y = NULL)]
 
 # Add trade data
 live_trad <- readRDS("data/tidy/live_tidy.rds")
@@ -233,7 +363,7 @@ live <- merge(live,
 # add trade values from btd in case they are missing in live_trad
 live <- merge(
   live,
-  imps[item_code %in% live[, item_code] & value > 0,
+  imps[item_code %in% live[, item_code] & value > 0,  # these are in heads as well
        c("to_code", "to", "item_code", "item", "year", "value")],
   by.x = c("area_code", "area", "item_code", "item", "year"),
   by.y = c("to_code", "to", "item_code", "item", "year"),
@@ -248,49 +378,94 @@ live <- merge(
   all = TRUE)
 live[, `:=`(exports = ifelse(is.na(exports), value, exports), value = NULL)]
 
+# additional necessary step in v3: adjust production as production + exp - imp
+live[, production := na_sum(production, exports, -imports)]
+live[production < 0, production := 0]
+
+# compute total supply
 live[, total_supply := na_sum(production, imports)]
-# reduce exports where they exceed total supply
+# reduce exports where they exceed total supply (per definition not the case any more!)
 live[, exports := ifelse(exports > total_supply, total_supply, exports)]
+# all uses are assumed to go to processing
 live[, processing := na_sum(production, imports, -exports)]
+#live <- live[total_supply > 0, ]
 
 cbs <- dplyr::bind_rows(cbs, live)
 
-rm(src_item, tgt_item, tgt_name, conc, live, live_trad, live_alt)
+rm(src_item, tgt_item, tgt_name, conc, live, live_trad)
 
 
-# Estimate cbs for meat items/countries not included -------------------------------------
+# Estimate cbs for meat and other livestock-based items/countries not included -------------------------------------
 
 live <- readRDS("data/tidy/live_tidy.rds")
 
 live <- live[element == "Production" & unit == "tonnes", ]
 live[, `:=`(element = NULL, unit = NULL)]
 
-# Map "Meat, ..." items to CBS items
-src_item <- c(1035,1097,1108,1111,1127,1141,1151,1158,1163,1166,1806,1807,1808)
-tgt_item <- c(2733,2735,2735,2735,2735,2735,2735,2735,2735,2735,2731,2732,2734)
+# Map "Meat, ..." items AND non-food livestock items ("Hides and skins", "Wool", "Silk") to CBS items
+src_item <- c(1035,1097,1108,1111,1127,
+              1141,1151,1158,1163,1166,
+              1806,1807,1808,
+              919, 957, 995, 999, 1025,
+              987, 1185, 1186)
+tgt_item <- c(2733,2735,2735,2735,2735,
+              2735,2735,2735,2735,2735,
+              2731,2732,2734,
+              2748, 2748, 2748, 2748, 2748,
+              2746, 2747, 2747)
 tgt_name <- c("Pigmeat","Meat, Other","Meat, Other","Meat, Other","Meat, Other",
               "Meat, Other","Meat, Other","Meat, Other","Meat, Other","Meat, Other",
-              "Bovine Meat","Mutton & Goat Meat","Poultry Meat")
+              "Bovine Meat","Mutton & Goat Meat","Poultry Meat",
+              "Hides and skins", "Hides and skins", "Hides and skins", "Hides and skins", "Hides and skins",
+              "Wool (Clean Eq.)", "Silk", "Silk")
+
 conc <- match(live$item_code, src_item)
 live[, `:=`(item_code = tgt_item[conc], item = tgt_name[conc])]
 live <- live[!is.na(item_code), ]
 live[, `:=`(production = value, value = NULL)]
+live <- live[, .(production = sum(production, na.rm = TRUE)), by = setdiff(names(live), "production")]
 
-# add trade values from btd
+
+# Add trade data
+live_trad <- readRDS("data/tidy/live_tidy.rds")
+live_trad <- live_trad[element %in% c("Import Quantity", "Export Quantity") & unit == "tonnes", ]
+conc_trad <- match(live_trad$item_code, src_item)
+live_trad[, `:=`(item_code = tgt_item[conc_trad], item = tgt_name[conc_trad])]
+live_trad <- live_trad[!is.na(item_code), ]
+live_trad <- live_trad[, .(value = sum(value, na.rm = TRUE)), by = setdiff(names(live_trad), "value")]
+
+live_imp <- live_trad[element == "Import Quantity", ]
+live_exp <- live_trad[element == "Export Quantity", ]
+
+live <- merge(live[, .(area_code, area, item_code, item, year, production)],
+              live_imp[, .(area_code, area, item_code, item, year, imports = value)],
+              by = c("area_code", "area", "item_code", "item", "year"),
+              all = TRUE)
+live <- merge(live,
+              live_exp[, .(area_code, area, item_code, item, year, exports = value)],
+              by = c("area_code", "area", "item_code", "item", "year"),
+              all = TRUE)
+
+
+# add trade values from btd in case they are missing in live_trad
 live <- merge(
   live,
   imps[item_code %in% live[, item_code] & value > 0,
-       .(to_code, to, item_code, item, year, imports = value)],
+       .(to_code, to, item_code, item, year, value)],
   by.x = c("area_code", "area", "item_code", "item", "year"),
   by.y = c("to_code", "to", "item_code", "item", "year"),
   all = TRUE)
+live[, `:=`(imports = ifelse(is.na(imports), value, imports), value = NULL)]
+
 live <- merge(
   live,
   exps[item_code %in% live[, item_code] & value > 0,
-       .(from_code, from, item_code, item, year, exports = value)],
+       .(from_code, from, item_code, item, year, value)],
   by.x = c("area_code", "area", "item_code", "item", "year"),
   by.y = c("from_code", "from", "item_code", "item", "year"),
   all = TRUE)
+live[, `:=`(exports = ifelse(is.na(exports), value, exports), value = NULL)]
+
 
 # Filter countries and items that are not yet in CBS
 live <- live[!paste(area_code, item_code, year) %in% paste(cbs$area_code, cbs$item_code, cbs$year) & !is.na(production)]
@@ -298,11 +473,14 @@ live <- live[!paste(area_code, item_code, year) %in% paste(cbs$area_code, cbs$it
 live[, total_supply := na_sum(production, imports)]
 # reduce exports where they exceed total supply
 live[, exports := ifelse(exports > total_supply, total_supply, exports)]
-live[, unspecified := na_sum(production, imports, -exports)]
+# add use to other for hides and skins, silk and wool, and to unspecified for all others
+live[, other := ifelse(item_code %in% c(2748,2747,2746), na_sum(production, imports, -exports), 0)]
+live[, unspecified := ifelse(item_code %in% c(2748,2747,2746), 0, na_sum(production, imports, -exports))]
 live[, balancing := 0]
 
+
 # Add to CBS ---
-cat("\nAdding ", nrow(live), " missing cbs accounts for meat items.\n", sep = "")
+cat("\nAdding ", nrow(live), " missing cbs accounts for meat and non-food livestock items.\n", sep = "")
 cbs <- dplyr::bind_rows(cbs, live)
 
 

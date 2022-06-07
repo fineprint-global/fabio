@@ -9,7 +9,11 @@ btd_item_code,cbs_item_code,cbs_item
 20,2511,Wheat and products
 21,2511,Wheat and products
 22,2511,Wheat and products
-30,2805,Rice (Milled Equivalent)
+27,2807,Rice and products
+28,2807,Rice and products
+29,2807,Rice and products
+31,2807,Rice and products
+32,2807,Rice and products
 36,2581,Ricebran Oil
 37,2598,"Oilseed Cakes, Other"
 39,2657,"Beverages, Fermented"
@@ -57,14 +61,14 @@ btd_item_code,cbs_item_code,cbs_item
 157,2537,Sugar beet
 160,2543,"Sweeteners, Other"
 161,2543,"Sweeteners, Other"
-162,2818,"Sugar, Refined Equiv"
+162,2542,Sugar (Raw Equivalent)
 163,2541,Sugar non-centrifugal
-164,2818,"Sugar, Refined Equiv"
-165,2544,Molasses
+164,2542,Sugar (Raw Equivalent)
+165,2543,"Sweeteners, Other"
 166,2543,"Sweeteners, Other"
 167,2543,"Sweeteners, Other"
-168,2818,"Sugar, Refined Equiv"
-171,2818,"Sugar, Refined Equiv"
+168,2542,Sugar (Raw Equivalent)
+171,2542,Sugar (Raw Equivalent)
 172,2543,"Sweeteners, Other"
 173,2543,"Sweeteners, Other"
 176,2546,Beans
@@ -92,10 +96,11 @@ btd_item_code,cbs_item_code,cbs_item
 238,2590,Soyabean Cake
 239,2555,Soyabeans
 240,2555,Soyabeans
-243,2556,Groundnuts (Shelled Eq)
+243,2552,Groundnuts
 244,2572,Groundnut Oil
 245,2591,Groundnut Cake
-247,2556,Groundnuts (Shelled Eq)
+246,2552,Groundnuts
+247,2552,Groundnuts
 249,2560,Coconuts - Incl Copra
 250,2560,Coconuts - Incl Copra
 251,2560,Coconuts - Incl Copra
@@ -309,6 +314,7 @@ btd_item_code,cbs_item_code,cbs_item
 907,2848,Milk - Excluding Butter
 909,2848,Milk - Excluding Butter
 910,2848,Milk - Excluding Butter
+919,2748,Hides and skins
 920,2748,Hides and skins
 928,2748,Hides and skins
 946,946,Buffaloes
@@ -359,14 +365,14 @@ btd_item_code,cbs_item_code,cbs_item
 1091,2744,Eggs
 1096,1096,Horses
 1097,2735,"Meat, Other"
-1104,2748,Hides and skins
+1104,,Hides and skins
 1107,1107,Asses
 1108,2735,"Meat, Other"
 1110,1110,Mules
 1126,1126,Camels
 1129,2737,"Fats, Animals, Raw"
-1134,2748,Hides and skins
-1140,1140,"Rabbits and hares"
+1134,,Hides and skins
+1140,1140,Rabbits and hares
 1141,2735,"Meat, Other"
 1150,1150,"Rodents, other"
 1157,1157,"Camelids, other"
@@ -384,8 +390,8 @@ btd_item_code,cbs_item_code,cbs_item
 1185,2747,Silk
 1186,2747,Silk
 1187,2747,Silk
-1213,2748,Hides and skins
-1216,2748,Hides and skins
+1213,,Hides and skins
+1216,,Hides and skins
 1218,,"Hair, fine"
 1225,2737,"Fats, Animals, Raw"
 1232,2928,Miscellaneous
