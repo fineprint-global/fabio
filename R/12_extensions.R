@@ -75,18 +75,18 @@ crop[!area_code %in% regions[cbs==TRUE, code], `:=`(area_code = 999, area = "ROW
 crop <- crop[, list(value = na_sum(value)),
   by = .(area_code, area, element, year, unit, item_code, item)]
 
-template <- data.table(area_code = rep(regions[cbs==TRUE, code], each = nrcom),
-  area = rep(regions[cbs==TRUE, name], each = nrcom),
-  item_code = rep(items$item_code, nrreg),
-  item = rep(items$item, nrreg),
-  comm_code = rep(items$comm_code, nrreg),
-  comm_group = rep(items$comm_group, nrreg),
-  group = rep(items$group, nrreg))
-
-
 years <- 1986:2013
 
 E <- lapply(years, function(x, y) {
+
+  template <- data.table(
+    area_code = rep(regions[cbs==TRUE, code], each = nrcom),
+    area = rep(regions[cbs==TRUE, name], each = nrcom),
+    item_code = rep(items$item_code, nrreg),
+    item = rep(items$item, nrreg),
+    comm_code = rep(items$comm_code, nrreg),
+    comm_group = rep(items$comm_group, nrreg),
+    group = rep(items$group, nrreg))
 
   y_land <- y[element=="Area harvested" & year==x & item_code %in% items$item_code]
   y_biomass <- y[element=="Production" & year==x & item_code %in% items$item_code[items$group == "Primary crops"]]
@@ -143,7 +143,7 @@ E <- lapply(years, function(x, y) {
   template[landuse>0 & output>0 & biomass==0, biomass := output]
   template[, output := NULL]
 
-}, crop[, .(year, element, area_code, item_code, value)])
+}, y = crop[, .(year, element, area_code, item_code, value)])
 
 names(E) <- years
 
