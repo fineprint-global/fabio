@@ -5,7 +5,7 @@ source("R/01_tidy_functions.R")
 regions <- fread("inst/regions_full.csv")
 items <- fread("inst/items_full.csv")
 
-years <- 1986:2013
+years <- 1986:2019
 
 # Comtrade and BACI are used for ethanol and fishery trade
 comtrade <- readRDS("data/tidy/comtrade_tidy.rds")
@@ -34,36 +34,36 @@ btd[, imex := NULL]
 btd <- dt_filter(btd, from_code != to_code)
 
 
-# Forestry ----------------------------------------------------------------
-
-cat("\nAdding forestry trade data.\n")
-
-fore <- readRDS("data/tidy/fore_trad_tidy.rds")
-
-# Change from reporting & partner country to receiving & supplying country
-fore[, `:=`(from = ifelse(imex == "Import", partner, reporter),
-  from_code = ifelse(imex == "Import", partner_code, reporter_code),
-  to = ifelse(imex == "Import", reporter, partner),
-  to_code = ifelse(imex == "Import", reporter_code, partner_code),
-  reporter = NULL, reporter_code = NULL,
-  partner = NULL, partner_code = NULL)]
-
-# Give preference to import flows over export flows
-fore <- flow_pref(fore, pref = "Import")
-fore[, imex := NULL]
-
-# Exclude intra-regional trade flows
-fore <- dt_filter(fore, from_code != to_code)
-
-# # Fill < 1997 with 1997
-# fore_fill <- lapply(seq(years[1], 1996), function(x, data, obs) {
-#   dt <- data[obs, ]
-#   dt$year <- x
-#   return(dt)
-# }, data = fore, obs = which(fore[, year] == 1997))
+# # Forestry ----------------------------------------------------------------
 #
-# fore <- rbind(rbindlist(fore_fill), fore)
-# rm(fore_fill)
+# cat("\nAdding forestry trade data.\n")
+#
+# fore <- readRDS("data/tidy/fore_trad_tidy.rds")
+#
+# # Change from reporting & partner country to receiving & supplying country
+# fore[, `:=`(from = ifelse(imex == "Import", partner, reporter),
+#   from_code = ifelse(imex == "Import", partner_code, reporter_code),
+#   to = ifelse(imex == "Import", reporter, partner),
+#   to_code = ifelse(imex == "Import", reporter_code, partner_code),
+#   reporter = NULL, reporter_code = NULL,
+#   partner = NULL, partner_code = NULL)]
+#
+# # Give preference to import flows over export flows
+# fore <- flow_pref(fore, pref = "Import")
+# fore[, imex := NULL]
+#
+# # Exclude intra-regional trade flows
+# fore <- dt_filter(fore, from_code != to_code)
+#
+# # # Fill < 1997 with 1997
+# # fore_fill <- lapply(seq(years[1], 1996), function(x, data, obs) {
+# #   dt <- data[obs, ]
+# #   dt$year <- x
+# #   return(dt)
+# # }, data = fore, obs = which(fore[, year] == 1997))
+# #
+# # fore <- rbind(rbindlist(fore_fill), fore)
+# # rm(fore_fill)
 
 
 # Ethanol -----------------------------------------------------------------
@@ -160,7 +160,7 @@ rm(fish_com, fish_com_fill, fish_baci)
 
 # Merge and save ----------------------------------------------------------
 
-btd <- rbindlist(list(btd, fore, eth, fish), use.names = TRUE)
+btd <- rbindlist(list(btd, eth, fish), use.names = TRUE) #fore
 
 # Replace negatives with 0 (except for regions "Unspecified" and "Others (adjustments)")
 # (Not needed, because there are only negatives for these two regions.)
@@ -180,6 +180,7 @@ btd <- btd[, list(value = na_sum(value)), by = c("item_code", "item",
 btd[, comm_code := items$comm_code[match(btd$item_code, items$item_code)]]
 
 # Subset to only keep head and usd for live animals
+btd_live_tonnes <- btd[(comm_code %in% items[comm_group == "Live animals", comm_code] & unit == "tonnes")]
 btd <- btd[!(comm_code %in% items[comm_group == "Live animals", comm_code] & unit == "tonnes")]
 
 
