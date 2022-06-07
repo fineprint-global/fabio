@@ -1,6 +1,6 @@
 crop_item_code,crop_item,cbs_item_code,cbs_item,tcf
 15,Wheat,2511,Wheat and products,1
-27,"Rice, paddy",2805,Rice (Milled Equivalent),0.75
+27,"Rice, paddy",2807,Rice and products,1
 44,Barley,2513,Barley and products,1
 56,Maize,2514,Maize and products,1
 71,Rye,2515,Rye and products,1
@@ -46,7 +46,7 @@ crop_item_code,crop_item,cbs_item_code,cbs_item,tcf
 226,Areca nuts,2551,Nuts and products,1
 234,"Nuts, nes",2551,Nuts and products,1
 236,Soybeans,2555,Soyabeans,1
-242,"Groundnuts, with shell",2556, "Groundnuts (Shelled Eq)",0.7
+242,"Groundnuts, with shell",2552,Groundnuts,1
 249,Coconuts,2560,Coconuts - Incl Copra,1
 254,"Oil, palm fruit",254,"Oil, palm fruit",1
 256,Palm kernels,2562,Palm kernels,1
@@ -157,7 +157,7 @@ crop_item_code,crop_item,cbs_item_code,cbs_item,tcf
 777,Hemp tow waste,2664,"Soft-Fibres, Other",1
 778,Kapok fibre,2664,"Soft-Fibres, Other",1
 780,Jute,2662,Jute,1
-782,"Bastfibres, other",2663,"Jute-Like Fibres",1
+782,"Bastfibres, other",2663,Jute-Like Fibres,1
 788,Ramie,2664,"Soft-Fibres, Other",1
 789,Sisal,2665,Sisal,1
 800,Agave fibres nes,2667,"Hard Fibres, Other",1
@@ -198,13 +198,14 @@ crop_item_code,crop_item,cbs_item_code,cbs_item,tcf
 649,Swedes for fodder,2000,Fodder crops,1
 651,Forage products,2000,Fodder crops,1
 655,Vegetables and roots fodder,2000,Fodder crops,1
-165,Molasses,2544,Molasses,1
+857,"Hay, non leguminous (from grasses)",,,
+165,Molasses,2543,"Sweeteners, Other",1
 331,"Oil, cottonseed",2575,Cottonseed Oil,1
 334,"Oil, linseed",2586,"Oilcrops Oil, Other",1
 261,"Oil, olive, virgin",2580,Olive Oil,1
 290,"Oil, sesame",2579,Sesameseed Oil,1
 268,"Oil, sunflower",2573,Sunflowerseed Oil,1
-162,Sugar Raw Centrifugal,2818,"Sugar, Refined Equiv",0.92
+162,Sugar Raw Centrifugal,2542,Sugar (Raw Equivalent),1
 51,Beer of barley,2656,Beer,1
 1242,"Margarine, short",,,
 244,"Oil, groundnut",2572,Groundnut Oil,1
@@ -215,3 +216,18 @@ crop_item_code,crop_item,cbs_item_code,cbs_item,tcf
 252,"Oil, coconut (copra)",2578,Coconut Oil,1
 258,"Oil, palm kernel",2576,Palmkernel Oil,1
 60,"Oil, maize",2582,Maize Germ Oil,1
+238,"Cake, soybeans",2590,Soyabean Cake,1
+245,"Cake, groundnuts",2591,Groundnut Cake,1
+269,"Cake, sunflower",2592,Sunflowerseed Cake,1
+272,"Cake, rapeseed",2593,Rape and Mustard Cake,1
+294,"Cake, mustard",2593,Rape and Mustard Cake,1
+332,"Cake, cottonseed",2594,Cottonseed Cake,1
+259,"Cake, palm kernel",2595,Palmkernel Cake,1
+253,"Cake, copra",2596,Copra Cake,1
+291,"Cake, sesame seed",2597,Sesameseed Cake,1
+282,"Cake, safflower",2598,"Oilseed Cakes, Other",1
+314,"Cake, kapok",2598,"Oilseed Cakes, Other",1
+335,"Cake, linseed",2598,"Oilseed Cakes, Other",1
+338,"Cake, hempseed",2598,"Oilseed Cakes, Other",1
+37,"Cake, rice bran",2598,"Oilseed Cakes, Other",1
+61,"Cake, maize",2598,"Oilseed Cakes, Other",1
