@@ -76,17 +76,8 @@ rename <- c(
 
 cat("\nTidying CBS.\n")
 
-# cbs <- rbind(readRDS("input/fao/cbs_crop.rds"),
-#   readRDS("input/fao/cbs_live.rds"))
-
 #cbs_v2 <- rbind(readRDS("/mnt/nfs_fineprint/tmp/fabio/v2/input/fao/cbs_crop.rds"),
 #   readRDS("/mnt/nfs_fineprint/tmp/fabio/v2/input/fao/cbs_live.rds"))
-
-#cbs <- rbind(readRDS("input/fao/cbs_nonfood.rds"),
-#             readRDS("input/fao/cbs_food_old.rds")[Year < 2010,],
-#             readRDS("input/fao/cbs_food_new.rds"))
-
-
 
 # food: filter post-2010 values from old balances and transform to tonnes
 cbs_food_old <- readRDS("input/fao/cbs_food_old.rds")[Year < 2010,]
@@ -120,7 +111,7 @@ cbs <- dt_rename(cbs, rename, drop = TRUE)
 cbs[item == "Groundnuts (Shelled Eq)", `:=` (item_code = 2552, item = "Groundnuts", value = 1/0.7 * value)]
 # “Rice (milled equivalent)” into "Rice and products" via TCF
 cbs[item == "Rice (Milled Equivalent)", `:=` (item_code = 2807, item = "Rice and products", value = 1/0.67 * value)]
-
+# Note: Sugar (Raw Equivalent) was also present in old FBS
 
 # aggregate tourist consumption and residuals into other uses and drop unused elements
 cbs[element %in% c("Tourist consumption"), element := "Other uses (non-food)"]
@@ -141,12 +132,6 @@ cbs <- area_fix(cbs, regions)
 cbs <- data.table::dcast(cbs, area_code + area + item_code + item + year ~ element,
                          value.var = "value") # fun.aggregate = sum, na.rm = TRUE sum is used her because remaining duplicates only contain NAs in food balance
 cbs <- dt_rename(cbs, rename, drop = FALSE)
-## drop irrelevant columns
-#cbs[, `:=` (`Food supply (kcal/capita/day)` = NULL,
-#            `Food supply quantity (kg/capita/yr)` = NULL,
-#            `Fat supply quantity (g/capita/day)` = NULL,
-#            `Protein supply quantity (g/capita/day)` = NULL,
-#            `Total Population - Both sexes` = NULL)]
 
 # Replace NA values with 0
 cbs <- dt_replace(cbs, is.na, value = 0)
@@ -174,12 +159,13 @@ cbs[, balancing := na_sum(total_supply,
 # remove residuals, which are now contained in balancing
 cbs[, residuals := NULL]
 
+# TODO: imbalances in the data need to be double-checked! there are a lot of them!
+
 # Store
 saveRDS(cbs, "data/tidy/cbs_tidy.rds")
-rm(cbs)
 
 
-# SUA ---------------------------------------------------------------------
+# SUA (not used yet) ---------------------------------------------------------------------
 
 sua <- readRDS("input/fao/sua.rds")
 sua <- dt_rename(sua, rename = rename)
@@ -201,7 +187,6 @@ btd <- readRDS("input/fao/btd_prod.rds")
 #btd_v2 <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v2/input/fao/btd_prod.rds")
 
 btd <- dt_rename(btd, rename, drop = TRUE)
-#btd_v2 <- dt_rename(btd_v2, rename, drop = TRUE)
 
 
 # Country / Area adjustments
@@ -344,6 +329,9 @@ rm(btd, btd_conc, item_match)
 #
 # Crops -------------------------------------------------------------------
 
+# NOTE: crop and livestock production / trade are no longer reported separately, but in joint datasets
+# nevertheless. the distinction between crop and livestock is kept in the code, splitting the datasets in the beginning
+
 cat("\nTidying crops.\n")
 
 crop_conc <- fread("inst/conc_crop-cbs.csv")
@@ -353,7 +341,6 @@ crop_conc <- fread("inst/conc_crop-cbs.csv")
 
 #crop_v2 <- rbind(readRDS("/mnt/nfs_fineprint/tmp/fabio/v2/input/fao/crop_prod.rds"),
 #                 readRDS("/mnt/nfs_fineprint/tmp/fabio/v2/input/fao/crop_proc.rds"))
-#crop_v2 <- dt_rename(crop_v2, rename, drop = TRUE)
 
 prod <- readRDS("input/fao/prod.rds")
 prod <- dt_rename(prod, rename, drop = TRUE)
@@ -399,6 +386,7 @@ crop_prim_19 <- readRDS("input/fao/crop_prim_19.rds")
 regions <- fread("inst/regions_full.csv")
 crop_conc <- fread("inst/conc_crop-cbs.csv")
 
+# bring new fodder data in same format as old one (different code nomenclatures are used)
 m49_codes <- fread("inst/m49_codes.csv")
 setnames(m49_codes, c("M49 Code", "ISO-alpha3 Code"), c("m49", "iso3c"))
 cpc_codes_fodder <- fread("inst/cpc_fcl_fodder.csv")
@@ -412,10 +400,9 @@ crop_prim_19[unit == "t", unit := "tonnes"]
 crop_prim_19[, Year := as.numeric(Year)]
 setnames(crop_prim_19, c("code", "name", "Value", "Year"), c("area_code", "area", "value", "year"))
 
-
+# bind
 crop_prim <- dt_rename(crop_prim, rename, drop = TRUE)
 crop_prim_19 <- crop_prim_19[, names(crop_prim), with=FALSE]
-
 crop_prim <- rbind(crop_prim, crop_prim_19)
 
 # Country / Area adjustments
@@ -440,7 +427,7 @@ cbs_years <- unique(cbs[,.(area_code, area, year)])
 fod_country <- merge(fod_country, cbs_years)
 crop_prim <- merge(crop_prim, fod_country, by = names(fod_country), all = TRUE)
 
-# consider country-item-element combinations wih only NAs or only one value (no inter/extrapolation possible)
+# consider country-item-element combinations with only NAs or only one value (no inter/extrapolation possible)
 crop_prim[, count := sum(is.finite(value)), by =.(area,item,element)]
 
 # interpolate using linear interpolation (if more than 3 values are available for whole time series)
@@ -459,7 +446,7 @@ crop_prim <- dt_filter(crop_prim, value >= 0)
 #
 # Bind all parts & store
 saveRDS(rbind(crop, crop_prim), "data/tidy/crop_tidy.rds")
-rm(crop, crop_prim, crop_conc)
+rm(crop, crop_prim, crop_conc, cbs)
 
 
 # Livestock ---------------------------------------------------------------
@@ -472,24 +459,11 @@ live_conc <- fread("inst/conc_live-cbs.csv")
 #live_trad_v2 <- live_trad_v2[`Item Code` %in% live_conc$live_item_code,]
 
 live_trad <- trad[item_code %in% live_conc$live_item_code,]
-
 # aggregate chickens, turkeys, etc. into poultry
-#live_trad_v2[`Item Code` %in% c(1057, 1068, 1079, 1083) , `Item Code` := 2029]
-#live_trad_v2 <- dt_rename(live_trad_v2, rename)
-
 live_trad[item_code %in% c(1057, 1068, 1079, 1083) , item_code := 2029]
-
-#live_v2 <- rbind(readRDS("/mnt/nfs_fineprint/tmp/fabio/v2/input/fao/live_prod.rds"),
-#                 readRDS("/mnt/nfs_fineprint/tmp/fabio/v2/input/fao/live_proc.rds"),
-#                 readRDS("/mnt/nfs_fineprint/tmp/fabio/v2/input/fao/live_prim.rds"),
-#                 live_trad_v2)
-#live_v2 <- dt_rename(live_v2, rename)
 
 live <- prod[item_code %in% live_conc$live_item_code, ]
 live <- rbind(live, live_trad)
-
-#prod_v2 <- rbind(crop_v2, live_v2)
-#prod <- rbind(prod, live_trad)
 
 # Country / Area adjustments
 live <- area_kick(live, code = 351, pattern = "China", groups = TRUE)
@@ -528,8 +502,6 @@ cat("\nTidying prices.\n")
 crop_conc <- fread("inst/conc_crop-cbs.csv")
 
 #prices_v2 <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v2/input/fao/prices.rds")
-#prices_v2 <- dt_rename(prices_v2, rename, drop = TRUE)
-
 prices <- readRDS("input/fao/prices.rds")
 prices <- dt_rename(prices, rename, drop = TRUE)
 
@@ -553,8 +525,6 @@ cat("\nTidying fish.\n")
 
 #fish_v2 <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v2/input/fao/fish_prod.rds")
 fish <- readRDS("input/fao/fish_prod.rds")
-
-#fish_v2 <- dt_rename(fish_v2, rename, drop = TRUE)
 fish <- dt_rename(fish, rename, drop = TRUE)
 
 #fish_v2[, source := ifelse(source_code == 4, "Capture", "Aquaculture")]
@@ -562,12 +532,6 @@ fish[, source := ifelse(source_code == "CAPTURE", "Capture", "Aquaculture")] # s
 fish[, unit := ifelse(unit == "Q_tlw", "t", "no")]
 
 # Country / Area adjustments
-#country_match_v2 <- match(fish_v2[["country"]], regions[["fish"]])
-#fish_v2[, `:=`(area = regions$name[country_match_v2],
-#               area_code = regions$code[country_match_v2], country = NULL)]
-#
-#fish_v2 <- dt_filter(fish_v2, !is.na(area))
-
 country_match <- match(fish[["country"]], regions[["fish"]])
 fish[, `:=`(area = regions$name[country_match],
             area_code = regions$code[country_match], country = NULL)]
