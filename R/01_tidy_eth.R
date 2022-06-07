@@ -9,7 +9,7 @@ regions <- fread("inst/regions_full.csv")
 
 cat("\nTidying EIA ethanol.\n")
 
-eth_eia <- readRDS("input_nowcast/ethanol/eth_eia.rds")
+eth_eia <- readRDS("input/ethanol/eth_eia.rds")
 
 # Country concordance
 country_match <- match(eth_eia[["country"]], regions[["eia"]])
@@ -36,7 +36,7 @@ rm(country_match)
 
 cat("\nTidying IEA ethanol.\n")
 
-eth_iea <- readRDS("input_nowcast/ethanol/eth_iea.rds")
+eth_iea <- readRDS("input/ethanol/eth_iea.rds")
 
 # Country concordance
 country_match <- match(eth_iea[["country"]], regions[["iso3c"]])

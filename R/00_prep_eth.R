@@ -3,21 +3,16 @@
 
 library("data.table")
 library("stringr" )
-
 # library("openxlsx")
-#path_eth <- "/mnt/nfs_fineprint/tmp/fabio/v2/input/ethanol/"
-path_eth <- "input_nowcast/ethanol/"
+
+path_eth <- "input/ethanol/"
 
 
 # EIA data ----------------------------------------------------------------
 
-#eth1_extent <- 1980:2014
 eth1_extent <- 1980:2019
-#eth1_cols <- c("NULL", "character", "NULL", rep("numeric", length(eth1_extent)))
 eth1_cols <- c("NULL", "character", rep("character", length(eth1_extent)))
-#eth1_prod <- fread(paste0(path_eth, "eia_biofuels_production.csv"),
-#  skip = 8, check.names = FALSE, nrows = 227,
-#  colClasses = eth1_cols, na.strings = c("-", "--", "", "NA"))
+
 eth1_prod <- fread(paste0(path_eth, "eia_biofuels_production_19.csv"),
                    skip = 3, check.names = FALSE, nrows = 230,
                    colClasses = eth1_cols, na.strings = c("-", "--", "", "NA"))

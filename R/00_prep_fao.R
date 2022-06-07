@@ -3,7 +3,7 @@
 
 library("data.table")
 source("R/00_prep_functions.R")
-path_fao <- "input_nowcast/fao/"
+path_fao <- "input/fao/"
 
 
 # Settings ----------------------------------------------------------------

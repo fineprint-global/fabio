@@ -82,20 +82,20 @@ cat("\nTidying CBS.\n")
 #cbs_v2 <- rbind(readRDS("/mnt/nfs_fineprint/tmp/fabio/v2/input/fao/cbs_crop.rds"),
 #   readRDS("/mnt/nfs_fineprint/tmp/fabio/v2/input/fao/cbs_live.rds"))
 
-#cbs <- rbind(readRDS("input_nowcast/fao/cbs_nonfood.rds"),
-#             readRDS("input_nowcast/fao/cbs_food_old.rds")[Year < 2010,],
-#             readRDS("input_nowcast/fao/cbs_food_new.rds"))
+#cbs <- rbind(readRDS("input/fao/cbs_nonfood.rds"),
+#             readRDS("input/fao/cbs_food_old.rds")[Year < 2010,],
+#             readRDS("input/fao/cbs_food_new.rds"))
 
 
 
 # food: filter post-2010 values from old balances and transform to tonnes
-cbs_food_old <- readRDS("input_nowcast/fao/cbs_food_old.rds")[Year < 2010,]
+cbs_food_old <- readRDS("input/fao/cbs_food_old.rds")[Year < 2010,]
 cbs_food_old[, `:=`(Value = ifelse(is.na(Value), 0, Value*1000) , Unit = "tonnes")]
-cbs_food_new <- readRDS("input_nowcast/fao/cbs_food_new.rds")
+cbs_food_new <- readRDS("input/fao/cbs_food_new.rds")
 cbs_food_new[, `:=`(Value = ifelse(is.na(Value), 0, Value*1000) , Unit = "tonnes")]
 
 # nonfood: remove items contained in food balances
-cbs_nonfood <- readRDS("input_nowcast/fao/cbs_nonfood.rds")
+cbs_nonfood <- readRDS("input/fao/cbs_nonfood.rds")
 cbs_nonfood[Element == "Food supply quantity (tonnes)", Element := "Food"]
 
 cbs_nonfood <- merge(cbs_nonfood, cbs_food_old[, .SD, .SDcols = c("Area Code", "Item Code", "Element", "Year Code", "Value")],
@@ -181,7 +181,7 @@ rm(cbs)
 
 # SUA ---------------------------------------------------------------------
 
-sua <- readRDS("input_nowcast/fao/sua.rds")
+sua <- readRDS("input/fao/sua.rds")
 sua <- dt_rename(sua, rename = rename)
 
 #we only use molasses for now
@@ -197,7 +197,7 @@ rm(sua)
 
 cat("\nTidying BTD.\n")
 
-btd <- readRDS("input_nowcast/fao/btd_prod.rds")
+btd <- readRDS("input/fao/btd_prod.rds")
 #btd_v2 <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v2/input/fao/btd_prod.rds")
 
 btd <- dt_rename(btd, rename, drop = TRUE)
@@ -355,7 +355,7 @@ crop_conc <- fread("inst/conc_crop-cbs.csv")
 #                 readRDS("/mnt/nfs_fineprint/tmp/fabio/v2/input/fao/crop_proc.rds"))
 #crop_v2 <- dt_rename(crop_v2, rename, drop = TRUE)
 
-prod <- readRDS("input_nowcast/fao/prod.rds")
+prod <- readRDS("input/fao/prod.rds")
 prod <- dt_rename(prod, rename, drop = TRUE)
 crop <- prod[item_code %in% crop_conc$crop_item_code,]
 crop <- unique(crop)
@@ -366,7 +366,7 @@ crop <- area_merge(crop, orig = 62, dest = 238, pattern = "Ethiopia")
 crop <- area_merge(crop, orig = 206, dest = 276, pattern = "Sudan")
 crop <- area_fix(crop, regions)
 
-trad <- readRDS("input_nowcast/fao/trad.rds")
+trad <- readRDS("input/fao/trad.rds")
 trad <- dt_rename(trad, rename, drop = TRUE)
 crop_trad <- trad[item_code %in% crop_conc$crop_item_code,]
 crop_trad <- unique(crop_trad)
@@ -394,14 +394,14 @@ crop <- dt_filter(crop, value >= 0)
 #
 # Primary
 #crop_prim <- readRDS("input/fao/crop_prim.rds")
-crop_prim <- readRDS("input_nowcast/fao/crop_prim_14.rds")
-crop_prim_19 <- readRDS("input_nowcast/fao/crop_prim_19.rds")
+crop_prim <- readRDS("input/fao/crop_prim_14.rds")
+crop_prim_19 <- readRDS("input/fao/crop_prim_19.rds")
 regions <- fread("inst/regions_full.csv")
 crop_conc <- fread("inst/conc_crop-cbs.csv")
 
-m49_codes <- fread("inst_nowcast/m49_codes.csv")
+m49_codes <- fread("inst/m49_codes.csv")
 setnames(m49_codes, c("M49 Code", "ISO-alpha3 Code"), c("m49", "iso3c"))
-cpc_codes_fodder <- fread("inst_nowcast/cpc_fcl_fodder.csv")
+cpc_codes_fodder <- fread("inst/cpc_fcl_fodder.csv")
 crop_prim_19[, `:=`(m49 = as.integer(geographicAreaM49), cpc = as.numeric(measuredItemCPC))]
 crop_prim_19 <- merge(crop_prim_19, m49_codes[,.(m49, iso3c)], by = "m49")
 crop_prim_19 <- merge(crop_prim_19, regions[,.(code, iso3c, name)], by = "iso3c")
@@ -530,7 +530,7 @@ crop_conc <- fread("inst/conc_crop-cbs.csv")
 #prices_v2 <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v2/input/fao/prices.rds")
 #prices_v2 <- dt_rename(prices_v2, rename, drop = TRUE)
 
-prices <- readRDS("input_nowcast/fao/prices.rds")
+prices <- readRDS("input/fao/prices.rds")
 prices <- dt_rename(prices, rename, drop = TRUE)
 
 # Country / Area adjustments
@@ -552,7 +552,7 @@ rm(prices, crop_conc)
 cat("\nTidying fish.\n")
 
 #fish_v2 <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v2/input/fao/fish_prod.rds")
-fish <- readRDS("input_nowcast/fao/fish_prod.rds")
+fish <- readRDS("input/fao/fish_prod.rds")
 
 #fish_v2 <- dt_rename(fish_v2, rename, drop = TRUE)
 fish <- dt_rename(fish, rename, drop = TRUE)

@@ -4,7 +4,7 @@
 library("data.table")
 library("comtradr")
 source("R/00_prep_functions.R")
-path_trade <- "input_nowcast/trade/"
+path_trade <- "input/trade/"
 
 
 # BACI92 ------------------------------------------------------------------

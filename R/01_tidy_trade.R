@@ -34,7 +34,7 @@ rename_baci <- c(
 
 cat("\nTidying Comtrade.\n")
 
-comtrade <- readRDS("input_nowcast/trade/comtrade.rds")
+comtrade <- readRDS("input/trade/comtrade.rds")
 
 comtrade <- dt_rename(comtrade, rename_comtrade, drop = TRUE)
 
@@ -110,7 +110,7 @@ cat("\nTidying BACI.\n")
 
 ### adapt BACI regions code: Belgium now code 56 and Belgium_Luxembourg separately contained with 58
 
-baci <- readRDS("input_nowcast/trade/baci_sel.rds")
+baci <- readRDS("input/trade/baci_sel.rds")
 #baci_v2 <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v2/input/trade/baci_sel.rds")
 
 baci <- dt_rename(baci, rename_baci, drop = TRUE)
