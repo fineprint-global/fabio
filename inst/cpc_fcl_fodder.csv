@@ -1,0 +1,23 @@
+﻿cpc;cpc_name;item_code;item
+01911;Maize for forage;0636;Maize for forage
+01912;Alfalfa for forage;0641;Alfalfa for forage
+01913;Cereal straw, husks, unprepared, ground, pressed, or in the form of pellets;0635;Straw and Husks
+01919;Forage products, n.e.c.;;
+01919.01;Sorghum, for forage;0637;Sorghum for forage
+01919.02;Rye grass, for forage;0638;Rye grass for forage
+01919.03;Clover, for forage;0640;Clover for forage
+01919.04;Cabbage, for forage;0644;Cabbage for fodder
+01919.05;Turnips, for forage;0646;Turnips for fodder
+01919.06;Beet, for forage;0647;Beets for fodder
+01919.07;Carrots, for forage;0648;Carrots for fodder
+01919.08;Swedes, for forage;0649;Swedes for fodder
+01919.09;Hay for forage, from grasses;0857;Hay, non leguminous (from grasses)
+01919.10;Hay for forage, from legumes;0858;Hay (Clover, Lucerne, etc.)
+01919.11;Hay for forage, from other crops n.e.c.;0859;Hay nes (from unspec. plants)
+01919.90;Other forage products;;
+01919.91;Other grasses, for forage;0639;Grasses nes for forage
+01919.92;Other legumes, for forage;0643;Legumes for silage
+01919.93;Mixed grass and legumes, for forage;0645;Mixed grass and legumes
+01919.94;Other oilseeds, for forage;0642;Green oilseeds for silage
+01919.95;Other forage crops, n.e.c.;0655;Vegetables, roots fodder nes
+01919.96;Other forage products, n.e.c.;0651;Forage Products nes
