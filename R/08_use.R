@@ -491,7 +491,7 @@ results <- lapply(sort(unique(input$area_code)), function(x) {
 results <- rbindlist(results)
 results[, result_in := round(result_in)]
 saveRDS(results, paste0("./data/optim_results_",Sys.Date(),".rds"))
-# results <- readRDS("./data/optim_results_2021-02-18.rds")
+# results <- readRDS("./data/optim_results_2022-06-09.rds")
 
 # Add process information
 results[, proc_code := ifelse(out_code == 2658, "p083",

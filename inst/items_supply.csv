@@ -1,5 +1,5 @@
 proc_code,proc,comm_code,item_code,item
-p001,Rice production,c001,2805,Rice (Milled Equivalent)
+p001,Rice production,c001,2807,Rice and products
 p002,Wheat production,c002,2511,Wheat and products
 p003,Barley production,c003,2513,Barley and products
 p004,Maize production,c004,2514,Maize and products
@@ -20,7 +20,7 @@ p018,Peas production,c018,2547,Peas
 p019,"Pulses  production, Other",c019,2549,"Pulses, Other and products"
 p020,Nuts production,c020,2551,Nuts and products
 p021,Soyabeans production,c021,2555,Soyabeans
-p022,Groundnuts (Shelled Eq) production,c022,2556,Groundnuts (Shelled Eq)
+p022,Groundnuts production,c022,2552,Groundnuts
 p023,Sunflower seed production,c023,2557,Sunflower seed
 p024,Rape and Mustardseed production,c024,2558,Rape and Mustardseed
 p025,Seed cotton production,c025,328,Seed cotton
@@ -64,8 +64,7 @@ p062,Grazing production,c062,2001,Grazing
 p063,Cotton production,c063,2559,Cottonseed
 p063,Cotton production,c096,2661,Cotton lint
 p064,"Sugar production, non-centrifugal",c065,2541,Sugar non-centrifugal
-p065,Sugar production,c066,2544,Molasses
-p065,Sugar production,c067,2818,"Sugar, Refined Equiv"
+p065,Sugar production,c067,2542,"Sugar (Raw Equivalent)"
 p066,"Sweeteners production, Other",c068,2543,"Sweeteners, Other"
 p067,Soyabean Oil extraction,c069,2571,Soyabean Oil
 p068,Groundnut Oil extraction,c070,2572,Groundnut Oil
@@ -165,19 +164,6 @@ p104,Cattle slaughtering,c121,2748,Hides and skins
 p105,Buffaloes slaughtering,c121,2748,Hides and skins
 p106,Sheep slaughtering,c121,2748,Hides and skins
 p107,Goat slaughtering,c121,2748,Hides and skins
-p104,Cattle slaughtering,c122,2749,Meat Meal
-p105,Buffaloes slaughtering,c122,2749,Meat Meal
-p106,Sheep slaughtering,c122,2749,Meat Meal
-p107,Goat slaughtering,c122,2749,Meat Meal
-p108,Pigs slaughtering,c122,2749,Meat Meal
-p109,Poultry slaughtering,c122,2749,Meat Meal
-p110,Horses slaughtering,c122,2749,Meat Meal
-p111,Asses slaughtering,c122,2749,Meat Meal
-p112,Mules slaughtering,c122,2749,Meat Meal
-p113,Camels slaughtering,c122,2749,Meat Meal
-p114,"Camelids slaughtering, other",c122,2749,Meat Meal
-p115,Rabbits slaughtering,c122,2749,Meat Meal
-p116,"Rodents slaughtering, other",c122,2749,Meat Meal
 p118,Beekeeping,c123,2745,Honey
 p119,Silkworm breeding,c124,2747,Silk
 p120,Fishing,c125,2960,"Fish, Seafood"

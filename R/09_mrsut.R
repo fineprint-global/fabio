@@ -14,7 +14,7 @@ btd <- readRDS("data/btd_final.rds")
 use <- readRDS("data/use_final.rds")
 use_fd <- readRDS("data/use_fd_final.rds")
 
-years <- seq(1986, 2013)
+years <- seq(1986, 2019)
 areas <- unique(cbs$area_code)
 processes <- unique(use$proc_code)
 commodities <- unique(use$comm_code)
@@ -221,6 +221,6 @@ mr_use_fd <- mapply(function(x, y) {
 
 mr_use_fd <- lapply(mr_use_fd, round)
 names(mr_use_fd) <- years
-saveRDS(mr_use_fd, "/mnt/nfs_fineprint/tmp/fabio/v2/Y.rds")
+saveRDS(mr_use_fd, "/mnt/nfs_fineprint/tmp/fabio/v1.2/Y.rds")
 
 

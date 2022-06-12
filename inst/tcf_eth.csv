@@ -14,7 +14,7 @@ France,68,Apples and products,2617,0.19934,0
 France,68,Grapes and products (excl wine),2620,0.19934,0
 France,68,"Fruits, Other",2625,0.19934,0
 France,68,Wine,2655,0.19934,0
-France,68,Rice (Milled Equivalent),2805,0.297,0
+France,68,Rice and products,2807,0.297,0
 Germany,79,Wheat and products,2511,0.28,0.27
 Germany,79,Barley and products,2513,0.2044,0.1
 Germany,79,Maize and products,2514,0.35,0.1
@@ -30,7 +30,7 @@ Germany,79,Apples and products,2617,0.19934,0
 Germany,79,Grapes and products (excl wine),2620,0.19934,0
 Germany,79,"Fruits, Other",2625,0.19934,0
 Germany,79,Wine,2655,0.19934,0
-Germany,79,Rice (Milled Equivalent),2805,0.297,0
+Germany,79,Rice and products,2807,0.297,0
 United States of America,231,Wheat and products,2511,0.28,0
 United States of America,231,Barley and products,2513,0.2044,0
 United States of America,231,Maize and products,2514,0.35,1
@@ -46,7 +46,7 @@ United States of America,231,Apples and products,2617,0.19934,0
 United States of America,231,Grapes and products (excl wine),2620,0.19934,0
 United States of America,231,"Fruits, Other",2625,0.19934,0
 United States of America,231,Wine,2655,0.19934,0
-United States of America,231,Rice (Milled Equivalent),2805,0.297,0
+United States of America,231,Rice and products,2807,0.297,0
 Brazil,21,Wheat and products,2511,0.28,0
 Brazil,21,Barley and products,2513,0.2044,0
 Brazil,21,Maize and products,2514,0.35,0
@@ -62,4 +62,4 @@ Brazil,21,Apples and products,2617,0.19934,0
 Brazil,21,Grapes and products (excl wine),2620,0.19934,0
 Brazil,21,"Fruits, Other",2625,0.19934,0
 Brazil,21,Wine,2655,0.19934,0
-Brazil,21,Rice (Milled Equivalent),2805,0.297,0
+Brazil,21,Rice and products,2807,0.297,0

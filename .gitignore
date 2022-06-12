@@ -5,5 +5,7 @@
 
 input/
 data/
+R/exp/
+R/exp_pure/
 mess.R
 *.pyc

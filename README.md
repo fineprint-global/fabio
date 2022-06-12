@@ -1,4 +1,4 @@
-# FABIO v 1.2
+# FABIO v1.2
 
 ### The Food and Agriculture Biomass Input-Output database
 
@@ -14,7 +14,7 @@ Bruckner, M., Wood, R., Moran, D., Kuschnig, N., Wieland, H., Maus, V., Börner,
 
 ### License
 
-This repository provides all scripts and auxiliary data, which are distributed under the GNU General Public License (GPL) Version 3. It is free to run, study, share and modify all versions of FABIO (using proper citation) and I'd like to invite scholars, footprint practitioners and businesses likewise to download and use the data. In case you are interested in a collaboration, I am happy to receive enquiries at <martin.bruckner@wu.ac.at>.
+This repository provides all scripts and auxiliary data, which are distributed under the GNU General Public License (GPL) Version 3. It is free to run, study, share and modify all versions of FABIO (using proper citation) and I'd like to invite scholars, footprint practitioners and businesses likewise to download and use the data. In case you are interested in a collaboration, I am happy to receive inquiries at <martin.bruckner@wu.ac.at>.
 
 ### Database
 

@@ -159,6 +159,10 @@ cbs[, balancing := na_sum(total_supply,
 # remove residuals, which are now contained in balancing
 cbs[, residuals := NULL]
 
+# rename 2 items in order to have identical name throughout the FAOSTAT data domains
+cbs[, item := ifelse(item_code==2605,	"Vegetables, Other",
+                     ifelse(item_code==2625, "Fruits, Other", item))]
+
 # TODO: imbalances in the data need to be double-checked! there are a lot of them!
 
 # Store
@@ -170,7 +174,7 @@ saveRDS(cbs, "data/tidy/cbs_tidy.rds")
 sua <- readRDS("input/fao/sua.rds")
 sua <- dt_rename(sua, rename = rename)
 
-#we only use molasses for now
+# we only use molasses for now
 sua <- sua[item == "Molasses",]
 sua[, item_code := as.numeric(item_code)]
 
@@ -358,6 +362,7 @@ trad <- dt_rename(trad, rename, drop = TRUE)
 crop_trad <- trad[item_code %in% crop_conc$crop_item_code,]
 crop_trad <- unique(crop_trad)
 crop_trad <- area_kick(crop_trad, code = 351, pattern = "China", groups = TRUE)
+crop_trad <- area_kick(crop_trad, code = 265, pattern = "China*")
 crop_trad <- area_merge(crop_trad, orig = 62, dest = 238, pattern = "Ethiopia")
 crop_trad <- area_merge(crop_trad, orig = 206, dest = 276, pattern = "Sudan")
 crop_trad <- area_fix(crop_trad, regions)
@@ -383,7 +388,6 @@ crop <- dt_filter(crop, value >= 0)
 #crop_prim <- readRDS("input/fao/crop_prim.rds")
 crop_prim <- readRDS("input/fao/crop_prim_14.rds")
 crop_prim_19 <- readRDS("input/fao/crop_prim_19.rds")
-regions <- fread("inst/regions_full.csv")
 crop_conc <- fread("inst/conc_crop-cbs.csv")
 
 # bring new fodder data in same format as old one (different code nomenclatures are used)

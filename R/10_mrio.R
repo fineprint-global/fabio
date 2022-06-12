@@ -44,7 +44,7 @@ regions <- fread("inst/regions_full.csv")
 regions <- regions[cbs==TRUE]
 items <- fread("inst/items_full.csv")
 nrcom <- nrow(items)
-Y <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v2/Y.rds")
+Y <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/Y.rds")
 
 # Rebalance row sums for each year
 for(i in seq_along(Z_m)){
@@ -69,10 +69,10 @@ X <- mapply(function(x, y) {
 
 
 # Store X, Y, Z variables
-saveRDS(Z_m, "/mnt/nfs_fineprint/tmp/fabio/v2/Z_mass.rds")
-saveRDS(Z_v, "/mnt/nfs_fineprint/tmp/fabio/v2/Z_value.rds")
-saveRDS(Y, "/mnt/nfs_fineprint/tmp/fabio/v2/Y.rds")
-saveRDS(X, "/mnt/nfs_fineprint/tmp/fabio/v2/X.rds")
+saveRDS(Z_m, "/mnt/nfs_fineprint/tmp/fabio/v1.2/Z_mass.rds")
+saveRDS(Z_v, "/mnt/nfs_fineprint/tmp/fabio/v1.2/Z_value.rds")
+saveRDS(Y, "/mnt/nfs_fineprint/tmp/fabio/v1.2/Y.rds")
+saveRDS(X, "/mnt/nfs_fineprint/tmp/fabio/v1.2/X.rds")
 
 
 
@@ -101,7 +101,7 @@ for(i in seq_along(Z_m)){
   }
 }
 
-saveRDS(Z_m, "/mnt/nfs_fineprint/tmp/fabio/v2/Z_mass_b.rds")
-saveRDS(Z_v, "/mnt/nfs_fineprint/tmp/fabio/v2/Z_value_b.rds")
-saveRDS(Y, "/mnt/nfs_fineprint/tmp/fabio/v2/Y_b.rds")
+saveRDS(Z_m, "/mnt/nfs_fineprint/tmp/fabio/v1.2/Z_mass_b.rds")
+saveRDS(Z_v, "/mnt/nfs_fineprint/tmp/fabio/v1.2/Z_value_b.rds")
+saveRDS(Y, "/mnt/nfs_fineprint/tmp/fabio/v1.2/Y_b.rds")
 

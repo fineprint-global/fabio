@@ -8,7 +8,7 @@ regions <- fread("inst/regions_full.csv")
 nrreg <- nrow(regions[cbs==TRUE])
 nrcom <- nrow(items)
 
-X <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v2/X.rds")
+X <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/X.rds")
 grassland_yields <- fread("input/grazing/grazing.csv")
 water_crop <- fread("input/water/water_crop.csv")
 water_fodder <- water_crop[water_item == "Fodder crops/Managed grass"]
@@ -75,7 +75,7 @@ crop[!area_code %in% regions[cbs==TRUE, code], `:=`(area_code = 999, area = "ROW
 crop <- crop[, list(value = na_sum(value)),
   by = .(area_code, area, element, year, unit, item_code, item)]
 
-years <- 1986:2013
+years <- 1986:2019
 
 E <- lapply(years, function(x, y) {
 
@@ -147,4 +147,4 @@ E <- lapply(years, function(x, y) {
 
 names(E) <- years
 
-saveRDS(E, file="/mnt/nfs_fineprint/tmp/fabio/v2/E.rds")
+saveRDS(E, file="/mnt/nfs_fineprint/tmp/fabio/v1.2/E.rds")

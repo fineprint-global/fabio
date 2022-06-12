@@ -495,7 +495,7 @@ eth <- readRDS("data/tidy/eth_tidy.rds")
 eth <- eth[, `:=`(unit = NULL,
   item = "Alcohol, Non-Food", item_code = 2659)]
 
-eth_cbs <- merge(cbs[item_code == 2659, ], eth, all = TRUE,
+eth_cbs <- merge(cbs[item == "Alcohol, Non-Food", ], eth, all = TRUE,
   by = c("area_code", "area", "year", "item", "item_code"))
 
 cat("Using EIA/IEA ethanol production values where FAO's",

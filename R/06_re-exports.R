@@ -1,10 +1,11 @@
 
 library("data.table")
 library("Matrix")
+library("tidyverse")
 source("R/01_tidy_functions.R")
 
 
-years <- 1986:2013
+years <- 1986:2019
 
 
 # BTD ---------------------------------------------------------------------
@@ -21,6 +22,18 @@ items <- unique(cbs$item_code)
 
 cbs[, dom_use := na_sum(feed, food, losses, other, processing, seed, stock_addition, balancing, unspecified)]
 cbs[, total_use := na_sum(dom_use, exports)]
+
+# Split stock changes into
+# - positive values (stock additions)  --> part of domestic use
+# - negative values (stock withdrawals) --> part of domestic supply
+cbs <- cbs %>%
+  mutate(stock_positive = ifelse(stock_addition > 0, stock_addition, 0),
+         stock_negative = ifelse(stock_addition < 0, -stock_addition, 0), .after = stock_addition) %>%
+  mutate(dom_supply = production + stock_negative,
+         total_supply = total_supply + stock_negative,
+         # negative stock additions previously decreased use
+         dom_use = dom_use + stock_negative,
+         total_use = total_use + stock_negative, .after = unspecified)
 
 # Create a structure to map importers to exporters per item (+ targets)
 mapping_templ <- data.table(
@@ -59,7 +72,8 @@ for(i in seq_along(years)) {
   for(j in as.character(items)) {
     data <- merge(data.table(area_code = areas),
                   cbs[year==y & item_code==as.integer(j),
-                      .(area_code, production, dom_use, total_use, dom_share = production / total_use)],
+                      .(area_code, production, dom_supply, dom_use, total_use,
+                        dom_share = dom_supply / total_use)],
                   by = "area_code", all = TRUE)
     data[is.na(dom_use) | dom_use < 0, dom_use := 0]
     data[is.na(total_use), total_use := 0]
@@ -69,11 +83,13 @@ for(i in seq_along(years)) {
     denom[denom == 0] <- 1
     mat <- mapping_reex[[j]]
     # catch problems:
-    # 2001: trade with 1107 (Asses) from 33 (Canada) to 251 (United States of America)
+    ## 2001: trade with 1107 (Asses) from 33 (Canada) to 251 (United States of America)
     ## 2002: trade with 1107 (Asses) from 250 (Dem. rep. Congo) to 251 (Zambia)
+    # 2013: trade with 1157 from 50 to 158
     # reduce values by one third
-    if(y==2001 & j=="1107") mat[25,174] <- mat[25,174]/3*2
+    # if(y==2001 & j=="1107") mat[25,174] <- mat[25,174]/3*2
     # if(y==2002 & j=="1107") mat[185,184] <- mat[185,184]/3*2
+    if(y==2013 & j=="1157") mat[50,158] <- mat[50,158]/3*2
     mat <- t(t(mat) / denom)
     mat <- diag(nrow(mat)) - mat
     mat <- solve(mat)
