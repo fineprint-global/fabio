@@ -105,3 +105,35 @@ saveRDS(Z_m, "/mnt/nfs_fineprint/tmp/fabio/v1.2/Z_mass_b.rds")
 saveRDS(Z_v, "/mnt/nfs_fineprint/tmp/fabio/v1.2/Z_value_b.rds")
 saveRDS(Y, "/mnt/nfs_fineprint/tmp/fabio/v1.2/Y_b.rds")
 
+
+
+
+# allocate ghg emissions to products --------------------------------------------------------------
+ghg <- readRDS("/mnt/nfs_fineprint/tmp/fabio/ghg/E_ghg.rds")
+gwp <- readRDS("/mnt/nfs_fineprint/tmp/fabio/ghg/E_gwp.rds")
+luh <- readRDS("/mnt/nfs_fineprint/tmp/fabio/ghg/E_luh2.rds")
+
+range_v1.2 <- rep(c(1:97,99:116,118:120),192)+rep(((0:191)*121), each=118)
+
+ghg_m <- mapply(function(x, y) { as.matrix(x[,-1][,range_v1.2]) %*% y }, x = ghg, y = trans_m[1:28])
+gwp_m <- mapply(function(x, y) { as.matrix(x[,-1][,range_v1.2]) %*% y }, x = gwp, y = trans_m[1:28])
+luh_m <- mapply(function(x, y) { as.matrix(x[,-1][,range_v1.2]) %*% y }, x = luh, y = trans_m[1:28])
+ghg_v <- mapply(function(x, y) { as.matrix(x[,-1][,range_v1.2]) %*% y }, x = ghg, y = trans_v[1:28])
+gwp_v <- mapply(function(x, y) { as.matrix(x[,-1][,range_v1.2]) %*% y }, x = gwp, y = trans_v[1:28])
+luh_v <- mapply(function(x, y) { as.matrix(x[,-1][,range_v1.2]) %*% y }, x = luh, y = trans_v[1:28])
+
+ghg_names <- ghg[[1]][,1]
+gwp_names <- gwp[[1]][,1]
+luh_names <- luh[[1]][,1]
+
+saveRDS(ghg_m, "/mnt/nfs_fineprint/tmp/fabio/v1.2/ghg_mass.rds")
+saveRDS(gwp_m, "/mnt/nfs_fineprint/tmp/fabio/v1.2/gwp_mass.rds")
+saveRDS(luh_m, "/mnt/nfs_fineprint/tmp/fabio/v1.2/luh_mass.rds")
+
+saveRDS(ghg_v, "/mnt/nfs_fineprint/tmp/fabio/v1.2/ghg_value.rds")
+saveRDS(gwp_v, "/mnt/nfs_fineprint/tmp/fabio/v1.2/gwp_value.rds")
+saveRDS(luh_v, "/mnt/nfs_fineprint/tmp/fabio/v1.2/luh_value.rds")
+
+write_csv(ghg_names, "/mnt/nfs_fineprint/tmp/fabio/ghg/ghg_names.csv")
+write_csv(gwp_names, "/mnt/nfs_fineprint/tmp/fabio/ghg/gwp_names.csv")
+write_csv(luh_names, "/mnt/nfs_fineprint/tmp/fabio/ghg/luh_names.csv")

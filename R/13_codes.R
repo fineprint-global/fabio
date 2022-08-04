@@ -27,3 +27,7 @@ su_codes <- data.table(area_code = rep(regions[cbs==TRUE, code], each = nrproc),
 
 fwrite(io_codes, file="/mnt/nfs_fineprint/tmp/fabio/v1.2/io_codes.csv")
 fwrite(su_codes, file="/mnt/nfs_fineprint/tmp/fabio/v1.2/su_codes.csv")
+fwrite(items[, .(comm_code, item_code, item, comm_group, unit, moisture)],
+       file="/mnt/nfs_fineprint/tmp/fabio/v1.2/items.csv")
+fwrite(regions[cbs==TRUE, .(iso3c, area_code = code, area = name, region, EU27)],
+       file="/mnt/nfs_fineprint/tmp/fabio/v1.2/regions.csv")

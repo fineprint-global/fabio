@@ -75,11 +75,63 @@ crop[!area_code %in% regions[cbs==TRUE, code], `:=`(area_code = 999, area = "ROW
 crop <- crop[, list(value = na_sum(value)),
   by = .(area_code, area, element, year, unit, item_code, item)]
 
+# read biodiversity extension
+biodiv <- read_csv("./input/extensions/biodiversity.csv")
+biodiv$area_code <- regions$code[match(biodiv$iso3c, regions$iso3c)]
+
+# prepare N extension
+N <- read_csv("./input/extensions/N_kg_per_ha.csv")
+N$region <- regions$region[match(N$iso3c, regions$iso3c)]
+N <- merge(biodiv[,1], N, by = "iso3c", all = TRUE)
+N <- gather(N, key = "com", value = "value", -region, -iso3c)
+avg_N <- N %>%
+  group_by(region, com) %>%
+  summarise(avg = mean(value, na.rm = TRUE)) %>%
+  ungroup() %>%
+  filter(!is.na(region)) %>%
+  group_by(com) %>%
+  bind_rows(summarise(., avg = mean(avg, na.rm = TRUE), region = NA))
+  # bind_rows(summarise_all(., ~ if (is.numeric(.)) sum(., na.rm = TRUE) else "Global"))
+N <- merge(N, avg_N, by = c("region", "com"), all.x = TRUE)
+N$value[is.na(N$value)] <- ifelse(is.na(N$avg[is.na(N$value)]), NA, N$avg[is.na(N$value)])
+N$area_code <- regions$code[match(N$iso3c, regions$iso3c)]
+N <- N[N$iso3c %in% biodiv$iso3c, c("area_code", "iso3c", "com", "value")]
+N$area_code[N$area_code==62] <- 238  # Ethiopia
+N$area_code[N$area_code==206] <- 276  # Sudan
+N <- N %>% arrange(across(c(area_code, com)))
+items_conc <- read_csv("./inst/items_conc.csv")
+N$com <- items_conc$com_1.2[match(N$com, items_conc$com_1.1)]
+N <- N[!is.na(N$com),]
+
+# prepare P extension
+P <- read_csv("./input/extensions/P_kg_per_ha.csv")
+P$region <- regions$region[match(P$iso3c, regions$iso3c)]
+P <- merge(biodiv[,1], P, by = "iso3c", all = TRUE)
+P <- gather(P, key = "com", value = "value", -region, -iso3c)
+avg_P <- P %>%
+  group_by(region, com) %>%
+  summarise(avg = mean(value, na.rm = TRUE)) %>%
+  ungroup() %>%
+  filter(!is.na(region)) %>%
+  group_by(com) %>%
+  bind_rows(summarise(., avg = mean(avg, na.rm = TRUE), region = NA))
+# bind_rows(summarise_all(., ~ if (is.numeric(.)) sum(., na.rm = TRUE) else "Global"))
+P <- merge(P, avg_P, by = c("region", "com"), all.x = TRUE)
+P$value[is.na(P$value)] <- ifelse(is.na(P$avg[is.na(P$value)]), NA, P$avg[is.na(P$value)])
+P$area_code <- regions$code[match(P$iso3c, regions$iso3c)]
+P <- P[P$iso3c %in% biodiv$iso3c, c("area_code", "iso3c", "com", "value")]
+P$area_code[P$area_code==62] <- 238  # Ethiopia
+P$area_code[P$area_code==206] <- 276  # Sudan
+P <- P %>% arrange(across(c(area_code, com)))
+P$com <- items_conc$com_1.2[match(P$com, items_conc$com_1.1)]
+P <- P[!is.na(P$com),]
+
+
 years <- 1986:2019
 
 E <- lapply(years, function(x, y) {
 
-  template <- data.table(
+  data <- data.table(
     area_code = rep(regions[cbs==TRUE, code], each = nrcom),
     area = rep(regions[cbs==TRUE, name], each = nrcom),
     item_code = rep(items$item_code, nrreg),
@@ -90,61 +142,88 @@ E <- lapply(years, function(x, y) {
 
   y_land <- y[element=="Area harvested" & year==x & item_code %in% items$item_code]
   y_biomass <- y[element=="Production" & year==x & item_code %in% items$item_code[items$group == "Primary crops"]]
-  conc_land <- match(paste(template$area_code,template$item_code),paste(y_land$area_code,y_land$item_code))
-  conc_biomass <- match(paste(template$area_code,template$item_code),paste(y_biomass$area_code,y_biomass$item_code))
-  template[, landuse := y_land[, value][conc_land]]
-  template[, biomass := y_biomass[, value][conc_biomass]]
+  conc_land <- match(paste(data$area_code,data$item_code),paste(y_land$area_code,y_land$item_code))
+  conc_biomass <- match(paste(data$area_code,data$item_code),paste(y_biomass$area_code,y_biomass$item_code))
+  data[, landuse := y_land[, value][conc_land]]
+  data[, biomass := y_biomass[, value][conc_biomass]]
   grass <- sup[year==x & item_code==2001]
   grass[is.na(production), production := 0]
-  template[, grazing := grass$production[match(template$area_code, grass$area_code)]]
-  template[item_code==2001, biomass := grazing]
-  template[, grazing := grassland_yields$t_per_ha[match(template$area_code,grassland_yields$area_code)]]
-  template[item_code==2001, landuse := round((biomass * 0.2) / grazing)]
-  template[, grazing := NULL]
+  data[, grazing := grass$production[match(data$area_code, grass$area_code)]]
+  data[item_code==2001, biomass := grazing]
+  data[, grazing := grassland_yields$t_per_ha[match(data$area_code,grassland_yields$area_code)]]
+  data[item_code==2001, landuse := round((biomass * 0.2) / grazing)]
+  data[, grazing := NULL]
 
   # cap grazing landuse at 80% of a country's land area
-  template[, landarea := grassland_yields$land_1000ha[match(template$area_code,grassland_yields$area_code)]]
-  template[item == "Grazing", landuse := ifelse((landuse / 1000) > (landarea * 0.8), (landarea * 1000 * 0.8), landuse)]
-  template[, landarea := NULL]
+  data[, landarea := grassland_yields$land_1000ha[match(data$area_code,grassland_yields$area_code)]]
+  data[item == "Grazing", landuse := ifelse((landuse / 1000) > (landarea * 0.8), (landarea * 1000 * 0.8), landuse)]
+  data[, landarea := NULL]
 
   # add water footprints
   water <- water_lvst[water_lvst$year == x]
-  template[, blue := water$blue[match(paste(template$area_code, template$item_code),
+  data[, blue := water$blue[match(paste(data$area_code, data$item_code),
     paste(water$area_code, water$item_code))]]
-  template[, green := as.numeric(water_pasture$m3_per_ha[match(template$area_code, water_pasture$area_code)]) * landuse]
-  template[item_code != 2001, green := 0]
-  template[, `:=`(fodder_blue = water_fodder$blue[match(template$area_code, water_fodder$area_code)],
-                  fodder_green = water_fodder$green[match(template$area_code, water_fodder$area_code)])]
-  template[item_code == 2000, `:=`(blue = fodder_blue * biomass, green = fodder_green * biomass)]
-  template[, `:=`(fodder_blue = NULL, fodder_green = NULL)]
+  data[, green := as.numeric(water_pasture$m3_per_ha[match(data$area_code, water_pasture$area_code)]) * landuse]
+  data[item_code != 2001, green := 0]
+  data[, `:=`(fodder_blue = water_fodder$blue[match(data$area_code, water_fodder$area_code)],
+                  fodder_green = water_fodder$green[match(data$area_code, water_fodder$area_code)])]
+  data[item_code == 2000, `:=`(blue = fodder_blue * biomass, green = fodder_green * biomass)]
+  data[, `:=`(fodder_blue = NULL, fodder_green = NULL)]
   water_blue <- water_crop[water_type == "blue" & year == x]
   water_green <- water_crop[water_type == "green" & year == x]
-  conc_water <- match(paste(template$area_code, template$item_code),
+  conc_water <- match(paste(data$area_code, data$item_code),
     paste(water_blue$area_code, water_blue$item_code))
-  template[, `:=`(crops_blue = water_blue$value[conc_water], crops_green = water_green$value[conc_water])]
-  template[is.na(blue) | blue == 0, blue := crops_blue]
-  template[is.na(green) | green == 0, green := crops_green]
-  template[, `:=`(crops_blue = NULL, crops_green = NULL)]
-  template[is.na(landuse), landuse := 0]
-  template[is.na(biomass), biomass := 0]
-  template[is.na(blue), blue := 0]
-  template[is.na(green), green := 0]
-  template[, `:=`(landuse = round(landuse), biomass = round(biomass),
+  data[, `:=`(crops_blue = water_blue$value[conc_water], crops_green = water_green$value[conc_water])]
+  data[is.na(blue) | blue == 0, blue := crops_blue]
+  data[is.na(green) | green == 0, green := crops_green]
+  data[, `:=`(crops_blue = NULL, crops_green = NULL)]
+  data[is.na(landuse), landuse := 0]
+  data[is.na(biomass), biomass := 0]
+  data[is.na(blue), blue := 0]
+  data[is.na(green), green := 0]
+  data[, `:=`(landuse = round(landuse), biomass = round(biomass),
     blue = round(blue), green = round(green))]
 
   # fill gaps in land use with global average yields
-  yields <- template[, .(comm_code, landuse, biomass)] %>%
+  yields <- data[, .(comm_code, landuse, biomass)] %>%
     group_by(comm_code) %>%
     summarize(yield = na_sum(biomass) / na_sum(landuse))
-  template[, yield := yields$yield[match(template$comm_code, yields$comm_code)]]
-  template[landuse == 0 & biomass > 0 & is.finite(yield), landuse := round(biomass / yield)]
-  template[, yield := NULL]
-  template[, output := X[,as.character(x)]]
-  template[landuse>0 & output>0 & biomass==0, biomass := output]
-  template[, output := NULL]
+  data[, yield := yields$yield[match(data$comm_code, yields$comm_code)]]
+  data[landuse == 0 & biomass > 0 & is.finite(yield), landuse := round(biomass / yield)]
+  data[, yield := NULL]
+  data[, output := X[,as.character(x)]]
+  data[landuse>0 & output>0 & biomass==0, biomass := output]
+  data[, output := NULL]
+
+  # add biodiversity (potential species loss from land use [10^-6 species])
+  data <- merge(data, aggregate(data$landuse, by=list(area_code=data$area_code), FUN=sum),
+                    by = "area_code", all.x = TRUE)
+  data[, biodiv_cropland := biodiv$cropland[match(data$area_code, biodiv$area_code)]]
+  data[, biodiv_pasture := biodiv$pasture[match(data$area_code, biodiv$area_code)]]
+  data[, biodiv := if_else(item == "Grazing", biodiv_pasture, round(biodiv_cropland / x * landuse))]
+  data[, ':='(x = NULL, biodiv_cropland = NULL, biodiv_pasture = NULL)]
+
+  # add N and P application (kg per ha)
+  data[, ':='(p_application = ifelse(is.na(P$value), 0, round(P$value * landuse, 3)),
+              n_application = ifelse(is.na(N$value), 0, round(N$value * landuse)))]
+
 
 }, y = crop[, .(year, element, area_code, item_code, value)])
 
 names(E) <- years
+
+
+# # read ghg emissions data
+# ghg_m <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/ghg_mass.rds")
+# gwp_m <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/gwp_mass.rds")
+# luh_m <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/luh_mass.rds")
+#
+# ghg_v <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/ghg_value.rds")
+# gwp_v <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/gwp_value.rds")
+# luh_v <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/luh_value.rds")
+#
+# ghg_names <- read_csv("/mnt/nfs_fineprint/tmp/fabio/ghg/ghg_names.csv")
+# gwp_names <- read_csv("/mnt/nfs_fineprint/tmp/fabio/ghg/gwp_names.csv")
+# luh_names <- read_csv("/mnt/nfs_fineprint/tmp/fabio/ghg/luh_names.csv")
 
 saveRDS(E, file="/mnt/nfs_fineprint/tmp/fabio/v1.2/E.rds")

@@ -6,7 +6,7 @@ Release v1.2.beta, 2022-06-07
 
 Release v1.1, 2020-10-17
 
-- The code was optimized to run through significantly faster, while also providing extra verbosity. The major contribution here was the use of the `data.table` package. Other optimisations include data structures, loops and redundancies.
+- The code was optimised to run through significantly faster, while also providing extra verbosity. The major contribution here was the use of the `data.table` package. Other optimisations include data structures, loops and redundancies.
 - Most steps should now work on a local machine with 16GB of RAM. Estimation and balancing of BTD is more intensive, but should not exceed 32GB of RAM.
 - The scripts now avoid iteration as much as possible - most steps are performed on the full data instead of yearly subsets. For balancing the BTD a loop is used to limit memory usage.
 - Iterative proportional fitting (RAS) to balance the BTD is now done using `mipfp::Ipfp`. Convergence is checked via the gradient (with a maximum of 100 iterations). This should yield much better results, while still being significantly faster.
