@@ -212,18 +212,35 @@ E <- lapply(years, function(x, y) {
 
 names(E) <- years
 
-
-# # read ghg emissions data
-# ghg_m <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/ghg_mass.rds")
-# gwp_m <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/gwp_mass.rds")
-# luh_m <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/luh_mass.rds")
-#
-# ghg_v <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/ghg_value.rds")
-# gwp_v <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/gwp_value.rds")
-# luh_v <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/luh_value.rds")
-#
-# ghg_names <- read_csv("/mnt/nfs_fineprint/tmp/fabio/ghg/ghg_names.csv")
-# gwp_names <- read_csv("/mnt/nfs_fineprint/tmp/fabio/ghg/gwp_names.csv")
-# luh_names <- read_csv("/mnt/nfs_fineprint/tmp/fabio/ghg/luh_names.csv")
-
 saveRDS(E, file="/mnt/nfs_fineprint/tmp/fabio/v1.2/E.rds")
+
+
+
+# extrapolate emissions data
+library(Matrix)
+
+# read ghg emissions data
+ghg <- list()
+ghg[[1]] <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/ghg_mass.rds")
+ghg[[2]] <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/gwp_mass.rds")
+ghg[[3]] <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/luh_mass.rds")
+ghg[[4]] <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/ghg_value.rds")
+ghg[[5]] <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/gwp_value.rds")
+ghg[[6]] <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/luh_value.rds")
+
+# extrapolate emissions data
+for(i in 2014:2019){
+  for(j in 1:length(ghg)){
+    data <- t(t(ghg[[j]][["2013"]]) / E[["2013"]]$biomass * E[["2019"]]$biomass)
+    data[!is.finite(data)] <- 0
+    ghg[[j]][[as.character(i)]] <- data
+  }
+}
+
+saveRDS(ghg[[1]], "/mnt/nfs_fineprint/tmp/fabio/v1.2/ghg_mass.rds")
+saveRDS(ghg[[2]], "/mnt/nfs_fineprint/tmp/fabio/v1.2/gwp_mass.rds")
+saveRDS(ghg[[3]], "/mnt/nfs_fineprint/tmp/fabio/v1.2/luh_mass.rds")
+saveRDS(ghg[[4]], "/mnt/nfs_fineprint/tmp/fabio/v1.2/ghg_value.rds")
+saveRDS(ghg[[5]], "/mnt/nfs_fineprint/tmp/fabio/v1.2/gwp_value.rds")
+saveRDS(ghg[[6]], "/mnt/nfs_fineprint/tmp/fabio/v1.2/luh_value.rds")
+
