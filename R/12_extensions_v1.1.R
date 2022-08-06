@@ -3,12 +3,12 @@ library(data.table)
 library(tidyverse)
 source("R/01_tidy_functions.R")
 
-items <- fread("inst/items_full.csv")
+items <- fread("/mnt/nfs_fineprint/tmp/fabio/v1.1/items.csv")
 regions <- fread("inst/regions_full.csv")
 nrreg <- nrow(regions[cbs==TRUE])
 nrcom <- nrow(items)
 
-X <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/X.rds")
+X <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.1/X.rds")
 grassland_yields <- fread("input/grazing/grazing.csv")
 water_crop <- fread("input/water/water_crop.csv")
 water_fodder <- water_crop[water_item == "Fodder crops/Managed grass"]
@@ -99,9 +99,9 @@ N <- N[N$iso3c %in% biodiv$iso3c, c("area_code", "iso3c", "com", "value")]
 N$area_code[N$area_code==62] <- 238  # Ethiopia
 N$area_code[N$area_code==206] <- 276  # Sudan
 N <- N %>% arrange(across(c(area_code, com)))
-items_conc <- read_csv("./inst/items_conc.csv")
-N$com <- items_conc$com_1.2[match(N$com, items_conc$com_1.1)]
-N <- N[!is.na(N$com),]
+# items_conc <- read_csv("./inst/items_conc.csv")
+# N$com <- items_conc$com_1.2[match(N$com, items_conc$com_1.1)]
+# N <- N[!is.na(N$com),]
 
 # prepare P extension
 P <- read_csv("./input/extensions/P_kg_per_ha.csv")
@@ -123,12 +123,12 @@ P <- P[P$iso3c %in% biodiv$iso3c, c("area_code", "iso3c", "com", "value")]
 P$area_code[P$area_code==62] <- 238  # Ethiopia
 P$area_code[P$area_code==206] <- 276  # Sudan
 P <- P %>% arrange(across(c(area_code, com)))
-P$com <- items_conc$com_1.2[match(P$com, items_conc$com_1.1)]
-P <- P[!is.na(P$com),]
+# P$com <- items_conc$com_1.2[match(P$com, items_conc$com_1.1)]
+# P <- P[!is.na(P$com),]
 
 
-years <- 1986:2019
-
+years <- 1986:2013
+# x <- 2013
 E <- lapply(years, function(x, y) {
 
   data <- data.table(
@@ -213,35 +213,35 @@ E <- lapply(years, function(x, y) {
 
 names(E) <- years
 
-saveRDS(E, file="/mnt/nfs_fineprint/tmp/fabio/v1.2/E.rds")
+saveRDS(E, file="/mnt/nfs_fineprint/tmp/fabio/v1.1/E.rds")
 
 
+# allocate ghg emissions to products --------------------------------------------------------------
+ghg <- readRDS("/mnt/nfs_fineprint/tmp/fabio/ghg/E_ghg.rds")
+gwp <- readRDS("/mnt/nfs_fineprint/tmp/fabio/ghg/E_gwp.rds")
+luh <- readRDS("/mnt/nfs_fineprint/tmp/fabio/ghg/E_luh2.rds")
 
-# extrapolate emissions data
-library(Matrix)
+ghg_names <- ghg[[1]][,1]
+gwp_names <- gwp[[1]][,1]
+luh_names <- luh[[1]][,1]
 
-# read ghg emissions data
-ghg <- list()
-ghg[[1]] <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/ghg_mass.rds")
-ghg[[2]] <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/gwp_mass.rds")
-ghg[[3]] <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/luh_mass.rds")
-ghg[[4]] <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/ghg_value.rds")
-ghg[[5]] <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/gwp_value.rds")
-ghg[[6]] <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/luh_value.rds")
+write_csv(ghg_names, "/mnt/nfs_fineprint/tmp/fabio/v1.1/ghg_names.csv")
+write_csv(gwp_names, "/mnt/nfs_fineprint/tmp/fabio/v1.1/gwp_names.csv")
+write_csv(luh_names, "/mnt/nfs_fineprint/tmp/fabio/v1.1/luh_names.csv")
 
-# extrapolate emissions data
-for(i in 2014:2019){
-  for(j in 1:length(ghg)){
-    data <- t(t(ghg[[j]][["2013"]]) / E[["2013"]]$biomass * E[["2019"]]$biomass)
-    data[!is.finite(data)] <- 0
-    ghg[[j]][[as.character(i)]] <- data
-  }
+# provisional concordance table (should use trans_m/trans_v, once it's fixed)
+conc <- as.matrix(read.csv("./inst/proc2item.csv", header = FALSE))
+conc <- matrix(replicate(192,conc), nrow = 121)
+conc <- matrix(rep(t(conc),192),ncol=ncol(conc),byrow=TRUE)
+
+for(i in 1:length(ghg)){
+  # print(paste0((1986:2013)[i], ": ", dim(ghg[[i]]), " / ", dim(gwp[[i]]), " / ", dim(luh[[i]])))
+  ghg[[i]] <- cbind(data.frame(element = ghg_names), as.matrix(ghg[[i]][,-1]) %*% conc)
+  gwp[[i]] <- cbind(data.frame(element = gwp_names), as.matrix(gwp[[i]][,-1]) %*% conc)
+  luh[[i]] <- cbind(data.frame(element = luh_names), as.matrix(luh[[i]][,-1]) %*% conc)
+  print(paste0((1986:2013)[i], " done."))
 }
 
-saveRDS(ghg[[1]], "/mnt/nfs_fineprint/tmp/fabio/v1.2/ghg_mass.rds")
-saveRDS(ghg[[2]], "/mnt/nfs_fineprint/tmp/fabio/v1.2/gwp_mass.rds")
-saveRDS(ghg[[3]], "/mnt/nfs_fineprint/tmp/fabio/v1.2/luh_mass.rds")
-saveRDS(ghg[[4]], "/mnt/nfs_fineprint/tmp/fabio/v1.2/ghg_value.rds")
-saveRDS(ghg[[5]], "/mnt/nfs_fineprint/tmp/fabio/v1.2/gwp_value.rds")
-saveRDS(ghg[[6]], "/mnt/nfs_fineprint/tmp/fabio/v1.2/luh_value.rds")
-
+saveRDS(ghg, "/mnt/nfs_fineprint/tmp/fabio/v1.1/ghg.rds")
+saveRDS(gwp, "/mnt/nfs_fineprint/tmp/fabio/v1.1/gwp.rds")
+saveRDS(luh, "/mnt/nfs_fineprint/tmp/fabio/v1.1/luh.rds")
