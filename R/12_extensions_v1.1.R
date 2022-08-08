@@ -1,6 +1,7 @@
 
 library(data.table)
 library(tidyverse)
+library(Matrix)
 source("R/01_tidy_functions.R")
 
 items <- fread("/mnt/nfs_fineprint/tmp/fabio/v1.1/items.csv")
@@ -231,14 +232,13 @@ write_csv(luh_names, "/mnt/nfs_fineprint/tmp/fabio/v1.1/luh_names.csv")
 
 # provisional concordance table (should use trans_m/trans_v, once it's fixed)
 conc <- as.matrix(read.csv("./inst/proc2item.csv", header = FALSE))
-conc <- matrix(replicate(192,conc), nrow = 121)
-conc <- matrix(rep(t(conc),192),ncol=ncol(conc),byrow=TRUE)
+conc <- bdiag(replicate(192, conc, simplify=FALSE))
 
 for(i in 1:length(ghg)){
   # print(paste0((1986:2013)[i], ": ", dim(ghg[[i]]), " / ", dim(gwp[[i]]), " / ", dim(luh[[i]])))
-  ghg[[i]] <- cbind(data.frame(element = ghg_names), as.matrix(ghg[[i]][,-1]) %*% conc)
-  gwp[[i]] <- cbind(data.frame(element = gwp_names), as.matrix(gwp[[i]][,-1]) %*% conc)
-  luh[[i]] <- cbind(data.frame(element = luh_names), as.matrix(luh[[i]][,-1]) %*% conc)
+  ghg[[i]] <- as.matrix(ghg[[i]][,-1]) %*% conc
+  gwp[[i]] <- as.matrix(gwp[[i]][,-1]) %*% conc
+  luh[[i]] <- as.matrix(luh[[i]][,-1]) %*% conc
   print(paste0((1986:2013)[i], " done."))
 }
 
