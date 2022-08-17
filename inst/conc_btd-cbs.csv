@@ -12,10 +12,12 @@ btd_item_code,cbs_item_code,cbs_item
 27,2807,Rice and products
 28,2807,Rice and products
 29,2807,Rice and products
+30,2807,Rice and products
 31,2807,Rice and products
 32,2807,Rice and products
 36,2581,Ricebran Oil
 37,2598,"Oilseed Cakes, Other"
+38,2807,Rice and products
 39,2657,"Beverages, Fermented"
 41,2511,Wheat and products
 44,2513,Barley and products
@@ -37,6 +39,7 @@ btd_item_code,cbs_item_code,cbs_item
 85,2600,Brans
 89,2520,"Cereals, Other"
 91,2600,Brans
+92,2520,"Cereals, Other"
 94,2520,"Cereals, Other"
 97,2520,"Cereals, Other"
 101,2520,"Cereals, Other"
@@ -54,6 +57,7 @@ btd_item_code,cbs_item_code,cbs_item
 120,2531,Potatoes and products
 122,2533,Sweet potatoes
 125,2532,Cassava and products
+126,2532,Cassava and products
 128,2532,Cassava and products
 129,2532,Cassava and products
 149,2534,"Roots, Other"
@@ -68,6 +72,7 @@ btd_item_code,cbs_item_code,cbs_item
 166,2543,"Sweeteners, Other"
 167,2543,"Sweeteners, Other"
 168,2542,Sugar (Raw Equivalent)
+169,2537,Sugar beet
 171,2542,Sugar (Raw Equivalent)
 172,2543,"Sweeteners, Other"
 173,2543,"Sweeteners, Other"
@@ -81,9 +86,12 @@ btd_item_code,cbs_item_code,cbs_item
 212,2549,"Pulses, Other and products"
 217,2551,Nuts and products
 220,2551,Nuts and products
+221,2551,Nuts and products
 222,2551,Nuts and products
 223,2551,Nuts and products
 224,2551,Nuts and products
+225,2551,Nuts and products
+226,2551,Nuts and products
 229,2551,Nuts and products
 230,2551,Nuts and products
 231,2551,Nuts and products
@@ -112,6 +120,7 @@ btd_item_code,cbs_item_code,cbs_item
 260,2563,Olives (including preserved)
 261,2580,Olive Oil
 262,2563,Olives (including preserved)
+263,2586,"Oilcrops Oil, Other"
 264,2586,"Oilcrops Oil, Other"
 266,2586,"Oilcrops Oil, Other"
 267,2557,Sunflower seed
@@ -188,6 +197,7 @@ btd_item_code,cbs_item_code,cbs_item
 492,2611,"Oranges, Mandarines"
 495,2611,"Oranges, Mandarines"
 497,2612,"Lemons, Limes and products"
+498,2612,"Lemons, Limes and products"
 499,2612,"Lemons, Limes and products"
 507,2613,Grapefruit and products
 509,2613,Grapefruit and products
@@ -196,6 +206,8 @@ btd_item_code,cbs_item_code,cbs_item
 514,2614,"Citrus, Other"
 515,2617,Apples and products
 517,2657,"Beverages, Fermented"
+518,2617,Apples and products
+519,2617,Apples and products
 521,2625,"Fruits, Other"
 523,2625,"Fruits, Other"
 526,2625,"Fruits, Other"
@@ -237,11 +249,17 @@ btd_item_code,cbs_item_code,cbs_item
 622,2625,"Fruits, Other"
 623,2625,"Fruits, Other"
 626,2625,"Fruits, Other"
+628,,"Feed, pulp of fruit"
+630,,Cane tops
 631,,"Waters,ice etc"
 633,2543,"Sweeteners, Other"
 634,2658,"Beverages, Alcoholic"
+635,,Straw husks
 646,2000,Fodder crops
 651,2000,Fodder crops
+652,,"Feed, vegetable products nes"
+653,,Food wastes
+654,,"Dregs from brewing, distillation"
 656,2630,Coffee and products
 657,2630,Coffee and products
 658,2630,Coffee and products
@@ -280,6 +298,8 @@ btd_item_code,cbs_item_code,cbs_item
 778,2664,"Soft-Fibres, Other"
 780,2662,Jute
 809,2666,Abaca
+813,2667,"Hard Fibres, Other"
+821,2667,"Hard Fibres, Other"
 826,2671,Tobacco
 828,2671,Tobacco
 829,2671,Tobacco
@@ -287,7 +307,11 @@ btd_item_code,cbs_item_code,cbs_item
 836,2672,Rubber
 837,2672,Rubber
 843,843,Pet food
+845,,"Feed, compound nes"
+846,,"Feed and meal, gluten"
+850,,Feed supplements
 853,,Vitamins
+855,,Feed minerals
 858,2000,Fodder crops
 859,2000,Fodder crops
 862,2000,Fodder crops
@@ -304,6 +328,7 @@ btd_item_code,cbs_item_code,cbs_item
 888,2848,Milk - Excluding Butter
 889,2848,Milk - Excluding Butter
 890,2848,Milk - Excluding Butter
+891,2848,Milk - Excluding Butter
 892,2848,Milk - Excluding Butter
 893,2848,Milk - Excluding Butter
 894,2848,Milk - Excluding Butter
@@ -362,6 +387,7 @@ btd_item_code,cbs_item_code,cbs_item
 1075,2736,"Offals, Edible"
 1079,2029,Poultry Birds
 1080,2734,Poultry Meat
+1083,,"Pigeons, other birds"
 1091,2744,Eggs
 1096,1096,Horses
 1097,2735,"Meat, Other"
@@ -383,6 +409,7 @@ btd_item_code,cbs_item_code,cbs_item
 1168,2737,"Fats, Animals, Raw"
 1169,1171,"Live animals, other"
 1171,1171,"Live animals, other"
+1173,,"Meat, meal"
 1181,,Beehives
 1182,2745,Honey
 1183,,Beeswax

@@ -84,6 +84,8 @@ cbs_food_old <- readRDS("input/fao/cbs_food_old.rds")[Year < 2010,]
 cbs_food_old[, `:=`(Value = ifelse(is.na(Value), 0, Value*1000) , Unit = "tonnes")]
 cbs_food_new <- readRDS("input/fao/cbs_food_new.rds")
 cbs_food_new[, `:=`(Value = ifelse(is.na(Value), 0, Value*1000) , Unit = "tonnes")]
+# Stock Variation seems to be defined wrongly, sign needs to be changed
+cbs_food_new[Element == "Stock Variation", Value := Value * -1]
 
 # nonfood: remove items contained in food balances
 cbs_nonfood <- readRDS("input/fao/cbs_nonfood.rds")
@@ -107,10 +109,12 @@ cbs <- rbind(cbs_food_old, cbs_food_new, cbs_nonfood)
 cbs <- dt_rename(cbs, rename, drop = TRUE)
 
 # transform items that changed from old to new FBS method
+elements <- c("Domestic supply quantity", "Production", "Import Quantity", "Export Quantity", "Feed", "Food", "Losses",
+              "Other uses (non-food)", "Processing", "Residuals", "Seed", "Stock Variation", "Tourist consumption")
 # "Groundnuts (Shelled Eq)" in "Groundnuts"
-cbs[item == "Groundnuts (Shelled Eq)", `:=` (item_code = 2552, item = "Groundnuts", value = 1/0.7 * value)]
+cbs[item == "Groundnuts (Shelled Eq)" & element %in% elements, `:=` (item_code = 2552, item = "Groundnuts", value = 1/0.7 * value)]
 # “Rice (milled equivalent)” into "Rice and products" via TCF
-cbs[item == "Rice (Milled Equivalent)", `:=` (item_code = 2807, item = "Rice and products", value = 1/0.67 * value)]
+cbs[item == "Rice (Milled Equivalent)" & element %in% elements, `:=` (item_code = 2807, item = "Rice and products", value = 1/0.67 * value)]
 # Note: Sugar (Raw Equivalent) was also present in old FBS
 
 # aggregate tourist consumption and residuals into other uses and drop unused elements
@@ -173,6 +177,8 @@ saveRDS(cbs, "data/tidy/cbs_tidy.rds")
 
 sua <- readRDS("input/fao/sua.rds")
 sua <- dt_rename(sua, rename = rename)
+# Stock Variation seems to be defined wrongly, sign needs to be changed
+sua[element == "Stock Variation", value := value * -1]
 
 # we only use molasses for now
 sua <- sua[item == "Molasses",]
@@ -420,6 +426,7 @@ crop_prim <- dt_filter(crop_prim, element != "Yield")
 # Only keep fodder crops
 crop_prim <- merge(crop_prim, crop_conc,
                    by.x = "item_code", by.y = "crop_item_code", all.x = TRUE)
+# Shouldn't we save crop_prim before we filter fodder crops? Or don't we need it for any other purposes?
 crop_prim <- dt_filter(crop_prim, cbs_item_code == 2000)
 crop_prim[, item := crop_item]
 
