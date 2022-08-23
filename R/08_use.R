@@ -418,12 +418,12 @@ opt_out <- fread("inst/optim_out.csv")
 
 # Add processing / production information from the balances
 input <- merge(opt_in,
-  cbs[, c("area_code", "year", "item_code", "processing")],
+  cbs[year > 1985, c("area_code", "year", "item_code", "processing")],
   by = "item_code", all.x = TRUE)
 
 input <- input[is.finite(processing) & processing > 0]
 output <- merge(opt_out,
-  cbs[, c("area_code", "year", "item_code", "production")],
+  cbs[year > 1985, c("area_code", "year", "item_code", "production")],
   by = "item_code", all.x = TRUE)
 output <- output[is.finite(production) & production > 0]
 
@@ -491,7 +491,7 @@ results <- lapply(sort(unique(input$area_code)), function(x) {
 results <- rbindlist(results)
 results[, result_in := round(result_in)]
 saveRDS(results, paste0("./data/optim_results_",Sys.Date(),".rds"))
-# results <- readRDS("./data/optim_results_2022-06-09.rds")
+results <- readRDS("./data/optim_results_2022-06-09.rds")
 
 # Add process information
 results[, proc_code := ifelse(out_code == 2658, "p083",

@@ -160,9 +160,11 @@ addcbs[item_code %in% c(254, 328, 677, 2536, 2562), processing := na_sum(total_s
 # 'Hard Fibres, Other', 'Tobacco', and 'Rubber' to other uses
 addcbs[item_code %in% c(2662,2663,2664,2665,2666,2667,2671,2672), other := na_sum(total_supply, -exports)]
 
+# Allocate 'Fodder crops' supply to feed
+addcbs[item_code %in% c(2000), feed := na_sum(total_supply, -exports)]
 
 # allocate rest to 'unspecified'
-addcbs[, unspecified := na_sum(total_supply,-processing, -other, -exports)]
+addcbs[, unspecified := na_sum(total_supply,-processing, -other, -feed, -exports)]
 addcbs[, balancing := 0]
 addcbs[unspecified < 0, `:=`(balancing = unspecified, unspecified = 0)]
 
@@ -502,6 +504,16 @@ cat("Using EIA/IEA ethanol production values where FAO's",
   "CBS are not (or under-) reported.\n")
 eth_cbs[production < value | is.na(production), production := value]
 eth_cbs[, value := NULL]
+
+# compute total supply
+eth_cbs[, total_supply := na_sum(production, imports)]
+# reduce exports where they exceed total supply (per definition not the case any more!)
+eth_cbs[(exports + other) > (total_supply + stock_withdrawal), exports := total_supply + stock_withdrawal - other]
+eth_cbs[exports < 0, exports := 0]
+# all supply is assumed to go to other uses
+eth_cbs[, other := na_sum(production, imports, -exports, -stock_addition)]
+# rebalance
+eth_cbs[, balancing := na_sum(production, imports, -exports, -stock_addition, -other)]
 
 cbs <- rbindlist(list(cbs[item_code != 2659, ], eth_cbs), use.names = TRUE)
 rm(eth, eth_cbs)
