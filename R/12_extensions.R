@@ -220,6 +220,7 @@ E_biodiv <- lapply(E, function(x) {
 
 names(E_biodiv) <- years
 saveRDS(E_biodiv, file="/mnt/nfs_fineprint/tmp/fabio/v1.2/E_biodiv.rds")
+write.csv(biodiv_codes, file="/mnt/nfs_fineprint/tmp/fabio/v1.2/biodiv_codes.csv")
 
 
 # extrapolate emissions data
