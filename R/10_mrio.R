@@ -130,11 +130,11 @@ ghg_v <- mapply(function(x, y) { as.matrix(x[,-1][,range]) %*% y }, x = ghg, y =
 gwp_v <- mapply(function(x, y) { as.matrix(x[,-1][,range]) %*% y }, x = gwp, y = trans_v[1:28])
 luh_v <- mapply(function(x, y) { as.matrix(x[,-1][,range]) %*% y }, x = luh, y = trans_v[1:28])
 
-saveRDS(ghg_m, "/mnt/nfs_fineprint/tmp/fabio/v1.2/ghg_mass.rds")
-saveRDS(gwp_m, "/mnt/nfs_fineprint/tmp/fabio/v1.2/gwp_mass.rds")
-saveRDS(luh_m, "/mnt/nfs_fineprint/tmp/fabio/v1.2/luh_mass.rds")
+saveRDS(ghg_m, "/mnt/nfs_fineprint/tmp/fabio/v1.2/E_ghg_mass.rds")
+saveRDS(gwp_m, "/mnt/nfs_fineprint/tmp/fabio/v1.2/E_gwp_mass.rds")
+saveRDS(luh_m, "/mnt/nfs_fineprint/tmp/fabio/v1.2/E_luh_mass.rds")
 
-saveRDS(ghg_v, "/mnt/nfs_fineprint/tmp/fabio/v1.2/ghg_value.rds")
-saveRDS(gwp_v, "/mnt/nfs_fineprint/tmp/fabio/v1.2/gwp_value.rds")
-saveRDS(luh_v, "/mnt/nfs_fineprint/tmp/fabio/v1.2/luh_value.rds")
+saveRDS(ghg_v, "/mnt/nfs_fineprint/tmp/fabio/v1.2/E_ghg_value.rds")
+saveRDS(gwp_v, "/mnt/nfs_fineprint/tmp/fabio/v1.2/E_gwp_value.rds")
+saveRDS(luh_v, "/mnt/nfs_fineprint/tmp/fabio/v1.2/E_luh_value.rds")
 

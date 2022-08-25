@@ -25,10 +25,16 @@ sup <- merge(
   sup[item_code %in% unique(cbs$item_code)],
   by = c("item_code", "item"), all = TRUE, allow.cartesian = TRUE)
 
+# correct comm_codes
+sup$comm_code <- items$comm_code[match(sup$item_code, items$item_code)]
+
 # Downscale double-counted production
 cat("Calculate supply shares for livestock products.\n")
 shares <- fread("inst/items_supply-shares.csv")
 live <- readRDS("data/tidy/live_tidy.rds")
+
+# correct comm_codes
+shares$comm_code <- items$comm_code[match(shares$item_code, items$item_code)]
 
 shares <- merge(shares[source == "live"], live[element == "Production"],
   by.x = c("base_code", "base"), by.y = c("item_code", "item"),

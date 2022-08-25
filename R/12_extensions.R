@@ -75,15 +75,11 @@ crop[!area_code %in% regions[cbs==TRUE, code], `:=`(area_code = 999, area = "ROW
 crop <- crop[, list(value = na_sum(value)),
   by = .(area_code, area, element, year, unit, item_code, item)]
 
-# read biodiversity extension
-biodiv <- read_csv("./input/extensions/biodiversity.csv")
-biodiv$area_code <- regions$code[match(biodiv$iso3c, regions$iso3c)]
-
 # prepare N extension
 N <- read_csv("./input/extensions/N_kg_per_ha.csv")
 N$region <- regions$region[match(N$iso3c, regions$iso3c)]
-N <- merge(biodiv[,1], N, by = "iso3c", all = TRUE)
-N <- gather(N, key = "com", value = "value", -region, -iso3c)
+N <- merge(regions[cbs==TRUE,.(iso3c,area_code = code)], N, by = "iso3c", all = TRUE)
+N <- gather(N, key = "com", value = "value", -region, -iso3c, -area_code)
 avg_N <- N %>%
   group_by(region, com) %>%
   summarise(avg = mean(value, na.rm = TRUE)) %>%
@@ -94,20 +90,19 @@ avg_N <- N %>%
   # bind_rows(summarise_all(., ~ if (is.numeric(.)) sum(., na.rm = TRUE) else "Global"))
 N <- merge(N, avg_N, by = c("region", "com"), all.x = TRUE)
 N$value[is.na(N$value)] <- ifelse(is.na(N$avg[is.na(N$value)]), NA, N$avg[is.na(N$value)])
-N$area_code <- regions$code[match(N$iso3c, regions$iso3c)]
-N <- N[N$iso3c %in% biodiv$iso3c, c("area_code", "iso3c", "com", "value")]
+N <- N[, c("area_code", "iso3c", "com", "value")]
 N$area_code[N$area_code==62] <- 238  # Ethiopia
 N$area_code[N$area_code==206] <- 276  # Sudan
 N <- N %>% arrange(across(c(area_code, com)))
 items_conc <- read_csv("./inst/items_conc.csv")
 N$com <- items_conc$com_1.2[match(N$com, items_conc$com_1.1)]
-N <- N[!is.na(N$com),]
+N <- N[!is.na(N$com) & !is.na(N$area_code),]
 
 # prepare P extension
 P <- read_csv("./input/extensions/P_kg_per_ha.csv")
 P$region <- regions$region[match(P$iso3c, regions$iso3c)]
-P <- merge(biodiv[,1], P, by = "iso3c", all = TRUE)
-P <- gather(P, key = "com", value = "value", -region, -iso3c)
+P <- merge(regions[cbs==TRUE,.(iso3c,area_code = code)], P, by = "iso3c", all = TRUE)
+P <- gather(P, key = "com", value = "value", -region, -iso3c, -area_code)
 avg_P <- P %>%
   group_by(region, com) %>%
   summarise(avg = mean(value, na.rm = TRUE)) %>%
@@ -118,13 +113,12 @@ avg_P <- P %>%
 # bind_rows(summarise_all(., ~ if (is.numeric(.)) sum(., na.rm = TRUE) else "Global"))
 P <- merge(P, avg_P, by = c("region", "com"), all.x = TRUE)
 P$value[is.na(P$value)] <- ifelse(is.na(P$avg[is.na(P$value)]), NA, P$avg[is.na(P$value)])
-P$area_code <- regions$code[match(P$iso3c, regions$iso3c)]
-P <- P[P$iso3c %in% biodiv$iso3c, c("area_code", "iso3c", "com", "value")]
+P <- P[, c("area_code", "iso3c", "com", "value")]
 P$area_code[P$area_code==62] <- 238  # Ethiopia
 P$area_code[P$area_code==206] <- 276  # Sudan
 P <- P %>% arrange(across(c(area_code, com)))
 P$com <- items_conc$com_1.2[match(P$com, items_conc$com_1.1)]
-P <- P[!is.na(P$com),]
+P <- P[!is.na(P$com) & !is.na(P$area_code),]
 
 
 years <- 1986:2019
@@ -195,15 +189,6 @@ E <- lapply(years, function(x, y) {
   data[landuse>0 & output>0 & biomass==0, biomass := output]
   data[, output := NULL]
 
-  # add biodiversity (potential species loss from land use [10^-6 species])
-  data <- merge(data, aggregate(data$landuse, by=list(area_code=data$area_code), FUN=sum),
-                    by = "area_code", all.x = TRUE)
-  data[, biodiv_cropland := biodiv$cropland[match(data$area_code, biodiv$area_code)]]
-  data[, biodiv_pasture := biodiv$pasture[match(data$area_code, biodiv$area_code)]]
-  data[, biodiv := if_else(item == "Grazing", biodiv_pasture, round(biodiv_cropland / x * landuse))]
-  data[, ':='(x = NULL, biodiv_cropland = NULL, biodiv_pasture = NULL)]
-  data[, biodiv := if_else(is.na(biodiv), 0, biodiv)]
-
   # add N and P application (kg per ha)
   data[, ':='(p_application = ifelse(is.na(P$value), 0, round(P$value * landuse, 3)),
               n_application = ifelse(is.na(N$value), 0, round(N$value * landuse)))]
@@ -216,18 +201,38 @@ names(E) <- years
 saveRDS(E, file="/mnt/nfs_fineprint/tmp/fabio/v1.2/E.rds")
 
 
+# build biodiversity extensions (potential species loss from land use [10^-6 species])
+biodiv <- read_csv("./input/extensions/biodiversity.csv")
+biodiv_data <- t(biodiv[, -(1:3)])
+biodiv_codes <- biodiv[, 1:3]
+
+E_biodiv <- lapply(E, function(x) {
+  data <- merge(x[,1:8], aggregate(x$landuse, by=list(area_code=x$area_code), FUN=sum),
+                    by = "area_code", all.x = TRUE)
+  data[item == "Grazing", x := landuse]
+  data2 <- biodiv_data[rep(1:192, each = 123),]
+  data2 <- data2 / data$x * data$landuse
+  data2[!is.finite(data2)] <- 0
+  colnames(data2) <- paste0(biodiv_codes$species,"_",biodiv_codes$land)
+  data[, `:=`(x = NULL, landuse = NULL)]
+  data <- cbind(data, data2)
+})
+
+names(E_biodiv) <- years
+saveRDS(E_biodiv, file="/mnt/nfs_fineprint/tmp/fabio/v1.2/E_biodiv.rds")
+
 
 # extrapolate emissions data
 library(Matrix)
 
 # read ghg emissions data
 ghg <- list()
-ghg[[1]] <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/ghg_mass.rds")
-ghg[[2]] <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/gwp_mass.rds")
-ghg[[3]] <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/luh_mass.rds")
-ghg[[4]] <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/ghg_value.rds")
-ghg[[5]] <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/gwp_value.rds")
-ghg[[6]] <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/luh_value.rds")
+ghg[[1]] <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/E_ghg_mass.rds")
+ghg[[2]] <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/E_gwp_mass.rds")
+ghg[[3]] <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/E_luh_mass.rds")
+ghg[[4]] <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/E_ghg_value.rds")
+ghg[[5]] <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/E_gwp_value.rds")
+ghg[[6]] <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/E_luh_value.rds")
 
 # extrapolate emissions data
 for(i in 2014:2019){
@@ -238,10 +243,10 @@ for(i in 2014:2019){
   }
 }
 
-saveRDS(ghg[[1]], "/mnt/nfs_fineprint/tmp/fabio/v1.2/ghg_mass.rds")
-saveRDS(ghg[[2]], "/mnt/nfs_fineprint/tmp/fabio/v1.2/gwp_mass.rds")
-saveRDS(ghg[[3]], "/mnt/nfs_fineprint/tmp/fabio/v1.2/luh_mass.rds")
-saveRDS(ghg[[4]], "/mnt/nfs_fineprint/tmp/fabio/v1.2/ghg_value.rds")
-saveRDS(ghg[[5]], "/mnt/nfs_fineprint/tmp/fabio/v1.2/gwp_value.rds")
-saveRDS(ghg[[6]], "/mnt/nfs_fineprint/tmp/fabio/v1.2/luh_value.rds")
+saveRDS(ghg[[1]], "/mnt/nfs_fineprint/tmp/fabio/v1.2/E_ghg_mass.rds")
+saveRDS(ghg[[2]], "/mnt/nfs_fineprint/tmp/fabio/v1.2/E_gwp_mass.rds")
+saveRDS(ghg[[3]], "/mnt/nfs_fineprint/tmp/fabio/v1.2/E_luh_mass.rds")
+saveRDS(ghg[[4]], "/mnt/nfs_fineprint/tmp/fabio/v1.2/E_ghg_value.rds")
+saveRDS(ghg[[5]], "/mnt/nfs_fineprint/tmp/fabio/v1.2/E_gwp_value.rds")
+saveRDS(ghg[[6]], "/mnt/nfs_fineprint/tmp/fabio/v1.2/E_luh_value.rds")
 

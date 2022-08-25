@@ -29,7 +29,7 @@ prep_solve <- function(year, Z, X,
 
 years <- seq(1986, 2019)
 years_singular <- 2013 #c(1994,2002,2009)
-years_singular_losses <- 2013 #c(1990,2010,2019) #c(1994,2002,2009)
+years_singular_losses <- c(2013,2019) #c(1990,2010,2019) #c(1994,2002,2009)
 
 Z_m <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/Z_mass.rds")
 Z_v <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/Z_value.rds")

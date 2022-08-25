@@ -26,6 +26,9 @@ use <- merge(
   by = c("item_code", "item"), all = TRUE, allow.cartesian = TRUE)
 use[, use := NA_real_]
 
+# correct comm_codes
+use$comm_code <- items$comm_code[match(use$item_code, items$item_code)]
+
 # 100% processes
 cat("Allocating crops going directly to a process. Applies to items:\n\t",
   paste0(unique(use[type == "100%", item]), collapse = "; "),
