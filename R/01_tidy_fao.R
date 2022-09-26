@@ -85,7 +85,8 @@ cbs_food_old[, `:=`(Value = ifelse(is.na(Value), 0, Value*1000) , Unit = "tonnes
 cbs_food_new <- readRDS("input/fao/cbs_food_new.rds")
 cbs_food_new[, `:=`(Value = ifelse(is.na(Value), 0, Value*1000) , Unit = "tonnes")]
 # Stock Variation seems to be defined wrongly, sign needs to be changed
-cbs_food_new[Element == "Stock Variation", Value := Value * -1]
+# NOTE: this is inconsistently defined (sometimes correct, sometimes wrong), so it is corrected further below in the balancing section
+#cbs_food_new[Element == "Stock Variation", Value := Value * -1]
 
 # nonfood: remove items contained in food balances
 cbs_nonfood <- readRDS("input/fao/cbs_nonfood.rds")
@@ -105,8 +106,9 @@ cbs_nonfood <- cbs_nonfood[,`:=` (Value.food_old = NULL, Value.food_new = NULL )
 
 # bind
 cbs <- rbind(cbs_food_old, cbs_food_new, cbs_nonfood)
-#rm(cbs_nonfood, cbs_food_old, cbs_food_new)
 cbs <- dt_rename(cbs, rename, drop = TRUE)
+rm(cbs_nonfood, cbs_food_old, cbs_food_new)
+
 
 # transform items that changed from old to new FBS method
 elements <- c("Domestic supply quantity", "Production", "Import Quantity", "Export Quantity", "Feed", "Food", "Losses",
@@ -117,7 +119,7 @@ cbs[item == "Groundnuts (Shelled Eq)" & element %in% elements, `:=` (item_code =
 cbs[item == "Rice (Milled Equivalent)" & element %in% elements, `:=` (item_code = 2807, item = "Rice and products", value = 1/0.67 * value)]
 # Note: Sugar (Raw Equivalent) was also present in old FBS
 
-# aggregate tourist consumption and residuals into other uses and drop unused elements
+# aggregate tourist consumption into other uses and drop unused elements
 cbs[element %in% c("Tourist consumption"), element := "Other uses (non-food)"]
 cbs <- cbs[,.(value = sum(value)), by = setdiff(names(cbs), "value")]
 cbs <- cbs[! element %in% c("Food supply (kcal/capita/day)",
@@ -149,19 +151,41 @@ cat("Recoding 'total_supply' from",
     "'production + imports'.\n")
 cbs[, total_supply := na_sum(production, imports)]
 
-# Add more intuitive 'stock_addition' and fix discrepancies with 'total_supply'
+# Add more intuitive 'stock_addition'
 cbs[, stock_addition := -stock_withdrawal]
-cat("Found ", cbs[stock_addition > total_supply, .N],
-    " occurences of 'stock_addition' exceeding 'total_supply'.\n",
-    "Keeping values as is.\n", sep = "")
-# cbs[stock_addition > total_supply, stock_addition := total_supply]
+
 
 # Rebalance uses, with 'total_supply' and 'stock_additions' treated as given
 cat("\nAdd 'balancing' column for supply and use discrepancies.\n")
 cbs[, balancing := na_sum(total_supply,
-                          -stock_addition, -exports, -food, -feed, -seed, -losses, -processing, -other)] # tourist
-# remove residuals, which are now contained in balancing
+                          -stock_addition, -exports, -food, -feed, -seed, -losses, -processing, -other, -residuals)] # tourist
+
+# correct mistakes in stock variation reporting: this was reported with inconsistent signs
+cbs[
+ # between(-2*stock_addition, balancing - 100, balancing + 100) & abs(stock_addition) > 100,
+ # between(balancing/stock_addition, -2.01, -1.99),
+  ((balancing/stock_addition < -1.9) & is.finite(balancing/stock_addition)) |
+    (between(-2*stock_addition, balancing - 1000, balancing + 1000) & abs(stock_addition) > 1000),
+    `:=`(stock_addition = -stock_addition,
+       stock_withdrawal = -stock_withdrawal,
+       balancing = balancing + 2*stock_addition,
+       corr = TRUE,
+       ratio = balancing/stock_addition)  ]
+
+cbs[, `:=`(corr = NULL, ratio = NULL)]
+
+# add residuals to balancing
+cbs[, balancing := balancing + residuals]
 cbs[, residuals := NULL]
+
+# fix discrepancies of stock additions with 'total_supply'
+cat("Found ", cbs[stock_addition > total_supply, .N],
+    " occurences of 'stock_addition' exceeding 'total_supply'.\n",
+    "Keeping values as is.\n", sep = "")
+# cbs[stock_addition > total_supply, stock_addition := total_supply]
+#cbs[stock_addition > total_supply,
+#    `:=` (stock_addition = ifelse(stock_addition + balancing < 0, 0, stock_addition + balancing),
+#          balancing = ifelse(stock_addition + balancing < 0, balancing + stock_addition, 0))]
 
 # rename 2 items in order to have identical name throughout the FAOSTAT data domains
 cbs[, item := ifelse(item_code==2605,	"Vegetables, Other",
@@ -171,14 +195,14 @@ cbs[, item := ifelse(item_code==2605,	"Vegetables, Other",
 
 # Store
 saveRDS(cbs, "data/tidy/cbs_tidy.rds")
-
+rm(cbs)
 
 # SUA (not used yet) ---------------------------------------------------------------------
 
 sua <- readRDS("input/fao/sua.rds")
 sua <- dt_rename(sua, rename = rename)
 # Stock Variation seems to be defined wrongly, sign needs to be changed
-sua[element == "Stock Variation", value := value * -1]
+#sua[element == "Stock Variation", value := value * -1]
 
 # we only use molasses for now
 sua <- sua[item == "Molasses",]
