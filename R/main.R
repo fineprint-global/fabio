@@ -35,20 +35,26 @@ source("R/04_estimate_btd.R")
 # Balance trade using RAS
 source("R/05_balance.R")
 
+# Allocate re-exports
+source("R/06_re-exports.R")
+
 # Create the supply structure
-source("R/06_supply.R")
+source("R/07_supply.R")
 
 # Create the use structure
-source("R/07_use.R")
+source("R/08_use.R")
 
 # Build multi-regional supply use tables
-source("R/08_mrsut.R")
+source("R/09_mrsut.R")
 
 # Build MRIO blocks
-source("R/09_mrio.R")
+source("R/10_mrio.R")
 
 # Derive Leontief inverses
-source("R/10_solve.R")
+source("R/11_leontief_inverse.R")
 
 # Prepare env. extensions
-source("R/11_extensions.R")
+source("R/12_extensions.R")
+
+# Create sheets with IO codes for users
+source("R/13_codes.R")
