@@ -12,14 +12,21 @@ prep_solve <- function(year, Z, X,
   A <- Matrix(0, nrow(Z), ncol(Z))
   idx <- X != 0
   A[, idx] <- t(t(Z[, idx]) / X[idx])
+  #A <- Z
+  #A@x <- A@x / rep.int(X, diff(A@p))
+
   if(adj_A) {A[A < 0] <- 0}
 
   if(adj_diag) {diag(A)[diag(A) == 1] <- 1 - 1e-10}
+
   L <- .sparseDiagonal(nrow(A)) - A
 
   lu(L) # Computes LU decomposition and stores it in L
 
-  L_inv <- solve(L, tol = .Machine[["double.eps"]])
+  #tryCatch({
+  L_inv <- solve(L, tol = .Machine[["double.eps"]], sparse = TRUE)
+  #}, error=function(e){cat("ERROR in ", year, "\n")})
+
 
   L_inv[L_inv<0] <- 0
 
@@ -28,8 +35,8 @@ prep_solve <- function(year, Z, X,
 
 
 years <- seq(1986, 2019)
-years_singular <- 2013 #c(1994,2002,2009)
-years_singular_losses <- c(2013,2019) #c(1990,2010,2019) #c(1994,2002,2009)
+years_singular <- c(1990, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2006, 2007, 2010, 2011, 2012, 2013) # 2013 #c(1994,2002,2009)
+years_singular_losses <- c(1990, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2004, 2006, 2007, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2019) #  c(2013,2019) #c(1990,2010,2019) #c(1994,2002,2009)
 
 Z_m <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/Z_mass.rds")
 Z_v <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/Z_value.rds")
@@ -37,7 +44,7 @@ Y <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/Y.rds")
 X <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/X.rds")
 
 
-year <- 2013
+#year <- 2013
 for(year in years){
 
   print(year)
@@ -60,7 +67,7 @@ for(year in years){
 
 # create the losses version of fabio ---
 
-year <- 2019
+#year <- 2019
 for(year in years){
 
   print(year)
@@ -84,7 +91,7 @@ saveRDS(Z_v, "/mnt/nfs_fineprint/tmp/fabio/v1.2/losses/Z_value.rds")
 
 
 
-year <- 2019
+#year <- 2019
 for(year in years){
 
   print(year)
