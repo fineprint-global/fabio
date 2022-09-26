@@ -3,6 +3,9 @@ library("data.table")
 library("Matrix")
 source("R/01_tidy_functions.R")
 
+# should the feedstock optimization be run or should previously stored results be used?
+run_optim <- FALSE
+
 regions <- fread("inst/regions_full.csv")
 items <- fread("inst/items_full.csv")
 
@@ -415,86 +418,92 @@ rm(feed, grazing, feed_req, feed_sup, live)
 
 # Optimise feedstock allocation -----
 # Allocate feedstocks to the production of alcoholic beverages and sweeteners
-opt_tcf <- fread("inst/tcf_optim.csv")
-opt_in <- fread("inst/optim_in.csv")
-opt_out <- fread("inst/optim_out.csv")
+if (run_optim){
+  opt_tcf <- fread("inst/tcf_optim.csv")
+  opt_in <- fread("inst/optim_in.csv")
+  opt_out <- fread("inst/optim_out.csv")
 
-# Add processing / production information from the balances
-input <- merge(opt_in,
-  cbs[year > 1985, c("area_code", "year", "item_code", "processing")],
-  by = "item_code", all.x = TRUE)
+  # Add processing / production information from the balances
+  input <- merge(opt_in,
+    cbs[year > 1985, c("area_code", "year", "item_code", "processing")],
+    by = "item_code", all.x = TRUE)
 
-input <- input[is.finite(processing) & processing > 0]
-output <- merge(opt_out,
-  cbs[year > 1985, c("area_code", "year", "item_code", "production")],
-  by = "item_code", all.x = TRUE)
-output <- output[is.finite(production) & production > 0]
+  input <- input[is.finite(processing) & processing > 0]
+  output <- merge(opt_out,
+    cbs[year > 1985, c("area_code", "year", "item_code", "production")],
+    by = "item_code", all.x = TRUE)
+  output <- output[is.finite(production) & production > 0]
 
-# We have some NAs in the TCFs
-opt_tcf <- opt_tcf[is.finite(value), ]
+  # We have some NAs in the TCFs
+  opt_tcf <- opt_tcf[is.finite(value), ]
 
-# Subset to needed TCFs (shold be all) and get weights (i.e. mean values)
-# Weights are in-out ratio (to bypass e.g. high water contents of beer)
-opt_tcf <- opt_tcf[inp_code %in% opt_in$item_code &
-  out_code %in% opt_out$item_code, ]
-weight_out <- opt_tcf[, list(weight = mean(value, na.rm = TRUE)),
-  by = c("out_code", "area_code")]
+  # Subset to needed TCFs (shold be all) and get weights (i.e. mean values)
+  # Weights are in-out ratio (to bypass e.g. high water contents of beer)
+  opt_tcf <- opt_tcf[inp_code %in% opt_in$item_code &
+    out_code %in% opt_out$item_code, ]
+  weight_out <- opt_tcf[, list(weight = mean(value, na.rm = TRUE)),
+    by = c("out_code", "area_code")]
 
-# Subset to available TCF (should be all)
-input <- input[item_code %in% opt_tcf$inp_code, ]
-output <- output[item_code %in% opt_tcf$out_code, ]
+  # Subset to available TCF (should be all)
+  input <- input[item_code %in% opt_tcf$inp_code, ]
+  output <- output[item_code %in% opt_tcf$out_code, ]
 
-# Set NAs to 0
-input[is.na(processing), processing := 0]
-output[is.na(production), production := 0]
+  # Set NAs to 0
+  input[is.na(processing), processing := 0]
+  output[is.na(production), production := 0]
 
-# Optimise allocation -----
-# This takes a very long time! Six cores are working in parallel for ~20 hours.
-results <- lapply(sort(unique(input$area_code)), function(x) {
-  # Per area
-  inp_x <- input[area_code == x, ]
-  out_x <- output[area_code == x, ]
-  tcf_x <- opt_tcf[area_code == x, ]
-  wt_x <- weight_out[area_code == x, ]
-  res <- lapply(sort(unique(input$year)), function(y) {
-    # Per year
-    inp_xy <- inp_x[year == y, ]
-    out_xy <- out_x[year == y, ]
-    # Skip optimisation if no data is available
-    if(inp_xy[, .N] == 0 || out_xy[, .N] == 0) {return(NULL)}
-    tcf_xy <- tcf_x[inp_code %in% inp_xy$item_code &
-      out_code %in% out_xy$item_code, ]
-    wt_xy <- wt_x[out_code %in% out_xy$item_code, ]
-    # Optimise on country x & year y
-    opt <- optim(par = rep(0, nrow(tcf_xy)), # To-do: vectorise further
-      fn = function(par) {
-        I <- tcf_xy[, .(inp_code, par = par)][,
-          list(x = na_sum(par)), by = c("inp_code")]
-        O <- tcf_xy[, .(out_code, par = par * value)][,
-          list(x = na_sum(par)), by = c("out_code")]
-        # Get absolute deviations from target (ensuring correct order, output deviations weighted)
-        prod_tgt <- out_xy$production[match(O$out_code, out_xy$item_code)]
-        prod_err <- abs(prod_tgt - O$x) / wt_xy$weight
-        proc_tgt <- inp_xy$processing[match(I$inp_code, inp_xy$item_code)]
-        proc_err <- abs(proc_tgt - I$x)
-        # Get relative deviations from target weighted by maximum absolute error
-        prod_err_rel <- abs(prod_tgt - O$x) / prod_tgt * max(prod_err)
-        proc_err_rel <- abs(proc_tgt - I$x) / proc_tgt * max(proc_err)
-        # Sum of squared absolute deviations + 50% of weighted relative deviation
-        return(sum(prod_err^2) + sum(proc_err^2) + (sum(prod_err_rel^2) + sum(proc_err_rel^2)) / 2)
-    }, method = "L-BFGS-B", lower = 0, upper = Inf)
-    # check results
-    # data <- dplyr::mutate(tcf_xy, result_in = opt$par, year = y)
-    tcf_xy[, .(area_code, inp_code, out_code, value,
-      result_in = opt$par, year = y)]
+  # Optimise allocation -----
+  # This takes a very long time! Six cores are working in parallel for ~20 hours.
+  results <- lapply(sort(unique(input$area_code)), function(x) {
+    # Per area
+    inp_x <- input[area_code == x, ]
+    out_x <- output[area_code == x, ]
+    tcf_x <- opt_tcf[area_code == x, ]
+    wt_x <- weight_out[area_code == x, ]
+    res <- lapply(sort(unique(input$year)), function(y) {
+      # Per year
+      inp_xy <- inp_x[year == y, ]
+      out_xy <- out_x[year == y, ]
+      # Skip optimisation if no data is available
+      if(inp_xy[, .N] == 0 || out_xy[, .N] == 0) {return(NULL)}
+      tcf_xy <- tcf_x[inp_code %in% inp_xy$item_code &
+        out_code %in% out_xy$item_code, ]
+      wt_xy <- wt_x[out_code %in% out_xy$item_code, ]
+      # Optimise on country x & year y
+      opt <- optim(par = rep(0, nrow(tcf_xy)), # To-do: vectorise further
+        fn = function(par) {
+          I <- tcf_xy[, .(inp_code, par = par)][,
+            list(x = na_sum(par)), by = c("inp_code")]
+          O <- tcf_xy[, .(out_code, par = par * value)][,
+            list(x = na_sum(par)), by = c("out_code")]
+          # Get absolute deviations from target (ensuring correct order, output deviations weighted)
+          prod_tgt <- out_xy$production[match(O$out_code, out_xy$item_code)]
+          prod_err <- abs(prod_tgt - O$x) / wt_xy$weight
+          proc_tgt <- inp_xy$processing[match(I$inp_code, inp_xy$item_code)]
+          proc_err <- abs(proc_tgt - I$x)
+          # Get relative deviations from target weighted by maximum absolute error
+          prod_err_rel <- abs(prod_tgt - O$x) / prod_tgt * max(prod_err)
+          proc_err_rel <- abs(proc_tgt - I$x) / proc_tgt * max(proc_err)
+          # Sum of squared absolute deviations + 50% of weighted relative deviation
+          return(sum(prod_err^2) + sum(proc_err^2) + (sum(prod_err_rel^2) + sum(proc_err_rel^2)) / 2)
+      }, method = "L-BFGS-B", lower = 0, upper = Inf)
+      # check results
+      # data <- dplyr::mutate(tcf_xy, result_in = opt$par, year = y)
+      tcf_xy[, .(area_code, inp_code, out_code, value,
+        result_in = opt$par, year = y)]
+    })
+    return(rbindlist(res))
   })
-  return(rbindlist(res))
-})
 
-results <- rbindlist(results)
-results[, result_in := round(result_in)]
-saveRDS(results, paste0("./data/optim_results_",Sys.Date(),".rds"))
-results <- readRDS("./data/optim_results_2022-06-09.rds")
+  results <- rbindlist(results)
+  results[, result_in := round(result_in)]
+  saveRDS(results, paste0("./data/optim_results_",Sys.Date(),".rds"))
+
+  } else {
+
+  results <- readRDS("./data/optim_results_2022-09-15.rds")
+
+}
 
 # Add process information
 results[, proc_code := ifelse(out_code == 2658, "p083",
