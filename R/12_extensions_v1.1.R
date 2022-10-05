@@ -196,15 +196,6 @@ E <- lapply(years, function(x, y) {
   data[landuse>0 & output>0 & biomass==0, biomass := output]
   data[, output := NULL]
 
-  # add biodiversity (potential species loss from land use [10^-6 species])
-  data <- merge(data, aggregate(data$landuse, by=list(area_code=data$area_code), FUN=sum),
-                    by = "area_code", all.x = TRUE)
-  data[, biodiv_cropland := biodiv$cropland[match(data$area_code, biodiv$area_code)]]
-  data[, biodiv_pasture := biodiv$pasture[match(data$area_code, biodiv$area_code)]]
-  data[, biodiv := if_else(item == "Grazing", biodiv_pasture, round(biodiv_cropland / x * landuse))]
-  data[, ':='(x = NULL, biodiv_cropland = NULL, biodiv_pasture = NULL)]
-  data[, biodiv := if_else(is.na(biodiv), 0, biodiv)]
-
   # add N and P application (kg per ha)
   data[, ':='(p_application = ifelse(is.na(P$value), 0, round(P$value * landuse, 3)),
               n_application = ifelse(is.na(N$value), 0, round(N$value * landuse)))]
@@ -215,6 +206,29 @@ E <- lapply(years, function(x, y) {
 names(E) <- years
 
 saveRDS(E, file="/mnt/nfs_fineprint/tmp/fabio/v1.1/E.rds")
+
+
+# build biodiversity extensions (potential species loss from land use [10^-6 species])
+biodiv <- read_csv("./input/extensions/biodiversity.csv")
+biodiv_data <- t(biodiv[, -(1:3)])
+biodiv_codes <- biodiv[, 1:3]
+
+E_biodiv <- lapply(E, function(x) {
+  data <- merge(x[,1:8], aggregate(x$landuse, by=list(area_code=x$area_code), FUN=sum),
+                by = "area_code", all.x = TRUE)
+  data[item == "Grazing", x := landuse]
+  data2 <- biodiv_data[rep(1:192, each = 125),]
+  data2 <- data2 / data$x * data$landuse
+  data2[!is.finite(data2)] <- 0
+  colnames(data2) <- paste0(biodiv_codes$species,"_",biodiv_codes$land)
+  data[, `:=`(x = NULL, landuse = NULL)]
+  data <- cbind(data, data2)
+})
+
+names(E_biodiv) <- years
+saveRDS(E_biodiv, file="/mnt/nfs_fineprint/tmp/fabio/v1.1/E_biodiv.rds")
+write.csv(biodiv_codes, file="/mnt/nfs_fineprint/tmp/fabio/v1.1/biodiv_codes.csv")
+
 
 
 # allocate ghg emissions to products --------------------------------------------------------------
