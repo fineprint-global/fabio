@@ -178,14 +178,14 @@ sup[, `:=`(price = ifelse(item == "Palm kernels", price_oil * 0.6, price),
 
 # fill in milk prices
 prices <- readRDS("data/tidy/prices_tidy.rds")
-prices <- prices[grepl("Milk", item) & months == "Annual value" &
+prices <- prices[grepl("milk", item) & months == "Annual value" &
   unit == "USD", .(item, area_code, area, year, value)]
 prices[, item := stringr::word(item, -1)]
-prices <- tidyr::spread(prices, item, value)
+prices <- dcast(prices, area_code + area + year ~ item, value.var = "value") # tidyr::spread(prices, item, value)
 prices[, milk := rowMeans(.SD, na.rm = TRUE),
   by = c("area_code", "area", "year"),
-  .SDcols = c("buffalo", "camel", "goat", "sheep")]
-prices[!is.na(cow), milk := cow]
+  .SDcols = c("buffalo", "camel", "goats", "sheep")]
+prices[!is.na(cattle), milk := cattle]
 sup <- merge(sup, all.x = TRUE,
   prices[, .(year, area_code, milk)],
   by = c("area_code", "year"))

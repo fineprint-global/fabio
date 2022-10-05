@@ -10,9 +10,12 @@ mr_use <- readRDS("data/mr_use.rds")
 
 # Mass
 trans_m <- lapply(mr_sup_m, function(x) {
-  out <- as.matrix(x / rowSums(x))
+  #out <- as.matrix(x / rowSums(x))
+  out <- x
+  out@x <- out@x / rowSums(out)[(out@i+1)]
   out[!is.finite(out)] <- 0 # See Issue #75
-  return(as(out, "Matrix"))
+  #return(as(out, "Matrix"))
+  return(out)
 })
 
 Z_m <- mapply(function(x, y) {
@@ -24,9 +27,12 @@ Z_m <- lapply(Z_m, round)
 
 # Value
 trans_v <- lapply(mr_sup_v, function(x) {
-  out <- as.matrix(x / rowSums(x))
+  #out <- as.matrix(x / rowSums(x))
+  out <- x
+  out@x <- out@x / rowSums(out)[(out@i+1)]
   out[!is.finite(out)] <- 0 # See Issue #75
-  return(as(out, "Matrix"))
+  #return(as(out, "Matrix"))
+  return(out)
 })
 
 Z_v <- mapply(function(x, y) {

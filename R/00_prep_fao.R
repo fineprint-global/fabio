@@ -52,9 +52,9 @@ col_types <- list(
 #    "character", "numeric", "numeric", "character", "numeric", "character"),
   "trad" = c("numeric", "character", "numeric", "character", "numeric",
     "character", "numeric", "numeric", "character", "numeric", "character"),
-  "btd_prod" = c("numeric", "character", "numeric", "character", "numeric",
-    "character", "numeric", "character", "numeric", "numeric", "character",
-    "numeric", "character"),
+  "btd_prod" = c("numeric", "numeric", "character", "numeric", "numeric",
+    "character", "numeric", "character", "character", "numeric", "character",
+    "numeric",   "numeric", "character", "numeric", "character"),
 #  "cbs_crop" = c("numeric", "character", "numeric", "character", "numeric",
 #    "character", "numeric", "numeric", "character", "numeric", "character"),
 #  "cbs_live" = c("numeric", "character", "numeric", "character", "numeric",
@@ -65,14 +65,14 @@ col_types <- list(
     "character", "numeric", "numeric", "character", "numeric", "character"),
   "cbs_nonfood" = c("numeric", "character", "numeric", "character", "numeric",
     "character", "numeric", "numeric", "character", "numeric", "character"),
-  "sua" = c("numeric", "character", "numeric", "character", "numeric",
+  "sua" = c("numeric", "character", "character", "character", "numeric",
     "character", "numeric", "numeric", "character", "numeric", "character"),
 #  "fore_prod" = c("numeric", "character", "numeric", "character", "numeric",
 #    "character", "numeric", "numeric", "character", "numeric", "character"),
 #  "fore_trad" = c("numeric", "character", "numeric", "character", "numeric",
 #    "character", "numeric", "character", "numeric", "numeric", "character",
 #    "numeric", "character"),
-  "prices" = c("integer", "character", "integer", "character", "integer",
+  "prices" = c("integer", "integer", "character", "integer", "character", "integer",
     "character", "integer", "integer", "integer", "character", "character",
     "numeric", "NULL"),
   "fish_prod" = c("integer", "character", "integer", "character", "character",
@@ -85,7 +85,8 @@ col_types <- list(
 fa_dl(file = files, link = links, path = path_fao)
 
 fa_extract(path_in = path_fao, files = files,
-  path_out = path_fao, name = name, extr = extr, col_types = col_types)
+  path_out = path_fao, name = name, extr = extr, col_types = col_types,
+  rm = FALSE)
 
 
 # Add primary crop production ---------------------------------------------
