@@ -76,15 +76,11 @@ crop[!area_code %in% regions[cbs==TRUE, code], `:=`(area_code = 999, area = "ROW
 crop <- crop[, list(value = na_sum(value)),
   by = .(area_code, area, element, year, unit, item_code, item)]
 
-# read biodiversity extension
-biodiv <- read_csv("./input/extensions/biodiversity.csv")
-biodiv$area_code <- regions$code[match(biodiv$iso3c, regions$iso3c)]
-
 # prepare N extension
 N <- read_csv("./input/extensions/N_kg_per_ha.csv")
 N$region <- regions$region[match(N$iso3c, regions$iso3c)]
-N <- merge(biodiv[,1], N, by = "iso3c", all = TRUE)
-N <- gather(N, key = "com", value = "value", -region, -iso3c)
+N <- merge(regions[cbs==TRUE,.(iso3c,area_code = code)], N, by = "iso3c", all = TRUE)
+N <- gather(N, key = "com", value = "value", -region, -iso3c, -area_code)
 avg_N <- N %>%
   group_by(region, com) %>%
   summarise(avg = mean(value, na.rm = TRUE)) %>%
@@ -95,20 +91,16 @@ avg_N <- N %>%
   # bind_rows(summarise_all(., ~ if (is.numeric(.)) sum(., na.rm = TRUE) else "Global"))
 N <- merge(N, avg_N, by = c("region", "com"), all.x = TRUE)
 N$value[is.na(N$value)] <- ifelse(is.na(N$avg[is.na(N$value)]), NA, N$avg[is.na(N$value)])
-N$area_code <- regions$code[match(N$iso3c, regions$iso3c)]
-N <- N[N$iso3c %in% biodiv$iso3c, c("area_code", "iso3c", "com", "value")]
+N <- N[, c("area_code", "iso3c", "com", "value")]
 N$area_code[N$area_code==62] <- 238  # Ethiopia
 N$area_code[N$area_code==206] <- 276  # Sudan
-N <- N %>% arrange(across(c(area_code, com)))
-# items_conc <- read_csv("./inst/items_conc.csv")
-# N$com <- items_conc$com_1.2[match(N$com, items_conc$com_1.1)]
-# N <- N[!is.na(N$com),]
+N <- N[!is.na(N$area_code),] %>% arrange(across(c(area_code, com)))
 
 # prepare P extension
 P <- read_csv("./input/extensions/P_kg_per_ha.csv")
 P$region <- regions$region[match(P$iso3c, regions$iso3c)]
-P <- merge(biodiv[,1], P, by = "iso3c", all = TRUE)
-P <- gather(P, key = "com", value = "value", -region, -iso3c)
+P <- merge(regions[cbs==TRUE,.(iso3c,area_code = code)], P, by = "iso3c", all = TRUE)
+P <- gather(P, key = "com", value = "value", -region, -iso3c, -area_code)
 avg_P <- P %>%
   group_by(region, com) %>%
   summarise(avg = mean(value, na.rm = TRUE)) %>%
@@ -119,13 +111,11 @@ avg_P <- P %>%
 # bind_rows(summarise_all(., ~ if (is.numeric(.)) sum(., na.rm = TRUE) else "Global"))
 P <- merge(P, avg_P, by = c("region", "com"), all.x = TRUE)
 P$value[is.na(P$value)] <- ifelse(is.na(P$avg[is.na(P$value)]), NA, P$avg[is.na(P$value)])
-P$area_code <- regions$code[match(P$iso3c, regions$iso3c)]
-P <- P[P$iso3c %in% biodiv$iso3c, c("area_code", "iso3c", "com", "value")]
+P <- P[, c("area_code", "iso3c", "com", "value")]
 P$area_code[P$area_code==62] <- 238  # Ethiopia
 P$area_code[P$area_code==206] <- 276  # Sudan
 P <- P %>% arrange(across(c(area_code, com)))
-# P$com <- items_conc$com_1.2[match(P$com, items_conc$com_1.1)]
-# P <- P[!is.na(P$com),]
+P <- P[!is.na(P$area_code),]
 
 
 years <- 1986:2013
