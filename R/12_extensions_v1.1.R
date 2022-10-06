@@ -225,6 +225,7 @@ E_biodiv <- lapply(E, function(x) {
 
 names(E_biodiv) <- years
 saveRDS(E_biodiv, file="/mnt/nfs_fineprint/tmp/fabio/v1.1/E_biodiv.rds")
+biodiv_codes <- biodiv_codes[biodiv_codes$land %in% c("cropland", "pasture"),]
 write.csv(biodiv_codes, file="/mnt/nfs_fineprint/tmp/fabio/v1.1/biodiv_codes.csv")
 
 
