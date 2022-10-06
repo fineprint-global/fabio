@@ -204,15 +204,23 @@ biodiv_data <- t(biodiv[, -(1:3)])
 biodiv_codes <- biodiv[, 1:3]
 
 E_biodiv <- lapply(E, function(x) {
-  data <- merge(x[,1:8], aggregate(x$landuse, by=list(area_code=x$area_code), FUN=sum),
+  cropland <- as.data.table(aggregate(x$landuse[x$item!="Grazing"], by=list(area_code=x$area_code[x$item!="Grazing"]), FUN=sum))
+  data <- merge(x[,1:8], cropland[, .(area_code, cropland = x)],
                 by = "area_code", all.x = TRUE)
-  data[item == "Grazing", x := landuse]
+  data <- merge(data, x[item=="Grazing",.(area_code,grazing=landuse)],
+                by = "area_code", all.x = TRUE)
   data2 <- biodiv_data[rep(1:192, each = 125),]
-  data2 <- data2 / data$x * data$landuse
-  data2[!is.finite(data2)] <- 0
   colnames(data2) <- paste0(biodiv_codes$species,"_",biodiv_codes$land)
-  data[, `:=`(x = NULL, landuse = NULL)]
-  data <- cbind(data, data2)
+  data2 <- data2[,grepl("pasture", colnames(data2)) | grepl("cropland", colnames(data2))]
+  # remove values for grazing in cropland columns and vice versa
+  data2[data$item != "Grazing", grepl("pasture", colnames(data2))] <- 0
+  data2[data$item == "Grazing", grepl("cropland", colnames(data2))] <- 0
+  data2[data$item != "Grazing", grepl("cropland", colnames(data2))] <-
+    data2[data$item != "Grazing", grepl("cropland", colnames(data2))] /
+    data$cropland[data$item != "Grazing"] * data$landuse[data$item != "Grazing"]
+  data2[!is.finite(data2)] <- 0
+  data[, `:=`(cropland = NULL, landuse = NULL, grazing = NULL)]
+  data <- cbind(x[,1:7], data2)
 })
 
 names(E_biodiv) <- years
