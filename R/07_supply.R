@@ -67,15 +67,15 @@ sup[!is.na(share) & comm_code %in% shares$comm_code,
   production := production * share]
 
 cat("Applying oil extraction shares to",
-  sup[comm_code %in% c("c090"), .N],
-  "observations of oilseed cakes.\n")
-shares_o <- sup[comm_code %in% c("c079", "c080", "c081"),
+  sup[item_code %in% c(2598), .N],
+  "observations of Oilseed Cakes, Other with shares from Ricebran Oil, Maize Germ Oil and Oilcrops Oil, Other\n")
+shares_o <- sup[item_code %in% c(2581, 2582, 2586),
   list(proc, share_o = production / sum(production, na.rm = TRUE)),
   by = list(area_code, year)]
 
 sup <- merge(sup, shares_o, by = c("area_code", "year", "proc"), all.x = TRUE)
 sup[is.na(share_o), share_o := 0]
-sup[is.na(share) & comm_code %in% c("c090"),  # c090 = "Oilseed Cakes, Other"
+sup[is.na(share) & item_code %in% c(2598),  # 2598 = "Oilseed Cakes, Other"
   `:=`(production = production * share_o)]
 sup[, share_o := NULL]
 
