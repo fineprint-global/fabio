@@ -205,6 +205,7 @@ saveRDS(E, file="/mnt/nfs_fineprint/tmp/fabio/v1.2/E.rds")
 biodiv <- read_csv("./input/extensions/biodiversity.csv")
 biodiv_data <- t(biodiv[, -(1:3)])
 biodiv_codes <- biodiv[, 1:3]
+biodiv_data <- biodiv_data[regions[cbs==TRUE, iso3c],]
 
 E_biodiv <- lapply(E, function(x) {
   # data <- merge(x[,1:8], aggregate(x$landuse, by=list(area_code=x$area_code), FUN=sum),
