@@ -40,52 +40,36 @@ links <- c(rep("http://fenixservices.fao.org/faostat/static/bulkdownloads/",
 
 # Column types to possibly skip some
 col_types <- list(
-  "prod" = c("numeric", "character", "numeric", "character", "numeric",
-    "character", "numeric", "numeric", "character", "numeric", "character"),
-#  "crop_proc" = c("numeric", "character", "numeric", "character", "numeric",
-#    "character", "numeric", "numeric", "character", "numeric", "character"),
-#  "live_prod" = c("numeric", "character", "numeric", "character", "numeric",
-#    "character", "numeric", "numeric", "character", "numeric", "character"),
-#  "live_prim" = c("numeric", "character", "numeric", "character", "numeric",
-#    "character", "numeric", "numeric", "character", "numeric", "character"),
-#  "live_proc" = c("numeric", "character", "numeric", "character", "numeric",
-#    "character", "numeric", "numeric", "character", "numeric", "character"),
-  "trad" = c("numeric", "character", "numeric", "character", "numeric",
-    "character", "numeric", "numeric", "character", "numeric", "character"),
-  "btd_prod" = c("numeric", "numeric", "character", "numeric", "numeric",
-    "character", "numeric", "character", "character", "numeric", "character",
-    "numeric",   "numeric", "character", "numeric", "character"),
-#  "cbs_crop" = c("numeric", "character", "numeric", "character", "numeric",
-#    "character", "numeric", "numeric", "character", "numeric", "character"),
-#  "cbs_live" = c("numeric", "character", "numeric", "character", "numeric",
-#    "character", "numeric", "numeric", "character", "numeric", "character"),
-  "cbs_food_new" = c("numeric", "character", "numeric", "character", "numeric",
-    "character", "numeric", "numeric", "character", "numeric", "character"),
-  "cbs_food_old" = c("numeric", "character", "numeric", "character", "numeric",
-    "character", "numeric", "numeric", "character", "numeric", "character"),
-  "cbs_nonfood" = c("numeric", "character", "numeric", "character", "numeric",
-    "character", "numeric", "numeric", "character", "numeric", "character"),
-  "sua" = c("numeric", "character", "character", "character", "numeric",
-    "character", "numeric", "numeric", "character", "numeric", "character"),
-#  "fore_prod" = c("numeric", "character", "numeric", "character", "numeric",
-#    "character", "numeric", "numeric", "character", "numeric", "character"),
-#  "fore_trad" = c("numeric", "character", "numeric", "character", "numeric",
-#    "character", "numeric", "character", "numeric", "numeric", "character",
-#    "numeric", "character"),
-  "prices" = c("integer", "integer", "character", "integer", "character", "integer",
-    "character", "integer", "integer", "integer", "character", "character",
-    "numeric", "NULL"),
-  "fish_prod" = c("integer", "character", "integer", "character", "character",
-    "integer", "numeric", "NULL")
+  "prod" = c("numeric", "character", "character", "numeric", "character", "character", "numeric",
+             "character", "numeric", "numeric", "character", "numeric", "character"),
+  "trad" = c("numeric", "character", "character", "numeric", "character", "character", "numeric",
+             "character", "numeric", "numeric", "character", "numeric", "character"),
+  "btd_prod" = c("numeric", "character", "character", "numeric", "character", "character", "numeric", "character", "character",
+                 "numeric", "character", "numeric", "numeric", "character", "numeric", "character"),
+  "cbs_food_new" = c("numeric", "character", "character", "numeric", "character", "character", "numeric",
+                     "character", "numeric", "numeric", "character", "numeric", "character"),
+  "cbs_food_old" = c("numeric", "character", "character", "numeric", "character", "character", "numeric",
+                     "character", "numeric", "numeric", "character", "numeric", "character"),
+  "cbs_nonfood"  = c("numeric", "character", "character", "numeric", "character", "character", "numeric",
+                     "character", "numeric", "numeric", "character", "numeric", "character"),
+  "sua" = c("numeric", "character", "character", "numeric", "character", "character", "numeric",
+            "character", "numeric", "numeric", "character", "numeric", "character"),
+  "prices" = c("numeric", "character", "character", "numeric", "character", "character", "numeric",
+               "character", "numeric", "numeric", "numeric", "character", "character", "numeric", "character"),
+  "fish_prod" = c("integer", "character", "integer", "character", "character", "integer", "numeric", "NULL")
 )
 
+# update: add read_method as there are some issues in the trad csv file (probably a missing quote somewhere) that fread cannot deal with, but readr::read_csv can.
+read_method = files
+read_method[] <- "fread"
+read_method["trad"] <- "read_csv"
 
 # Execute -----------------------------------------------------------------
 
 fa_dl(file = files, link = links, path = path_fao)
 
 fa_extract(path_in = path_fao, files = files,
-  path_out = path_fao, name = name, extr = extr, col_types = col_types,
+  path_out = path_fao, name = name, extr = extr, col_types = col_types, read_method = read_method,
   rm = FALSE)
 
 
@@ -109,3 +93,7 @@ saveRDS(y, paste0(path_fao, "crop_prim_14.rds"))
 file <- "Production Fodder Crops 2015_2019 internal working system official data only.xlsx"
 fodder19 <- as.data.table(openxlsx::read.xlsx(paste0(path_fao, file), cols = 1:9))
 saveRDS(fodder19, paste0(path_fao, "crop_prim_19.rds"))
+
+
+# download fbs-sua concordance into inst
+#fa_dl(file = "", link = "https://fenixservices.fao.org/faostat/static/documents/SCL/FBS%20and%20SUA%20list.xlsx", path = "inst/" )
