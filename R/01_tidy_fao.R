@@ -34,12 +34,14 @@ rename <- c(
   "Export Quantity" = "exports",
   "Domestic supply quantity" = "total_supply",
   "Losses" = "losses",
-  #"Food supply quantity (tonnes)" = "food",
+  "Loss" = "losses",
+  "Food supply quantity (tonnes)" = "food",
   "Stock Variation" = "stock_withdrawal",
   "Feed" = "feed",
   "Seed" = "seed",
   "Other uses (non-food)" = "other", # Other uses
   "Processing" = "processing",
+  "Processed" = "processing",
   # Units
   # "1000 US$" = "k_usd",
   # "1000 Head" = "k_capita",
@@ -121,7 +123,7 @@ cbs[item == "Rice (Milled Equivalent)" & element %in% elements, `:=` (item_code 
 
 # aggregate tourist consumption into other uses and drop unused elements
 cbs[element %in% c("Tourist consumption"), element := "Other uses (non-food)"]
-cbs <- cbs[,.(value = sum(value)), by = setdiff(names(cbs), "value")]
+cbs <- cbs[,.(value = sum(value, na.rm = TRUE)), by = setdiff(names(cbs), "value")]
 cbs <- cbs[! element %in% c("Food supply (kcal/capita/day)",
                             "Food supply quantity (kg/capita/yr)",
                             "Fat supply quantity (g/capita/day)",
@@ -195,18 +197,89 @@ cbs[, item := ifelse(item_code==2605,	"Vegetables, Other",
 
 # Store
 saveRDS(cbs, "data/tidy/cbs_tidy.rds")
-rm(cbs)
 
-# SUA (not used yet) ---------------------------------------------------------------------
+
+# SUA ---------------------------------------------------------------------
+
+cat("\nTidying SUA.\n")
 
 sua <- readRDS("input/fao/sua.rds")
 sua <- dt_rename(sua, rename = rename)
 # Stock Variation seems to be defined wrongly, sign needs to be changed
 #sua[element == "Stock Variation", value := value * -1]
 
-# we only use molasses for now
-sua <- sua[item == "Molasses",]
-sua[, item_code := as.numeric(item_code)]
+
+# aggregate tourist consumption into other uses and drop unused elements
+sua[element %in% c("Tourist consumption"), element := "Other uses (non-food)"]
+sua <- sua[,.(value = sum(value, na.rm = TRUE)), by = setdiff(names(sua), "value")]
+sua <- sua[element %in% c("Production", "Import Quantity", "Export Quantity",
+                            "Processed", "Seed", "Feed", "Food supply quantity (tonnes)",
+                            "Other uses (non-food)", "Loss", "Residuals", "Stock Variation"),]
+
+# Country / Area adjustments
+sua <- area_kick(sua, code = 351, pattern = "China", groups = TRUE)
+sua <- area_merge(sua, orig = 62, dest = 238, pattern = "Ethiopia")
+sua <- area_merge(sua, orig = 206, dest = 276, pattern = "Sudan")
+sua <- area_fix(sua, regions)
+
+# Widen by element
+sua <- data.table::dcast(sua, area_code + area + item_code + item + year ~ element,
+                         value.var = "value") # fun.aggregate = sum, na.rm = TRUE sum is used her because remaining duplicates only contain NAs in food balance
+sua <- dt_rename(sua, rename, drop = FALSE)
+
+# Replace NA values with 0
+sua <- dt_replace(sua, is.na, value = 0, cols = 6:ncol(sua))
+# Make sure values are not negative
+sua <- dt_replace(sua, function(x) {`<`(x, 0)}, value = 0,
+                  cols = c("imports", "exports", "feed", "food", "losses",
+                           "other", "processing", "production", "seed"))
+
+cat("Recoding 'total_supply' from",
+    "'production + imports - exports + stock_withdrawal'", "to",
+    "'production + imports'.\n")
+sua[, total_supply := na_sum(production, imports)]
+
+# Add more intuitive 'stock_addition'
+sua[, stock_addition := -stock_withdrawal]
+
+
+# Rebalance uses, with 'total_supply' and 'stock_additions' treated as given
+cat("\nAdd 'balancing' column for supply and use discrepancies.\n")
+sua[, balancing := na_sum(total_supply,
+                          -stock_addition, -exports, -food, -feed, -seed, -losses, -processing, -other, -residuals)] # tourist
+
+# correct mistakes in stock variation reporting: this was reported with inconsistent signs
+sua[
+  # between(-2*stock_addition, balancing - 100, balancing + 100) & abs(stock_addition) > 100,
+  # between(balancing/stock_addition, -2.01, -1.99),
+  ((balancing/stock_addition < -1.9) & is.finite(balancing/stock_addition)) |
+    (between(-2*stock_addition, balancing - 1000, balancing + 1000) & abs(stock_addition) > 1000),
+  `:=`(stock_addition = -stock_addition,
+       stock_withdrawal = -stock_withdrawal,
+       balancing = balancing + 2*stock_addition,
+       corr = TRUE,
+       ratio = balancing/stock_addition)  ]
+
+sua[, `:=`(corr = NULL, ratio = NULL)]
+
+# add residuals to balancing
+sua[, balancing := balancing + residuals]
+sua[, residuals := NULL]
+
+
+## add FAO codes --> no longer necessary as raw data now already has a column for that
+#fbs_sua_conc <- readxl::read_excel("inst/FBS and SUA list.xlsx")
+#fbs_sua_conc <- fbs_sua_conc[!is.na(fbs_sua_conc$FCL),]
+#fbs_sua_conc <- as.data.table(fbs_sua_conc)[,.(fcl = FCL, cpc = CPC, item = `Item name`)]
+#sua <- merge(sua, fbs_sua_conc[,.(fcl, cpc)], by.x = "item_code", by.y = "cpc", all.x = TRUE)
+#setnames(sua, c("item_code", "fcl"), c("item_code_cpc", "item_code_fcl"))
+## NOTE: consider matching all SUA items to corresponding (aggregate) FABIO item
+
+setnames(sua, "item_code", "item_code_fcl")
+
+# we only use palm fruit and kernels for now
+#sua <- sua[item %in% c("Oil palm fruit", "Palm kernels"),] # "Molasses"
+#sua[, item_code := as.numeric(item_code)]
 
 # Store
 saveRDS(sua, "data/tidy/sua_tidy.rds")
