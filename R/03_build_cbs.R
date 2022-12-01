@@ -14,7 +14,7 @@ cbs <- readRDS("data/tidy/cbs_tidy.rds")
 
 cat("Removing items from CBS that are not used in the FAO-MRIO:\n\t",
   paste0(unique(cbs[!item_code %in% items$item_code, item]),
-    sep = "", collapse = "; "), ".\n", sep = "")
+    sep = "", collapse = "; "), ".\n", sep = "") # Eggs and Milk are duplicated with different codes (2948, 2949)
 # Particularly fish and aggregates
 cbs <- dt_filter(cbs, item_code %in% items$item_code)
 
@@ -61,6 +61,24 @@ exps[, `:=`(value = ifelse(!is.na(head), head, tonnes),
 # cbs <- rbindlist(list(cbs, fore), use.names = TRUE)
 # rm(fore)
 
+
+# Add items that are now contained in SUA ---------------------
+
+# so far, we only use palm fruit and palm kernels (palm kernels is included as a category in fbs but mistaken for fruit in fbs)
+sua <- readRDS("data/tidy/sua_tidy.rds")
+sua_items <- c("Oil palm fruit", "Palm kernels")
+sua <- sua[item %in% sua_items,]
+
+conc_sua_fabio <- data.frame(item_sua = sua_items, item = c("Oil, palm fruit", "Palm kernels"), item_code_sua = c(254, 256), item_code = c(254, 2562))
+
+# assign FABIO codes
+sua[, `:=`(item_code = conc_sua_fabio$item_code[match(item_code_fcl, conc_sua_fabio$item_code_sua)],
+           item = conc_sua_fabio$item[match(item_code_fcl, conc_sua_fabio$item_code_sua)],
+           item_code_fcl = NULL)]
+
+# remove palm kernels in cbs after 2010 and bind sua data to cbs
+cbs <- cbs[!(item == "Palm kernels" & year >= 2010),]
+cbs <- rbind(cbs, sua, use.names = TRUE)
 
 # Fill crop production where missing -------------------------------------
 
@@ -167,6 +185,9 @@ addcbs[item_code %in% c(2000), feed := na_sum(total_supply, -exports)]
 addcbs[, unspecified := na_sum(total_supply,-processing, -other, -feed, -exports)]
 addcbs[, balancing := 0]
 addcbs[unspecified < 0, `:=`(balancing = unspecified, unspecified = 0)]
+
+# we only use data until 2019
+addcbs <- addcbs[year <= 2019,]
 
 # cat("\nFilling missing cbs seed with crop seed data.\n")
 # crop_seed <- crop[element == "Seed", ]
@@ -365,7 +386,7 @@ live <- merge(live,
 # add trade values from btd in case they are missing in live_trad
 live <- merge(
   live,
-  imps[item_code %in% live[, item_code] & value > 0,  # these are in heads as well
+  imps[item_code %in% unique(live[, item_code]) & value > 0,  # these are in heads as well
        c("to_code", "to", "item_code", "item", "year", "value")],
   by.x = c("area_code", "area", "item_code", "item", "year"),
   by.y = c("to_code", "to", "item_code", "item", "year"),
@@ -452,7 +473,7 @@ live <- merge(live,
 # add trade values from btd in case they are missing in live_trad
 live <- merge(
   live,
-  imps[item_code %in% live[, item_code] & value > 0,
+  imps[item_code %in% unique(live[, item_code]) & value > 0,
        .(to_code, to, item_code, item, year, value)],
   by.x = c("area_code", "area", "item_code", "item", "year"),
   by.y = c("to_code", "to", "item_code", "item", "year"),
@@ -461,7 +482,7 @@ live[, `:=`(imports = ifelse(is.na(imports), value, imports), value = NULL)]
 
 live <- merge(
   live,
-  exps[item_code %in% live[, item_code] & value > 0,
+  exps[item_code %in% unique(live[, item_code]) & value > 0,
        .(from_code, from, item_code, item, year, value)],
   by.x = c("area_code", "area", "item_code", "item", "year"),
   by.y = c("from_code", "from", "item_code", "item", "year"),
@@ -470,7 +491,7 @@ live[, `:=`(exports = ifelse(is.na(exports), value, exports), value = NULL)]
 
 
 # Filter countries and items that are not yet in CBS
-live <- live[!paste(area_code, item_code, year) %in% paste(cbs$area_code, cbs$item_code, cbs$year) & !is.na(production)]
+live <- live[!paste(area_code, item_code, year) %in% paste(cbs$area_code, cbs$item_code, cbs$year) & year <= 2019]# & !is.na(production)]
 
 live[, total_supply := na_sum(production, imports)]
 # reduce exports where they exceed total supply
@@ -480,6 +501,7 @@ live[, other := ifelse(item_code %in% c(2748,2747,2746), na_sum(production, impo
 live[, unspecified := ifelse(item_code %in% c(2748,2747,2746), 0, na_sum(production, imports, -exports))]
 live[, balancing := 0]
 
+live <- live[total_supply > 0, ]
 
 # Add to CBS ---
 cat("\nAdding ", nrow(live), " missing cbs accounts for meat and non-food livestock items.\n", sep = "")
