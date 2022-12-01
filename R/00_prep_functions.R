@@ -63,7 +63,7 @@ fa_dl <- function(
 #' }
 fa_extract <- function(
   path_in, files, path_out, name, extr = NULL,
-  col_types = NULL, stack = FALSE,
+  col_types = NULL, stack = FALSE, read_method = NULL,
   rm = TRUE, v = TRUE, ...) {
 
   zip = paste0(path_in, files)
@@ -90,7 +90,11 @@ fa_extract <- function(
   rds <- vector("list", length(csv))
   for(i in seq_along(csv)) {
     cat("Reading:", csv[i], "\n")
-    rds[[i]] <- data.table::fread(csv[i], colClasses = col_types[[i]])
+    if(is.null(read_method) || read_method[i] == "fread") {
+      rds[[i]] <- data.table::fread(csv[i], colClasses = col_types[[i]])
+    } else if (read_method[i] == "read_csv") {
+      rds[[i]] <- as.data.table(readr::read_csv(csv[i]))
+    } else {stop("Wrong read_method specified for", csv[i], ". Must be either 'fread' or 'read_csv'. If read_method is NULL, fread is used by default. \n")}
   }
 
   if(stack) {
