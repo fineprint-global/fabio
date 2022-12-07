@@ -236,7 +236,7 @@ cbs_cak_prod <- cbs_cak_prod[production > 0,]
 cbs_cak_prod[, `:=`(tcf = ifelse(is.finite(production / processing), production / processing, NA),
                cof = ifelse(is.finite(production / oil_production), production / oil_production, NA))]
 # compute averages across all available years
-cak_conv <- cbs_cak_prod[, .(tcf = mean(tcf, na.rm = TRUE), cof = mean(cof, na.rm = TRUE)), by = .(area_code, area, item_code, item, source_item, source_name, oil_item, oil_name)]
+cak_conv <- cbs_cak_prod[year %in% 2000:2013, .(tcf = mean(tcf, na.rm = TRUE), cof = mean(cof, na.rm = TRUE)), by = .(area_code, area, item_code, item, source_item, source_name, oil_item, oil_name)]
 # fill NAs with global averages
 cak_conv_glob <- cak_conv[, .(tcf_global = mean(tcf, na.rm = TRUE),
                               cof_global = mean(cof, na.rm = TRUE)),
@@ -265,12 +265,16 @@ cake[, `:=` (processing = ifelse(is.na(processing), 0, processing),
                 oil_production = ifelse(is.na(oil_production), 0, oil_production)) ]
 # filter relevant years for extrapolation
 cake <- cake[year > 2013,]
+# estimate processing use if no or too little is reported (for all oil crops except oil crops, other)
+cake[item_code != 2598 & processing == 0, processing := oil_production / (1-tcf-0.03)]
 # apply factors
-cake[, production := ifelse(processing > 0, processing * tcf, ifelse(oil_production > 0, oil_production * cof, 0))]
+cake[, production := processing * tcf]
 
-# TODO: in case oil + cake production exceed source processing input, correct via cof
-# discuss if we should adjust cbs for this!
-cake[(production + oil_production) > processing, oil_production := production * cof]
+# # TODO: in case oil + cake production exceed source processing input, correct via cof
+# # discuss if we should adjust cbs for this!
+# cake[(production + oil_production) > processing, oil_production := production / cof]
+# cake[(production + oil_production) > processing, processing := production + oil_production]
+
 
 # add trade
 cak_imp <- crop[element == "Import Quantity" & unit == "tonnes" & item_code %in% cak_item & year %in% yrs, ]
@@ -401,7 +405,7 @@ live <- merge(
   all = TRUE)
 live[, `:=`(exports = ifelse(is.na(exports), value, exports), value = NULL)]
 
-# additional necessary step in v3: adjust production as production + exp - imp
+# additional necessary step in v1.2: adjust production as production + exp - imp
 live[, production := na_sum(production, exports, -imports)]
 live[production < 0, production := 0]
 
