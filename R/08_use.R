@@ -4,8 +4,7 @@ library("Matrix")
 source("R/01_tidy_functions.R")
 
 # should the feedstock optimization be run or should previously stored results be used?
-run_optim <- FALSE
-
+run_optim <- TRUE
 regions <- fread("inst/regions_full.csv")
 items <- fread("inst/items_full.csv")
 

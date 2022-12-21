@@ -81,14 +81,13 @@ cat("\nTidying CBS.\n")
 #cbs_v2 <- rbind(readRDS("/mnt/nfs_fineprint/tmp/fabio/v2/input/fao/cbs_crop.rds"),
 #   readRDS("/mnt/nfs_fineprint/tmp/fabio/v2/input/fao/cbs_live.rds"))
 
-# food: filter post-2010 values from old balances and transform to tonnes
-cbs_food_old <- readRDS("input/fao/cbs_food_old.rds")[Year < 2010,]
+# food: transform to tonnes and filter pre-2014 values from new fbs
+cbs_food_old <- readRDS("input/fao/cbs_food_old.rds")[Year <= 2013,]
 cbs_food_old[, `:=`(Value = ifelse(is.na(Value), 0, Value*1000) , Unit = "tonnes")]
-cbs_food_new <- readRDS("input/fao/cbs_food_new.rds")
+cbs_food_new <- readRDS("input/fao/cbs_food_new.rds")[Year > 2013,]
 cbs_food_new[, `:=`(Value = ifelse(is.na(Value), 0, Value*1000) , Unit = "tonnes")]
 # Stock Variation seems to be defined wrongly, sign needs to be changed
 # NOTE: this is inconsistently defined (sometimes correct, sometimes wrong), so it is corrected further below in the balancing section
-#cbs_food_new[Element == "Stock Variation", Value := Value * -1]
 
 # nonfood: remove items contained in food balances
 cbs_nonfood <- readRDS("input/fao/cbs_nonfood.rds")
@@ -193,7 +192,12 @@ cat("Found ", cbs[stock_addition > total_supply, .N],
 cbs[, item := ifelse(item_code==2605,	"Vegetables, Other",
                      ifelse(item_code==2625, "Fruits, Other", item))]
 
-# TODO: imbalances in the data need to be double-checked! there are a lot of them!
+# quick-fix for cocoa data error:
+# in new fbs, only cocoa beans are in cocoa and products, while FAOSTAT forgot cocoa powder
+# there is thus no food use, and most of use goes into processing, where it is not traced further
+# we simply move processing use to food use --> this is a bad fix
+cbs[(item == "Cocoa Beans and products" & year > 2013), `:=`(food = processing, processing = 0)]
+# TODO: this needs to be improved in the future (i.e. by using SUA or contacting FAO to correct data)
 
 # Store
 saveRDS(cbs, "data/tidy/cbs_tidy.rds")

@@ -100,7 +100,7 @@ for(i in seq_along(years)) {
     # reduce values by one third
     # if(y==2001 & j=="1107") mat[25,174] <- mat[25,174]/3*2
     # if(y==2002 & j=="1107") mat[185,184] <- mat[185,184]/3*2
-    if(y==2013 & j=="1157") mat[50,158] <- mat[50,158]/3*2
+    # if(y==2013 & j=="1157") mat[50,158] <- mat[50,158]/3*2
     mat <- t(t(mat) / denom)
     if (max(colSums(mat)) > 1+1e-6) stop( "\n maximum colSum for ", j, "in", y, "is larger than one: " , max(colSums(mat)), "\n")
     mat <- diag(nrow(mat)) - mat

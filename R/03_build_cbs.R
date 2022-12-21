@@ -75,9 +75,11 @@ conc_sua_fabio <- data.frame(item_sua = sua_items, item = c("Oil, palm fruit", "
 sua[, `:=`(item_code = conc_sua_fabio$item_code[match(item_code_fcl, conc_sua_fabio$item_code_sua)],
            item = conc_sua_fabio$item[match(item_code_fcl, conc_sua_fabio$item_code_sua)],
            item_code_fcl = NULL)]
+# we take only years after 2013
+sua <- sua[year > 2013, ]
 
-# remove palm kernels in cbs after 2010 and bind sua data to cbs
-cbs <- cbs[!(item == "Palm kernels" & year >= 2010),]
+# remove palm kernels in cbs after 2013 and bind sua data to cbs
+cbs <- cbs[!(item == "Palm kernels" & year > 2013),]
 cbs <- rbind(cbs, sua, use.names = TRUE)
 
 # Fill crop production where missing -------------------------------------
@@ -235,7 +237,7 @@ cbs_cak_prod <- cbs_cak_prod[production > 0,]
 # compute annual conversion factors / cake-to-oil factors
 cbs_cak_prod[, `:=`(tcf = ifelse(is.finite(production / processing), production / processing, NA),
                cof = ifelse(is.finite(production / oil_production), production / oil_production, NA))]
-# compute averages across all available years
+# compute averages across all available years (using only post-2000 values to account for technical changes)
 cak_conv <- cbs_cak_prod[year %in% 2000:2013, .(tcf = mean(tcf, na.rm = TRUE), cof = mean(cof, na.rm = TRUE)), by = .(area_code, area, item_code, item, source_item, source_name, oil_item, oil_name)]
 # fill NAs with global averages
 cak_conv_glob <- cak_conv[, .(tcf_global = mean(tcf, na.rm = TRUE),
