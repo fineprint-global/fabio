@@ -25,7 +25,7 @@ water_crop <- merge(regions[, .(area_code = code, area = name, water_code, water
   water_crop[, .(water_code, water_area, water_item, value, water_type)],
   by = c("water_code", "water_area"), all = TRUE, allow.cartesian = TRUE)
 
-conc_water <- fread("inst/conc_water.csv")
+conc_water <- fread("inst/conc_water_v1.1.csv")
 conc <- match(water_crop$water_item, conc_water$water_item)
 water_crop <- water_crop[, `:=`(fao_code = conc_water$fao_code[conc],
                                 item_code = conc_water$item_code[conc],
@@ -75,6 +75,9 @@ crop <- readRDS("./data/tidy/crop_tidy.rds")
 crop[!area_code %in% regions[cbs==TRUE, code], `:=`(area_code = 999, area = "ROW")]
 crop <- crop[, list(value = na_sum(value)),
   by = .(area_code, area, element, year, unit, item_code, item)]
+# change codes of groundnuts (2552 to 2556) and rice (2807 to 2805)
+crop[item_code==2552, item_code := 2556]
+crop[item_code==2807, item_code := 2805]
 
 # prepare N extension
 N <- read_csv("./input/extensions/N_kg_per_ha.csv")
