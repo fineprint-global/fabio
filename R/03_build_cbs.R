@@ -599,24 +599,46 @@ btd <- dt_filter(btd, from_code != to_code)
 
 # Rebalance columns -------------------------------------------------------
 
+# TODO: this could be improved! Decide how to use residuals here.
+
 cat("\nRebalance CBS.\n")
 
 # Round to whole numbers
 cols = c("imports", "exports", "feed", "food", "losses", "other",
-         "processing", "production", "seed", "balancing", "unspecified")
+         "processing", "production", "seed", "balancing", "unspecified",
+         "residuals", "tourist")
 cbs[, (cols) := lapply(.SD, round), .SDcols = cols]
 
 # Replace negative values with '0'
 cbs <- dt_replace(cbs, function(x) {`<`(x, 0)}, value = 0,
   cols = c("imports", "exports", "feed", "food", "losses",
-    "other", "processing", "production", "seed"))
+    "other", "processing", "production", "seed", "tourist"))
+# TODO: should tourist negatives be eleiminated or not? (just a few minor cases)
 
 # Rebalance table
 cbs[, balancing := na_sum(production, imports, stock_withdrawal,
-        -exports, -food, -feed, -seed, -losses, -processing, -other, -unspecified)]
+        -exports, -food, -feed, -seed, -losses, -processing, -other, -unspecified, -tourist, -residuals)]
+
+# TODO: For now, I move negative residuals to balancing and then neutralize negative balancing via other elements
+# in the future, we might consider to keep them as completely separate categories, or merge them completely
+# in any case, the sum of balancing and residuals should never be <0 in the end
+# as long as we do not introduce an "unknown source" region, we need to adapt the other cbs items accordingly
+
+# move negative residuals to balancing
+cbs[residuals < 0, `:=`(balancing = na_sum(residuals, balancing), residuals = 0)]
+
+# neutralize negative balancing via other items
+cat("\nAdjust 'residuals' for ", cbs[balancing < 0 &
+                                     !is.na(residuals) & residuals >= -balancing*0.99, .N],
+    " observations, where `balancing < 0` and `residuals >= -balancing` to ",
+    "`residuals = residuals - balancing`.\n", sep = "")
+cbs[balancing < 0 & !is.na(residuals) & residuals >= -balancing*0.99,
+    `:=`(residuals = na_sum(residuals, balancing),
+         balancing = 0)]
+
 
 cat("\nAdjust 'exports' for ", cbs[balancing < 0 &
-    !is.na(exports) & exports >= balancing*0.99, .N],
+    !is.na(exports) & exports >= -balancing*0.99, .N],
     " observations, where `balancing < 0` and `exports >= -balancing` to ",
     "`exports = exports - balancing`.\n", sep = "")
 cbs[balancing < 0 & !is.na(exports) & exports >= -balancing*0.99,
@@ -641,6 +663,14 @@ cbs[balancing < 0 & !is.na(other) & other >= -balancing,
     `:=`(other = na_sum(other, balancing),
          balancing = 0)]
 
+cat("\nAdjust 'tourist' for ", cbs[balancing < 0 &
+    !is.na(tourist) & tourist >= -balancing, .N],
+    " observations, where `balancing < 0` and `tourist >= -balancing` to ",
+    "`tourist = tourist + balancing`.\n", sep = "")
+cbs[balancing < 0 & !is.na(other) & other >= -balancing,
+    `:=`(other = na_sum(other, balancing),
+         balancing = 0)]
+
 cat("\nAdjust 'unspecified' for ", cbs[balancing < 0 &
     !is.na(unspecified) & unspecified >= -balancing, .N],
     " observations, where `balancing < 0` and `unspecified >= -balancing` to ",
@@ -660,7 +690,8 @@ cbs[balancing < 0 & !is.na(stock_addition) & stock_addition >= -balancing,
 
 cat("\nAdjust uses proportionally for ", cbs[balancing < 0, .N],
     " observations, where `balancing < 0`", sep = "")
-cbs[, divisor := na_sum(exports, other, processing, seed, food, feed, stock_addition)]
+# TODO: include residuals here?
+cbs[, divisor := na_sum(exports, other, processing, seed, food, feed, stock_addition, tourist)]
 cbs[balancing < 0 & divisor >= -balancing,
     `:=`(stock_addition = round(na_sum(stock_addition, (balancing / divisor * stock_addition))),
          processing = round(na_sum(processing, (balancing / divisor * processing))),
@@ -669,13 +700,14 @@ cbs[balancing < 0 & divisor >= -balancing,
          seed = round(na_sum(seed, (balancing / divisor * seed))),
          food = round(na_sum(food, (balancing / divisor * food))),
          feed = round(na_sum(feed, (balancing / divisor * feed))),
+         tourist = round(na_sum(tourist, (balancing / divisor * tourist))),
          balancing = 0)]
 cbs[, `:=`(stock_withdrawal = -stock_addition,
            divisor = NULL)]
 
 # Rebalance table
 cbs[, balancing := na_sum(production, imports, stock_withdrawal,
-                          -exports, -food, -feed, -seed, -losses, -processing, -other, -unspecified)]
+                          -exports, -food, -feed, -seed, -losses, -processing, -other, -unspecified, -tourist, -residuals)]
 
 # Attribute rest (resulting from rounding differences) to stock changes
 cbs[balancing < 0,

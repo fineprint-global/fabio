@@ -1,7 +1,9 @@
 
 library("data.table")
 library("Matrix")
+library("parallel")
 source("R/01_tidy_functions.R")
+
 
 regions <- fread("inst/regions_full.csv")
 items <- fread("inst/items_full.csv")
@@ -28,7 +30,7 @@ template <- data.table(expand.grid(
 setkey(template, proc_code, comm_code)
 
 # List with block-diagonal supply matrices, per year
-mr_sup_mass <- lapply(years, function(x) {
+mr_sup_mass <- mclapply(years, function(x) {
 
   matrices <- lapply(areas, function(y, sup_y) {
     # Get supply for area y and merge with the template
@@ -50,7 +52,7 @@ mr_sup_mass <- lapply(years, function(x) {
 
   # Return a block-diagonal matrix with all countries for year x
   return(bdiag(matrices))
-})
+}, mc.cores = 6)
 
 # Convert to monetary values
 sup[!is.na(price) & is.finite(price), value := production * price]
@@ -58,7 +60,7 @@ sup[!is.na(price) & is.finite(price), value := production * price]
 sup[is.na(price) | !is.finite(price), value := production]
 
 # List with block-diagonal supply matrices in value, per year
-mr_sup_value <- lapply(years, function(x) {
+mr_sup_value <- mclapply(years, function(x) {
 
   matrices <- lapply(areas, function(y, sup_y) {
     # Get supply for area y and merge with the template
@@ -80,7 +82,7 @@ mr_sup_value <- lapply(years, function(x) {
 
   # Return a block-diagonal matrix with all countries for year x
   return(bdiag(matrices))
-})
+}, mc.cores = 6)
 
 names(mr_sup_mass) <- names(mr_sup_value) <- years
 
@@ -100,7 +102,7 @@ setkey(template, from_code, comm_code, to_code)
 # Note that btd_final includes not only re-export adjusted bilateral trade flows,
 # but also domestic production for domestic use, i.e. it gives the sources
 # (domestic and imported) of each country's domestic use of any item.
-btd_cast <- lapply(years, function(x, btd_x) {
+btd_cast <- mclapply(years, function(x, btd_x) {
   # Cast to convert to matrix
   out <- data.table::dcast(merge(template,
                                  btd_x[year == x, .(from_code, to_code, comm_code, value)],
@@ -112,7 +114,7 @@ btd_cast <- lapply(years, function(x, btd_x) {
                 dimnames = list(paste0(out$from_code, "-", out$comm_code),
                                 colnames(out)[c(-1, -2)])))
 
-}, btd_x = btd[, .(year, from_code, to_code, comm_code, value)])
+}, btd_x = btd[, .(year, from_code, to_code, comm_code, value)], mc.cores = 6)
 
 names(btd_cast) <- years
 
@@ -125,7 +127,7 @@ js <- rep(seq(unique(comms)), each = length(unique(areas)))
 agg <- Matrix::sparseMatrix(i = is, j = js)
 
 # Build supply shares, per year
-supply_shares <- lapply(btd_cast, function(x, agg, js) {
+supply_shares <- mclapply(btd_cast, function(x, agg, js) {
   # x_agg <- colSums(crossprod(x, agg)) # Aggregate total supply (all countries)
   x_agg <- crossprod(x, agg) # Aggregate total supply (per country)
   denom <- data.table(as.matrix(t(x_agg)))
@@ -139,7 +141,7 @@ supply_shares <- lapply(btd_cast, function(x, agg, js) {
   }
 
   return(as(out, "Matrix"))
-}, agg = agg, js = js)
+}, agg = agg, js = js, mc.cores = 6)
 
 
 # Use ---
@@ -151,7 +153,7 @@ template <- data.table(expand.grid(
 setkey(template, area_code, proc_code, comm_code)
 
 # List with use matrices, per year
-use_cast <- lapply(years, function(x, use_x) {
+use_cast <- mclapply(years, function(x, use_x) {
   # Cast use to convert to a matrix
   out <- data.table::dcast(merge(template[, .(area_code, proc_code, comm_code)],
     use_x[year == x, .(area_code, proc_code, comm_code, use)],
@@ -162,10 +164,10 @@ use_cast <- lapply(years, function(x, use_x) {
   return(Matrix(data.matrix(out[, c(-1)]), sparse = TRUE,
     dimnames = list(out$comm_code, colnames(out)[-1])))
 
-}, use_x = use[, .(year, area_code, proc_code, comm_code, use)])
+}, use_x = use[, .(year, area_code, proc_code, comm_code, use)], mc.cores = 6)
 
 # Apply supply shares to the use matrix
-mr_use <- mapply(function(x, y) {
+mr_use <- mcmapply(function(x, y) {
   # Repeat use values, then adapted according to shares
   mr_x <- x[rep(seq_along(commodities), length(areas)), ]
   n_proc <- length(processes)
@@ -176,7 +178,7 @@ mr_use <- mapply(function(x, y) {
   }
 
   return(mr_x)
-}, use_cast, supply_shares)
+}, use_cast, supply_shares, mc.cores = 8)
 
 names(mr_use) <- years
 saveRDS(mr_use, "data/mr_use.rds")
@@ -187,16 +189,16 @@ saveRDS(mr_use, "data/mr_use.rds")
 # Template to always get full tables
 template <- data.table(expand.grid(
   area_code = areas, comm_code = commodities,
-  variable = c("food", "other", "losses", "stock_addition", "balancing", "unspecified"),
+  variable = c("food", "other", "losses", "stock_addition", "balancing", "unspecified", "tourist", "residuals", "processing"),
   stringsAsFactors = FALSE))
 setkey(template, area_code, comm_code, variable)
 
 use_fd <- melt(use_fd[, .(year, area_code, comm_code,
-  food, other, losses, stock_addition, balancing, unspecified)],
+  food, other, losses, stock_addition, balancing, unspecified, tourist, residuals, processing)],
   id.vars = c("year", "area_code", "comm_code"))
 
 # List with final use matrices, per year
-use_fd_cast <- lapply(years, function(x, use_fd_x) {
+use_fd_cast <- mclapply(years, function(x, use_fd_x) {
   # Cast final use to convert to a matrix
   out <- data.table::dcast(merge(template[, .(area_code, comm_code, variable)],
     use_fd_x[year == x, .(area_code, comm_code, variable, value)],
@@ -206,10 +208,10 @@ use_fd_cast <- lapply(years, function(x, use_fd_x) {
 
   Matrix(data.matrix(out[, -1]), sparse = TRUE,
     dimnames = list(out$comm_code, colnames(out)[-1]))
-}, use_fd[, .(year, area_code, comm_code, variable, value)])
+}, use_fd[, .(year, area_code, comm_code, variable, value)], mc.cores = 6)
 
 # Apply supply shares to the final use matrix
-mr_use_fd <- mapply(function(x, y) {
+mr_use_fd <- mcmapply(function(x, y) {
   mr_x <- x[rep(seq_along(commodities), length(areas)), ]
   n_var <- length(unique(use_fd[,variable]))
   for(j in seq_along(areas)) { # Could do this vectorised
@@ -217,7 +219,7 @@ mr_use_fd <- mapply(function(x, y) {
       mr_x[, seq(1 + (j - 1) * n_var, j * n_var)] * y[, j]
   }
   return(mr_x)
-}, use_fd_cast, supply_shares)
+}, use_fd_cast, supply_shares, mc.cores = 6)
 
 mr_use_fd <- lapply(mr_use_fd, round)
 names(mr_use_fd) <- years

@@ -121,8 +121,11 @@ cbs[item == "Rice (Milled Equivalent)" & element %in% elements, `:=` (item_code 
 # Note: Sugar (Raw Equivalent) was also present in old FBS
 
 # aggregate tourist consumption into other uses and drop unused elements
-cbs[element %in% c("Tourist consumption"), element := "Other uses (non-food)"]
-cbs <- cbs[,.(value = sum(value, na.rm = TRUE)), by = setdiff(names(cbs), "value")]
+#cbs[element %in% c("Tourist consumption"), element := "Other uses (non-food)"]
+#cbs <- cbs[,.(value = sum(value, na.rm = TRUE)), by = setdiff(names(cbs), "value")]
+# NOTE: we stopped doing this, to have a maximum of detail in the final demand block (but note that this category will be zero before 2014)
+
+# remove unused elements
 cbs <- cbs[! element %in% c("Food supply (kcal/capita/day)",
                             "Food supply quantity (kg/capita/yr)",
                             "Fat supply quantity (g/capita/day)",
@@ -159,7 +162,7 @@ cbs[, stock_addition := -stock_withdrawal]
 # Rebalance uses, with 'total_supply' and 'stock_additions' treated as given
 cat("\nAdd 'balancing' column for supply and use discrepancies.\n")
 cbs[, balancing := na_sum(total_supply,
-                          -stock_addition, -exports, -food, -feed, -seed, -losses, -processing, -other, -residuals)] # tourist
+                          -stock_addition, -exports, -food, -feed, -seed, -losses, -processing, -other, -residuals, -tourist)] #
 
 # correct mistakes in stock variation reporting: this was reported with inconsistent signs
 cbs[
@@ -176,10 +179,12 @@ cbs[
 cbs[, `:=`(corr = NULL, ratio = NULL)]
 
 # add residuals to balancing
-cbs[, balancing := balancing + residuals]
-cbs[, residuals := NULL]
+#cbs[, balancing := balancing + residuals]
+#cbs[, residuals := NULL]
+# NOTE: we stopped doing this, to have a maximum of detail in the final demand block (but note that this category will be zero before 2014)
 
 # fix discrepancies of stock additions with 'total_supply'
+# Note: residuals should capture such incnosistencies now
 cat("Found ", cbs[stock_addition > total_supply, .N],
     " occurences of 'stock_addition' exceeding 'total_supply'.\n",
     "Keeping values as is.\n", sep = "")
@@ -193,10 +198,11 @@ cbs[, item := ifelse(item_code==2605,	"Vegetables, Other",
                      ifelse(item_code==2625, "Fruits, Other", item))]
 
 # quick-fix for cocoa data error:
+# NOTE: this is postponed now to a later point (use), where all un-allocated processing use (i.e. when a supply chain is not further traced in FABIO) are put into a new final demand category
 # in new fbs, only cocoa beans are in cocoa and products, while FAOSTAT forgot cocoa powder
 # there is thus no food use, and most of use goes into processing, where it is not traced further
 # we simply move processing use to food use --> this is a bad fix
-cbs[(item == "Cocoa Beans and products" & year > 2013), `:=`(food = processing, processing = 0)]
+# cbs[(item == "Cocoa Beans and products" & year > 2013), `:=`(food = processing, processing = 0)]
 # TODO: this needs to be improved in the future (i.e. by using SUA or contacting FAO to correct data)
 
 # Store
@@ -214,11 +220,12 @@ sua <- dt_rename(sua, rename = rename)
 
 
 # aggregate tourist consumption into other uses and drop unused elements
-sua[element %in% c("Tourist consumption"), element := "Other uses (non-food)"]
-sua <- sua[,.(value = sum(value, na.rm = TRUE)), by = setdiff(names(sua), "value")]
+#sua[element %in% c("Tourist consumption"), element := "Other uses (non-food)"]
+#sua <- sua[,.(value = sum(value, na.rm = TRUE)), by = setdiff(names(sua), "value")]
+# keep only relevant elements
 sua <- sua[element %in% c("Production", "Import Quantity", "Export Quantity",
                             "Processed", "Seed", "Feed", "Food supply quantity (tonnes)",
-                            "Other uses (non-food)", "Loss", "Residuals", "Stock Variation"),]
+                            "Other uses (non-food)", "Loss", "Residuals", "Stock Variation", "Tourist consumption"),]
 
 # Country / Area adjustments
 sua <- area_kick(sua, code = 351, pattern = "China", groups = TRUE)
@@ -250,7 +257,7 @@ sua[, stock_addition := -stock_withdrawal]
 # Rebalance uses, with 'total_supply' and 'stock_additions' treated as given
 cat("\nAdd 'balancing' column for supply and use discrepancies.\n")
 sua[, balancing := na_sum(total_supply,
-                          -stock_addition, -exports, -food, -feed, -seed, -losses, -processing, -other, -residuals)] # tourist
+                          -stock_addition, -exports, -food, -feed, -seed, -losses, -processing, -other, -residuals, -tourist)] #
 
 # correct mistakes in stock variation reporting: this was reported with inconsistent signs
 sua[
@@ -267,8 +274,8 @@ sua[
 sua[, `:=`(corr = NULL, ratio = NULL)]
 
 # add residuals to balancing
-sua[, balancing := balancing + residuals]
-sua[, residuals := NULL]
+#sua[, balancing := balancing + residuals]
+#sua[, residuals := NULL]
 
 
 ## add FAO codes --> no longer necessary as raw data now already has a column for that

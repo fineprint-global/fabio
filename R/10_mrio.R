@@ -9,35 +9,35 @@ mr_sup_v <- readRDS("data/mr_sup_value.rds")
 mr_use <- readRDS("data/mr_use.rds")
 
 # Mass
-trans_m <- lapply(mr_sup_m, function(x) {
+trans_m <- mclapply(mr_sup_m, function(x) {
   #out <- as.matrix(x / rowSums(x))
   out <- x
   out@x <- out@x / rowSums(out)[(out@i+1)]
   out[!is.finite(out)] <- 0 # See Issue #75
   #return(as(out, "Matrix"))
   return(out)
-})
+}, mc.cores = 6)
 
-Z_m <- mapply(function(x, y) {
+Z_m <- mcmapply(function(x, y) {
   x %*% y
-}, x = mr_use, y = trans_m)
+}, x = mr_use, y = trans_m, mc.cores = 6)
 
 Z_m <- lapply(Z_m, round)
 
 
 # Value
-trans_v <- lapply(mr_sup_v, function(x) {
+trans_v <- mclapply(mr_sup_v, function(x) {
   #out <- as.matrix(x / rowSums(x))
   out <- x
   out@x <- out@x / rowSums(out)[(out@i+1)]
   out[!is.finite(out)] <- 0 # See Issue #75
   #return(as(out, "Matrix"))
   return(out)
-})
+}, mc.cores = 6)
 
-Z_v <- mapply(function(x, y) {
+Z_v <- mcmapply(function(x, y) {
   x %*% y
-}, x = mr_use, y = trans_v)
+}, x = mr_use, y = trans_v, mc.cores = 6)
 
 Z_v <- lapply(Z_v, round)
 

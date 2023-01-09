@@ -1,6 +1,7 @@
 
 library("data.table")
 library("Matrix")
+library("parallel")
 source("R/01_tidy_functions.R")
 
 # should the feedstock optimization be run or should previously stored results be used?
@@ -453,13 +454,14 @@ if (run_optim){
 
   # Optimise allocation -----
   # This takes a very long time! Six cores are working in parallel for ~20 hours.
-  results <- lapply(sort(unique(input$area_code)), function(x) {
-    # Per area
+  #results <- lapply(sort(unique(input$area_code)), function(x) {
+  results <- mclapply(sort(unique(input$area_code))[166:167], function(x) {
+   # Per area
     inp_x <- input[area_code == x, ]
     out_x <- output[area_code == x, ]
     tcf_x <- opt_tcf[area_code == x, ]
     wt_x <- weight_out[area_code == x, ]
-    res <- lapply(sort(unique(input$year)), function(y) {
+    res <- lapply(sort(unique(input$year))[1], function(y) {
       # Per year
       inp_xy <- inp_x[year == y, ]
       out_xy <- out_x[year == y, ]
@@ -485,14 +487,16 @@ if (run_optim){
           proc_err_rel <- abs(proc_tgt - I$x) / proc_tgt * max(proc_err)
           # Sum of squared absolute deviations + 50% of weighted relative deviation
           return(sum(prod_err^2) + sum(proc_err^2) + (sum(prod_err_rel^2) + sum(proc_err_rel^2)) / 2)
-      }, method = "L-BFGS-B", lower = 0, upper = Inf)
+      }, method = "L-BFGS-B", lower = 0, upper = Inf, control = list(maxit = 500))
       # check results
       # data <- dplyr::mutate(tcf_xy, result_in = opt$par, year = y)
+      if(opt$convergence != 0) cat("\n Warning: optimization did not converge for", unique(cbs[,.(area, area_code)])[area_code == x]$area, "in year",y, "within 500 iterations \n")
       tcf_xy[, .(area_code, inp_code, out_code, value,
         result_in = opt$par, year = y)]
     })
     return(rbindlist(res))
-  })
+  #})
+  }, mc.cores = 10)
 
   results <- rbindlist(results)
   results[, result_in := round(result_in)]
@@ -500,7 +504,7 @@ if (run_optim){
 
   } else {
 
-  results <- readRDS("./data/optim_results_2022-09-15.rds")
+  results <- readRDS("./data/optim_results_2023-01-05.rds")
 
 }
 
@@ -523,6 +527,10 @@ cbs <- merge(cbs,
 cbs[!is.na(result_in), processing := na_sum(processing, -result_in)]
 cbs[, result_in := NULL]
 
+# Allocate negatives in processing use resulting from feedstock optimization to balancing
+# TODO: this is just a temporary solution. Ideally the opt algorithm should prevent such cases.
+cbs[processing < 0, `:=`(balancing = na_sum(balancing, processing), processing = 0)]
+
 
 # Allocation of seed -----
 use <- merge(use,
@@ -531,14 +539,17 @@ use <- merge(use,
 use[!is.na(seed_use) & type == "seedwaste", use := seed_use]
 use[, seed_use := NULL]
 
-# Allocate the remainder of processing use to balancing
-cbs[processing != 0, `:=`(balancing = na_sum(balancing, processing), processing = 0)]
+
+# add comm code
 cbs[, comm_code := items$comm_code[match(cbs$item_code, items$item_code)]]
 
 
+
 # Allocate final demand from balances -----
+
+# The remainder of processing use (flows into supply chains that are not further tracked in FABIO) is interpreted as a new final demand category
 use_fd <- cbs[, c("year", "comm_code", "area_code", "area", "item_code", "item",
-  "food", "other", "losses", "stock_addition", "balancing", "unspecified")]
+  "food", "other", "losses", "stock_addition", "balancing", "unspecified", "tourist", "residuals", "processing")]
 
 
 # Remove unneeded variables

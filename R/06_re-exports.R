@@ -20,7 +20,8 @@ items <- unique(cbs$item_code)
 
 # Prepare reallocation of re-exports --------------------------------------
 
-cbs[, dom_use := na_sum(feed, food, losses, other, processing, seed, stock_addition, balancing, unspecified)]
+# TODO: # residuals --> for now all negative residuals are eliminated in build_cbs
+cbs[, dom_use := na_sum(feed, food, losses, other, processing, seed, stock_addition, balancing, unspecified, tourist, residuals)]
 cbs[, total_use := na_sum(dom_use, exports)]
 
 # Split stock changes into
@@ -102,7 +103,7 @@ for(i in seq_along(years)) {
     # if(y==2002 & j=="1107") mat[185,184] <- mat[185,184]/3*2
     # if(y==2013 & j=="1157") mat[50,158] <- mat[50,158]/3*2
     mat <- t(t(mat) / denom)
-    if (max(colSums(mat)) > 1+1e-6) stop( "\n maximum colSum for ", j, "in", y, "is larger than one: " , max(colSums(mat)), "\n")
+    if (max(colSums(mat)) > 1+1e-6) stop( "\n maximum colSum for ", j, " in ", y, " is larger than one: " , max(colSums(mat)), "\n")
     mat <- diag(nrow(mat)) - mat
     mat <- solve(mat)
     mat <- mat * data$dom_share
