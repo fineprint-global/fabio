@@ -188,8 +188,8 @@ addcbs[, unspecified := na_sum(total_supply,-processing, -other, -feed, -exports
 addcbs[, balancing := 0]
 addcbs[unspecified < 0, `:=`(balancing = unspecified, unspecified = 0)]
 
-# we only use data until 2019
-addcbs <- addcbs[year <= 2019,]
+# we only use data until 2020
+addcbs <- addcbs[year <= 2020,]
 
 # cat("\nFilling missing cbs seed with crop seed data.\n")
 # crop_seed <- crop[element == "Seed", ]
@@ -251,9 +251,9 @@ cak_conv[,`:=` ( tcf_global = NULL, cof_global = NULL)]
 # NOTE: if we want derive cake production also for countries who never had cake production before 2013, we need an addition step tp fill tcf/cof witj global averages for these cases!
 
 # apply factors to cbs in following order: if processing > 0, use tcf, and if processing = 0 but oil production > 0, use cof
-yrs <- 2014:2019
+yrs <- 2014:2020
 #cak_base <- cbs_crp_proc[, ]
-#cbs_cak <- merge(cak_conv, data.table(year = 2014:2019), by = NULL)
+#cbs_cak <- merge(cak_conv, data.table(year = 2014:2020), by = NULL)
 cake <- cbind(cak_conv[rep(1:nrow(cak_conv), each = length(yrs))], year = yrs[rep(1:length(yrs), nrow(cak_conv))])
 cake <- merge(cake, cbs_crp_proc[processing > 0,],
                  by.x = c("area_code", "area", "source_item", "source_name", "year"),
@@ -497,7 +497,7 @@ live[, `:=`(exports = ifelse(is.na(exports), value, exports), value = NULL)]
 
 
 # Filter countries and items that are not yet in CBS
-live <- live[!paste(area_code, item_code, year) %in% paste(cbs$area_code, cbs$item_code, cbs$year) & year <= 2019]# & !is.na(production)]
+live <- live[!paste(area_code, item_code, year) %in% paste(cbs$area_code, cbs$item_code, cbs$year) & year <= 2020]# & !is.na(production)]
 
 live[, total_supply := na_sum(production, imports)]
 # reduce exports where they exceed total supply

@@ -31,6 +31,13 @@ eth_eia[, `:=`(value_eia = round(value_eia * 365.25 * 158.9873 * 0.7893, 3),
 
 rm(country_match)
 
+# extrapolate to 2020 (simple using 2019 value)
+# TODO: replace with actual 2020 data once available
+eth_eia_extr <- eth_eia[year == 2019,]
+eth_eia_extr[, year := 2020]
+eth_eia <- rbind(eth_eia, eth_eia_extr)
+
+rm(eth_eia_extr)
 
 # IEA Bio-Ethanol ---------------------------------------------------------
 
@@ -67,6 +74,7 @@ eth[, `:=`(value = pmax(value_eia, value_iea, na.rm = TRUE),
 eth <- area_merge(eth, orig = 62, dest = 238, pattern = "Ethiopia")
 eth <- area_merge(eth, orig = 206, dest = 276, pattern = "Sudan")
 eth <- area_fix(eth, regions)
+
 
 # Store
 saveRDS(eth, "data/tidy/eth_tidy.rds")

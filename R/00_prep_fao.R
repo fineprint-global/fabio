@@ -26,7 +26,7 @@ files <- c(
   #"fore_prod" = "Forestry_E_All_Data_(Normalized).zip",
   #"fore_trad" = "Forestry_Trade_Flows_E_All_Data_(Normalized).zip",
   "prices" = "Prices_E_All_Data_(Normalized).zip",
-  "fish_prod" = "GlobalProduction_2022.1.0.zip") #"GlobalProduction_2019.1.0.zip")
+  "fish_prod" = "GlobalProduction_2022.1.1.zip") #"GlobalProduction_2019.1.0.zip")
 
 # Files to extract from the ZIP archives
 #extr <- c(rep(NA, length(files) - 1), "TS_FI_PRODUCTION.csv")
@@ -62,11 +62,12 @@ col_types <- list(
 # update: add read_method as there are some issues in the trad csv file (probably a missing quote somewhere) that fread cannot deal with, but readr::read_csv can.
 read_method = files
 read_method[] <- "fread"
-read_method["trad"] <- "read_csv"
+read_method[c("trad", "btd_prod")] <- "read_csv"
 
 # Execute -----------------------------------------------------------------
 
 fa_dl(file = files, link = links, path = path_fao)
+
 
 fa_extract(path_in = path_fao, files = files,
   path_out = path_fao, name = name, extr = extr, col_types = col_types, read_method = read_method,

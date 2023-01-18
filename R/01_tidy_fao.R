@@ -78,14 +78,11 @@ rename <- c(
 
 cat("\nTidying CBS.\n")
 
-#cbs_v2 <- rbind(readRDS("/mnt/nfs_fineprint/tmp/fabio/v2/input/fao/cbs_crop.rds"),
-#   readRDS("/mnt/nfs_fineprint/tmp/fabio/v2/input/fao/cbs_live.rds"))
-
 # food: transform to tonnes and filter pre-2014 values from new fbs
 cbs_food_old <- readRDS("input/fao/cbs_food_old.rds")[Year <= 2013,]
-cbs_food_old[, `:=`(Value = ifelse(is.na(Value), 0, Value*1000) , Unit = "tonnes")]
+cbs_food_old[Unit == "1000 tonnes", `:=`(Value = ifelse(is.na(Value), 0, Value*1000) , Unit = "tonnes")]
 cbs_food_new <- readRDS("input/fao/cbs_food_new.rds")[Year > 2013,]
-cbs_food_new[, `:=`(Value = ifelse(is.na(Value), 0, Value*1000) , Unit = "tonnes")]
+cbs_food_new[Unit == "1000 tonnes", `:=`(Value = ifelse(is.na(Value), 0, Value*1000) , Unit = "tonnes")]
 # Stock Variation seems to be defined wrongly, sign needs to be changed
 # NOTE: this is inconsistently defined (sometimes correct, sometimes wrong), so it is corrected further below in the balancing section
 
@@ -106,7 +103,7 @@ cbs_nonfood <- cbs_nonfood[,`:=` (Value.food_old = NULL, Value.food_new = NULL )
 
 
 # bind
-cbs <- rbind(cbs_food_old, cbs_food_new, cbs_nonfood)
+cbs <- rbind(cbs_food_old, cbs_food_new, cbs_nonfood, fill=TRUE)
 cbs <- dt_rename(cbs, rename, drop = TRUE)
 rm(cbs_nonfood, cbs_food_old, cbs_food_new)
 
@@ -118,7 +115,7 @@ elements <- c("Domestic supply quantity", "Production", "Import Quantity", "Expo
 cbs[item == "Groundnuts (Shelled Eq)" & element %in% elements, `:=` (item_code = 2552, item = "Groundnuts", value = 1/0.7 * value)]
 # “Rice (milled equivalent)” into "Rice and products" via TCF
 cbs[item == "Rice (Milled Equivalent)" & element %in% elements, `:=` (item_code = 2807, item = "Rice and products", value = 1/0.67 * value)]
-# Note: Sugar (Raw Equivalent) was also present in old FBS
+# Note: Sugar (Raw Equivalent) was also present in old FBS, so we don't need to transform it here
 
 # aggregate tourist consumption into other uses and drop unused elements
 #cbs[element %in% c("Tourist consumption"), element := "Other uses (non-food)"]
@@ -165,11 +162,8 @@ cbs[, balancing := na_sum(total_supply,
                           -stock_addition, -exports, -food, -feed, -seed, -losses, -processing, -other, -residuals, -tourist)] #
 
 # correct mistakes in stock variation reporting: this was reported with inconsistent signs
-cbs[
- # between(-2*stock_addition, balancing - 100, balancing + 100) & abs(stock_addition) > 100,
- # between(balancing/stock_addition, -2.01, -1.99),
-  ((balancing/stock_addition < -1.9) & is.finite(balancing/stock_addition)) |
-    (between(-2*stock_addition, balancing - 1000, balancing + 1000) & abs(stock_addition) > 1000),
+cbs[((balancing/stock_addition < -1.9) & is.finite(balancing/stock_addition)) |
+    (data.table::between(-2*stock_addition, balancing - 1000, balancing + 1000) & abs(stock_addition) > 1000),
     `:=`(stock_addition = -stock_addition,
        stock_withdrawal = -stock_withdrawal,
        balancing = balancing + 2*stock_addition,
@@ -260,11 +254,8 @@ sua[, balancing := na_sum(total_supply,
                           -stock_addition, -exports, -food, -feed, -seed, -losses, -processing, -other, -residuals, -tourist)] #
 
 # correct mistakes in stock variation reporting: this was reported with inconsistent signs
-sua[
-  # between(-2*stock_addition, balancing - 100, balancing + 100) & abs(stock_addition) > 100,
-  # between(balancing/stock_addition, -2.01, -1.99),
-  ((balancing/stock_addition < -1.9) & is.finite(balancing/stock_addition)) |
-    (between(-2*stock_addition, balancing - 1000, balancing + 1000) & abs(stock_addition) > 1000),
+sua[((balancing/stock_addition < -1.9) & is.finite(balancing/stock_addition)) |
+    (data.table::between(-2*stock_addition, balancing - 1000, balancing + 1000) & abs(stock_addition) > 1000),
   `:=`(stock_addition = -stock_addition,
        stock_withdrawal = -stock_withdrawal,
        balancing = balancing + 2*stock_addition,
@@ -302,8 +293,6 @@ rm(sua)
 cat("\nTidying BTD.\n")
 
 btd <- readRDS("input/fao/btd_prod.rds")
-#btd_v2 <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v2/input/fao/btd_prod.rds")
-
 btd <- dt_rename(btd, rename, drop = TRUE)
 
 
@@ -444,7 +433,7 @@ rm(btd, btd_conc, item_match)
 # saveRDS(fore_trad, "data/tidy/fore_trad_tidy.rds")
 # rm(fore_trad, fore_conc, item_match)
 #
-#
+
 # Crops -------------------------------------------------------------------
 
 # NOTE: crop and livestock production / trade are no longer reported separately, but in joint datasets
@@ -454,11 +443,8 @@ cat("\nTidying crops.\n")
 
 crop_conc <- fread("inst/conc_crop-cbs.csv")
 
-#
-# Production
 
-#crop_v2 <- rbind(readRDS("/mnt/nfs_fineprint/tmp/fabio/v2/input/fao/crop_prod.rds"),
-#                 readRDS("/mnt/nfs_fineprint/tmp/fabio/v2/input/fao/crop_proc.rds"))
+# Production -------------------------------------------------------------------
 
 prod <- readRDS("input/fao/prod.rds")
 prod <- dt_rename(prod, rename, drop = TRUE)
@@ -497,8 +483,8 @@ crop <- dt_rename(crop, drop = FALSE,
                   rename = c("cbs_item_code" = "item_code", "cbs_item" = "item"))
 crop <- dt_filter(crop, value >= 0)
 
-#
-# Primary
+
+## Primary/Fodder ------------
 #crop_prim <- readRDS("input/fao/crop_prim.rds")
 crop_prim <- readRDS("input/fao/crop_prim_14.rds")
 crop_prim_19 <- readRDS("input/fao/crop_prim_19.rds")
@@ -541,15 +527,16 @@ crop_prim[, item := crop_item]
 # inter/extrapolate:
 # get relevant fodder crops and elements for each country
 fod_country <- unique(crop_prim[,.(area_code, area, item_code, item, element, unit, crop_item, cbs_item_code, cbs_item, tcf)])
-fod_country <- as.data.table(reshape::expand.grid.df(fod_country, data.table(year = 1986:2019)))
+fod_country <- as.data.table(reshape::expand.grid.df(fod_country, data.table(year = 1986:2020)))
 cbs_years <- unique(cbs[,.(area_code, area, year)])
-fod_country <- merge(fod_country, cbs_years)
+fod_country <- merge(fod_country, cbs_years) # to avoid years for countries that did not exist at the time (e.g. Belgium-Luxembourg)
 crop_prim <- merge(crop_prim, fod_country, by = names(fod_country), all = TRUE)
 
 # consider country-item-element combinations with only NAs or only one value (no inter/extrapolation possible)
 crop_prim[, count := sum(is.finite(value)), by =.(area,item,element)]
 
 # interpolate using linear interpolation (if more than 3 values are available for whole time series)
+# the interpolation takes moving averages for data gaps between existing values, and takes the last available value as extrapolation for new years
 crop_prim[count > 3, value_interp := forecast::na.interp(value),
           by=.(area,item,element)
 ]
@@ -573,9 +560,6 @@ rm(crop, crop_prim, crop_conc, cbs)
 cat("\nTidying livestocks.\n")
 
 live_conc <- fread("inst/conc_live-cbs.csv")
-
-#live_trad_v2 <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v2/input/fao/live_trad.rds")
-#live_trad_v2 <- live_trad_v2[`Item Code` %in% live_conc$live_item_code,]
 
 live_trad <- trad[item_code %in% live_conc$live_item_code,]
 # aggregate chickens, turkeys, etc. into poultry
@@ -620,7 +604,6 @@ cat("\nTidying prices.\n")
 
 crop_conc <- fread("inst/conc_crop-cbs.csv")
 
-#prices_v2 <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v2/input/fao/prices.rds")
 prices <- readRDS("input/fao/prices.rds")
 prices <- dt_rename(prices, rename, drop = TRUE)
 
@@ -642,11 +625,9 @@ rm(prices, crop_conc)
 
 cat("\nTidying fish.\n")
 
-#fish_v2 <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v2/input/fao/fish_prod.rds")
 fish <- readRDS("input/fao/fish_prod.rds")
 fish <- dt_rename(fish, rename, drop = TRUE)
 
-#fish_v2[, source := ifelse(source_code == 4, "Capture", "Aquaculture")]
 fish[, source := ifelse(source_code == "CAPTURE", "Capture", "Aquaculture")] # see "CL_FI_PRODUCTION_SOURCE_DET.csv" in the "GlobalProduction_2022.1.0.zip" folder
 fish[, unit := ifelse(unit == "Q_tlw", "t", "no")]
 

@@ -5,7 +5,7 @@ source("R/01_tidy_functions.R")
 regions <- fread("inst/regions_full.csv")
 items <- fread("inst/items_full.csv")
 
-years <- 1986:2019
+years <- 1986:2020
 
 # Comtrade and BACI are used for ethanol and fishery trade
 comtrade <- readRDS("data/tidy/comtrade_tidy.rds")
@@ -186,4 +186,5 @@ btd <- btd[!(comm_code %in% items[comm_group == "Live animals", comm_code] & uni
 
 # Store -------------------------------------------------------------------
 
+btd <- btd[year %in% years,]
 saveRDS(btd, "data/tidy/btd_full_tidy.rds")

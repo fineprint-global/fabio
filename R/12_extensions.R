@@ -121,7 +121,7 @@ P$com <- items_conc$com_1.2[match(P$com, items_conc$com_1.1)]
 P <- P[!is.na(P$com) & !is.na(P$area_code),]
 
 
-years <- 1986:2019
+years <- 1986:2020
 
 E <- lapply(years, function(x, y) {
 
@@ -201,7 +201,7 @@ names(E) <- years
 saveRDS(E, file="/mnt/nfs_fineprint/tmp/fabio/v1.2/E.rds")
 
 
-# build biodiversity extensions (potential species loss from land use [10^-6 species])
+# build biodiversity extensions (potential species loss from land use per hectare)
 biodiv <- read_csv("./input/extensions/biodiversity.csv")
 biodiv_data <- t(biodiv[, -(1:3)])
 biodiv_codes <- biodiv[, 1:3]
@@ -239,9 +239,9 @@ ghg[[5]] <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/E_gwp_value.rds")
 ghg[[6]] <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/E_luh_value.rds")
 
 # extrapolate emissions data
-for(i in 2014:2019){
+for(i in 2014:2020){
   for(j in 1:length(ghg)){
-    data <- t(t(ghg[[j]][["2013"]]) / E[["2013"]]$biomass * E[["2019"]]$biomass)
+    data <- t(t(ghg[[j]][["2013"]]) / E[["2013"]]$biomass * E[[as.character(i)]]$biomass)
     data[!is.finite(data)] <- 0
     ghg[[j]][[as.character(i)]] <- data
   }
