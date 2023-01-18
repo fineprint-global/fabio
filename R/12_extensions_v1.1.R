@@ -30,7 +30,7 @@ conc <- match(water_crop$water_item, conc_water$water_item)
 water_crop <- water_crop[, `:=`(fao_code = conc_water$fao_code[conc],
                                 item_code = conc_water$item_code[conc],
                                 item = conc_water$item[conc])]
-crop <- readRDS("./data/tidy/crop_full.rds")
+crop <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.1/data/tidy/crop_full.rds")
 water_crop <- merge(crop[unit == "tonnes" & value > 0 & item_code %in% unique(water_crop$fao_code),
   .(area_code, fao_code = item_code, year, production = value)],
   water_crop[!is.na(fao_code),
@@ -43,7 +43,7 @@ water_crop <- water_crop[, list(value = na_sum(value)),
   by = .(area_code, item_code, item, year, water_type)]
 
 # Calculate water footprint of meat processing
-live <- readRDS("./data/tidy/live_tidy.rds")
+live <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.1/data/tidy/live_tidy.rds")
 meat <- live[element == "Production" & unit == "tonnes",
   .(area_code, area, year, item_code, item, value)]
 
@@ -70,8 +70,8 @@ water_lvst <- rbind(meat, stocks)
 rm(live, meat, stocks, src_item, tgt_item, tgt_name)
 
 # read production data
-sup <- readRDS("data/sup_final.rds")
-crop <- readRDS("./data/tidy/crop_tidy.rds")
+sup <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.1/data/sup_final.rds")
+crop <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.1/data/tidy/crop_tidy.rds")
 crop[!area_code %in% regions[cbs==TRUE, code], `:=`(area_code = 999, area = "ROW")]
 crop <- crop[, list(value = na_sum(value)),
   by = .(area_code, area, element, year, unit, item_code, item)]
