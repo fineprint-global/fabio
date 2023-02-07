@@ -444,10 +444,30 @@ cat("\nTidying crops.\n")
 crop_conc <- fread("inst/conc_crop-cbs.csv")
 
 
-# Production -------------------------------------------------------------------
+# Production
 
 prod <- readRDS("input/fao/prod.rds")
 prod <- dt_rename(prod, rename, drop = TRUE)
+
+# extrapolate production: after 2017, there is decreased data density from reporting gaps
+prod_by_year <- prod[, .(n_year = .N), by = "year"]
+setorder(prod_by_year, by = year)
+prod_by_year
+
+# fill them with simple extrapolation, using the last available value
+# step 1:  get items that were reported at least for 20 years, with the last reporting after 2016
+prod_count <- prod[, .(max_year = max(year),  n = .N), by = c("area_code", "area", "item_code", "item", "element", "unit")]
+prod_rel <- prod_count[max_year >= 2017 & n > 20, .(area_code, area, item_code, item, element, unit)] # max_year < 2020
+prod_extr <- as.data.table(reshape::expand.grid.df(prod_rel, data.table(year = 2018:2020)))
+prod_extr <- prod_extr[paste0(area_code,"_",year) %in% unique(paste0(cbs$area_code,"_",cbs$year)),]
+# step 2: extrapolate missing values
+prod <- merge(prod, prod_extr, by = names(prod_extr), all = TRUE)
+prod[, value_interp := forecast::na.interp(value),
+     by=.(area,item,element,unit)]
+prod[is.na(value), value := value_interp]
+prod[,value_interp := NULL]
+
+# extract crops
 crop <- prod[item_code %in% crop_conc$crop_item_code,]
 crop <- unique(crop)
 
@@ -561,11 +581,14 @@ cat("\nTidying livestocks.\n")
 
 live_conc <- fread("inst/conc_live-cbs.csv")
 
-live_trad <- trad[item_code %in% live_conc$live_item_code,]
 # aggregate chickens, turkeys, etc. into poultry
+live <- prod[item_code %in% live_conc$live_item_code, ]
+live_trad <- trad[item_code %in% live_conc$live_item_code,]
+
+live <- live[item_code != 1808,] # the Meat, poultry category is incomplete after 2017
+live[item_code %in% c(1058, 1069, 1080, 1084) , item_code := 1808]
 live_trad[item_code %in% c(1057, 1068, 1079, 1083) , item_code := 2029]
 
-live <- prod[item_code %in% live_conc$live_item_code, ]
 live <- rbind(live, live_trad)
 
 # Country / Area adjustments

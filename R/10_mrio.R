@@ -1,6 +1,7 @@
 
 library("Matrix")
 library("parallel")
+library(data.table)
 
 # MRIO Table ---
 
@@ -45,7 +46,6 @@ Z_v <- lapply(Z_v, round)
 
 # Rebalance row sums in Z and Y -----------------------------------------
 
-library(data.table)
 regions <- fread("inst/regions_full.csv")
 regions <- regions[cbs==TRUE]
 items <- fread("inst/items_full.csv")
@@ -90,9 +90,9 @@ items <- fread("inst/items_full.csv")
 nrcom <- nrow(items)
 nrreg <- nrow(regions)
 nrfd <- ncol(Y[[1]])/nrreg
-i=28
+#i=28
 for(i in seq_along(Z_m)){
-  reg=1
+  #reg=1
   for(reg in seq_len(nrow(regions))){
     z_range <- (nrcom*(reg-1)+1):(nrcom*reg)
     y_range <- (nrfd*(reg-1)+1):(nrfd*reg)

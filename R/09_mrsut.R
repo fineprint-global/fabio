@@ -178,7 +178,7 @@ mr_use <- mcmapply(function(x, y) {
   }
 
   return(mr_x)
-}, use_cast, supply_shares, mc.cores = 8)
+}, use_cast, supply_shares, mc.cores = 6)
 
 names(mr_use) <- years
 saveRDS(mr_use, "data/mr_use.rds")
