@@ -30,7 +30,7 @@ water_crop <- water_crop[, `:=`(fao_code = conc_water$fao_code[conc],
                                 item_code = conc_water$item_code[conc],
                                 item = conc_water$item[conc])]
 crop <- readRDS("./data/tidy/crop_full.rds")
-water_crop <- merge(crop[unit == "tonnes" & value > 0 & item_code %in% unique(water_crop$fao_code),
+water_crop <- merge(crop[unit == "tonnes" & value > 0 & item_code %in% unique(water_crop$fao_code) & element == "Production",
   .(area_code, fao_code = item_code, year, production = value)],
   water_crop[!is.na(fao_code),
   .(area_code, fao_code, item_code, item, water_type, intensity = value)],
@@ -241,7 +241,7 @@ ghg[[6]] <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/E_luh_value.rds")
 # extrapolate emissions data
 for(i in 2014:2020){
   for(j in 1:length(ghg)){
-    data <- t(t(ghg[[j]][["2013"]]) / E[["2013"]]$biomass * E[[as.character(i)]]$biomass)
+    data <- t(t(ghg[[j]][["2013"]]) / X[,"2013"] * X[,as.character(i)])
     data[!is.finite(data)] <- 0
     ghg[[j]][[as.character(i)]] <- data
   }
