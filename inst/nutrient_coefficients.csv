@@ -51,14 +51,14 @@ c049,2640,Pepper,2760
 c050,2641,Pimento,3180
 c051,2642,Cloves,3230
 c052,2645,"Spices, Other",3370
-c053,2662,Jute,0
-c054,2663,Jute-Like Fibres,0
-c055,2664,"Soft-Fibres, Other",0
-c056,2665,Sisal,0
-c057,2666,Abaca,0
-c058,2667,"Hard Fibres, Other",0
-c059,2671,Tobacco,0
-c060,2672,Rubber,0
+c053,2662,Jute,1000
+c054,2663,Jute-Like Fibres,1000
+c055,2664,"Soft-Fibres, Other",1000
+c056,2665,Sisal,1000
+c057,2666,Abaca,1000
+c058,2667,"Hard Fibres, Other",1000
+c059,2671,Tobacco,1000
+c060,2672,Rubber,1000
 c061,2000,Fodder crops,623
 c062,2001,Grazing,316
 c063,2559,Cottonseed,2530
@@ -93,24 +93,24 @@ c091,2656,Beer,490
 c092,2657,"Beverages, Fermented",470
 c093,2658,"Beverages, Alcoholic",2950
 c094,2659,"Alcohol, Non-Food",6900
-c095,2661,Cotton lint,0
-c096,866,Cattle,1
-c097,946,Buffaloes,1
-c098,976,Sheep,1
-c099,1016,Goats,1
-c100,1034,Pigs,1
-c101,2029,Poultry Birds,1
-c102,1096,Horses,1
-c103,1107,Asses,1
-c104,1110,Mules,1
-c105,1126,Camels,1
-c106,1157,"Camelids, other",1
-c107,1140,Rabbits and hares,1
-c108,1150,"Rodents, other",1
+c095,2661,Cotton lint,1000
+c096,866,Cattle,1000
+c097,946,Buffaloes,1000
+c098,976,Sheep,1000
+c099,1016,Goats,1000
+c100,1034,Pigs,1000
+c101,2029,Poultry Birds,1000
+c102,1096,Horses,1000
+c103,1107,Asses,1000
+c104,1110,Mules,1000
+c105,1126,Camels,1000
+c106,1157,"Camelids, other",1000
+c107,1140,Rabbits and hares,1000
+c108,1150,"Rodents, other",1000
 c109,2848,Milk - Excluding Butter,480
 c110,2740,"Butter, Ghee",7233
 c111,2744,Eggs,1390
-c112,2746,Wool (Clean Eq.),0
+c112,2746,Wool (Clean Eq.),1000
 c113,2731,Bovine Meat,1460
 c114,2732,Mutton & Goat Meat,2630
 c115,2733,Pigmeat,3260
@@ -118,7 +118,7 @@ c116,2734,Poultry Meat,1850
 c117,2735,"Meat, Other",1260
 c118,2736,"Offals, Edible",1050
 c119,2737,"Fats, Animals, Raw",9020
-c120,2748,Hides and skins,0
+c120,2748,Hides and skins,1000
 c121,2745,Honey,2980
-c122,2747,Silk,0
+c122,2747,Silk,1000
 c123,2960,"Fish, Seafood",640

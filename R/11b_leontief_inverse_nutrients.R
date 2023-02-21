@@ -8,6 +8,8 @@ prep_solve <- function(year, Z, X,
                        adj_X = FALSE, adj_A = TRUE, adj_diag = FALSE) {
 
   if(adj_X) {X <- X + 1e-10}
+  # index_cotton <- which(names(X) == "c025" & X > 0)
+  # X[index_cotton] <- X[index_cotton] + 1e-5
 
   A <- Matrix(0, nrow(Z), ncol(Z))
   idx <- X != 0
@@ -36,14 +38,14 @@ prep_solve <- function(year, Z, X,
 
 years <- seq(1986, 2020)
 years_singular <- c(1990, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2006, 2007, 2011) # 2013 #c(1994,2002,2009)
-years_singular_losses <- c(1990, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2006, 2007, 2010, 2011, 2019) #  c(2013,2019) #c(1990,2010,2019) #c(1994,2002,2009)
+# years_singular_losses <- c(1990, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2006, 2007, 2010, 2011, 2019) #  c(2013,2019) #c(1990,2010,2019) #c(1994,2002,2009)
 
 Z <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/cal/Z.rds")
 Y <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/cal/Y.rds")
 X <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/cal/X.rds")
 
 
-#year <- 2011
+#year <- 2020
 for(year in years){
 
   print(year)
@@ -51,7 +53,7 @@ for(year in years){
   adjust <- ifelse(year %in% years_singular, TRUE, FALSE)
 
   L <- prep_solve(year = year, Z = Z[[as.character(year)]],
-                  X = X[, as.character(year)], adj_diag = adjust)
+                  X = X[, as.character(year)], adj_diag = adjust) #, adj_X = adjust)
   L[L<0] <- 0
   saveRDS(L, paste0("/mnt/nfs_fineprint/tmp/fabio/v1.2/cal/", year, "_L.rds"))
 
@@ -59,40 +61,39 @@ for(year in years){
 
 
 
-# create the losses version of fabio ---
-
-#year <- 2019
-for(year in years){
-
-  print(year)
-  # add losses at the main diagonal of Z and remove from Y
-  Yi <- Y[[as.character(year)]]
-  losses <- rowSums(as.matrix(Yi[, grepl("losses", colnames(Yi))]))
-  Yi[, grepl("losses", colnames(Yi))] <- 0
-  Y[[as.character(year)]] <- Yi
-  Zi <- Z[[as.character(year)]]
-  diag(Zi) <- diag(Zi) + losses
-  Z[[as.character(year)]] <- Zi
-}
-
-saveRDS(X, "/mnt/nfs_fineprint/tmp/fabio/v1.2/cal/losses/X.rds")
-saveRDS(Y, "/mnt/nfs_fineprint/tmp/fabio/v1.2/cal/losses/Y.rds")
-saveRDS(Z_m, "/mnt/nfs_fineprint/tmp/fabio/v1.2/cal/losses/Z_mass.rds")
-saveRDS(Z_v, "/mnt/nfs_fineprint/tmp/fabio/v1.2/cal/losses/Z_value.rds")
-
-
-
-#year <- 2019
-for(year in years){
-
-  print(year)
-
-  adjust_losses <- ifelse(year %in% years_singular_losses, TRUE, FALSE)
-
-  L <- prep_solve(year = year, Z = Z[[as.character(year)]],
-                  X = X[, as.character(year)], adj_diag = adjust_losses)
-  L[L<0] <- 0
-  saveRDS(L, paste0("/mnt/nfs_fineprint/tmp/fabio/v1.2/cal/losses/", year, "_L.rds"))
-
-}
+# # create the losses version of fabio ---
+#
+# #year <- 2019
+# for(year in years){
+#
+#   print(year)
+#   # add losses at the main diagonal of Z and remove from Y
+#   Yi <- Y[[as.character(year)]]
+#   losses <- rowSums(as.matrix(Yi[, grepl("losses", colnames(Yi))]))
+#   Yi[, grepl("losses", colnames(Yi))] <- 0
+#   Y[[as.character(year)]] <- Yi
+#   Zi <- Z[[as.character(year)]]
+#   diag(Zi) <- diag(Zi) + losses
+#   Z[[as.character(year)]] <- Zi
+# }
+#
+# saveRDS(X, "/mnt/nfs_fineprint/tmp/fabio/v1.2/cal/losses/X.rds")
+# saveRDS(Y, "/mnt/nfs_fineprint/tmp/fabio/v1.2/cal/losses/Y.rds")
+# saveRDS(Z_m, "/mnt/nfs_fineprint/tmp/fabio/v1.2/cal/losses/Z.rds")
+#
+#
+#
+# #year <- 2019
+# for(year in years){
+#
+#   print(year)
+#
+#   adjust_losses <- ifelse(year %in% years_singular_losses, TRUE, FALSE)
+#
+#   L <- prep_solve(year = year, Z = Z[[as.character(year)]],
+#                   X = X[, as.character(year)], adj_diag = adjust_losses)
+#   L[L<0] <- 0
+#   saveRDS(L, paste0("/mnt/nfs_fineprint/tmp/fabio/v1.2/cal/losses/", year, "_L.rds"))
+#
+# }
 
