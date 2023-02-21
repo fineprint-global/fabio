@@ -1,0 +1,124 @@
+comm_code,item_code,item,kcal_per_kg
+c001,2807,Rice and products,3600
+c002,2511,Wheat and products,3340
+c003,2513,Barley and products,3320
+c004,2514,Maize and products,3560
+c005,2515,Rye and products,3190
+c006,2516,Oats,3850
+c007,2517,Millet and products,3400
+c008,2518,Sorghum and products,3430
+c009,2520,"Cereals, Other",3400
+c010,2531,Potatoes and products,670
+c011,2532,Cassava and products,1090
+c012,2533,Sweet potatoes,920
+c013,2534,"Roots, Other",910
+c014,2535,Yams,1010
+c015,2536,Sugar cane,400
+c016,2537,Sugar beet,800
+c017,2546,Beans,3410
+c018,2547,Peas,3460
+c019,2549,"Pulses, Other and products",3400
+c020,2551,Nuts and products,2620
+c021,2555,Soyabeans,3700
+c022,2552,Groundnuts,5700
+c023,2557,Sunflower seed,4700
+c024,2558,Rape and Mustardseed,4940
+c025,328,Seed cotton,1600
+c026,2560,Coconuts - Incl Copra,1840
+c027,2561,Sesame seed,5730
+c028,254,"Oil, palm fruit",1900
+c029,2563,Olives (including preserved),1850
+c030,2570,"Oilcrops, Other",5200
+c031,2601,Tomatoes and products,170
+c032,2602,Onions,240
+c033,2605,"Vegetables, Other",220
+c034,2611,"Oranges, Mandarines",340
+c035,2612,"Lemons, Limes and products",150
+c036,2613,Grapefruit and products,160
+c037,2614,"Citrus, Other",260
+c038,2615,Bananas,600
+c039,2616,Plantains,750
+c040,2617,Apples and products,480
+c041,2618,Pineapples and products,260
+c042,2619,Dates,1560
+c043,2620,Grapes and products (excl wine),530
+c044,2625,"Fruits, Other",450
+c045,2630,Coffee and products,560
+c046,2633,Cocoa Beans and products,4140
+c047,2635,Tea (including mate),400
+c048,677,Hops,390
+c049,2640,Pepper,2760
+c050,2641,Pimento,3180
+c051,2642,Cloves,3230
+c052,2645,"Spices, Other",3370
+c053,2662,Jute,0
+c054,2663,Jute-Like Fibres,0
+c055,2664,"Soft-Fibres, Other",0
+c056,2665,Sisal,0
+c057,2666,Abaca,0
+c058,2667,"Hard Fibres, Other",0
+c059,2671,Tobacco,0
+c060,2672,Rubber,0
+c061,2000,Fodder crops,623
+c062,2001,Grazing,316
+c063,2559,Cottonseed,2530
+c064,2562,Palm kernels,5140
+c065,2541,Sugar non-centrifugal,3510
+c066,2542,Sugar (Raw Equivalent),3500
+c067,2543,"Sweeteners, Other",3000
+c068,2571,Soyabean Oil,8840
+c069,2572,Groundnut Oil,8840
+c070,2573,Sunflowerseed Oil,8840
+c071,2574,Rape and Mustard Oil,8840
+c072,2575,Cottonseed Oil,8840
+c073,2576,Palmkernel Oil,8840
+c074,2577,Palm Oil,8840
+c075,2578,Coconut Oil,8840
+c076,2579,Sesameseed Oil,8840
+c077,2580,Olive Oil,8840
+c078,2581,Ricebran Oil,8840
+c079,2582,Maize Germ Oil,8840
+c080,2586,"Oilcrops Oil, Other",8840
+c081,2590,Soyabean Cake,2500
+c082,2591,Groundnut Cake,3500
+c083,2592,Sunflowerseed Cake,2130
+c084,2593,Rape and Mustard Cake,2500
+c085,2594,Cottonseed Cake,2000
+c086,2595,Palmkernel Cake,2200
+c087,2596,Copra Cake,4400
+c088,2597,Sesameseed Cake,3500
+c089,2598,"Oilseed Cakes, Other",1700
+c090,2655,Wine,680
+c091,2656,Beer,490
+c092,2657,"Beverages, Fermented",470
+c093,2658,"Beverages, Alcoholic",2950
+c094,2659,"Alcohol, Non-Food",6900
+c095,2661,Cotton lint,0
+c096,866,Cattle,1
+c097,946,Buffaloes,1
+c098,976,Sheep,1
+c099,1016,Goats,1
+c100,1034,Pigs,1
+c101,2029,Poultry Birds,1
+c102,1096,Horses,1
+c103,1107,Asses,1
+c104,1110,Mules,1
+c105,1126,Camels,1
+c106,1157,"Camelids, other",1
+c107,1140,Rabbits and hares,1
+c108,1150,"Rodents, other",1
+c109,2848,Milk - Excluding Butter,480
+c110,2740,"Butter, Ghee",7233
+c111,2744,Eggs,1390
+c112,2746,Wool (Clean Eq.),0
+c113,2731,Bovine Meat,1460
+c114,2732,Mutton & Goat Meat,2630
+c115,2733,Pigmeat,3260
+c116,2734,Poultry Meat,1850
+c117,2735,"Meat, Other",1260
+c118,2736,"Offals, Edible",1050
+c119,2737,"Fats, Animals, Raw",9020
+c120,2748,Hides and skins,0
+c121,2745,Honey,2980
+c122,2747,Silk,0
+c123,2960,"Fish, Seafood",640
