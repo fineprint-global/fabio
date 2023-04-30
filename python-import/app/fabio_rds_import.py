@@ -10,30 +10,36 @@ Detailed information on the construction of the database can be found in
 Bruckner et al (2018): www.doi.org/10.1021/acs.est.9b03554. Please refer to
 this paper when citing FABIO.
 """
-
 import numpy as np
 import pandas as pd
 from scipy import sparse
 from rpy2  import robjects
-        
-# =============================================================================
-# Read FABIO v2 database
-# =============================================================================
-        
-class read():
-    """Read/import FABIO v2 database.
-    
-    Parameters
-    ----------
-    path : STR, optional
-        File path to the FABIO v2 database.
-        The default is "data/fabio_v2/fabio_v2_csv".
-    year : INT, optional
-        Year of the FABIO database. The default is 2013.
 
-    Returns
+
+class read():
+    """
+    Attributes
+    ----------
+    path: File path to the database.
+    year: Year of the database.
+    version: Version of the database.
+    readRDS: readRDS object from the robjects package.
+    items: Product names, codes, and other information.
+    regions: Region and region codes codes.
+    io_codes: Combined product and region codes.
+    su_codes: Combined process and region codes.
+    start_year: Fist available year of the database.
+    end_year: Final available year of database.
+
+    Methods
     -------
-    None.
+    E(): Returns pd.DataFrame with satellite accounts.
+    X(): Returns pd.Series with total product output.
+    Y(): Returns pd.DataFrame with final demand consumption.
+    L(version): Returns pd.DataFrame with the Leontief matrix, if available.
+                Version refers to the suffix used for the file name.
+    Z(version): Returns pd.DataFrame with the transaction matrix.
+                Version refers to the suffix used for the file name.
 
     """
 
