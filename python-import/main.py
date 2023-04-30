@@ -39,46 +39,29 @@ if True:
     
     fabio_filepath = "C:/Users/Jonas/tubCloud/Projekte/FABIO/data/fabio_v2/fabio_v2/" # Default (can be changed)
     fabio_year = "2013" # Default (can be changed)
+    fabio_version = 1.1
 
-    fabio_items = fabio.read(
+    fabio_reader = fabio.read(
         path = fabio_filepath,
         year = fabio_year,
-        ).items
+        version = fabio_version
+    )
+
+    fabio_items = fabio_reader.items()
     
-    fabio_regions = fabio.read(
-        path = fabio_filepath,
-        year = fabio_year,
-        ).regions
+    fabio_regions = fabio_reader.regions
     
-    fabio_io_codes = fabio.read(
-        path = fabio_filepath,
-        year = fabio_year,
-        ).io_codes
+    fabio_io_codes = fabio_reader.io_codes
     
-    fabio_E = fabio.read(
-        path = fabio_filepath,
-        year = fabio_year,
-        ).E() 
+    fabio_E = fabio_reader.E() 
     
-    fabio_X = fabio.read(
-        path = fabio_filepath,
-        year = fabio_year,
-        ).X()
+    fabio_X = fabio_reader.X()
     
-    fabio_Y = fabio.read(
-        path = fabio_filepath,
-        year = fabio_year,
-        ).Y() 
+    fabio_Y = fabio_reader.Y() 
     
-    fabio_Z_value = fabio.read(
-        path = fabio_filepath,
-        year = fabio_year,
-        ).Z_value() 
+    fabio_Z_value = fabio_reader.Z_value(version="value") 
     
-    fabio_Z_mass = fabio.read(
-        path = fabio_filepath,
-        year = fabio_year,
-        ).Z_mass() 
+    fabio_Z_mass = fabio_reader.Z_mass(version="mass") 
     
 # %% Some checks
 
