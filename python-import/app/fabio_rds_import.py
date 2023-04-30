@@ -139,37 +139,34 @@ class read():
     
     def X(self):
         """
-        Import x (???).
+        Import x (total product output vector).
 
         Returns
         -------
-        df : pd.DataFrame()
-            Pandas dataframe containing the total output (transactions +
-            final demand). 
+        df : pd.Series()
+            Pandas series containing the total product output (transactions +
+            final demand).
 
         """
         print("Reading X ...")
-        
-        readRDS = robjects.r['readRDS']
-        
-        rds_file = readRDS(f"{self.path}/X.rds")
-        
+
+        rds_file = self.readRDS(f"{self.path}/X.rds")
+
         df = pd.DataFrame(np.array(rds_file))
-        
-        # Year 1986 to 2013 as columns
-        df.columns = list(range(1986,2013+1))
-        
+
+        df.columns = list(range(self.start_year, self.end_year+1))
+
         # Select only one year
-        df = df.loc[:,int(self.year)]
-        
+        df = df.loc[:, int(self.year)]
+
         # Turn colname into string
         df.columns = [str(self.year)]
-        
+
         # Add MultiIndex
         df.index = pd.MultiIndex.from_frame(
             self.io_codes
-            )
-        
+        )
+
         return df
     
     def Y(self):
