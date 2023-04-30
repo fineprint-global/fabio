@@ -290,9 +290,14 @@ class read():
 
         return df
 
-    def Z_value(self):
+    def Z(self, version=None):
         """
-        Import transactions matrix.
+        Import Z (transactions matrix).
+
+        Parameters
+        ----------
+        version : STR, optional
+            Wheter to use mass, value, or calorie (no_suffix) version.
 
         Returns
         -------
@@ -300,96 +305,42 @@ class read():
             Pandas dataframe containing the transaction matrix.
 
         """
-        print("Reading Z_value ...")
-        
-        readRDS = robjects.r['readRDS']
-        
-        rds_file = readRDS(f"{self.path}/Z_value.rds")
-        
+        print("Reading Z...")
+
+        if version:
+            rds_file = self.readRDS(f"{self.path}/Z_{version}.rds")
+        else:
+            rds_file = self.readRDS(f"{self.path}/Z.rds")
+
         # Select year (string, not int)
         rds_year = rds_file.rx2(f"{self.year}")
-        
+
         # Sparse matrix specs
-        data    = rds_year.do_slot('x')   # in R: x@x
-        indices = rds_year.do_slot('i')   # in R: x@i
-        indptr  = rds_year.do_slot('p')   # in R: x@p
-        shape   = rds_year.do_slot('Dim') # in R: x@Dim or dim(x)
-        
+        data = rds_year.do_slot('x')  # in R: x@x
+        indices = rds_year.do_slot('i')  # in R: x@i
+        indptr = rds_year.do_slot('p')  # in R: x@p
+        shape = rds_year.do_slot('Dim')  # in R: x@Dim or dim(x)
+
         # Turn into matrix
         rds_year_matrix = sparse.csc_matrix(
             (data, indices, indptr),
             tuple(shape)
-            )
-        
+        )
+
         # Turn into array
         data_array = sparse.csc_matrix.toarray(rds_year_matrix)
-        
+
         # Turn into pd.DataFrame
-        
         df = pd.DataFrame(data_array)
-        
-        # Add MultiIndex (columns)
-        df = df.T
-        df.index = pd.MultiIndex.from_frame(
-            self.io_codes
-            )
-        df = df.T
-        
+
         # Add MultiIndex (rows)
         df.index = pd.MultiIndex.from_frame(
             self.io_codes
-            )
-        
-        return df
-        
-    def Z_mass(self):
-        """
-        Import transactions matrix.
+        )
 
-        Returns
-        -------
-        df : pd.DataFrame()
-            Pandas dataframe containing the transaction matrix.
-
-        """
-        print("Reading Z_mass ...")
-        
-        readRDS = robjects.r['readRDS']
-        
-        rds_file = readRDS(f"{self.path}/Z_mass.rds")
-        
-        # Select year (string, not int)
-        rds_year = rds_file.rx2(f"{self.year}")
-        
-        # Sparse matrix specs
-        data    = rds_year.do_slot('x')   # in R: x@x
-        indices = rds_year.do_slot('i')   # in R: x@i
-        indptr  = rds_year.do_slot('p')   # in R: x@p
-        shape   = rds_year.do_slot('Dim') # in R: x@Dim or dim(x)
-        
-        # Turn into matrix
-        rds_year_matrix = sparse.csc_matrix(
-            (data, indices, indptr),
-            tuple(shape)
-            )
-        
-        # Turn into array
-        data_array = sparse.csc_matrix.toarray(rds_year_matrix)
-        
-        # Turn into pd.DataFrame
-        
-        df = pd.DataFrame(data_array)
-        
         # Add MultiIndex (columns)
-        df = df.T
-        df.index = pd.MultiIndex.from_frame(
+        df.columns = pd.MultiIndex.from_frame(
             self.io_codes
-            )
-        df = df.T
-        
-        # Add MultiIndex (rows)
-        df.index = pd.MultiIndex.from_frame(
-            self.io_codes
-            )
-        
+        )
+
         return df
