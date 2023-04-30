@@ -111,6 +111,7 @@ class read():
     def E(self):
         """
         Import E (satellite accounts).
+        Only works for some satellite acounts due to difference in file format.
 
         Returns
         -------
@@ -119,11 +120,9 @@ class read():
 
         """
         print("Reading E ...")
-        
-        readRDS = robjects.r['readRDS']
-        
+
         # Read RDS file
-        rds_file = readRDS(f"{self.path}/E.rds")
+        rds_file = self.readRDS(f"{self.path}/E.rds")
 
         # Extract year
         rds_file_year = rds_file[rds_file.names.index(f"{self.year}")]
@@ -131,11 +130,11 @@ class read():
         # Create index from dict
         df = pd.DataFrame.from_dict(
             {
-                key : np.asarray(rds_file_year.rx2(key))
+                key: np.asarray(rds_file_year.rx2(key))
                 for key in rds_file_year.names
-                }
-            )
-        
+            }
+        )
+
         return df
     
     def X(self):
