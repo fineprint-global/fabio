@@ -237,7 +237,59 @@ class read():
         )
 
         return df
-    
+
+    def L(self, version=None):
+        """
+        Import L (Leontief inverse matrix).
+
+        Parameters
+        ----------
+        version : STR, optional
+            Wheter to use mass, value, or calorie (no_suffix) version.
+
+        Returns
+        -------
+        df: pd.DataFrame()
+            Pandas dataframe containing the Leontief inverse matrix.
+        """
+        print("Reading L")
+
+        # Select file
+        if version:
+            rds_file = self.readRDS(f"{self.path}/{self.year}_L_{version}.rds")
+        else:
+            rds_file = self.readRDS(f"{self.path}/{self.year}_L.rds")
+
+        # Sparse matrix specs
+        data = rds_file.do_slot('x')  # in R: x@x
+        indices = rds_file.do_slot('i')  # in R: x@i
+        indptr = rds_file.do_slot('p')  # in R: x@p
+        shape = rds_file.do_slot('Dim')  # in R: x@Dim or dim(x)
+
+        # Turn into matrix
+        rds_year_matrix = sparse.csc_matrix(
+            (data, indices, indptr),
+            tuple(shape)
+        )
+
+        # Turn into array
+        data_array = sparse.csc_matrix.toarray(rds_year_matrix)
+
+        # Turn into pd.DataFrame
+        df = pd.DataFrame(data_array)
+
+        # Add MultiIndex (rows)
+        df.index = pd.MultiIndex.from_frame(
+            self.io_codes
+        )
+
+        # Add MultiIndex (columns)
+        df.columns = pd.MultiIndex.from_frame(
+            self.io_codes
+        )
+
+        return df
+
     def Z_value(self):
         """
         Import transactions matrix.
