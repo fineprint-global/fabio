@@ -44,56 +44,69 @@ class read():
     """
 
     def __init__(
-        self,
-        path = "data/",
-        year = 2013
-        ):
-        """Init.
-        
+            self,
+            path="data/",
+            year=2013,
+            version=1.1,
+            ):
+        """Read/import FABIO
         Parameters
         ----------
         path : STR, optional
-            File path to the FABIO v2 database.
-            The default is "data/fabio_v2/fabio_v2/".
+            File path to the FABIO database.
         year : INT, optional
-            Year of the FABIO database. The default is 2013.
+            Year of the FABIO database.
+        version : INT, FLOAT, optional
+            FABIO version.
 
         Returns
         -------
         None.
-
         """
         self.path = path
         self.year = year
-        
+        self.version = version
+
         print(f"{10*'='} Class `read()` {10*'='}")
         print(f"FABIO year {self.year}")
         print(f"FABIO path {self.path}")
-        
+
+        self.readRDS = robjects.r['readRDS']
+
         # Items
-        # 125 items
-        read.items = pd.read_csv(
+        self.items = pd.read_csv(
             f"{self.path}/items.csv"
-            )
-        
+        )
+
         # Regions
-        # 192 regions
-        read.regions = pd.read_csv(
+        self.regions = pd.read_csv(
             f"{self.path}/regions.csv",
-            encoding = "ISO-8859-1"
-            )
-        
+            encoding="ISO-8859-1"
+        )
+
+        # TODO: IO-codes and SU-codes should be created from the
+        # TODO: ... the items and regions datasets.
+        # TODO: ... Group category is missing from the items.csv.
         # IO-codes
         # 192 regions * 125 items = 24000 codes
-        read.io_codes = pd.read_csv(
+        self.io_codes = pd.read_csv(
             f"{self.path}/io_codes.csv"
-            )
-        
+        )
+
         # SU-codes
         # 192 regions * 118 x = 22656 ???
-        read.su_codes = pd.read_csv(
+        self.su_codes = pd.read_csv(
             f"{self.path}/su_codes.csv"
-            )
+        )
+
+        # Version specific parameters
+        if self.version == 1.1:
+            self.start_year = 1986
+            self.end_year = 2013
+
+        elif self.version == 1.2:
+            self.start_year = 1986
+            self.end_year = 2020
         
     def E(self):
         """
