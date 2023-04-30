@@ -180,63 +180,62 @@ class read():
 
         """
         print("Reading Y ... ")
-        
-        readRDS = robjects.r['readRDS']
-        
-        rds_file = readRDS(f"{self.path}/Y.rds")
-        
+
+        rds_file = self.readRDS(f"{self.path}/Y.rds")
+
         # Select year (string, not int)
         rds_year = rds_file.rx2(f"{self.year}")
-        
+
         # Sparse matrix specs
-        data    = rds_year.do_slot('x')   # in R: x@x
-        indices = rds_year.do_slot('i')   # in R: x@i
-        indptr  = rds_year.do_slot('p')   # in R: x@p
-        shape   = rds_year.do_slot('Dim') # in R: x@Dim or dim(x)
-        
+        data = rds_year.do_slot('x')  # in R: x@x
+        indices = rds_year.do_slot('i')  # in R: x@i
+        indptr = rds_year.do_slot('p')  # in R: x@p
+        shape = rds_year.do_slot('Dim')  # in R: x@Dim or dim(x)
+        dimnames = rds_year.do_slot('Dimnames')
+
         # Turn into amtrix
         rds_year_matrix = sparse.csc_matrix(
             (data, indices, indptr),
             tuple(shape)
-            )
-        
+        )
+
         # Turn into array
         data_array = sparse.csc_matrix.toarray(rds_year_matrix)
-        
-        # Turn to Pandas 
+
+        # Turn to Pandas
         df = pd.DataFrame(data_array)
-        
-        # Add column index
-        df = df.T
-        
-        col_index = self.regions
-        col_index = ( # Repeat index n-times
-            col_index.loc[col_index.index.repeat(6)].reset_index(drop=True)
-            )
-        col_index["final demand"] = (
-            self.regions.shape[0] # 192 regions
-            * [
-                "balancing",
-                "food",
-                "losses",
-                "other",
-                "stock addition",
-                "unspecific"
-                ]
-            )
-        
-        # Add MultiIndex (columns)
-        df.index = pd.MultiIndex.from_frame(
-            col_index
-            )
-        
-        df = df.T
-        
+
         # Add MultiIndex (rows)
         df.index = pd.MultiIndex.from_frame(
             self.io_codes
-            )
-        
+        )
+
+        # Add MultiIndex (columns)
+        region_index = self.regions
+
+        self.final_demand_categories = (
+            pd.Series(list(dimnames[1]))
+            .str.split("_", n=1, expand=True)
+            .rename({
+                0: "area_code",
+                1: "final demand"
+            }, axis=1)
+        )
+        self.final_demand_categories["area_code"] = (
+            self.final_demand_categories["area_code"].astype("int64")
+        )
+
+        col_index = pd.merge(
+            region_index,
+            self.final_demand_categories,
+            on="area_code",
+            how="outer"
+        )
+
+        df.columns = pd.MultiIndex.from_frame(
+            col_index
+        )
+
         return df
     
     def Z_value(self):
