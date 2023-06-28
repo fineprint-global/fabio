@@ -36,8 +36,26 @@ import pandas as pd
 
 if True:
 
-    fabio_filepath = "/data/fabio_v2/fabio_v2/"  # Default (can be changed)
+    fabio_filepath = "C:/Users/JB/Downloads/"  # Default (can be changed)
     fabio_year = "2013"  # Default (can be changed)
+
+    """
+
+    Save the following files in the folder `fabio_filepath`:
+
+        - `items.csv`
+        - `regions.csv`
+        - `io_codes.csv`
+
+        - `E.rds`
+        - `X.rds`
+        - `Y.rds`
+        - `Z_value.csv`
+        - `Z_mass.csv`
+
+    See: https://doi.org/10.5281/zenodo.2577066
+
+    """
 
     fabio_items = fabio.read(
         path=fabio_filepath,
