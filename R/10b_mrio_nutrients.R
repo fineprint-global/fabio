@@ -16,11 +16,11 @@ trans_e <- mclapply(sup_e, function(x) {
   out[!is.finite(out)] <- 0 # See Issue #75
   #return(as(out, "Matrix"))
   return(out)
-}, mc.cores = 6)
+}, mc.cores = 10)
 
 Z_e <- mcmapply(function(x, y) {
   x %*% y
-}, x = use_e, y = trans_e, mc.cores = 6)
+}, x = use_e, y = trans_e, mc.cores = 10)
 
 
 

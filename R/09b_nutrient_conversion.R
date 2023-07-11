@@ -15,17 +15,17 @@ io_codes$calorific <- coeff$kcal_per_kg[match(io_codes$item_code, coeff$item_cod
 sup_e <- mclapply(sup, function(x) {
   out <- t(t(x) * io_codes$calorific)
   return(out)
-}, mc.cores = 6)
+}, mc.cores = 10)
 
 use_e <- mclapply(use, function(x) {
   out <- x * io_codes$calorific
   return(out)
-}, mc.cores = 6)
+}, mc.cores = 10)
 
 Y_e <- mclapply(Y, function(x) {
   out <- x * io_codes$calorific
   return(out)
-}, mc.cores = 6)
+}, mc.cores = 10)
 
 
 # Store converted variables

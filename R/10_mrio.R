@@ -17,11 +17,11 @@ trans_m <- mclapply(mr_sup_m, function(x) {
   out[!is.finite(out)] <- 0 # See Issue #75
   #return(as(out, "Matrix"))
   return(out)
-}, mc.cores = 6)
+}, mc.cores = 10)
 
 Z_m <- mcmapply(function(x, y) {
   x %*% y
-}, x = mr_use, y = trans_m, mc.cores = 6)
+}, x = mr_use, y = trans_m, mc.cores = 10)
 
 Z_m <- lapply(Z_m, round)
 
@@ -34,11 +34,11 @@ trans_v <- mclapply(mr_sup_v, function(x) {
   out[!is.finite(out)] <- 0 # See Issue #75
   #return(as(out, "Matrix"))
   return(out)
-}, mc.cores = 6)
+}, mc.cores = 10)
 
 Z_v <- mcmapply(function(x, y) {
   x %*% y
-}, x = mr_use, y = trans_v, mc.cores = 6)
+}, x = mr_use, y = trans_v, mc.cores = 10)
 
 Z_v <- lapply(Z_v, round)
 

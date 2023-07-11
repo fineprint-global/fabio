@@ -453,15 +453,14 @@ if (run_optim){
   output[is.na(production), production := 0]
 
   # Optimise allocation -----
-  # This takes a very long time! Six cores are working in parallel for ~20 hours.
-  #results <- lapply(sort(unique(input$area_code)), function(x) {
-  results <- mclapply(sort(unique(input$area_code))[166:167], function(x) {
+  # results <- lapply(sort(unique(input$area_code)), function(x) {  # This takes ~20 hours.
+  results <- mclapply(sort(unique(input$area_code)), function(x) {  # This takes ~1.5 hours.
    # Per area
     inp_x <- input[area_code == x, ]
     out_x <- output[area_code == x, ]
     tcf_x <- opt_tcf[area_code == x, ]
     wt_x <- weight_out[area_code == x, ]
-    res <- lapply(sort(unique(input$year))[1], function(y) {
+    res <- lapply(sort(unique(input$year)), function(y) {
       # Per year
       inp_xy <- inp_x[year == y, ]
       out_xy <- out_x[year == y, ]

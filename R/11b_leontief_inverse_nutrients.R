@@ -19,7 +19,7 @@ prep_solve <- function(year, Z, X,
 
   if(adj_A) {A[A < 0] <- 0}
 
-  if(adj_diag) {diag(A)[diag(A) == 1] <- 1 - 1e-10}
+  if(adj_diag) {diag(A)[diag(A) >= 1] <- 1 - 1e-10}
 
   L <- .sparseDiagonal(nrow(A)) - A
 
@@ -37,8 +37,8 @@ prep_solve <- function(year, Z, X,
 
 
 years <- seq(1986, 2020)
-years_singular <- c(1990, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2006, 2007, 2011) # 2013 #c(1994,2002,2009)
-# years_singular_losses <- c(1990, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2006, 2007, 2010, 2011, 2019) #  c(2013,2019) #c(1990,2010,2019) #c(1994,2002,2009)
+years_singular <- years #c(1987, 1990, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2006, 2007, 2011)
+# years_singular_losses <- c(1990, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2006, 2007, 2010, 2011, 2019)
 
 Z <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/cal/Z.rds")
 Y <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/cal/Y.rds")
@@ -48,15 +48,24 @@ X <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/cal/X.rds")
 #year <- 2020
 for(year in years){
 
-  print(year)
+  skip_to_next <- FALSE
 
-  adjust <- ifelse(year %in% years_singular, TRUE, FALSE)
+  tryCatch({
 
-  L <- prep_solve(year = year, Z = Z[[as.character(year)]],
+    adjust <- ifelse(year %in% years_singular, TRUE, FALSE)
+
+    L <- prep_solve(year = year, Z = Z[[as.character(year)]],
                   X = X[, as.character(year)], adj_diag = adjust) #, adj_X = adjust)
-  L[L<0] <- 0
-  saveRDS(L, paste0("/mnt/nfs_fineprint/tmp/fabio/v1.2/cal/", year, "_L.rds"))
 
+    L[L<0] <- 0
+
+    saveRDS(L, paste0("/mnt/nfs_fineprint/tmp/fabio/v1.2/cal/", year, "_L.rds"))
+
+  }, error=function(e){skip_to_next <<- TRUE})
+
+  if(!skip_to_next){
+    cat(paste0("Sucessfully inverted matrix for ",year,".\n"))
+  } else { next }
 }
 
 

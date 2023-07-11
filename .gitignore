@@ -9,3 +9,6 @@ R/exp/
 R/exp_pure/
 mess.R
 *.pyc
+R/v1.2_check.R
+BCP/
+*.csv

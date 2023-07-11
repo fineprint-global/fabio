@@ -52,7 +52,7 @@ mr_sup_mass <- mclapply(years, function(x) {
 
   # Return a block-diagonal matrix with all countries for year x
   return(bdiag(matrices))
-}, mc.cores = 6)
+}, mc.cores = 10)
 
 # Convert to monetary values
 sup[!is.na(price) & is.finite(price), value := production * price]
@@ -82,7 +82,7 @@ mr_sup_value <- mclapply(years, function(x) {
 
   # Return a block-diagonal matrix with all countries for year x
   return(bdiag(matrices))
-}, mc.cores = 6)
+}, mc.cores = 10)
 
 names(mr_sup_mass) <- names(mr_sup_value) <- years
 
@@ -114,7 +114,7 @@ btd_cast <- mclapply(years, function(x, btd_x) {
                 dimnames = list(paste0(out$from_code, "-", out$comm_code),
                                 colnames(out)[c(-1, -2)])))
 
-}, btd_x = btd[, .(year, from_code, to_code, comm_code, value)], mc.cores = 6)
+}, btd_x = btd[, .(year, from_code, to_code, comm_code, value)], mc.cores = 10)
 
 names(btd_cast) <- years
 
@@ -141,7 +141,7 @@ supply_shares <- mclapply(btd_cast, function(x, agg, js) {
   }
 
   return(as(out, "Matrix"))
-}, agg = agg, js = js, mc.cores = 6)
+}, agg = agg, js = js, mc.cores = 10)
 
 
 # Use ---
@@ -164,7 +164,7 @@ use_cast <- mclapply(years, function(x, use_x) {
   return(Matrix(data.matrix(out[, c(-1)]), sparse = TRUE,
     dimnames = list(out$comm_code, colnames(out)[-1])))
 
-}, use_x = use[, .(year, area_code, proc_code, comm_code, use)], mc.cores = 6)
+}, use_x = use[, .(year, area_code, proc_code, comm_code, use)], mc.cores = 10)
 
 # Apply supply shares to the use matrix
 mr_use <- mcmapply(function(x, y) {
@@ -178,7 +178,7 @@ mr_use <- mcmapply(function(x, y) {
   }
 
   return(mr_x)
-}, use_cast, supply_shares, mc.cores = 6)
+}, use_cast, supply_shares, mc.cores = 10)
 
 names(mr_use) <- years
 saveRDS(mr_use, "/mnt/nfs_fineprint/tmp/fabio/v1.2/mr_use.rds")
@@ -219,7 +219,7 @@ mr_use_fd <- mcmapply(function(x, y) {
       mr_x[, seq(1 + (j - 1) * n_var, j * n_var)] * y[, j]
   }
   return(mr_x)
-}, use_fd_cast, supply_shares, mc.cores = 6)
+}, use_fd_cast, supply_shares, mc.cores = 10)
 
 mr_use_fd <- lapply(mr_use_fd, round)
 names(mr_use_fd) <- years
