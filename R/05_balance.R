@@ -92,9 +92,9 @@ for(i in seq_along(years)) {
   # Downscale export estimates in order not to exceed the total gap between reported exports and target values
   mapping[, val_est := ifelse(gap > 0, ifelse(gap < val_est_sum, val_est / val_est_sum * gap, val_est), NA)]
 
-  # Assign estimates to value column with a weight of 50%
+  # Assign estimates to value column with a weight of 10%
   mapping[, `:=`(
-    value = ifelse(is.na(value), ifelse(is.na(val_est), 0, val_est * 0.5), value),
+    value = ifelse(is.na(value), ifelse(is.na(val_est), 0, val_est * 0.1), value),
     val_est = NULL)]
 
 

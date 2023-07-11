@@ -26,8 +26,8 @@ btd[, `:=`(from = ifelse(imex == "Import", partner, reporter),
   reporter = NULL, reporter_code = NULL,
   partner = NULL, partner_code = NULL)]
 
-# Give preference to import flows over export flows
-btd <- flow_pref(btd, pref = "Import")
+# Give preference to reported export flows over import flows
+btd <- flow_pref(btd, pref = "Export")
 btd[, imex := NULL]
 
 # Exclude intra-regional trade flows
