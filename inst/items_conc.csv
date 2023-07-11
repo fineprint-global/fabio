@@ -1,126 +1,126 @@
-com_1.1,item,com_1.2
-c001,Rice (Milled Equivalent),c001
-c002,Wheat and products,c002
-c003,Barley and products,c003
-c004,Maize and products,c004
-c005,Rye and products,c005
-c006,Oats,c006
-c007,Millet and products,c007
-c008,Sorghum and products,c008
-c009,"Cereals, Other",c009
-c010,Potatoes and products,c010
-c011,Cassava and products,c011
-c012,Sweet potatoes,c012
-c013,"Roots, Other",c013
-c014,Yams,c014
-c015,Sugar cane,c015
-c016,Sugar beet,c016
-c017,Beans,c017
-c018,Peas,c018
-c019,"Pulses, Other and products",c019
-c020,Nuts and products,c020
-c021,Soyabeans,c021
-c022,Groundnuts (Shelled Eq),c022
-c023,Sunflower seed,c023
-c024,Rape and Mustardseed,c024
-c025,Seed cotton,c025
-c026,Coconuts - Incl Copra,c026
-c027,Sesame seed,c027
-c028,"Oil, palm fruit",c028
-c029,Olives (including preserved),c029
-c030,"Oilcrops, Other",c030
-c031,Tomatoes and products,c031
-c032,Onions,c032
-c033,"Vegetables, Other",c033
-c034,"Oranges, Mandarines",c034
-c035,"Lemons, Limes and products",c035
-c036,Grapefruit and products,c036
-c037,"Citrus, Other",c037
-c038,Bananas,c038
-c039,Plantains,c039
-c040,Apples and products,c040
-c041,Pineapples and products,c041
-c042,Dates,c042
-c043,Grapes and products (excl wine),c043
-c044,"Fruits, Other",c044
-c045,Coffee and products,c045
-c046,Cocoa Beans and products,c046
-c047,Tea (including mate),c047
-c048,Hops,c048
-c049,Pepper,c049
-c050,Pimento,c050
-c051,Cloves,c051
-c052,"Spices, Other",c052
-c053,Jute,c053
-c054,Jute-Like Fibres,c054
-c055,"Soft-Fibres, Other",c055
-c056,Sisal,c056
-c057,Abaca,c057
-c058,"Hard Fibres, Other",c058
-c059,Tobacco,c059
-c060,Rubber,c060
-c061,Fodder crops,c061
-c062,Grazing,c062
-c063,Cottonseed,c063
-c064,Palm kernels,c064
-c065,Sugar non-centrifugal,c065
-c066,Molasses,
-c067,"Sugar, Refined Equiv",c066
-c068,"Sweeteners, Other",c067
-c069,Soyabean Oil,c068
-c070,Groundnut Oil,c069
-c071,Sunflowerseed Oil,c070
-c072,Rape and Mustard Oil,c071
-c073,Cottonseed Oil,c072
-c074,Palmkernel Oil,c073
-c075,Palm Oil,c074
-c076,Coconut Oil,c075
-c077,Sesameseed Oil,c076
-c078,Olive Oil,c077
-c079,Ricebran Oil,c078
-c080,Maize Germ Oil,c079
-c081,"Oilcrops Oil, Other",c080
-c082,Soyabean Cake,c081
-c083,Groundnut Cake,c082
-c084,Sunflowerseed Cake,c083
-c085,Rape and Mustard Cake,c084
-c086,Cottonseed Cake,c085
-c087,Palmkernel Cake,c086
-c088,Copra Cake,c087
-c089,Sesameseed Cake,c088
-c090,"Oilseed Cakes, Other",c089
-c091,Wine,c090
-c092,Beer,c091
-c093,"Beverages, Fermented",c092
-c094,"Beverages, Alcoholic",c093
-c095,"Alcohol, Non-Food",c094
-c096,Cotton lint,c095
-c097,Cattle,c096
-c098,Buffaloes,c097
-c099,Sheep,c098
-c100,Goats,c099
-c101,Pigs,c100
-c102,Poultry Birds,c101
-c103,Horses,c102
-c104,Asses,c103
-c105,Mules,c104
-c106,Camels,c105
-c107,"Camelids, other",c106
-c108,Rabbits and hares,c107
-c109,"Rodents, other",c108
-c110,Milk - Excluding Butter,c109
-c111,"Butter, Ghee",c110
-c112,Eggs,c111
-c113,Wool (Clean Eq.),c112
-c114,Bovine Meat,c113
-c115,Mutton & Goat Meat,c114
-c116,Pigmeat,c115
-c117,Poultry Meat,c116
-c118,"Meat, Other",c117
-c119,"Offals, Edible",c118
-c120,"Fats, Animals, Raw",c119
-c121,Hides and skins,c120
-c122,Meat Meal,
-c123,Honey,c121
-c124,Silk,c122
-c125,"Fish, Seafood",c123
+"","com_1.1","item_code_1.1","item_1.1","com_1.2","item_code_1.2","item_1.2"
+"1","c001",2805,"Rice (Milled Equivalent)","c001",2807,"Rice and products"
+"2","c002",2511,"Wheat and products","c002",2511,"Wheat and products"
+"3","c003",2513,"Barley and products","c003",2513,"Barley and products"
+"4","c004",2514,"Maize and products","c004",2514,"Maize and products"
+"5","c005",2515,"Rye and products","c005",2515,"Rye and products"
+"6","c006",2516,"Oats","c006",2516,"Oats"
+"7","c007",2517,"Millet and products","c007",2517,"Millet and products"
+"8","c008",2518,"Sorghum and products","c008",2518,"Sorghum and products"
+"9","c009",2520,"Cereals, Other","c009",2520,"Cereals, Other"
+"10","c010",2531,"Potatoes and products","c010",2531,"Potatoes and products"
+"11","c011",2532,"Cassava and products","c011",2532,"Cassava and products"
+"12","c012",2533,"Sweet potatoes","c012",2533,"Sweet potatoes"
+"13","c013",2534,"Roots, Other","c013",2534,"Roots, Other"
+"14","c014",2535,"Yams","c014",2535,"Yams"
+"15","c015",2536,"Sugar cane","c015",2536,"Sugar cane"
+"16","c016",2537,"Sugar beet","c016",2537,"Sugar beet"
+"17","c017",2546,"Beans","c017",2546,"Beans"
+"18","c018",2547,"Peas","c018",2547,"Peas"
+"19","c019",2549,"Pulses, Other and products","c019",2549,"Pulses, Other and products"
+"20","c020",2551,"Nuts and products","c020",2551,"Nuts and products"
+"21","c021",2555,"Soyabeans","c021",2555,"Soyabeans"
+"22","c022",2556,"Groundnuts (Shelled Eq)","c022",2552,"Groundnuts"
+"23","c023",2557,"Sunflower seed","c023",2557,"Sunflower seed"
+"24","c024",2558,"Rape and Mustardseed","c024",2558,"Rape and Mustardseed"
+"25","c025",328,"Seed cotton","c025",328,"Seed cotton"
+"26","c026",2560,"Coconuts - Incl Copra","c026",2560,"Coconuts - Incl Copra"
+"27","c027",2561,"Sesame seed","c027",2561,"Sesame seed"
+"28","c028",254,"Oil, palm fruit","c028",254,"Oil, palm fruit"
+"29","c029",2563,"Olives (including preserved)","c029",2563,"Olives (including preserved)"
+"30","c030",2570,"Oilcrops, Other","c030",2570,"Oilcrops, Other"
+"31","c031",2601,"Tomatoes and products","c031",2601,"Tomatoes and products"
+"32","c032",2602,"Onions","c032",2602,"Onions"
+"33","c033",2605,"Vegetables, Other","c033",2605,"Vegetables, Other"
+"34","c034",2611,"Oranges, Mandarines","c034",2611,"Oranges, Mandarines"
+"35","c035",2612,"Lemons, Limes and products","c035",2612,"Lemons, Limes and products"
+"36","c036",2613,"Grapefruit and products","c036",2613,"Grapefruit and products"
+"37","c037",2614,"Citrus, Other","c037",2614,"Citrus, Other"
+"38","c038",2615,"Bananas","c038",2615,"Bananas"
+"39","c039",2616,"Plantains","c039",2616,"Plantains"
+"40","c040",2617,"Apples and products","c040",2617,"Apples and products"
+"41","c041",2618,"Pineapples and products","c041",2618,"Pineapples and products"
+"42","c042",2619,"Dates","c042",2619,"Dates"
+"43","c043",2620,"Grapes and products (excl wine)","c043",2620,"Grapes and products (excl wine)"
+"44","c044",2625,"Fruits, Other","c044",2625,"Fruits, Other"
+"45","c045",2630,"Coffee and products","c045",2630,"Coffee and products"
+"46","c046",2633,"Cocoa Beans and products","c046",2633,"Cocoa Beans and products"
+"47","c047",2635,"Tea (including mate)","c047",2635,"Tea (including mate)"
+"48","c048",677,"Hops","c048",677,"Hops"
+"49","c049",2640,"Pepper","c049",2640,"Pepper"
+"50","c050",2641,"Pimento","c050",2641,"Pimento"
+"51","c051",2642,"Cloves","c051",2642,"Cloves"
+"52","c052",2645,"Spices, Other","c052",2645,"Spices, Other"
+"53","c053",2662,"Jute","c053",2662,"Jute"
+"54","c054",2663,"Jute-Like Fibres","c054",2663,"Jute-Like Fibres"
+"55","c055",2664,"Soft-Fibres, Other","c055",2664,"Soft-Fibres, Other"
+"56","c056",2665,"Sisal","c056",2665,"Sisal"
+"57","c057",2666,"Abaca","c057",2666,"Abaca"
+"58","c058",2667,"Hard Fibres, Other","c058",2667,"Hard Fibres, Other"
+"59","c059",2671,"Tobacco","c059",2671,"Tobacco"
+"60","c060",2672,"Rubber","c060",2672,"Rubber"
+"61","c061",2000,"Fodder crops","c061",2000,"Fodder crops"
+"62","c062",2001,"Grazing","c062",2001,"Grazing"
+"63","c063",2559,"Cottonseed","c063",2559,"Cottonseed"
+"64","c064",2562,"Palm kernels","c064",2562,"Palm kernels"
+"65","c065",2541,"Sugar non-centrifugal","c065",2541,"Sugar non-centrifugal"
+"66","c066",2544,"Molasses",NA,NA,NA
+"67","c067",2818,"Sugar, Refined Equiv","c066",2542,"Sugar (Raw Equivalent)"
+"68","c068",2543,"Sweeteners, Other","c067",2543,"Sweeteners, Other"
+"69","c069",2571,"Soyabean Oil","c068",2571,"Soyabean Oil"
+"70","c070",2572,"Groundnut Oil","c069",2572,"Groundnut Oil"
+"71","c071",2573,"Sunflowerseed Oil","c070",2573,"Sunflowerseed Oil"
+"72","c072",2574,"Rape and Mustard Oil","c071",2574,"Rape and Mustard Oil"
+"73","c073",2575,"Cottonseed Oil","c072",2575,"Cottonseed Oil"
+"74","c074",2576,"Palmkernel Oil","c073",2576,"Palmkernel Oil"
+"75","c075",2577,"Palm Oil","c074",2577,"Palm Oil"
+"76","c076",2578,"Coconut Oil","c075",2578,"Coconut Oil"
+"77","c077",2579,"Sesameseed Oil","c076",2579,"Sesameseed Oil"
+"78","c078",2580,"Olive Oil","c077",2580,"Olive Oil"
+"79","c079",2581,"Ricebran Oil","c078",2581,"Ricebran Oil"
+"80","c080",2582,"Maize Germ Oil","c079",2582,"Maize Germ Oil"
+"81","c081",2586,"Oilcrops Oil, Other","c080",2586,"Oilcrops Oil, Other"
+"82","c082",2590,"Soyabean Cake","c081",2590,"Soyabean Cake"
+"83","c083",2591,"Groundnut Cake","c082",2591,"Groundnut Cake"
+"84","c084",2592,"Sunflowerseed Cake","c083",2592,"Sunflowerseed Cake"
+"85","c085",2593,"Rape and Mustard Cake","c084",2593,"Rape and Mustard Cake"
+"86","c086",2594,"Cottonseed Cake","c085",2594,"Cottonseed Cake"
+"87","c087",2595,"Palmkernel Cake","c086",2595,"Palmkernel Cake"
+"88","c088",2596,"Copra Cake","c087",2596,"Copra Cake"
+"89","c089",2597,"Sesameseed Cake","c088",2597,"Sesameseed Cake"
+"90","c090",2598,"Oilseed Cakes, Other","c089",2598,"Oilseed Cakes, Other"
+"91","c091",2655,"Wine","c090",2655,"Wine"
+"92","c092",2656,"Beer","c091",2656,"Beer"
+"93","c093",2657,"Beverages, Fermented","c092",2657,"Beverages, Fermented"
+"94","c094",2658,"Beverages, Alcoholic","c093",2658,"Beverages, Alcoholic"
+"95","c095",2659,"Alcohol, Non-Food","c094",2659,"Alcohol, Non-Food"
+"96","c096",2661,"Cotton lint","c095",2661,"Cotton lint"
+"97","c097",866,"Cattle","c096",866,"Cattle"
+"98","c098",946,"Buffaloes","c097",946,"Buffaloes"
+"99","c099",976,"Sheep","c098",976,"Sheep"
+"100","c100",1016,"Goats","c099",1016,"Goats"
+"101","c101",1034,"Pigs","c100",1034,"Pigs"
+"102","c102",2029,"Poultry Birds","c101",2029,"Poultry Birds"
+"103","c103",1096,"Horses","c102",1096,"Horses"
+"104","c104",1107,"Asses","c103",1107,"Asses"
+"105","c105",1110,"Mules","c104",1110,"Mules"
+"106","c106",1126,"Camels","c105",1126,"Camels"
+"107","c107",1157,"Camelids, other","c106",1157,"Camelids, other"
+"108","c108",1140,"Rabbits and hares","c107",1140,"Rabbits and hares"
+"109","c109",1150,"Rodents, other","c108",1150,"Rodents, other"
+"110","c110",2848,"Milk - Excluding Butter","c109",2848,"Milk - Excluding Butter"
+"111","c111",2740,"Butter, Ghee","c110",2740,"Butter, Ghee"
+"112","c112",2744,"Eggs","c111",2744,"Eggs"
+"113","c113",2746,"Wool (Clean Eq.)","c112",2746,"Wool (Clean Eq.)"
+"114","c114",2731,"Bovine Meat","c113",2731,"Bovine Meat"
+"115","c115",2732,"Mutton & Goat Meat","c114",2732,"Mutton & Goat Meat"
+"116","c116",2733,"Pigmeat","c115",2733,"Pigmeat"
+"117","c117",2734,"Poultry Meat","c116",2734,"Poultry Meat"
+"118","c118",2735,"Meat, Other","c117",2735,"Meat, Other"
+"119","c119",2736,"Offals, Edible","c118",2736,"Offals, Edible"
+"120","c120",2737,"Fats, Animals, Raw","c119",2737,"Fats, Animals, Raw"
+"121","c121",2748,"Hides and skins","c120",2748,"Hides and skins"
+"122","c122",2749,"Meat Meal",NA,NA,NA
+"123","c123",2745,"Honey","c121",2745,"Honey"
+"124","c124",2747,"Silk","c122",2747,"Silk"
+"125","c125",2960,"Fish, Seafood","c123",2960,"Fish, Seafood"
