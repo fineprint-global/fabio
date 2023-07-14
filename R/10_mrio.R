@@ -5,9 +5,9 @@ library(data.table)
 
 # MRIO Table ---
 
-mr_sup_m <- readRDS("data/mr_sup_mass.rds")
-mr_sup_v <- readRDS("data/mr_sup_value.rds")
-mr_use <- readRDS("data/mr_use.rds")
+mr_sup_m <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/mr_sup_mass.rds")
+mr_sup_v <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/mr_sup_value.rds")
+mr_use <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/mr_use.rds")
 
 # Mass
 trans_m <- mclapply(mr_sup_m, function(x) {

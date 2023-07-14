@@ -20,7 +20,6 @@ Y_new <- Y
 # correct food and other use of veg. oils for China
 i = 1
 for(i in seq_along(Y)){
-  print(years[i])
   if(as.numeric(years[i]) < 2013){
     data <- merge(io, oil[year==2013, .(comm_code, food_share)], by = "comm_code", all.x = TRUE, sort = FALSE)
   } else {
@@ -30,6 +29,8 @@ for(i in seq_along(Y)){
   # data[, food_share_fao := `41_food` / (`41_food` + `41_other`)]
   data[, `:=`(food = round((`41_food` + `41_other`) * food_share),
               other = round((`41_food` + `41_other`) * (1-food_share)))]
+  data[, `:=`(food = ifelse(is.na(food), 0, food),
+              other = ifelse(is.na(other), 0, other))]
   Y_new[[i]][, fd$area_code==41 & fd$fd=="food"] <- data$food
   Y_new[[i]][, fd$area_code==41 & fd$fd=="other"] <- data$other
 }
