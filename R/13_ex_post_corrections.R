@@ -48,3 +48,8 @@ for(i in seq_along(Y)){
 }
 
 saveRDS(Y_new, "/mnt/nfs_fineprint/tmp/fabio/v1.2/Y.rds")
+
+for(i in seq_along(Y_new)){
+  Y_new[[i]][, grepl("losses", colnames(Y_new[[i]]))] <- 0
+}
+saveRDS(Y_new, "/mnt/nfs_fineprint/tmp/fabio/v1.2/losses/Y.rds")

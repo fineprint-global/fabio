@@ -1,6 +1,5 @@
-library("data.table")
-library("Matrix")
-
+library(data.table)
+library(Matrix)
 
 # Leontief inverse ---
 
@@ -67,20 +66,49 @@ for(year in years){
 
 # create the losses version of fabio ---
 
-#year <- 2019
+# year <- 2019
 for(year in years){
 
   print(year)
-  # add losses at the main diagonal of Z and remove from Y
+
+  # remove losses from Y
   Yi <- Y[[as.character(year)]]
-  losses <- rowSums(as.matrix(Yi[, grepl("losses", colnames(Yi))]))
+  losses <- as.matrix(Yi[, grepl("losses", colnames(Yi))])
   Yi[, grepl("losses", colnames(Yi))] <- 0
   Y[[as.character(year)]] <- Yi
+
+  # reshape losses for adding them later to the main diagonals of each submatrix of Z
+  ## Get the number of rows and columns in the data matrix
+  num_rows <- nrow(losses)
+  num_cols <- nrow(losses) / ncol(losses)
+
+  ## Define a function for reshaping
+  reshape_column <- function(v) {
+    m <- matrix(0, ncol = num_cols, nrow = num_rows)
+    indices <- ((seq_len(length(v)) - 1) %% num_cols) + 1
+    m[cbind(seq_len(length(v)), indices)] <- v
+    return(m)
+  }
+
+  ## Apply the reshape_column function to each column using lapply
+  matrix_list <- lapply(1:ncol(losses), function(i) {
+    v <- losses[, i]
+    reshape_column(v)
+  })
+
+  ## Combine the matrices in the list using cbind()
+  combined_matrix <- do.call(cbind, matrix_list)
+  combined_matrix <- as(combined_matrix, "dgCMatrix")
+
+
+  # add losses to the main diagonals of each submatrix of Z_m
   Zi <- Z_m[[as.character(year)]]
-  diag(Zi) <- diag(Zi) + losses
+  Zi <- Zi + combined_matrix
   Z_m[[as.character(year)]] <- Zi
+
+  # add losses to the main diagonals of each submatrix of Z_v
   Zi <- Z_v[[as.character(year)]]
-  diag(Zi) <- diag(Zi) + losses
+  Zi <- Zi + combined_matrix
   Z_v[[as.character(year)]] <- Zi
 }
 

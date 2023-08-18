@@ -19,7 +19,7 @@ water_fodder <- dcast(water_fodder, area_code + area ~ water_type, fun=sum)
 water_lvst <- fread("input/water/water_lvst.csv")
 water_pasture <- grassland_yields %>% select(area_code, area, iso3c, continent, m3_per_ha)
 
-# calculate crop water footprint
+# calculate crop water footprint -----------------------------------------------
 water_crop <- merge(regions[, .(area_code = code, area = name, water_code, water_area)],
   water_crop[, .(water_code, water_area, water_item, value, water_type)],
   by = c("water_code", "water_area"), all = TRUE, allow.cartesian = TRUE)
@@ -41,7 +41,7 @@ water_crop[!area_code %in% regions[cbs==TRUE, code], `:=`(area_code = 999)]
 water_crop <- water_crop[, list(value = na_sum(value)),
   by = .(area_code, item_code, item, year, water_type)]
 
-# Calculate water footprint of meat processing
+# Calculate water footprint of meat processing ---------------------------------
 live <- readRDS("./data/tidy/live_tidy.rds")
 meat <- live[element == "Production" & unit == "tonnes",
   .(area_code, area, year, item_code, item, value)]
@@ -59,7 +59,7 @@ meat <- meat[, list(value = na_sum(value)),
 meat$blue <- water_lvst$blue[match(meat$item_code, water_lvst$item_code)]
 meat[, `:=`(blue = blue * value, value = NULL)]
 
-# Calculate water footprint of livestock
+# Calculate water footprint of livestock ---------------------------------------
 stocks <- live[element == "Stocks",
   .(area_code, area, year, item_code, item, value)]
 stocks$blue <- water_lvst$blue[match(stocks$item_code, water_lvst$item_code)]
@@ -68,14 +68,14 @@ stocks[, `:=`(blue = blue * value, value = NULL)]
 water_lvst <- rbind(meat, stocks)
 rm(live, meat, stocks, src_item, tgt_item, tgt_name)
 
-# read production data
+# read production data ---------------------------------------------------------
 sup <- readRDS("data/sup_final.rds")
 crop <- readRDS("./data/tidy/crop_tidy.rds")
 crop[!area_code %in% regions[cbs==TRUE, code], `:=`(area_code = 999, area = "ROW")]
 crop <- crop[, list(value = na_sum(value)),
   by = .(area_code, area, element, year, unit, item_code, item)]
 
-# prepare N extension
+# prepare N extension ---------------------------------------------------------
 N <- read_csv("./input/extensions/N_kg_per_ha.csv")
 N$region <- regions$region[match(N$iso3c, regions$iso3c)]
 N <- merge(regions[cbs==TRUE,.(iso3c,area_code = code)], N, by = "iso3c", all = TRUE)
@@ -98,7 +98,7 @@ items_conc <- read_csv("./inst/items_conc.csv")
 N$com <- items_conc$com_1.2[match(N$com, items_conc$com_1.1)]
 N <- N[!is.na(N$com) & !is.na(N$area_code),]
 
-# prepare P extension
+# prepare P extension ---------------------------------------------------------
 P <- read_csv("./input/extensions/P_kg_per_ha.csv")
 P$region <- regions$region[match(P$iso3c, regions$iso3c)]
 P <- merge(regions[cbs==TRUE,.(iso3c,area_code = code)], P, by = "iso3c", all = TRUE)
@@ -121,6 +121,7 @@ P$com <- items_conc$com_1.2[match(P$com, items_conc$com_1.1)]
 P <- P[!is.na(P$com) & !is.na(P$area_code),]
 
 
+# build extensions ---------------------------------------------------------
 years <- 1986:2020
 
 E <- lapply(years, function(x, y) {
@@ -201,7 +202,8 @@ names(E) <- years
 saveRDS(E, file="/mnt/nfs_fineprint/tmp/fabio/v1.2/E.rds")
 
 
-# build biodiversity extensions (potential species loss from land use per hectare)
+# build biodiversity extensions ---------------------------------------------------------
+# (potential species loss from land use per hectare)
 biodiv <- read_csv("./input/extensions/biodiversity.csv")
 biodiv_data <- t(biodiv[, -(1:3)])
 biodiv_codes <- biodiv[, 1:3]
@@ -226,17 +228,15 @@ biodiv_codes <- biodiv_codes[biodiv_codes$land %in% c("cropland", "pasture"),]
 write.csv(biodiv_codes, file="/mnt/nfs_fineprint/tmp/fabio/v1.2/biodiv_codes.csv")
 
 
-# extrapolate emissions data
+# extrapolate emissions data ---------------------------------------------------------
 library(Matrix)
 
 # read ghg emissions data
 ghg <- list()
-ghg[[1]] <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/E_ghg_mass.rds")
-ghg[[2]] <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/E_gwp_mass.rds")
-ghg[[3]] <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/E_luh_mass.rds")
-ghg[[4]] <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/E_ghg_value.rds")
-ghg[[5]] <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/E_gwp_value.rds")
-ghg[[6]] <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/E_luh_value.rds")
+names <- c("ghg_mass", "gwp_mass", "luh_mass", "ghg_value", "gwp_value", "luh_value")
+for(i in seq_along(names)){
+  ghg[[i]] <- readRDS(paste0("/mnt/nfs_fineprint/tmp/fabio/v1.2/E_",names[i],".rds"))
+}
 
 # extrapolate emissions data
 for(i in 2014:2020){
@@ -247,10 +247,6 @@ for(i in 2014:2020){
   }
 }
 
-saveRDS(ghg[[1]], "/mnt/nfs_fineprint/tmp/fabio/v1.2/E_ghg_mass.rds")
-saveRDS(ghg[[2]], "/mnt/nfs_fineprint/tmp/fabio/v1.2/E_gwp_mass.rds")
-saveRDS(ghg[[3]], "/mnt/nfs_fineprint/tmp/fabio/v1.2/E_luh_mass.rds")
-saveRDS(ghg[[4]], "/mnt/nfs_fineprint/tmp/fabio/v1.2/E_ghg_value.rds")
-saveRDS(ghg[[5]], "/mnt/nfs_fineprint/tmp/fabio/v1.2/E_gwp_value.rds")
-saveRDS(ghg[[6]], "/mnt/nfs_fineprint/tmp/fabio/v1.2/E_luh_value.rds")
-
+for(i in seq_along(names)){
+  saveRDS(ghg[[i]], paste0("/mnt/nfs_fineprint/tmp/fabio/v1.2/E_",names[i],".rds"))
+}

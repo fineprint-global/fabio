@@ -1,7 +1,8 @@
 
-library("Matrix")
-library("parallel")
+library(Matrix)
+library(parallel)
 library(data.table)
+library(readr)
 
 # MRIO Table ---
 
@@ -50,7 +51,7 @@ regions <- fread("inst/regions_full.csv")
 regions <- regions[cbs==TRUE]
 items <- fread("inst/items_full.csv")
 nrcom <- nrow(items)
-Y <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/Y.rds")
+Y <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/mr_use_fd.rds")
 
 # Rebalance row sums for each year
 for(i in seq_along(Z_m)){
@@ -123,9 +124,9 @@ ghg_names <- ghg[[1]][,1]
 gwp_names <- gwp[[1]][,1]
 luh_names <- luh[[1]][,1]
 
-write_csv(ghg_names, "/mnt/nfs_fineprint/tmp/fabio/v1.2/ghg_names.csv")
-write_csv(gwp_names, "/mnt/nfs_fineprint/tmp/fabio/v1.2/gwp_names.csv")
-write_csv(luh_names, "/mnt/nfs_fineprint/tmp/fabio/v1.2/luh_names.csv")
+write_csv(data.frame(ghg_names), "/mnt/nfs_fineprint/tmp/fabio/v1.2/ghg_names.csv")
+write_csv(data.frame(gwp_names), "/mnt/nfs_fineprint/tmp/fabio/v1.2/gwp_names.csv")
+write_csv(data.frame(luh_names), "/mnt/nfs_fineprint/tmp/fabio/v1.2/luh_names.csv")
 
 range <- rep(c(1:97,99:116,118:120),192)+rep(((0:191)*121), each=118)
 
