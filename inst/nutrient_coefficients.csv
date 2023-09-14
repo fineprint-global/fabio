@@ -1,124 +1,124 @@
-comm_code,item_code,item,kcal_per_kg
-c001,2807,Rice and products,3600
-c002,2511,Wheat and products,3340
-c003,2513,Barley and products,3320
-c004,2514,Maize and products,3560
-c005,2515,Rye and products,3190
-c006,2516,Oats,3850
-c007,2517,Millet and products,3400
-c008,2518,Sorghum and products,3430
-c009,2520,"Cereals, Other",3400
-c010,2531,Potatoes and products,670
-c011,2532,Cassava and products,1090
-c012,2533,Sweet potatoes,920
-c013,2534,"Roots, Other",910
-c014,2535,Yams,1010
-c015,2536,Sugar cane,400
-c016,2537,Sugar beet,800
-c017,2546,Beans,3410
-c018,2547,Peas,3460
-c019,2549,"Pulses, Other and products",3400
-c020,2551,Nuts and products,2620
-c021,2555,Soyabeans,3700
-c022,2552,Groundnuts,5700
-c023,2557,Sunflower seed,4700
-c024,2558,Rape and Mustardseed,4940
-c025,328,Seed cotton,1600
-c026,2560,Coconuts - Incl Copra,1840
-c027,2561,Sesame seed,5730
-c028,254,"Oil, palm fruit",1900
-c029,2563,Olives (including preserved),1850
-c030,2570,"Oilcrops, Other",5200
-c031,2601,Tomatoes and products,170
-c032,2602,Onions,240
-c033,2605,"Vegetables, Other",220
-c034,2611,"Oranges, Mandarines",340
-c035,2612,"Lemons, Limes and products",150
-c036,2613,Grapefruit and products,160
-c037,2614,"Citrus, Other",260
-c038,2615,Bananas,600
-c039,2616,Plantains,750
-c040,2617,Apples and products,480
-c041,2618,Pineapples and products,260
-c042,2619,Dates,1560
-c043,2620,Grapes and products (excl wine),530
-c044,2625,"Fruits, Other",450
-c045,2630,Coffee and products,560
-c046,2633,Cocoa Beans and products,4140
-c047,2635,Tea (including mate),400
-c048,677,Hops,390
-c049,2640,Pepper,2760
-c050,2641,Pimento,3180
-c051,2642,Cloves,3230
-c052,2645,"Spices, Other",3370
-c053,2662,Jute,1000
-c054,2663,Jute-Like Fibres,1000
-c055,2664,"Soft-Fibres, Other",1000
-c056,2665,Sisal,1000
-c057,2666,Abaca,1000
-c058,2667,"Hard Fibres, Other",1000
-c059,2671,Tobacco,1000
-c060,2672,Rubber,1000
-c061,2000,Fodder crops,623
-c062,2001,Grazing,316
-c063,2559,Cottonseed,2530
-c064,2562,Palm kernels,5140
-c065,2541,Sugar non-centrifugal,3510
-c066,2542,Sugar (Raw Equivalent),3500
-c067,2543,"Sweeteners, Other",3000
-c068,2571,Soyabean Oil,8840
-c069,2572,Groundnut Oil,8840
-c070,2573,Sunflowerseed Oil,8840
-c071,2574,Rape and Mustard Oil,8840
-c072,2575,Cottonseed Oil,8840
-c073,2576,Palmkernel Oil,8840
-c074,2577,Palm Oil,8840
-c075,2578,Coconut Oil,8840
-c076,2579,Sesameseed Oil,8840
-c077,2580,Olive Oil,8840
-c078,2581,Ricebran Oil,8840
-c079,2582,Maize Germ Oil,8840
-c080,2586,"Oilcrops Oil, Other",8840
-c081,2590,Soyabean Cake,2500
-c082,2591,Groundnut Cake,3500
-c083,2592,Sunflowerseed Cake,2130
-c084,2593,Rape and Mustard Cake,2500
-c085,2594,Cottonseed Cake,2000
-c086,2595,Palmkernel Cake,2200
-c087,2596,Copra Cake,4400
-c088,2597,Sesameseed Cake,3500
-c089,2598,"Oilseed Cakes, Other",1700
-c090,2655,Wine,680
-c091,2656,Beer,490
-c092,2657,"Beverages, Fermented",470
-c093,2658,"Beverages, Alcoholic",2950
-c094,2659,"Alcohol, Non-Food",6900
-c095,2661,Cotton lint,1000
-c096,866,Cattle,1000
-c097,946,Buffaloes,1000
-c098,976,Sheep,1000
-c099,1016,Goats,1000
-c100,1034,Pigs,1000
-c101,2029,Poultry Birds,1000
-c102,1096,Horses,1000
-c103,1107,Asses,1000
-c104,1110,Mules,1000
-c105,1126,Camels,1000
-c106,1157,"Camelids, other",1000
-c107,1140,Rabbits and hares,1000
-c108,1150,"Rodents, other",1000
-c109,2848,Milk - Excluding Butter,480
-c110,2740,"Butter, Ghee",7233
-c111,2744,Eggs,1390
-c112,2746,Wool (Clean Eq.),1000
-c113,2731,Bovine Meat,1460
-c114,2732,Mutton & Goat Meat,2630
-c115,2733,Pigmeat,3260
-c116,2734,Poultry Meat,1850
-c117,2735,"Meat, Other",1260
-c118,2736,"Offals, Edible",1050
-c119,2737,"Fats, Animals, Raw",9020
-c120,2748,Hides and skins,1000
-c121,2745,Honey,2980
-c122,2747,Silk,1000
-c123,2960,"Fish, Seafood",640
+comm_code,item_code,item,kcal_per_kg,Source,Comments
+c001,2807,Rice and products,2800,FAO (2001),RICE PADDY
+c002,2511,Wheat and products,3340,FAO (2001),WHEAT
+c003,2513,Barley and products,3320,FAO (2001),BARLEY
+c004,2514,Maize and products,3560,FAO (2001),MAIZE
+c005,2515,Rye and products,3190,FAO (2001),RYE
+c006,2516,Oats,3850,FAO (2001),
+c007,2517,Millet and products,3400,FAO (2001),MILLET
+c008,2518,Sorghum and products,3430,FAO (2001),SORGHUM
+c009,2520,"Cereals, Other",3400,FAO (2001),CEREALS NES
+c010,2531,Potatoes and products,670,FAO (2001),
+c011,2532,Cassava and products,1090,FAO (2001),
+c012,2533,Sweet potatoes,920,FAO (2001),
+c013,2534,"Roots, Other",910,FAO (2001),
+c014,2535,Yams,1010,FAO (2001),
+c015,2536,Sugar cane,300,FAO (2001),
+c016,2537,Sugar beet,700,FAO (2001),
+c017,2546,Beans,3410,FAO (2001),
+c018,2547,Peas,3460,FAO (2001),
+c019,2549,"Pulses, Other and products",3400,FAO (2001),PULSES NES 
+c020,2551,Nuts and products,2620,FAO (2001),NUTS NES
+c021,2555,Soyabeans,3350,FAO (2001),
+c022,2552,Groundnuts,4140,FAO (2001),GROUNDNUTS IN SHELL
+c023,2557,Sunflower seed,3080,FAO (2001),
+c024,2558,Rape and Mustardseed,4940,Berners-Lee_etal (2018),
+c025,328,Seed cotton,1600,FAO (2001),Estimated using technical conversion factors
+c026,2560,Coconuts - Incl Copra,1840,FAO (2001),COCONUTS
+c027,2561,Sesame seed,5730,FAO (2001),
+c028,254,"Oil, palm fruit",1580,FAO (2001),
+c029,2563,Olives (including preserved),1750,FAO (2001),OLIVES
+c030,2570,"Oilcrops, Other",3870,FAO (2001),OILSEEDS NES
+c031,2601,Tomatoes and products,170,FAO (2001),
+c032,2602,Onions,240,FAO (2001),"ONIONS,SHALLOTS, GREEN"
+c033,2605,"Vegetables, Other",220,FAO (2001),VEGETABLES NES FRESH 
+c034,2611,"Oranges, Mandarines",340,FAO (2001),ORANGES
+c035,2612,"Lemons, Limes and products",150,FAO (2001),LEMONS AND LIMES
+c036,2613,Grapefruit and products,160,FAO (2001),GRAPEFRUIT AND POMELO
+c037,2614,"Citrus, Other",260,FAO (2001),CITRUS FRUIT NES
+c038,2615,Bananas,600,FAO (2001),
+c039,2616,Plantains,750,FAO (2001),
+c040,2617,Apples and products,480,FAO (2001),APPLES
+c041,2618,Pineapples and products,260,FAO (2001),PINEAPPLES
+c042,2619,Dates,1560,FAO (2001),
+c043,2620,Grapes and products (excl wine),530,FAO (2001),GRAPES
+c044,2625,"Fruits, Other",450,FAO (2001),FRUIT NES FRESH 
+c045,2630,Coffee and products,470,FAO (2001),COFFEE GREEN
+c046,2633,Cocoa Beans and products,4140,FAO (2001),COCOA BEANS 
+c047,2635,Tea (including mate),400,FAO (2001),TEA
+c048,677,Hops,390,"Cortes Sánchez-Mata, Tardío (2016)",https://www.healthbenefitstimes.com/hops/
+c049,2640,Pepper,2760,FAO (2001),PEPPER WHITE/LONG/BLACK
+c050,2641,Pimento,3180,FAO (2001),
+c051,2642,Cloves,3230,FAO (2001),
+c052,2645,"Spices, Other",3370,FAO (2001),SPICES NES
+c053,2662,Jute,0,,not edible
+c054,2663,Jute-Like Fibres,0,,not edible
+c055,2664,"Soft-Fibres, Other",0,,not edible
+c056,2665,Sisal,0,,not edible
+c057,2666,Abaca,0,,not edible
+c058,2667,"Hard Fibres, Other",0,,not edible
+c059,2671,Tobacco,0,,not edible
+c060,2672,Rubber,0,,not edible
+c061,2000,Fodder crops,623,,Fodder / Grazing
+c062,2001,Grazing,316,,Fodder / Grazing
+c063,2559,Cottonseed,2530,FAO (2001),
+c064,2562,Palm kernels,5140,FAO (2001),
+c065,2541,Sugar non-centrifugal,3510,FAO (2001),
+c066,2542,Sugar (Raw Equivalent),3730,FAO (2001),"SUGAR, CENTRIFUGAL RAW"
+c067,2543,"Sweeteners, Other",3300,Berners-Lee_etal (2018),
+c068,2571,Soyabean Oil,8840,FAO (2001),
+c069,2572,Groundnut Oil,8840,FAO (2001),
+c070,2573,Sunflowerseed Oil,8840,FAO (2001),
+c071,2574,Rape and Mustard Oil,8840,FAO (2001),
+c072,2575,Cottonseed Oil,8840,FAO (2001),
+c073,2576,Palmkernel Oil,8840,FAO (2001),
+c074,2577,Palm Oil,8840,FAO (2001),
+c075,2578,Coconut Oil,8840,FAO (2001),
+c076,2579,Sesameseed Oil,8840,FAO (2001),
+c077,2580,Olive Oil,8840,FAO (2001),
+c078,2581,Ricebran Oil,8840,FAO (2001),
+c079,2582,Maize Germ Oil,8840,FAO (2001),
+c080,2586,"Oilcrops Oil, Other",8840,FAO (2001),
+c081,2590,Soyabean Cake,2610,FAO (2001),
+c082,2591,Groundnut Cake,3630,FAO (2001),
+c083,2592,Sunflowerseed Cake,2130,Berners-Lee_etal (2018),
+c084,2593,Rape and Mustard Cake,3420,Berners-Lee_etal (2018),
+c085,2594,Cottonseed Cake,1750,Berners-Lee_etal (2018),
+c086,2595,Palmkernel Cake,3550,Berners-Lee_etal (2018),
+c087,2596,Copra Cake,4400,Berners-Lee_etal (2018),
+c088,2597,Sesameseed Cake,3760,Berners-Lee_etal (2018),
+c089,2598,"Oilseed Cakes, Other",2677,Berners-Lee_etal (2018),
+c090,2655,Wine,680,FAO (2001),
+c091,2656,Beer,490,FAO (2001),BEER BARLEY 
+c092,2657,"Beverages, Fermented",600,FAO (2001),WHEAT FERMENTED BEVERAGE
+c093,2658,"Beverages, Alcoholic",2950,FAO (2001),BEVERAGES DIST. ALCOHOL 
+c094,2659,"Alcohol, Non-Food",0,,not edible
+c095,2661,Cotton lint,0,,not edible
+c096,866,Cattle,1000000,,Live Animals
+c097,946,Buffaloes,1000000,,Live Animals
+c098,976,Sheep,1000000,,Live Animals
+c099,1016,Goats,1000000,,Live Animals
+c100,1034,Pigs,1000000,,Live Animals
+c101,2029,Poultry Birds,1000000,,Live Animals
+c102,1096,Horses,1000000,,Live Animals
+c103,1107,Asses,1000000,,Live Animals
+c104,1110,Mules,1000000,,Live Animals
+c105,1126,Camels,1000000,,Live Animals
+c106,1157,"Camelids, other",1000000,,Live Animals
+c107,1140,Rabbits and hares,1000000,,Live Animals
+c108,1150,"Rodents, other",1000000,,Live Animals
+c109,2848,Milk - Excluding Butter,610,FAO (2001),"COW MILK, WHOLE FRESH "
+c110,2740,"Butter, Ghee",7233,Berners-Lee_etal (2018),
+c111,2744,Eggs,1390,FAO (2001),HEN EGGS 
+c112,2746,Wool (Clean Eq.),0,,not edible
+c113,2731,Bovine Meat,1460,Berners-Lee_etal (2018),
+c114,2732,Mutton & Goat Meat,2095,Berners-Lee_etal (2018),
+c115,2733,Pigmeat,3260,FAO (2001),
+c116,2734,Poultry Meat,1850,FAO (2001),
+c117,2735,"Meat, Other",1260,FAO (2001),MEAT NES 
+c118,2736,"Offals, Edible",1050,FAO (2001),OFFALS NES 
+c119,2737,"Fats, Animals, Raw",9020,FAO (2001),ANIMAL OILS AND FATS NES 
+c120,2748,Hides and skins,0,,not edible
+c121,2745,Honey,2980,FAO (2001),
+c122,2747,Silk,0,,not edible
+c123,2960,"Fish, Seafood",640,FAO (2001),MARINE FISH NES FRESH 
