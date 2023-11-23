@@ -9,7 +9,7 @@ This repository provides all codes used to generate the FABIO database.
 To cite FABIO work please refer to this paper: www.doi.org/10.1021/acs.est.9b03554
 
 ### License
-This repository provides all scripts and auxiliary data, which are distributed under the CC-BY-NC-SA License. It is free to run, study, share and modify (for non-commercial purposes) using proper citation. I'd like to invite scholars and IO practitioners likewise to download and use the codes and data. In case you are interested in a collaboration, I am happy to receive inquiries at <martin.bruckner@wu.ac.at>.
+This repository provides all scripts and auxiliary data, which are distributed under the CC-BY-NC-SA License. I'd like to invite scholars and IO practitioners likewise to download and use, share and modify the scripts for non-commercial purposes. In case you are interested in a collaboration, I am happy to receive inquiries at <martin.bruckner@wu.ac.at>.
 
 ### Database
 The FABIO v1.0 database is available via Zenodo (http://dx.doi.org/10.5281/zenodo.2577067).
