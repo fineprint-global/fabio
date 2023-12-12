@@ -20,17 +20,20 @@ Y_new <- Y
 # correct food and other use of veg. oils for China
 i = 1
 for(i in seq_along(Y)){
+  print(years[i])
   if(as.numeric(years[i]) < 2013){
     data <- merge(io, oil[year==2013, .(comm_code, food_share)], by = "comm_code", all.x = TRUE, sort = FALSE)
+  } else if(as.numeric(years[i]) > 2020){
+    data <- merge(io, oil[year==2020, .(comm_code, food_share)], by = "comm_code", all.x = TRUE, sort = FALSE)
   } else {
     data <- merge(io, oil[year==as.numeric(years[i]), .(comm_code, food_share)], by = "comm_code", all.x = TRUE, sort = FALSE)
   }
+  
   data <- cbind(data, as.matrix(Y[[i]][,fd$area=="China, mainland"]))
   # data[, food_share_fao := `41_food` / (`41_food` + `41_other`)]
-  data[, `:=`(food = round((`41_food` + `41_other`) * food_share),
+  data[, `:=`(food = `41_food`, other = `41_other`)]
+  data[!is.na(food_share), `:=`(food = round((`41_food` + `41_other`) * food_share),
               other = round((`41_food` + `41_other`) * (1-food_share)))]
-  data[, `:=`(food = ifelse(is.na(food), 0, food),
-              other = ifelse(is.na(other), 0, other))]
   Y_new[[i]][, fd$area_code==41 & fd$fd=="food"] <- data$food
   Y_new[[i]][, fd$area_code==41 & fd$fd=="other"] <- data$other
 }
@@ -48,6 +51,10 @@ for(i in seq_along(Y)){
 }
 
 saveRDS(Y_new, "/mnt/nfs_fineprint/tmp/fabio/v1.2/Y.rds")
+
+
+
+# create the losses version of fabio ---
 
 for(i in seq_along(Y_new)){
   Y_new[[i]][, grepl("losses", colnames(Y_new[[i]]))] <- 0

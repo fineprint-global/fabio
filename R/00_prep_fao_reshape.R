@@ -7,6 +7,7 @@
 
 library("data.table")
 source("R/00_prep_functions.R")
+source("R/01_tidy_functions.R")
 path_fao <- "input/fao/"
 
 
@@ -30,9 +31,11 @@ links <- rep("http://fenixservices.fao.org/faostat/static/bulkdownloads/",
 # Column types to possibly skip some
 col_types <- list(
   "fbs_wide" = c("numeric", "character", "character", "numeric", "character", "character", "numeric", "character", "character",
-                 "numeric", "character", "numeric", "character", "numeric", "character", "numeric", "character", "numeric", "character", "numeric", "character", "numeric", "character", "numeric", "character", "numeric", "character", "numeric", "character", "numeric", "character"),
+                 "numeric", "character", "numeric", "character", "numeric", "character", "numeric", "character", "numeric", "character", "numeric", "character", 
+                 "numeric", "character", "numeric", "character", "numeric", "character", "numeric", "character", "numeric", "character", "numeric", "character"),
   "sua_wide" = c("numeric", "character", "character", "numeric", "character", "character", "numeric", "character", "character",
-                 "numeric", "character", "numeric", "character", "numeric", "character", "numeric", "character", "numeric", "character", "numeric", "character", "numeric", "character", "numeric", "character", "numeric", "character", "numeric", "character", "numeric", "character")
+                 "numeric", "character", "numeric", "character", "numeric", "character", "numeric", "character", "numeric", "character", "numeric", "character", 
+                 "numeric", "character", "numeric", "character", "numeric", "character", "numeric", "character", "numeric", "character", "numeric", "character")
 )
 
 # update: add read_method as there are some issues in the trad csv file (probably a missing quote somewhere) that fread cannot deal with, but readr::read_csv can.

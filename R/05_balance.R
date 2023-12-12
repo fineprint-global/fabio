@@ -5,7 +5,7 @@ library("mipfp")
 
 source("R/01_tidy_functions.R")
 
-years <- 1986:2020
+years <- 1986:2021
 
 
 # BTD ---------------------------------------------------------------------
@@ -15,7 +15,7 @@ btd_est <- readRDS("data/btd_est.rds")
 cbs <- readRDS("data/cbs_full.rds")
 
 areas <- unique(cbs$area_code)
-items <- unique(cbs$item_code)
+items <- unique(btd_est$item_code)
 
 
 # Prepare for creating balanced BTD sheets --------------------------------
@@ -104,7 +104,7 @@ for(i in seq_along(years)) {
     function(x) {
       out <- data.table::dcast(x, from_code ~ to_code,
         fun.aggregate = sum, value.var = "value")[, -"from_code"]
-      as(out, "Matrix")})
+      as(out, "matrix")})
 
   # Run iterative proportional fitting per item
   for(j in as.character(items)) {
@@ -122,9 +122,9 @@ for(i in seq_along(years)) {
   })
 }
 
-# One datatable per year
+# One data.table per year
 btd_bal <- lapply(btd_bal, rbindlist)
-# One datatable
+# One data.table
 btd_bal <- rbindlist(btd_bal)
 
 

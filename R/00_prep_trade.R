@@ -2,18 +2,17 @@
 # Trade -------------------------------------------------------------------
 
 library("data.table")
-library("comtradr")
+# library("comtradr")
 source("R/00_prep_functions.R")
 path_trade <- "input/trade/"
 
 
 # BACI92 ------------------------------------------------------------------
 
-#file <- c("baci_full" = "BACI_HS92_V202001.zip")
-file <- c("baci_full" = "BACI_HS92_V202201.zip")
+file <- c("baci_full" = "BACI_HS92_V202301.zip")
 
 pattern <- "(BACI_HS92_Y[0-9]+)([.]csv)"
-pattern <- "(BACI_HS92_Y[0-9]{4}_V202201)([.]csv)"
+pattern <- "(BACI_HS92_Y[0-9]{4}_V202301)([.]csv)"
 
 
 extr <- unzip(paste0(path_trade, file), list = TRUE)[[1]]
@@ -35,7 +34,7 @@ saveRDS(baci_sel, paste0(path_trade, "baci_sel.rds"))
 
 
 # Comtrade ----------------------------------------------------------------
-
+# This code needs to be rewritten, since the API was changed and the R package was retired.
 # Register token - look in "~/.Renviron"
 COMTRADE_TOKEN <- Sys.getenv("COMTRADE_TOKEN")
 if(nchar(COMTRADE_TOKEN) == 0) {

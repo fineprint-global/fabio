@@ -12,7 +12,7 @@ cat("\nBuilding full CBS.\n")
 
 cbs <- readRDS("data/tidy/cbs_tidy.rds")
 
-cat("Removing items from CBS that are not used in the FAO-MRIO:\n\t",
+cat("Removing items from CBS that are not used in FABIO:\n\t",
   paste0(unique(cbs[!item_code %in% items$item_code, item]),
     sep = "", collapse = "; "), ".\n", sep = "") # Eggs and Milk are duplicated with different codes (2948, 2949)
 # Particularly fish and aggregates
@@ -81,6 +81,7 @@ sua <- sua[year > 2013, ]
 # remove palm kernels in cbs after 2013 and bind sua data to cbs
 cbs <- cbs[!(item == "Palm kernels" & year > 2013),]
 cbs <- rbind(cbs, sua, use.names = TRUE)
+
 
 # Fill crop production where missing -------------------------------------
 
@@ -170,6 +171,9 @@ addcbs[, exports := exps$value[match(paste(addcbs$year, addcbs$area_code, addcbs
 addcbs[, imports := imps$value[match(paste(addcbs$year, addcbs$area_code, addcbs$item_code),
   paste(imps$year, imps$to_code, imps$item_code))]]
 addcbs[, total_supply := na_sum(production,imports)]
+
+# rebalance supply and use
+
 # allocate processing inputs to 'processing'
 addcbs[, processing := results$processing[match(paste(addcbs$year, addcbs$area_code, addcbs$item_code),
                                                 paste(results$year, results$area_code, results$item_code))]]
@@ -188,8 +192,8 @@ addcbs[, unspecified := na_sum(total_supply,-processing, -other, -feed, -exports
 addcbs[, balancing := 0]
 addcbs[unspecified < 0, `:=`(balancing = unspecified, unspecified = 0)]
 
-# we only use data until 2020
-addcbs <- addcbs[year <= 2020,]
+# we only use data until 2021
+addcbs <- addcbs[year <= 2021,]
 
 # cat("\nFilling missing cbs seed with crop seed data.\n")
 # crop_seed <- crop[element == "Seed", ]
@@ -251,9 +255,9 @@ cak_conv[,`:=` ( tcf_global = NULL, cof_global = NULL)]
 # NOTE: if we want derive cake production also for countries who never had cake production before 2013, we need an addition step tp fill tcf/cof witj global averages for these cases!
 
 # apply factors to cbs in following order: if processing > 0, use tcf, and if processing = 0 but oil production > 0, use cof
-yrs <- 2014:2020
+yrs <- 2014:2021
 #cak_base <- cbs_crp_proc[, ]
-#cbs_cak <- merge(cak_conv, data.table(year = 2014:2020), by = NULL)
+#cbs_cak <- merge(cak_conv, data.table(year = 2014:2021), by = NULL)
 cake <- cbind(cak_conv[rep(1:nrow(cak_conv), each = length(yrs))], year = yrs[rep(1:length(yrs), nrow(cak_conv))])
 cake <- merge(cake, cbs_crp_proc[processing > 0,],
                  by.x = c("area_code", "area", "source_item", "source_name", "year"),
@@ -407,7 +411,7 @@ live <- merge(
   all = TRUE)
 live[, `:=`(exports = ifelse(is.na(exports), value, exports), value = NULL)]
 
-# additional necessary step in v1.2: adjust production as production + exp - imp
+# estimate livestock raised in a country (slaughtered + exported - imported)
 live[, production := na_sum(production, exports, -imports)]
 live[production < 0, production := 0]
 
@@ -497,7 +501,7 @@ live[, `:=`(exports = ifelse(is.na(exports), value, exports), value = NULL)]
 
 
 # Filter countries and items that are not yet in CBS
-live <- live[!paste(area_code, item_code, year) %in% paste(cbs$area_code, cbs$item_code, cbs$year) & year <= 2020]# & !is.na(production)]
+live <- live[!paste(area_code, item_code, year) %in% paste(cbs$area_code, cbs$item_code, cbs$year) & year <= 2021]# & !is.na(production)]
 
 live[, total_supply := na_sum(production, imports)]
 # reduce exports where they exceed total supply
@@ -603,17 +607,16 @@ btd <- dt_filter(btd, from_code != to_code)
 
 cat("\nRebalance CBS.\n")
 
-# Round to whole numbers
+# Round to 0 digits
 cols = c("imports", "exports", "feed", "food", "losses", "other",
          "processing", "production", "seed", "balancing", "unspecified",
          "residuals", "tourist")
-cbs[, (cols) := lapply(.SD, round), .SDcols = cols]
+cbs[, (cols) := lapply(.SD, function(x) round(x, 0)), .SDcols = cols]
 
 # Replace negative values with '0'
 cbs <- dt_replace(cbs, function(x) {`<`(x, 0)}, value = 0,
   cols = c("imports", "exports", "feed", "food", "losses",
     "other", "processing", "production", "seed", "tourist"))
-# TODO: should tourist negatives be eleiminated or not? (just a few minor cases)
 
 # Rebalance table
 cbs[, balancing := na_sum(production, imports, stock_withdrawal,
@@ -624,84 +627,87 @@ cbs[, balancing := na_sum(production, imports, stock_withdrawal,
 # in any case, the sum of balancing and residuals should never be <0 in the end
 # as long as we do not introduce an "unknown source" region, we need to adapt the other cbs items accordingly
 
-# move negative residuals to balancing
-cbs[residuals < 0, `:=`(balancing = na_sum(residuals, balancing), residuals = 0)]
-
-# neutralize negative balancing via other items
-cat("\nAdjust 'residuals' for ", cbs[balancing < 0 &
-                                     !is.na(residuals) & residuals >= -balancing*0.99, .N],
-    " observations, where `balancing < 0` and `residuals >= -balancing` to ",
-    "`residuals = residuals - balancing`.\n", sep = "")
-cbs[balancing < 0 & !is.na(residuals) & residuals >= -balancing*0.99,
-    `:=`(residuals = na_sum(residuals, balancing),
-         balancing = 0)]
+# # neutralize negative balancing via other items
+# cat("\nAdjust 'residuals' for ", cbs[balancing < 0 &
+#                                      !is.na(residuals) & residuals >= -balancing*0.99, .N],
+#     " observations, where `balancing < 0` and `residuals >= -balancing` to ",
+#     "`residuals = residuals - balancing`.\n", sep = "")
+# cbs[balancing < 0 & !is.na(residuals) & residuals >= -balancing*0.99,
+#     `:=`(residuals = na_sum(residuals, balancing),
+#          balancing = 0)]
 
 
-cat("\nAdjust 'exports' for ", cbs[balancing < 0 &
-    !is.na(exports) & exports >= -balancing*0.99, .N],
-    " observations, where `balancing < 0` and `exports >= -balancing` to ",
-    "`exports = exports - balancing`.\n", sep = "")
-cbs[balancing < 0 & !is.na(exports) & exports >= -balancing*0.99,
-    `:=`(exports = na_sum(exports, balancing),
-         balancing = 0)]
-cbs[exports < 0, `:=`(balancing = exports,
+cat("\nAdjust 'exports' for ", cbs[na_sum(balancing, residuals) < 0 &
+    !is.na(exports) & exports >= -na_sum(balancing, residuals)*0.99, .N],
+    " observations, where `na_sum(balancing, residuals) < 0` and `exports >= -na_sum(balancing, residuals)` to ",
+    "`exports = exports - na_sum(balancing, residuals)`.\n", sep = "")
+cbs[na_sum(balancing, residuals) < 0 & !is.na(exports) & exports >= na_sum(balancing, residuals)*0.99,
+    `:=`(exports = na_sum(exports, balancing, residuals),
+         balancing = 0, residuals = 0)]
+cbs[exports < 0, `:=`(balancing = balancing + exports,
                       exports = 0)]
 
-cat("\nAdjust 'processing' for ", cbs[balancing < 0 &
-    !is.na(processing) & processing >= -balancing, .N],
-    " observations, where `balancing < 0` and `processing >= -balancing` to ",
-    "`processing = processing + balancing`.\n", sep = "")
-cbs[balancing < 0 & !is.na(processing) & processing >= -balancing,
+cat("\nAdjust 'processing' for ", cbs[na_sum(balancing, residuals) < 0 &
+    !is.na(processing) & processing >= -na_sum(balancing, residuals)*0.99, .N],
+    " observations, where `na_sum(balancing, residuals) < 0` and `processing >= -na_sum(balancing, residuals)` to ",
+    "`processing = processing + na_sum(balancing, residuals)`.\n", sep = "")
+cbs[na_sum(balancing, residuals) < 0 & !is.na(processing) & processing >= -na_sum(balancing, residuals)*0.99,
     `:=`(processing = na_sum(processing, balancing),
-         balancing = 0)]
+         balancing = 0, residuals = 0)]
+cbs[processing < 0, `:=`(balancing = balancing + processing,
+                         processing = 0)]
 
-cat("\nAdjust 'other' for ", cbs[balancing < 0 &
-    !is.na(other) & other >= -balancing, .N],
-    " observations, where `balancing < 0` and `other >= -balancing` to ",
-    "`other = other + balancing`.\n", sep = "")
-cbs[balancing < 0 & !is.na(other) & other >= -balancing,
-    `:=`(other = na_sum(other, balancing),
-         balancing = 0)]
+cat("\nAdjust 'other' for ", cbs[na_sum(balancing, residuals) < 0 &
+    !is.na(other) & other >= -na_sum(balancing, residuals)*0.99, .N],
+    " observations, where `na_sum(balancing, residuals) < 0` and `other >= -na_sum(balancing, residuals)` to ",
+    "`other = other + na_sum(balancing, residuals)`.\n", sep = "")
+cbs[na_sum(balancing, residuals) < 0 & !is.na(other) & other >= -na_sum(balancing, residuals)*0.99,
+    `:=`(other = na_sum(other, balancing, residuals),
+         balancing = 0, residuals = 0)]
+cbs[other < 0, `:=`(balancing = balancing + other,
+                    other = 0)]
 
-cat("\nAdjust 'tourist' for ", cbs[balancing < 0 &
-    !is.na(tourist) & tourist >= -balancing, .N],
-    " observations, where `balancing < 0` and `tourist >= -balancing` to ",
-    "`tourist = tourist + balancing`.\n", sep = "")
-cbs[balancing < 0 & !is.na(other) & other >= -balancing,
-    `:=`(other = na_sum(other, balancing),
-         balancing = 0)]
+# cat("\nAdjust 'tourist' for ", cbs[balancing < 0 &
+#     !is.na(tourist) & tourist >= -balancing, .N],
+#     " observations, where `balancing < 0` and `tourist >= -balancing` to ",
+#     "`tourist = tourist + balancing`.\n", sep = "")
+# cbs[balancing < 0 & !is.na(other) & other >= -balancing,
+#     `:=`(other = na_sum(other, balancing),
+#          balancing = 0)]
 
-cat("\nAdjust 'unspecified' for ", cbs[balancing < 0 &
-    !is.na(unspecified) & unspecified >= -balancing, .N],
-    " observations, where `balancing < 0` and `unspecified >= -balancing` to ",
-    "`unspecified = unspecified + balancing`.\n", sep = "")
-cbs[balancing < 0 & !is.na(unspecified) & unspecified >= -balancing,
-    `:=`(unspecified = na_sum(unspecified, balancing),
-         balancing = 0)]
+cat("\nAdjust 'unspecified' for ", cbs[na_sum(balancing, residuals) < 0 &
+    !is.na(unspecified) & unspecified >= -na_sum(balancing, residuals)*0.99, .N],
+    " observations, where `na_sum(balancing, residuals) < 0` and `unspecified >= -na_sum(balancing, residuals)` to ",
+    "`unspecified = unspecified + na_sum(balancing, residuals)`.\n", sep = "")
+cbs[na_sum(balancing, residuals) < 0 & !is.na(unspecified) & unspecified >= -na_sum(balancing, residuals)*0.99,
+    `:=`(unspecified = na_sum(unspecified, balancing, residuals),
+         balancing = 0, residuals = 0)]
+cbs[unspecified < 0, `:=`(balancing = balancing + unspecified,
+                          unspecified = 0)]
 
-cat("\nAdjust 'stock_addition' for ", cbs[balancing < 0 &
-    !is.na(stock_addition) & stock_addition >= -balancing, .N],
-    " observations, where `balancing < 0` and `stock_addition >= -balancing` to ",
-    "`stock_addition = stock_addition + balancing`.\n", sep = "")
-cbs[balancing < 0 & !is.na(stock_addition) & stock_addition >= -balancing,
-    `:=`(stock_addition = na_sum(stock_addition, balancing),
-         stock_withdrawal = na_sum(stock_withdrawal, -balancing),
-         balancing = 0)]
+cat("\nAdjust 'stock_addition' for ", cbs[na_sum(balancing, residuals) < 0 &
+    !is.na(stock_addition) & stock_addition >= -na_sum(balancing, residuals)*0.99, .N],
+    " observations, where `na_sum(balancing, residuals) < 0` and `stock_addition >= -na_sum(balancing, residuals)` to ",
+    "`stock_addition = stock_addition + na_sum(balancing, residuals)`.\n", sep = "")
+cbs[na_sum(balancing, residuals) < 0 & !is.na(stock_addition) & stock_addition >= -na_sum(balancing, residuals)*0.99,
+    `:=`(stock_addition = na_sum(stock_addition, balancing, residuals),
+         stock_withdrawal = na_sum(stock_withdrawal, -balancing, -residuals),
+         balancing = 0, residuals = 0)]
 
-cat("\nAdjust uses proportionally for ", cbs[balancing < 0, .N],
-    " observations, where `balancing < 0`", sep = "")
+cat("\nAdjust uses proportionally for ", cbs[na_sum(balancing, residuals) < 0, .N],
+    " observations, where `na_sum(balancing, residuals) < 0`", sep = "")
 # TODO: include residuals here?
 cbs[, divisor := na_sum(exports, other, processing, seed, food, feed, stock_addition, tourist)]
-cbs[balancing < 0 & divisor >= -balancing,
-    `:=`(stock_addition = round(na_sum(stock_addition, (balancing / divisor * stock_addition))),
-         processing = round(na_sum(processing, (balancing / divisor * processing))),
-         exports = round(na_sum(exports, (balancing / divisor * exports))),
-         other = round(na_sum(other, (balancing / divisor * other))),
-         seed = round(na_sum(seed, (balancing / divisor * seed))),
-         food = round(na_sum(food, (balancing / divisor * food))),
-         feed = round(na_sum(feed, (balancing / divisor * feed))),
-         tourist = round(na_sum(tourist, (balancing / divisor * tourist))),
-         balancing = 0)]
+cbs[na_sum(balancing, residuals) < 0 & divisor >= -na_sum(balancing, residuals),
+    `:=`(stock_addition = round(na_sum(stock_addition, (na_sum(balancing, residuals) / divisor * stock_addition))),
+         processing = round(na_sum(processing, (na_sum(balancing, residuals) / divisor * processing))),
+         exports = round(na_sum(exports, (na_sum(balancing, residuals) / divisor * exports))),
+         other = round(na_sum(other, (na_sum(balancing, residuals) / divisor * other))),
+         seed = round(na_sum(seed, (na_sum(balancing, residuals) / divisor * seed))),
+         food = round(na_sum(food, (na_sum(balancing, residuals) / divisor * food))),
+         feed = round(na_sum(feed, (na_sum(balancing, residuals) / divisor * feed))),
+         tourist = round(na_sum(tourist, (na_sum(balancing, residuals) / divisor * tourist))),
+         balancing = 0, residuals = 0)]
 cbs[, `:=`(stock_withdrawal = -stock_addition,
            divisor = NULL)]
 
@@ -710,10 +716,12 @@ cbs[, balancing := na_sum(production, imports, stock_withdrawal,
                           -exports, -food, -feed, -seed, -losses, -processing, -other, -unspecified, -tourist, -residuals)]
 
 # Attribute rest (resulting from rounding differences) to stock changes
-cbs[balancing < 0,
+cbs[na_sum(balancing, residuals) < 0,
     `:=`(stock_addition = na_sum(stock_addition, balancing),
          stock_withdrawal = na_sum(stock_withdrawal, -balancing),
-         balancing = 0)]
+         balancing = 0, residuals = 0)]
+cbs[balancing < 0, `:=`(residuals = residuals + balancing, balancing = 0)]
+cbs[residuals < 0, `:=`(balancing = residuals + balancing, residuals = 0)]
 
 # Adjust 'total_supply' to new production values
 cbs[, total_supply := na_sum(production, imports)]
@@ -769,23 +777,23 @@ cat("\nAllocate remaining supply from 'unspecified' and 'balancing' to uses.\n")
 
 cat("\nHops, oil palm fruit, palm kernels, sugar crops and live animals to 'processing'.\n")
 cbs[item_code %in% c(254, 328, 677, 866, 946, 976, 1016, 1034, 2029, 1096, 1107, 1110,
-  1126, 1157, 1140, 1150, 1171, 2536, 2537, 2562) & na_sum(unspecified, balancing) > 0,
-  `:=`(processing = na_sum(processing, unspecified, balancing),
-       unspecified = 0, balancing = 0)]
+  1126, 1157, 1140, 1150, 1171, 2536, 2537, 2562) & na_sum(unspecified, balancing, residuals) > 0,
+  `:=`(processing = na_sum(processing, unspecified, balancing, residuals),
+       unspecified = 0, balancing = 0, residuals = 0)]
 
 cat("\nNon-food crops to 'other'.\n")
 cbs[item_code %in% c(2662, 2663, 2664, 2665, 2666, 2667, 2671, 2672, 2659,
-  1864, 1866, 1867, 2661, 2746, 2748, 2747) & na_sum(unspecified, balancing) > 0,
-  `:=`(other = na_sum(other, unspecified, balancing),
-       unspecified = 0, balancing = 0)]
+  1864, 1866, 1867, 2661, 2746, 2748, 2747) & na_sum(unspecified, balancing, residuals, processing) > 0,
+  `:=`(other = na_sum(other, unspecified, balancing, residuals, processing),
+       unspecified = 0, balancing = 0, residuals = 0, processing = 0)]
 
 cat("\nFeed crops to 'feed'.\n")
 cbs[item_code %in% c(2000, 2001, 2555, 2559, 2590, 2591, 2592, 2593, 2594,
-  2595, 2596, 2597, 2598, 2749) & na_sum(unspecified, balancing) > 0,
-  `:=`(feed = na_sum(feed, unspecified, balancing),
-       unspecified = 0, balancing = 0)]
+  2595, 2596, 2597, 2598, 2749) & na_sum(unspecified, balancing, residuals) > 0,
+  `:=`(feed = na_sum(feed, unspecified, balancing, residuals),
+       unspecified = 0, balancing = 0, residuals = 0)]
 
-cat("\nRest (mostly 'food', 'feed' and 'processing') remains in 'unspecified' and 'balancing'.\n")
+cat("\nRest (mostly 'food', 'feed' and 'processing') remains in 'unspecified', 'balancing' and 'residuals'.\n")
 
 
 # Save --------------------------------------------------------------------

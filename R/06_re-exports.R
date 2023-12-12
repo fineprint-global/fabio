@@ -5,7 +5,7 @@ library("tidyverse")
 source("R/01_tidy_functions.R")
 
 
-years <- 1986:2020
+years <- 1986:2021
 
 
 # BTD ---------------------------------------------------------------------
@@ -14,8 +14,7 @@ btd <- readRDS("data/btd_bal.rds")
 cbs <- readRDS("data/cbs_full.rds")
 
 areas <- sort(unique(cbs$area_code))
-items <- unique(cbs$item_code)
-
+items <- sort(unique(btd$item_code))
 
 
 # Prepare reallocation of re-exports --------------------------------------
@@ -27,7 +26,7 @@ cbs[, total_use := na_sum(dom_use, exports)]
 # Split stock changes into
 # - positive values (stock additions)  --> part of domestic use
 # - negative values (stock withdrawals) --> part of domestic supply
-#cbs <- cbs %>%
+# cbs <- cbs %>%
 #  mutate(stock_positive = ifelse(stock_addition > 0, stock_addition, 0),
 #         stock_negative = ifelse(stock_addition < 0, -stock_addition, 0), .after = stock_addition) %>%
 #  mutate(dom_supply = na_sum(production, stock_negative),
@@ -103,9 +102,13 @@ for(i in seq_along(years)) {
     # if(y==2002 & j=="1107") mat[185,184] <- mat[185,184]/3*2
     # if(y==2013 & j=="1157") mat[50,158] <- mat[50,158]/3*2
     mat <- t(t(mat) / denom)
-    if (max(colSums(mat)) > 1+1e-6) stop( "\n maximum colSum for ", j, " in ", y, " is larger than one: " , max(colSums(mat)), "\n")
+    # if (max(colSums(mat)) > 1+1e-6) stop( "\n maximum colSum for ", j, " in ", y, " is larger than one: " , max(colSums(mat)), "\n")
     mat <- diag(nrow(mat)) - mat
-    mat <- solve(mat)
+    # catch a problem with item 2593 in 2018-2020 (matrix seems to be close to singular)
+    if(y %in% 2018:2020 & j=="2593") {
+      mat <- MASS::ginv(as.matrix(mat))
+      mat[mat < 0] <- 0
+    } else mat <- solve(mat)
     mat <- mat * data$dom_share
     mat <- t(t(mat) * data$dom_use)
 

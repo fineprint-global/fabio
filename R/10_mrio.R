@@ -60,11 +60,32 @@ for(i in seq_along(Z_m)){
 
   for(j in which(X < 0)){
     reg <- j %/% nrcom + 1
+    print(paste0(regions[reg, name], " / ", X[j]))
     Y[[i]][j, paste0(regions[reg, code], "_balancing")] <-
       Y[[i]][j, paste0(regions[reg, code], "_balancing")] - X[j]
   }
 
 }
+
+# Integrate balancing and residuals, food and processing
+for(i in seq_along(Y)){
+  
+  Y[[i]][, grepl("balancing", colnames(Y[[i]]))] <-
+    Y[[i]][, grepl("balancing", colnames(Y[[i]]))] +
+    Y[[i]][, grepl("residuals", colnames(Y[[i]]))]
+  
+  Y[[i]][, grepl("food", colnames(Y[[i]]))] <-
+    Y[[i]][, grepl("food", colnames(Y[[i]]))] +
+    Y[[i]][, grepl("processing", colnames(Y[[i]]))]
+  
+  Y[[i]] <- Y[[i]][, !grepl("residuals", colnames(Y[[i]]))]
+  Y[[i]] <- Y[[i]][, !grepl("processing", colnames(Y[[i]]))]
+  
+}
+
+fd_codes <- fread("/mnt/nfs_fineprint/tmp/fabio/v1.2/fd_codes.csv")
+fd_codes <- fd_codes[!fd %in% c("residuals", "processing")]
+fwrite(fd_codes, file="/mnt/nfs_fineprint/tmp/fabio/v1.2/fd_codes.csv")
 
 
 # Derive total output X ---------------------------------------------
@@ -72,7 +93,6 @@ for(i in seq_along(Z_m)){
 X <- mapply(function(x, y) {
   rowSums(x) + rowSums(y)
 }, x = Z_m, y = Y)
-
 
 
 # Store X, Y, Z variables
@@ -111,6 +131,69 @@ saveRDS(X, "/mnt/nfs_fineprint/tmp/fabio/v1.2/X.rds")
 # saveRDS(Z_m, "/mnt/nfs_fineprint/tmp/fabio/v1.2/Z_mass_b.rds")
 # saveRDS(Z_v, "/mnt/nfs_fineprint/tmp/fabio/v1.2/Z_value_b.rds")
 # saveRDS(Y, "/mnt/nfs_fineprint/tmp/fabio/v1.2/Y_b.rds")
+
+
+
+
+# create the losses version of fabio ---
+
+years <- seq(1986, 2021)
+
+# year <- 2019
+for(year in years){
+  
+  print(year)
+  
+  # remove losses from Y
+  Yi <- Y[[as.character(year)]]
+  losses <- as.matrix(Yi[, grepl("losses", colnames(Yi))])
+  Yi[, grepl("losses", colnames(Yi))] <- 0
+  Y[[as.character(year)]] <- Yi
+  
+  # remove this and instead subtract losses from output X:
+  # # reshape losses for adding them later to the main diagonals of each submatrix of Z
+  # ## Get the number of rows and columns in the data matrix
+  # num_rows <- nrow(losses)
+  # num_cols <- nrow(losses) / ncol(losses)
+  # 
+  # ## Define a function for reshaping
+  # reshape_column <- function(v) {
+  #   m <- matrix(0, ncol = num_cols, nrow = num_rows)
+  #   indices <- ((seq_len(length(v)) - 1) %% num_cols) + 1
+  #   m[cbind(seq_len(length(v)), indices)] <- v
+  #   return(m)
+  # }
+  # 
+  # ## Apply the reshape_column function to each column using lapply
+  # matrix_list <- lapply(1:ncol(losses), function(i) {
+  #   v <- losses[, i]
+  #   reshape_column(v)
+  # })
+  # 
+  # ## Combine the matrices in the list using cbind()
+  # combined_matrix <- do.call(cbind, matrix_list)
+  # combined_matrix <- as(combined_matrix, "dgCMatrix")
+  # 
+  # 
+  # # add losses to the main diagonals of each submatrix of Z_m
+  # Zi <- Z_m[[as.character(year)]]
+  # Zi <- Zi + combined_matrix
+  # Z_m[[as.character(year)]] <- Zi
+  # 
+  # # add losses to the main diagonals of each submatrix of Z_v
+  # Zi <- Z_v[[as.character(year)]]
+  # Zi <- Zi + combined_matrix
+  # Z_v[[as.character(year)]] <- Zi
+  
+  X[,as.character(year)] <- X[,as.character(year)] - rowSums(losses)
+  
+}
+
+saveRDS(X, "/mnt/nfs_fineprint/tmp/fabio/v1.2/losses/X.rds")
+saveRDS(Y, "/mnt/nfs_fineprint/tmp/fabio/v1.2/losses/Y.rds")
+# saveRDS(Z_m, "/mnt/nfs_fineprint/tmp/fabio/v1.2/losses/Z_mass.rds")
+# saveRDS(Z_v, "/mnt/nfs_fineprint/tmp/fabio/v1.2/losses/Z_value.rds")
+
 
 
 

@@ -16,7 +16,7 @@ btd <- readRDS("data/btd_final.rds")
 use <- readRDS("data/use_final.rds")
 use_fd <- readRDS("data/use_fd_final.rds")
 
-years <- seq(1986, 2020)
+years <- seq(1986, 2021)
 areas <- unique(cbs$area_code)
 processes <- unique(use$proc_code)
 commodities <- unique(use$comm_code)

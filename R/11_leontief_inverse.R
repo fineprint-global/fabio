@@ -33,9 +33,9 @@ prep_solve <- function(year, Z, X,
 }
 
 
-years <- seq(1986, 2020)
+years <- seq(1986, 2021)
 years_singular <- c(1990, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2006, 2007, 2011) # 2013 #c(1994,2002,2009)
-years_singular_losses <- c(1990, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2006, 2007, 2010, 2011, 2019) #  c(2013,2019) #c(1990,2010,2019) #c(1994,2002,2009)
+years_singular_losses <- c(1989, 1990, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2006, 2007, 2010, 2011, 2013, 2018, 2019) #  c(2013,2019) #c(1990,2010,2019) #c(1994,2002,2009)
 
 Z_m <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/Z_mass.rds")
 Z_v <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/Z_value.rds")
@@ -64,62 +64,15 @@ for(year in years){
 
 
 
-# create the losses version of fabio ---
+# L inverse for losses version of fabio ---
 
-# year <- 2019
-for(year in years){
-
-  print(year)
-
-  # remove losses from Y
-  Yi <- Y[[as.character(year)]]
-  losses <- as.matrix(Yi[, grepl("losses", colnames(Yi))])
-  Yi[, grepl("losses", colnames(Yi))] <- 0
-  Y[[as.character(year)]] <- Yi
-
-  # reshape losses for adding them later to the main diagonals of each submatrix of Z
-  ## Get the number of rows and columns in the data matrix
-  num_rows <- nrow(losses)
-  num_cols <- nrow(losses) / ncol(losses)
-
-  ## Define a function for reshaping
-  reshape_column <- function(v) {
-    m <- matrix(0, ncol = num_cols, nrow = num_rows)
-    indices <- ((seq_len(length(v)) - 1) %% num_cols) + 1
-    m[cbind(seq_len(length(v)), indices)] <- v
-    return(m)
-  }
-
-  ## Apply the reshape_column function to each column using lapply
-  matrix_list <- lapply(1:ncol(losses), function(i) {
-    v <- losses[, i]
-    reshape_column(v)
-  })
-
-  ## Combine the matrices in the list using cbind()
-  combined_matrix <- do.call(cbind, matrix_list)
-  combined_matrix <- as(combined_matrix, "dgCMatrix")
+X <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/losses/X.rds")
+Y <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/losses/Y.rds")
+Z_m <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/losses/Z_mass.rds")
+Z_v <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/losses/Z_value.rds")
 
 
-  # add losses to the main diagonals of each submatrix of Z_m
-  Zi <- Z_m[[as.character(year)]]
-  Zi <- Zi + combined_matrix
-  Z_m[[as.character(year)]] <- Zi
-
-  # add losses to the main diagonals of each submatrix of Z_v
-  Zi <- Z_v[[as.character(year)]]
-  Zi <- Zi + combined_matrix
-  Z_v[[as.character(year)]] <- Zi
-}
-
-saveRDS(X, "/mnt/nfs_fineprint/tmp/fabio/v1.2/losses/X.rds")
-saveRDS(Y, "/mnt/nfs_fineprint/tmp/fabio/v1.2/losses/Y.rds")
-saveRDS(Z_m, "/mnt/nfs_fineprint/tmp/fabio/v1.2/losses/Z_mass.rds")
-saveRDS(Z_v, "/mnt/nfs_fineprint/tmp/fabio/v1.2/losses/Z_value.rds")
-
-
-
-#year <- 2019
+#year <- 2021
 for(year in years){
 
   print(year)

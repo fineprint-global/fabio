@@ -5,7 +5,7 @@ source("R/01_tidy_functions.R")
 regions <- fread("inst/regions_full.csv")
 items <- fread("inst/items_full.csv")
 
-years <- 1986:2020
+years <- 1986:2021
 
 # Comtrade and BACI are used for ethanol and fishery trade
 comtrade <- readRDS("data/tidy/comtrade_tidy.rds")
@@ -81,8 +81,8 @@ eth_com[, `:=`(from = ifelse(imex == "Import", partner, reporter),
   item = "Alcohol, Non-Food", item_code = 2659,
   reporter = NULL, reporter_code = NULL, partner = NULL, partner_code = NULL)]
 
-# Give preference to import flows over export flows
-eth_com <- flow_pref(eth_com, pref = "Import")
+# Give preference to export flows over import flows
+eth_com <- flow_pref(eth_com, pref = "Export")
 eth_com[, imex := NULL]
 
 # Exclude intra-regional trade flows
@@ -158,7 +158,7 @@ rm(fish_com, fish_com_fill, fish_baci)
 
 
 
-# Merge and save ----------------------------------------------------------
+# Merge --------------------------------------------------------------------
 
 btd <- rbindlist(list(btd, eth, fish), use.names = TRUE) #fore
 
@@ -182,6 +182,50 @@ btd[, comm_code := items$comm_code[match(btd$item_code, items$item_code)]]
 # Subset to only keep head and usd for live animals
 btd_live_tonnes <- btd[(comm_code %in% items[comm_group == "Live animals", comm_code] & unit == "tonnes")]
 btd <- btd[!(comm_code %in% items[comm_group == "Live animals", comm_code] & unit == "tonnes")]
+
+setorder(btd, by = year)
+
+
+
+# Handle outliers ----------------------------------------------------------
+# some example outliers where exports in btd are a lot higher than total_supply
+# area_code	|	area	|	year	|	item_code	|	item	|	production	|	exports	|	imports	|	total_supply	|	diff
+# 144	|	Mozambique	|	2019	|	2671	|	Tobacco	|	142041	|	2093003	|	34756	|	176797	|	-1916206
+# 144	|	Mozambique	|	2020	|	2671	|	Tobacco	|	67000	|	1074105	|	47018	|	114018	|	-960086
+# 231	|	United States of America	|	2020	|	2661	|	Cotton lint	|	3180410	|	3847577	|	12126	|	3192536	|	-655041
+# 177	|	Puerto Rico	|	1999	|	2514	|	Maize and products	|	700	|	641483	|	4	|	704	|	-640779
+# 10	|	Australia	|	2021	|	2661	|	Cotton lint	|	114751	|	717061	|	156	|	114907	|	-602154
+# 177	|	Puerto Rico	|	1996	|	2514	|	Maize and products	|	750	|	596125	|	233	|	983	|	-595141
+# 177	|	Puerto Rico	|	1997	|	2514	|	Maize and products	|	820	|	554312	|	1	|	821	|	-553491
+# 100	|	India	|	2021	|	2667	|	Hard Fibres, Other	|	591440.97	|	1123744	|	3812	|	595253	|	-528490
+
+
+# data <- btd %>% 
+#   group_by(comm_code, item_code, item, from_code, from, to_code, to, unit) %>% 
+#   mutate(q1 = quantile())
+# data <- btd[comm_code == "c002" & from_code == 231 & to_code == 41 & unit=="tonnes", value]
+
+# for(u in unique(btd$unit)){ # u <- "tonnes"
+#   for(i in unique(btd$from_code)){  # i <- 231
+#     for(c in unique(btd$comm_code)){  #  c <- "c060"
+#       check <- btd[unit==u & from_code==i & comm_code==c, list(value = na_sum(value)), 
+#                    by = c("item_code", "item", "from", "from_code", "year", "unit")]
+#       print(paste0(c, ": ", length(tsoutliers(check$value)$index)))
+#       if(length(tsoutliers(check$value)$index) != 0 & sum(check$value) > 100000){
+#         for(j in unique(btd$to_code)){  #  j <- 35
+#           if(length(tsoutliers(check$value)$index) != 0 & sum(check$value) > 10000){
+#             check <- btd[unit==u & from_code==i & to_code==j & comm_code==c]
+#             print(paste0(length(tsoutliers(check$value)$index), ": ", j))
+#           }
+#         }
+#       }
+#     }
+#   }
+# }
+
+# clean <- tsclean(data, lambda = NULL)
+# compare <- round(cbind(data, clean))
+
 
 
 # Store -------------------------------------------------------------------
