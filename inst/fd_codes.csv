@@ -1,0 +1,1345 @@
+area_code,area,fd
+1,Armenia,balancing
+1,Armenia,food
+1,Armenia,losses
+1,Armenia,other
+1,Armenia,stock_addition
+1,Armenia,tourist
+1,Armenia,unspecified
+2,Afghanistan,balancing
+2,Afghanistan,food
+2,Afghanistan,losses
+2,Afghanistan,other
+2,Afghanistan,stock_addition
+2,Afghanistan,tourist
+2,Afghanistan,unspecified
+3,Albania,balancing
+3,Albania,food
+3,Albania,losses
+3,Albania,other
+3,Albania,stock_addition
+3,Albania,tourist
+3,Albania,unspecified
+4,Algeria,balancing
+4,Algeria,food
+4,Algeria,losses
+4,Algeria,other
+4,Algeria,stock_addition
+4,Algeria,tourist
+4,Algeria,unspecified
+7,Angola,balancing
+7,Angola,food
+7,Angola,losses
+7,Angola,other
+7,Angola,stock_addition
+7,Angola,tourist
+7,Angola,unspecified
+8,Antigua and Barbuda,balancing
+8,Antigua and Barbuda,food
+8,Antigua and Barbuda,losses
+8,Antigua and Barbuda,other
+8,Antigua and Barbuda,stock_addition
+8,Antigua and Barbuda,tourist
+8,Antigua and Barbuda,unspecified
+9,Argentina,balancing
+9,Argentina,food
+9,Argentina,losses
+9,Argentina,other
+9,Argentina,stock_addition
+9,Argentina,tourist
+9,Argentina,unspecified
+10,Australia,balancing
+10,Australia,food
+10,Australia,losses
+10,Australia,other
+10,Australia,stock_addition
+10,Australia,tourist
+10,Australia,unspecified
+11,Austria,balancing
+11,Austria,food
+11,Austria,losses
+11,Austria,other
+11,Austria,stock_addition
+11,Austria,tourist
+11,Austria,unspecified
+12,Bahamas,balancing
+12,Bahamas,food
+12,Bahamas,losses
+12,Bahamas,other
+12,Bahamas,stock_addition
+12,Bahamas,tourist
+12,Bahamas,unspecified
+13,Bahrain,balancing
+13,Bahrain,food
+13,Bahrain,losses
+13,Bahrain,other
+13,Bahrain,stock_addition
+13,Bahrain,tourist
+13,Bahrain,unspecified
+14,Barbados,balancing
+14,Barbados,food
+14,Barbados,losses
+14,Barbados,other
+14,Barbados,stock_addition
+14,Barbados,tourist
+14,Barbados,unspecified
+15,Belgium-Luxembourg,balancing
+15,Belgium-Luxembourg,food
+15,Belgium-Luxembourg,losses
+15,Belgium-Luxembourg,other
+15,Belgium-Luxembourg,stock_addition
+15,Belgium-Luxembourg,tourist
+15,Belgium-Luxembourg,unspecified
+16,Bangladesh,balancing
+16,Bangladesh,food
+16,Bangladesh,losses
+16,Bangladesh,other
+16,Bangladesh,stock_addition
+16,Bangladesh,tourist
+16,Bangladesh,unspecified
+19,Bolivia (Plurinational State of),balancing
+19,Bolivia (Plurinational State of),food
+19,Bolivia (Plurinational State of),losses
+19,Bolivia (Plurinational State of),other
+19,Bolivia (Plurinational State of),stock_addition
+19,Bolivia (Plurinational State of),tourist
+19,Bolivia (Plurinational State of),unspecified
+20,Botswana,balancing
+20,Botswana,food
+20,Botswana,losses
+20,Botswana,other
+20,Botswana,stock_addition
+20,Botswana,tourist
+20,Botswana,unspecified
+21,Brazil,balancing
+21,Brazil,food
+21,Brazil,losses
+21,Brazil,other
+21,Brazil,stock_addition
+21,Brazil,tourist
+21,Brazil,unspecified
+23,Belize,balancing
+23,Belize,food
+23,Belize,losses
+23,Belize,other
+23,Belize,stock_addition
+23,Belize,tourist
+23,Belize,unspecified
+25,Solomon Islands,balancing
+25,Solomon Islands,food
+25,Solomon Islands,losses
+25,Solomon Islands,other
+25,Solomon Islands,stock_addition
+25,Solomon Islands,tourist
+25,Solomon Islands,unspecified
+26,Brunei Darussalam,balancing
+26,Brunei Darussalam,food
+26,Brunei Darussalam,losses
+26,Brunei Darussalam,other
+26,Brunei Darussalam,stock_addition
+26,Brunei Darussalam,tourist
+26,Brunei Darussalam,unspecified
+27,Bulgaria,balancing
+27,Bulgaria,food
+27,Bulgaria,losses
+27,Bulgaria,other
+27,Bulgaria,stock_addition
+27,Bulgaria,tourist
+27,Bulgaria,unspecified
+28,Myanmar,balancing
+28,Myanmar,food
+28,Myanmar,losses
+28,Myanmar,other
+28,Myanmar,stock_addition
+28,Myanmar,tourist
+28,Myanmar,unspecified
+29,Burundi,balancing
+29,Burundi,food
+29,Burundi,losses
+29,Burundi,other
+29,Burundi,stock_addition
+29,Burundi,tourist
+29,Burundi,unspecified
+32,Cameroon,balancing
+32,Cameroon,food
+32,Cameroon,losses
+32,Cameroon,other
+32,Cameroon,stock_addition
+32,Cameroon,tourist
+32,Cameroon,unspecified
+33,Canada,balancing
+33,Canada,food
+33,Canada,losses
+33,Canada,other
+33,Canada,stock_addition
+33,Canada,tourist
+33,Canada,unspecified
+35,Cabo Verde,balancing
+35,Cabo Verde,food
+35,Cabo Verde,losses
+35,Cabo Verde,other
+35,Cabo Verde,stock_addition
+35,Cabo Verde,tourist
+35,Cabo Verde,unspecified
+37,Central African Republic,balancing
+37,Central African Republic,food
+37,Central African Republic,losses
+37,Central African Republic,other
+37,Central African Republic,stock_addition
+37,Central African Republic,tourist
+37,Central African Republic,unspecified
+38,Sri Lanka,balancing
+38,Sri Lanka,food
+38,Sri Lanka,losses
+38,Sri Lanka,other
+38,Sri Lanka,stock_addition
+38,Sri Lanka,tourist
+38,Sri Lanka,unspecified
+39,Chad,balancing
+39,Chad,food
+39,Chad,losses
+39,Chad,other
+39,Chad,stock_addition
+39,Chad,tourist
+39,Chad,unspecified
+40,Chile,balancing
+40,Chile,food
+40,Chile,losses
+40,Chile,other
+40,Chile,stock_addition
+40,Chile,tourist
+40,Chile,unspecified
+41,"China, mainland",balancing
+41,"China, mainland",food
+41,"China, mainland",losses
+41,"China, mainland",other
+41,"China, mainland",stock_addition
+41,"China, mainland",tourist
+41,"China, mainland",unspecified
+44,Colombia,balancing
+44,Colombia,food
+44,Colombia,losses
+44,Colombia,other
+44,Colombia,stock_addition
+44,Colombia,tourist
+44,Colombia,unspecified
+46,Congo,balancing
+46,Congo,food
+46,Congo,losses
+46,Congo,other
+46,Congo,stock_addition
+46,Congo,tourist
+46,Congo,unspecified
+48,Costa Rica,balancing
+48,Costa Rica,food
+48,Costa Rica,losses
+48,Costa Rica,other
+48,Costa Rica,stock_addition
+48,Costa Rica,tourist
+48,Costa Rica,unspecified
+49,Cuba,balancing
+49,Cuba,food
+49,Cuba,losses
+49,Cuba,other
+49,Cuba,stock_addition
+49,Cuba,tourist
+49,Cuba,unspecified
+50,Cyprus,balancing
+50,Cyprus,food
+50,Cyprus,losses
+50,Cyprus,other
+50,Cyprus,stock_addition
+50,Cyprus,tourist
+50,Cyprus,unspecified
+51,Czechoslovakia,balancing
+51,Czechoslovakia,food
+51,Czechoslovakia,losses
+51,Czechoslovakia,other
+51,Czechoslovakia,stock_addition
+51,Czechoslovakia,tourist
+51,Czechoslovakia,unspecified
+52,Azerbaijan,balancing
+52,Azerbaijan,food
+52,Azerbaijan,losses
+52,Azerbaijan,other
+52,Azerbaijan,stock_addition
+52,Azerbaijan,tourist
+52,Azerbaijan,unspecified
+53,Benin,balancing
+53,Benin,food
+53,Benin,losses
+53,Benin,other
+53,Benin,stock_addition
+53,Benin,tourist
+53,Benin,unspecified
+54,Denmark,balancing
+54,Denmark,food
+54,Denmark,losses
+54,Denmark,other
+54,Denmark,stock_addition
+54,Denmark,tourist
+54,Denmark,unspecified
+55,Dominica,balancing
+55,Dominica,food
+55,Dominica,losses
+55,Dominica,other
+55,Dominica,stock_addition
+55,Dominica,tourist
+55,Dominica,unspecified
+56,Dominican Republic,balancing
+56,Dominican Republic,food
+56,Dominican Republic,losses
+56,Dominican Republic,other
+56,Dominican Republic,stock_addition
+56,Dominican Republic,tourist
+56,Dominican Republic,unspecified
+57,Belarus,balancing
+57,Belarus,food
+57,Belarus,losses
+57,Belarus,other
+57,Belarus,stock_addition
+57,Belarus,tourist
+57,Belarus,unspecified
+58,Ecuador,balancing
+58,Ecuador,food
+58,Ecuador,losses
+58,Ecuador,other
+58,Ecuador,stock_addition
+58,Ecuador,tourist
+58,Ecuador,unspecified
+59,Egypt,balancing
+59,Egypt,food
+59,Egypt,losses
+59,Egypt,other
+59,Egypt,stock_addition
+59,Egypt,tourist
+59,Egypt,unspecified
+60,El Salvador,balancing
+60,El Salvador,food
+60,El Salvador,losses
+60,El Salvador,other
+60,El Salvador,stock_addition
+60,El Salvador,tourist
+60,El Salvador,unspecified
+63,Estonia,balancing
+63,Estonia,food
+63,Estonia,losses
+63,Estonia,other
+63,Estonia,stock_addition
+63,Estonia,tourist
+63,Estonia,unspecified
+66,Fiji,balancing
+66,Fiji,food
+66,Fiji,losses
+66,Fiji,other
+66,Fiji,stock_addition
+66,Fiji,tourist
+66,Fiji,unspecified
+67,Finland,balancing
+67,Finland,food
+67,Finland,losses
+67,Finland,other
+67,Finland,stock_addition
+67,Finland,tourist
+67,Finland,unspecified
+68,France,balancing
+68,France,food
+68,France,losses
+68,France,other
+68,France,stock_addition
+68,France,tourist
+68,France,unspecified
+70,French Polynesia,balancing
+70,French Polynesia,food
+70,French Polynesia,losses
+70,French Polynesia,other
+70,French Polynesia,stock_addition
+70,French Polynesia,tourist
+70,French Polynesia,unspecified
+72,Djibouti,balancing
+72,Djibouti,food
+72,Djibouti,losses
+72,Djibouti,other
+72,Djibouti,stock_addition
+72,Djibouti,tourist
+72,Djibouti,unspecified
+73,Georgia,balancing
+73,Georgia,food
+73,Georgia,losses
+73,Georgia,other
+73,Georgia,stock_addition
+73,Georgia,tourist
+73,Georgia,unspecified
+74,Gabon,balancing
+74,Gabon,food
+74,Gabon,losses
+74,Gabon,other
+74,Gabon,stock_addition
+74,Gabon,tourist
+74,Gabon,unspecified
+75,Gambia,balancing
+75,Gambia,food
+75,Gambia,losses
+75,Gambia,other
+75,Gambia,stock_addition
+75,Gambia,tourist
+75,Gambia,unspecified
+79,Germany,balancing
+79,Germany,food
+79,Germany,losses
+79,Germany,other
+79,Germany,stock_addition
+79,Germany,tourist
+79,Germany,unspecified
+80,Bosnia and Herzegovina,balancing
+80,Bosnia and Herzegovina,food
+80,Bosnia and Herzegovina,losses
+80,Bosnia and Herzegovina,other
+80,Bosnia and Herzegovina,stock_addition
+80,Bosnia and Herzegovina,tourist
+80,Bosnia and Herzegovina,unspecified
+81,Ghana,balancing
+81,Ghana,food
+81,Ghana,losses
+81,Ghana,other
+81,Ghana,stock_addition
+81,Ghana,tourist
+81,Ghana,unspecified
+83,Kiribati,balancing
+83,Kiribati,food
+83,Kiribati,losses
+83,Kiribati,other
+83,Kiribati,stock_addition
+83,Kiribati,tourist
+83,Kiribati,unspecified
+84,Greece,balancing
+84,Greece,food
+84,Greece,losses
+84,Greece,other
+84,Greece,stock_addition
+84,Greece,tourist
+84,Greece,unspecified
+86,Grenada,balancing
+86,Grenada,food
+86,Grenada,losses
+86,Grenada,other
+86,Grenada,stock_addition
+86,Grenada,tourist
+86,Grenada,unspecified
+89,Guatemala,balancing
+89,Guatemala,food
+89,Guatemala,losses
+89,Guatemala,other
+89,Guatemala,stock_addition
+89,Guatemala,tourist
+89,Guatemala,unspecified
+90,Guinea,balancing
+90,Guinea,food
+90,Guinea,losses
+90,Guinea,other
+90,Guinea,stock_addition
+90,Guinea,tourist
+90,Guinea,unspecified
+91,Guyana,balancing
+91,Guyana,food
+91,Guyana,losses
+91,Guyana,other
+91,Guyana,stock_addition
+91,Guyana,tourist
+91,Guyana,unspecified
+93,Haiti,balancing
+93,Haiti,food
+93,Haiti,losses
+93,Haiti,other
+93,Haiti,stock_addition
+93,Haiti,tourist
+93,Haiti,unspecified
+95,Honduras,balancing
+95,Honduras,food
+95,Honduras,losses
+95,Honduras,other
+95,Honduras,stock_addition
+95,Honduras,tourist
+95,Honduras,unspecified
+96,"China, Hong Kong SAR",balancing
+96,"China, Hong Kong SAR",food
+96,"China, Hong Kong SAR",losses
+96,"China, Hong Kong SAR",other
+96,"China, Hong Kong SAR",stock_addition
+96,"China, Hong Kong SAR",tourist
+96,"China, Hong Kong SAR",unspecified
+97,Hungary,balancing
+97,Hungary,food
+97,Hungary,losses
+97,Hungary,other
+97,Hungary,stock_addition
+97,Hungary,tourist
+97,Hungary,unspecified
+98,Croatia,balancing
+98,Croatia,food
+98,Croatia,losses
+98,Croatia,other
+98,Croatia,stock_addition
+98,Croatia,tourist
+98,Croatia,unspecified
+99,Iceland,balancing
+99,Iceland,food
+99,Iceland,losses
+99,Iceland,other
+99,Iceland,stock_addition
+99,Iceland,tourist
+99,Iceland,unspecified
+100,India,balancing
+100,India,food
+100,India,losses
+100,India,other
+100,India,stock_addition
+100,India,tourist
+100,India,unspecified
+101,Indonesia,balancing
+101,Indonesia,food
+101,Indonesia,losses
+101,Indonesia,other
+101,Indonesia,stock_addition
+101,Indonesia,tourist
+101,Indonesia,unspecified
+102,Iran (Islamic Republic of),balancing
+102,Iran (Islamic Republic of),food
+102,Iran (Islamic Republic of),losses
+102,Iran (Islamic Republic of),other
+102,Iran (Islamic Republic of),stock_addition
+102,Iran (Islamic Republic of),tourist
+102,Iran (Islamic Republic of),unspecified
+103,Iraq,balancing
+103,Iraq,food
+103,Iraq,losses
+103,Iraq,other
+103,Iraq,stock_addition
+103,Iraq,tourist
+103,Iraq,unspecified
+104,Ireland,balancing
+104,Ireland,food
+104,Ireland,losses
+104,Ireland,other
+104,Ireland,stock_addition
+104,Ireland,tourist
+104,Ireland,unspecified
+105,Israel,balancing
+105,Israel,food
+105,Israel,losses
+105,Israel,other
+105,Israel,stock_addition
+105,Israel,tourist
+105,Israel,unspecified
+106,Italy,balancing
+106,Italy,food
+106,Italy,losses
+106,Italy,other
+106,Italy,stock_addition
+106,Italy,tourist
+106,Italy,unspecified
+107,Côte d'Ivoire,balancing
+107,Côte d'Ivoire,food
+107,Côte d'Ivoire,losses
+107,Côte d'Ivoire,other
+107,Côte d'Ivoire,stock_addition
+107,Côte d'Ivoire,tourist
+107,Côte d'Ivoire,unspecified
+108,Kazakhstan,balancing
+108,Kazakhstan,food
+108,Kazakhstan,losses
+108,Kazakhstan,other
+108,Kazakhstan,stock_addition
+108,Kazakhstan,tourist
+108,Kazakhstan,unspecified
+109,Jamaica,balancing
+109,Jamaica,food
+109,Jamaica,losses
+109,Jamaica,other
+109,Jamaica,stock_addition
+109,Jamaica,tourist
+109,Jamaica,unspecified
+110,Japan,balancing
+110,Japan,food
+110,Japan,losses
+110,Japan,other
+110,Japan,stock_addition
+110,Japan,tourist
+110,Japan,unspecified
+112,Jordan,balancing
+112,Jordan,food
+112,Jordan,losses
+112,Jordan,other
+112,Jordan,stock_addition
+112,Jordan,tourist
+112,Jordan,unspecified
+113,Kyrgyzstan,balancing
+113,Kyrgyzstan,food
+113,Kyrgyzstan,losses
+113,Kyrgyzstan,other
+113,Kyrgyzstan,stock_addition
+113,Kyrgyzstan,tourist
+113,Kyrgyzstan,unspecified
+114,Kenya,balancing
+114,Kenya,food
+114,Kenya,losses
+114,Kenya,other
+114,Kenya,stock_addition
+114,Kenya,tourist
+114,Kenya,unspecified
+115,Cambodia,balancing
+115,Cambodia,food
+115,Cambodia,losses
+115,Cambodia,other
+115,Cambodia,stock_addition
+115,Cambodia,tourist
+115,Cambodia,unspecified
+116,Democratic People's Republic of Korea,balancing
+116,Democratic People's Republic of Korea,food
+116,Democratic People's Republic of Korea,losses
+116,Democratic People's Republic of Korea,other
+116,Democratic People's Republic of Korea,stock_addition
+116,Democratic People's Republic of Korea,tourist
+116,Democratic People's Republic of Korea,unspecified
+117,Republic of Korea,balancing
+117,Republic of Korea,food
+117,Republic of Korea,losses
+117,Republic of Korea,other
+117,Republic of Korea,stock_addition
+117,Republic of Korea,tourist
+117,Republic of Korea,unspecified
+118,Kuwait,balancing
+118,Kuwait,food
+118,Kuwait,losses
+118,Kuwait,other
+118,Kuwait,stock_addition
+118,Kuwait,tourist
+118,Kuwait,unspecified
+119,Latvia,balancing
+119,Latvia,food
+119,Latvia,losses
+119,Latvia,other
+119,Latvia,stock_addition
+119,Latvia,tourist
+119,Latvia,unspecified
+120,Lao People's Democratic Republic,balancing
+120,Lao People's Democratic Republic,food
+120,Lao People's Democratic Republic,losses
+120,Lao People's Democratic Republic,other
+120,Lao People's Democratic Republic,stock_addition
+120,Lao People's Democratic Republic,tourist
+120,Lao People's Democratic Republic,unspecified
+121,Lebanon,balancing
+121,Lebanon,food
+121,Lebanon,losses
+121,Lebanon,other
+121,Lebanon,stock_addition
+121,Lebanon,tourist
+121,Lebanon,unspecified
+122,Lesotho,balancing
+122,Lesotho,food
+122,Lesotho,losses
+122,Lesotho,other
+122,Lesotho,stock_addition
+122,Lesotho,tourist
+122,Lesotho,unspecified
+123,Liberia,balancing
+123,Liberia,food
+123,Liberia,losses
+123,Liberia,other
+123,Liberia,stock_addition
+123,Liberia,tourist
+123,Liberia,unspecified
+124,Libya,balancing
+124,Libya,food
+124,Libya,losses
+124,Libya,other
+124,Libya,stock_addition
+124,Libya,tourist
+124,Libya,unspecified
+126,Lithuania,balancing
+126,Lithuania,food
+126,Lithuania,losses
+126,Lithuania,other
+126,Lithuania,stock_addition
+126,Lithuania,tourist
+126,Lithuania,unspecified
+128,"China, Macao SAR",balancing
+128,"China, Macao SAR",food
+128,"China, Macao SAR",losses
+128,"China, Macao SAR",other
+128,"China, Macao SAR",stock_addition
+128,"China, Macao SAR",tourist
+128,"China, Macao SAR",unspecified
+129,Madagascar,balancing
+129,Madagascar,food
+129,Madagascar,losses
+129,Madagascar,other
+129,Madagascar,stock_addition
+129,Madagascar,tourist
+129,Madagascar,unspecified
+130,Malawi,balancing
+130,Malawi,food
+130,Malawi,losses
+130,Malawi,other
+130,Malawi,stock_addition
+130,Malawi,tourist
+130,Malawi,unspecified
+131,Malaysia,balancing
+131,Malaysia,food
+131,Malaysia,losses
+131,Malaysia,other
+131,Malaysia,stock_addition
+131,Malaysia,tourist
+131,Malaysia,unspecified
+132,Maldives,balancing
+132,Maldives,food
+132,Maldives,losses
+132,Maldives,other
+132,Maldives,stock_addition
+132,Maldives,tourist
+132,Maldives,unspecified
+133,Mali,balancing
+133,Mali,food
+133,Mali,losses
+133,Mali,other
+133,Mali,stock_addition
+133,Mali,tourist
+133,Mali,unspecified
+134,Malta,balancing
+134,Malta,food
+134,Malta,losses
+134,Malta,other
+134,Malta,stock_addition
+134,Malta,tourist
+134,Malta,unspecified
+136,Mauritania,balancing
+136,Mauritania,food
+136,Mauritania,losses
+136,Mauritania,other
+136,Mauritania,stock_addition
+136,Mauritania,tourist
+136,Mauritania,unspecified
+137,Mauritius,balancing
+137,Mauritius,food
+137,Mauritius,losses
+137,Mauritius,other
+137,Mauritius,stock_addition
+137,Mauritius,tourist
+137,Mauritius,unspecified
+138,Mexico,balancing
+138,Mexico,food
+138,Mexico,losses
+138,Mexico,other
+138,Mexico,stock_addition
+138,Mexico,tourist
+138,Mexico,unspecified
+141,Mongolia,balancing
+141,Mongolia,food
+141,Mongolia,losses
+141,Mongolia,other
+141,Mongolia,stock_addition
+141,Mongolia,tourist
+141,Mongolia,unspecified
+143,Morocco,balancing
+143,Morocco,food
+143,Morocco,losses
+143,Morocco,other
+143,Morocco,stock_addition
+143,Morocco,tourist
+143,Morocco,unspecified
+144,Mozambique,balancing
+144,Mozambique,food
+144,Mozambique,losses
+144,Mozambique,other
+144,Mozambique,stock_addition
+144,Mozambique,tourist
+144,Mozambique,unspecified
+146,Republic of Moldova,balancing
+146,Republic of Moldova,food
+146,Republic of Moldova,losses
+146,Republic of Moldova,other
+146,Republic of Moldova,stock_addition
+146,Republic of Moldova,tourist
+146,Republic of Moldova,unspecified
+147,Namibia,balancing
+147,Namibia,food
+147,Namibia,losses
+147,Namibia,other
+147,Namibia,stock_addition
+147,Namibia,tourist
+147,Namibia,unspecified
+149,Nepal,balancing
+149,Nepal,food
+149,Nepal,losses
+149,Nepal,other
+149,Nepal,stock_addition
+149,Nepal,tourist
+149,Nepal,unspecified
+150,Netherlands,balancing
+150,Netherlands,food
+150,Netherlands,losses
+150,Netherlands,other
+150,Netherlands,stock_addition
+150,Netherlands,tourist
+150,Netherlands,unspecified
+151,Netherlands Antilles,balancing
+151,Netherlands Antilles,food
+151,Netherlands Antilles,losses
+151,Netherlands Antilles,other
+151,Netherlands Antilles,stock_addition
+151,Netherlands Antilles,tourist
+151,Netherlands Antilles,unspecified
+153,New Caledonia,balancing
+153,New Caledonia,food
+153,New Caledonia,losses
+153,New Caledonia,other
+153,New Caledonia,stock_addition
+153,New Caledonia,tourist
+153,New Caledonia,unspecified
+154,North Macedonia,balancing
+154,North Macedonia,food
+154,North Macedonia,losses
+154,North Macedonia,other
+154,North Macedonia,stock_addition
+154,North Macedonia,tourist
+154,North Macedonia,unspecified
+155,Vanuatu,balancing
+155,Vanuatu,food
+155,Vanuatu,losses
+155,Vanuatu,other
+155,Vanuatu,stock_addition
+155,Vanuatu,tourist
+155,Vanuatu,unspecified
+156,New Zealand,balancing
+156,New Zealand,food
+156,New Zealand,losses
+156,New Zealand,other
+156,New Zealand,stock_addition
+156,New Zealand,tourist
+156,New Zealand,unspecified
+157,Nicaragua,balancing
+157,Nicaragua,food
+157,Nicaragua,losses
+157,Nicaragua,other
+157,Nicaragua,stock_addition
+157,Nicaragua,tourist
+157,Nicaragua,unspecified
+158,Niger,balancing
+158,Niger,food
+158,Niger,losses
+158,Niger,other
+158,Niger,stock_addition
+158,Niger,tourist
+158,Niger,unspecified
+159,Nigeria,balancing
+159,Nigeria,food
+159,Nigeria,losses
+159,Nigeria,other
+159,Nigeria,stock_addition
+159,Nigeria,tourist
+159,Nigeria,unspecified
+162,Norway,balancing
+162,Norway,food
+162,Norway,losses
+162,Norway,other
+162,Norway,stock_addition
+162,Norway,tourist
+162,Norway,unspecified
+165,Pakistan,balancing
+165,Pakistan,food
+165,Pakistan,losses
+165,Pakistan,other
+165,Pakistan,stock_addition
+165,Pakistan,tourist
+165,Pakistan,unspecified
+166,Panama,balancing
+166,Panama,food
+166,Panama,losses
+166,Panama,other
+166,Panama,stock_addition
+166,Panama,tourist
+166,Panama,unspecified
+167,Czech Republic,balancing
+167,Czech Republic,food
+167,Czech Republic,losses
+167,Czech Republic,other
+167,Czech Republic,stock_addition
+167,Czech Republic,tourist
+167,Czech Republic,unspecified
+168,Papua New Guinea,balancing
+168,Papua New Guinea,food
+168,Papua New Guinea,losses
+168,Papua New Guinea,other
+168,Papua New Guinea,stock_addition
+168,Papua New Guinea,tourist
+168,Papua New Guinea,unspecified
+169,Paraguay,balancing
+169,Paraguay,food
+169,Paraguay,losses
+169,Paraguay,other
+169,Paraguay,stock_addition
+169,Paraguay,tourist
+169,Paraguay,unspecified
+170,Peru,balancing
+170,Peru,food
+170,Peru,losses
+170,Peru,other
+170,Peru,stock_addition
+170,Peru,tourist
+170,Peru,unspecified
+171,Philippines,balancing
+171,Philippines,food
+171,Philippines,losses
+171,Philippines,other
+171,Philippines,stock_addition
+171,Philippines,tourist
+171,Philippines,unspecified
+173,Poland,balancing
+173,Poland,food
+173,Poland,losses
+173,Poland,other
+173,Poland,stock_addition
+173,Poland,tourist
+173,Poland,unspecified
+174,Portugal,balancing
+174,Portugal,food
+174,Portugal,losses
+174,Portugal,other
+174,Portugal,stock_addition
+174,Portugal,tourist
+174,Portugal,unspecified
+175,Guinea-Bissau,balancing
+175,Guinea-Bissau,food
+175,Guinea-Bissau,losses
+175,Guinea-Bissau,other
+175,Guinea-Bissau,stock_addition
+175,Guinea-Bissau,tourist
+175,Guinea-Bissau,unspecified
+176,Timor-Leste,balancing
+176,Timor-Leste,food
+176,Timor-Leste,losses
+176,Timor-Leste,other
+176,Timor-Leste,stock_addition
+176,Timor-Leste,tourist
+176,Timor-Leste,unspecified
+177,Puerto Rico,balancing
+177,Puerto Rico,food
+177,Puerto Rico,losses
+177,Puerto Rico,other
+177,Puerto Rico,stock_addition
+177,Puerto Rico,tourist
+177,Puerto Rico,unspecified
+178,Eritrea,balancing
+178,Eritrea,food
+178,Eritrea,losses
+178,Eritrea,other
+178,Eritrea,stock_addition
+178,Eritrea,tourist
+178,Eritrea,unspecified
+179,Qatar,balancing
+179,Qatar,food
+179,Qatar,losses
+179,Qatar,other
+179,Qatar,stock_addition
+179,Qatar,tourist
+179,Qatar,unspecified
+181,Zimbabwe,balancing
+181,Zimbabwe,food
+181,Zimbabwe,losses
+181,Zimbabwe,other
+181,Zimbabwe,stock_addition
+181,Zimbabwe,tourist
+181,Zimbabwe,unspecified
+183,Romania,balancing
+183,Romania,food
+183,Romania,losses
+183,Romania,other
+183,Romania,stock_addition
+183,Romania,tourist
+183,Romania,unspecified
+184,Rwanda,balancing
+184,Rwanda,food
+184,Rwanda,losses
+184,Rwanda,other
+184,Rwanda,stock_addition
+184,Rwanda,tourist
+184,Rwanda,unspecified
+185,Russian Federation,balancing
+185,Russian Federation,food
+185,Russian Federation,losses
+185,Russian Federation,other
+185,Russian Federation,stock_addition
+185,Russian Federation,tourist
+185,Russian Federation,unspecified
+186,Serbia and Montenegro,balancing
+186,Serbia and Montenegro,food
+186,Serbia and Montenegro,losses
+186,Serbia and Montenegro,other
+186,Serbia and Montenegro,stock_addition
+186,Serbia and Montenegro,tourist
+186,Serbia and Montenegro,unspecified
+188,Saint Kitts and Nevis,balancing
+188,Saint Kitts and Nevis,food
+188,Saint Kitts and Nevis,losses
+188,Saint Kitts and Nevis,other
+188,Saint Kitts and Nevis,stock_addition
+188,Saint Kitts and Nevis,tourist
+188,Saint Kitts and Nevis,unspecified
+189,Saint Lucia,balancing
+189,Saint Lucia,food
+189,Saint Lucia,losses
+189,Saint Lucia,other
+189,Saint Lucia,stock_addition
+189,Saint Lucia,tourist
+189,Saint Lucia,unspecified
+191,Saint Vincent and the Grenadines,balancing
+191,Saint Vincent and the Grenadines,food
+191,Saint Vincent and the Grenadines,losses
+191,Saint Vincent and the Grenadines,other
+191,Saint Vincent and the Grenadines,stock_addition
+191,Saint Vincent and the Grenadines,tourist
+191,Saint Vincent and the Grenadines,unspecified
+193,Sao Tome and Principe,balancing
+193,Sao Tome and Principe,food
+193,Sao Tome and Principe,losses
+193,Sao Tome and Principe,other
+193,Sao Tome and Principe,stock_addition
+193,Sao Tome and Principe,tourist
+193,Sao Tome and Principe,unspecified
+194,Saudi Arabia,balancing
+194,Saudi Arabia,food
+194,Saudi Arabia,losses
+194,Saudi Arabia,other
+194,Saudi Arabia,stock_addition
+194,Saudi Arabia,tourist
+194,Saudi Arabia,unspecified
+195,Senegal,balancing
+195,Senegal,food
+195,Senegal,losses
+195,Senegal,other
+195,Senegal,stock_addition
+195,Senegal,tourist
+195,Senegal,unspecified
+197,Sierra Leone,balancing
+197,Sierra Leone,food
+197,Sierra Leone,losses
+197,Sierra Leone,other
+197,Sierra Leone,stock_addition
+197,Sierra Leone,tourist
+197,Sierra Leone,unspecified
+198,Slovenia,balancing
+198,Slovenia,food
+198,Slovenia,losses
+198,Slovenia,other
+198,Slovenia,stock_addition
+198,Slovenia,tourist
+198,Slovenia,unspecified
+199,Slovakia,balancing
+199,Slovakia,food
+199,Slovakia,losses
+199,Slovakia,other
+199,Slovakia,stock_addition
+199,Slovakia,tourist
+199,Slovakia,unspecified
+200,Singapore,balancing
+200,Singapore,food
+200,Singapore,losses
+200,Singapore,other
+200,Singapore,stock_addition
+200,Singapore,tourist
+200,Singapore,unspecified
+201,Somalia,balancing
+201,Somalia,food
+201,Somalia,losses
+201,Somalia,other
+201,Somalia,stock_addition
+201,Somalia,tourist
+201,Somalia,unspecified
+202,South Africa,balancing
+202,South Africa,food
+202,South Africa,losses
+202,South Africa,other
+202,South Africa,stock_addition
+202,South Africa,tourist
+202,South Africa,unspecified
+203,Spain,balancing
+203,Spain,food
+203,Spain,losses
+203,Spain,other
+203,Spain,stock_addition
+203,Spain,tourist
+203,Spain,unspecified
+207,Suriname,balancing
+207,Suriname,food
+207,Suriname,losses
+207,Suriname,other
+207,Suriname,stock_addition
+207,Suriname,tourist
+207,Suriname,unspecified
+208,Tajikistan,balancing
+208,Tajikistan,food
+208,Tajikistan,losses
+208,Tajikistan,other
+208,Tajikistan,stock_addition
+208,Tajikistan,tourist
+208,Tajikistan,unspecified
+209,Eswatini,balancing
+209,Eswatini,food
+209,Eswatini,losses
+209,Eswatini,other
+209,Eswatini,stock_addition
+209,Eswatini,tourist
+209,Eswatini,unspecified
+210,Sweden,balancing
+210,Sweden,food
+210,Sweden,losses
+210,Sweden,other
+210,Sweden,stock_addition
+210,Sweden,tourist
+210,Sweden,unspecified
+211,Switzerland,balancing
+211,Switzerland,food
+211,Switzerland,losses
+211,Switzerland,other
+211,Switzerland,stock_addition
+211,Switzerland,tourist
+211,Switzerland,unspecified
+212,Syrian Arab Republic,balancing
+212,Syrian Arab Republic,food
+212,Syrian Arab Republic,losses
+212,Syrian Arab Republic,other
+212,Syrian Arab Republic,stock_addition
+212,Syrian Arab Republic,tourist
+212,Syrian Arab Republic,unspecified
+213,Turkmenistan,balancing
+213,Turkmenistan,food
+213,Turkmenistan,losses
+213,Turkmenistan,other
+213,Turkmenistan,stock_addition
+213,Turkmenistan,tourist
+213,Turkmenistan,unspecified
+214,"China, Taiwan Province of",balancing
+214,"China, Taiwan Province of",food
+214,"China, Taiwan Province of",losses
+214,"China, Taiwan Province of",other
+214,"China, Taiwan Province of",stock_addition
+214,"China, Taiwan Province of",tourist
+214,"China, Taiwan Province of",unspecified
+215,United Republic of Tanzania,balancing
+215,United Republic of Tanzania,food
+215,United Republic of Tanzania,losses
+215,United Republic of Tanzania,other
+215,United Republic of Tanzania,stock_addition
+215,United Republic of Tanzania,tourist
+215,United Republic of Tanzania,unspecified
+216,Thailand,balancing
+216,Thailand,food
+216,Thailand,losses
+216,Thailand,other
+216,Thailand,stock_addition
+216,Thailand,tourist
+216,Thailand,unspecified
+217,Togo,balancing
+217,Togo,food
+217,Togo,losses
+217,Togo,other
+217,Togo,stock_addition
+217,Togo,tourist
+217,Togo,unspecified
+220,Trinidad and Tobago,balancing
+220,Trinidad and Tobago,food
+220,Trinidad and Tobago,losses
+220,Trinidad and Tobago,other
+220,Trinidad and Tobago,stock_addition
+220,Trinidad and Tobago,tourist
+220,Trinidad and Tobago,unspecified
+221,Oman,balancing
+221,Oman,food
+221,Oman,losses
+221,Oman,other
+221,Oman,stock_addition
+221,Oman,tourist
+221,Oman,unspecified
+222,Tunisia,balancing
+222,Tunisia,food
+222,Tunisia,losses
+222,Tunisia,other
+222,Tunisia,stock_addition
+222,Tunisia,tourist
+222,Tunisia,unspecified
+223,Turkey,balancing
+223,Turkey,food
+223,Turkey,losses
+223,Turkey,other
+223,Turkey,stock_addition
+223,Turkey,tourist
+223,Turkey,unspecified
+225,United Arab Emirates,balancing
+225,United Arab Emirates,food
+225,United Arab Emirates,losses
+225,United Arab Emirates,other
+225,United Arab Emirates,stock_addition
+225,United Arab Emirates,tourist
+225,United Arab Emirates,unspecified
+226,Uganda,balancing
+226,Uganda,food
+226,Uganda,losses
+226,Uganda,other
+226,Uganda,stock_addition
+226,Uganda,tourist
+226,Uganda,unspecified
+228,USSR,balancing
+228,USSR,food
+228,USSR,losses
+228,USSR,other
+228,USSR,stock_addition
+228,USSR,tourist
+228,USSR,unspecified
+229,United Kingdom,balancing
+229,United Kingdom,food
+229,United Kingdom,losses
+229,United Kingdom,other
+229,United Kingdom,stock_addition
+229,United Kingdom,tourist
+229,United Kingdom,unspecified
+230,Ukraine,balancing
+230,Ukraine,food
+230,Ukraine,losses
+230,Ukraine,other
+230,Ukraine,stock_addition
+230,Ukraine,tourist
+230,Ukraine,unspecified
+231,United States of America,balancing
+231,United States of America,food
+231,United States of America,losses
+231,United States of America,other
+231,United States of America,stock_addition
+231,United States of America,tourist
+231,United States of America,unspecified
+233,Burkina Faso,balancing
+233,Burkina Faso,food
+233,Burkina Faso,losses
+233,Burkina Faso,other
+233,Burkina Faso,stock_addition
+233,Burkina Faso,tourist
+233,Burkina Faso,unspecified
+234,Uruguay,balancing
+234,Uruguay,food
+234,Uruguay,losses
+234,Uruguay,other
+234,Uruguay,stock_addition
+234,Uruguay,tourist
+234,Uruguay,unspecified
+235,Uzbekistan,balancing
+235,Uzbekistan,food
+235,Uzbekistan,losses
+235,Uzbekistan,other
+235,Uzbekistan,stock_addition
+235,Uzbekistan,tourist
+235,Uzbekistan,unspecified
+236,Venezuela (Bolivarian Republic of),balancing
+236,Venezuela (Bolivarian Republic of),food
+236,Venezuela (Bolivarian Republic of),losses
+236,Venezuela (Bolivarian Republic of),other
+236,Venezuela (Bolivarian Republic of),stock_addition
+236,Venezuela (Bolivarian Republic of),tourist
+236,Venezuela (Bolivarian Republic of),unspecified
+237,Viet Nam,balancing
+237,Viet Nam,food
+237,Viet Nam,losses
+237,Viet Nam,other
+237,Viet Nam,stock_addition
+237,Viet Nam,tourist
+237,Viet Nam,unspecified
+238,Ethiopia,balancing
+238,Ethiopia,food
+238,Ethiopia,losses
+238,Ethiopia,other
+238,Ethiopia,stock_addition
+238,Ethiopia,tourist
+238,Ethiopia,unspecified
+244,Samoa,balancing
+244,Samoa,food
+244,Samoa,losses
+244,Samoa,other
+244,Samoa,stock_addition
+244,Samoa,tourist
+244,Samoa,unspecified
+248,Yugoslav SFR,balancing
+248,Yugoslav SFR,food
+248,Yugoslav SFR,losses
+248,Yugoslav SFR,other
+248,Yugoslav SFR,stock_addition
+248,Yugoslav SFR,tourist
+248,Yugoslav SFR,unspecified
+249,Yemen,balancing
+249,Yemen,food
+249,Yemen,losses
+249,Yemen,other
+249,Yemen,stock_addition
+249,Yemen,tourist
+249,Yemen,unspecified
+250,Democratic Republic of the Congo,balancing
+250,Democratic Republic of the Congo,food
+250,Democratic Republic of the Congo,losses
+250,Democratic Republic of the Congo,other
+250,Democratic Republic of the Congo,stock_addition
+250,Democratic Republic of the Congo,tourist
+250,Democratic Republic of the Congo,unspecified
+251,Zambia,balancing
+251,Zambia,food
+251,Zambia,losses
+251,Zambia,other
+251,Zambia,stock_addition
+251,Zambia,tourist
+251,Zambia,unspecified
+255,Belgium,balancing
+255,Belgium,food
+255,Belgium,losses
+255,Belgium,other
+255,Belgium,stock_addition
+255,Belgium,tourist
+255,Belgium,unspecified
+256,Luxembourg,balancing
+256,Luxembourg,food
+256,Luxembourg,losses
+256,Luxembourg,other
+256,Luxembourg,stock_addition
+256,Luxembourg,tourist
+256,Luxembourg,unspecified
+272,Serbia,balancing
+272,Serbia,food
+272,Serbia,losses
+272,Serbia,other
+272,Serbia,stock_addition
+272,Serbia,tourist
+272,Serbia,unspecified
+273,Montenegro,balancing
+273,Montenegro,food
+273,Montenegro,losses
+273,Montenegro,other
+273,Montenegro,stock_addition
+273,Montenegro,tourist
+273,Montenegro,unspecified
+276,Sudan,balancing
+276,Sudan,food
+276,Sudan,losses
+276,Sudan,other
+276,Sudan,stock_addition
+276,Sudan,tourist
+276,Sudan,unspecified
+277,South Sudan,balancing
+277,South Sudan,food
+277,South Sudan,losses
+277,South Sudan,other
+277,South Sudan,stock_addition
+277,South Sudan,tourist
+277,South Sudan,unspecified
+999,RoW,balancing
+999,RoW,food
+999,RoW,losses
+999,RoW,other
+999,RoW,stock_addition
+999,RoW,tourist
+999,RoW,unspecified
