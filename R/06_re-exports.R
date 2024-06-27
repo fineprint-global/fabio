@@ -14,7 +14,7 @@ btd <- readRDS("data/btd_bal.rds")
 cbs <- readRDS("data/cbs_full.rds")
 
 areas <- sort(unique(cbs$area_code))
-items <- sort(unique(btd$item_code))
+items <- fread("inst/items_full.csv")$item_code
 
 
 # Prepare reallocation of re-exports --------------------------------------

@@ -9,13 +9,18 @@ io <- fread("/mnt/nfs_fineprint/tmp/fabio/v1.2/io_codes.csv")
 su <- fread("/mnt/nfs_fineprint/tmp/fabio/v1.2/su_codes.csv")
 fd <- fread("/mnt/nfs_fineprint/tmp/fabio/v1.2/fd_codes.csv")
 Y <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/Y.rds")
+fd_l <- fread("/mnt/nfs_fineprint/tmp/fabio/v1.2/losses/fd_codes.csv")
+Y_l <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/losses/Y.rds")
 
 # Chinese edible oil statistics
-# Source: China National Grain & Oils Information Center, Comprehensive balance analysis of China's edible oil market, http://www.grainoil.com.cn/, accessed on 01/03/2023
-oil <- fread("inst/oils_china.csv")
+# Sources: 
+# - China National Grain & Oils Information Center, Comprehensive balance analysis of China's edible oil market, http://www.grainoil.com.cn/, accessed on 01/03/2023
+# - USDA, Oilseeds and Products Update, Attaché Report (GAIN), https://fas.usda.gov/data/search?keyword=Oilseeds%20and%20Products%20Annual&reports%5B0%5D=report_commodities%3A27&reports%5B1%5D=report_commodities%3A28&reports%5B2%5D=report_regions%3A420&reports%5B3%5D=report_type%3A10251&page=0
+oil <- fread("input/oils_china.csv")
 
 years <- names(Y)
 Y_new <- Y
+Y_l_new <- Y_l
 
 # correct food and other use of veg. oils for China
 i = 1
@@ -31,11 +36,17 @@ for(i in seq_along(Y)){
   
   data <- cbind(data, as.matrix(Y[[i]][,fd$area=="China, mainland"]))
   # data[, food_share_fao := `41_food` / (`41_food` + `41_other`)]
-  data[, `:=`(food = `41_food`, other = `41_other`)]
-  data[!is.na(food_share), `:=`(food = round((`41_food` + `41_other`) * food_share),
-              other = round((`41_food` + `41_other`) * (1-food_share)))]
+  # data[, `:=`(food = `41_food`, other = `41_other`)]
+  data[!is.na(food_share), `:=`(food = round((food + other) * food_share),
+              other = round((food + other) * (1-food_share)))]
   Y_new[[i]][, fd$area_code==41 & fd$fd=="food"] <- data$food
   Y_new[[i]][, fd$area_code==41 & fd$fd=="other"] <- data$other
+  
+  data_l <- cbind(data, as.matrix(Y_l[[i]][,fd_l$area=="China, mainland"]))
+  data_l[!is.na(food_share), `:=`(food = round((food + other) * food_share),
+                                other = round((food + other) * (1-food_share)))]
+  Y_l_new[[i]][, fd_l$area_code==41 & fd_l$fd=="food"] <- data_l$food
+  Y_l_new[[i]][, fd_l$area_code==41 & fd_l$fd=="other"] <- data_l$other
 }
 
 # compare old and new values
@@ -51,12 +62,6 @@ for(i in seq_along(Y)){
 }
 
 saveRDS(Y_new, "/mnt/nfs_fineprint/tmp/fabio/v1.2/Y.rds")
+saveRDS(Y_l_new, "/mnt/nfs_fineprint/tmp/fabio/v1.2/losses/Y.rds")
 
 
-
-# create the losses version of fabio ---
-
-for(i in seq_along(Y_new)){
-  Y_new[[i]][, grepl("losses", colnames(Y_new[[i]]))] <- 0
-}
-saveRDS(Y_new, "/mnt/nfs_fineprint/tmp/fabio/v1.2/losses/Y.rds")

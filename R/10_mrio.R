@@ -4,6 +4,9 @@ library(parallel)
 library(data.table)
 library(readr)
 
+agg <- function(x) { as.matrix(x) %*% sapply(unique(colnames(x)),"==",colnames(x)) }
+
+
 # MRIO Table ---
 
 mr_sup_m <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/mr_sup_mass.rds")
@@ -60,7 +63,7 @@ for(i in seq_along(Z_m)){
 
   for(j in which(X < 0)){
     reg <- j %/% nrcom + 1
-    print(paste0(regions[reg, name], " / ", X[j]))
+    # print(paste0(regions[reg, name], " / ", X[j]))
     Y[[i]][j, paste0(regions[reg, code], "_balancing")] <-
       Y[[i]][j, paste0(regions[reg, code], "_balancing")] - X[j]
   }
@@ -93,6 +96,50 @@ fwrite(fd_codes, file="/mnt/nfs_fineprint/tmp/fabio/v1.2/fd_codes.csv")
 X <- mapply(function(x, y) {
   rowSums(x) + rowSums(y)
 }, x = Z_m, y = Y)
+
+
+
+
+# PROBLEM: There are some products with only zeros in the rows, except of the main diagonal
+# i.e. the value on the main diagonal equals total output
+# this is mainly due to reporting issues in FAOSTAT, where some countries report seed = production
+# SOLUTION: We move 80% of the value to final demand, equally spreading over all fd-categories
+io_codes <- read_csv("/mnt/nfs_fineprint/tmp/fabio/v1.2/io_codes.csv")
+
+years <- seq(1986, 2021)
+
+# year <- 2019
+for(year in years){
+  
+  print(year)
+  
+  Zmi <- Z_m[[as.character(year)]]
+  Zvi <- Z_v[[as.character(year)]]
+  Yi <- Y[[as.character(year)]]
+  Xi <- X[,as.character(year)]
+  
+  colnames(Yi) <- fd_codes$fd
+  Y_global <- t(agg(t(agg(Yi))))
+  
+  for(i in 1:nrow(io_codes)){
+    if(Xi[i]!=0 & Zmi[i,i] >= Xi[i]) { 
+      # print(paste0(io_codes[i,]))
+      # print(as.numeric(mean(Zmi[i,i], Zvi[i,i])))
+      temp <- Yi[i, fd_codes$area_code==io_codes$area_code[i]]
+      if(sum(temp)==0){ temp <- Y_global[rownames(Y_global)==io_codes$comm_code[i],] }
+      Yi[i, fd_codes$area_code==io_codes$area_code[i]] <- temp + mean(Zmi[i,i], Zvi[i,i]) * 0.8 / sum(temp) * temp
+      Zmi[i,i] <- Zvi[i,i] <- mean(Zmi[i,i], Zvi[i,i]) * 0.2
+      Xi[i] <- sum(Zmi[i,]) + sum(Yi[i,])
+    }
+  }
+  
+  Z_m[[as.character(year)]] <- Zmi
+  Z_v[[as.character(year)]] <- Zvi
+  Y[[as.character(year)]] <- Yi
+  X[,as.character(year)] <- Xi
+  
+}
+
 
 
 # Store X, Y, Z variables
@@ -147,54 +194,102 @@ for(year in years){
   # remove losses from Y
   Yi <- Y[[as.character(year)]]
   losses <- as.matrix(Yi[, grepl("losses", colnames(Yi))])
-  Yi[, grepl("losses", colnames(Yi))] <- 0
+  Yi <- Yi[, !grepl("losses", colnames(Yi))]
+  
+  # remove balancing from Y
+  balancing <- as.matrix(Yi[, grepl("balancing", colnames(Yi))])
+  Yi <- Yi[, !grepl("balancing", colnames(Yi))]
+  
   Y[[as.character(year)]] <- Yi
   
-  # remove this and instead subtract losses from output X:
-  # # reshape losses for adding them later to the main diagonals of each submatrix of Z
-  # ## Get the number of rows and columns in the data matrix
-  # num_rows <- nrow(losses)
-  # num_cols <- nrow(losses) / ncol(losses)
-  # 
-  # ## Define a function for reshaping
-  # reshape_column <- function(v) {
-  #   m <- matrix(0, ncol = num_cols, nrow = num_rows)
-  #   indices <- ((seq_len(length(v)) - 1) %% num_cols) + 1
-  #   m[cbind(seq_len(length(v)), indices)] <- v
-  #   return(m)
-  # }
-  # 
-  # ## Apply the reshape_column function to each column using lapply
-  # matrix_list <- lapply(1:ncol(losses), function(i) {
-  #   v <- losses[, i]
-  #   reshape_column(v)
-  # })
-  # 
-  # ## Combine the matrices in the list using cbind()
-  # combined_matrix <- do.call(cbind, matrix_list)
-  # combined_matrix <- as(combined_matrix, "dgCMatrix")
-  # 
-  # 
-  # # add losses to the main diagonals of each submatrix of Z_m
-  # Zi <- Z_m[[as.character(year)]]
-  # Zi <- Zi + combined_matrix
-  # Z_m[[as.character(year)]] <- Zi
-  # 
-  # # add losses to the main diagonals of each submatrix of Z_v
-  # Zi <- Z_v[[as.character(year)]]
-  # Zi <- Zi + combined_matrix
-  # Z_v[[as.character(year)]] <- Zi
+  # reshape losses + balancing for adding them later to the main diagonals of each submatrix of Z
+  ## Get the number of rows and columns in the data matrix
+  num_rows <- nrow(losses)
+  num_cols <- nrow(losses) / ncol(losses)
+
+  ## Define a function for reshaping
+  reshape_column <- function(v) {
+    m <- matrix(0, ncol = num_cols, nrow = num_rows)
+    indices <- ((seq_len(length(v)) - 1) %% num_cols) + 1
+    m[cbind(seq_len(length(v)), indices)] <- v
+    return(m)
+  }
+
+  ## Apply the reshape_column function to each column using lapply
+  matrix_list <- lapply(1:ncol(losses), function(i) {
+    v <- losses[, i] + balancing[, i]
+    reshape_column(v)
+  })
+
+  ## Combine the matrices in the list using cbind()
+  combined_matrix <- do.call(cbind, matrix_list)
+  combined_matrix <- as(combined_matrix, "dgCMatrix")
+
+
+  # add losses to the main diagonals of each submatrix of Z_m
+  Zi <- Z_m[[as.character(year)]]
+  Zi <- Zi + combined_matrix
+  Z_m[[as.character(year)]] <- Zi
+
+  # add losses to the main diagonals of each submatrix of Z_v
+  Zi <- Z_v[[as.character(year)]]
+  Zi <- Zi + combined_matrix
+  Z_v[[as.character(year)]] <- Zi
   
-  X[,as.character(year)] <- X[,as.character(year)] - rowSums(losses)
+  # X[,as.character(year)] <- X[,as.character(year)] - rowSums(losses) - rowSums(balancing)
   
 }
 
+
+fd_codes <- fread("/mnt/nfs_fineprint/tmp/fabio/v1.2/fd_codes.csv")
+fd_codes <- fd_codes[!fd %in% c("losses", "balancing")]
+fwrite(fd_codes, file="/mnt/nfs_fineprint/tmp/fabio/v1.2/losses/fd_codes.csv")
+
+
+
+# PROBLEM: There are some products with only zeros in the rows, except of the main diagonal
+# i.e. the value on the main diagonal equals total output
+# this is mainly due to reporting issues in FAOSTAT, where some countries report seed = production
+# SOLUTION: We move 80% of the value to final demand, equally spreading over all fd-categories
+
+# year <- 2019
+for(year in years){
+  
+  print(year)
+  
+  Zmi <- Z_m[[as.character(year)]]
+  Zvi <- Z_v[[as.character(year)]]
+  Yi <- Y[[as.character(year)]]
+  Xi <- X[,as.character(year)]
+  
+  colnames(Yi) <- fd_codes$fd
+  Y_global <- t(agg(t(agg(Yi))))
+  
+  for(i in 1:nrow(io_codes)){
+    if(Xi[i]!=0 & Zmi[i,i] >= Xi[i]) { 
+      # print(paste0(io_codes[i,]))
+      # print(as.numeric(mean(Zmi[i,i], Zvi[i,i])))
+      temp <- Yi[i, fd_codes$area_code==io_codes$area_code[i]]
+      if(sum(temp)==0){ temp <- Y_global[rownames(Y_global)==io_codes$comm_code[i],] }
+      Yi[i, fd_codes$area_code==io_codes$area_code[i]] <- temp + mean(Zmi[i,i], Zvi[i,i]) * 0.8 / sum(temp) * temp
+      Zmi[i,i] <- Zvi[i,i] <- mean(Zmi[i,i], Zvi[i,i]) * 0.2
+      Xi[i] <- sum(Zmi[i,]) + sum(Yi[i,])
+    }
+  }
+  
+  Z_m[[as.character(year)]] <- Zmi
+  Z_v[[as.character(year)]] <- Zvi
+  Y[[as.character(year)]] <- Yi
+  X[,as.character(year)] <- Xi
+  
+}
+
+
+
 saveRDS(X, "/mnt/nfs_fineprint/tmp/fabio/v1.2/losses/X.rds")
 saveRDS(Y, "/mnt/nfs_fineprint/tmp/fabio/v1.2/losses/Y.rds")
-# saveRDS(Z_m, "/mnt/nfs_fineprint/tmp/fabio/v1.2/losses/Z_mass.rds")
-# saveRDS(Z_v, "/mnt/nfs_fineprint/tmp/fabio/v1.2/losses/Z_value.rds")
-
-
+saveRDS(Z_m, "/mnt/nfs_fineprint/tmp/fabio/v1.2/losses/Z_mass.rds")
+saveRDS(Z_v, "/mnt/nfs_fineprint/tmp/fabio/v1.2/losses/Z_value.rds")
 
 
 
@@ -211,7 +306,8 @@ write_csv(data.frame(ghg_names), "/mnt/nfs_fineprint/tmp/fabio/v1.2/ghg_names.cs
 write_csv(data.frame(gwp_names), "/mnt/nfs_fineprint/tmp/fabio/v1.2/gwp_names.csv")
 write_csv(data.frame(luh_names), "/mnt/nfs_fineprint/tmp/fabio/v1.2/luh_names.csv")
 
-range <- rep(c(1:97,99:116,118:120),192)+rep(((0:191)*121), each=118)
+# range <- rep(c(1:97,99:116,118:120),192)+rep(((0:191)*121), each=118)
+range <- rep(c(1:97,99:116,118:121),192)+rep(((0:191)*121), each=119) # adding butter production
 
 ghg_m <- mapply(function(x, y) { as.matrix(x[,-1][,range]) %*% y }, x = ghg, y = trans_m[1:28])
 gwp_m <- mapply(function(x, y) { as.matrix(x[,-1][,range]) %*% y }, x = gwp, y = trans_m[1:28])

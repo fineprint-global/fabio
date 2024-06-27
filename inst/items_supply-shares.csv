@@ -2,11 +2,7 @@ proc_code,proc,comm_code,item_code,item,source,base_code,base
 p077,Ricebran Oil extraction,c090,2598,"Oilseed Cakes, Other",supply,2581,Ricebran Oil
 p078,Maize Germ Oil extraction,c090,2598,"Oilseed Cakes, Other",supply,2582,Maize Germ Oil
 p079,"Oilcrops Oil extraction, Other",c090,2598,"Oilseed Cakes, Other",supply,2586,"Oilcrops Oil, Other"
-p099,Dairy cattle husbandry,c111,2740,"Butter, Ghee",live,882,"Milk, whole fresh cow"
-p100,Dairy buffaloes husbandry,c111,2740,"Butter, Ghee",live,951,"Milk, whole fresh buffalo"
-p101,Dairy sheep husbandry,c111,2740,"Butter, Ghee",live,982,"Milk, whole fresh sheep"
-p102,Dairy goats husbandry,c111,2740,"Butter, Ghee",live,1020,"Milk, whole fresh goat"
-p103,Dairy camels husbandry,c111,2740,"Butter, Ghee",live,1130,"Milk, whole fresh camel"
+p121,Butter production,c111,2740,"Butter, Ghee",live,2740,"Butter, Ghee"
 p099,Dairy cattle husbandry,c110,2848,Milk - Excluding Butter,live,882,"Milk, whole fresh cow"
 p100,Dairy buffaloes husbandry,c110,2848,Milk - Excluding Butter,live,951,"Milk, whole fresh buffalo"
 p101,Dairy sheep husbandry,c110,2848,Milk - Excluding Butter,live,982,"Milk, whole fresh sheep"

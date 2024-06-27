@@ -622,10 +622,8 @@ cbs <- dt_replace(cbs, function(x) {`<`(x, 0)}, value = 0,
 cbs[, balancing := na_sum(production, imports, stock_withdrawal,
         -exports, -food, -feed, -seed, -losses, -processing, -other, -unspecified, -tourist, -residuals)]
 
-# TODO: For now, I move negative residuals to balancing and then neutralize negative balancing via other elements
-# in the future, we might consider to keep them as completely separate categories, or merge them completely
-# in any case, the sum of balancing and residuals should never be <0 in the end
-# as long as we do not introduce an "unknown source" region, we need to adapt the other cbs items accordingly
+# Note: the sum of balancing and residuals should never be <0 in the end
+# as long as we do not introduce an "unknown source" region, we need to adapt the other cbs use elements accordingly
 
 # # neutralize negative balancing via other items
 # cat("\nAdjust 'residuals' for ", cbs[balancing < 0 &
@@ -696,7 +694,6 @@ cbs[na_sum(balancing, residuals) < 0 & !is.na(stock_addition) & stock_addition >
 
 cat("\nAdjust uses proportionally for ", cbs[na_sum(balancing, residuals) < 0, .N],
     " observations, where `na_sum(balancing, residuals) < 0`", sep = "")
-# TODO: include residuals here?
 cbs[, divisor := na_sum(exports, other, processing, seed, food, feed, stock_addition, tourist)]
 cbs[na_sum(balancing, residuals) < 0 & divisor >= -na_sum(balancing, residuals),
     `:=`(stock_addition = round(na_sum(stock_addition, (na_sum(balancing, residuals) / divisor * stock_addition))),

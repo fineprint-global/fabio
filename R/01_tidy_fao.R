@@ -87,8 +87,8 @@ cbs_food_new[Unit == "1000 tonnes", `:=`(Value = ifelse(is.na(Value), 0, Value*1
 # NOTE: this is inconsistently defined (sometimes correct, sometimes wrong), so it is corrected further below in the balancing section
 
 # nonfood: remove items contained in food balances
-cbs_nonfood_old <- readRDS("input/fao/cbs_nonfood_old.rds")[Year <= 2013,]
-cbs_nonfood_new <- readRDS("input/fao/cbs_nonfood_new.rds")[Year > 2013,]
+cbs_nonfood_old <- readRDS("input/fao/cbs_nonfood_old.rds")[Year < 2010,]
+cbs_nonfood_new <- readRDS("input/fao/cbs_nonfood_new.rds")[Year >= 2010,]
 cbs_nonfood <- rbind(cbs_nonfood_old, cbs_nonfood_new[, 1:(ncol(cbs_nonfood_new)-1)])
 cbs_nonfood[Element == "Food supply quantity (tonnes)", Element := "Food"]
 cbs_nonfood <- merge(cbs_nonfood, cbs_food_old[, .SD, .SDcols = c("Area Code", "Item Code", "Element", "Year Code", "Value")],
