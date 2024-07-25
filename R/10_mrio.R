@@ -86,10 +86,6 @@ for(i in seq_along(Y)){
   
 }
 
-fd_codes <- fread("/mnt/nfs_fineprint/tmp/fabio/v1.2/fd_codes.csv")
-fd_codes <- fd_codes[!fd %in% c("residuals", "processing")]
-fwrite(fd_codes, file="/mnt/nfs_fineprint/tmp/fabio/v1.2/fd_codes.csv")
-
 
 # Derive total output X ---------------------------------------------
 
@@ -104,7 +100,9 @@ X <- mapply(function(x, y) {
 # i.e. the value on the main diagonal equals total output
 # this is mainly due to reporting issues in FAOSTAT, where some countries report seed = production
 # SOLUTION: We move 80% of the value to final demand, equally spreading over all fd-categories
-io_codes <- read_csv("/mnt/nfs_fineprint/tmp/fabio/v1.2/io_codes.csv")
+
+fd_labels <- fread("/mnt/nfs_fineprint/tmp/fabio/v1.2/fd_labels.csv")
+io_labels <- read_csv("/mnt/nfs_fineprint/tmp/fabio/v1.2/io_labels.csv")
 
 years <- seq(1986, 2021)
 
@@ -118,16 +116,16 @@ for(year in years){
   Yi <- Y[[as.character(year)]]
   Xi <- X[,as.character(year)]
   
-  colnames(Yi) <- fd_codes$fd
+  colnames(Yi) <- fd_labels$fd
   Y_global <- t(agg(t(agg(Yi))))
   
-  for(i in 1:nrow(io_codes)){
+  for(i in 1:nrow(io_labels)){
     if(Xi[i]!=0 & Zmi[i,i] >= Xi[i]) { 
-      # print(paste0(io_codes[i,]))
+      # print(paste0(io_labels[i,]))
       # print(as.numeric(mean(Zmi[i,i], Zvi[i,i])))
-      temp <- Yi[i, fd_codes$area_code==io_codes$area_code[i]]
-      if(sum(temp)==0){ temp <- Y_global[rownames(Y_global)==io_codes$comm_code[i],] }
-      Yi[i, fd_codes$area_code==io_codes$area_code[i]] <- temp + mean(Zmi[i,i], Zvi[i,i]) * 0.8 / sum(temp) * temp
+      temp <- Yi[i, fd_labels$area_code==io_labels$area_code[i]]
+      if(sum(temp)==0){ temp <- Y_global[rownames(Y_global)==io_labels$comm_code[i],] }
+      Yi[i, fd_labels$area_code==io_labels$area_code[i]] <- temp + mean(Zmi[i,i], Zvi[i,i]) * 0.8 / sum(temp) * temp
       Zmi[i,i] <- Zvi[i,i] <- mean(Zmi[i,i], Zvi[i,i]) * 0.2
       Xi[i] <- sum(Zmi[i,]) + sum(Yi[i,])
     }
@@ -184,9 +182,6 @@ saveRDS(X, "/mnt/nfs_fineprint/tmp/fabio/v1.2/X.rds")
 
 # create the losses version of fabio ---
 
-years <- seq(1986, 2021)
-
-# year <- 2019
 for(year in years){
   
   print(year)
@@ -241,16 +236,13 @@ for(year in years){
 }
 
 
-fd_codes <- fread("/mnt/nfs_fineprint/tmp/fabio/v1.2/fd_codes.csv")
-fd_codes <- fd_codes[!fd %in% c("losses", "balancing")]
-fwrite(fd_codes, file="/mnt/nfs_fineprint/tmp/fabio/v1.2/losses/fd_codes.csv")
-
-
 
 # PROBLEM: There are some products with only zeros in the rows, except of the main diagonal
 # i.e. the value on the main diagonal equals total output
 # this is mainly due to reporting issues in FAOSTAT, where some countries report seed = production
 # SOLUTION: We move 80% of the value to final demand, equally spreading over all fd-categories
+
+fd_labels <- fread("/mnt/nfs_fineprint/tmp/fabio/v1.2/losses/fd_labels.csv")
 
 # year <- 2019
 for(year in years){
@@ -262,16 +254,16 @@ for(year in years){
   Yi <- Y[[as.character(year)]]
   Xi <- X[,as.character(year)]
   
-  colnames(Yi) <- fd_codes$fd
+  colnames(Yi) <- fd_labels$fd
   Y_global <- t(agg(t(agg(Yi))))
   
-  for(i in 1:nrow(io_codes)){
+  for(i in 1:nrow(io_labels)){
     if(Xi[i]!=0 & Zmi[i,i] >= Xi[i]) { 
-      # print(paste0(io_codes[i,]))
+      # print(paste0(io_labels[i,]))
       # print(as.numeric(mean(Zmi[i,i], Zvi[i,i])))
-      temp <- Yi[i, fd_codes$area_code==io_codes$area_code[i]]
-      if(sum(temp)==0){ temp <- Y_global[rownames(Y_global)==io_codes$comm_code[i],] }
-      Yi[i, fd_codes$area_code==io_codes$area_code[i]] <- temp + mean(Zmi[i,i], Zvi[i,i]) * 0.8 / sum(temp) * temp
+      temp <- Yi[i, fd_labels$area_code==io_labels$area_code[i]]
+      if(sum(temp)==0){ temp <- Y_global[rownames(Y_global)==io_labels$comm_code[i],] }
+      Yi[i, fd_labels$area_code==io_labels$area_code[i]] <- temp + mean(Zmi[i,i], Zvi[i,i]) * 0.8 / sum(temp) * temp
       Zmi[i,i] <- Zvi[i,i] <- mean(Zmi[i,i], Zvi[i,i]) * 0.2
       Xi[i] <- sum(Zmi[i,]) + sum(Yi[i,])
     }
