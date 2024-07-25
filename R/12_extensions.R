@@ -206,7 +206,7 @@ saveRDS(E, file="/mnt/nfs_fineprint/tmp/fabio/v1.2/E.rds")
 # (potential species loss from land use per hectare)
 biodiv <- read_csv("./input/extensions/biodiversity.csv")
 biodiv_data <- t(biodiv[, -(1:3)])
-biodiv_codes <- biodiv[, 1:3]
+biodiv_labels <- biodiv[, 1:3]
 biodiv_data <- biodiv_data[regions[cbs==TRUE, iso3c],]
 
 E_biodiv <- lapply(E, function(x) {
@@ -214,7 +214,7 @@ E_biodiv <- lapply(E, function(x) {
   #                   by = "area_code", all.x = TRUE)
   # data[item == "Grazing", x := landuse]
   data2 <- biodiv_data[rep(1:192, each = 123),]
-  colnames(data2) <- paste0(biodiv_codes$species,"_",biodiv_codes$land)
+  colnames(data2) <- paste0(biodiv_labels$species,"_",biodiv_labels$land)
   data2[x$item != "Grazing", grepl("pasture", colnames(data2))] <- 0
   data2[x$item == "Grazing", grepl("cropland", colnames(data2))] <- 0
   data2 <- data2 * x$landuse
@@ -224,8 +224,8 @@ E_biodiv <- lapply(E, function(x) {
 
 names(E_biodiv) <- years
 saveRDS(E_biodiv, file="/mnt/nfs_fineprint/tmp/fabio/v1.2/E_biodiv.rds")
-biodiv_codes <- biodiv_codes[biodiv_codes$land %in% c("cropland", "pasture"),]
-write.csv(biodiv_codes, file="/mnt/nfs_fineprint/tmp/fabio/v1.2/biodiv_codes.csv")
+biodiv_labels <- biodiv_labels[biodiv_labels$land %in% c("cropland", "pasture"),]
+write.csv(biodiv_labels, file="/mnt/nfs_fineprint/tmp/fabio/v1.2/biodiv_labels.csv")
 
 
 # extrapolate emissions data ---------------------------------------------------------
