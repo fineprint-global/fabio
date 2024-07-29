@@ -4,34 +4,34 @@ library("parallel")
 library(data.table)
 
 # read data ---
-sup <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/mr_sup_mass.rds")
-use <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/mr_use.rds")
-Y <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/Y.rds")
-io_codes <- fread("/mnt/nfs_fineprint/tmp/fabio/v1.2/io_codes.csv")
+sup <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/current/mr_sup_mass.rds")
+use <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/current/mr_use.rds")
+Y <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/current/Y.rds")
+io_labels <- fread("/mnt/nfs_fineprint/tmp/fabio/v1.2/current/io_labels.csv")
 coeff <- fread("inst/nutrient_coefficients.csv")
-io_codes$calorific <- coeff$kcal_per_kg[match(io_codes$item_code, coeff$item_code)]
+io_labels$calorific <- coeff$kcal_per_kg[match(io_labels$item_code, coeff$item_code)]
 
 # convert into calories
 sup_e <- mclapply(sup, function(x) {
-  out <- t(t(x) * io_codes$calorific)
+  out <- t(t(x) * io_labels$calorific)
   return(out)
 }, mc.cores = 10)
 
 use_e <- mclapply(use, function(x) {
-  out <- x * io_codes$calorific
+  out <- x * io_labels$calorific
   return(out)
 }, mc.cores = 10)
 
 Y_e <- mclapply(Y, function(x) {
-  out <- x * io_codes$calorific
+  out <- x * io_labels$calorific
   return(out)
 }, mc.cores = 10)
 
 
 # Store converted variables
-saveRDS(sup_e, "/mnt/nfs_fineprint/tmp/fabio/v1.2/calories/sup.rds")
-saveRDS(use_e, "/mnt/nfs_fineprint/tmp/fabio/v1.2/calories/use.rds")
-saveRDS(Y_e, "/mnt/nfs_fineprint/tmp/fabio/v1.2/calories/Y.rds")
+saveRDS(sup_e, "/mnt/nfs_fineprint/tmp/fabio/v1.2/current/calories/sup.rds")
+saveRDS(use_e, "/mnt/nfs_fineprint/tmp/fabio/v1.2/current/calories/use.rds")
+saveRDS(Y_e, "/mnt/nfs_fineprint/tmp/fabio/v1.2/current/calories/Y.rds")
 
 
 
@@ -57,7 +57,7 @@ regions <- fread("inst/regions_full.csv")
 regions <- regions[cbs==TRUE]
 items <- fread("inst/items_full.csv")
 nrcom <- nrow(items)
-Y_e <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/calories/Y.rds")
+Y_e <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/current/calories/Y.rds")
 
 # Rebalance row sums for each year
 for(i in seq_along(Z_e)){
@@ -82,40 +82,12 @@ X_e <- mapply(function(x, y) {
 
 
 # Store X, Y, Z variables
-saveRDS(Z_e, "/mnt/nfs_fineprint/tmp/fabio/v1.2/calories/Z.rds")
-saveRDS(Y_e, "/mnt/nfs_fineprint/tmp/fabio/v1.2/calories/Y.rds")
-saveRDS(X_e, "/mnt/nfs_fineprint/tmp/fabio/v1.2/calories/X.rds")
+saveRDS(Z_e, "/mnt/nfs_fineprint/tmp/fabio/v1.2/current/calories/Z.rds")
+saveRDS(Y_e, "/mnt/nfs_fineprint/tmp/fabio/v1.2/current/calories/Y.rds")
+saveRDS(X_e, "/mnt/nfs_fineprint/tmp/fabio/v1.2/current/calories/X.rds")
 
 
 
-
-# # redistribute balancing over all uses proportionally ---------------------------------------------
-# regions <- fread("inst/regions_full.csv")
-# regions <- regions[cbs==TRUE]
-# items <- fread("inst/items_full.csv")
-# nrcom <- nrow(items)
-# nrreg <- nrow(regions)
-# nrfd <- ncol(Y[[1]])/nrreg
-# #i=28
-# for(i in seq_along(Z_m)){
-#   #reg=1
-#   for(reg in seq_len(nrow(regions))){
-#     z_range <- (nrcom*(reg-1)+1):(nrcom*reg)
-#     y_range <- (nrfd*(reg-1)+1):(nrfd*reg)
-#     Z_sum <- rowSums(Z_m[[i]][, z_range])
-#     Y_sum <- rowSums(Y[[i]][, y_range])
-#     balancing <- as.vector(Y[[i]][, grepl("balancing", colnames(Y[[i]]))][, reg])
-#     balancing <- balancing / as.vector(Z_sum + Y_sum - balancing)
-#     balancing[!is.finite(balancing)] <- 0
-#     Z_m[[i]][, z_range] <- Z_m[[i]][, z_range] * (1 + balancing)
-#     Z_v[[i]][, z_range] <- Z_v[[i]][, z_range] * (1 + balancing)
-#     Y[[i]][, y_range] <- Y[[i]][, y_range] * (1 + balancing)
-#   }
-# }
-#
-# saveRDS(Z_m, "/mnt/nfs_fineprint/tmp/fabio/v1.2/Z_mass_b.rds")
-# saveRDS(Z_v, "/mnt/nfs_fineprint/tmp/fabio/v1.2/Z_value_b.rds")
-# saveRDS(Y, "/mnt/nfs_fineprint/tmp/fabio/v1.2/Y_b.rds")
 
 
 
@@ -157,9 +129,9 @@ years <- seq(1986, 2021)
 years_singular <- years #c(1987, 1990, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2006, 2007, 2011)
 # years_singular_losses <- c(1990, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2006, 2007, 2010, 2011, 2019)
 
-Z <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/calories/Z.rds")
-Y <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/calories/Y.rds")
-X <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/calories/X.rds")
+Z <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/current/calories/Z.rds")
+Y <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/current/calories/Y.rds")
+X <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/current/calories/X.rds")
 
 
 #year <- 2020
@@ -176,7 +148,7 @@ for(year in years){
     
     L[L<0] <- 0
     
-    saveRDS(L, paste0("/mnt/nfs_fineprint/tmp/fabio/v1.2/calories/", year, "_L.rds"))
+    saveRDS(L, paste0("/mnt/nfs_fineprint/tmp/fabio/v1.2/current/calories/", year, "_L.rds"))
     
   }, error=function(e){skip_to_next <<- TRUE})
   
@@ -205,8 +177,8 @@ for(year in years){
   
 }
 
-saveRDS(X, "/mnt/nfs_fineprint/tmp/fabio/v1.2/calories/losses/X.rds")
-saveRDS(Y, "/mnt/nfs_fineprint/tmp/fabio/v1.2/calories/losses/Y.rds")
+saveRDS(X, "/mnt/nfs_fineprint/tmp/fabio/v1.2/current/calories/losses/X.rds")
+saveRDS(Y, "/mnt/nfs_fineprint/tmp/fabio/v1.2/current/calories/losses/Y.rds")
 
 
 
@@ -227,7 +199,7 @@ for(year in years){
     
     L[L<0] <- 0
     
-    saveRDS(L, paste0("/mnt/nfs_fineprint/tmp/fabio/v1.2/calories/losses/", year, "_L.rds"))
+    saveRDS(L, paste0("/mnt/nfs_fineprint/tmp/fabio/v1.2/current/calories/losses/", year, "_L.rds"))
     
   }, error=function(e){skip_to_next <<- TRUE})
   

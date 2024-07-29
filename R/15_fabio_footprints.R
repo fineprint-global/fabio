@@ -10,22 +10,22 @@ is.finite.data.frame <- function(x) do.call(cbind, lapply(x, is.finite))
 agg <- function(x) { x <- as.matrix(x) %*% sapply(unique(colnames(x)),"==",colnames(x));  return(x) }
 
 # Read labels
-regions <- fread(file="/mnt/nfs_fineprint/tmp/fabio/v1.2/regions.csv")
-items <- fread(file="/mnt/nfs_fineprint/tmp/fabio/v1.2/items.csv")
+regions <- fread(file="/mnt/nfs_fineprint/tmp/fabio/v1.2/current/regions.csv")
+items <- fread(file="/mnt/nfs_fineprint/tmp/fabio/v1.2/current/items.csv")
 nrreg <- nrow(regions)
 nrcom <- nrow(items)
-io <- fread("/mnt/nfs_fineprint/tmp/fabio/v1.2/io_labels.csv")
-fd <- fread(file="/mnt/nfs_fineprint/tmp/fabio/v1.2/losses/fd_labels.csv")
+io <- fread("/mnt/nfs_fineprint/tmp/fabio/v1.2/current/io_labels.csv")
+fd <- fread(file="/mnt/nfs_fineprint/tmp/fabio/v1.2/current/losses/fd_labels.csv")
 
 # Set year and allocation method
 year <- 2021
 allocation <- "value"
 
 # Read data
-X <- readRDS(file=paste0("/mnt/nfs_fineprint/tmp/fabio/v1.2/losses/X.rds"))
-Y <- readRDS(file=paste0("/mnt/nfs_fineprint/tmp/fabio/v1.2/losses/Y.rds"))
-L <- readRDS(file=paste0("/mnt/nfs_fineprint/tmp/fabio/v1.2/losses/",year,"_L_",allocation,".rds"))
-E <- readRDS(file=paste0("/mnt/nfs_fineprint/tmp/fabio/v1.2/E.rds"))
+X <- readRDS(file=paste0("/mnt/nfs_fineprint/tmp/fabio/v1.2/current/losses/X.rds"))
+Y <- readRDS(file=paste0("/mnt/nfs_fineprint/tmp/fabio/v1.2/current/losses/Y.rds"))
+L <- readRDS(file=paste0("/mnt/nfs_fineprint/tmp/fabio/v1.2/current/losses/",year,"_L_",allocation,".rds"))
+E <- readRDS(file=paste0("/mnt/nfs_fineprint/tmp/fabio/v1.2/current/E.rds"))
 X <- X[, as.character(year)]
 Y <- Y[[as.character(year)]]
 E <- E[[as.character(year)]]

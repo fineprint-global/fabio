@@ -86,8 +86,8 @@ mr_sup_value <- mclapply(years, function(x) {
 
 names(mr_sup_mass) <- names(mr_sup_value) <- years
 
-saveRDS(mr_sup_mass, "/mnt/nfs_fineprint/tmp/fabio/v1.2/mr_sup_mass.rds")
-saveRDS(mr_sup_value, "/mnt/nfs_fineprint/tmp/fabio/v1.2/mr_sup_value.rds")
+saveRDS(mr_sup_mass, "/mnt/nfs_fineprint/tmp/fabio/v1.2/current/mr_sup_mass.rds")
+saveRDS(mr_sup_value, "/mnt/nfs_fineprint/tmp/fabio/v1.2/current/mr_sup_value.rds")
 
 
 # Bilateral supply shares ---
@@ -181,7 +181,7 @@ mr_use <- mcmapply(function(x, y) {
 }, use_cast, supply_shares, mc.cores = 10)
 
 names(mr_use) <- years
-saveRDS(mr_use, "/mnt/nfs_fineprint/tmp/fabio/v1.2/mr_use.rds")
+saveRDS(mr_use, "/mnt/nfs_fineprint/tmp/fabio/v1.2/current/mr_use.rds")
 
 
 # Final Demand ---
@@ -223,6 +223,6 @@ mr_use_fd <- mcmapply(function(x, y) {
 
 mr_use_fd <- lapply(mr_use_fd, round)
 names(mr_use_fd) <- years
-saveRDS(mr_use_fd, "/mnt/nfs_fineprint/tmp/fabio/v1.2/mr_use_fd.rds")
+saveRDS(mr_use_fd, "/mnt/nfs_fineprint/tmp/fabio/v1.2/current/mr_use_fd.rds")
 
 

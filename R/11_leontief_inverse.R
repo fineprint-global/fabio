@@ -37,10 +37,10 @@ years <- seq(1986, 2021)
 years_singular <- 0 #c(1990, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2006, 2007, 2011) # 2013 #c(1994,2002,2009)
 years_singular_losses <- 0 #c(1989, 1990, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2006, 2007, 2010, 2011, 2013, 2018, 2019) #  c(2013,2019) #c(1990,2010,2019) #c(1994,2002,2009)
 
-Z_m <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/Z_mass.rds")
-Z_v <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/Z_value.rds")
-Y <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/Y.rds")
-X <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/X.rds")
+Z_m <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/current/Z_mass.rds")
+Z_v <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/current/Z_value.rds")
+Y <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/current/Y.rds")
+X <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/current/X.rds")
 
 
 #year <- 2013
@@ -53,12 +53,12 @@ for(year in years){
   L <- prep_solve(year = year, Z = Z_m[[as.character(year)]],
                   X = X[, as.character(year)], adj_diag = adjust)
   L[L<0] <- 0
-  saveRDS(L, paste0("/mnt/nfs_fineprint/tmp/fabio/v1.2/", year, "_L_mass.rds"))
+  saveRDS(L, paste0("/mnt/nfs_fineprint/tmp/fabio/v1.2/current/", year, "_L_mass.rds"))
 
   L <- prep_solve(year = year, Z = Z_v[[as.character(year)]],
                   X = X[, as.character(year)], adj_diag = adjust)
   L[L<0] <- 0
-  saveRDS(L, paste0("/mnt/nfs_fineprint/tmp/fabio/v1.2/", year, "_L_value.rds"))
+  saveRDS(L, paste0("/mnt/nfs_fineprint/tmp/fabio/v1.2/current/", year, "_L_value.rds"))
 
 }
 
@@ -66,10 +66,10 @@ for(year in years){
 
 # L inverse for losses version of fabio ---
 
-X <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/losses/X.rds")
-Y <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/losses/Y.rds")
-Z_m <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/losses/Z_mass.rds")
-Z_v <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/losses/Z_value.rds")
+X <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/current/losses/X.rds")
+Y <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/current/losses/Y.rds")
+Z_m <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/current/losses/Z_mass.rds")
+Z_v <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/current/losses/Z_value.rds")
 
 
 #year <- 2021
@@ -82,12 +82,12 @@ for(year in years){
   L <- prep_solve(year = year, Z = Z_m[[as.character(year)]],
                   X = X[, as.character(year)], adj_diag = adjust_losses)
   L[L<0] <- 0
-  saveRDS(L, paste0("/mnt/nfs_fineprint/tmp/fabio/v1.2/losses/", year, "_L_mass.rds"))
+  saveRDS(L, paste0("/mnt/nfs_fineprint/tmp/fabio/v1.2/current/losses/", year, "_L_mass.rds"))
 
   L <- prep_solve(year = year, Z = Z_v[[as.character(year)]],
                   X = X[, as.character(year)], adj_diag = adjust_losses)
   L[L<0] <- 0
-  saveRDS(L, paste0("/mnt/nfs_fineprint/tmp/fabio/v1.2/losses/", year, "_L_value.rds"))
+  saveRDS(L, paste0("/mnt/nfs_fineprint/tmp/fabio/v1.2/current/losses/", year, "_L_value.rds"))
 
 }
 

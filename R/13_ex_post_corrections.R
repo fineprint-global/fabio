@@ -5,12 +5,12 @@ source("R/01_tidy_functions.R")
 
 items <- fread("inst/items_full.csv")
 regions <- fread("inst/regions_full.csv")
-io <- fread("/mnt/nfs_fineprint/tmp/fabio/v1.2/io_codes.csv")
-su <- fread("/mnt/nfs_fineprint/tmp/fabio/v1.2/su_codes.csv")
-fd <- fread("/mnt/nfs_fineprint/tmp/fabio/v1.2/fd_codes.csv")
-Y <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/Y.rds")
-fd_l <- fread("/mnt/nfs_fineprint/tmp/fabio/v1.2/losses/fd_codes.csv")
-Y_l <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/losses/Y.rds")
+io <- fread("/mnt/nfs_fineprint/tmp/fabio/v1.2/current/io_codes.csv")
+su <- fread("/mnt/nfs_fineprint/tmp/fabio/v1.2/current/su_codes.csv")
+fd <- fread("/mnt/nfs_fineprint/tmp/fabio/v1.2/current/fd_codes.csv")
+Y <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/current/Y.rds")
+fd_l <- fread("/mnt/nfs_fineprint/tmp/fabio/v1.2/current/losses/fd_codes.csv")
+Y_l <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/current/losses/Y.rds")
 
 # Chinese edible oil statistics
 # Sources: 
@@ -61,7 +61,7 @@ for(i in seq_along(Y)){
                round(food_new/1000000), "/", round(other_new/1000000), " Mt, ", round(share_new*100), "%"))
 }
 
-saveRDS(Y_new, "/mnt/nfs_fineprint/tmp/fabio/v1.2/Y.rds")
-saveRDS(Y_l_new, "/mnt/nfs_fineprint/tmp/fabio/v1.2/losses/Y.rds")
+saveRDS(Y_new, "/mnt/nfs_fineprint/tmp/fabio/v1.2/current/Y.rds")
+saveRDS(Y_l_new, "/mnt/nfs_fineprint/tmp/fabio/v1.2/current/losses/Y.rds")
 
 
