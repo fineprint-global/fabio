@@ -32,18 +32,6 @@ use[, use := NA_real_]
 # correct comm_codes
 use$comm_code <- items$comm_code[match(use$item_code, items$item_code)]
 
-# correct milk processing
-## butter production has a TCF of 3.5-6%, i.e. 100 t of milk are processed into 3.5-6 t of butter
-## expressed the other way around, 1 t of butter needs between 16.67 and 28.57 t of milk
-## if more than 28.57 t of milk are reported under 'processing' per tonne of butter produced,
-## the excess quantity is move from processing to food
-butter <- cbs[item=="Butter, Ghee", .(area_code,area,item_code,item,year,production)]
-butter <- merge(butter, cbs[item=="Milk - Excluding Butter", .(area_code,area,year,processing)])
-butter[, `:=`(max = production / 0.035,
-              min = production / 0.06)]
-cbs <- merge(cbs, butter[, .(area_code, area, year, item = "Milk - Excluding Butter", max)], all.x = TRUE)
-cbs[!is.na(max) & max < processing, `:=`(food = food + processing - max, processing = max)]
-
 # 100% processes
 cat("Allocating crops going directly to a process. Applies to items:\n\t",
   paste0(unique(use[type == "100%", item]), collapse = "; "),

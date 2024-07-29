@@ -298,8 +298,7 @@ write_csv(data.frame(ghg_names), "/mnt/nfs_fineprint/tmp/fabio/v1.2/ghg_names.cs
 write_csv(data.frame(gwp_names), "/mnt/nfs_fineprint/tmp/fabio/v1.2/gwp_names.csv")
 write_csv(data.frame(luh_names), "/mnt/nfs_fineprint/tmp/fabio/v1.2/luh_names.csv")
 
-# range <- rep(c(1:97,99:116,118:120),192)+rep(((0:191)*121), each=118)
-range <- rep(c(1:97,99:116,118:121),192)+rep(((0:191)*121), each=119) # adding butter production
+range <- rep(c(1:97,99:116,118:120),192)+rep(((0:191)*121), each=118)
 
 ghg_m <- mapply(function(x, y) { as.matrix(x[,-1][,range]) %*% y }, x = ghg, y = trans_m[1:28])
 gwp_m <- mapply(function(x, y) { as.matrix(x[,-1][,range]) %*% y }, x = gwp, y = trans_m[1:28])

@@ -114,8 +114,11 @@ p100,Dairy buffaloes husbandry,c110,2848,Milk - Excluding Butter,seedwaste
 p101,Dairy sheep husbandry,c110,2848,Milk - Excluding Butter,seedwaste
 p102,Dairy goats husbandry,c110,2848,Milk - Excluding Butter,seedwaste
 p103,Dairy camels husbandry,c110,2848,Milk - Excluding Butter,seedwaste
-p121,Butter production,c110,2848,Milk - Excluding Butter,100%
-p121,Butter production,c111,2740,"Butter, Ghee",seedwaste
+p099,Dairy cattle husbandry,c111,2740,"Butter, Ghee",seedwaste
+p100,Dairy buffaloes husbandry,c111,2740,"Butter, Ghee",seedwaste
+p101,Dairy sheep husbandry,c111,2740,"Butter, Ghee",seedwaste
+p102,Dairy goats husbandry,c111,2740,"Butter, Ghee",seedwaste
+p103,Dairy camels husbandry,c111,2740,"Butter, Ghee",seedwaste
 p087,Sheep husbandry,c113,2746,Wool (Clean Eq.),seedwaste
 p090,Poultry Birds farming,c112,2744,Eggs,seedwaste
 p104,Cattle slaughtering,c114,2731,Bovine Meat,seedwaste

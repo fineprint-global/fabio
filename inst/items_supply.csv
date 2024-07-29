@@ -114,7 +114,11 @@ p100,Dairy buffaloes husbandry,c110,2848,Milk - Excluding Butter
 p101,Dairy sheep husbandry,c110,2848,Milk - Excluding Butter
 p102,Dairy goats husbandry,c110,2848,Milk - Excluding Butter
 p103,Dairy camels husbandry,c110,2848,Milk - Excluding Butter
-p121,Butter production,c111,2740,"Butter, Ghee"
+p099,Dairy cattle husbandry,c111,2740,"Butter, Ghee"
+p100,Dairy buffaloes husbandry,c111,2740,"Butter, Ghee"
+p101,Dairy sheep husbandry,c111,2740,"Butter, Ghee"
+p102,Dairy goats husbandry,c111,2740,"Butter, Ghee"
+p103,Dairy camels husbandry,c111,2740,"Butter, Ghee"
 p104,Cattle slaughtering,c114,2731,Bovine Meat
 p105,Buffaloes slaughtering,c114,2731,Bovine Meat
 p106,Sheep slaughtering,c115,2732,Mutton & Goat Meat
