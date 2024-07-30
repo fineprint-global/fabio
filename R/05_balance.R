@@ -4,8 +4,7 @@ library("Matrix")
 library("mipfp")
 
 source("R/01_tidy_functions.R")
-
-years <- 1986:2021
+source("R/00_system_variables.R")
 
 
 # BTD ---------------------------------------------------------------------
@@ -14,8 +13,10 @@ btd <- readRDS("data/btd_full.rds")
 btd_est <- readRDS("data/btd_est.rds")
 cbs <- readRDS("data/cbs_full.rds")
 
-areas <- unique(cbs$area_code)
-items <- unique(btd_est$item_code)
+# areas <- unique(cbs$area_code)
+# items <- unique(btd_est$item_code)
+areas <- fread("inst/regions.csv")$area_code
+items <- fread("inst/items_full.csv")$item_code
 
 
 # Prepare for creating balanced BTD sheets --------------------------------

@@ -2,8 +2,7 @@
 library("data.table")
 library("Matrix")
 source("R/01_tidy_functions.R")
-
-years <- 1986:2021
+source("R/00_system_variables.R")
 
 
 # BTD ---------------------------------------------------------------------

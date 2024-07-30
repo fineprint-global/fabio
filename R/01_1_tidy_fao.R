@@ -1,6 +1,7 @@
 
 library("data.table")
 source("R/01_tidy_functions.R")
+source("R/00_system_variables.R")
 
 regions <- fread("inst/regions_full.csv")
 
@@ -32,6 +33,8 @@ rename <- c(
   "Production" = "production",
   "Import Quantity" = "imports",
   "Export Quantity" = "exports",
+  "Import quantity" = "imports",
+  "Export quantity" = "exports",
   "Domestic supply quantity" = "total_supply",
   "Losses" = "losses",
   "Loss" = "losses",
@@ -78,45 +81,37 @@ rename <- c(
 
 cat("\nTidying CBS.\n")
 
-# food: transform to tonnes and filter pre-2014 values from new fbs
-cbs_food_old <- readRDS("input/fao/cbs_food_old.rds")[Year <= 2013,]
-cbs_food_old[Unit == "1000 tonnes", `:=`(Value = ifelse(is.na(Value), 0, Value*1000) , Unit = "tonnes")]
-cbs_food_new <- readRDS("input/fao/cbs_food_new.rds")[Year > 2013,]
-cbs_food_new[Unit == "1000 tonnes", `:=`(Value = ifelse(is.na(Value), 0, Value*1000) , Unit = "tonnes")]
+# food: transform to tonnes
+cbs_food_old <- readRDS("input/fao/cbs_food_old.rds")[!Year %in% years,]
+cbs_food_new <- readRDS("input/fao/cbs_food_new.rds")[Year %in% years,]
+cbs_food <- rbindlist(list(cbs_food_old[, Flag := NULL], cbs_food_new), use.names = TRUE)
+cbs_food[Unit == "1000 tonnes", `:=`(Value = ifelse(is.na(Value), 0, Value*1000) , Unit = "tonnes")]
 # Stock Variation seems to be defined wrongly, sign needs to be changed
 # NOTE: this is inconsistently defined (sometimes correct, sometimes wrong), so it is corrected further below in the balancing section
 
 # nonfood: remove items contained in food balances
-cbs_nonfood_old <- readRDS("input/fao/cbs_nonfood_old.rds")[Year < 2010,]
-cbs_nonfood_new <- readRDS("input/fao/cbs_nonfood_new.rds")[Year >= 2010,]
-cbs_nonfood <- rbind(cbs_nonfood_old, cbs_nonfood_new[, 1:(ncol(cbs_nonfood_new)-1)])
+cbs_nonfood <- readRDS("input/fao/cbs_nonfood_new.rds")
+cbs_nonfood <- cbs_nonfood[Year %in% years, 1:(ncol(cbs_nonfood)-1)]
 cbs_nonfood[Element == "Food supply quantity (tonnes)", Element := "Food"]
-cbs_nonfood <- merge(cbs_nonfood, cbs_food_old[, .SD, .SDcols = c("Area Code", "Item Code", "Element", "Year Code", "Value")],
+cbs_nonfood <- merge(cbs_nonfood, cbs_food[, .SD, .SDcols = c("Area Code", "Item Code", "Element", "Year Code", "Value")],
                      all.x = TRUE,
                      by = c("Area Code", "Item Code", "Element", "Year Code"),
-                     suffixes = c("", ".food_old"))
-cbs_nonfood <- merge(cbs_nonfood, cbs_food_new[, .SD, .SDcols = c("Area Code", "Item Code", "Element", "Year Code", "Value")],
-                     all.x = TRUE,
-                     by = c("Area Code", "Item Code", "Element", "Year Code"),
-                     suffixes = c("", ".food_new"))
-cbs_nonfood <- cbs_nonfood[is.na(Value.food_old) & is.na(Value.food_new) ,]
-cbs_nonfood <- cbs_nonfood[,`:=` (Value.food_old = NULL, Value.food_new = NULL )]
+                     suffixes = c("", ".food"))
+cbs_nonfood <- cbs_nonfood[is.na(Value.food) ,]
+cbs_nonfood <- cbs_nonfood[,`:=` (Value.food = NULL)]
 
 # bind
-cbs <- rbind(cbs_food_old, cbs_food_new, cbs_nonfood, fill=TRUE)
+cbs <- rbind(cbs_food, cbs_nonfood, fill=TRUE)
 cbs <- dt_rename(cbs, rename, drop = TRUE)
-rm(cbs_nonfood_old, cbs_nonfood_new, cbs_nonfood, cbs_food_old, cbs_food_new)
-
+rm(cbs_nonfood, cbs_food, cbs_food_old, cbs_food_new)
 
 # transform items that changed from old to new FBS method
-elements <- c("Domestic supply quantity", "Production", "Import Quantity", "Export Quantity", "Feed", "Food", "Losses",
-              "Other uses (non-food)", "Processed", "Residuals", "Seed", "Stock Variation", "Tourist consumption")
 # "Groundnuts (Shelled Eq)" in "Groundnuts"
-cbs[item == "Groundnuts (Shelled Eq)" & element %in% elements, `:=` (item_code = 2552, item = "Groundnuts", value = 1/0.7 * value)]
+cbs[item == "Groundnuts (Shelled Eq)", `:=` (item_code = 2552, item = "Groundnuts", value = 1/0.7 * value)]
 # “Rice (milled equivalent)” into "Rice and products" via TCF
-cbs[item == "Rice (Milled Equivalent)" & element %in% elements, `:=` (item_code = 2807, item = "Rice and products", value = 1/0.67 * value)]
+cbs[item == "Rice (Milled Equivalent)", `:=` (item_code = 2807, item = "Rice and products", value = 1/0.67 * value)]
 # “Unmanufactured tobacco” into "Tobacco"
-cbs[item_code == 826 & element %in% elements, `:=` (item_code = 2671, item = "Tobacco", value = value)]
+cbs[item_code == 826, `:=` (item_code = 2671, item = "Tobacco", value = value)]
 # Note: Sugar (Raw Equivalent) was also present in old FBS, so we don't need to transform it here
 
 # aggregate tourist consumption into other uses and drop unused elements
@@ -134,9 +129,9 @@ cbs <- cbs[! element %in% c("Food supply (kcal/capita/day)",
                             "Food supply (kcal)",
                             "Total Population - Both sexes")]
 cbs[, element := ifelse(element=="Processed", "Processing", element)]
+cbs[, element := ifelse(element=="Export Quantity", "Export quantity", element)]
+cbs[, element := ifelse(element=="Import Quantity", "Import quantity", element)]
 
-# fix error: wrong units for stock changes
-cbs[element=="Stock Variation" & unit=="1000 An", unit := "1000 t"]
 # change units to tonnes
 cbs[, unit := ifelse(unit=="t", "tonnes", unit)]
 cbs[unit=="1000 t", `:=`(unit="tonnes", value=value*1000)]
@@ -204,11 +199,12 @@ cbs[, item := ifelse(item_code==2605,	"Vegetables, Other",
                      ifelse(item_code==2625, "Fruits, Other", item))]
 
 # quick-fix for cocoa data error:
-# NOTE: this is postponed now to a later point (use), where all un-allocated processing use (i.e. when a supply chain is not further traced in FABIO) are put into a new final demand category
+# NOTE: this is postponed now to a later point (use), where all un-allocated processing use 
+# (i.e. when a supply chain is not further traced in FABIO) are put into a new final demand category
 # in new fbs, only cocoa beans are in cocoa and products, while FAOSTAT forgot cocoa powder
 # there is thus no food use, and most of use goes into processing, where it is not traced further
 # simply moving processing use to food use is a bad fix
-# cbs[(item == "Cocoa Beans and products" & year > 2013), `:=`(food = processing, processing = 0)]
+# cbs[(item == "Cocoa Beans and products" & year >= 2010), `:=`(food = processing, processing = 0)]
 # TODO: this needs to be improved in the future (i.e. by using SUA or contacting FAO to correct data)
 
 # Store
@@ -229,7 +225,7 @@ sua <- dt_rename(sua, rename = rename)
 #sua[element %in% c("Tourist consumption"), element := "Other uses (non-food)"]
 #sua <- sua[,.(value = sum(value, na.rm = TRUE)), by = setdiff(names(sua), "value")]
 # keep only relevant elements
-sua <- sua[element %in% c("Production", "Import Quantity", "Export Quantity",
+sua <- sua[element %in% c("Production", "Import quantity", "Export quantity",
                             "Processed", "Seed", "Feed", "Food supply quantity (tonnes)",
                             "Other uses (non-food)", "Loss", "Residuals", "Stock Variation", "Tourist consumption"),]
 
@@ -351,11 +347,11 @@ btd <- btd[, list(value = na_sum(value)), by = .(reporter_code, reporter,
                                                  partner_code, partner, item_code, item, year, imex, unit)]
 cat("Aggregation from", length(item_match), "to", nrow(btd), "observations.\n")
 
-# Recode "1000 Head" to "head"
-btd[unit == "1000 Head", `:=`(value = value * 1000, unit = "Head")]
-btd[unit == "Head", `:=`(unit = "head")]
-# Recode "1000 US$" to "usd"
-btd[unit == "1000 US$", `:=`(value = value * 1000, unit = "usd")]
+# Recode "1000 An" to "head"
+btd[unit == "1000 An", `:=`(value = value * 1000, unit = "Head")]
+btd[unit == "An", `:=`(unit = "head")]
+# Recode "1000 USD" to "usd"
+btd[unit == "1000 USD", `:=`(value = value * 1000, unit = "usd")]
 
 # Store
 saveRDS(btd, "data/tidy/btd_tidy.rds")
@@ -470,7 +466,7 @@ prod_by_year
 # step 1:  get items that were reported at least for 20 years, with the last reporting after 2016
 prod_count <- prod[, .(max_year = max(year),  n = .N), by = c("area_code", "area", "item_code", "item", "element", "unit")]
 prod_rel <- prod_count[max_year >= 2017 & n > 20, .(area_code, area, item_code, item, element, unit)] # max_year < 2021
-prod_extr <- as.data.table(reshape::expand.grid.df(prod_rel, data.table(year = 2018:2021)))
+prod_extr <- as.data.table(reshape::expand.grid.df(prod_rel, data.table(year = 2018:max(years))))
 prod_extr <- prod_extr[paste0(area_code,"_",year) %in% unique(paste0(cbs$area_code,"_",cbs$year)),]
 # step 2: extrapolate missing values
 prod <- merge(prod, prod_extr, by = names(prod_extr), all = TRUE)
@@ -520,7 +516,6 @@ crop <- dt_filter(crop, value >= 0)
 
 
 ## Primary/Fodder ------------
-#crop_prim <- readRDS("input/fao/crop_prim.rds")
 crop_prim <- readRDS("input/fao/crop_prim_14.rds")
 crop_prim_19 <- readRDS("input/fao/crop_prim_19.rds")
 crop_conc <- fread("inst/conc_crop-cbs.csv")
@@ -562,7 +557,7 @@ crop_prim[, item := crop_item]
 # inter/extrapolate:
 # get relevant fodder crops and elements for each country
 fod_country <- unique(crop_prim[,.(area_code, area, item_code, item, element, unit, crop_item, cbs_item_code, cbs_item, tcf)])
-fod_country <- as.data.table(reshape::expand.grid.df(fod_country, data.table(year = 1986:2021)))
+fod_country <- as.data.table(reshape::expand.grid.df(fod_country, data.table(year = years)))
 cbs_years <- unique(cbs[,.(area_code, area, year)])
 fod_country <- merge(fod_country, cbs_years) # to avoid years for countries that did not exist at the time (e.g. Belgium-Luxembourg)
 crop_prim <- merge(crop_prim, fod_country, by = names(fod_country), all = TRUE)

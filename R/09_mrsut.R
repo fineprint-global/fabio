@@ -3,6 +3,7 @@ library("data.table")
 library("Matrix")
 library("parallel")
 source("R/01_tidy_functions.R")
+source("R/00_system_variables.R")
 
 
 regions <- fread("inst/regions_full.csv")
@@ -16,7 +17,6 @@ btd <- readRDS("data/btd_final.rds")
 use <- readRDS("data/use_final.rds")
 use_fd <- readRDS("data/use_fd_final.rds")
 
-years <- seq(1986, 2021)
 areas <- sort(unique(cbs$area_code))
 processes <- sort(unique(use$proc_code))
 commodities <- sort(unique(use$comm_code))
@@ -86,8 +86,8 @@ mr_sup_value <- mclapply(years, function(x) {
 
 names(mr_sup_mass) <- names(mr_sup_value) <- years
 
-saveRDS(mr_sup_mass, "/mnt/nfs_fineprint/tmp/fabio/v1.2/current/mr_sup_mass.rds")
-saveRDS(mr_sup_value, "/mnt/nfs_fineprint/tmp/fabio/v1.2/current/mr_sup_value.rds")
+saveRDS(mr_sup_mass, file.path(output_dir,"mr_sup_mass.rds"))
+saveRDS(mr_sup_value, file.path(output_dir,"mr_sup_value.rds"))
 
 
 # Bilateral supply shares ---
@@ -181,7 +181,7 @@ mr_use <- mcmapply(function(x, y) {
 }, use_cast, supply_shares, mc.cores = 10)
 
 names(mr_use) <- years
-saveRDS(mr_use, "/mnt/nfs_fineprint/tmp/fabio/v1.2/current/mr_use.rds")
+saveRDS(mr_use, file.path(output_dir,"mr_use.rds"))
 
 
 # Final Demand ---
@@ -223,6 +223,6 @@ mr_use_fd <- mcmapply(function(x, y) {
 
 mr_use_fd <- lapply(mr_use_fd, round)
 names(mr_use_fd) <- years
-saveRDS(mr_use_fd, "/mnt/nfs_fineprint/tmp/fabio/v1.2/current/mr_use_fd.rds")
+saveRDS(mr_use_fd, file.path(output_dir,"mr_use_fd.rds"))
 
 

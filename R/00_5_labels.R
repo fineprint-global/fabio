@@ -1,6 +1,7 @@
 
 library(data.table)
 library(tidyverse)
+source("R/00_system_variables.R")
 source("R/01_tidy_functions.R")
 
 items <- fread("inst/items_full.csv")
@@ -41,10 +42,10 @@ fd_labels <- data.table(
   continent = rep(regions$continent, each = nrfd),
   fd = rep(fd, nrreg))
 
-fwrite(io_labels, file="/mnt/nfs_fineprint/tmp/fabio/v1.2/io_labels.csv")
-fwrite(su_labels, file="/mnt/nfs_fineprint/tmp/fabio/v1.2/su_labels.csv")
-fwrite(fd_labels, file="/mnt/nfs_fineprint/tmp/fabio/v1.2/fd_labels.csv")
-fwrite(fd_labels[!fd %in% c("losses", "balancing")], file="/mnt/nfs_fineprint/tmp/fabio/v1.2/losses/fd_labels.csv")
+fwrite(io_labels, file=file.path(output_dir,"io_labels.csv"))
+fwrite(su_labels, file=file.path(output_dir,"su_labels.csv"))
+fwrite(fd_labels, file=file.path(output_dir,"fd_labels.csv"))
+fwrite(fd_labels[!fd %in% c("losses", "balancing")], file=file.path(output_dir,"losses/fd_labels.csv"))
 fwrite(items[, .(comm_code, item_code, item, unit, group, comm_group)],
-       file="/mnt/nfs_fineprint/tmp/fabio/v1.2/items.csv")
-fwrite(regions, file="/mnt/nfs_fineprint/tmp/fabio/v1.2/regions.csv")
+       file=file.path(output_dir,"items.csv"))
+fwrite(regions, file=file.path(output_dir,"regions.csv"))

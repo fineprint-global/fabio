@@ -4,14 +4,15 @@ library(parallel)
 library(data.table)
 library(readr)
 
+source("R/00_system_variables.R")
 agg <- function(x) { as.matrix(x) %*% sapply(unique(colnames(x)),"==",colnames(x)) }
 
 
 # MRIO Table ---
 
-mr_sup_m <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/current/mr_sup_mass.rds")
-mr_sup_v <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/current/mr_sup_value.rds")
-mr_use <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/current/mr_use.rds")
+mr_sup_m <- readRDS(file.path(output_dir,"mr_sup_mass.rds"))
+mr_sup_v <- readRDS(file.path(output_dir,"mr_sup_value.rds"))
+mr_use <- readRDS(file.path(output_dir,"mr_use.rds"))
 
 # Mass
 trans_m <- mclapply(mr_sup_m, function(x) {
@@ -54,7 +55,7 @@ regions <- fread("inst/regions_full.csv")
 regions <- regions[cbs==TRUE]
 items <- fread("inst/items_full.csv")
 nrcom <- nrow(items)
-Y <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/current/mr_use_fd.rds")
+Y <- readRDS(file.path(output_dir,"mr_use_fd.rds"))
 
 # Rebalance row sums for each year
 for(i in seq_along(Z_m)){
@@ -101,10 +102,8 @@ X <- mapply(function(x, y) {
 # this is mainly due to reporting issues in FAOSTAT, where some countries report seed = production
 # SOLUTION: We move 80% of the value to final demand, equally spreading over all fd-categories
 
-fd_labels <- fread("/mnt/nfs_fineprint/tmp/fabio/v1.2/current/fd_labels.csv")
-io_labels <- read_csv("/mnt/nfs_fineprint/tmp/fabio/v1.2/current/io_labels.csv")
-
-years <- seq(1986, 2021)
+fd_labels <- fread(file.path(output_dir,"fd_labels.csv"))
+io_labels <- read_csv(file.path(output_dir,"io_labels.csv"))
 
 # year <- 2019
 for(year in years){
@@ -141,10 +140,10 @@ for(year in years){
 
 
 # Store X, Y, Z variables
-saveRDS(Z_m, "/mnt/nfs_fineprint/tmp/fabio/v1.2/current/Z_mass.rds")
-saveRDS(Z_v, "/mnt/nfs_fineprint/tmp/fabio/v1.2/current/Z_value.rds")
-saveRDS(Y, "/mnt/nfs_fineprint/tmp/fabio/v1.2/current/Y.rds")
-saveRDS(X, "/mnt/nfs_fineprint/tmp/fabio/v1.2/current/X.rds")
+saveRDS(Z_m, file.path(output_dir,"Z_mass.rds"))
+saveRDS(Z_v, file.path(output_dir,"Z_value.rds"))
+saveRDS(Y, file.path(output_dir,"Y.rds"))
+saveRDS(X, file.path(output_dir,"X.rds"))
 
 
 
@@ -173,9 +172,9 @@ saveRDS(X, "/mnt/nfs_fineprint/tmp/fabio/v1.2/current/X.rds")
 #   }
 # }
 #
-# saveRDS(Z_m, "/mnt/nfs_fineprint/tmp/fabio/v1.2/current/Z_mass_b.rds")
-# saveRDS(Z_v, "/mnt/nfs_fineprint/tmp/fabio/v1.2/current/Z_value_b.rds")
-# saveRDS(Y, "/mnt/nfs_fineprint/tmp/fabio/v1.2/current/Y_b.rds")
+# saveRDS(Z_m, file.path(output_dir,"Z_mass_b.rds"))
+# saveRDS(Z_v, file.path(output_dir,"Z_value_b.rds"))
+# saveRDS(Y, file.path(output_dir,"Y_b.rds"))
 
 
 
@@ -242,7 +241,7 @@ for(year in years){
 # this is mainly due to reporting issues in FAOSTAT, where some countries report seed = production
 # SOLUTION: We move 80% of the value to final demand, equally spreading over all fd-categories
 
-fd_labels <- fread("/mnt/nfs_fineprint/tmp/fabio/v1.2/current/losses/fd_labels.csv")
+fd_labels <- fread(file.path(output_dir,"losses/fd_labels.csv"))
 
 # year <- 2019
 for(year in years){
@@ -278,10 +277,10 @@ for(year in years){
 
 
 
-saveRDS(X, "/mnt/nfs_fineprint/tmp/fabio/v1.2/current/losses/X.rds")
-saveRDS(Y, "/mnt/nfs_fineprint/tmp/fabio/v1.2/current/losses/Y.rds")
-saveRDS(Z_m, "/mnt/nfs_fineprint/tmp/fabio/v1.2/current/losses/Z_mass.rds")
-saveRDS(Z_v, "/mnt/nfs_fineprint/tmp/fabio/v1.2/current/losses/Z_value.rds")
+saveRDS(X, file.path(output_dir,"losses/X.rds"))
+saveRDS(Y, file.path(output_dir,"losses/Y.rds"))
+saveRDS(Z_m, file.path(output_dir,"losses/Z_mass.rds"))
+saveRDS(Z_v, file.path(output_dir,"losses/Z_value.rds"))
 
 
 
@@ -294,9 +293,9 @@ ghg_names <- ghg[[1]][,1]
 gwp_names <- gwp[[1]][,1]
 luh_names <- luh[[1]][,1]
 
-write_csv(data.frame(ghg_names), "/mnt/nfs_fineprint/tmp/fabio/v1.2/current/ghg_names.csv")
-write_csv(data.frame(gwp_names), "/mnt/nfs_fineprint/tmp/fabio/v1.2/current/gwp_names.csv")
-write_csv(data.frame(luh_names), "/mnt/nfs_fineprint/tmp/fabio/v1.2/current/luh_names.csv")
+write_csv(data.frame(ghg_names), file.path(output_dir,"ghg_names.csv"))
+write_csv(data.frame(gwp_names), file.path(output_dir,"gwp_names.csv"))
+write_csv(data.frame(luh_names), file.path(output_dir,"luh_names.csv"))
 
 # range <- rep(c(1:97,99:116,118:120),192)+rep(((0:191)*121), each=118)
 range <- rep(c(1:97,99:116,118:121),192)+rep(((0:191)*121), each=119) # adding butter production
@@ -308,11 +307,11 @@ ghg_v <- mapply(function(x, y) { as.matrix(x[,-1][,range]) %*% y }, x = ghg, y =
 gwp_v <- mapply(function(x, y) { as.matrix(x[,-1][,range]) %*% y }, x = gwp, y = trans_v[1:28])
 luh_v <- mapply(function(x, y) { as.matrix(x[,-1][,range]) %*% y }, x = luh, y = trans_v[1:28])
 
-saveRDS(ghg_m, "/mnt/nfs_fineprint/tmp/fabio/v1.2/current/E_ghg_mass.rds")
-saveRDS(gwp_m, "/mnt/nfs_fineprint/tmp/fabio/v1.2/current/E_gwp_mass.rds")
-saveRDS(luh_m, "/mnt/nfs_fineprint/tmp/fabio/v1.2/current/E_luh_mass.rds")
+saveRDS(ghg_m, file.path(output_dir,"E_ghg_mass.rds"))
+saveRDS(gwp_m, file.path(output_dir,"E_gwp_mass.rds"))
+saveRDS(luh_m, file.path(output_dir,"E_luh_mass.rds"))
 
-saveRDS(ghg_v, "/mnt/nfs_fineprint/tmp/fabio/v1.2/current/E_ghg_value.rds")
-saveRDS(gwp_v, "/mnt/nfs_fineprint/tmp/fabio/v1.2/current/E_gwp_value.rds")
-saveRDS(luh_v, "/mnt/nfs_fineprint/tmp/fabio/v1.2/current/E_luh_value.rds")
+saveRDS(ghg_v, file.path(output_dir,"E_ghg_value.rds"))
+saveRDS(gwp_v, file.path(output_dir,"E_gwp_value.rds"))
+saveRDS(luh_v, file.path(output_dir,"E_luh_value.rds"))
 

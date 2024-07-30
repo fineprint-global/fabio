@@ -1,6 +1,7 @@
 
 library(data.table)
 library(tidyverse)
+source("R/00_system_variables.R")
 source("R/01_tidy_functions.R")
 
 items <- fread("inst/items_full.csv")
@@ -8,7 +9,7 @@ regions <- fread("inst/regions_full.csv")
 nrreg <- nrow(regions[cbs==TRUE])
 nrcom <- nrow(items)
 
-X <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v1.2/current/X.rds")
+X <- readRDS(file.path(output_dir,"X.rds"))
 grassland_yields <- fread("input/grazing/grazing.csv")
 water_crop <- fread("input/water/water_crop.csv")
 water_fodder <- water_crop[water_item == "Fodder crops/Managed grass"]
@@ -122,8 +123,6 @@ P <- P[!is.na(P$com) & !is.na(P$area_code),]
 
 
 # build extensions ---------------------------------------------------------
-years <- 1986:2021
-
 E <- lapply(years, function(x, y) {
 
   data <- data.table(
@@ -199,7 +198,7 @@ E <- lapply(years, function(x, y) {
 
 names(E) <- years
 
-saveRDS(E, file="/mnt/nfs_fineprint/tmp/fabio/v1.2/current/E.rds")
+saveRDS(E, file=file.path(output_dir,"E.rds"))
 
 
 # build biodiversity extensions ---------------------------------------------------------
@@ -223,9 +222,9 @@ E_biodiv <- lapply(E, function(x) {
 })
 
 names(E_biodiv) <- years
-saveRDS(E_biodiv, file="/mnt/nfs_fineprint/tmp/fabio/v1.2/current/E_biodiv.rds")
+saveRDS(E_biodiv, file=file.path(output_dir,"E_biodiv.rds"))
 biodiv_labels <- biodiv_labels[biodiv_labels$land %in% c("cropland", "pasture"),]
-write.csv(biodiv_labels, file="/mnt/nfs_fineprint/tmp/fabio/v1.2/current/biodiv_labels.csv")
+write.csv(biodiv_labels, file=file.path(output_dir,"biodiv_labels.csv"))
 
 
 # extrapolate emissions data ---------------------------------------------------------
@@ -235,11 +234,11 @@ library(Matrix)
 ghg <- list()
 names <- c("ghg_mass", "gwp_mass", "luh_mass", "ghg_value", "gwp_value", "luh_value")
 for(i in seq_along(names)){
-  ghg[[i]] <- readRDS(paste0("/mnt/nfs_fineprint/tmp/fabio/v1.2/current/E_",names[i],".rds"))
+  ghg[[i]] <- readRDS(paste0(output_dir,"/E_",names[i],".rds"))
 }
 
 # extrapolate emissions data
-for(i in 2014:years[length(years)]){
+for(i in 2014:max(years)){
   for(j in 1:length(ghg)){
     data <- t(t(ghg[[j]][["2013"]]) / X[,"2013"] * X[,as.character(i)])
     data[!is.finite(data)] <- 0
@@ -248,5 +247,5 @@ for(i in 2014:years[length(years)]){
 }
 
 for(i in seq_along(names)){
-  saveRDS(ghg[[i]], paste0("/mnt/nfs_fineprint/tmp/fabio/v1.2/current/E_",names[i],".rds"))
+  saveRDS(ghg[[i]], paste0(output_dir,"/E_",names[i],".rds"))
 }

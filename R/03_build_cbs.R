@@ -2,6 +2,7 @@
 library("data.table")
 library("Matrix")
 source("R/01_tidy_functions.R")
+source("R/00_system_variables.R")
 
 regions <- fread("inst/regions_full.csv")
 items <- fread("inst/items_full.csv")
@@ -17,6 +18,7 @@ cat("Removing items from CBS that are not used in FABIO:\n\t",
     sep = "", collapse = "; "), ".\n", sep = "") # Eggs and Milk are duplicated with different codes (2948, 2949)
 # Particularly fish and aggregates
 cbs <- dt_filter(cbs, item_code %in% items$item_code)
+
 
 
 # Prepare BTD data --------------------------------------------------------
@@ -72,14 +74,12 @@ sua <- sua[item %in% sua_items,]
 conc_sua_fabio <- data.frame(item_sua = sua_items, item = c("Oil, palm fruit", "Palm kernels"), item_code_sua = c(254, 256), item_code = c(254, 2562))
 
 # assign FABIO codes
-sua[, `:=`(item_code = conc_sua_fabio$item_code[match(item_code_fcl, conc_sua_fabio$item_code_sua)],
-           item = conc_sua_fabio$item[match(item_code_fcl, conc_sua_fabio$item_code_sua)],
-           item_code_fcl = NULL)]
-# we take only years after 2013
-sua <- sua[year > 2013, ]
+sua[, `:=`(item_code = conc_sua_fabio$item_code[match(item_code, conc_sua_fabio$item_code_sua)],
+           item = conc_sua_fabio$item[match(item_code, conc_sua_fabio$item_code_sua)])]
+sua <- sua[year %in% years, ]
 
-# remove palm kernels in cbs after 2013 and bind sua data to cbs
-cbs <- cbs[!(item == "Palm kernels" & year > 2013),]
+# remove palm kernels in cbs and bind sua data to cbs
+cbs <- cbs[!(item == "Palm kernels"),]
 cbs <- rbind(cbs, sua, use.names = TRUE)
 
 
@@ -120,7 +120,7 @@ dimnames(C) <- tcf_codes
 tcf_data <- addcbs[item_code %in% unlist(tcf_codes),
   .(year, area_code, item_code, production = value)]
 setkey(tcf_data, year, area_code, item_code) # Quick merge & ensure item-order
-years <- sort(unique(tcf_data$year))
+yrs <- sort(unique(tcf_data$year))
 areas <- sort(unique(tcf_data$area_code))
 
 # Base processing on production + imports - exports
@@ -130,27 +130,27 @@ tcf_data[exps[, .(year, area_code = from_code, item_code, exports = value)],
   on = c("area_code", "item_code", "year"), exports := exports]
 
 # Production of items
-output <- tcf_data[data.table(expand.grid(year = years,
+output <- tcf_data[data.table(expand.grid(year = yrs,
   area_code = areas, item_code = unique(tcf_codes[[1]])))]
 output[, `:=`(value = production,
   production = NULL, imports = NULL, exports = NULL)]
 dt_replace(output, is.na, 0, cols = "value")
 # Production of source items
-input <- tcf_data[data.table(expand.grid(year = years,
+input <- tcf_data[data.table(expand.grid(year = yrs,
   area_code = areas, item_code = unique(tcf_codes[[2]])))]
 input[, `:=`(value = na_sum(production, imports, -exports),
   production = NULL, imports = NULL, exports = NULL)]
 dt_replace(input, function(x) {`<`(x, 0)}, value = 0, cols = "value")
 dt_replace(input, is.na, 0, cols = "value")
 # Processing of source items - to fill
-results <- tcf_data[data.table(expand.grid(year = years,
+results <- tcf_data[data.table(expand.grid(year = yrs,
   area_code = areas, item_code = tcf_codes[[2]]))]
 setkey(results, year, area_code, item_code)
 results[, `:=`(value = NA_real_,
   production = NULL, imports = NULL, exports = NULL)]
 
 # Fill during a loop over years and areas
-for(x in years) {
+for(x in yrs) {
   output_x <- output[year == x, ]
   input_x <- input[year == x, ]
   for(y in areas) {
@@ -192,9 +192,6 @@ addcbs[, unspecified := na_sum(total_supply,-processing, -other, -feed, -exports
 addcbs[, balancing := 0]
 addcbs[unspecified < 0, `:=`(balancing = unspecified, unspecified = 0)]
 
-# we only use data until 2021
-addcbs <- addcbs[year <= 2021,]
-
 # cat("\nFilling missing cbs seed with crop seed data.\n")
 # crop_seed <- crop[element == "Seed", ]
 cat("\nSkip filling cbs seed.",
@@ -205,11 +202,15 @@ cat("\nAdding ", nrow(addcbs), " missing cbs accounts.\n", sep = "")
 cbs <- dplyr::bind_rows(cbs, addcbs)
 
 rm(crop_prod, addcbs,
-  tcf_crop, tcf_codes, tcf_data, input, output, results, years, areas,
+  tcf_crop, tcf_codes, tcf_data, input, output, results, yrs, areas,
   C, input_x, output_x, input_y, output_y)
 
 
-# Oilcrop cakes after 2013: impute production from primary crop processing use / oil production ------------
+# Oilcrop cakes data is not reported anymore by FAOSTAT
+# - 1986-2013: use data from old FAOSTAT release
+# - 2014-current: impute production from primary crop processing use / oil production
+
+cbs_old <- readRDS("input/fao/old_2024_07/cbs_nonfood_old.rds")
 
 crp_item <- c(2555,2552,2557,2558,2559,2562,2560,2561,2570)
 crp_name <- c("Soyabeans", "Groundnuts", "Sunflower seed", "Rape and Mustardseed", "Cottonseed", "Palm kernels", "Coconuts - Incl Copra", "Sesame seed", "Oilcrops, Other")
@@ -220,7 +221,9 @@ oil_name <- c("Soyabean Oil", "Groundnut Oil", "Sunflowerseed Oil", "Rape and Mu
 
 # extract oilcrop prcessing and cake + oil production
 cbs_crp_proc <- cbs[item_code %in% crp_item, .(area_code, area, item_code, item, year, processing)]
-cbs_cak_prod <- cbs[item_code %in% cak_item, .(area_code, area, item_code, item, year, production)]
+cbs_cak_prod <- cbs_old[`Item Code` %in% cak_item & Element == "Production" & `Area Code` %in% regions$code[regions$cbs==TRUE], 
+                        .(area_code = `Area Code`, area = Area, item_code = `Item Code`, 
+                          item = Item, year = Year, production = Value)]
 cbs_oil_prod <- cbs[item_code %in% oil_item, .(area_code, area, item_code, item, year, production)]
 
 # match cake production with crop processing and oil output
@@ -252,13 +255,11 @@ cak_conv <- merge(cak_conv, cak_conv_glob, by = c("item_code"))
 cak_conv[, `:=` (tcf = ifelse(is.na(tcf), tcf_global, tcf),
                  cof = ifelse(is.na(cof), cof_global, cof))]
 cak_conv[,`:=` ( tcf_global = NULL, cof_global = NULL)]
-# NOTE: if we want derive cake production also for countries who never had cake production before 2013, we need an addition step tp fill tcf/cof witj global averages for these cases!
+# NOTE: if we want to derive cake production also for countries that never had cake production between 2000 and 2013, 
+# we need an addition step to fill tcf/cof with global averages for these cases!
 
 # apply factors to cbs in following order: if processing > 0, use tcf, and if processing = 0 but oil production > 0, use cof
-yrs <- 2014:2021
-#cak_base <- cbs_crp_proc[, ]
-#cbs_cak <- merge(cak_conv, data.table(year = 2014:2021), by = NULL)
-cake <- cbind(cak_conv[rep(1:nrow(cak_conv), each = length(yrs))], year = yrs[rep(1:length(yrs), nrow(cak_conv))])
+cake <- cbind(cak_conv[rep(1:nrow(cak_conv), each = length(years))], year = years[rep(1:length(years), nrow(cak_conv))])
 cake <- merge(cake, cbs_crp_proc[processing > 0,],
                  by.x = c("area_code", "area", "source_item", "source_name", "year"),
                  by.y = c("area_code", "area", "item_code", "item", "year"),
@@ -270,7 +271,7 @@ cake <- merge(cake, cbs_oil_prod[production > 0,][,.(area_code, area, item_code,
 cake[, `:=` (processing = ifelse(is.na(processing), 0, processing),
                 oil_production = ifelse(is.na(oil_production), 0, oil_production)) ]
 # filter relevant years for extrapolation
-cake <- cake[year > 2013,]
+cake <- cake[year >= 2010,]
 # estimate processing use if no or too little is reported (for all oil crops except oil crops, other)
 cake[item_code != 2598 & processing == 0, processing := oil_production / (1-tcf-0.03)]
 # apply factors
@@ -281,10 +282,13 @@ cake[, production := processing * tcf]
 # cake[(production + oil_production) > processing, oil_production := production / cof]
 # cake[(production + oil_production) > processing, processing := production + oil_production]
 
+# adapt area names to match naming conventions in new fao data
+cake[, area := regions$name[match(cake$area_code,regions$code)]]
+
 
 # add trade
-cak_imp <- crop[element == "Import Quantity" & unit == "tonnes" & item_code %in% cak_item & year %in% yrs, ]
-cak_exp <- crop[element == "Export Quantity" & unit == "tonnes" & item_code %in% cak_item & year %in% yrs, ]
+cak_imp <- crop[element == "Import Quantity" & unit == "tonnes" & item_code %in% cak_item & year %in% years, ]
+cak_exp <- crop[element == "Export Quantity" & unit == "tonnes" & item_code %in% cak_item & year %in% years, ]
 cak_imp[, `:=`(element = NULL, unit = NULL)]
 cak_exp[, `:=`(element = NULL, unit = NULL)]
 
@@ -300,7 +304,7 @@ cake <- merge(cake,
 # add trade values from btd in case they are missing in live_trad
 cake <- merge(
   cake,
-  imps[item_code %in% cak_item & value > 0 & year %in% yrs,  # these are in heads as well
+  imps[item_code %in% cak_item & value > 0 & year %in% years,  # these are in heads as well
        c("to_code", "to", "item_code", "item", "year", "value")],
   by.x = c("area_code", "area", "item_code", "item", "year"),
   by.y = c("to_code", "to", "item_code", "item", "year"),
@@ -308,7 +312,7 @@ cake <- merge(
 cake[, `:=`(imports = ifelse(is.na(imports), value, imports), value = NULL)]
 cake <- merge(
   cake,
-  exps[item_code %in% cak_item & value > 0 & year %in% yrs,
+  exps[item_code %in% cak_item & value > 0 & year %in% years,
        c("from_code", "from", "item_code", "item", "year", "value")],
   by.x = c("area_code", "area", "item_code", "item", "year"),
   by.y = c("from_code", "from", "item_code", "item", "year"),
@@ -324,13 +328,14 @@ cake[, exports := ifelse(exports > total_supply, total_supply, exports)]
 cake[, feed := na_sum(production, imports, -exports)]
 cake <- cake[total_supply >= 0, ]
 
+
 # Add to CBS ---
 cat("\nAdding ", nrow(cake), " missing oilseed cake accounts.\n", sep = "")
 cbs <- dplyr::bind_rows(cbs, cake)
 
 rm(crp_item, crp_name, cak_item, cak_name, oil_item, oil_name,
-   cbs_cak_prod, cbs_crp_proc, cbs_oil_prod,
-   cak_conv, cak_conv_glob, yrs,
+   cbs_cak_prod, cbs_crp_proc, cbs_oil_prod, cbs_old,
+   cak_conv, cak_conv_glob,
    cak_imp, cak_exp, cake)
 
 
@@ -501,7 +506,7 @@ live[, `:=`(exports = ifelse(is.na(exports), value, exports), value = NULL)]
 
 
 # Filter countries and items that are not yet in CBS
-live <- live[!paste(area_code, item_code, year) %in% paste(cbs$area_code, cbs$item_code, cbs$year) & year <= 2021]# & !is.na(production)]
+live <- live[!paste(area_code, item_code, year) %in% paste(cbs$area_code, cbs$item_code, cbs$year) & year %in% years]# & !is.na(production)]
 
 live[, total_supply := na_sum(production, imports)]
 # reduce exports where they exceed total supply
@@ -791,6 +796,9 @@ cbs[item_code %in% c(2000, 2001, 2555, 2559, 2590, 2591, 2592, 2593, 2594,
        unspecified = 0, balancing = 0, residuals = 0)]
 
 cat("\nRest (mostly 'food', 'feed' and 'processing') remains in 'unspecified', 'balancing' and 'residuals'.\n")
+
+
+cbs <- cbs[year %in% years, ]
 
 
 # Save --------------------------------------------------------------------

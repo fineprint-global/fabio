@@ -31,11 +31,17 @@ links <- rep("http://fenixservices.fao.org/faostat/static/bulkdownloads/",
 # Column types to possibly skip some
 col_types <- list(
   "fbs_wide" = c("numeric", "character", "character", "numeric", "character", "character", "numeric", "character", "character",
-                 "numeric", "character", "numeric", "character", "numeric", "character", "numeric", "character", "numeric", "character", "numeric", "character", 
-                 "numeric", "character", "numeric", "character", "numeric", "character", "numeric", "character", "numeric", "character", "numeric", "character"),
+                 "numeric", "character", "logical", "numeric", "character", "logical", "numeric", "character", "logical", 
+                 "numeric", "character", "logical", "numeric", "character", "logical", "numeric", "character", "logical", 
+                 "numeric", "character", "logical", "numeric", "character", "logical", "numeric", "character", "logical", 
+                 "numeric", "character", "logical", "numeric", "character", "logical", "numeric", "character", "logical", 
+                 "numeric", "character", "logical"),
   "sua_wide" = c("numeric", "character", "character", "numeric", "character", "character", "numeric", "character", "character",
-                 "numeric", "character", "numeric", "character", "numeric", "character", "numeric", "character", "numeric", "character", "numeric", "character", 
-                 "numeric", "character", "numeric", "character", "numeric", "character", "numeric", "character", "numeric", "character", "numeric", "character")
+                 "numeric", "character", "character", "numeric", "character", "character", "numeric", "character", "character",
+                 "numeric", "character", "character", "numeric", "character", "character", "numeric", "character", "character",
+                 "numeric", "character", "character", "numeric", "character", "character", "numeric", "character", "character",
+                 "numeric", "character", "character", "numeric", "character", "character", "numeric", "character", "character",
+                 "numeric", "character", "character")
 )
 
 # update: add read_method as there are some issues in the trad csv file (probably a missing quote somewhere) that fread cannot deal with, but readr::read_csv can.
@@ -56,8 +62,8 @@ fa_extract(path_in = path_fao, files = files,
 sua <- readRDS("input/fao/sua_wide.rds")
 fbs <- readRDS("input/fao/fbs_wide.rds")
 
-sua <- sua[, !grepl("Y.*F", names(sua)), with = FALSE ]
-fbs <- fbs[, !grepl("Y.*F", names(fbs)), with = FALSE ]
+sua <- sua[, !grepl("Y.*F", names(sua)) & !grepl("Y.*N", names(fbs)), with = FALSE ]
+fbs <- fbs[, !grepl("Y.*F", names(fbs)) & !grepl("Y.*N", names(fbs)), with = FALSE ]
 
 sua <- melt(sua, id.vars = names(sua)[1:9], variable.name = "Year", value.name = "Value", variable.factor = FALSE)
 fbs <- melt(fbs, id.vars = names(fbs)[1:9], variable.name = "Year", value.name = "Value", variable.factor = FALSE)

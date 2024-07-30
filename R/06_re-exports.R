@@ -3,12 +3,10 @@ library("data.table")
 library("Matrix")
 library("tidyverse")
 source("R/01_tidy_functions.R")
+source("R/00_system_variables.R")
 
 
-years <- 1986:2021
-
-
-# BTD ---------------------------------------------------------------------
+# Read data ---------------------------------------------------------------------
 
 btd <- readRDS("data/btd_bal.rds")
 cbs <- readRDS("data/cbs_full.rds")
@@ -104,8 +102,8 @@ for(i in seq_along(years)) {
     mat <- t(t(mat) / denom)
     # if (max(colSums(mat)) > 1+1e-6) stop( "\n maximum colSum for ", j, " in ", y, " is larger than one: " , max(colSums(mat)), "\n")
     mat <- diag(nrow(mat)) - mat
-    # catch a problem with item 2593 in 2018-2020 (matrix seems to be close to singular)
-    if(y %in% 2018:2020 & j=="2593") {
+    # catch a problem with item 2593 in 2018-2020 and item 1157 in 2022 (matrix seems to be close to singular)
+    if((y %in% 2018:2020 & j=="2593")|(y %in% 2022 & j=="1157")) {
       mat <- MASS::ginv(as.matrix(mat))
       mat[mat < 0] <- 0
     } else mat <- solve(mat)
