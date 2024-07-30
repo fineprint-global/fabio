@@ -11,9 +11,14 @@ feed_sup <- merge(feed_sup, items[, c("item_code", "moisture", "feedtype")],
                   by = c("item_code"), all.x = TRUE)
 feed_sup[, dry := feed * (1 - moisture)]
 
-# Feed requirements -----
 
-# Estimates from Krausmann et al. (2008)
+
+
+# Feed requirements -------------------------------------------------------
+
+
+
+# Estimates from Krausmann et al. (2008) ----------------------------------
 # Own assumption for other camelids such as llamas and alpacas.
 conv_k <- fread("inst/conv_krausmann.csv")
 
@@ -25,7 +30,10 @@ feed_req_k[, `:=`(
   original_value = NULL,
   crops = 0, residues = 0, grass = 0, fodder = 0, scavenging = 0, animals = 0)]
 
-# Estimates from Bouwman et al. (2013)
+
+
+
+# Estimates from Bouwman et al. (2013) ------------------------------------
 conv_b <- fread("inst/conv_bouwman.csv")
 conc_b <- fread("inst/conc_bouwman.csv")
 
@@ -113,6 +121,98 @@ feed_req_b[, proc := processes$proc[match(feed_req_b$proc_code, processes$proc_c
 # Create total
 feed_req_b[, `:=`(total = na_sum(animals, crops, grass, fodder,
                                  residues, scavenging), item_code = 0, item = NULL)]
+
+
+
+
+
+# Estimates from GLEAM ---------------------------------------------------
+feed_req_g <- fread("input/GLEAM/GLEAM3_intakes_dashboard.csv")
+
+# 1. Merging feed intake for Abyei (to Sudan and South Sudan) and Isle of Man (to United Kingdom)
+feed_req_g <- merge(feed_req_g[area != "Abyei",], 
+                    feed_req_g[area == "Abyei", .(animal,feed_category,Abyei = dm_intake,unit)],
+                    by = c("animal","feed_category","unit"),
+                    all.x = TRUE)
+feed_req_g <- merge(feed_req_g[area != "Isle of Man"], 
+                    feed_req_g[area == "Isle of Man", .(animal,feed_category,IsleofMan = dm_intake,unit)],
+                    by = c("animal","feed_category","unit"),
+                    all.x = TRUE)
+feed_req_g[iso3c %in% c("SSD","SDN"), dm_intake := na_sum(dm_intake, Abyei / 2)]
+feed_req_g[iso3c == "GBR", dm_intake := na_sum(dm_intake, IsleofMan)]
+feed_req_g[, `:=`(Abyei = NULL, IsleofMan = NULL)]
+
+
+#For countries where FABIO data is available but not GLEAM, we leave the Bouwman estimations?
+countries_gleam <- data.table(iso3c=unique(feed_req_g$iso3c), name_gleam=unique(feed_req_g$area))
+countries_fabio <- data.table(iso3c = regions$iso3c, name_fabio=regions$name)
+non_matching_countries <- merge(countries_fabio,countries_gleam,by="iso3c", all=TRUE)
+non_matching_countries <- non_matching_countries[is.na(name_gleam)|is.na(name_fabio)]
+rm(countries_fabio, countries_gleam)
+
+
+# 2. Creating new feed requirement table to replace Bouwman---------------------
+
+# 2.1 Adding process codes 
+# -> this creates a table where the values are not true due to double counting
+conc_gleam <- fread("inst/conc_gleam.csv", header = TRUE)
+feed_req_g <- merge.data.table(feed_req_g, conc_gleam, by="animal", all=TRUE, allow.cartesian = TRUE)
+setcolorder(feed_req_g, c("iso3c", "area", "unit", "animal", "proc", "proc_code"))
+
+# 2.2 Split dm intake for dairy and meat animals using bouwman
+bouwman <- feed_req_b[proc_code %in% c("p085", "p086", "p087", "p088", "p099", "p100", "p101", "p102") & year == 2015]
+
+# Decision for next session: We use the Bouwman ratios between meat and dairy herds
+#to determine dry matter intake per feedtype, country and process. We determine
+#the Bouwman ratios for the columns: a) crops, b) grass, c) residue and d) fodder 
+# and match them to the gleam feedtypes a) grains and other edible b)grass and leaves,
+# c) oil seed cakes and d) fodder crops
+
+
+
+
+# 2.1 formatting to wide 
+feed_req_gl_wide <- dcast(feed_req_g, iso3c + area + animal + unit ~ feed_category,
+                          value.var = "dm_intake", fill = 0) 
+
+
+# Alternative: format with empty cells instead to fill them up later
+# feed_req_gl_wide[is.na(feed_req_gl_wide)] <- 0  
+# feed_req_gl_wide[ , 5:ncol(feed_req_gl_wide)] <- 0
+
+
+
+
+
+# 2.3 Adding 2 columns with stock numbers (heads or kilos) (once per animal and once per herd)
+# -> divide feed columns by total number and multiply with herd number
+# Do something about other poultry birds (scale up chicken intake to kilo stock of poultry birds?)
+
+
+
+
+
+
+#2.4 Add up DM per process to total -> feed_req_b is replaced for 2015 (what about camels?)
+
+
+# 2.5 Match GLEAM feedtypes to feed items
+# feedtypes_GLEAM <- fread("inst/OH_feedtypes_GLEAM")  # This is the matching table (not yet finalized, 23.07.)
+
+feedtypes_gleam <- fread("inst/feedtypes_GLEAM.csv", header = TRUE)
+
+
+
+# 3. Assume same per-head/kilo intake for other years --------------------------
+
+
+
+
+
+
+
+
+
 
 # Integrate Bouwman and Krausmann feed requirements
 feed_req <- rbind(feed_req_b[total > 0], feed_req_k[!is.na(total) & total > 0])
