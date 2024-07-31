@@ -6,7 +6,7 @@ source("R/01_tidy_functions.R")
 source("R/00_system_variables.R")
 
 
-regions <- fread("inst/regions_full.csv")
+regions <- fread("inst/regions_full.csv")[current==TRUE]
 items <- fread("inst/items_full.csv")
 
 sup <- readRDS("data/sup_final.rds")
@@ -136,7 +136,7 @@ supply_shares <- mclapply(btd_cast, function(x, agg, js) {
   out[!is.finite(out)] <- 0 # See Issue #75
 
   # source is domestic, where no sources given in btd_final
-  for(i in 1:nrow(regions[cbs==TRUE])){
+  for(i in 1:nrow(regions)){
     out[nrow(items)*(i-1)+62, i] <- 1
   }
 

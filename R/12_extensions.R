@@ -5,15 +5,15 @@ source("R/00_system_variables.R")
 source("R/01_tidy_functions.R")
 
 items <- fread("inst/items_full.csv")
-regions <- fread("inst/regions_full.csv")
-nrreg <- nrow(regions[cbs==TRUE])
+regions <- fread("inst/regions_full.csv")[current==TRUE]
+nrreg <- nrow(regions)
 nrcom <- nrow(items)
 
 X <- readRDS(file.path(output_dir,"X.rds"))
 grassland_yields <- fread("input/grazing/grazing.csv")
 water_crop <- fread("input/water/water_crop.csv")
 water_fodder <- water_crop[water_item == "Fodder crops/Managed grass"]
-water_fodder <- merge(regions[cbs==TRUE, .(area_code = code, area = name, water_code, water_area)],
+water_fodder <- merge(regions[, .(area_code = code, area = name, water_code, water_area)],
   water_fodder[, .(water_code, water_area, water_item, value, water_type)],
   by = c("water_code", "water_area"), all.x = TRUE, allow.cartesian = TRUE)
 water_fodder <- dcast(water_fodder, area_code + area ~ water_type, fun=sum)
@@ -38,7 +38,7 @@ water_crop <- merge(crop[unit == "tonnes" & value > 0 & item_code %in% unique(wa
   by = c("area_code", "fao_code"),
   all.x = TRUE, allow.cartesian = TRUE)
 water_crop <- water_crop[, `:=`(value = production * intensity)]
-water_crop[!area_code %in% regions[cbs==TRUE, code], `:=`(area_code = 999)]
+water_crop[!area_code %in% regions[, code], `:=`(area_code = 999)]
 water_crop <- water_crop[, list(value = na_sum(value)),
   by = .(area_code, item_code, item, year, water_type)]
 
@@ -72,14 +72,13 @@ rm(live, meat, stocks, src_item, tgt_item, tgt_name)
 # read production data ---------------------------------------------------------
 sup <- readRDS("data/sup_final.rds")
 crop <- readRDS("./data/tidy/crop_tidy.rds")
-crop[!area_code %in% regions[cbs==TRUE, code], `:=`(area_code = 999, area = "ROW")]
+crop[!area_code %in% regions[, code], `:=`(area_code = 999, area = "ROW")]
 crop <- crop[, list(value = na_sum(value)),
   by = .(area_code, area, element, year, unit, item_code, item)]
 
 # prepare N extension ---------------------------------------------------------
 N <- read_csv("./input/extensions/N_kg_per_ha.csv")
-N$region <- regions$region[match(N$iso3c, regions$iso3c)]
-N <- merge(regions[cbs==TRUE,.(iso3c,area_code = code)], N, by = "iso3c", all = TRUE)
+N <- merge(regions[, .(iso3c, area_code = code, region)], N, by = "iso3c", all = TRUE)
 N <- gather(N, key = "com", value = "value", -region, -iso3c, -area_code)
 avg_N <- N %>%
   group_by(region, com) %>%
@@ -99,10 +98,10 @@ items_conc <- read_csv("./inst/items_conc.csv")
 N$com <- items_conc$com_1.2[match(N$com, items_conc$com_1.1)]
 N <- N[!is.na(N$com) & !is.na(N$area_code),]
 
+
 # prepare P extension ---------------------------------------------------------
 P <- read_csv("./input/extensions/P_kg_per_ha.csv")
-P$region <- regions$region[match(P$iso3c, regions$iso3c)]
-P <- merge(regions[cbs==TRUE,.(iso3c,area_code = code)], P, by = "iso3c", all = TRUE)
+P <- merge(regions[, .(iso3c, area_code = code, region)], P, by = "iso3c", all = TRUE)
 P <- gather(P, key = "com", value = "value", -region, -iso3c, -area_code)
 avg_P <- P %>%
   group_by(region, com) %>%
@@ -122,12 +121,13 @@ P$com <- items_conc$com_1.2[match(P$com, items_conc$com_1.1)]
 P <- P[!is.na(P$com) & !is.na(P$area_code),]
 
 
+
 # build extensions ---------------------------------------------------------
 E <- lapply(years, function(x, y) {
 
   data <- data.table(
-    area_code = rep(regions[cbs==TRUE, code], each = nrcom),
-    area = rep(regions[cbs==TRUE, name], each = nrcom),
+    area_code = rep(regions[, code], each = nrcom),
+    area = rep(regions[, name], each = nrcom),
     item_code = rep(items$item_code, nrreg),
     item = rep(items$item, nrreg),
     comm_code = rep(items$comm_code, nrreg),
@@ -205,14 +205,15 @@ saveRDS(E, file=file.path(output_dir,"E.rds"))
 # (potential species loss from land use per hectare)
 biodiv <- read_csv("./input/extensions/biodiversity.csv")
 biodiv_data <- t(biodiv[, -(1:3)])
+biodiv_data <- biodiv_data[rownames(biodiv_data) %in% regions[, iso3c],]
 biodiv_labels <- biodiv[, 1:3]
-biodiv_data <- biodiv_data[regions[cbs==TRUE, iso3c],]
+biodiv_data <- biodiv_data[regions[, iso3c],]
 
 E_biodiv <- lapply(E, function(x) {
   # data <- merge(x[,1:8], aggregate(x$landuse, by=list(area_code=x$area_code), FUN=sum),
   #                   by = "area_code", all.x = TRUE)
   # data[item == "Grazing", x := landuse]
-  data2 <- biodiv_data[rep(1:192, each = 123),]
+  data2 <- biodiv_data[rep(seq_along(regions$code), each = 123),]
   colnames(data2) <- paste0(biodiv_labels$species,"_",biodiv_labels$land)
   data2[x$item != "Grazing", grepl("pasture", colnames(data2))] <- 0
   data2[x$item == "Grazing", grepl("cropland", colnames(data2))] <- 0

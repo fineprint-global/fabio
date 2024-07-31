@@ -4,13 +4,11 @@ library(tidyverse)
 source("R/00_system_variables.R")
 source("R/01_tidy_functions.R")
 
-items <- fread("inst/items_full.csv")
-regions <- fread("inst/regions_full.csv")
-io <- fread(file.path(output_dir,"io_codes.csv"))
-su <- fread(file.path(output_dir,"su_codes.csv"))
-fd <- fread(file.path(output_dir,"fd_codes.csv"))
+io <- fread(file.path(output_dir,"io_labels.csv"))
+su <- fread(file.path(output_dir,"su_labels.csv"))
+fd <- fread(file.path(output_dir,"fd_labels.csv"))
 Y <- readRDS(file.path(output_dir,"Y.rds"))
-fd_l <- fread(file.path(output_dir,"losses/fd_codes.csv"))
+fd_l <- fread(file.path(output_dir,"losses/fd_labels.csv"))
 Y_l <- readRDS(file.path(output_dir,"losses/Y.rds"))
 
 # Chinese edible oil statistics
@@ -26,8 +24,8 @@ Y_l_new <- Y_l
 i = 1
 for(i in seq_along(Y)){
   print(years[i])
-  if(as.numeric(years[i]) > 2020){
-    data <- merge(io, oil[year==2020, .(comm_code, food_share)], by = "comm_code", all.x = TRUE, sort = FALSE)
+  if(as.numeric(years[i]) > max(oil$year)){
+    data <- merge(io, oil[year==max(oil$year), .(comm_code, food_share)], by = "comm_code", all.x = TRUE, sort = FALSE)
   } else {
     data <- merge(io, oil[year==as.numeric(years[i]), .(comm_code, food_share)], by = "comm_code", all.x = TRUE, sort = FALSE)
   }

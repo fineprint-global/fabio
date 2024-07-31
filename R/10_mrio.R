@@ -51,8 +51,7 @@ Z_v <- lapply(Z_v, round)
 
 # Rebalance row sums in Z and Y -----------------------------------------
 
-regions <- fread("inst/regions_full.csv")
-regions <- regions[cbs==TRUE]
+regions <- fread("inst/regions_full.csv")[current==TRUE]
 items <- fread("inst/items_full.csv")
 nrcom <- nrow(items)
 Y <- readRDS(file.path(output_dir,"mr_use_fd.rds"))
@@ -149,8 +148,7 @@ saveRDS(X, file.path(output_dir,"X.rds"))
 
 
 # # redistribute balancing over all uses proportionally ---------------------------------------------
-# regions <- fread("inst/regions_full.csv")
-# regions <- regions[cbs==TRUE]
+# regions <- fread("inst/regions_full.csv")[current==TRUE]
 # items <- fread("inst/items_full.csv")
 # nrcom <- nrow(items)
 # nrreg <- nrow(regions)
@@ -284,34 +282,38 @@ saveRDS(Z_v, file.path(output_dir,"losses/Z_value.rds"))
 
 
 
-# allocate ghg emissions to products --------------------------------------------------------------
-ghg <- readRDS("/mnt/nfs_fineprint/tmp/fabio/ghg/E_ghg.rds")
-gwp <- readRDS("/mnt/nfs_fineprint/tmp/fabio/ghg/E_gwp.rds")
-luh <- readRDS("/mnt/nfs_fineprint/tmp/fabio/ghg/E_luh2.rds")
-
-ghg_names <- ghg[[1]][,1]
-gwp_names <- gwp[[1]][,1]
-luh_names <- luh[[1]][,1]
-
-write_csv(data.frame(ghg_names), file.path(output_dir,"ghg_names.csv"))
-write_csv(data.frame(gwp_names), file.path(output_dir,"gwp_names.csv"))
-write_csv(data.frame(luh_names), file.path(output_dir,"luh_names.csv"))
-
-# range <- rep(c(1:97,99:116,118:120),192)+rep(((0:191)*121), each=118)
-range <- rep(c(1:97,99:116,118:121),192)+rep(((0:191)*121), each=119) # adding butter production
-
-ghg_m <- mapply(function(x, y) { as.matrix(x[,-1][,range]) %*% y }, x = ghg, y = trans_m[1:28])
-gwp_m <- mapply(function(x, y) { as.matrix(x[,-1][,range]) %*% y }, x = gwp, y = trans_m[1:28])
-luh_m <- mapply(function(x, y) { as.matrix(x[,-1][,range]) %*% y }, x = luh, y = trans_m[1:28])
-ghg_v <- mapply(function(x, y) { as.matrix(x[,-1][,range]) %*% y }, x = ghg, y = trans_v[1:28])
-gwp_v <- mapply(function(x, y) { as.matrix(x[,-1][,range]) %*% y }, x = gwp, y = trans_v[1:28])
-luh_v <- mapply(function(x, y) { as.matrix(x[,-1][,range]) %*% y }, x = luh, y = trans_v[1:28])
-
-saveRDS(ghg_m, file.path(output_dir,"E_ghg_mass.rds"))
-saveRDS(gwp_m, file.path(output_dir,"E_gwp_mass.rds"))
-saveRDS(luh_m, file.path(output_dir,"E_luh_mass.rds"))
-
-saveRDS(ghg_v, file.path(output_dir,"E_ghg_value.rds"))
-saveRDS(gwp_v, file.path(output_dir,"E_gwp_value.rds"))
-saveRDS(luh_v, file.path(output_dir,"E_luh_value.rds"))
-
+# # allocate ghg emissions to products --------------------------------------------------------------
+# # Note: this part needs to be updated in order to fit the new country classification
+# ghg <- readRDS("/mnt/nfs_fineprint/tmp/fabio/ghg/E_ghg.rds")
+# gwp <- readRDS("/mnt/nfs_fineprint/tmp/fabio/ghg/E_gwp.rds")
+# luh <- readRDS("/mnt/nfs_fineprint/tmp/fabio/ghg/E_luh2.rds")
+# 
+# ghg_names <- ghg[[1]][,1]
+# gwp_names <- gwp[[1]][,1]
+# luh_names <- luh[[1]][,1]
+# 
+# write_csv(data.frame(ghg_names), file.path(output_dir,"ghg_names.csv"))
+# write_csv(data.frame(gwp_names), file.path(output_dir,"gwp_names.csv"))
+# write_csv(data.frame(luh_names), file.path(output_dir,"luh_names.csv"))
+# 
+# nrreg <- length(unique(io_labels$area_code))
+# # range <- rep(c(1:97,99:116,118:120), 192) + 
+# #   rep(((0:191)*121), each=118)
+# range <- rep(c(1:97,99:116,118:121), nrreg) + 
+#   rep(((0:(nrreg-1))*121), each=119) # adding butter production
+# 
+# ghg_m <- mapply(function(x, y) { as.matrix(x[,-1][,range]) %*% y }, x = ghg, y = trans_m[seq_along(years)])
+# gwp_m <- mapply(function(x, y) { as.matrix(x[,-1][,range]) %*% y }, x = gwp, y = trans_m[seq_along(years)])
+# luh_m <- mapply(function(x, y) { as.matrix(x[,-1][,range]) %*% y }, x = luh, y = trans_m[seq_along(years)])
+# ghg_v <- mapply(function(x, y) { as.matrix(x[,-1][,range]) %*% y }, x = ghg, y = trans_v[seq_along(years)])
+# gwp_v <- mapply(function(x, y) { as.matrix(x[,-1][,range]) %*% y }, x = gwp, y = trans_v[seq_along(years)])
+# luh_v <- mapply(function(x, y) { as.matrix(x[,-1][,range]) %*% y }, x = luh, y = trans_v[seq_along(years)])
+# 
+# saveRDS(ghg_m, file.path(output_dir,"E_ghg_mass.rds"))
+# saveRDS(gwp_m, file.path(output_dir,"E_gwp_mass.rds"))
+# saveRDS(luh_m, file.path(output_dir,"E_luh_mass.rds"))
+# 
+# saveRDS(ghg_v, file.path(output_dir,"E_ghg_value.rds"))
+# saveRDS(gwp_v, file.path(output_dir,"E_gwp_value.rds"))
+# saveRDS(luh_v, file.path(output_dir,"E_luh_value.rds"))
+# 

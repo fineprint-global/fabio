@@ -68,7 +68,7 @@ if(spread_stocks){
 # Calculate footprints
 FP <- t(t(MP) * as.vector(as.matrix(Y_country[,consumption])))
 colnames(FP) <- rownames(FP) <- paste0(io$iso3c, "_", io$item)
-FP <- as(FP, "dgTMatrix")
+FP <- as(FP, "TsparseMatrix")
 results <- data.table(origin=rownames(FP)[FP@i + 1], target=colnames(FP)[FP@j + 1], value =FP@x)
 results[,`:=`(country_consumer = country,
               year = year,

@@ -1,261 +1,261 @@
-"","V1","V1","code","iso3c","name","eia","iea","water_code","water_area","baci","fish","region_code","region","cbs","EU27"
-"1",1,1,1,"ARM","Armenia","Armenia","Armenia",1,"Armenia",51,51,11,"Former USSR",TRUE,FALSE
-"2",2,2,2,"AFG","Afghanistan","Afghanistan","",2,"Afghanistan",4,4,13,"South Asia",TRUE,FALSE
-"3",3,3,3,"ALB","Albania","Albania","Albania",3,"Albania",8,8,10,"Eastern Europe",TRUE,FALSE
-"4",4,4,4,"DZA","Algeria","Algeria","Algeria",4,"Algeria",12,12,5,"Northern Africa",TRUE,FALSE
-"5",5,5,5,"ASM","American Samoa","American Samoa","",5,"American Samoa",16,16,16,"Oceania",FALSE,FALSE
-"6",6,6,6,"AND","Andorra","","",999,"Global average",20,20,9,"OECD Europe",FALSE,FALSE
-"7",7,7,7,"AGO","Angola","Angola","Angola",7,"Angola",24,24,8,"Southern Africa",TRUE,FALSE
-"8",8,8,8,"ATG","Antigua and Barbuda","Antigua and Barbuda","",8,"Antigua and Barbuda",28,28,3,"Central America",TRUE,FALSE
-"9",9,9,9,"ARG","Argentina","Argentina","Argentina",9,"Argentina",32,32,4,"South America",TRUE,FALSE
-"10",10,10,10,"AUS","Australia","Australia","Australia",10,"Australia",36,36,16,"Oceania",TRUE,FALSE
-"11",11,11,11,"AUT","Austria","Austria","Austria",11,"Austria",40,40,9,"OECD Europe",TRUE,TRUE
-"12",12,12,12,"BHS","Bahamas","Bahamas, The","",12,"Bahamas",44,44,3,"Central America",TRUE,FALSE
-"13",13,13,13,"BHR","Bahrain","Bahrain","Bahrain",13,"Bahrain",48,48,12,"Middle East",TRUE,FALSE
-"14",14,14,14,"BRB","Barbados","Barbados","",14,"Barbados",52,52,3,"Central America",TRUE,FALSE
-"15",15,15,15,"BLX","Belgium-Luxembourg","","",255,"Belgium",58,58,9,"OECD Europe",TRUE,TRUE
-"16",16,16,16,"BGD","Bangladesh","Bangladesh","Bangladesh",16,"Bangladesh",50,50,13,"South Asia",TRUE,FALSE
-"17",17,17,17,"BMU","Bermuda","Bermuda","",17,"Bermuda",60,60,3,"Central America",FALSE,FALSE
-"18",18,18,18,"BTN","Bhutan","Bhutan","",18,"Bhutan",64,64,13,"South Asia",FALSE,FALSE
-"19",19,19,19,"BOL","Bolivia (Plurinational State of)","Bolivia","Bolivia",19,"Bolivia",68,68,4,"South America",TRUE,FALSE
-"20",20,20,20,"BWA","Botswana","Botswana","Botswana",20,"Botswana",72,72,8,"Southern Africa",TRUE,FALSE
-"21",21,21,21,"BRA","Brazil","Brazil","Brazil",21,"Brazil",76,76,4,"South America",TRUE,FALSE
-"22",22,22,22,"ABW","Aruba","Aruba","",999,"Global average",533,533,3,"Central America",FALSE,FALSE
-"23",23,23,23,"BLZ","Belize","Belize","",23,"Belize",84,84,3,"Central America",TRUE,FALSE
-"24",24,24,24,"IOT","British Indian Ocean Territory","","",999,"Global average",86,86,13,"South Asia",FALSE,FALSE
-"25",25,25,25,"SLB","Solomon Islands","Solomon Islands","",25,"Solomon Islands",90,90,16,"Oceania",TRUE,FALSE
-"26",26,26,26,"BRN","Brunei Darussalam","Brunei","Brunei Darussalam",26,"Brunei Darussalam",96,96,15,"South East Asia",TRUE,FALSE
-"27",27,27,27,"BGR","Bulgaria","Bulgaria","Bulgaria",27,"Bulgaria",100,100,10,"Eastern Europe",TRUE,TRUE
-"28",28,28,28,"MMR","Myanmar","Burma (Myanmar)","Myanmar",28,"Myanmar",104,104,15,"South East Asia",TRUE,FALSE
-"29",29,29,29,"BDI","Burundi","Burundi","",29,"Burundi",108,108,7,"Eastern Africa",TRUE,FALSE
-"30",30,30,30,"ATA","Antarctica","Antarctica","",999,"Global average",NA,10,19,"Antarctica",FALSE,FALSE
-"31",31,31,31,"BVT","Bouvet Island","","",999,"Global average",NA,74,4,"South America",FALSE,FALSE
-"32",32,32,32,"CMR","Cameroon","Cameroon","Cameroon",32,"Cameroon",120,120,6,"Western Africa",TRUE,FALSE
-"33",33,33,33,"CAN","Canada","Canada","Canada",33,"Canada",124,124,1,"Canada",TRUE,FALSE
-"34",34,34,34,"CTE","Canton and Enderbury Islands","","",999,"Global average",NA,128,16,"Oceania",FALSE,FALSE
-"35",35,35,35,"CPV","Cabo Verde","Cape Verde","",35,"Cape Verde",132,132,6,"Western Africa",TRUE,FALSE
-"36",36,36,36,"CYM","Cayman Islands","Cayman Islands","",36,"Cayman Islands",136,136,3,"Central America",FALSE,FALSE
-"37",37,37,37,"CAF","Central African Republic","Central African Republic","",37,"Central African Republic",140,140,6,"Western Africa",TRUE,FALSE
-"38",38,38,38,"LKA","Sri Lanka","Sri Lanka","Sri Lanka",38,"Sri Lanka",144,144,13,"South Asia",TRUE,FALSE
-"39",39,39,39,"TCD","Chad","Chad","",39,"Chad",148,148,6,"Western Africa",TRUE,FALSE
-"40",40,40,40,"CHL","Chile","Chile","Chile",40,"Chile",152,152,4,"South America",TRUE,FALSE
-"41",41,41,41,"CHN","China, mainland","China","People's Republic of China",351,"China",156,156,14,"East Asia",TRUE,FALSE
-"42",42,42,42,"CXR","Christmas Island","","",999,"Global average",162,162,16,"Oceania",FALSE,FALSE
-"43",43,43,43,"CCK","Cocos (Keeling) Islands","","",999,"Global average",166,166,16,"Oceania",FALSE,FALSE
-"44",44,44,44,"COL","Colombia","Colombia","Colombia",44,"Colombia",170,170,4,"South America",TRUE,FALSE
-"45",45,45,45,"COM","Comoros","Comoros","",45,"Comoros",174,174,7,"Eastern Africa",FALSE,FALSE
-"46",46,46,46,"COG","Congo","Congo (Brazzaville)","Republic of the Congo",46,"Congo",178,178,6,"Western Africa",TRUE,FALSE
-"47",47,47,47,"COK","Cook Islands","Cook Islands","",47,"Cook Islands",184,184,16,"Oceania",FALSE,FALSE
-"48",48,48,48,"CRI","Costa Rica","Costa Rica","Costa Rica",48,"Costa Rica",188,188,3,"Central America",TRUE,FALSE
-"49",49,49,49,"CUB","Cuba","Cuba","Cuba",49,"Cuba",192,192,3,"Central America",TRUE,FALSE
-"50",50,50,50,"CYP","Cyprus","Cyprus","Cyprus",50,"Cyprus",196,196,12,"Middle East",TRUE,TRUE
-"51",51,51,51,"CSK","Czechoslovakia","Former Czechoslovakia","",167,"Czech Republic",200,200,9,"OECD Europe",TRUE,FALSE
-"52",52,52,52,"AZE","Azerbaijan","Azerbaijan","Azerbaijan",52,"Azerbaijan",31,31,11,"Former USSR",TRUE,FALSE
-"53",53,53,53,"BEN","Benin","Benin","Benin",53,"Benin",204,204,6,"Western Africa",TRUE,FALSE
-"54",54,54,54,"DNK","Denmark","Denmark","Denmark",54,"Denmark",208,208,9,"OECD Europe",TRUE,TRUE
-"55",55,55,55,"DMA","Dominica","Dominica","",55,"Dominica",212,212,3,"Central America",TRUE,FALSE
-"56",56,56,56,"DOM","Dominican Republic","Dominican Republic","Dominican Republic",56,"Dominican Republic",214,214,3,"Central America",TRUE,FALSE
-"57",57,57,57,"BLR","Belarus","Belarus","Belarus",57,"Belarus",112,112,11,"Former USSR",TRUE,FALSE
-"58",58,58,58,"ECU","Ecuador","Ecuador","Ecuador",58,"Ecuador",218,218,4,"South America",TRUE,FALSE
-"59",59,59,59,"EGY","Egypt","Egypt","Egypt",59,"Egypt",818,818,5,"Northern Africa",TRUE,FALSE
-"60",60,60,60,"SLV","El Salvador","El Salvador","El Salvador",60,"El Salvador",222,222,3,"Central America",TRUE,FALSE
-"61",61,61,61,"GNQ","Equatorial Guinea","Equatorial Guinea","",61,"Equatorial Guinea",226,226,6,"Western Africa",FALSE,FALSE
-"62",62,62,62,"ETH","Ethiopia PDR","","",999,"Global average",231,230,7,"Eastern Africa",FALSE,FALSE
-"63",63,63,63,"EST","Estonia","Estonia","Estonia",63,"Estonia",233,233,11,"Former USSR",TRUE,TRUE
-"64",64,64,64,"FRO","Faroe Islands","Faroe Islands","",64,"Faroe Islands",NA,234,9,"OECD Europe",FALSE,FALSE
-"65",65,65,65,"FLK","Falkland Islands (Malvinas)","Falkland Islands (Islas Malvinas)","",999,"Global average",238,238,4,"South America",FALSE,FALSE
-"66",66,66,66,"FJI","Fiji","Fiji","",66,"Fiji",242,242,16,"Oceania",TRUE,FALSE
-"67",67,67,67,"FIN","Finland","Finland","Finland",67,"Finland",246,246,9,"OECD Europe",TRUE,TRUE
-"68",68,68,68,"FRA","France","France","France",68,"France",251,250,9,"OECD Europe",TRUE,TRUE
-"69",69,69,69,"GUF","French Guiana","French Guiana","",69,"French Guiana",NA,254,4,"South America",FALSE,FALSE
-"70",70,70,70,"PYF","French Polynesia","French Polynesia","",70,"French Polynesia",258,258,16,"Oceania",TRUE,FALSE
-"71",71,71,71,"ATF","French Southern and Antarctic Territories","","",999,"Global average",260,260,16,"Oceania",FALSE,FALSE
-"72",72,72,72,"DJI","Djibouti","Djibouti","",72,"Djibouti",262,262,7,"Eastern Africa",TRUE,FALSE
-"73",73,73,73,"GEO","Georgia","Georgia","Georgia",73,"Georgia",268,268,11,"Former USSR",TRUE,FALSE
-"74",74,74,74,"GAB","Gabon","Gabon","Gabon",74,"Gabon",266,266,6,"Western Africa",TRUE,FALSE
-"75",75,75,75,"GMB","Gambia","Gambia, The","",75,"Gambia",270,270,6,"Western Africa",TRUE,FALSE
-"76",76,76,79,"DEU","Germany","Germany","Germany",79,"Germany",276,276,9,"OECD Europe",TRUE,TRUE
-"77",77,77,80,"BIH","Bosnia and Herzegovina","Bosnia and Herzegovina","Bosnia and Herzegovina",80,"Bosnia and Herzegovina",70,70,10,"Eastern Europe",TRUE,FALSE
-"78",78,78,81,"GHA","Ghana","Ghana","Ghana",81,"Ghana",288,288,6,"Western Africa",TRUE,FALSE
-"79",79,79,82,"GIB","Gibraltar","Gibraltar","Gibraltar",999,"Global average",292,292,9,"OECD Europe",FALSE,FALSE
-"80",80,80,83,"KIR","Kiribati","Kiribati","",83,"Kiribati",296,296,16,"Oceania",TRUE,FALSE
-"81",81,81,84,"GRC","Greece","Greece","Greece",84,"Greece",300,300,9,"OECD Europe",TRUE,TRUE
-"82",82,82,85,"GRL","Greenland","Greenland","",999,"Global average",304,304,9,"OECD Europe",FALSE,FALSE
-"83",83,83,86,"GRD","Grenada","Grenada","",86,"Grenada",308,308,3,"Central America",TRUE,FALSE
-"84",84,84,87,"GLP","Guadeloupe","Guadeloupe","",87,"Guadeloupe",NA,312,3,"Central America",FALSE,FALSE
-"85",85,85,88,"GUM","Guam","Guam","",88,"Guam",316,316,16,"Oceania",FALSE,FALSE
-"86",86,86,89,"GTM","Guatemala","Guatemala","Guatemala",89,"Guatemala",320,320,3,"Central America",TRUE,FALSE
-"87",87,87,90,"GIN","Guinea","Guinea","",90,"Guinea",324,324,6,"Western Africa",TRUE,FALSE
-"88",88,88,91,"GUY","Guyana","Guyana","",91,"Guyana",328,328,4,"South America",TRUE,FALSE
-"89",89,89,92,"HMD","Heard and McDonald Islands","","",999,"Global average",NA,334,16,"Oceania",FALSE,FALSE
-"90",90,90,93,"HTI","Haiti","Haiti","Haiti",93,"Haiti",332,332,3,"Central America",TRUE,FALSE
-"91",91,91,94,"VAT","Holy See","","",999,"Global average",NA,336,9,"OECD Europe",FALSE,FALSE
-"92",92,92,95,"HND","Honduras","Honduras","Honduras",95,"Honduras",340,340,3,"Central America",TRUE,FALSE
-"93",93,93,96,"HKG","China, Hong Kong SAR","Hong Kong","Hong Kong, China",351,"China",344,344,14,"East Asia",TRUE,FALSE
-"94",94,94,97,"HUN","Hungary","Hungary","Hungary",97,"Hungary",348,348,10,"Eastern Europe",TRUE,TRUE
-"95",95,95,98,"HRV","Croatia","Croatia","Croatia",98,"Croatia",191,191,10,"Eastern Europe",TRUE,TRUE
-"96",96,96,99,"ISL","Iceland","Iceland","Iceland",99,"Iceland",352,352,9,"OECD Europe",TRUE,FALSE
-"97",97,97,100,"IND","India","India","India",100,"India",699,356,13,"South Asia",TRUE,FALSE
-"98",98,98,101,"IDN","Indonesia","Indonesia","Indonesia",101,"Indonesia",360,360,15,"South East Asia",TRUE,FALSE
-"99",99,99,102,"IRN","Iran (Islamic Republic of)","Iran","Islamic Republic of Iran",102,"Iran, Islamic Republic of",364,364,12,"Middle East",TRUE,FALSE
-"100",100,100,103,"IRQ","Iraq","Iraq","Iraq",103,"Iraq",368,368,12,"Middle East",TRUE,FALSE
-"101",101,101,104,"IRL","Ireland","Ireland","Ireland",104,"Ireland",372,372,9,"OECD Europe",TRUE,TRUE
-"102",102,102,105,"ISR","Israel","Israel","Israel",105,"Israel",376,376,12,"Middle East",TRUE,FALSE
-"103",103,103,106,"ITA","Italy","Italy","Italy",106,"Italy",381,380,9,"OECD Europe",TRUE,TRUE
-"104",104,104,107,"CIV","Côte d'Ivoire","Cote dIvoire (IvoryCoast)","Côte d'Ivoire",107,"Côte d'Ivoire",384,384,6,"Western Africa",TRUE,FALSE
-"105",105,105,108,"KAZ","Kazakhstan","Kazakhstan","Kazakhstan",108,"Kazakhstan",398,398,11,"Former USSR",TRUE,FALSE
-"106",106,106,109,"JAM","Jamaica","Jamaica","Jamaica",109,"Jamaica",388,388,3,"Central America",TRUE,FALSE
-"107",107,107,110,"JPN","Japan","Japan","Japan",110,"Japan",392,392,17,"Japan",TRUE,FALSE
-"108",108,108,111,"JTN","Johnston Island","","",999,"Global average",NA,396,16,"Oceania",FALSE,FALSE
-"109",109,109,112,"JOR","Jordan","Jordan","Jordan",112,"Jordan",400,400,12,"Middle East",TRUE,FALSE
-"110",110,110,113,"KGZ","Kyrgyzstan","Kyrgyzstan","Kyrgyzstan",113,"Kyrgyzstan",417,417,11,"Former USSR",TRUE,FALSE
-"111",111,111,114,"KEN","Kenya","Kenya","Kenya",114,"Kenya",404,404,7,"Eastern Africa",TRUE,FALSE
-"112",112,112,115,"KHM","Cambodia","Cambodia","Cambodia",115,"Cambodia",116,116,15,"South East Asia",TRUE,FALSE
-"113",113,113,116,"PRK","Democratic People's Republic of Korea","Korea, North","Democratic People's Republic of Korea",116,"Korea, Democratic People's Republic of",408,408,14,"East Asia",TRUE,FALSE
-"114",114,114,117,"KOR","Republic of Korea","Korea, South","Korea",117,"Korea, Republic of",410,410,14,"East Asia",TRUE,FALSE
-"115",115,115,118,"KWT","Kuwait","Kuwait","Kuwait",118,"Kuwait",414,414,12,"Middle East",TRUE,FALSE
-"116",116,116,119,"LVA","Latvia","Latvia","Latvia",119,"Latvia",428,428,11,"Former USSR",TRUE,TRUE
-"117",117,117,120,"LAO","Lao People's Democratic Republic","Laos","",120,"Lao People's Democratic Republic",418,418,15,"South East Asia",TRUE,FALSE
-"118",118,118,121,"LBN","Lebanon","Lebanon","Lebanon",121,"Lebanon",422,422,12,"Middle East",TRUE,FALSE
-"119",119,119,122,"LSO","Lesotho","Lesotho","",122,"Lesotho",426,426,8,"Southern Africa",TRUE,FALSE
-"120",120,120,123,"LBR","Liberia","Liberia","",123,"Liberia",430,430,6,"Western Africa",TRUE,FALSE
-"121",121,121,124,"LBY","Libya","Libya","Libya",124,"Libyan Arab Jamahiriya",434,434,5,"Northern Africa",TRUE,FALSE
-"122",122,122,125,"LIE","Liechtenstein","","",999,"Global average",NA,438,9,"OECD Europe",FALSE,FALSE
-"123",123,123,126,"LTU","Lithuania","Lithuania","Lithuania",126,"Lithuania",440,440,11,"Former USSR",TRUE,TRUE
-"124",124,124,127,"MHL","Marshall Islands","","",127,"Marshall Islands",584,584,16,"Oceania",FALSE,FALSE
-"125",125,125,128,"MAC","China, Macao SAR","Macau","",351,"China",446,446,14,"East Asia",TRUE,FALSE
-"126",126,126,129,"MDG","Madagascar","Madagascar","",129,"Madagascar",450,450,7,"Eastern Africa",TRUE,FALSE
-"127",127,127,130,"MWI","Malawi","Malawi","",130,"Malawi",454,454,8,"Southern Africa",TRUE,FALSE
-"128",128,128,131,"MYS","Malaysia","Malaysia","Malaysia",131,"Malaysia",458,458,15,"South East Asia",TRUE,FALSE
-"129",129,129,132,"MDV","Maldives","Maldives","",132,"Maldives",462,462,13,"South Asia",TRUE,FALSE
-"130",130,130,133,"MLI","Mali","Mali","",133,"Mali",466,466,6,"Western Africa",TRUE,FALSE
-"131",131,131,134,"MLT","Malta","Malta","Malta",134,"Malta",470,470,9,"OECD Europe",TRUE,TRUE
-"132",132,132,135,"MTQ","Martinique","Martinique","",135,"Martinique",NA,474,3,"Central America",FALSE,FALSE
-"133",133,133,136,"MRT","Mauritania","Mauritania","",136,"Mauritania",478,478,6,"Western Africa",TRUE,FALSE
-"134",134,134,137,"MUS","Mauritius","Mauritius","Mauritius",137,"Mauritius",480,480,7,"Eastern Africa",TRUE,FALSE
-"135",135,135,138,"MEX","Mexico","Mexico","Mexico",138,"Mexico",484,484,3,"Central America",TRUE,FALSE
-"136",136,136,139,"MID","Midway Island","","",999,"Global average",NA,488,16,"Oceania",FALSE,FALSE
-"137",137,137,140,"MCO","Monaco","","",999,"Global average",NA,492,9,"OECD Europe",FALSE,FALSE
-"138",138,138,141,"MNG","Mongolia","Mongolia","Mongolia",141,"Mongolia",496,496,14,"East Asia",TRUE,FALSE
-"139",139,139,142,"MSR","Montserrat","Montserrat","",142,"Montserrat",500,500,3,"Central America",FALSE,FALSE
-"140",140,140,143,"MAR","Morocco","Morocco","Morocco",143,"Morocco",504,504,5,"Northern Africa",TRUE,FALSE
-"141",141,141,144,"MOZ","Mozambique","Mozambique","Mozambique",144,"Mozambique",508,508,8,"Southern Africa",TRUE,FALSE
-"142",142,142,145,"FSM","Micronesia (Federated States of)","","",145,"Micronesia, Federated States of",583,583,16,"Oceania",FALSE,FALSE
-"143",143,143,146,"MDA","Republic of Moldova","Moldova","Republic of Moldova",146,"Moldova",498,498,11,"Former USSR",TRUE,FALSE
-"144",144,144,147,"NAM","Namibia","Namibia","Namibia",147,"Namibia",516,516,8,"Southern Africa",TRUE,FALSE
-"145",145,145,148,"NRU","Nauru","Nauru","",148,"Nauru",520,520,16,"Oceania",FALSE,FALSE
-"146",146,146,149,"NPL","Nepal","Nepal","Nepal",149,"Nepal",524,524,13,"South Asia",TRUE,FALSE
-"147",147,147,150,"NLD","Netherlands","Netherlands","Netherlands",150,"Netherlands",528,528,9,"OECD Europe",TRUE,TRUE
-"148",148,148,151,"ANT","Netherlands Antilles","Netherlands Antilles","Netherlands Antilles / Curaçao",999,"Global average",530,530,3,"Central America",TRUE,FALSE
-"149",149,149,152,"NTZ","Neutral Zone","","",999,"Global average",NA,536,12,"Middle East",FALSE,FALSE
-"150",150,150,153,"NCL","New Caledonia","New Caledonia","",153,"New Caledonia",540,540,16,"Oceania",TRUE,FALSE
-"151",151,151,154,"MKD","North Macedonia","Macedonia","Former Yugoslav Republic of Macedonia",154,"The former Yugoslav Republic of Macedonia",807,807,10,"Eastern Europe",TRUE,FALSE
-"152",152,152,155,"VUT","Vanuatu","Vanuatu","",155,"Vanuatu",548,548,16,"Oceania",TRUE,FALSE
-"153",153,153,156,"NZL","New Zealand","New Zealand","New Zealand",156,"New Zealand",554,554,16,"Oceania",TRUE,FALSE
-"154",154,154,157,"NIC","Nicaragua","Nicaragua","Nicaragua",157,"Nicaragua",558,558,3,"Central America",TRUE,FALSE
-"155",155,155,158,"NER","Niger","Niger","Niger",158,"Niger",562,562,6,"Western Africa",TRUE,FALSE
-"156",156,156,159,"NGA","Nigeria","Nigeria","Nigeria",159,"Nigeria",566,566,6,"Western Africa",TRUE,FALSE
-"157",157,157,160,"NIU","Niue","Niue","",160,"Niue",570,570,16,"Oceania",FALSE,FALSE
-"158",158,158,161,"NFK","Norfolk Island","","",999,"Global average",574,574,16,"Oceania",FALSE,FALSE
-"159",159,159,162,"NOR","Norway","Norway","Norway",162,"Norway",579,578,9,"OECD Europe",TRUE,FALSE
-"160",160,160,163,"MNP","Northern Mariana Islands","","",999,"Global average",580,580,16,"Oceania",FALSE,FALSE
-"161",161,161,164,"PCI","Pacific Islands Trust Territory","","",999,"Global average",NA,582,15,"South East Asia",FALSE,FALSE
-"162",162,162,165,"PAK","Pakistan","Pakistan","Pakistan",165,"Pakistan",586,586,13,"South Asia",TRUE,FALSE
-"163",163,163,166,"PAN","Panama","Panama","Panama",166,"Panama",591,591,3,"Central America",TRUE,FALSE
-"164",164,164,167,"CZE","Czech Republic","Czech Republic","Czech Republic",167,"Czech Republic",203,203,10,"Eastern Europe",TRUE,TRUE
-"165",165,165,168,"PNG","Papua New Guinea","Papua New Guinea","",168,"Papua New Guinea",598,598,16,"Oceania",TRUE,FALSE
-"166",166,166,169,"PRY","Paraguay","Paraguay","Paraguay",169,"Paraguay",600,600,4,"South America",TRUE,FALSE
-"167",167,167,170,"PER","Peru","Peru","Peru",170,"Peru",604,604,4,"South America",TRUE,FALSE
-"168",168,168,171,"PHL","Philippines","Philippines","Philippines",171,"Philippines",608,608,15,"South East Asia",TRUE,FALSE
-"169",169,169,172,"PCN","Pitcairn Islands","","",999,"Global average",612,612,16,"Oceania",FALSE,FALSE
-"170",170,170,173,"POL","Poland","Poland","Poland",173,"Poland",616,616,10,"Eastern Europe",TRUE,TRUE
-"171",171,171,174,"PRT","Portugal","Portugal","Portugal",174,"Portugal",620,620,9,"OECD Europe",TRUE,TRUE
-"172",172,172,175,"GNB","Guinea-Bissau","Guinea-Bissau","",175,"Guinea-Bissau",624,624,6,"Western Africa",TRUE,FALSE
-"173",173,173,176,"TLS","Timor-Leste","Timor-Leste (East Timor)","",176,"Timor-Leste",626,626,15,"South East Asia",TRUE,FALSE
-"174",174,174,177,"PRI","Puerto Rico","Puerto Rico","",177,"Puerto Rico",NA,630,3,"Central America",TRUE,FALSE
-"175",175,175,178,"ERI","Eritrea","Eritrea","Eritrea",178,"Eritrea",232,232,7,"Eastern Africa",TRUE,FALSE
-"176",176,176,179,"QAT","Qatar","Qatar","Qatar",179,"Qatar",634,634,12,"Middle East",TRUE,FALSE
-"177",177,177,180,"PLW","Palau","","",999,"Global average",585,585,16,"Oceania",FALSE,FALSE
-"178",178,178,181,"ZWE","Zimbabwe","Zimbabwe","Zimbabwe",181,"Zimbabwe",716,716,8,"Southern Africa",TRUE,FALSE
-"179",179,179,182,"REU","Réunion","Reunion","",182,"R?union",NA,638,7,"Eastern Africa",FALSE,FALSE
-"180",180,180,183,"ROU","Romania","Romania","Romania",183,"Romania",642,642,10,"Eastern Europe",TRUE,TRUE
-"181",181,181,184,"RWA","Rwanda","Rwanda","",184,"Rwanda",646,646,7,"Eastern Africa",TRUE,FALSE
-"182",182,182,185,"RUS","Russian Federation","Russia","Russia",185,"Russian Federation",643,643,11,"Former USSR",TRUE,FALSE
-"183",183,183,186,"SCG","Serbia and Montenegro","Former Serbia and Montenegro","",186,"Serbia and Montenegro",891,891,9,"OECD Europe",TRUE,FALSE
-"184",184,184,187,"SHN","Saint Helena, Ascension and Tristan da Cunha","Saint Helena","",999,"Global average",654,654,6,"Western Africa",FALSE,FALSE
-"185",185,185,188,"KNA","Saint Kitts and Nevis","Saint Kitts and Nevis","",188,"Saint Kitts and Nevis",659,659,3,"Central America",TRUE,FALSE
-"186",186,186,189,"LCA","Saint Lucia","Saint Lucia","",189,"Saint Lucia",662,662,3,"Central America",TRUE,FALSE
-"187",187,187,190,"SPM","Saint Pierre and Miquelon","Saint Pierre and Miquelon","",190,"Saint Pierre and Miquelon",666,666,2,"USA",FALSE,FALSE
-"188",188,188,191,"VCT","Saint Vincent and the Grenadines","Saint Vincent/Grenadines","",191,"Saint Vincent and Grenadines",670,670,3,"Central America",TRUE,FALSE
-"189",189,189,192,"SMR","San Marino","","",999,"Global average",674,674,9,"OECD Europe",FALSE,FALSE
-"190",190,190,193,"STP","Sao Tome and Principe","Sao Tome and Principe","",193,"Sao Tome and Principe",678,678,6,"Western Africa",TRUE,FALSE
-"191",191,191,194,"SAU","Saudi Arabia","Saudi Arabia","Saudi Arabia",194,"Saudi Arabia",682,682,12,"Middle East",TRUE,FALSE
-"192",192,192,195,"SEN","Senegal","Senegal","Senegal",195,"Senegal",686,686,6,"Western Africa",TRUE,FALSE
-"193",193,193,196,"SYC","Seychelles","Seychelles","",196,"Seychelles",690,690,7,"Eastern Africa",FALSE,FALSE
-"194",194,194,197,"SLE","Sierra Leone","Sierra Leone","",197,"Sierra Leone",694,694,6,"Western Africa",TRUE,FALSE
-"195",195,195,198,"SVN","Slovenia","Slovenia","Slovenia",198,"Slovenia",705,705,10,"Eastern Europe",TRUE,TRUE
-"196",196,196,199,"SVK","Slovakia","Slovakia","Slovak Republic",199,"Slovakia",703,703,10,"Eastern Europe",TRUE,TRUE
-"197",197,197,200,"SGP","Singapore","Singapore","Singapore",200,"Singapore",702,702,15,"South East Asia",TRUE,FALSE
-"198",198,198,201,"SOM","Somalia","Somalia","",201,"Somalia",706,706,7,"Eastern Africa",TRUE,FALSE
-"199",199,199,202,"ZAF","South Africa","South Africa","South Africa",202,"South Africa",711,710,8,"Southern Africa",TRUE,FALSE
-"200",200,200,203,"ESP","Spain","Spain","Spain",203,"Spain",724,724,9,"OECD Europe",TRUE,TRUE
-"201",201,201,205,"ESH","Western Sahara","Western Sahara","",205,"Western Sahara",NA,732,5,"Northern Africa",FALSE,FALSE
-"202",202,202,206,"SDN","Sudan (former)","Sudan and South Sudan","Sudan",206,"Sudan",736,736,7,"Eastern Africa",FALSE,FALSE
-"203",203,203,207,"SUR","Suriname","Suriname","Suriname",207,"Suriname",740,740,4,"South America",TRUE,FALSE
-"204",204,204,208,"TJK","Tajikistan","Tajikistan","Tajikistan",208,"Tajikistan",762,762,11,"Former USSR",TRUE,FALSE
-"205",205,205,209,"SWZ","Eswatini","Swaziland","",209,"Swaziland",NA,748,8,"Southern Africa",TRUE,FALSE
-"206",206,206,210,"SWE","Sweden","Sweden","Sweden",210,"Sweden",752,752,9,"OECD Europe",TRUE,TRUE
-"207",207,207,211,"CHE","Switzerland","Switzerland","Switzerland",211,"Switzerland",757,756,9,"OECD Europe",TRUE,FALSE
-"208",208,208,212,"SYR","Syrian Arab Republic","Syria","Syrian Arab Republic",212,"Syrian Arab Republic",760,760,12,"Middle East",TRUE,FALSE
-"209",209,209,213,"TKM","Turkmenistan","Turkmenistan","Turkmenistan",213,"Turkmenistan",795,795,11,"Former USSR",TRUE,FALSE
-"210",210,210,214,"TWN","China, Taiwan Province of","Taiwan","Chinese Taipei",351,"China",NA,158,14,"East Asia",TRUE,FALSE
-"211",211,211,215,"TZA","United Republic of Tanzania","Tanzania","United Republic of Tanzania",215,"Tanzania, United Republic of",834,834,8,"Southern Africa",TRUE,FALSE
-"212",212,212,216,"THA","Thailand","Thailand","Thailand",216,"Thailand",764,764,15,"South East Asia",TRUE,FALSE
-"213",213,213,217,"TGO","Togo","Togo","Togo",217,"Togo",768,768,6,"Western Africa",TRUE,FALSE
-"214",214,214,218,"TKL","Tokelau","","",218,"Tokelau",772,772,16,"Oceania",FALSE,FALSE
-"215",215,215,219,"TON","Tonga","Tonga","",219,"Tonga",776,776,16,"Oceania",FALSE,FALSE
-"216",216,216,220,"TTO","Trinidad and Tobago","Trinidad and Tobago","Trinidad and Tobago",220,"Trinidad and Tobago",780,780,3,"Central America",TRUE,FALSE
-"217",217,217,221,"OMN","Oman","Oman","Oman",221,"Oman",512,512,12,"Middle East",TRUE,FALSE
-"218",218,218,222,"TUN","Tunisia","Tunisia","Tunisia",222,"Tunisia",788,788,5,"Northern Africa",TRUE,FALSE
-"219",219,219,223,"TUR","Turkey","Turkey","Turkey",223,"Turkey",792,792,12,"Middle East",TRUE,FALSE
-"220",220,220,224,"TCA","Turks and Caicos Islands","Turks and Caicos Islands","",999,"Global average",796,796,3,"Central America",FALSE,FALSE
-"221",221,221,225,"ARE","United Arab Emirates","United Arab Emirates","United Arab Emirates",225,"United Arab Emirates",784,784,12,"Middle East",TRUE,FALSE
-"222",222,222,226,"UGA","Uganda","Uganda","",226,"Uganda",800,800,7,"Eastern Africa",TRUE,FALSE
-"223",223,223,227,"TUV","Tuvalu","","",227,"Tuvalu",798,798,16,"Oceania",FALSE,FALSE
-"224",224,224,228,"SUN","USSR","Former U.S.S.R.","",185,"Russian Federation",810,810,11,"Former USSR",TRUE,FALSE
-"225",225,225,229,"GBR","United Kingdom","United Kingdom","United Kingdom",229,"United Kingdom",826,826,9,"OECD Europe",TRUE,FALSE
-"226",226,226,230,"UKR","Ukraine","Ukraine","Ukraine",230,"Ukraine",804,804,11,"Former USSR",TRUE,FALSE
-"227",227,227,231,"USA","United States of America","United States","United States",231,"United States of America",842,840,2,"USA",TRUE,FALSE
-"228",228,228,232,"UMI","US Minor Is.","","",999,"Global average",NA,581,2,"USA",FALSE,FALSE
-"229",229,229,233,"BFA","Burkina Faso","Burkina Faso","",233,"Burkina Faso",854,854,6,"Western Africa",TRUE,FALSE
-"230",230,230,234,"URY","Uruguay","Uruguay","Uruguay",234,"Uruguay",858,858,4,"South America",TRUE,FALSE
-"231",231,231,235,"UZB","Uzbekistan","Uzbekistan","Uzbekistan",235,"Uzbekistan",860,860,11,"Former USSR",TRUE,FALSE
-"232",232,232,236,"VEN","Venezuela (Bolivarian Republic of)","Venezuela","Venezuela",236,"Venezuela, Bolivarian Republic of",862,862,4,"South America",TRUE,FALSE
-"233",233,233,237,"VNM","Viet Nam","Vietnam","Viet Nam",237,"Viet Nam",704,704,15,"South East Asia",TRUE,FALSE
-"234",234,234,238,"ETH","Ethiopia","Ethiopia","Ethiopia",238,"Ethiopia",231,231,7,"Eastern Africa",TRUE,FALSE
-"235",235,235,239,"VGB","British Virgin Islands","Virgin Islands, British","",999,"Global average",92,92,3,"Central America",FALSE,FALSE
-"236",236,236,240,"VIR","United States Virgin Islands","Virgin Islands,  U.S.","",999,"Global average",NA,850,3,"Central America",FALSE,FALSE
-"237",237,237,242,"WAK","Wake Island","Wake Island","",999,"Global average",NA,872,16,"Oceania",FALSE,FALSE
-"238",238,238,243,"WLF","Wallis and Futuna Islands","","",243,"Wallis and Futuna Islands",876,876,16,"Oceania",FALSE,FALSE
-"239",239,239,244,"WSM","Samoa","Samoa","",244,"Samoa",882,882,16,"Oceania",TRUE,FALSE
-"240",240,240,248,"YUG","Yugoslav SFR","Former Yugoslavia","",186,"Serbia and Montenegro",891,890,10,"Eastern Europe",TRUE,FALSE
-"241",241,241,249,"YEM","Yemen","Yemen","Yemen",249,"Yemen",887,887,12,"Middle East",TRUE,FALSE
-"242",242,242,250,"COD","Democratic Republic of the Congo","Congo (Kinshasa)","Democratic Republic of the Congo",250,"Congo, Democratic Republic of",180,180,6,"Western Africa",TRUE,FALSE
-"243",243,243,251,"ZMB","Zambia","Zambia","Zambia",251,"Zambia",894,894,8,"Southern Africa",TRUE,FALSE
-"244",244,244,252,"UXY","Unspecified","","",999,"Global average",NA,896,NA,"",FALSE,FALSE
-"245",245,245,254,"OXY","Others (adjustment)","","",999,"Global average",NA,NA,NA,"",FALSE,FALSE
-"246",246,246,255,"BEL","Belgium","Belgium","Belgium",255,"Belgium",56,56,9,"OECD Europe",TRUE,TRUE
-"247",247,247,256,"LUX","Luxembourg","Luxembourg","Luxembourg",256,"Luxembourg",442,442,9,"OECD Europe",TRUE,TRUE
-"248",248,248,258,"AIA","Anguilla","","",999,"Global average",660,660,3,"Central America",FALSE,FALSE
-"249",249,249,260,"SJM","Svalbard and Jan Mayen Islands","","",999,"Global average",NA,744,9,"OECD Europe",FALSE,FALSE
-"250",250,250,270,"MYT","Mayotte","","",999,"Global average",175,175,7,"Eastern Africa",FALSE,FALSE
-"251",251,251,271,"SGS","South Georgia and the South Sandwich Islands","","",999,"Global average",NA,239,4,"South America",FALSE,FALSE
-"252",252,252,272,"SRB","Serbia","Serbia","Serbia",186,"Serbia and Montenegro",688,688,9,"OECD Europe",TRUE,FALSE
-"253",253,253,273,"MNE","Montenegro","Montenegro","Montenegro",186,"Serbia and Montenegro",499,499,9,"OECD Europe",TRUE,FALSE
-"254",254,254,276,"SDN","Sudan","","",206,"Sudan",729,729,7,"Eastern Africa",TRUE,FALSE
-"255",255,255,277,"SSD","South Sudan","","South Sudan",206,"Sudan",728,728,7,"Eastern Africa",TRUE,FALSE
-"256",256,256,279,"CUW","Curaçao","","",999,"Global average",531,NA,3,"Central America",FALSE,FALSE
-"257",257,257,281,"MAF","Saint-Martin (French Part)","","",999,"Global average",NA,NA,3,"Central America",FALSE,FALSE
-"258",258,258,299,"PSE","Palestine","Palestinian Territories","",299,"Occupied Palestinian Territory",275,275,12,"Middle East",FALSE,FALSE
-"259",259,259,351,"CHN","China","","",351,"China",NA,NA,14,"East Asia",FALSE,FALSE
-"260",260,260,999,"ROW","RoW","","",999,"Global average",NA,NA,NA,"",TRUE,FALSE
+code,iso3c,name,eia,iea,water_code,water_area,baci,fish,region_code,region,cbs,EU27,current,continent
+1,ARM,Armenia,Armenia,Armenia,1,Armenia,51,51,11,Former USSR,TRUE,FALSE,TRUE,ASI
+2,AFG,Afghanistan,Afghanistan,"",2,Afghanistan,4,4,13,South Asia,TRUE,FALSE,TRUE,ASI
+3,ALB,Albania,Albania,Albania,3,Albania,8,8,10,Eastern Europe,TRUE,FALSE,TRUE,EUR
+4,DZA,Algeria,Algeria,Algeria,4,Algeria,12,12,5,Northern Africa,TRUE,FALSE,TRUE,AFR
+5,ASM,American Samoa,American Samoa,"",5,American Samoa,16,16,16,Oceania,FALSE,FALSE,FALSE,
+6,AND,Andorra,"","",999,Global average,20,20,9,OECD Europe,FALSE,FALSE,FALSE,
+7,AGO,Angola,Angola,Angola,7,Angola,24,24,8,Southern Africa,TRUE,FALSE,TRUE,AFR
+8,ATG,Antigua and Barbuda,Antigua and Barbuda,"",8,Antigua and Barbuda,28,28,3,Central America,TRUE,FALSE,TRUE,LAM
+9,ARG,Argentina,Argentina,Argentina,9,Argentina,32,32,4,South America,TRUE,FALSE,TRUE,LAM
+10,AUS,Australia,Australia,Australia,10,Australia,36,36,16,Oceania,TRUE,FALSE,TRUE,OCE
+11,AUT,Austria,Austria,Austria,11,Austria,40,40,9,OECD Europe,TRUE,TRUE,TRUE,EU
+12,BHS,Bahamas,"Bahamas, The","",12,Bahamas,44,44,3,Central America,TRUE,FALSE,TRUE,LAM
+13,BHR,Bahrain,Bahrain,Bahrain,13,Bahrain,48,48,12,Middle East,TRUE,FALSE,TRUE,ASI
+14,BRB,Barbados,Barbados,"",14,Barbados,52,52,3,Central America,TRUE,FALSE,TRUE,LAM
+15,BLX,Belgium-Luxembourg,"","",255,Belgium,58,58,9,OECD Europe,TRUE,TRUE,FALSE,EU
+16,BGD,Bangladesh,Bangladesh,Bangladesh,16,Bangladesh,50,50,13,South Asia,TRUE,FALSE,TRUE,ASI
+17,BMU,Bermuda,Bermuda,"",17,Bermuda,60,60,3,Central America,FALSE,FALSE,FALSE,
+18,BTN,Bhutan,Bhutan,"",18,Bhutan,64,64,13,South Asia,FALSE,FALSE,FALSE,
+19,BOL,Bolivia (Plurinational State of),Bolivia,Bolivia,19,Bolivia,68,68,4,South America,TRUE,FALSE,TRUE,LAM
+20,BWA,Botswana,Botswana,Botswana,20,Botswana,72,72,8,Southern Africa,TRUE,FALSE,TRUE,AFR
+21,BRA,Brazil,Brazil,Brazil,21,Brazil,76,76,4,South America,TRUE,FALSE,TRUE,LAM
+22,ABW,Aruba,Aruba,"",999,Global average,533,533,3,Central America,FALSE,FALSE,FALSE,
+23,BLZ,Belize,Belize,"",23,Belize,84,84,3,Central America,TRUE,FALSE,TRUE,LAM
+24,IOT,British Indian Ocean Territory,"","",999,Global average,86,86,13,South Asia,FALSE,FALSE,FALSE,
+25,SLB,Solomon Islands,Solomon Islands,"",25,Solomon Islands,90,90,16,Oceania,TRUE,FALSE,TRUE,OCE
+26,BRN,Brunei Darussalam,Brunei,Brunei Darussalam,26,Brunei Darussalam,96,96,15,South East Asia,TRUE,FALSE,TRUE,ASI
+27,BGR,Bulgaria,Bulgaria,Bulgaria,27,Bulgaria,100,100,10,Eastern Europe,TRUE,TRUE,TRUE,EU
+28,MMR,Myanmar,Burma (Myanmar),Myanmar,28,Myanmar,104,104,15,South East Asia,TRUE,FALSE,TRUE,ASI
+29,BDI,Burundi,Burundi,"",29,Burundi,108,108,7,Eastern Africa,TRUE,FALSE,TRUE,AFR
+30,ATA,Antarctica,Antarctica,"",999,Global average,,10,19,Antarctica,FALSE,FALSE,FALSE,
+31,BVT,Bouvet Island,"","",999,Global average,,74,4,South America,FALSE,FALSE,FALSE,
+32,CMR,Cameroon,Cameroon,Cameroon,32,Cameroon,120,120,6,Western Africa,TRUE,FALSE,TRUE,AFR
+33,CAN,Canada,Canada,Canada,33,Canada,124,124,1,Canada,TRUE,FALSE,TRUE,NAM
+34,CTE,Canton and Enderbury Islands,"","",999,Global average,,128,16,Oceania,FALSE,FALSE,FALSE,
+35,CPV,Cabo Verde,Cape Verde,"",35,Cape Verde,132,132,6,Western Africa,TRUE,FALSE,TRUE,AFR
+36,CYM,Cayman Islands,Cayman Islands,"",36,Cayman Islands,136,136,3,Central America,FALSE,FALSE,FALSE,
+37,CAF,Central African Republic,Central African Republic,"",37,Central African Republic,140,140,6,Western Africa,TRUE,FALSE,TRUE,AFR
+38,LKA,Sri Lanka,Sri Lanka,Sri Lanka,38,Sri Lanka,144,144,13,South Asia,TRUE,FALSE,TRUE,ASI
+39,TCD,Chad,Chad,"",39,Chad,148,148,6,Western Africa,TRUE,FALSE,TRUE,AFR
+40,CHL,Chile,Chile,Chile,40,Chile,152,152,4,South America,TRUE,FALSE,TRUE,LAM
+41,CHN,"China, mainland",China,People's Republic of China,351,China,156,156,14,East Asia,TRUE,FALSE,TRUE,ASI
+42,CXR,Christmas Island,"","",999,Global average,162,162,16,Oceania,FALSE,FALSE,FALSE,
+43,CCK,Cocos (Keeling) Islands,"","",999,Global average,166,166,16,Oceania,FALSE,FALSE,FALSE,
+44,COL,Colombia,Colombia,Colombia,44,Colombia,170,170,4,South America,TRUE,FALSE,TRUE,LAM
+45,COM,Comoros,Comoros,"",45,Comoros,174,174,7,Eastern Africa,FALSE,FALSE,FALSE,
+46,COG,Congo,Congo (Brazzaville),Republic of the Congo,46,Congo,178,178,6,Western Africa,TRUE,FALSE,TRUE,AFR
+47,COK,Cook Islands,Cook Islands,"",47,Cook Islands,184,184,16,Oceania,FALSE,FALSE,FALSE,
+48,CRI,Costa Rica,Costa Rica,Costa Rica,48,Costa Rica,188,188,3,Central America,TRUE,FALSE,TRUE,LAM
+49,CUB,Cuba,Cuba,Cuba,49,Cuba,192,192,3,Central America,TRUE,FALSE,TRUE,LAM
+50,CYP,Cyprus,Cyprus,Cyprus,50,Cyprus,196,196,12,Middle East,TRUE,TRUE,TRUE,EU
+51,CSK,Czechoslovakia,Former Czechoslovakia,"",167,Czech Republic,200,200,9,OECD Europe,TRUE,FALSE,FALSE,EU
+52,AZE,Azerbaijan,Azerbaijan,Azerbaijan,52,Azerbaijan,31,31,11,Former USSR,TRUE,FALSE,TRUE,ASI
+53,BEN,Benin,Benin,Benin,53,Benin,204,204,6,Western Africa,TRUE,FALSE,TRUE,AFR
+54,DNK,Denmark,Denmark,Denmark,54,Denmark,208,208,9,OECD Europe,TRUE,TRUE,TRUE,EU
+55,DMA,Dominica,Dominica,"",55,Dominica,212,212,3,Central America,TRUE,FALSE,TRUE,LAM
+56,DOM,Dominican Republic,Dominican Republic,Dominican Republic,56,Dominican Republic,214,214,3,Central America,TRUE,FALSE,TRUE,LAM
+57,BLR,Belarus,Belarus,Belarus,57,Belarus,112,112,11,Former USSR,TRUE,FALSE,TRUE,EUR
+58,ECU,Ecuador,Ecuador,Ecuador,58,Ecuador,218,218,4,South America,TRUE,FALSE,TRUE,LAM
+59,EGY,Egypt,Egypt,Egypt,59,Egypt,818,818,5,Northern Africa,TRUE,FALSE,TRUE,AFR
+60,SLV,El Salvador,El Salvador,El Salvador,60,El Salvador,222,222,3,Central America,TRUE,FALSE,TRUE,LAM
+61,GNQ,Equatorial Guinea,Equatorial Guinea,"",61,Equatorial Guinea,226,226,6,Western Africa,FALSE,FALSE,FALSE,
+62,ETH,Ethiopia PDR,"","",999,Global average,231,230,7,Eastern Africa,FALSE,FALSE,FALSE,
+63,EST,Estonia,Estonia,Estonia,63,Estonia,233,233,11,Former USSR,TRUE,TRUE,TRUE,EU
+64,FRO,Faroe Islands,Faroe Islands,"",64,Faroe Islands,,234,9,OECD Europe,FALSE,FALSE,FALSE,
+65,FLK,Falkland Islands (Malvinas),Falkland Islands (Islas Malvinas),"",999,Global average,238,238,4,South America,FALSE,FALSE,FALSE,
+66,FJI,Fiji,Fiji,"",66,Fiji,242,242,16,Oceania,TRUE,FALSE,TRUE,OCE
+67,FIN,Finland,Finland,Finland,67,Finland,246,246,9,OECD Europe,TRUE,TRUE,TRUE,EU
+68,FRA,France,France,France,68,France,251,250,9,OECD Europe,TRUE,TRUE,TRUE,EU
+69,GUF,French Guiana,French Guiana,"",69,French Guiana,,254,4,South America,FALSE,FALSE,FALSE,
+70,PYF,French Polynesia,French Polynesia,"",70,French Polynesia,258,258,16,Oceania,TRUE,FALSE,TRUE,OCE
+71,ATF,French Southern and Antarctic Territories,"","",999,Global average,260,260,16,Oceania,FALSE,FALSE,FALSE,
+72,DJI,Djibouti,Djibouti,"",72,Djibouti,262,262,7,Eastern Africa,TRUE,FALSE,TRUE,AFR
+73,GEO,Georgia,Georgia,Georgia,73,Georgia,268,268,11,Former USSR,TRUE,FALSE,TRUE,ASI
+74,GAB,Gabon,Gabon,Gabon,74,Gabon,266,266,6,Western Africa,TRUE,FALSE,TRUE,AFR
+75,GMB,Gambia,"Gambia, The","",75,Gambia,270,270,6,Western Africa,TRUE,FALSE,TRUE,AFR
+79,DEU,Germany,Germany,Germany,79,Germany,276,276,9,OECD Europe,TRUE,TRUE,TRUE,EU
+80,BIH,Bosnia and Herzegovina,Bosnia and Herzegovina,Bosnia and Herzegovina,80,Bosnia and Herzegovina,70,70,10,Eastern Europe,TRUE,FALSE,TRUE,EUR
+81,GHA,Ghana,Ghana,Ghana,81,Ghana,288,288,6,Western Africa,TRUE,FALSE,TRUE,AFR
+82,GIB,Gibraltar,Gibraltar,Gibraltar,999,Global average,292,292,9,OECD Europe,FALSE,FALSE,FALSE,
+83,KIR,Kiribati,Kiribati,"",83,Kiribati,296,296,16,Oceania,TRUE,FALSE,TRUE,OCE
+84,GRC,Greece,Greece,Greece,84,Greece,300,300,9,OECD Europe,TRUE,TRUE,TRUE,EU
+85,GRL,Greenland,Greenland,"",999,Global average,304,304,9,OECD Europe,FALSE,FALSE,FALSE,
+86,GRD,Grenada,Grenada,"",86,Grenada,308,308,3,Central America,TRUE,FALSE,TRUE,LAM
+87,GLP,Guadeloupe,Guadeloupe,"",87,Guadeloupe,,312,3,Central America,FALSE,FALSE,FALSE,
+88,GUM,Guam,Guam,"",88,Guam,316,316,16,Oceania,FALSE,FALSE,FALSE,
+89,GTM,Guatemala,Guatemala,Guatemala,89,Guatemala,320,320,3,Central America,TRUE,FALSE,TRUE,LAM
+90,GIN,Guinea,Guinea,"",90,Guinea,324,324,6,Western Africa,TRUE,FALSE,TRUE,AFR
+91,GUY,Guyana,Guyana,"",91,Guyana,328,328,4,South America,TRUE,FALSE,TRUE,LAM
+92,HMD,Heard and McDonald Islands,"","",999,Global average,,334,16,Oceania,FALSE,FALSE,FALSE,
+93,HTI,Haiti,Haiti,Haiti,93,Haiti,332,332,3,Central America,TRUE,FALSE,TRUE,LAM
+94,VAT,Holy See,"","",999,Global average,,336,9,OECD Europe,FALSE,FALSE,FALSE,
+95,HND,Honduras,Honduras,Honduras,95,Honduras,340,340,3,Central America,TRUE,FALSE,TRUE,LAM
+96,HKG,"China, Hong Kong SAR",Hong Kong,"Hong Kong, China",351,China,344,344,14,East Asia,TRUE,FALSE,TRUE,ASI
+97,HUN,Hungary,Hungary,Hungary,97,Hungary,348,348,10,Eastern Europe,TRUE,TRUE,TRUE,EU
+98,HRV,Croatia,Croatia,Croatia,98,Croatia,191,191,10,Eastern Europe,TRUE,TRUE,TRUE,EU
+99,ISL,Iceland,Iceland,Iceland,99,Iceland,352,352,9,OECD Europe,TRUE,FALSE,TRUE,EUR
+100,IND,India,India,India,100,India,699,356,13,South Asia,TRUE,FALSE,TRUE,ASI
+101,IDN,Indonesia,Indonesia,Indonesia,101,Indonesia,360,360,15,South East Asia,TRUE,FALSE,TRUE,ASI
+102,IRN,Iran (Islamic Republic of),Iran,Islamic Republic of Iran,102,"Iran, Islamic Republic of",364,364,12,Middle East,TRUE,FALSE,TRUE,ASI
+103,IRQ,Iraq,Iraq,Iraq,103,Iraq,368,368,12,Middle East,TRUE,FALSE,TRUE,ASI
+104,IRL,Ireland,Ireland,Ireland,104,Ireland,372,372,9,OECD Europe,TRUE,TRUE,TRUE,EU
+105,ISR,Israel,Israel,Israel,105,Israel,376,376,12,Middle East,TRUE,FALSE,TRUE,ASI
+106,ITA,Italy,Italy,Italy,106,Italy,381,380,9,OECD Europe,TRUE,TRUE,TRUE,EU
+107,CIV,Côte d'Ivoire,Cote dIvoire (IvoryCoast),Côte d'Ivoire,107,Côte d'Ivoire,384,384,6,Western Africa,TRUE,FALSE,TRUE,AFR
+108,KAZ,Kazakhstan,Kazakhstan,Kazakhstan,108,Kazakhstan,398,398,11,Former USSR,TRUE,FALSE,TRUE,ASI
+109,JAM,Jamaica,Jamaica,Jamaica,109,Jamaica,388,388,3,Central America,TRUE,FALSE,TRUE,LAM
+110,JPN,Japan,Japan,Japan,110,Japan,392,392,17,Japan,TRUE,FALSE,TRUE,ASI
+111,JTN,Johnston Island,"","",999,Global average,,396,16,Oceania,FALSE,FALSE,FALSE,
+112,JOR,Jordan,Jordan,Jordan,112,Jordan,400,400,12,Middle East,TRUE,FALSE,TRUE,ASI
+113,KGZ,Kyrgyzstan,Kyrgyzstan,Kyrgyzstan,113,Kyrgyzstan,417,417,11,Former USSR,TRUE,FALSE,TRUE,ASI
+114,KEN,Kenya,Kenya,Kenya,114,Kenya,404,404,7,Eastern Africa,TRUE,FALSE,TRUE,AFR
+115,KHM,Cambodia,Cambodia,Cambodia,115,Cambodia,116,116,15,South East Asia,TRUE,FALSE,TRUE,ASI
+116,PRK,Democratic People's Republic of Korea,"Korea, North",Democratic People's Republic of Korea,116,"Korea, Democratic People's Republic of",408,408,14,East Asia,TRUE,FALSE,TRUE,ASI
+117,KOR,Republic of Korea,"Korea, South",Korea,117,"Korea, Republic of",410,410,14,East Asia,TRUE,FALSE,TRUE,ASI
+118,KWT,Kuwait,Kuwait,Kuwait,118,Kuwait,414,414,12,Middle East,TRUE,FALSE,TRUE,ASI
+119,LVA,Latvia,Latvia,Latvia,119,Latvia,428,428,11,Former USSR,TRUE,TRUE,TRUE,EU
+120,LAO,Lao People's Democratic Republic,Laos,"",120,Lao People's Democratic Republic,418,418,15,South East Asia,TRUE,FALSE,TRUE,ASI
+121,LBN,Lebanon,Lebanon,Lebanon,121,Lebanon,422,422,12,Middle East,TRUE,FALSE,TRUE,ASI
+122,LSO,Lesotho,Lesotho,"",122,Lesotho,426,426,8,Southern Africa,TRUE,FALSE,TRUE,AFR
+123,LBR,Liberia,Liberia,"",123,Liberia,430,430,6,Western Africa,TRUE,FALSE,TRUE,AFR
+124,LBY,Libya,Libya,Libya,124,Libyan Arab Jamahiriya,434,434,5,Northern Africa,TRUE,FALSE,TRUE,AFR
+125,LIE,Liechtenstein,"","",999,Global average,,438,9,OECD Europe,FALSE,FALSE,FALSE,
+126,LTU,Lithuania,Lithuania,Lithuania,126,Lithuania,440,440,11,Former USSR,TRUE,TRUE,TRUE,EU
+127,MHL,Marshall Islands,"","",127,Marshall Islands,584,584,16,Oceania,FALSE,FALSE,FALSE,
+128,MAC,"China, Macao SAR",Macau,"",351,China,446,446,14,East Asia,TRUE,FALSE,TRUE,ASI
+129,MDG,Madagascar,Madagascar,"",129,Madagascar,450,450,7,Eastern Africa,TRUE,FALSE,TRUE,AFR
+130,MWI,Malawi,Malawi,"",130,Malawi,454,454,8,Southern Africa,TRUE,FALSE,TRUE,AFR
+131,MYS,Malaysia,Malaysia,Malaysia,131,Malaysia,458,458,15,South East Asia,TRUE,FALSE,TRUE,ASI
+132,MDV,Maldives,Maldives,"",132,Maldives,462,462,13,South Asia,TRUE,FALSE,TRUE,ASI
+133,MLI,Mali,Mali,"",133,Mali,466,466,6,Western Africa,TRUE,FALSE,TRUE,AFR
+134,MLT,Malta,Malta,Malta,134,Malta,470,470,9,OECD Europe,TRUE,TRUE,TRUE,EU
+135,MTQ,Martinique,Martinique,"",135,Martinique,,474,3,Central America,FALSE,FALSE,FALSE,
+136,MRT,Mauritania,Mauritania,"",136,Mauritania,478,478,6,Western Africa,TRUE,FALSE,TRUE,AFR
+137,MUS,Mauritius,Mauritius,Mauritius,137,Mauritius,480,480,7,Eastern Africa,TRUE,FALSE,TRUE,AFR
+138,MEX,Mexico,Mexico,Mexico,138,Mexico,484,484,3,Central America,TRUE,FALSE,TRUE,LAM
+139,MID,Midway Island,"","",999,Global average,,488,16,Oceania,FALSE,FALSE,FALSE,
+140,MCO,Monaco,"","",999,Global average,,492,9,OECD Europe,FALSE,FALSE,FALSE,
+141,MNG,Mongolia,Mongolia,Mongolia,141,Mongolia,496,496,14,East Asia,TRUE,FALSE,TRUE,ASI
+142,MSR,Montserrat,Montserrat,"",142,Montserrat,500,500,3,Central America,FALSE,FALSE,FALSE,
+143,MAR,Morocco,Morocco,Morocco,143,Morocco,504,504,5,Northern Africa,TRUE,FALSE,TRUE,AFR
+144,MOZ,Mozambique,Mozambique,Mozambique,144,Mozambique,508,508,8,Southern Africa,TRUE,FALSE,TRUE,AFR
+145,FSM,Micronesia (Federated States of),"","",145,"Micronesia, Federated States of",583,583,16,Oceania,FALSE,FALSE,FALSE,
+146,MDA,Republic of Moldova,Moldova,Republic of Moldova,146,Moldova,498,498,11,Former USSR,TRUE,FALSE,TRUE,EUR
+147,NAM,Namibia,Namibia,Namibia,147,Namibia,516,516,8,Southern Africa,TRUE,FALSE,TRUE,AFR
+148,NRU,Nauru,Nauru,"",148,Nauru,520,520,16,Oceania,FALSE,FALSE,FALSE,
+149,NPL,Nepal,Nepal,Nepal,149,Nepal,524,524,13,South Asia,TRUE,FALSE,TRUE,ASI
+150,NLD,Netherlands,Netherlands,Netherlands,150,Netherlands,528,528,9,OECD Europe,TRUE,TRUE,TRUE,EU
+151,ANT,Netherlands Antilles,Netherlands Antilles,Netherlands Antilles / Curaçao,999,Global average,530,530,3,Central America,TRUE,FALSE,TRUE,LAM
+152,NTZ,Neutral Zone,"","",999,Global average,,536,12,Middle East,FALSE,FALSE,FALSE,
+153,NCL,New Caledonia,New Caledonia,"",153,New Caledonia,540,540,16,Oceania,TRUE,FALSE,TRUE,OCE
+154,MKD,North Macedonia,Macedonia,Former Yugoslav Republic of Macedonia,154,The former Yugoslav Republic of Macedonia,807,807,10,Eastern Europe,TRUE,FALSE,TRUE,EUR
+155,VUT,Vanuatu,Vanuatu,"",155,Vanuatu,548,548,16,Oceania,TRUE,FALSE,TRUE,OCE
+156,NZL,New Zealand,New Zealand,New Zealand,156,New Zealand,554,554,16,Oceania,TRUE,FALSE,TRUE,OCE
+157,NIC,Nicaragua,Nicaragua,Nicaragua,157,Nicaragua,558,558,3,Central America,TRUE,FALSE,TRUE,LAM
+158,NER,Niger,Niger,Niger,158,Niger,562,562,6,Western Africa,TRUE,FALSE,TRUE,AFR
+159,NGA,Nigeria,Nigeria,Nigeria,159,Nigeria,566,566,6,Western Africa,TRUE,FALSE,TRUE,AFR
+160,NIU,Niue,Niue,"",160,Niue,570,570,16,Oceania,FALSE,FALSE,FALSE,
+161,NFK,Norfolk Island,"","",999,Global average,574,574,16,Oceania,FALSE,FALSE,FALSE,
+162,NOR,Norway,Norway,Norway,162,Norway,579,578,9,OECD Europe,TRUE,FALSE,TRUE,EUR
+163,MNP,Northern Mariana Islands,"","",999,Global average,580,580,16,Oceania,FALSE,FALSE,FALSE,
+164,PCI,Pacific Islands Trust Territory,"","",999,Global average,,582,15,South East Asia,FALSE,FALSE,FALSE,
+165,PAK,Pakistan,Pakistan,Pakistan,165,Pakistan,586,586,13,South Asia,TRUE,FALSE,TRUE,ASI
+166,PAN,Panama,Panama,Panama,166,Panama,591,591,3,Central America,TRUE,FALSE,TRUE,LAM
+167,CZE,Czech Republic,Czech Republic,Czech Republic,167,Czech Republic,203,203,10,Eastern Europe,TRUE,TRUE,TRUE,EU
+168,PNG,Papua New Guinea,Papua New Guinea,"",168,Papua New Guinea,598,598,16,Oceania,TRUE,FALSE,TRUE,OCE
+169,PRY,Paraguay,Paraguay,Paraguay,169,Paraguay,600,600,4,South America,TRUE,FALSE,TRUE,LAM
+170,PER,Peru,Peru,Peru,170,Peru,604,604,4,South America,TRUE,FALSE,TRUE,LAM
+171,PHL,Philippines,Philippines,Philippines,171,Philippines,608,608,15,South East Asia,TRUE,FALSE,TRUE,ASI
+172,PCN,Pitcairn Islands,"","",999,Global average,612,612,16,Oceania,FALSE,FALSE,FALSE,
+173,POL,Poland,Poland,Poland,173,Poland,616,616,10,Eastern Europe,TRUE,TRUE,TRUE,EU
+174,PRT,Portugal,Portugal,Portugal,174,Portugal,620,620,9,OECD Europe,TRUE,TRUE,TRUE,EU
+175,GNB,Guinea-Bissau,Guinea-Bissau,"",175,Guinea-Bissau,624,624,6,Western Africa,TRUE,FALSE,TRUE,AFR
+176,TLS,Timor-Leste,Timor-Leste (East Timor),"",176,Timor-Leste,626,626,15,South East Asia,TRUE,FALSE,TRUE,ASI
+177,PRI,Puerto Rico,Puerto Rico,"",177,Puerto Rico,,630,3,Central America,TRUE,FALSE,TRUE,LAM
+178,ERI,Eritrea,Eritrea,Eritrea,178,Eritrea,232,232,7,Eastern Africa,TRUE,FALSE,TRUE,AFR
+179,QAT,Qatar,Qatar,Qatar,179,Qatar,634,634,12,Middle East,TRUE,FALSE,TRUE,ASI
+180,PLW,Palau,"","",999,Global average,585,585,16,Oceania,FALSE,FALSE,FALSE,
+181,ZWE,Zimbabwe,Zimbabwe,Zimbabwe,181,Zimbabwe,716,716,8,Southern Africa,TRUE,FALSE,TRUE,AFR
+182,REU,Réunion,Reunion,"",182,R?union,,638,7,Eastern Africa,FALSE,FALSE,FALSE,
+183,ROU,Romania,Romania,Romania,183,Romania,642,642,10,Eastern Europe,TRUE,TRUE,TRUE,EU
+184,RWA,Rwanda,Rwanda,"",184,Rwanda,646,646,7,Eastern Africa,TRUE,FALSE,TRUE,AFR
+185,RUS,Russian Federation,Russia,Russia,185,Russian Federation,643,643,11,Former USSR,TRUE,FALSE,TRUE,ASI
+186,SCG,Serbia and Montenegro,Former Serbia and Montenegro,"",186,Serbia and Montenegro,891,891,9,OECD Europe,TRUE,FALSE,FALSE,EUR
+187,SHN,"Saint Helena, Ascension and Tristan da Cunha",Saint Helena,"",999,Global average,654,654,6,Western Africa,FALSE,FALSE,FALSE,
+188,KNA,Saint Kitts and Nevis,Saint Kitts and Nevis,"",188,Saint Kitts and Nevis,659,659,3,Central America,TRUE,FALSE,TRUE,LAM
+189,LCA,Saint Lucia,Saint Lucia,"",189,Saint Lucia,662,662,3,Central America,TRUE,FALSE,TRUE,LAM
+190,SPM,Saint Pierre and Miquelon,Saint Pierre and Miquelon,"",190,Saint Pierre and Miquelon,666,666,2,USA,FALSE,FALSE,FALSE,
+191,VCT,Saint Vincent and the Grenadines,Saint Vincent/Grenadines,"",191,Saint Vincent and Grenadines,670,670,3,Central America,TRUE,FALSE,TRUE,LAM
+192,SMR,San Marino,"","",999,Global average,674,674,9,OECD Europe,FALSE,FALSE,FALSE,
+193,STP,Sao Tome and Principe,Sao Tome and Principe,"",193,Sao Tome and Principe,678,678,6,Western Africa,TRUE,FALSE,TRUE,AFR
+194,SAU,Saudi Arabia,Saudi Arabia,Saudi Arabia,194,Saudi Arabia,682,682,12,Middle East,TRUE,FALSE,TRUE,ASI
+195,SEN,Senegal,Senegal,Senegal,195,Senegal,686,686,6,Western Africa,TRUE,FALSE,TRUE,AFR
+196,SYC,Seychelles,Seychelles,"",196,Seychelles,690,690,7,Eastern Africa,FALSE,FALSE,FALSE,
+197,SLE,Sierra Leone,Sierra Leone,"",197,Sierra Leone,694,694,6,Western Africa,TRUE,FALSE,TRUE,AFR
+198,SVN,Slovenia,Slovenia,Slovenia,198,Slovenia,705,705,10,Eastern Europe,TRUE,TRUE,TRUE,EU
+199,SVK,Slovakia,Slovakia,Slovak Republic,199,Slovakia,703,703,10,Eastern Europe,TRUE,TRUE,TRUE,EU
+200,SGP,Singapore,Singapore,Singapore,200,Singapore,702,702,15,South East Asia,TRUE,FALSE,TRUE,ASI
+201,SOM,Somalia,Somalia,"",201,Somalia,706,706,7,Eastern Africa,TRUE,FALSE,TRUE,AFR
+202,ZAF,South Africa,South Africa,South Africa,202,South Africa,711,710,8,Southern Africa,TRUE,FALSE,TRUE,AFR
+203,ESP,Spain,Spain,Spain,203,Spain,724,724,9,OECD Europe,TRUE,TRUE,TRUE,EU
+205,ESH,Western Sahara,Western Sahara,"",205,Western Sahara,,732,5,Northern Africa,FALSE,FALSE,FALSE,
+206,SDN,Sudan (former),Sudan and South Sudan,Sudan,206,Sudan,736,736,7,Eastern Africa,FALSE,FALSE,FALSE,
+207,SUR,Suriname,Suriname,Suriname,207,Suriname,740,740,4,South America,TRUE,FALSE,TRUE,LAM
+208,TJK,Tajikistan,Tajikistan,Tajikistan,208,Tajikistan,762,762,11,Former USSR,TRUE,FALSE,TRUE,ASI
+209,SWZ,Eswatini,Swaziland,"",209,Swaziland,,748,8,Southern Africa,TRUE,FALSE,TRUE,AFR
+210,SWE,Sweden,Sweden,Sweden,210,Sweden,752,752,9,OECD Europe,TRUE,TRUE,TRUE,EU
+211,CHE,Switzerland,Switzerland,Switzerland,211,Switzerland,757,756,9,OECD Europe,TRUE,FALSE,TRUE,EUR
+212,SYR,Syrian Arab Republic,Syria,Syrian Arab Republic,212,Syrian Arab Republic,760,760,12,Middle East,TRUE,FALSE,TRUE,ASI
+213,TKM,Turkmenistan,Turkmenistan,Turkmenistan,213,Turkmenistan,795,795,11,Former USSR,TRUE,FALSE,TRUE,ASI
+214,TWN,"China, Taiwan Province of",Taiwan,Chinese Taipei,351,China,,158,14,East Asia,TRUE,FALSE,TRUE,ASI
+215,TZA,United Republic of Tanzania,Tanzania,United Republic of Tanzania,215,"Tanzania, United Republic of",834,834,8,Southern Africa,TRUE,FALSE,TRUE,AFR
+216,THA,Thailand,Thailand,Thailand,216,Thailand,764,764,15,South East Asia,TRUE,FALSE,TRUE,ASI
+217,TGO,Togo,Togo,Togo,217,Togo,768,768,6,Western Africa,TRUE,FALSE,TRUE,AFR
+218,TKL,Tokelau,"","",218,Tokelau,772,772,16,Oceania,FALSE,FALSE,FALSE,
+219,TON,Tonga,Tonga,"",219,Tonga,776,776,16,Oceania,FALSE,FALSE,FALSE,
+220,TTO,Trinidad and Tobago,Trinidad and Tobago,Trinidad and Tobago,220,Trinidad and Tobago,780,780,3,Central America,TRUE,FALSE,TRUE,LAM
+221,OMN,Oman,Oman,Oman,221,Oman,512,512,12,Middle East,TRUE,FALSE,TRUE,ASI
+222,TUN,Tunisia,Tunisia,Tunisia,222,Tunisia,788,788,5,Northern Africa,TRUE,FALSE,TRUE,AFR
+223,TUR,Turkey,Turkey,Turkey,223,Turkey,792,792,12,Middle East,TRUE,FALSE,TRUE,EUR
+224,TCA,Turks and Caicos Islands,Turks and Caicos Islands,"",999,Global average,796,796,3,Central America,FALSE,FALSE,FALSE,
+225,ARE,United Arab Emirates,United Arab Emirates,United Arab Emirates,225,United Arab Emirates,784,784,12,Middle East,TRUE,FALSE,TRUE,ASI
+226,UGA,Uganda,Uganda,"",226,Uganda,800,800,7,Eastern Africa,TRUE,FALSE,TRUE,AFR
+227,TUV,Tuvalu,"","",227,Tuvalu,798,798,16,Oceania,FALSE,FALSE,FALSE,
+228,SUN,USSR,Former U.S.S.R.,"",185,Russian Federation,810,810,11,Former USSR,TRUE,FALSE,FALSE,ASI
+229,GBR,United Kingdom,United Kingdom,United Kingdom,229,United Kingdom,826,826,9,OECD Europe,TRUE,FALSE,TRUE,EU
+230,UKR,Ukraine,Ukraine,Ukraine,230,Ukraine,804,804,11,Former USSR,TRUE,FALSE,TRUE,EUR
+231,USA,United States of America,United States,United States,231,United States of America,842,840,2,USA,TRUE,FALSE,TRUE,NAM
+232,UMI,US Minor Is.,"","",999,Global average,,581,2,USA,FALSE,FALSE,FALSE,
+233,BFA,Burkina Faso,Burkina Faso,"",233,Burkina Faso,854,854,6,Western Africa,TRUE,FALSE,TRUE,AFR
+234,URY,Uruguay,Uruguay,Uruguay,234,Uruguay,858,858,4,South America,TRUE,FALSE,TRUE,LAM
+235,UZB,Uzbekistan,Uzbekistan,Uzbekistan,235,Uzbekistan,860,860,11,Former USSR,TRUE,FALSE,TRUE,ASI
+236,VEN,Venezuela (Bolivarian Republic of),Venezuela,Venezuela,236,"Venezuela, Bolivarian Republic of",862,862,4,South America,TRUE,FALSE,TRUE,LAM
+237,VNM,Viet Nam,Vietnam,Viet Nam,237,Viet Nam,704,704,15,South East Asia,TRUE,FALSE,TRUE,ASI
+238,ETH,Ethiopia,Ethiopia,Ethiopia,238,Ethiopia,231,231,7,Eastern Africa,TRUE,FALSE,TRUE,AFR
+239,VGB,British Virgin Islands,"Virgin Islands, British","",999,Global average,92,92,3,Central America,FALSE,FALSE,FALSE,
+240,VIR,United States Virgin Islands,"Virgin Islands,  U.S.","",999,Global average,,850,3,Central America,FALSE,FALSE,FALSE,
+242,WAK,Wake Island,Wake Island,"",999,Global average,,872,16,Oceania,FALSE,FALSE,FALSE,
+243,WLF,Wallis and Futuna Islands,"","",243,Wallis and Futuna Islands,876,876,16,Oceania,FALSE,FALSE,FALSE,
+244,WSM,Samoa,Samoa,"",244,Samoa,882,882,16,Oceania,TRUE,FALSE,TRUE,OCE
+248,YUG,Yugoslav SFR,Former Yugoslavia,"",186,Serbia and Montenegro,891,890,10,Eastern Europe,TRUE,FALSE,FALSE,EUR
+249,YEM,Yemen,Yemen,Yemen,249,Yemen,887,887,12,Middle East,TRUE,FALSE,TRUE,ASI
+250,COD,Democratic Republic of the Congo,Congo (Kinshasa),Democratic Republic of the Congo,250,"Congo, Democratic Republic of",180,180,6,Western Africa,TRUE,FALSE,TRUE,AFR
+251,ZMB,Zambia,Zambia,Zambia,251,Zambia,894,894,8,Southern Africa,TRUE,FALSE,TRUE,AFR
+252,UXY,Unspecified,"","",999,Global average,,896,,"",FALSE,FALSE,FALSE,
+254,OXY,Others (adjustment),"","",999,Global average,,,,"",FALSE,FALSE,FALSE,
+255,BEL,Belgium,Belgium,Belgium,255,Belgium,56,56,9,OECD Europe,TRUE,TRUE,TRUE,EU
+256,LUX,Luxembourg,Luxembourg,Luxembourg,256,Luxembourg,442,442,9,OECD Europe,TRUE,TRUE,TRUE,EU
+258,AIA,Anguilla,"","",999,Global average,660,660,3,Central America,FALSE,FALSE,FALSE,
+260,SJM,Svalbard and Jan Mayen Islands,"","",999,Global average,,744,9,OECD Europe,FALSE,FALSE,FALSE,
+270,MYT,Mayotte,"","",999,Global average,175,175,7,Eastern Africa,FALSE,FALSE,FALSE,
+271,SGS,South Georgia and the South Sandwich Islands,"","",999,Global average,,239,4,South America,FALSE,FALSE,FALSE,
+272,SRB,Serbia,Serbia,Serbia,186,Serbia and Montenegro,688,688,9,OECD Europe,TRUE,FALSE,TRUE,EUR
+273,MNE,Montenegro,Montenegro,Montenegro,186,Serbia and Montenegro,499,499,9,OECD Europe,TRUE,FALSE,TRUE,EUR
+276,SDN,Sudan,"","",206,Sudan,729,729,7,Eastern Africa,TRUE,FALSE,TRUE,AFR
+277,SSD,South Sudan,"",South Sudan,206,Sudan,728,728,7,Eastern Africa,TRUE,FALSE,TRUE,AFR
+279,CUW,Curaçao,"","",999,Global average,531,,3,Central America,FALSE,FALSE,FALSE,
+281,MAF,Saint-Martin (French Part),"","",999,Global average,,,3,Central America,FALSE,FALSE,FALSE,
+299,PSE,Palestine,Palestinian Territories,"",299,Occupied Palestinian Territory,275,275,12,Middle East,FALSE,FALSE,FALSE,
+351,CHN,China,"","",351,China,,,14,East Asia,FALSE,FALSE,FALSE,
+999,ROW,RoW,"","",999,Global average,,,,"Rest of World",TRUE,FALSE,TRUE,ROW

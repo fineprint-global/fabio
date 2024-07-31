@@ -3,7 +3,6 @@ library("data.table")
 source("R/01_tidy_functions.R")
 source("R/00_system_variables.R")
 
-regions <- fread("inst/regions_full.csv")
 items <- fread("inst/items_full.csv")
 
 # BACI is used for ethanol and fishery trade

@@ -41,8 +41,8 @@ shares <- merge(shares[source == "live"], live[element == "Production"],
   all.x = TRUE, allow.cartesian=TRUE)
 
 # Add regions to RoW if not included in CBS
-shares[, `:=`(area = ifelse(!area_code %in% regions$code[regions$cbs], "RoW", area),
-              area_code = ifelse(!area_code %in% regions$code[regions$cbs], 999, area_code))]
+shares[, `:=`(area = ifelse(!area_code %in% regions$code[regions$current], "RoW", area),
+              area_code = ifelse(!area_code %in% regions$code[regions$current], 999, area_code))]
 
 # Aggregate values
 shares <- shares[, list(value = sum(value, na.rm = TRUE)),

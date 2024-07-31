@@ -326,7 +326,7 @@ cake[, exports := ifelse(exports > total_supply, total_supply, exports)]
 # all uses are assumed to go to feed
 # TODO: check if appropriate! in a few cases, cakes are also used for "other"
 cake[, feed := na_sum(production, imports, -exports)]
-cake <- cake[total_supply >= 0, ]
+cake <- cake[total_supply > 0, ]
 
 
 # Add to CBS ---
@@ -581,13 +581,13 @@ rm(imps, exps)
 cbs <- cbs[! area %in% c("Unspecified", "Others (adjustment)")]
 
 # Aggregate RoW countries in CBS
-cbs <- replace_RoW(cbs, codes = regions[cbs == TRUE, code])
+cbs <- replace_RoW(cbs, codes = regions[current == TRUE, code])
 cbs <- cbs[, lapply(.SD, na_sum),
   by = c("area_code", "area", "item_code", "item", "year")]
 
 # Aggregate RoW countries in BTD
 btd <- replace_RoW(btd, cols = c("from_code", "to_code"),
-  codes = c(regions[cbs == TRUE, code], 252, 254))
+  codes = c(regions[current == TRUE, code], 252, 254))
 btd <- btd[, lapply(.SD, na_sum), by = c("from_code", "from",
   "to_code", "to", "comm_code", "item_code", "item", "unit", "year")]
 

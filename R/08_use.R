@@ -6,12 +6,10 @@ source("R/01_tidy_functions.R")
 
 # should the feedstock optimization be run or should previously stored results be used?
 run_optim <- FALSE
-regions <- fread("inst/regions_full.csv")
-items <- fread("inst/items_full.csv")
 
 cbs <- readRDS("data/cbs_full.rds")
 sup <- readRDS("data/sup.rds")
-
+items <- fread("inst/items_full.csv")
 use_items <- fread("inst/items_use.csv")
 
 
@@ -217,7 +215,7 @@ rm(eth)
 
 
 # Feed use ----------------------------------------------------------------
-source("R/08_use_feed.R")
+# source("R/08_use_feed.R")
 
 
 
@@ -307,7 +305,7 @@ if (run_optim){
 
   } else {
 
-  results <- readRDS("./data/optim_results_2023-12-12.rds")
+  results <- readRDS("./data/optim_results_2024-07-31.rds")
 
 }
 

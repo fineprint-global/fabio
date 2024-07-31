@@ -54,8 +54,7 @@ Z_e <- mcmapply(function(x, y) {
 
 # Rebalance row sums in Z and Y -----------------------------------------
 
-regions <- fread("inst/regions_full.csv")
-regions <- regions[cbs==TRUE]
+regions <- fread("inst/regions_full.csv")[current==TRUE]
 items <- fread("inst/items_full.csv")
 nrcom <- nrow(items)
 Y_e <- readRDS(file.path(output_dir,"calories/Y.rds"))

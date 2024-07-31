@@ -5,7 +5,10 @@ source("R/00_system_variables.R")
 source("R/01_tidy_functions.R")
 
 items <- fread("inst/items_full.csv")
-regions <- fread("inst/regions.csv")
+regions_full <- fread("inst/regions_full.csv")
+regions <- regions_full[current==TRUE, .(iso3c, area_code = code, area = name,
+                                         continent, region, EU27)]
+fwrite(regions, "inst/regions_current.csv")
 processes <- fread("inst/items_use.csv")
 processes <- unique(processes[,1:2])
 nrreg <- nrow(regions)

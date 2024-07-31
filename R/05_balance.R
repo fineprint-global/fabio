@@ -13,8 +13,6 @@ btd <- readRDS("data/btd_full.rds")
 btd_est <- readRDS("data/btd_est.rds")
 cbs <- readRDS("data/cbs_full.rds")
 
-# areas <- unique(cbs$area_code)
-# items <- unique(btd_est$item_code)
 areas <- fread("inst/regions.csv")$area_code
 items <- fread("inst/items_full.csv")$item_code
 
