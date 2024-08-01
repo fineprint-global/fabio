@@ -2,6 +2,7 @@
 library("data.table")
 library("Matrix")
 library("parallel")
+source("R/00_system_variables.R")
 source("R/01_tidy_functions.R")
 
 # should the feedstock optimization be run or should previously stored results be used?
@@ -91,30 +92,30 @@ tcf_data <- use[area_code %in% tcf_codes[[1]] &
   .(year, area_code, item_code, production, processing)]
 tcf_data <- tcf_data[!duplicated(tcf_data), ] # Duplicates from proc_code
 setkey(tcf_data, year, area_code, item_code)
-years <- sort(unique(tcf_data$year))
+yrs <- sort(unique(tcf_data$year))
 areas <- tcf_codes[[1]]
 
 # Production in processes
-output <- tcf_data[data.table(expand.grid(year = years,
+output <- tcf_data[data.table(expand.grid(year = yrs,
   area_code = areas, item_code = tcf_codes[[2]]))]
 output[, `:=`(value = production, production = NULL, processing = NULL)]
 dt_replace(output, is.na, 0, cols = "value")
 # output <- output[!duplicated(output), ] # Kick duplicates (from item_code)
 
 # Processing of source items
-input <- tcf_data[data.table(expand.grid(year = years,
+input <- tcf_data[data.table(expand.grid(year = yrs,
   area_code = areas, item_code = tcf_codes[[3]]))]
 input[, `:=`(value = processing, production = NULL, processing = NULL)]
 dt_replace(input, is.na, 0, cols = "value")
 # input <- input[!duplicated(input), ] # Kick duplicates (from proc_code)
 
 # Processing per process - to fill
-results <- tcf_data[data.table(expand.grid(year = years, area_code = areas,
+results <- tcf_data[data.table(expand.grid(year = yrs, area_code = areas,
   item_code = tcf_codes[[3]], item_code_proc = tcf_codes[[2]]))]
 setkey(results, item_code, item_code_proc)
 results[, `:=`(value = 0, production = NULL, processing = NULL)]
 
-for(x in years) {
+for(x in yrs) {
   output_x <- output[year == x, ]
   input_x <- input[year == x, ]
   for(y in areas) {
@@ -148,7 +149,7 @@ cbs[!is.na(value), processing := round(na_sum(processing, -value))]
 cbs[, value := NULL]
 
 
-rm(tcf_cbs, tcf_codes, tcf_data, years, areas, out,
+rm(tcf_cbs, tcf_codes, tcf_data, yrs, areas, out,
   results, Cs, input, output, input_x, output_x, input_y, output_y)
 
 

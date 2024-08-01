@@ -48,7 +48,8 @@ fd_labels <- data.table(
 fwrite(io_labels, file=file.path(output_dir,"io_labels.csv"))
 fwrite(su_labels, file=file.path(output_dir,"su_labels.csv"))
 fwrite(fd_labels, file=file.path(output_dir,"fd_labels.csv"))
-fwrite(fd_labels[!fd %in% c("losses", "balancing")], file=file.path(output_dir,"losses/fd_labels.csv"))
+# fwrite(fd_labels[!fd %in% c("losses", "balancing")], file=file.path(output_dir,"losses/fd_labels.csv"))
+fwrite(fd_labels[!fd %in% c("losses")], file=file.path(output_dir,"losses/fd_labels.csv"))
 fwrite(items[, .(comm_code, item_code, item, unit, group, comm_group)],
        file=file.path(output_dir,"items.csv"))
 fwrite(regions, file=file.path(output_dir,"regions.csv"))

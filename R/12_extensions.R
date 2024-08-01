@@ -239,7 +239,7 @@ for(i in seq_along(names)){
 }
 
 # extrapolate emissions data
-for(i in 2014:max(years)){
+for(i in (max(as.integer(names(ghg[[1]])))+1):max(years)){
   for(j in 1:length(ghg)){
     data <- t(t(ghg[[j]][["2013"]]) / X[,"2013"] * X[,as.character(i)])
     data[!is.finite(data)] <- 0

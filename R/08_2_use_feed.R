@@ -36,6 +36,7 @@ feed_req_k[, `:=`(
 # Estimates from Bouwman et al. (2013) ------------------------------------
 conv_b <- fread("inst/conv_bouwman.csv")
 conc_b <- fread("inst/conc_bouwman.csv")
+regions <- fread("inst/regions_full.csv")
 
 # Add process-information
 conv_b <- merge(conv_b, conc_b,
@@ -87,7 +88,7 @@ live_b[, `:=`(item_code = tgt_code[conc],
               proc_code = tgt_proc[conc], item = tgt_item[conc])]
 live_b <- live_b[!is.na(item_code), ]
 
-feed_req_b <- live_b[, .(area_code, area, year, item_code, item, proc_code,
+feed_req_b <- live_b[year %in% years, .(area_code, area, year, item_code, item, proc_code,
                          production = value)]
 rm(conc, live_b, tgt_code, tgt_proc, tgt_item, src_code)
 
@@ -109,10 +110,10 @@ feed_req_b[, `:=`(
   fodder = ifelse(item == "Pigs", residues * 0.025, # 0.025 for pigs, 0 for poultry
                   ifelse(item == "Poultry", 0, residues * 0.5)))] # 0.5 for ruminants
 # Define share of oilcakes in residues
-feed_req_b[, `:=`(
-  residues = round(ifelse(item %in% c("Pigs", "Poultry", "Dairy cattle"), residues * 0.5,
-                          ifelse(item == "Beef cattle", residues * 0.1, residues * 0.05)), # 0.05 for sheep and goats
-                   3))]
+feed_req_b[, cakes := 0]
+feed_req_b[, `:=`(cakes = ifelse(item %in% c("Pigs", "Poultry", "Dairy cattle"), residues * 0.5,
+                                 ifelse(item == "Beef cattle", residues * 0.1, residues * 0.05)),
+                  residues = na_sum(residues, -cakes))] # 0.05 for sheep and goats
 
 # Add missing variables
 processes <- unique(sup[, .(proc_code, proc)])
@@ -129,94 +130,160 @@ feed_req_b[, `:=`(total = na_sum(animals, crops, grass, fodder,
 # Estimates from GLEAM ---------------------------------------------------
 feed_req_g <- fread("input/GLEAM/GLEAM3_intakes_dashboard.csv")
 
-# 1. Merging feed intake for Abyei (to Sudan and South Sudan) and Isle of Man (to United Kingdom)
+# convert kg in tonnes
+feed_req_g[, `:=`(dm_intake = dm_intake / 1000, unit = NULL)]
+# remove grass intake of swiss chickens
+feed_req_g[animal=="Chicken" & feed_category=="Grass and leaves", dm_intake := 0]
+# rename countries
+feed_req_g[, `:=`(area = regions$name[match(feed_req_g$iso3c, regions$iso3c)],
+                  area_code = regions$code[match(feed_req_g$iso3c, regions$iso3c)])]
+# correct area name and code for Ethiopia and Sudan
+feed_req_g[iso3c=="ETH", `:=`(area = "Ethiopia", area_code = 238)]
+feed_req_g[iso3c=="SDN", `:=`(area = "Sudan", area_code = 276)]
+
+# Merging feed intake for Abyei (to Sudan and South Sudan) and Isle of Man (to United Kingdom)
 feed_req_g <- merge(feed_req_g[area != "Abyei",], 
-                    feed_req_g[area == "Abyei", .(animal,feed_category,Abyei = dm_intake,unit)],
-                    by = c("animal","feed_category","unit"),
+                    feed_req_g[area == "Abyei", .(animal,feed_category,Abyei = dm_intake)],
+                    by = c("animal","feed_category"),
                     all.x = TRUE)
 feed_req_g <- merge(feed_req_g[area != "Isle of Man"], 
-                    feed_req_g[area == "Isle of Man", .(animal,feed_category,IsleofMan = dm_intake,unit)],
-                    by = c("animal","feed_category","unit"),
+                    feed_req_g[area == "Isle of Man", .(animal,feed_category,IsleofMan = dm_intake)],
+                    by = c("animal","feed_category"),
                     all.x = TRUE)
 feed_req_g[iso3c %in% c("SSD","SDN"), dm_intake := na_sum(dm_intake, Abyei / 2)]
 feed_req_g[iso3c == "GBR", dm_intake := na_sum(dm_intake, IsleofMan)]
 feed_req_g[, `:=`(Abyei = NULL, IsleofMan = NULL)]
 
-
-#For countries where FABIO data is available but not GLEAM, we leave the Bouwman estimations?
-countries_gleam <- data.table(iso3c=unique(feed_req_g$iso3c), name_gleam=unique(feed_req_g$area))
-countries_fabio <- data.table(iso3c = regions$iso3c, name_fabio=regions$name)
-non_matching_countries <- merge(countries_fabio,countries_gleam,by="iso3c", all=TRUE)
-non_matching_countries <- non_matching_countries[is.na(name_gleam)|is.na(name_fabio)]
-rm(countries_fabio, countries_gleam)
+# For countries where GLEAM data is available but not FABIO, we aggregate them into ROW
+feed_req_g[!iso3c %in% regions[current==TRUE, iso3c], `:=`(iso3c="ROW", area="RoW")]
+feed_req_g <- feed_req_g[, list(dm_intake = na_sum(dm_intake)), 
+                         by = c("iso3c", "area_code", "area", "animal", "feed_category")]
 
 
-# 2. Creating new feed requirement table to replace Bouwman---------------------
-
-# 2.1 Adding process codes 
+# Adding process codes 
 # -> this creates a table where the values are not true due to double counting
 conc_gleam <- fread("inst/conc_gleam.csv", header = TRUE)
 feed_req_g <- merge.data.table(feed_req_g, conc_gleam, by="animal", all=TRUE, allow.cartesian = TRUE)
-setcolorder(feed_req_g, c("iso3c", "area", "unit", "animal", "proc", "proc_code"))
+setcolorder(feed_req_g, c("iso3c", "area", "animal", "proc", "proc_code"))
 
 # 2.2 Split dm intake for dairy and meat animals using bouwman
+# We use the Bouwman ratios between meat and dairy herds to determine dry matter intake 
+# per feedtype, country and process. We determine the Bouwman ratios for the columns: 
+# a) crops, b) grass, c) residue and d) fodder 
 bouwman <- feed_req_b[proc_code %in% c("p085", "p086", "p087", "p088", "p099", "p100", "p101", "p102") & year == 2015]
+bouwman[, animal_category := ifelse(grepl("cattle", proc, ignore.case = TRUE), "Cattle",
+                                    ifelse(grepl("buffaloes", proc, ignore.case = TRUE), "Buffalo",
+                                           ifelse(grepl("sheep", proc, ignore.case = TRUE), "Sheep", "Goats")))]
+bouwman[, dairy := ifelse(grepl("dairy", proc, ignore.case = TRUE), "dairy", "meat")]
+bouwman <- bouwman %>% 
+  select(-proc_code, -proc, -item_code, -total, -animals, -scavenging) %>% 
+  gather("feed_category", "value", -area_code, -area, -year, -animal_category, -dairy) %>% 
+  spread(dairy, value) %>% 
+  mutate(dairy_share = dairy / na_sum(dairy, meat)) %>% 
+  mutate(dairy_share = ifelse(is.na(dairy_share), 0, dairy_share)) %>% 
+  as.data.table()
 
-# Decision for next session: We use the Bouwman ratios between meat and dairy herds
-#to determine dry matter intake per feedtype, country and process. We determine
-#the Bouwman ratios for the columns: a) crops, b) grass, c) residue and d) fodder 
-# and match them to the gleam feedtypes a) grains and other edible b)grass and leaves,
+# We match the dairy shares to the gleam feedtypes a) grains + other edible b) grass and leaves,
 # c) oil seed cakes and d) fodder crops
+feed_category_b <- c("crops", "crops", "fodder", "grass", "residues")
+feed_category_g <- c("Grains", "Other edible", "Fodder crop", "Grass and leaves", "Oil seed cakes")
+feed_category_lookup <- setNames(feed_category_g, feed_category_b)
+bouwman$feed_category <- feed_category_lookup[bouwman$feed_category]
+temp <- bouwman[feed_category=="Grains"]
+temp$feed_category <- "Other edible"
+bouwman <- rbind(bouwman, temp)
+feed_req_g <- merge(feed_req_g, bouwman[, .(area, animal = animal_category, feed_category, dairy_share)],
+                    by = c("area", "animal", "feed_category"), all.x=TRUE)
+
+# fill gaps with global average dairy shares
+# this wont be needed after estimating missing meat and milk production values!!!!!!!!!!!!!!!!!!!!!!
+avg_dairy <- feed_req_g %>% 
+  group_by(animal, feed_category) %>% 
+  summarize(dairy_share = mean(dairy_share, na.rm=T)) %>% 
+  as.data.table()
+feed_req_g <- merge(feed_req_g, avg_dairy[, .(animal, feed_category, avg_dairy_share = dairy_share)],
+                    by = c("animal", "feed_category"), all.x=TRUE)
+feed_req_g[, dairy_share := ifelse(is.na(dairy_share), avg_dairy_share, dairy_share)]
+feed_req_g[proc_code %in% c("p085", "p086", "p087", "p088", "p099", "p100", "p101", "p102"), 
+           dm_intake := ifelse(grepl("Dairy", proc), dm_intake * dairy_share, dm_intake * (1-dairy_share))]
+feed_req_g[, `:=`(dairy_share = NULL, avg_dairy_share = NULL)]
+
+# formatting to wide 
+feed_req_g <- dcast(feed_req_g, iso3c + area_code + area + animal + proc_code + proc ~ feed_category,
+                    value.var = "dm_intake", fill = 0) 
+# derive total dm intake per process
+feed_req_g[, total := na_sum(`By-products`, `Crop residues`, `Fodder crop`, Grains, `Grass and leaves`, 
+             `Oil seed cakes`, `Other edible`, `Other non-edible`)]
+
+# scale up chicken's feed intake to meat and egg production of poultry birds
+# include the following items
+# c(1058, 1062, 1069, 1073, 1080, 1089, 1091)
+# c("Meat, chicken","Eggs, hen, in shell","Meat, duck","Meat, goose and guinea fowl","Meat, turkey","Meat, bird nes","Eggs, other bird, in shell")
+poultry <- live[year==2015 & unit=="tonnes" & element == "Production" &
+                  item_code %in% c(1058, 1062, 1069, 1073, 1080, 1089, 1091)]
+# convert into dry matter
+poultry[, moisture := ifelse(item_code %in% c(1062,1091), 0.744, 0.6)]
+poultry[, value := value * (1-moisture)]
+# derive share of chicken in poultry
+poultry[, type := ifelse(item_code %in% c(1058, 1062),"chicken", "other")]
+poultry <- poultry %>% 
+  group_by(area_code, area, type) %>% 
+  summarise(value = sum(value)) %>% 
+  ungroup() %>% 
+  spread(type, value) %>% 
+  as.data.table()
+poultry[, chicken_share := chicken / na_sum(chicken, other)]
+feed_req_g <- merge(feed_req_g, poultry[,.(area_code, chicken_share)], 
+                    by = "area_code", all.x = TRUE)
+feed_req_g[is.na(chicken_share), chicken_share := 1]
+feed_req_g[animal=="Chicken", `:=`(Grains = Grains / chicken_share,
+                                   `Oil seed cakes` = `Oil seed cakes` / chicken_share,
+                                   `Other edible` = `Other edible` / chicken_share,
+                                   total = total / chicken_share,
+                                   animal = "Poultry")]
+feed_req_g[, `:=`(year = 2015,
+                  item_code = 0,
+                  animals = 0, 
+                  crops = Grains + `Other edible`,
+                  grass = `Grass and leaves`,
+                  cakes = `Oil seed cakes`,
+                  residues = 0,
+                  scavenging = 0,
+                  fodder = `Fodder crop`)]
+feed_req_g[, `:=`(Grains = NULL, `Grass and leaves` = NULL, `Fodder crop` = NULL, 
+                  `Oil seed cakes` = NULL, `Other edible` = NULL, iso3c = NULL,
+                  `By-products` = NULL, `Crop residues` = NULL, `Other non-edible` = NULL,
+                  chicken_share = NULL, animal = NULL)]
+
+
+# estimate feed intake for other years --------------------------
+# assume same change rates as for bouwman
+# problem: in gleam some countries do not use fodder crops for cattle, non for pigs
+area_id <- 11
+process <- "p085"
+for(area in regions$code){
+  for(process in unique(feed_req_g$proc_code)){
+    data_b <- feed_req_b[area_code==area_id & proc_code==process]
+    data_g <- feed_req_g[area_code==area_id & proc_code==process]
+    
+  }
+}
 
 
 
 
-# 2.1 formatting to wide 
-feed_req_gl_wide <- dcast(feed_req_g, iso3c + area + animal + unit ~ feed_category,
-                          value.var = "dm_intake", fill = 0) 
-
-
-# Alternative: format with empty cells instead to fill them up later
-# feed_req_gl_wide[is.na(feed_req_gl_wide)] <- 0  
-# feed_req_gl_wide[ , 5:ncol(feed_req_gl_wide)] <- 0
 
 
 
 
 
-# 2.3 Adding 2 columns with stock numbers (heads or kilos) (once per animal and once per herd)
-# -> divide feed columns by total number and multiply with herd number
-# Do something about other poultry birds (scale up chicken intake to kilo stock of poultry birds?)
-
-
-
-
-
-
-#2.4 Add up DM per process to total -> feed_req_b is replaced for 2015 (what about camels?)
-
-
-# 2.5 Match GLEAM feedtypes to feed items
-# feedtypes_GLEAM <- fread("inst/OH_feedtypes_GLEAM")  # This is the matching table (not yet finalized, 23.07.)
-
-feedtypes_gleam <- fread("inst/feedtypes_GLEAM.csv", header = TRUE)
-
-
-
-# 3. Assume same per-head/kilo intake for other years --------------------------
-
-
-
-
-
-
-
-
-
-
-# Integrate Bouwman and Krausmann feed requirements
-feed_req <- rbind(feed_req_b[total > 0], feed_req_k[!is.na(total) & total > 0])
-rm(feed_req_k, feed_req_b)
+# Integrate GLEAM, Bouwman and Krausmann feed requirements
+feed_req_b$cakes <- 0
+feed_req_k$cakes <- 0
+feed_req <- bind_rows(feed_req_b[!paste(proc_code,area) %in% paste(feed_req_g$proc_code,feed_req_g$area) & total != 0],
+                      feed_req_g[total > 0], 
+                      feed_req_k[!is.na(total) & total > 0])
+rm(feed_req_k, feed_req_b, feed_req_g)
 
 
 # Allocate total feed demand from Krausmann to the Bouwman split -----
@@ -257,7 +324,7 @@ feed_req[, `:=`(animals_f = NULL, crops_f = NULL, grass_f = NULL,
                 fodder_f = NULL, residues_f = NULL, scavenging_f = NULL)]
 
 # Aggregate RoW countries in feed_req
-feed_req <- replace_RoW(feed_req, codes = regions[cbs == TRUE, code])
+feed_req <- replace_RoW(feed_req, codes = regions[current == TRUE, code])
 feed_req <- feed_req[, lapply(.SD, na_sum),
                      by = c("area_code", "area", "proc_code", "proc", "year")]
 

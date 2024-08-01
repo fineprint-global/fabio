@@ -188,9 +188,9 @@ for(year in years){
   losses <- as.matrix(Yi[, grepl("losses", colnames(Yi))])
   Yi <- Yi[, !grepl("losses", colnames(Yi))]
   
-  # remove balancing from Y
-  balancing <- as.matrix(Yi[, grepl("balancing", colnames(Yi))])
-  Yi <- Yi[, !grepl("balancing", colnames(Yi))]
+  # # remove balancing from Y
+  # balancing <- as.matrix(Yi[, grepl("balancing", colnames(Yi))])
+  # Yi <- Yi[, !grepl("balancing", colnames(Yi))]
   
   Y[[as.character(year)]] <- Yi
   
@@ -209,14 +209,13 @@ for(year in years){
 
   ## Apply the reshape_column function to each column using lapply
   matrix_list <- lapply(1:ncol(losses), function(i) {
-    v <- losses[, i] + balancing[, i]
+    v <- losses[, i] # + balancing[, i]
     reshape_column(v)
   })
 
   ## Combine the matrices in the list using cbind()
   combined_matrix <- do.call(cbind, matrix_list)
   combined_matrix <- as(combined_matrix, "dgCMatrix")
-
 
   # add losses to the main diagonals of each submatrix of Z_m
   Zi <- Z_m[[as.character(year)]]
@@ -227,8 +226,6 @@ for(year in years){
   Zi <- Z_v[[as.character(year)]]
   Zi <- Zi + combined_matrix
   Z_v[[as.character(year)]] <- Zi
-  
-  # X[,as.character(year)] <- X[,as.character(year)] - rowSums(losses) - rowSums(balancing)
   
 }
 
@@ -282,38 +279,47 @@ saveRDS(Z_v, file.path(output_dir,"losses/Z_value.rds"))
 
 
 
-# # allocate ghg emissions to products --------------------------------------------------------------
-# # Note: this part needs to be updated in order to fit the new country classification
-# ghg <- readRDS("/mnt/nfs_fineprint/tmp/fabio/ghg/E_ghg.rds")
-# gwp <- readRDS("/mnt/nfs_fineprint/tmp/fabio/ghg/E_gwp.rds")
-# luh <- readRDS("/mnt/nfs_fineprint/tmp/fabio/ghg/E_luh2.rds")
-# 
-# ghg_names <- ghg[[1]][,1]
-# gwp_names <- gwp[[1]][,1]
-# luh_names <- luh[[1]][,1]
-# 
-# write_csv(data.frame(ghg_names), file.path(output_dir,"ghg_names.csv"))
-# write_csv(data.frame(gwp_names), file.path(output_dir,"gwp_names.csv"))
-# write_csv(data.frame(luh_names), file.path(output_dir,"luh_names.csv"))
-# 
-# nrreg <- length(unique(io_labels$area_code))
-# # range <- rep(c(1:97,99:116,118:120), 192) + 
-# #   rep(((0:191)*121), each=118)
-# range <- rep(c(1:97,99:116,118:121), nrreg) + 
-#   rep(((0:(nrreg-1))*121), each=119) # adding butter production
-# 
-# ghg_m <- mapply(function(x, y) { as.matrix(x[,-1][,range]) %*% y }, x = ghg, y = trans_m[seq_along(years)])
-# gwp_m <- mapply(function(x, y) { as.matrix(x[,-1][,range]) %*% y }, x = gwp, y = trans_m[seq_along(years)])
-# luh_m <- mapply(function(x, y) { as.matrix(x[,-1][,range]) %*% y }, x = luh, y = trans_m[seq_along(years)])
-# ghg_v <- mapply(function(x, y) { as.matrix(x[,-1][,range]) %*% y }, x = ghg, y = trans_v[seq_along(years)])
-# gwp_v <- mapply(function(x, y) { as.matrix(x[,-1][,range]) %*% y }, x = gwp, y = trans_v[seq_along(years)])
-# luh_v <- mapply(function(x, y) { as.matrix(x[,-1][,range]) %*% y }, x = luh, y = trans_v[seq_along(years)])
-# 
-# saveRDS(ghg_m, file.path(output_dir,"E_ghg_mass.rds"))
-# saveRDS(gwp_m, file.path(output_dir,"E_gwp_mass.rds"))
-# saveRDS(luh_m, file.path(output_dir,"E_luh_mass.rds"))
-# 
-# saveRDS(ghg_v, file.path(output_dir,"E_ghg_value.rds"))
-# saveRDS(gwp_v, file.path(output_dir,"E_gwp_value.rds"))
-# saveRDS(luh_v, file.path(output_dir,"E_luh_value.rds"))
-# 
+
+# allocate ghg emissions to products --------------------------------------------------------------
+# Note: this part needs to be updated in order to fit the new country classification
+ghg <- readRDS("/mnt/nfs_fineprint/tmp/fabio/ghg/E_ghg.rds")
+gwp <- readRDS("/mnt/nfs_fineprint/tmp/fabio/ghg/E_gwp.rds")
+luh <- readRDS("/mnt/nfs_fineprint/tmp/fabio/ghg/E_luh2.rds")
+
+ghg_names <- ghg[[1]][,1]
+gwp_names <- gwp[[1]][,1]
+luh_names <- luh[[1]][,1]
+
+write_csv(data.frame(ghg_names), file.path(output_dir,"ghg_names.csv"))
+write_csv(data.frame(gwp_names), file.path(output_dir,"gwp_names.csv"))
+write_csv(data.frame(luh_names), file.path(output_dir,"luh_names.csv"))
+
+# remove years not included in this version of FABIO
+ghg <- ghg[as.character(years[years %in% as.integer(names(ghg))])]
+gwp <- gwp[as.character(years[years %in% as.integer(names(gwp))])]
+luh <- luh[as.character(years[years %in% as.integer(names(luh))])]
+
+# remove countries not included in this version of FABIO
+columns_to_keep <- substr(colnames(ghg[["2010"]]),1,3) %in% regions[current==TRUE, iso3c]
+ghg <- lapply(ghg, function(x) x[, columns_to_keep])
+gwp <- lapply(gwp, function(x) x[, columns_to_keep])
+luh <- lapply(luh, function(x) x[, columns_to_keep])
+
+nrreg <- length(unique(io_labels$area_code))
+range <- rep(c(1:97,99:116,118:121), nrreg) + rep(((0:(nrreg-1))*121), each=119)
+
+ghg_m <- mapply(function(x, y) { as.matrix(x[,range]) %*% y }, x = ghg, y = trans_m[seq_along(years[years %in% as.numeric(names(ghg))])])
+gwp_m <- mapply(function(x, y) { as.matrix(x[,range]) %*% y }, x = gwp, y = trans_m[seq_along(years[years %in% as.numeric(names(ghg))])])
+luh_m <- mapply(function(x, y) { as.matrix(x[,range]) %*% y }, x = luh, y = trans_m[seq_along(years[years %in% as.numeric(names(ghg))])])
+ghg_v <- mapply(function(x, y) { as.matrix(x[,range]) %*% y }, x = ghg, y = trans_v[seq_along(years[years %in% as.numeric(names(ghg))])])
+gwp_v <- mapply(function(x, y) { as.matrix(x[,range]) %*% y }, x = gwp, y = trans_v[seq_along(years[years %in% as.numeric(names(ghg))])])
+luh_v <- mapply(function(x, y) { as.matrix(x[,range]) %*% y }, x = luh, y = trans_v[seq_along(years[years %in% as.numeric(names(ghg))])])
+
+saveRDS(ghg_m, file.path(output_dir,"E_ghg_mass.rds"))
+saveRDS(gwp_m, file.path(output_dir,"E_gwp_mass.rds"))
+saveRDS(luh_m, file.path(output_dir,"E_luh_mass.rds"))
+
+saveRDS(ghg_v, file.path(output_dir,"E_ghg_value.rds"))
+saveRDS(gwp_v, file.path(output_dir,"E_gwp_value.rds"))
+saveRDS(luh_v, file.path(output_dir,"E_luh_value.rds"))
+
