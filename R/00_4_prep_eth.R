@@ -10,6 +10,7 @@ path_biofuels <- "input/biofuels/"
 
 
 # EIA data ----------------------------------------------------------------
+# Source: https://www.eia.gov/international/data/world/biofuels/biofuels-production?pd=79&p=000001g00006&u=1&f=A&v=mapbubble&a=-&i=none&vo=value&t=C&g=none&l=249-ruvvvvvfvtvnvv1vrvvvvfvvvvvvfvvvou20evvvvvvvvvvnvuvs0008&s=315532800000&e=1640995200000&ev=false&
 
 biofuels_eia_cols <- c("character", "character", "character", rep("character", length(1980:2022)))
 
@@ -26,39 +27,16 @@ if(!biofuels_eia[[3]][1] == "Afghanistan" &&
 
 saveRDS(biofuels_eia, paste0(path_biofuels, "biofuels_eia.rds"))
 
-# # Compare to previous data
-# biofuels_eia_comp <- read.xlsx(paste0(path_biofuels, "EIA_Biofuels_production.xlsx"),
-#                        colNames = FALSE, rows = 9:235, cols = c(2, 4:38))
-# for(num in 2:36) class(biofuels_eia_comp[[num]]) <- "numeric"
-# names(biofuels_eia_comp) <- c("country", paste0("y", 1980:2014))
+
 
 
 # IEA data ----------------------------------------------------------------
+# Source: https://www.iea.org/data-and-statistics/data-product/world-energy-statistics
 
-biofuels_iea_cols <- c("character", "NULL", "character", "character",
-  "NULL", "character", "character", "character",
-  "integer", "NULL", "numeric", "NULL", "NULL")
-biofuels_iea <- fread(paste0(path_biofuels, "iea_renewables_2024.csv"),
-  colClasses = biofuels_iea_cols)
-biofuels_iea <- subset(biofuels_iea, PRODUCT == "BIOGASOL")[, -2]
-biofuels_iea <- subset(biofuels_iea, PRODUCT %in% c("BIOGASOL", "BIODIESEL", "OBIOLIQ", "BIOJETKERO", "BIOGASES") & 
-                         Value != 0 & !is.na(Value))
+biofuels_iea_cols <- c("character", "character", "character",
+  "character", "character", "character", "character")
+biofuels_iea <- fread(paste0(path_biofuels, "/iea_biofuels_2024.csv"),
+  colClasses = biofuels_iea_cols, skip = 4)
 
-library(tidyverse)
-iea <- biofuels_iea %>% 
-  group_by(UNIT, Flow, Product) %>% 
-  summarise(value = sum(Value, na.rm = T)) %>% 
-  spread(Product, value)
-fwrite(iea, paste0(path_biofuels, "iea.csv"))
-
-
-biofuels_iea_extent <- min(biofuels_iea$TIME):max(biofuels_iea$TIME)
-biofuels_iea <- dcast(biofuels_iea, Country ~ TIME, value.var = "Value", fun.aggregate = sum)
-names(biofuels_iea) <- c("country", biofuels_iea_extent)
 saveRDS(biofuels_iea, paste0(path_biofuels, "biofuels_iea.rds"))
 
-# # Compare to previous data
-# biofuels_iea_comp <- read.xlsx(paste0(path_biofuels, "IEA_Biogasoline_production.xlsx"),
-#                        colNames = FALSE, rows = 8:167, cols = c(1, 3:28))
-# for(num in 2:27) class(biofuels_iea_comp[[num]]) <- "numeric"
-# names(biofuels_iea_comp) <- c("country", paste0("y", 1990:2015))

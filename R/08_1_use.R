@@ -228,8 +228,9 @@ if (run_optim){
   opt_out <- fread("inst/optim_out.csv")
   # Add processing / production information from the balances
   input <- merge(opt_in,
-    cbs[, c("area_code", "year", "item_code", "processing")],
+    cbs[, c("area_code", "year", "item_code", "processing", "residuals")],
     by = "item_code", all.x = TRUE)
+  input[, processing := na_sum(processing, residuals)]
 
   input <- input[is.finite(processing) & processing > 0]
   output <- merge(opt_out,
@@ -306,7 +307,7 @@ if (run_optim){
 
   } else {
 
-  results <- readRDS("./data/optim_results_2024-07-31.rds")
+  results <- readRDS("./data/optim_results_2024-08-02.rds")
 
 }
 

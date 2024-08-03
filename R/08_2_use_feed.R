@@ -28,7 +28,7 @@ feed_req_k <- merge(conv_k,
 feed_req_k[, `:=`(
   total = value * conversion, value = NULL, conversion = NULL, item = NULL,
   original_value = NULL,
-  crops = 0, residues = 0, grass = 0, fodder = 0, scavenging = 0, animals = 0)]
+  crops = 0, residues = 0, grass = 0, fodder = 0, scavenging = 0, animals = 0, cakes = 0)]
 
 
 
@@ -121,7 +121,10 @@ feed_req_b[, proc := processes$proc[match(feed_req_b$proc_code, processes$proc_c
 
 # Create total
 feed_req_b[, `:=`(total = na_sum(animals, crops, grass, fodder,
-                                 residues, scavenging), item_code = 0, item = NULL)]
+                                 residues, scavenging, cakes), item_code = 0, item = NULL)]
+
+
+
 
 
 
@@ -276,15 +279,23 @@ for(area in regions$code){
 
 
 
-
 # Integrate GLEAM, Bouwman and Krausmann feed requirements
-feed_req_b$cakes <- 0
-feed_req_k$cakes <- 0
 feed_req <- bind_rows(feed_req_b[!paste(proc_code,area) %in% paste(feed_req_g$proc_code,feed_req_g$area) & total != 0],
                       feed_req_g[total > 0], 
                       feed_req_k[!is.na(total) & total > 0])
 rm(feed_req_k, feed_req_b, feed_req_g)
 
+
+
+
+
+
+
+# OLD: Integrate Bouwman and Krausmann feed requirements
+feed_req_b[, residues := cakes]
+feed_req_b[, cakes := NULL]
+feed_req <- bind_rows(feed_req_b[total > 0],
+                      feed_req_k[!is.na(total) & total > 0])
 
 # Allocate total feed demand from Krausmann to the Bouwman split -----
 feed_alloc <- feed_req[item_code == 0,
@@ -342,7 +353,7 @@ feed <- merge(feed_sup[, .(area_code, area, year, item_code, item, feedtype, moi
 
 feed[feedtype != "grass", req := req / total_req * total_sup_dry]
 
-# Allocate feed-use -----
+# Allocate feed-use from feed types to individual crops -----
 feed[feedtype != "grass", req := req / total_sup_dry * sup_dry]
 feed[feedtype == "grass", `:=`(item_code = 2001, item = "Grazing", moisture = 0.8)]
 

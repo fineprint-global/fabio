@@ -31,8 +31,8 @@ eth_eia <- area_merge(eth_eia, orig = 62, dest = 238, pattern = "Ethiopia")
 # eth_eia[, `:=`(value_eia = round(value_eia * 365.25 * 158.9873 * 0.7893, 3),
 #   unit = "tonnes")]
 
-# Convert from Mmt to tonnes
-eth_eia[, `:=`(value_eia = round(value_eia * 1000000), unit = "tonnes")]
+# Convert to tonnes
+eth_eia[, `:=`(value_eia = round(value_eia * 1000), unit = "tonnes")]
 
 rm(country_match)
 
@@ -44,30 +44,36 @@ cat("\nTidying IEA ethanol.\n")
 eth_iea <- readRDS("input/biofuels/biofuels_iea.rds")
 
 # Country concordance
-country_match <- match(eth_iea[["country"]], regions[["iea"]])
+country_match <- match(eth_iea[["Country"]], regions[["iea"]])
 eth_iea[, `:=`(area = regions$name[country_match],
-  area_code = regions$code[country_match], country = NULL)]
+  area_code = regions$code[country_match], Country = NULL)]
 
 eth_iea <- dt_filter(eth_iea, !is.na(area))
 
-eth_iea <- melt(eth_iea, id.vars = c("area", "area_code"),
-  variable.name = "year", value.name = "value_iea", variable.factor = FALSE)
+eth_iea <- melt(eth_iea, id.vars = c("area", "area_code", "Time"),
+  variable.name = "product", value.name = "value_iea", variable.factor = FALSE)
+eth_iea <- rename(eth_iea, year = "Time")
+eth_iea[, value_iea := as.numeric(value_iea)]
 
 cat("Converting from ktoe to tonnes",
-    "(1 ktoe == 919.09 tonnes).\n")
+    "(1 ktoe ==  950.10 tonnes).\n")
 eth_iea <- dt_filter(eth_iea, !is.na(value_iea))
-eth_iea[, `:=`(value_iea = round(value_iea * 919.09, 3), unit = "tonnes")]
+eth_iea[, `:=`(value_iea = round(value_iea * 950.10, 0), unit = "tonnes")]
 
 rm(country_match)
 
 
 # Bio-Ethanol -------------------------------------------------------------
 
-eth <- merge(eth_eia[item=="ethanol production (Mmt)", .(area,area_code,year,value_eia,unit)], eth_iea, all = TRUE)
+eth <- merge(eth_eia[item=="ethanol production (Mmt)", .(area,area_code,year,value_eia,unit)], 
+             eth_iea[product=="Biogasoline", .(area,area_code,year,value_iea,unit)], 
+             by=c("area_code", "area", "year", "unit") , all = TRUE)
+
+eth[, year := as.integer(year)]
 
 cat("Merging EIA and IEA ethanol - values chosen via `max(eia, iea)`.\n")
 eth[, `:=`(value = pmax(value_eia, value_iea, na.rm = TRUE),
-  value_eia = NULL, value_iea = NULL, year = as.integer(year))]
+  value_eia = NULL, value_iea = NULL)]
 
 eth <- area_merge(eth, orig = 62, dest = 238, pattern = "Ethiopia")
 eth <- area_merge(eth, orig = 206, dest = 276, pattern = "Sudan")
