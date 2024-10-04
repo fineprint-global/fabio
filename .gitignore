@@ -12,4 +12,3 @@ mess.R
 *.pyc
 R/v1.2_check.R
 BCP/
-*.csv
