@@ -1,4 +1,4 @@
-
+library("tidyverse")
 library("data.table")
 library("Matrix")
 library("parallel")
@@ -211,12 +211,12 @@ use <- merge(use, eth,
   by = c("area_code", "item_code", "year", "proc_code"), all.x = TRUE)
 use[!is.na(use_eth), `:=`(use = use_eth)]
 use[, `:=`(use_eth = NULL)]
-rm(eth)
+rm(eth, eth_tcf)
 
 
 
 # Feed use ----------------------------------------------------------------
-# source("R/08_use_feed.R")
+source("R/08_2_use_feed.R")
 
 
 

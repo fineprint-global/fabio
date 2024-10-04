@@ -23,12 +23,11 @@ feed_sup[, dry := feed * (1 - moisture)]
 conv_k <- fread("inst/conv_krausmann.csv")
 
 feed_req_k <- merge(conv_k,
-                    live[element == "Stocks", c("area_code", "area", "item_code", "year", "value")],
+                    live[year %in% years & element == "Stocks", c("area_code", "area", "item_code", "year", "value")],
                     by = c("item_code"), all.x = TRUE)
-feed_req_k[, `:=`(
-  total = value * conversion, value = NULL, conversion = NULL, item = NULL,
-  original_value = NULL,
-  crops = 0, residues = 0, grass = 0, fodder = 0, scavenging = 0, animals = 0, cakes = 0)]
+feed_req_k[, `:=`(total = value * conversion)]
+feed_req_k[, `:=`(value = NULL, conversion = NULL, item = NULL, original_value = NULL, 
+                  crops = 0, residues = 0, grass = 0, fodder = 0, scavenging = 0, animals = 0, cakes = 0)]
 
 
 
@@ -158,13 +157,13 @@ feed_req_g[iso3c == "GBR", dm_intake := na_sum(dm_intake, IsleofMan)]
 feed_req_g[, `:=`(Abyei = NULL, IsleofMan = NULL)]
 
 # For countries where GLEAM data is available but not FABIO, we aggregate them into ROW
-feed_req_g[!iso3c %in% regions[current==TRUE, iso3c], `:=`(iso3c="ROW", area="RoW")]
+feed_req_g[!iso3c %in% regions[current==TRUE, iso3c], `:=`(iso3c="ROW", area="RoW", area_code=999)]
 feed_req_g <- feed_req_g[, list(dm_intake = na_sum(dm_intake)), 
                          by = c("iso3c", "area_code", "area", "animal", "feed_category")]
 
 
 # Adding process codes 
-# -> this creates a table where the values are not true due to double counting
+# -> this creates a table with double-counting in the values
 conc_gleam <- fread("inst/conc_gleam.csv", header = TRUE)
 feed_req_g <- merge.data.table(feed_req_g, conc_gleam, by="animal", all=TRUE, allow.cartesian = TRUE)
 setcolorder(feed_req_g, c("iso3c", "area", "animal", "proc", "proc_code"))
@@ -224,7 +223,7 @@ feed_req_g[, total := na_sum(`By-products`, `Crop residues`, `Fodder crop`, Grai
 # c("Meat, chicken","Eggs, hen, in shell","Meat, duck","Meat, goose and guinea fowl","Meat, turkey","Meat, bird nes","Eggs, other bird, in shell")
 poultry <- live[year==2015 & unit=="tonnes" & element == "Production" &
                   item_code %in% c(1058, 1062, 1069, 1073, 1080, 1089, 1091)]
-# convert into dry matter
+# convert into dry matter (74.4% for eggs, 60% for meat)
 poultry[, moisture := ifelse(item_code %in% c(1062,1091), 0.744, 0.6)]
 poultry[, value := value * (1-moisture)]
 # derive share of chicken in poultry
@@ -244,14 +243,10 @@ feed_req_g[animal=="Chicken", `:=`(Grains = Grains / chicken_share,
                                    `Other edible` = `Other edible` / chicken_share,
                                    total = total / chicken_share,
                                    animal = "Poultry")]
-feed_req_g[, `:=`(year = 2015,
-                  item_code = 0,
-                  animals = 0, 
+feed_req_g[, `:=`(item_code = 0,
                   crops = Grains + `Other edible`,
                   grass = `Grass and leaves`,
                   cakes = `Oil seed cakes`,
-                  residues = 0,
-                  scavenging = 0,
                   fodder = `Fodder crop`)]
 feed_req_g[, `:=`(Grains = NULL, `Grass and leaves` = NULL, `Fodder crop` = NULL, 
                   `Oil seed cakes` = NULL, `Other edible` = NULL, iso3c = NULL,
@@ -259,52 +254,103 @@ feed_req_g[, `:=`(Grains = NULL, `Grass and leaves` = NULL, `Fodder crop` = NULL
                   chicken_share = NULL, animal = NULL)]
 
 
+# estimate fodder crop use for cattle where grass is used but no fodder crops --------------------------
+# we assign the values of grass use to fodder crops and later up/down-scale them to fodder crop supply
+feed_req_g[fodder==0 & proc_code %in% c("p085", "p099"), fodder := grass / 100]
+
+# get feed types animals, residues, and scavenging from bouwman
+feed_req_g <- merge.data.table(feed_req_g, feed_req_b[year==2015, .(area_code,proc_code,animals,residues,scavenging)],
+                               by = c("area_code","proc_code"), all.x = TRUE)
+
+# use dairy camel feed from bouwman
+feed_req_g <- rbind(feed_req_g, feed_req_b[year==2015 & proc_code=="p103", 
+                                           c("area_code", "proc_code", "area", "proc", "total", "item_code", 
+                                             "crops", "grass", "cakes", "fodder", "animals", "residues", "scavenging")], 
+                    use.names = TRUE)
+
+
+
 # estimate feed intake for other years --------------------------
 # assume same change rates as for bouwman
-# problem: in gleam some countries do not use fodder crops for cattle, non for pigs
-area_id <- 11
-process <- "p085"
-for(area in regions$code){
-  for(process in unique(feed_req_g$proc_code)){
-    data_b <- feed_req_b[area_code==area_id & proc_code==process]
-    data_g <- feed_req_g[area_code==area_id & proc_code==process]
-    
-  }
-}
 
+# Ensure feed_req_b is sorted by area_code, proc_code, and year
+setkey(feed_req_b, area_code, proc_code, year)
 
+# Create a new data.table for change rates relative to 2015
+change_rates <- feed_req_b[year == 2015, 
+  .(area_code, proc_code, crops_2015 = crops, grass_2015 = grass, cakes_2015 = cakes, 
+    fodder_2015 = fodder, residues_2015 = residues, scavenging_2015 = scavenging, animals_2015 = animals)]
 
+# Now merge the 2015 base values with all years in feed_req_b
+change_rates <- merge(feed_req_b, change_rates, by = c("area_code", "proc_code"), all.x = TRUE)
 
+# Calculate change rates for all years relative to 2015
+change_rates[, `:=`(
+  crops_change = crops / crops_2015,
+  grass_change = grass / grass_2015,
+  cakes_change = cakes / cakes_2015,
+  fodder_change = fodder / fodder_2015,
+  residues_change = residues / residues_2015,
+  scavenging_change = scavenging / scavenging_2015,
+  animals_change = animals / animals_2015
+)]
 
+is.finite.data.frame <- function(x) do.call(cbind, lapply(x, is.finite))
+change_rates[!is.finite(change_rates)] <- 0
 
+# Duplicate values for whole time series by creating a Cartesian product of feed_req_g and the years
+# Create a Cartesian product (cross join) of feed_req_g and all years (including 2015)
+feed_req_g_all_years <- CJ(
+  area_code = unique(feed_req_g$area_code),
+  proc_code = unique(feed_req_g$proc_code),
+  year = unique(feed_req_b$year)
+)
+
+# Merge the Cartesian product back with feed_req_g, keeping 2015 values where they exist
+feed_req_g_all_years <- merge(feed_req_g_all_years, feed_req_g, by = c("area_code", "proc_code"), all.x = TRUE)
+feed_req_g <- feed_req_g_all_years[!is.na(proc)]
+
+# Merge change rates into feed_req_g_all_years
+feed_req_g <- merge(feed_req_g, 
+  change_rates[, .(area_code, proc_code, year, crops_change, grass_change, cakes_change, 
+                   fodder_change, residues_change, scavenging_change, animals_change)], 
+  by = c("area_code", "proc_code", "year"), all.x = TRUE)
+
+# Estimating feed use for the next year based on change rates
+feed_req_g[, `:=`(
+  crops = crops * crops_change,
+  grass = grass * grass_change,
+  cakes = cakes * cakes_change,
+  fodder = fodder * fodder_change,
+  residues = residues * residues_change,
+  scavenging = scavenging * scavenging_change,
+  animals = animals * animals_change
+)]
+
+# Calculate total dm intake per process
+feed_req_g[, total := na_sum(animals, crops, fodder, scavenging, grass, if_else(residues>cakes, residues, cakes))]
+feed_req_g <- feed_req_g[total > 0]
 
 
 # Integrate GLEAM, Bouwman and Krausmann feed requirements
 feed_req <- bind_rows(feed_req_b[!paste(proc_code,area) %in% paste(feed_req_g$proc_code,feed_req_g$area) & total != 0],
-                      feed_req_g[total > 0], 
-                      feed_req_k[!is.na(total) & total > 0])
-rm(feed_req_k, feed_req_b, feed_req_g)
-
-
-
-
-
-
-
-# OLD: Integrate Bouwman and Krausmann feed requirements
-feed_req_b[, residues := cakes]
-feed_req_b[, cakes := NULL]
-feed_req <- bind_rows(feed_req_b[total > 0],
+                      feed_req_g[, .(area_code, proc_code, year, area, proc, total, item_code,
+                                     crops, grass, cakes, fodder, animals, residues, scavenging)], 
                       feed_req_k[!is.na(total) & total > 0])
 
-# Allocate total feed demand from Krausmann to the Bouwman split -----
+feed_req[is.na(feed_req)] <- 0
+
+
+
+
+# Allocate total feed demand from Krausmann to the GLEAM/Bouwman split -----
 feed_alloc <- feed_req[item_code == 0,
-                       lapply(list(animals, crops, grass, fodder, residues, scavenging, total),
+                       lapply(list(animals, crops, grass, fodder, cakes, scavenging, total),
                               na_sum),
                        by = list(area_code, year)]
 feed_alloc <- feed_alloc[V7 > 0, list(area_code, year,
                                       animals_f = V1 / V7, crops_f = V2 / V7, grass_f = V3 / V7,
-                                      fodder_f  = V4 / V7, residues_f = V5 / V7, scavenging_f = V6 / V7)]
+                                      fodder_f  = V4 / V7, cakes_f = V5 / V7, scavenging_f = V6 / V7)]
 feed_alloc[is.na(feed_alloc)] <- 0
 
 feed_req <- merge(feed_req, feed_alloc,
@@ -316,23 +362,23 @@ feed_req[, `:=`(
   crops_f = ifelse(is.na(crops_f), mean(crops_f, na.rm = TRUE), crops_f),
   grass_f = ifelse(is.na(grass_f), mean(grass_f, na.rm = TRUE), grass_f),
   fodder_f = ifelse(is.na(fodder_f), mean(fodder_f, na.rm = TRUE), fodder_f),
-  residues_f = ifelse(is.na(residues_f), mean(residues_f, na.rm = TRUE), residues_f),
+  cakes_f = ifelse(is.na(cakes_f), mean(cakes_f, na.rm = TRUE), cakes_f),
   scavenging_f = ifelse(is.na(scavenging_f), mean(scavenging_f, na.rm = TRUE), scavenging_f))]
 # This simple procedure assumes equal feed composition for
 # Horses, Asses, Mules, Camels, Camelids, other
 feed_req[item_code != 0 & !proc %in% c("Rabbits husbandry", "Rodents husbandry, other"),
          `:=`(animals = total * animals_f, crops = total * crops_f,
-              grass = total * grass_f, fodder = total * fodder_f, residues = total * residues_f,
+              grass = total * grass_f, fodder = total * fodder_f, cakes = total * cakes_f,
               scavenging = total * scavenging_f)]
 # Rabbits and hares, Rodents, other
 feed_req[item_code != 0 & proc %in% c("Rabbits husbandry", "Rodents husbandry, other"),
          `:=`(animals = total * animals_f, crops = total * (crops_f + grass_f),
-              grass = 0, fodder = total * fodder_f, residues = total * residues_f,
+              grass = 0, fodder = total * fodder_f, cakes = total * cakes_f,
               scavenging = total * scavenging_f)]
 
 # Kick factors again
 feed_req[, `:=`(animals_f = NULL, crops_f = NULL, grass_f = NULL,
-                fodder_f = NULL, residues_f = NULL, scavenging_f = NULL)]
+                fodder_f = NULL, cakes_f = NULL, scavenging_f = NULL)]
 
 # Aggregate RoW countries in feed_req
 feed_req <- replace_RoW(feed_req, codes = regions[current == TRUE, code])
@@ -343,7 +389,7 @@ feed_req <- feed_req[, lapply(.SD, na_sum),
 # Adapt feed-demand to available feed-supply -----
 feed_sup[, total_dry := na_sum(dry), by=c("area_code","year","feedtype")]
 feed_req <- data.table::melt(feed_req, id=c("area_code","area","year","proc_code","proc"),
-                             measure=c("crops","animals","residues","fodder","grass"),
+                             measure=c("crops","animals","cakes","fodder","grass"),
                              variable.name="feedtype", value.name="req")
 feed_req[, total_req := na_sum(req), by = c("area_code", "year", "feedtype")]
 
@@ -386,5 +432,6 @@ cbs[item_code == 2001, `:=`(
 cbs[, grazing := NULL]
 
 # Clean up
-rm(feed, grazing, feed_req, feed_sup, live)
+# rm(feed, grazing, feed_req, feed_sup, live, feed_req_b, feed_req_g, feed_req_k, 
+#    feed_req_g_all_years, conc_b, conc_gleam, conv_b, conv_k, change_rates, poultry)
 
