@@ -24,11 +24,8 @@ Y_l_new <- Y_l
 i = 1
 for(i in seq_along(Y)){
   print(years[i])
-  if(as.numeric(years[i]) > max(oil$year)){
-    data <- merge(io, oil[year==max(oil$year), .(comm_code, food_share)], by = "comm_code", all.x = TRUE, sort = FALSE)
-  } else {
-    data <- merge(io, oil[year==as.numeric(years[i]), .(comm_code, food_share)], by = "comm_code", all.x = TRUE, sort = FALSE)
-  }
+  data <- merge(io, oil[year==oil$year[which.min(abs(oil$year - years[i]))],.(comm_code, food_share)], 
+                  by = "comm_code", all.x = TRUE, sort = FALSE)
   
   data <- cbind(data, as.matrix(Y[[i]][,fd$area=="China, mainland"]))
   # data[, food_share_fao := `41_food` / (`41_food` + `41_other`)]
