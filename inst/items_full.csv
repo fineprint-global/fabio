@@ -63,36 +63,36 @@ c061,2000,Fodder crops,tonnes,Primary crops,0.85,fodder,Fodder crops
 c062,2001,Grazing,tonnes,Primary crops,0.8,grass,Grazing
 c063,2559,Cottonseed,tonnes,Crop products,0.1,crops,Fibre crops
 c064,2562,Palm kernels,tonnes,Crop products,0.1,crops,Oil crops
-c065,2541,Sugar non-centrifugal,tonnes,Crop products,0.01,residues,"Sugar, sweeteners"
-c066,2542,Sugar (Raw Equivalent),tonnes,Crop products,0,residues,"Sugar, sweeteners"
-c067,2543,"Sweeteners, Other",tonnes,Crop products,0.1,residues,"Sugar, sweeteners"
-c068,2571,Soyabean Oil,tonnes,Crop products,0,residues,Vegetable oils
-c069,2572,Groundnut Oil,tonnes,Crop products,0,residues,Vegetable oils
-c070,2573,Sunflowerseed Oil,tonnes,Crop products,0,residues,Vegetable oils
-c071,2574,Rape and Mustard Oil,tonnes,Crop products,0,residues,Vegetable oils
-c072,2575,Cottonseed Oil,tonnes,Crop products,0,residues,Vegetable oils
-c073,2576,Palmkernel Oil,tonnes,Crop products,0,residues,Vegetable oils
-c074,2577,Palm Oil,tonnes,Crop products,0,residues,Vegetable oils
-c075,2578,Coconut Oil,tonnes,Crop products,0,residues,Vegetable oils
-c076,2579,Sesameseed Oil,tonnes,Crop products,0,residues,Vegetable oils
-c077,2580,Olive Oil,tonnes,Crop products,0,residues,Vegetable oils
-c078,2581,Ricebran Oil,tonnes,Crop products,0,residues,Vegetable oils
-c079,2582,Maize Germ Oil,tonnes,Crop products,0,residues,Vegetable oils
-c080,2586,"Oilcrops Oil, Other",tonnes,Crop products,0,residues,Vegetable oils
-c081,2590,Soyabean Cake,tonnes,Crop products,0.1,residues,Oil cakes
-c082,2591,Groundnut Cake,tonnes,Crop products,0.1,residues,Oil cakes
-c083,2592,Sunflowerseed Cake,tonnes,Crop products,0.1,residues,Oil cakes
-c084,2593,Rape and Mustard Cake,tonnes,Crop products,0.1,residues,Oil cakes
-c085,2594,Cottonseed Cake,tonnes,Crop products,0.1,residues,Oil cakes
-c086,2595,Palmkernel Cake,tonnes,Crop products,0.1,residues,Oil cakes
-c087,2596,Copra Cake,tonnes,Crop products,0.12,residues,Oil cakes
-c088,2597,Sesameseed Cake,tonnes,Crop products,0.1,residues,Oil cakes
-c089,2598,"Oilseed Cakes, Other",tonnes,Crop products,0.1,residues,Oil cakes
-c090,2655,Wine,tonnes,Crop products,0.85,residues,Alcohol
-c091,2656,Beer,tonnes,Crop products,0.95,residues,Alcohol
-c092,2657,"Beverages, Fermented",tonnes,Crop products,0.9,residues,Alcohol
-c093,2658,"Beverages, Alcoholic",tonnes,Crop products,0.8,residues,Alcohol
-c094,2659,"Alcohol, Non-Food",tonnes,Crop products,0.2,residues,Ethanol
+c065,2541,Sugar non-centrifugal,tonnes,Crop products,0.01,crops,"Sugar, sweeteners"
+c066,2542,Sugar (Raw Equivalent),tonnes,Crop products,0,crops,"Sugar, sweeteners"
+c067,2543,"Sweeteners, Other",tonnes,Crop products,0.1,crops,"Sugar, sweeteners"
+c068,2571,Soyabean Oil,tonnes,Crop products,0,crops,Vegetable oils
+c069,2572,Groundnut Oil,tonnes,Crop products,0,crops,Vegetable oils
+c070,2573,Sunflowerseed Oil,tonnes,Crop products,0,crops,Vegetable oils
+c071,2574,Rape and Mustard Oil,tonnes,Crop products,0,crops,Vegetable oils
+c072,2575,Cottonseed Oil,tonnes,Crop products,0,crops,Vegetable oils
+c073,2576,Palmkernel Oil,tonnes,Crop products,0,crops,Vegetable oils
+c074,2577,Palm Oil,tonnes,Crop products,0,crops,Vegetable oils
+c075,2578,Coconut Oil,tonnes,Crop products,0,crops,Vegetable oils
+c076,2579,Sesameseed Oil,tonnes,Crop products,0,crops,Vegetable oils
+c077,2580,Olive Oil,tonnes,Crop products,0,crops,Vegetable oils
+c078,2581,Ricebran Oil,tonnes,Crop products,0,crops,Vegetable oils
+c079,2582,Maize Germ Oil,tonnes,Crop products,0,crops,Vegetable oils
+c080,2586,"Oilcrops Oil, Other",tonnes,Crop products,0,crops,Vegetable oils
+c081,2590,Soyabean Cake,tonnes,Crop products,0.1,cakes,Oil cakes
+c082,2591,Groundnut Cake,tonnes,Crop products,0.1,cakes,Oil cakes
+c083,2592,Sunflowerseed Cake,tonnes,Crop products,0.1,cakes,Oil cakes
+c084,2593,Rape and Mustard Cake,tonnes,Crop products,0.1,cakes,Oil cakes
+c085,2594,Cottonseed Cake,tonnes,Crop products,0.1,cakes,Oil cakes
+c086,2595,Palmkernel Cake,tonnes,Crop products,0.1,cakes,Oil cakes
+c087,2596,Copra Cake,tonnes,Crop products,0.12,cakes,Oil cakes
+c088,2597,Sesameseed Cake,tonnes,Crop products,0.1,cakes,Oil cakes
+c089,2598,"Oilseed Cakes, Other",tonnes,Crop products,0.1,cakes,Oil cakes
+c090,2655,Wine,tonnes,Crop products,0.85,crops,Alcohol
+c091,2656,Beer,tonnes,Crop products,0.95,crops,Alcohol
+c092,2657,"Beverages, Fermented",tonnes,Crop products,0.9,crops,Alcohol
+c093,2658,"Beverages, Alcoholic",tonnes,Crop products,0.8,crops,Alcohol
+c094,2659,"Alcohol, Non-Food",tonnes,Crop products,0.2,crops,Ethanol
 c095,2661,Cotton lint,tonnes,Crop products,0.1,crops,Fibre crops
 c096,866,Cattle,1000 Head,Livestock,0,,Live animals
 c097,946,Buffaloes,1000 Head,Livestock,0,,Live animals

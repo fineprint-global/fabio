@@ -84,7 +84,8 @@ cat("\nTidying CBS.\n")
 # food: transform to tonnes
 cbs_food_old <- readRDS("input/fao/cbs_food_old.rds")[!Year %in% years,]
 cbs_food_new <- readRDS("input/fao/cbs_food_new.rds")[Year %in% years,]
-cbs_food <- rbindlist(list(cbs_food_old[, Flag := NULL], cbs_food_new), use.names = TRUE)
+cbs_food <- rbindlist(list(cbs_food_old[, Flag := NULL], 
+                           cbs_food_new[,`:=`(Flag = NULL, Note = NULL)]), use.names = TRUE)
 cbs_food[Unit == "1000 tonnes", `:=`(Value = ifelse(is.na(Value), 0, Value*1000) , Unit = "tonnes")]
 # Stock Variation seems to be defined wrongly, sign needs to be changed
 # NOTE: this is inconsistently defined (sometimes correct, sometimes wrong), so it is corrected further below in the balancing section
