@@ -180,7 +180,7 @@ code,iso3c,name,eia,iea,water_code,water_area,baci,fish,region_code,region,cbs,E
 182,REU,Réunion,Reunion,"",182,R?union,,638,7,Eastern Africa,FALSE,FALSE,FALSE,
 183,ROU,Romania,Romania,Romania,183,Romania,642,642,10,Eastern Europe,TRUE,TRUE,TRUE,EU
 184,RWA,Rwanda,Rwanda,"",184,Rwanda,646,646,7,Eastern Africa,TRUE,FALSE,TRUE,AFR
-185,RUS,Russian Federation,Russia,Russia,185,Russian Federation,643,643,11,Former USSR,TRUE,FALSE,TRUE,ASI
+185,RUS,Russian Federation,Russia,Russia,185,Russian Federation,643,643,11,Former USSR,TRUE,FALSE,TRUE,EUR
 186,SCG,Serbia and Montenegro,Former Serbia and Montenegro,"",186,Serbia and Montenegro,891,891,9,OECD Europe,TRUE,FALSE,FALSE,EUR
 187,SHN,"Saint Helena, Ascension and Tristan da Cunha",Saint Helena,"",999,Global average,654,654,6,Western Africa,FALSE,FALSE,FALSE,
 188,KNA,Saint Kitts and Nevis,Saint Kitts and Nevis,"",188,Saint Kitts and Nevis,659,659,3,Central America,TRUE,FALSE,TRUE,LAM
@@ -222,7 +222,7 @@ code,iso3c,name,eia,iea,water_code,water_area,baci,fish,region_code,region,cbs,E
 225,ARE,United Arab Emirates,United Arab Emirates,United Arab Emirates,225,United Arab Emirates,784,784,12,Middle East,TRUE,FALSE,TRUE,ASI
 226,UGA,Uganda,Uganda,"",226,Uganda,800,800,7,Eastern Africa,TRUE,FALSE,TRUE,AFR
 227,TUV,Tuvalu,"","",227,Tuvalu,798,798,16,Oceania,FALSE,FALSE,FALSE,
-228,SUN,USSR,Former U.S.S.R.,"",185,Russian Federation,810,810,11,Former USSR,TRUE,FALSE,FALSE,ASI
+228,SUN,USSR,Former U.S.S.R.,"",185,Russian Federation,810,810,11,Former USSR,TRUE,FALSE,FALSE,EUR
 229,GBR,United Kingdom,United Kingdom,United Kingdom,229,United Kingdom,826,826,9,OECD Europe,TRUE,FALSE,TRUE,EU
 230,UKR,Ukraine,Ukraine,Ukraine,230,Ukraine,804,804,11,Former USSR,TRUE,FALSE,TRUE,EUR
 231,USA,United States of America,United States,United States,231,United States of America,842,840,2,USA,TRUE,FALSE,TRUE,NAM

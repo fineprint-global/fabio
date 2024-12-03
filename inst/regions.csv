@@ -137,7 +137,7 @@ QAT,179,Qatar,ASI,Middle East,FALSE
 ZWE,181,Zimbabwe,AFR,Southern Africa,FALSE
 ROU,183,Romania,EU,Eastern Europe,TRUE
 RWA,184,Rwanda,AFR,Eastern Africa,FALSE
-RUS,185,Russian Federation,ASI,Former USSR,FALSE
+RUS,185,Russian Federation,EUR,Former USSR,FALSE
 SCG,186,Serbia and Montenegro,EUR,OECD Europe,FALSE
 KNA,188,Saint Kitts and Nevis,LAM,Central America,FALSE
 LCA,189,Saint Lucia,LAM,Central America,FALSE
@@ -169,7 +169,7 @@ TUN,222,Tunisia,AFR,Northern Africa,FALSE
 TUR,223,Turkey,EUR,Middle East,FALSE
 ARE,225,United Arab Emirates,ASI,Middle East,FALSE
 UGA,226,Uganda,AFR,Eastern Africa,FALSE
-SUN,228,USSR,ASI,Former USSR,FALSE
+SUN,228,USSR,EUR,Former USSR,FALSE
 GBR,229,United Kingdom,EU,OECD Europe,FALSE
 UKR,230,Ukraine,EUR,Former USSR,FALSE
 USA,231,United States of America,NAM,USA,FALSE
