@@ -17,7 +17,6 @@ nrreg <- nrow(regions)
 nrcom <- nrow(items)
 io <- fread(paste0(input_path,"io_labels.csv"))
 fd <- fread(file=paste0(input_path,"losses/fd_labels.csv"))
-bio <- fread(paste0(input_path,"biodiv_labels.csv"))
 
 # Read data
 X <- readRDS(file=paste0(input_path,"losses/X.rds"))
@@ -28,9 +27,10 @@ E_bio <- readRDS(file=paste0(input_path,"E_biodiv.rds"))
 # Make settings
 consumption_categories <- c("food","other","stock_addition","balancing")
 country <- "AUT"
-extension <- "landuse"
+extension <- "biodiversity global"
 # country <- "CHE"
-# extension <- "biodiversity"
+# extension <- "biodiversity global"
+# extension <- "biodiversity regional"
 consumption <- "food"
 spread_stocks <- FALSE
 allocation <- "value"
@@ -44,8 +44,10 @@ for(year in years){
   Yi <- Y[[as.character(year)]]
 
   # Prepare extension and final demand
-  if(extension=="biodiversity"){
-    ext <- rowSums(E_bio[[as.character(year)]][, 8:17]) / as.vector(Xi)
+  if (extension == "biodiversity global") {
+    ext <- rowSums(E_bio[[as.character(year)]][, 9:11]) / as.vector(Xi)
+  } else if (extension == "biodiversity regional") {
+    ext <- rowSums(E[[as.character(year)]][, 12:14]) / as.vector(Xi)
   } else {
     ext <- as.numeric(unlist(E[[as.character(year)]][, ..extension])) / as.vector(Xi)
   }

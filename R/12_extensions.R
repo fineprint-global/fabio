@@ -287,8 +287,6 @@ E_biodiv <- lapply(E, function(x) {
 
 names(E_biodiv) <- years
 saveRDS(E_biodiv, file=file.path(output_dir,"E_biodiv.rds"))
-biodiv_labels <- biodiv_labels[biodiv_labels$land %in% c("cropland", "pasture"),]
-write.csv(biodiv_labels, file=file.path(output_dir,"biodiv_labels.csv"))
 
 
 # extrapolate emissions data ---------------------------------------------------------
