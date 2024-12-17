@@ -203,22 +203,85 @@ saveRDS(E, file=file.path(output_dir,"E.rds"))
 
 # build biodiversity extensions ---------------------------------------------------------
 # (potential species loss from land use per hectare)
-biodiv <- read_csv("./input/extensions/biodiversity.csv")
-biodiv_data <- t(biodiv[, -(1:3)])
-biodiv_data <- biodiv_data[rownames(biodiv_data) %in% regions[, iso3c],]
-biodiv_labels <- biodiv[, 1:3]
-biodiv_data <- biodiv_data[regions[, iso3c],]
+
+biodiv_new <- fread("input/extensions/biodiversity_new.csv", dec=",")
+#convert to hectares
+CF_cols <- grep("_", names(biodiv_new), value = TRUE)
+biodiv_new[, (CF_cols) := lapply(.SD, function(x) x * 10000), .SDcols = CF_cols]
+biodiv_new[, country := iconv(country, from = "", to = "UTF-8", sub = "")]
+biodiv_new[, country := ifelse(toupper(country) == country & grepl("[A-Z]", country), 
+                               tools::toTitleCase(tolower(country)), 
+                               country)]
+
+#find missing countries and fill gaps
+countries_missing_in_bio <- as.data.table(setdiff(regions$name, biodiv_new$country))
+china_row <- biodiv_new[country == "China, mainland"] # duplicate China values for Hong Kong
+china_row[["country"]] <- "China, Hong Kong SAR"
+sudan_row <- biodiv_new[country == "Sudan"] #duplicate Sudan's values for South Sudan
+sudan_row[["country"]] <- "South Sudan"
+
+biodiv_new <- rbind(biodiv_new, china_row, sudan_row)
+
+#add RoW by averaging CFs of countries in bio but not in FABIO
+RoW_countries <- setdiff(biodiv_new$country, regions$name)# find countries not in fabio
+RoW_CF <- biodiv_new[country %in% RoW_countries,]
+col_means <- RoW_CF[, lapply(.SD, mean, na.rm = TRUE), .SDcols = !c("country")]
+col_means[, country := "RoW"]
+#Add Timor-Leste, assuming RoW CFs
+TLS_row <- copy(col_means) 
+TLS_row[,country := "Timor-Leste" ]
+biodiv_new <- rbind(biodiv_new, col_means, TLS_row)
+
+#delete RoW countries, add iso3c and order by area code for easier handling in extensions
+biodiv_new <- biodiv_new[!country %in% RoW_countries,]
+biodiv_new[, `:=`(iso3c = regions$iso3c[match(biodiv_new$country, regions$name)],
+                  country_code = regions$code[match(biodiv_new$country, regions$name)])] 
+biodiv_new <- biodiv_new[order(country_code)]
+biodiv_new[,`:=`(country = NULL, country_code = NULL)]
+setcolorder(biodiv_new, c("iso3c", "glo_annual_crops" , "glo_permanent_crops" , "glo_pasture" , 
+                          "reg_annual_crops" , "reg_permanent_crops", "reg_pasture"))
+
+#clean up
+rm(col_means,china_row, sudan_row, TLS_row, RoW_CF, RoW_countries, countries_missing_in_bio, CF_cols)
+
+
+#biodiv with from Chaudhary & Brooks, 2018
+# biodiv <- read_csv("./input/extensions/biodiversity.csv")
+# biodiv_data <- t(biodiv[, -(1:3)])
+# biodiv_data <- biodiv_data[rownames(biodiv_data) %in% regions[, iso3c],]
+# biodiv_labels <- biodiv[, 1:3]
+# biodiv_data <- biodiv_data[regions[, iso3c],]
+
+
 
 E_biodiv <- lapply(E, function(x) {
   # data <- merge(x[,1:8], aggregate(x$landuse, by=list(area_code=x$area_code), FUN=sum),
   #                   by = "area_code", all.x = TRUE)
   # data[item == "Grazing", x := landuse]
-  data2 <- biodiv_data[rep(seq_along(regions$code), each = 123),]
-  colnames(data2) <- paste0(biodiv_labels$species,"_",biodiv_labels$land)
-  data2[x$item != "Grazing", grepl("pasture", colnames(data2))] <- 0
-  data2[x$item == "Grazing", grepl("cropland", colnames(data2))] <- 0
-  data2 <- data2 * x$landuse
-  data2[!is.finite(data2)] <- 0
+  data2 <- biodiv_new[rep(seq_along(regions$code), each = 123),]
+  annual_crops <- c(
+    "Rice and products", "Wheat and products", "Barley and products", "Maize and products", 
+    "Rye and products", "Oats", "Millet and products", "Sorghum and products", "Cereals, Other", 
+    "Potatoes and products", "Cassava and products", "Sweet potatoes", "Roots, Other", "Yams", 
+    "Sugar beet", "Beans", "Peas", "Pulses, Other and products", "Soyabeans", "Groundnuts", 
+    "Sunflower seed", "Rape and Mustardseed", "Seed cotton", "Sesame seed", "Tomatoes and products", 
+    "Onions", "Vegetables, Other", "Jute", "Jute-Like Fibres", "Soft-Fibres, Other", "Sisal", 
+    "Abaca", "Hard Fibres, Other", "Tobacco", "Fodder crops", "Cottonseed", "Sugar cane", "Oilcrops, Other"
+  )
+  permanent_crops <- c(
+    "Coconuts - Incl Copra", "Oil, palm fruit", "Olives (including preserved)", 
+    "Oranges, Mandarines", "Lemons, Limes and products", "Grapefruit and products", 
+    "Citrus, Other", "Bananas", "Plantains", "Apples and products", "Pineapples and products", 
+    "Dates", "Grapes and products (excl wine)", "Fruits, Other", "Nuts and products", 
+    "Coffee and products", "Cocoa Beans and products", "Tea (including mate)", "Pepper", 
+    "Pimento", "Cloves", "Spices, Other", "Rubber", "Hops", "Sweeteners, Other"
+  )
+  data2[x$item != "Grazing", which(grepl("pasture", colnames(data2)))] <- 0
+  data2[!x$item %in% annual_crops, which(grepl("annual", colnames(data2)))] <- 0
+  data2[!x$item %in% permanent_crops, which(grepl("permanent", colnames(data2)))] <- 0
+  data2[!x$item %in% annual_crops & !x$item %in% permanent_crops & x$item != "Grazing",
+        which(grepl("_",colnames(data2)))] <- 0
+  data2[, (2:7) := lapply(.SD, function(y) y * x$landuse), .SDcols = 2:7]
   data <- cbind(x[,1:7], data2)
 })
 
