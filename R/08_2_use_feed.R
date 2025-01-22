@@ -365,15 +365,10 @@ feed_req[, `:=`(
   cakes_f = ifelse(is.na(cakes_f), mean(cakes_f, na.rm = TRUE), cakes_f),
   scavenging_f = ifelse(is.na(scavenging_f), mean(scavenging_f, na.rm = TRUE), scavenging_f))]
 # This simple procedure assumes equal feed composition for
-# Horses, Asses, Mules, Camels, Camelids, other
-feed_req[item_code != 0 & !proc %in% c("Rabbits husbandry", "Rodents husbandry, other"),
+# Horses, Asses, Mules, Camels, Camelids, other, "Rabbits husbandry", "Rodents husbandry, other"
+feed_req[item_code != 0,
          `:=`(animals = total * animals_f, crops = total * crops_f,
               grass = total * grass_f, fodder = total * fodder_f, cakes = total * cakes_f,
-              scavenging = total * scavenging_f)]
-# Rabbits and hares, Rodents, other
-feed_req[item_code != 0 & proc %in% c("Rabbits husbandry", "Rodents husbandry, other"),
-         `:=`(animals = total * animals_f, crops = total * (crops_f + grass_f),
-              grass = 0, fodder = total * fodder_f, cakes = total * cakes_f,
               scavenging = total * scavenging_f)]
 
 # Kick factors again
