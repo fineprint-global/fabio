@@ -625,10 +625,122 @@ live[unit %in% c("Head", "An"), `:=`(unit = "head")]
 live[unit %in% c("1000 US$", "1000 USD"), `:=`(value = value * 1000, unit = "usd")]
 live[unit == "t", `:=`(unit = "tonnes")]
 
+# Gap fill cases where there are animal stocks but no production
+live <- readRDS("data/tidy/live_tidy.rds")
+input_path <- input_path <- "/mnt/nfs_fineprint/tmp/fabio/v1.2/current/"
+regions <- fread(file=paste0(input_path,"regions.csv"))
+
+live <- copy(live)
+live[, region := regions$region[match(area, regions$area)]]
+
+# Define the groupings for animals to later determine if there are stocks but no production
+item_to_group <- list(
+  "Cattle" = c("Cattle", "Meat, cattle", "Milk, whole fresh cow"),
+  "Buffaloes" = c("Buffaloes", "Meat, buffalo", "Milk, whole fresh buffalo"),
+  "Sheep" = c("Sheep", "Meat, sheep", "Milk, whole fresh sheep"),
+  "Goats" = c("Goats", "Meat, goat", "Milk, whole fresh goat"),
+  "Pigs" = c("Pigs", "Meat, pig"),
+  "Poultry" = c("Meat, Poultry", "Eggs Primary", "Poultry Birds"),
+  "Horses" = c("Horses", "Meat, horse"),
+  "Asses" = c("Asses", "Meat, ass"),
+  "Mules" = c("Mules", "Meat, mule"),
+  "Camels" = c("Camels", "Meat, camel", "Milk, whole fresh camel"),
+  "Rabbits" = c("Rabbits and hares", "Meat, rabbit"),
+  "Rodents" = c("Rodents, other", "Meat, other rodents")
+)
+
+#Assign groups to each item (animal)
+live[, group := fifelse(
+  item %in% unlist(item_to_group["Cattle"]), "Cattle",
+  fifelse(
+    item %in% unlist(item_to_group["Buffaloes"]), "Buffaloes",
+    fifelse(
+      item %in% unlist(item_to_group["Sheep"]), "Sheep",
+      fifelse(
+        item %in% unlist(item_to_group["Goats"]), "Goats",
+        fifelse(
+          item %in% unlist(item_to_group["Pigs"]), "Pigs",
+          fifelse(
+            item %in% unlist(item_to_group["Poultry"]), "Poultry",
+            fifelse(
+              item %in% unlist(item_to_group["Horses"]), "Horses",
+              fifelse(
+                item %in% unlist(item_to_group["Asses"]), "Asses",
+                fifelse(
+                  item %in% unlist(item_to_group["Mules"]), "Mules",
+                  fifelse(
+                    item %in% unlist(item_to_group["Camels"]), "Camels",
+                    fifelse(
+                      item %in% unlist(item_to_group["Rabbits"]), "Rabbits",
+                      fifelse(
+                        item %in% unlist(item_to_group["Rodents"]), "Rodents",
+                        NA_character_
+                      )
+                    )
+                  )
+                )
+              )
+            )
+          )
+        )
+      )
+    )
+  )
+)]
+
+# find regional conversions from stocks to production for meat items that match live stock entries
+conv_meat <-  live[, .(area, region, year, element, item, group, value)]
+conv_meat <- conv_meat[element %in% c("Stocks", "Production") & 
+                         item %in% c("Cattle", "Meat, cattle", "Buffaloes", "Meat, buffalo", "Sheep", "Meat, sheep", 
+                                     "Goats", "Meat, goat", "Pigs", "Meat, pig", "Horses", 
+                                     "Meat, horse", "Asses", "Meat, ass", "Mules", "Meat, mule", "Camels", 
+                                     "Meat, camel", "Rabbits and hares", "Meat, rabbit", "Rodents, other", 
+                                     "Meat, other rodents", "Camelids, other", "Meat, other camelids" 
+                                     , "Meat, Poultry", "Poultry Birds")]
+conv_meat <- dcast(conv_meat, region + year + group +area ~ element, value.var = "value", fun.aggregate = sum)
+conv_meat[, conversion := Production / Stocks]
+conv_meat[conversion == 0 | !is.finite(conversion),] <- NA
+conv_meat[, conversion := mean(conversion, na.rm = TRUE), by = .(region, year, group)] #regional average
+conv_meat[is.na(conversion), conversion := mean(conversion, na.rm = TRUE), by = .(year, group)] #global average
+conv_meat <- conv_meat[Stocks > 0 & !is.na(Stocks) & (Production == 0 | is.na(Production)),][
+  ,Production := Stocks * conversion]
+
+
+#match meat items to rows in conv_meat
+item_conc <- rbindlist(
+  lapply(names(item_to_group), function(group) {
+    data.table(group = group, item = item_to_group[[group]])
+  })
+)
+item_conc <- item_conc[grepl("Meat", item, ignore.case = TRUE)]
+conv_meat <- conv_meat[, item := item_conc$item[match(group, item_conc$group)]  ]
+
+#add back to live
+live <- merge(live, conv_meat[,.(year, item, area, Production)], by = c("year", "item", "area"),all.x = TRUE)
+live[!is.na(Production) & element == "Production", value := Production ]
+live[, Production := NULL]
+
+# do the same for milk -> easier here, because of milk animal columns
+conv_milk <- live[element %in% c("Milk Animals", "Production") & 
+                    item %in% c("Milk, whole fresh camel", "Milk, whole fresh buffalo",                   
+                                "Milk, whole fresh cow", "Milk, whole fresh goat", "Milk, whole fresh sheep")]
+conv_milk <- dcast(conv_milk, region + area + year + group ~ element, value.var = "value")
+conv_milk[, conversion := Production / `Milk Animals`]
+conv_milk[!is.finite(conversion) | conversion == 0,] <- NA
+conv_milk[, conversion := mean(conversion, na.rm = TRUE), by = .(region, year, group)]
+conv_milk[is.na(conversion), conversion := mean(conversion, na.rm = TRUE), by = .(year, group)]
+conv_milk <- conv_milk[`Milk Animals` > 0 & !is.na(`Milk Animals`) & (Production == 0 | is.na(Production)),][
+  ,Production := `Milk Animals` * conversion]
+
+# merge with live
+live <- merge(live, conv_milk[, .(area, year, group, Production)], 
+              by = c("area", "year", "group"), all.x = TRUE)
+live <- live[!is.na(Production) & element == "Production", value := Production ]
+live[, `:=`(Production = NULL, group =NULL, region = NULL)]
 
 # Store
 saveRDS(live, "data/tidy/live_tidy.rds")
-rm(live, live_conc)
+rm(live, live_conc, conv_meat, conv_milk, item_conc, item_to_group)
 
 
 # Prices -------------------------------------------------------------------
