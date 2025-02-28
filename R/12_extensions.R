@@ -77,26 +77,161 @@ crop <- crop[, list(value = na_sum(value)),
   by = .(area_code, area, element, year, unit, item_code, item)]
 
 # prepare N extension ---------------------------------------------------------
-N <- read_csv("./input/extensions/N_kg_per_ha.csv")
-N <- merge(regions[, .(iso3c, area_code = code, region)], N, by = "iso3c", all = TRUE)
-N <- gather(N, key = "com", value = "value", -region, -iso3c, -area_code)
-avg_N <- N %>%
-  group_by(region, com) %>%
-  summarise(avg = mean(value, na.rm = TRUE)) %>%
-  ungroup() %>%
-  filter(!is.na(region)) %>%
-  group_by(com) %>%
-  bind_rows(summarise(., avg = mean(avg, na.rm = TRUE), region = NA))
-  # bind_rows(summarise_all(., ~ if (is.numeric(.)) sum(., na.rm = TRUE) else "Global"))
-N <- merge(N, avg_N, by = c("region", "com"), all.x = TRUE)
-N$value[is.na(N$value)] <- ifelse(is.na(N$avg[is.na(N$value)]), NA, N$avg[is.na(N$value)])
-N <- N[, c("area_code", "iso3c", "com", "value")]
-N$area_code[N$area_code==62] <- 238  # Ethiopia
-N$area_code[N$area_code==206] <- 276  # Sudan
-N <- N %>% arrange(across(c(area_code, com)))
-items_conc <- read_csv("./inst/items_conc.csv")
-N$com <- items_conc$com_1.2[match(N$com, items_conc$com_1.1)]
-N <- N[!is.na(N$com) & !is.na(N$area_code),]
+# N <- read_csv("./input/extensions/N_kg_per_ha.csv")
+# N <- merge(regions[, .(iso3c, area_code = code, region)], N, by = "iso3c", all = TRUE)
+# N <- gather(N, key = "com", value = "value", -region, -iso3c, -area_code)
+# avg_N <- N %>%
+#   group_by(region, com) %>%
+#   summarise(avg = mean(value, na.rm = TRUE)) %>%
+#   ungroup() %>%
+#   filter(!is.na(region)) %>%
+#   group_by(com) %>%
+#   bind_rows(summarise(., avg = mean(avg, na.rm = TRUE), region = NA))
+#   # bind_rows(summarise_all(., ~ if (is.numeric(.)) sum(., na.rm = TRUE) else "Global"))
+# N <- merge(N, avg_N, by = c("region", "com"), all.x = TRUE)
+# N$value[is.na(N$value)] <- ifelse(is.na(N$avg[is.na(N$value)]), NA, N$avg[is.na(N$value)])
+# N <- N[, c("area_code", "iso3c", "com", "value")]
+# N$area_code[N$area_code==62] <- 238  # Ethiopia
+# N$area_code[N$area_code==206] <- 276  # Sudan
+# N <- N %>% arrange(across(c(area_code, com)))
+# items_conc <- read_csv("./inst/items_conc.csv")
+# N$com <- items_conc$com_1.2[match(N$com, items_conc$com_1.1)]
+# N <- N[!is.na(N$com) & !is.na(N$area_code),]
+
+HFUBC <- fread("./input/extensions/NPK_application_by_crop.csv") #HFUBC data
+#Are we always talking about the same crop area? 
+HFUBC <- HFUBC[,.(Country, ISO3_code, Year, Crop, Crop_area_k_ha, N_k_t, P2O5_k_t, K2O_k_t )]
+HFUBC <- HFUBC[Year %in% c("1990/91","1991/92","1992/93", "1989/90", "1999/2000", "1998/99", "1997-98"), 
+           Year := substr(Year, 1, 4)]                         #convert fertilizer years to calendar years where necessary
+HFUBC[, `:=` (P_tons = P2O5_k_t* 0.436, K_tons = K2O_k_t * 0.83, N_tons = N_k_t)] #convert to elemental P and K
+HFUBC[, `:=` (P2O5_k_t = NULL, N_k_t = NULL, K2O_k_t = NULL)]
+HFUBC[, ':=' (N_rate = N_tons/Crop_area_k_ha, P_rate = P_tons/Crop_area_k_ha, 
+            K_rate = K_tons/Crop_area_k_ha, year = as.integer(Year))][, `:=` (N_tons =NULL, P_tons = NULL, 
+                                                     K_tons = NULL, Country = NULL,
+                                                     Year = NULL)]
+HFUBC_full <- CJ(name = regions$name,
+               item = items[group == "Primary crops", item], 
+               year = years)
+HFUBC_full[, `:=` (region = regions$region[match(name, regions$name)], 
+                 iso3c = regions$iso3c[match(name, regions$name)])]
+
+
+conc <- fread("./input/extensions/item_conc_fabio_hfubc.csv")
+HFUBC_full <- merge(HFUBC_full, conc, by.x = "item", by.y = "fabio", allow.cartesian =TRUE)
+HFUBC_full <- merge(HFUBC_full, HFUBC, by.x = c("iso3c", "year", "hfubc"), 
+                  by.y = c("ISO3_code", "year", "Crop") , all.x =TRUE)
+HFUBC_aggregated <- HFUBC_full[, .(
+  Crop_area_k_ha = sum(Crop_area_k_ha, na.rm = TRUE), # Sum of crop area
+  N_rate = mean(N_rate, na.rm = TRUE), # Average N rate
+  P_rate = mean(P_rate, na.rm = TRUE), # Average P rate
+  K_rate = mean(K_rate, na.rm = TRUE)  # Average K rate
+), by = .(item, iso3c, year)]
+
+HFUBC_avail <- HFUBC_aggregated[!is.na(N_rate) & !is.nan(N_rate)][, region := regions$region[match(iso3c, regions$iso3c)]]
+
+
+
+#### NPKGrids data
+library(terra)
+library(sf)
+library(data.table)
+library(dplyr)
+library(rnaturalearth)
+library(rnaturalearthdata)
+
+# Define directories for fertilizer and area datasets
+nc_fert_dir <- "./input/extensions/NPKGrids"
+nc_area_dir <- "./input/extensions/Cropgrids"
+nc_fert_files <- list.files(nc_fert_dir, pattern = "\\.nc$", full.names = TRUE)
+nc_area_files <- list.files(nc_area_dir, pattern = "\\.nc$", full.names = TRUE)
+
+# # Load global country boundaries (WGS84) with ISO3 codes
+# countries <- ne_countries(scale = "medium", returnclass = "sf")[, c("iso_a3", "geometry")]
+
+# Initialize an empty data.table to store summary statistics
+crop_summary <- data.table()
+harv_summary <- data.table()
+
+
+countries_in_order <- readRDS("./input/extensions/countries_in_order.RDS")
+
+# Process each pair of NetCDF files (one for fertilizer and one for crop area)
+for (i in seq_along(nc_fert_files)) {
+  nc_fert <- nc_fert_files[171]  
+  nc_area <- nc_area_files[171]
+  
+  # Read the fertilizer and area NetCDF files
+  r_fert <- rast(nc_fert)
+  r_area <- rast(nc_area)
+  
+  # Specify bands for fertilizer and area (crop_area and crop_harvest)
+  bands_fert <- c(1, 4, 7)  # Fertilizer bands
+  bands_area <- c(1, 2)     # crop_area and crop_harvest
+  
+  # Helper function to process a band (for both fertilizer and area data)
+  process_band <- function(r, band) {
+    var <- r[[band]]
+    band_name <- names(r)[band]
+    var_dt <- as.data.table(as.data.frame(var, xy = TRUE, na.rm = TRUE))
+    setnames(var_dt, c("lon", "lat", band_name))  # Use band name directly
+    return(var_dt)
+  }
+  
+  # Process fertilizer bands and crop area bands
+  fert_rate_list <- lapply(bands_fert, function(band) process_band(r_fert, band))
+  area_rate_list <- lapply(bands_area, function(band) process_band(r_area, band))
+  
+  # Convert lists to one data.table
+  fert_rate_dt <- Reduce(function(x, y) merge(x, y, by = c("lon", "lat"), all = TRUE), fert_rate_list)
+  area_rate_dt <- Reduce(function(x, y) merge(x, y, by = c("lon", "lat"), all = TRUE), area_rate_list)
+  
+  # Combine fertilizer data, crop area data
+  data_crop <- cbind(fert_rate_dt, area_rate_dt[, !"lon", with = FALSE][, !"lat", with = FALSE][,!"harvarea", with = FALSE])
+  data_harv <- cbind(fert_rate_dt, area_rate_dt[, !"lon", with = FALSE][, !"lat", with = FALSE][,!"croparea", with = FALSE])
+  
+  # # The following is only done once to get a dt with countries in the right order
+  
+  # # Convert the combined data.table to an sf object
+  # data <- st_as_sf(combined_data, coords = c("lon", "lat"), crs = 4326)
+  # Assign ISO3 country codes
+  # data <- st_join(data, countries, join = st_intersects) # take countries from here to make a dataset in the right order and then cbind with dataset
+  # setDT(data)
+  # data[, .(iso_a3)]
+  # saveRDS(data, "./input/countries_in_order.RDS" )   
+
+  data_crop <- cbind(countries_in_order, data_crop)
+  data_harv <- cbind(countries_in_order, data_harv)
+  
+  # Remove rows with missing country codes or non-positive areas
+  data_crop <- data_crop[!is.na(iso_a3) & croparea > 0 & Nrate != -1]
+  data_harv <- data_harv[!is.na(iso_a3) & harvarea > 0 & Nrate != -1]
+  
+  
+  # Calculate weighted averages
+  summary_data_crop <- data_crop[, .(
+    min_N = min(Nrate, na.rm = TRUE),
+    max_N = max(Nrate, na.rm = TRUE),
+    weighted_N = sum(Nrate * croparea / sum(croparea, na.rm = TRUE), na.rm = TRUE)
+  ), by = c("iso_a3")]
+  summary_data_crop[, crop := sub("^[^_]*_(.*)...$", "\\1", basename(nc_fert))]
+  
+  
+  summary_data_harv <- data_harv[, .(
+    min_N = min(Nrate, na.rm = TRUE),
+    max_N = max(Nrate, na.rm = TRUE),
+    weighted_N = sum(Nrate * harvarea / sum(harvarea, na.rm = TRUE), na.rm = TRUE)
+  ), by = c("iso_a3")]
+  # Add crop name from file name
+  summary_data_harv[, crop := sub("^[^_]*_(.*)...$", "\\1", basename(nc_fert))]
+  
+  # Append to the overall summary table
+  crop_summary <- rbind(crop_summary, summary_data_crop, fill = TRUE)
+  harv_summary <- rbind(harv_summary, summary_data_harv, fill = TRUE)
+}
+
+
+
+
 
 
 # prepare P extension ---------------------------------------------------------
@@ -222,7 +357,7 @@ sudan_row[["country"]] <- "South Sudan"
 
 biodiv_new <- rbind(biodiv_new, china_row, sudan_row)
 
-#add RoW by averaging CFs of countries in bio but not in FABIO
+#add RoW by averaging CFs of countries available in bio but not in FABIO
 RoW_countries <- setdiff(biodiv_new$country, regions$name)# find countries not in fabio
 RoW_CF <- biodiv_new[country %in% RoW_countries,]
 col_means <- RoW_CF[, lapply(.SD, mean, na.rm = TRUE), .SDcols = !c("country")]
