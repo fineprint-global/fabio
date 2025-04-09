@@ -765,6 +765,63 @@ prices <- merge(prices, crop_conc[, .(crop_item_code, cbs_item_code, cbs_item, t
 saveRDS(prices, "data/tidy/prices_tidy.rds")
 rm(prices, crop_conc)
 
+# Technical conversion factors -------------------------------------------------------------------
+
+cat("\nTidying tcfs.\n")
+tcf <- fread("./inst/tcf_rates.csv") 
+
+
+# filter out unneeded items and columns 
+tcf <- tcf[!variable %in% c("seeding rates", "hatching eggs", "waste")]
+tcf <- tcf[, .(country_tcf, item_tcf, item_group, variable, 
+               value, unit)]
+
+# average values for small island states for imputing micronesia and marshall islands later
+# (which are in SUAs but not in TCFs)
+tcf[country_tcf %in% c("american samoa", "cook islands", "guam", "niue"),
+    small_island := TRUE]
+tcf[small_island == TRUE, `:=`(value = mean(value, na.rm = TRUE),
+                               country_tcf = "small pacific islands"), 
+    by = .(item_tcf, variable)][,small_island := NULL]
+tcf <- unique(tcf, by = c("country_tcf", "item_tcf", "variable"))
+
+
+# country concordance with current SUAs
+country_conc_sua_tcf <-fread("inst/conc_country_sua_tcf.csv")
+tcf[, country_sua := country_conc_sua_tcf$country_sua[match(country_tcf, country_conc_sua_tcf$country_tcf)]]
+
+#item concordance with current suas
+sua <- readRDS("data/tidy/sua_tidy.rds")
+sua_conc <- fread("inst/conc_sua_tcf.csv")
+sua_conc[, names(sua_conc) := lapply(.SD, function(x) fifelse(x == "", NA, x))]
+tcf[,item_sua := sua_conc$sua[match(item_tcf, sua_conc$tcf)]]
+
+
+
+# creating "full" data table for gap-filling -> items that are in SUAs but not in TCAs
+# are not included yet
+
+# get unique item/variable/unit combinations
+unique_combinations <- unique(tcf[, .(item_sua, variable, unit)])
+unique_combinations <- unique_combinations[!is.na(item_sua)]
+unique_countries <- unique(country_conc_sua_tcf[, .(country_sua)])
+
+# Repeat the combinations of item_sua, variable, and unit for all countries and years
+tcf_full <- data.table(
+  country_sua = rep(unique_countries$country_sua, each = length(years) * nrow(unique_combinations)),
+  year = rep(rep(years, each = nrow(unique_combinations)), times = nrow(unique_countries)),
+  item_sua = rep(unique_combinations$item_sua, times = length(years) * nrow(unique_countries)),
+  variable = rep(unique_combinations$variable, times = length(years) * nrow(unique_countries)),
+  unit = rep(unique_combinations$unit, times = length(years) * nrow(unique_countries))
+)
+
+
+# add available tcf data to full table
+tcf_full <- merge(tcf_full, tcf[ ,. (country_sua, item_sua, unit, variable, value)], 
+                  by = c("country_sua", "item_sua", "variable", "unit"), all.x = TRUE)
+
+#store
+saveRDS(tcf_full, "data/tidy/tcf_tidy.rds")
 
 # # Fish --------------------------------------------------------------------
 # 
