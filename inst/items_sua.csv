@@ -1,0 +1,475 @@
+item_sua,item_code_fcl,item_group,comm_group,processed,comm_code
+Wheat,15,cereals,crops and derived products,primary,c001
+Rice,27,cereals,crops and derived products,primary,c002
+Barley,44,cereals,crops and derived products,primary,c003
+Maize (corn),56,cereals,crops and derived products,primary,c004
+Rye,71,cereals,crops and derived products,primary,c005
+Oats,75,cereals,crops and derived products,primary,c006
+Millet,79,cereals,crops and derived products,primary,c007
+Sorghum,83,cereals,crops and derived products,primary,c008
+Buckwheat,89,cereals,crops and derived products,primary,c009
+Quinoa,92,cereals,crops and derived products,primary,c010
+Triticale,97,cereals,crops and derived products,primary,c011
+Mixed grain,103,cereals,crops and derived products,primary,c012
+Cereals n.e.c.,108,cereals,crops and derived products,primary,c013
+Fonio,94,cereals,crops and derived products,primary,c014
+Canary seed,101,cereals,crops and derived products,primary,c015
+Potatoes,116,roots and tubers,crops and derived products,primary,c016
+Sweet potatoes,122,roots and tubers,crops and derived products,primary,c017
+"Cassava, fresh",125,roots and tubers,crops and derived products,primary,c018
+Cassava leaves,378,roots and tubers,crops and derived products,primary,c019
+Yautia,135,roots and tubers,crops and derived products,primary,c020
+Taro,136,roots and tubers,crops and derived products,primary,c021
+Locust beans (carobs),461,roots and tubers,crops and derived products,primary,c022
+Yams,137,roots and tubers,crops and derived products,primary,c023
+Chicory roots,459,roots and tubers,crops and derived products,primary,c024
+"Edible roots and tubers with high starch or inulin content, n.e.c., fresh",149,roots and tubers,crops and derived products,primary,c025
+Sugar beet,157,sugar crops,crops and derived products,primary,c026
+Sugar cane,156,sugar crops,crops and derived products,primary,c027
+Other sugar crops n.e.c.,161,sugar crops,crops and derived products,primary,c028
+Cabbages,358,vegetables and melons,crops and derived products,primary,c029
+Artichokes,366,vegetables and melons,crops and derived products,primary,c030
+Asparagus,367,vegetables and melons,crops and derived products,primary,c031
+Lettuce and chicory,372,vegetables and melons,crops and derived products,primary,c032
+Spinach,373,vegetables and melons,crops and derived products,primary,c033
+Tomatoes,388,vegetables and melons,crops and derived products,primary,c034
+Cauliflowers and broccoli,393,vegetables and melons,crops and derived products,primary,c035
+"Pumpkins, squash and gourds",394,vegetables and melons,crops and derived products,primary,c036
+Cucumbers and gherkins,397,vegetables and melons,crops and derived products,primary,c037
+Eggplants (aubergines),399,vegetables and melons,crops and derived products,primary,c038
+"Chillies and peppers, green (Capsicum spp. and Pimenta spp.)",401,vegetables and melons,crops and derived products,primary,c039
+"Onions and shallots, green",402,vegetables and melons,crops and derived products,primary,c040
+"Onions and shallots, dry (excluding dehydrated)",403,vegetables and melons,crops and derived products,primary,c041
+Green garlic,406,vegetables and melons,crops and derived products,primary,c042
+Leeks and other alliaceous vegetables,407,vegetables and melons,crops and derived products,primary,c043
+"Other beans, green",414,vegetables and melons,crops and derived products,primary,c044
+"Peas, green",417,vegetables and melons,crops and derived products,primary,c045
+"Broad beans and horse beans, green",420,vegetables and melons,crops and derived products,primary,c046
+Carrots and turnips,426,vegetables and melons,crops and derived products,primary,c047
+Green corn (maize),446,vegetables and melons,crops and derived products,primary,c048
+Mushrooms and truffles,449,vegetables and melons,crops and derived products,primary,c049
+"Other vegetables, fresh n.e.c.",463,vegetables and melons,crops and derived products,primary,c050
+Watermelons,567,vegetables and melons,crops and derived products,primary,c051
+Cantaloupes and other melons,568,vegetables and melons,crops and derived products,primary,c052
+Okra,430,vegetables and melons,crops and derived products,primary,c053
+String beans,423,vegetables and melons,crops and derived products,primary,c054
+Bananas,486,fruits and berries,crops and derived products,primary,c055
+Plantains and cooking bananas,489,fruits and berries,crops and derived products,primary,c056
+Oranges,490,fruits and berries,crops and derived products,primary,c057
+"Tangerines, mandarins, clementines",495,fruits and berries,crops and derived products,primary,c058
+Lemons and limes,497,fruits and berries,crops and derived products,primary,c059
+Pomelos and grapefruits,507,fruits and berries,crops and derived products,primary,c060
+"Other citrus fruit, n.e.c.",512,fruits and berries,crops and derived products,primary,c061
+Apples,515,fruits and berries,crops and derived products,primary,c062
+Pears,521,fruits and berries,crops and derived products,primary,c063
+Quinces,523,fruits and berries,crops and derived products,primary,c064
+Apricots,526,fruits and berries,crops and derived products,primary,c065
+Sour cherries,530,fruits and berries,crops and derived products,primary,c066
+Cherries,531,fruits and berries,crops and derived products,primary,c067
+Peaches and nectarines,534,fruits and berries,crops and derived products,primary,c068
+Plums and sloes,536,fruits and berries,crops and derived products,primary,c069
+Other stone fruits,541,fruits and berries,crops and derived products,primary,c070
+Strawberries,544,fruits and berries,crops and derived products,primary,c071
+Raspberries,547,fruits and berries,crops and derived products,primary,c072
+Currants,550,fruits and berries,crops and derived products,primary,c073
+Blueberries,552,fruits and berries,crops and derived products,primary,c074
+Cranberries,554,fruits and berries,crops and derived products,primary,c075
+Other berries and fruits of the genus vaccinium n.e.c.,558,fruits and berries,crops and derived products,primary,c076
+Grapes,560,fruits and berries,crops and derived products,primary,c077
+Figs,569,fruits and berries,crops and derived products,primary,c078
+"Mangoes, guavas and mangosteens",571,fruits and berries,crops and derived products,primary,c079
+Avocados,572,fruits and berries,crops and derived products,primary,c080
+Pineapples,574,fruits and berries,crops and derived products,primary,c081
+Dates,577,fruits and berries,crops and derived products,primary,c082
+Persimmons,587,fruits and berries,crops and derived products,primary,c083
+Kiwi fruit,592,fruits and berries,crops and derived products,primary,c084
+Papayas,600,fruits and berries,crops and derived products,primary,c085
+"Other tropical fruits, n.e.c.",603,fruits and berries,crops and derived products,primary,c086
+"Other fruits, n.e.c.",619,fruits and berries,crops and derived products,primary,c087
+Gooseberries,549,fruits and berries,crops and derived products,primary,c088
+Cashewapple,591,fruits and berries,crops and derived products,primary,c089
+Other pome fruits,542,fruits and berries,crops and derived products,primary,c090
+"Brazil nuts, in shell",216,nuts,crops and derived products,primary,c091
+"Cashew nuts, in shell",217,nuts,crops and derived products,primary,c092
+"Chestnuts, in shell",220,nuts,crops and derived products,primary,c093
+"Almonds, in shell",221,nuts,crops and derived products,primary,c094
+"Walnuts, in shell",222,nuts,crops and derived products,primary,c095
+"Pistachios, in shell",223,nuts,crops and derived products,primary,c096
+"Hazelnuts, in shell",225,nuts,crops and derived products,primary,c097
+Areca nuts,226,nuts,crops and derived products,primary,c098
+"Other nuts (excluding wild edible nuts and groundnuts), in shell, n.e.c.",234,nuts,crops and derived products,primary,c099
+Karite nuts (sheanuts),263,nuts,crops and derived products,primary,c100
+"Pepper (Piper spp.), raw",687,spices,crops and derived products,primary,c101
+"Chillies and peppers, dry (Capsicum spp., Pimenta spp.), raw",689,spices,crops and derived products,primary,c102
+"Vanilla, raw",692,spices,crops and derived products,primary,c103
+"Cinnamon and cinnamon-tree flowers, raw",693,spices,crops and derived products,primary,c104
+"Cloves (whole stems), raw",698,spices,crops and derived products,primary,c105
+"Nutmeg, mace, cardamoms, raw",702,spices,crops and derived products,primary,c106
+"Anise, badian, coriander, cumin, caraway, fennel and juniper berries, raw",711,spices,crops and derived products,primary,c107
+"Ginger, raw",720,spices,crops and derived products,primary,c108
+"Other stimulant, spice and aromatic crops, n.e.c.",723,spices,crops and derived products,primary,c109
+Soya beans,236,oil-bearing crops,crops and derived products,primary,c110
+"Groundnuts, excluding shelled",242,oil-bearing crops,crops and derived products,primary,c111
+"Coconuts, in shell",249,oil-bearing crops,crops and derived products,primary,c112
+Oil palm fruit,254,oil-bearing crops,crops and derived products,primary,c113
+Palm kernels,256,oil-bearing crops,crops and derived products,primary,c114
+Olives,260,oil-bearing crops,crops and derived products,primary,c115
+Sunflower seed,267,oil-bearing crops,crops and derived products,primary,c116
+Rape or colza seed,270,oil-bearing crops,crops and derived products,primary,c117
+Safflower seed,280,oil-bearing crops,crops and derived products,primary,c118
+Sesame seed,289,oil-bearing crops,crops and derived products,primary,c119
+Mustard seed,292,oil-bearing crops,crops and derived products,primary,c120
+Poppy seed,296,oil-bearing crops,crops and derived products,primary,c121
+Kapokseed in shell,311,oil-bearing crops,crops and derived products,primary,c122
+Cotton seed,329,oil-bearing crops,crops and derived products,primary,c123
+Linseed,333,oil-bearing crops,crops and derived products,primary,c124
+Hempseed,336,oil-bearing crops,crops and derived products,primary,c125
+Castor oil seeds,265,oil-bearing crops,crops and derived products,primary,c126
+Tung nuts,275,oil-bearing crops,crops and derived products,primary,c127
+Tallowtree seeds,305,oil-bearing crops,crops and derived products,primary,c128
+Jojoba seeds,277,oil-bearing crops,crops and derived products,primary,c129
+Melonseed,299,oil-bearing crops,crops and derived products,primary,c130
+"Other oil seeds, n.e.c.",339,oil-bearing crops,crops and derived products,primary,c131
+"Beans, dry",176,pulses,crops and derived products,primary,c132
+"Broad beans and horse beans, dry",181,pulses,crops and derived products,primary,c133
+"Bambara beans, dry",203,pulses,crops and derived products,primary,c134
+Lupins,210,pulses,crops and derived products,primary,c135
+"Peas, dry",187,pulses,crops and derived products,primary,c136
+"Chick peas, dry",191,pulses,crops and derived products,primary,c137
+"Cow peas, dry",195,pulses,crops and derived products,primary,c138
+"Pigeon peas, dry",197,pulses,crops and derived products,primary,c139
+"Lentils, dry",201,pulses,crops and derived products,primary,c140
+Vetches,205,pulses,crops and derived products,primary,c141
+Other pulses n.e.c.,211,pulses,crops and derived products,primary,c142
+Kapok fruit,310,other crops,crops and derived products,primary,c143
+"Coffee, green",656,stimulants and beverages,crops and derived products,primary,c144
+Cocoa beans,661,stimulants and beverages,crops and derived products,primary,c145
+Tea leaves,667,stimulants and beverages,crops and derived products,primary,c146
+Maté leaves,671,stimulants and beverages,crops and derived products,primary,c147
+Kola nuts,224,stimulants and beverages,crops and derived products,primary,c148
+Raw milk of cattle,882,milk,livestock products,primary,c149
+Raw milk of sheep,982,milk,livestock products,primary,c150
+Raw milk of goats,1020,milk,livestock products,primary,c151
+Raw milk of buffalo,951,milk,livestock products,primary,c152
+Raw milk of camel,1130,milk,livestock products,primary,c153
+"Hen eggs in shell, fresh",1062,eggs,livestock products,primary,c154
+"Eggs from other birds in shell, fresh, n.e.c.",1091,eggs,livestock products,primary,c155
+"Meat of cattle with the bone, fresh or chilled",867,meat,livestock products,primary,c156
+"Meat of sheep, fresh or chilled",977,meat,livestock products,primary,c157
+"Meat of goat, fresh or chilled",1017,meat,livestock products,primary,c158
+"Meat of pig with the bone, fresh or chilled",1035,meat,livestock products,primary,c159
+"Meat of chickens, fresh or chilled",1058,meat,livestock products,primary,c160
+"Meat of ducks, fresh or chilled",1069,meat,livestock products,primary,c161
+"Meat of geese, fresh or chilled",1073,meat,livestock products,primary,c162
+"Meat of turkeys, fresh or chilled",1080,meat,livestock products,primary,c163
+"Meat of rabbits and hares, fresh or chilled",1141,meat,livestock products,primary,c164
+"Game meat, fresh, chilled or frozen",1163,meat,livestock products,primary,c165
+"Meat of other domestic rodents, fresh or chilled",1151,meat,livestock products,primary,c166
+"Meat of buffalo, fresh or chilled",947,meat,livestock products,primary,c167
+"Meat of camels, fresh or chilled",1127,meat,livestock products,primary,c168
+"Meat of pigeons and other birds n.e.c., fresh, chilled or frozen",1089,meat,livestock products,primary,c169
+"Horse meat, fresh or chilled",1097,meat,livestock products,primary,c170
+"Meat of asses, fresh or chilled",1108,meat,livestock products,primary,c171
+"Meat of mules, fresh or chilled",1111,meat,livestock products,primary,c172
+"Other meat n.e.c. (excluding mammals), fresh, chilled or frozen",1166,edible offals,livestock products,primary,c173
+"Edible offal of cattle, fresh, chilled or frozen",868,edible offals,livestock products,primary,c174
+"Edible offal of sheep, fresh, chilled or frozen",978,edible offals,livestock products,primary,c175
+"Edible offal of goat, fresh, chilled or frozen",1018,edible offals,livestock products,primary,c176
+"Edible offal of pigs, fresh, chilled or frozen",1036,edible offals,livestock products,primary,c177
+"Edible offals of camels and other camelids, fresh, chilled or frozen",1128,edible offals,livestock products,primary,c178
+"Edible offal of buffalo, fresh, chilled or frozen",948,edible offals,livestock products,primary,c179
+"Edible offals of horses and other equines,  fresh, chilled or frozen",1098,edible offals,livestock products,primary,c180
+"Edible offals and liver of chickens and guinea fowl, fresh, chilled or frozen",1059,edible offals,livestock products,primary,c181
+"Edible offals and liver of ducks, fresh, chilled or frozen",1075,edible offals,livestock products,primary,c182
+"Edible offals and liver of turkey, fresh, chilled or frozen",1081,edible offals,livestock products,primary,c183
+"Edible offals and liver of geese, fresh, chilled or frozen",1074,edible offals,livestock products,primary,c184
+"Offals n.e.c. (excluding mammals), fresh, chilled or frozen",1167,edible offals,livestock products,primary,c185
+"Cattle fat, unrendered",869,slaughter fats,livestock products,primary,c186
+Fat of pigs,1037,slaughter fats,livestock products,primary,c187
+"Buffalo fat, unrendered",949,slaughter fats,livestock products,primary,c188
+"Goat fat, unrendered",1019,slaughter fats,livestock products,primary,c189
+"Sheep fat, unrendered",979,slaughter fats,livestock products,primary,c190
+Fat of poultry,1065,slaughter fats,livestock products,primary,c191
+Fat of camels,1129,slaughter fats,livestock products,primary,c192
+Fat of other camelids,1160,slaughter fats,livestock products,primary,c193
+Animal oils and fats n.e.c.,1168,slaughter fats,livestock products,primary,c194
+Natural honey,1182,honey,livestock products,primary,c195
+Wheat and meslin flour,16,cereals,crops and derived products,processed,c196
+Bran of wheat,17,cereals,crops and derived products,processed,c197
+Germ of wheat,19,cereals,crops and derived products,processed,c198
+Starch of wheat,23,cereals,crops and derived products,processed,c199
+Wheat gluten,24,cereals,crops and derived products,processed,c200
+"Uncooked pasta, not stuffed or otherwise prepared",18,cereals,crops and derived products,processed,c201
+Bread,20,cereals,crops and derived products,processed,c202
+Pastry,22,cereals,crops and derived products,processed,c203
+Bulgur,21,cereals,crops and derived products,processed,c204
+Husked rice,28,cereals,crops and derived products,processed,c205
+"Rice, milled",31,cereals,crops and derived products,processed,c206
+"Rice, milled (husked)",29,cereals,crops and derived products,processed,c207
+"Rice, broken",32,cereals,crops and derived products,processed,c208
+Flour of rice,38,cereals,crops and derived products,processed,c209
+Bran of rice,35,cereals,crops and derived products,processed,c210
+Starch of rice,34,cereals,crops and derived products,processed,c211
+"Rice, gluten",33,cereals,crops and derived products,processed,c212
+Oil of rice bran,36,cereals,crops and derived products,processed,c213
+Cake of rice bran,37,cereals,crops and derived products,processed,c214
+Breakfast cereals,41,cereals,crops and derived products,processed,c215
+Pot barley,45,cereals,crops and derived products,processed,c216
+Bran of barley,47,cereals,crops and derived products,processed,c217
+"Barley, pearled",46,cereals,crops and derived products,processed,c218
+Barley flour and grits,48,cereals,crops and derived products,processed,c219
+"Malt, whether or not roasted",49,cereals,crops and derived products,processed,c220
+Malt extract,50,cereals,crops and derived products,processed,c221
+Flour of maize,58,cereals,crops and derived products,processed,c222
+Bran of maize,59,cereals,crops and derived products,processed,c223
+Germ of maize,57,cereals,crops and derived products,processed,c224
+Starch of maize,64,cereals,crops and derived products,processed,c225
+Maize gluten,63,cereals,crops and derived products,processed,c226
+Oil of maize,60,cereals,crops and derived products,processed,c227
+Cake of maize,61,cereals,crops and derived products,processed,c228
+Flour of rye,72,cereals,crops and derived products,processed,c229
+Bran of rye,73,cereals,crops and derived products,processed,c230
+"Oats, rolled",76,cereals,crops and derived products,processed,c231
+Bran of oats,77,cereals,crops and derived products,processed,c232
+Flour of millet,80,cereals,crops and derived products,processed,c233
+Bran of millet,81,cereals,crops and derived products,processed,c234
+Flour of sorghum,84,cereals,crops and derived products,processed,c235
+Bran of sorghum,85,cereals,crops and derived products,processed,c236
+Flour of buckwheat,90,cereals,crops and derived products,processed,c237
+Bran of buckwheat,91,cereals,crops and derived products,processed,c238
+Flour of triticale,98,cereals,crops and derived products,processed,c239
+Bran of triticale,99,cereals,crops and derived products,processed,c240
+Flour of mixed grain,104,cereals,crops and derived products,processed,c241
+Bran of mixed grain,105,cereals,crops and derived products,processed,c242
+Flour of cereals n.e.c.,111,cereals,crops and derived products,processed,c243
+Bran of cereals n.e.c.,112,cereals,crops and derived products,processed,c244
+Flour of fonio,95,cereals,crops and derived products,processed,c245
+Bran of fonio,96,cereals,crops and derived products,processed,c246
+"Communion wafers, empty cachets of a kind suitable for pharmaceutical use, sealing wafers, rice paper and similar products.",110,cereals,crops and derived products,processed,c247
+Cereal preparations,113,cereals,crops and derived products,processed,c248
+Mixes and doughs for the preparation of bakers' wares,114,cereals,crops and derived products,processed,c249
+"Food preparations of flour, meal or malt extract",115,cereals,crops and derived products,processed,c250
+Gluten feed and meal,846,cereals,crops and derived products,processed,c251
+"Potatoes, frozen",118,roots and tubers,crops and derived products,processed,c252
+"Flour, meal, powder, flakes, granules and pellets of potatoes",117,roots and tubers,crops and derived products,processed,c253
+Starch of potatoes,119,roots and tubers,crops and derived products,processed,c254
+Tapioca of potatoes,121,roots and tubers,crops and derived products,processed,c255
+"Cassava, dry",128,roots and tubers,crops and derived products,processed,c256
+Flour of cassava,126,roots and tubers,crops and derived products,processed,c257
+Tapioca of cassava,127,roots and tubers,crops and derived products,processed,c258
+Starch of cassava,129,roots and tubers,crops and derived products,processed,c259
+"Edible roots and tubers with high starch or inulin content, n.e.c., dry",151,roots and tubers,crops and derived products,processed,c260
+Flour of roots and tubers n.e.c.,150,roots and tubers,crops and derived products,processed,c261
+"Fructose, chemically pure",154,sugar crops,crops and derived products,processed,c262
+"Maltose, chemically pure",155,sugar crops,crops and derived products,processed,c263
+"Refined cane or beet sugar, in solid form, containing added flavouring or colouring matter; maple sugar and maple syrup",160,sugar crops,crops and derived products,processed,c264
+Raw cane or beet sugar (centrifugal only),162,sugar crops,crops and derived products,processed,c265
+Refined sugar,164,sugar crops,crops and derived products,processed,c266
+Molasses,165,sugar crops,crops and derived products,processed,c267
+Other fructose and syrup,166,sugar crops,crops and derived products,processed,c268
+Sugar and syrups n.e.c.,167,sugar crops,crops and derived products,processed,c269
+Sugar confectionery,168,sugar crops,crops and derived products,processed,c270
+Glucose and dextrose,172,sugar crops,crops and derived products,processed,c271
+Lactose,173,sugar crops,crops and derived products,processed,c272
+Isoglucose,175,sugar crops,crops and derived products,processed,c273
+"Cane sugar, non-centrifugal",163,sugar crops,crops and derived products,processed,c274
+"Cane sugar, centrifugal",158,sugar crops,crops and derived products,processed,c275
+Tomato juice,390,vegetables and melons,crops and derived products,processed,c276
+Paste of tomatoes,391,vegetables and melons,crops and derived products,processed,c277
+"Tomatoes, peeled (o/t vinegar)",392,vegetables and melons,crops and derived products,processed,c278
+"Sweet corn, frozen",447,vegetables and melons,crops and derived products,processed,c279
+"Sweet corn, prepared or preserved",448,vegetables and melons,crops and derived products,processed,c280
+Dried mushrooms,450,vegetables and melons,crops and derived products,processed,c281
+Canned mushrooms,451,vegetables and melons,crops and derived products,processed,c282
+"Vegetable products, fresh or dry n.e.c.",460,vegetables and melons,crops and derived products,processed,c283
+Other vegetable juices,466,vegetables and melons,crops and derived products,processed,c284
+"Vegetables, dehydrated",469,vegetables and melons,crops and derived products,processed,c285
+"Vegetables, pulses and potatoes, preserved by vinegar or acetic acid",471,vegetables and melons,crops and derived products,processed,c286
+Vegetables preserved nes (o/t vinegar),472,vegetables and melons,crops and derived products,processed,c287
+Vegetables frozen,473,vegetables and melons,crops and derived products,processed,c288
+Other vegetables provisionally preserved,474,vegetables and melons,crops and derived products,processed,c289
+Vegetables preserved (frozen),475,vegetables and melons,crops and derived products,processed,c290
+Homogenized vegetable preparations,476,vegetables and melons,crops and derived products,processed,c291
+Wheat-fermented beverages,26,fruits and berries,crops and derived products,processed,c292
+Rice-fermented beverages,39,fruits and berries,crops and derived products,processed,c293
+Orange juice,491,fruits and berries,crops and derived products,processed,c294
+"Orange juice, concentrated",492,fruits and berries,crops and derived products,processed,c295
+Juice of lemon,498,fruits and berries,crops and derived products,processed,c296
+Grapefruit juice,509,fruits and berries,crops and derived products,processed,c297
+"Grapefruit juice, concentrated",510,fruits and berries,crops and derived products,processed,c298
+Juice of citrus fruit n.e.c.,513,fruits and berries,crops and derived products,processed,c299
+"Citrus juice, concentrated n.e.c.",514,fruits and berries,crops and derived products,processed,c300
+Cider and other fermented beverages,517,fruits and berries,crops and derived products,processed,c301
+Apple juice,518,fruits and berries,crops and derived products,processed,c302
+"Apple juice, concentrated",519,fruits and berries,crops and derived products,processed,c303
+"Apricots, dried",527,fruits and berries,crops and derived products,processed,c304
+"Plums, dried",537,fruits and berries,crops and derived products,processed,c305
+Raisins,561,fruits and berries,crops and derived products,processed,c306
+Grape juice,562,fruits and berries,crops and derived products,processed,c307
+Must of grape,563,fruits and berries,crops and derived products,processed,c308
+Wine,564,fruits and berries,crops and derived products,processed,c309
+"Figs, dried",570,fruits and berries,crops and derived products,processed,c310
+"Pineapples, otherwise prepared or preserved",575,fruits and berries,crops and derived products,processed,c311
+Pineapple juice,576,fruits and berries,crops and derived products,processed,c312
+"Juice of pineapples, concentrated",580,fruits and berries,crops and derived products,processed,c313
+Juice of mango,583,fruits and berries,crops and derived products,processed,c314
+Mango pulp,584,fruits and berries,crops and derived products,processed,c315
+"Other tropical fruit, dried",604,fruits and berries,crops and derived products,processed,c316
+"Other fruit n.e.c., dried",620,fruits and berries,crops and derived products,processed,c317
+Juice of fruits n.e.c.,622,fruits and berries,crops and derived products,processed,c318
+Fruit prepared n.e.c.,623,fruits and berries,crops and derived products,processed,c319
+Flour of fruits,624,fruits and berries,crops and derived products,processed,c320
+"Fruit, nuts, peel, sugar preserved",625,fruits and berries,crops and derived products,processed,c321
+"Homogenized cooked fruit, prepared",626,fruits and berries,crops and derived products,processed,c322
+Juice of tangerine,496,fruits and berries,crops and derived products,processed,c323
+"Lemon juice, concentrated",499,fruits and berries,crops and derived products,processed,c324
+Juice of plum,538,fruits and berries,crops and derived products,processed,c325
+"Juice of plum, concentrated",539,fruits and berries,crops and derived products,processed,c326
+"Brazil nuts, shelled",229,nuts,crops and derived products,processed,c327
+"Cashew nuts, shelled",230,nuts,crops and derived products,processed,c328
+"Almonds, shelled",231,nuts,crops and derived products,processed,c329
+"Walnuts, shelled",232,nuts,crops and derived products,processed,c330
+"Hazelnuts, shelled",233,nuts,crops and derived products,processed,c331
+Prepared nuts,235,nuts,crops and derived products,processed,c332
+Soya bean oil,237,oil-bearing crops,crops and derived products,processed,c333
+Cake of  soya beans,238,oil-bearing crops,crops and derived products,processed,c334
+Soya sauce,239,oil-bearing crops,crops and derived products,processed,c335
+Soya paste,240,oil-bearing crops,crops and derived products,processed,c336
+Soya curd,241,oil-bearing crops,crops and derived products,processed,c337
+"Groundnuts, shelled",243,oil-bearing crops,crops and derived products,processed,c338
+Groundnut oil,244,oil-bearing crops,crops and derived products,processed,c339
+Cake of groundnuts,245,oil-bearing crops,crops and derived products,processed,c340
+Prepared groundnuts,246,oil-bearing crops,crops and derived products,processed,c341
+Peanut butter,247,oil-bearing crops,crops and derived products,processed,c342
+"Coconuts, desiccated",250,oil-bearing crops,crops and derived products,processed,c343
+Coconut oil,252,oil-bearing crops,crops and derived products,processed,c344
+Palm oil,257,oil-bearing crops,crops and derived products,processed,c345
+Oil of palm kernel,258,oil-bearing crops,crops and derived products,processed,c346
+Cake of palm kernel,259,oil-bearing crops,crops and derived products,processed,c347
+Copra,251,oil-bearing crops,crops and derived products,processed,c348
+Cake of copra,253,oil-bearing crops,crops and derived products,processed,c349
+Olive oil,261,oil-bearing crops,crops and derived products,processed,c350
+Olives preserved,262,oil-bearing crops,crops and derived products,processed,c351
+Oil of olive residues,274,oil-bearing crops,crops and derived products,processed,c352
+"Sunflower-seed oil, crude",268,oil-bearing crops,crops and derived products,processed,c353
+Cake of sunflower seed,269,oil-bearing crops,crops and derived products,processed,c354
+"Rapeseed or canola oil, crude",271,oil-bearing crops,crops and derived products,processed,c355
+Cake of rapeseed,272,oil-bearing crops,crops and derived products,processed,c356
+"Safflower-seed oil, crude",281,oil-bearing crops,crops and derived products,processed,c357
+Cake of safflowerseed,282,oil-bearing crops,crops and derived products,processed,c358
+Oil of sesame seed,290,oil-bearing crops,crops and derived products,processed,c359
+Cake of sesame seed,291,oil-bearing crops,crops and derived products,processed,c360
+"Mustard seed oil, crude",293,oil-bearing crops,crops and derived products,processed,c361
+Cake of mustard seed,294,oil-bearing crops,crops and derived products,processed,c362
+Flour of mustard seed,295,oil-bearing crops,crops and derived products,processed,c363
+Oil of poppy seed,297,oil-bearing crops,crops and derived products,processed,c364
+"Cake, poppy seed",298,oil-bearing crops,crops and derived products,processed,c365
+"Kapokseed, shelled",312,oil-bearing crops,crops and derived products,processed,c366
+Oil of kapok,313,oil-bearing crops,crops and derived products,processed,c367
+Cake of kapok,314,oil-bearing crops,crops and derived products,processed,c368
+Cottonseed oil,331,oil-bearing crops,crops and derived products,processed,c369
+Cake of cottonseed,332,oil-bearing crops,crops and derived products,processed,c370
+Oil of linseed,334,oil-bearing crops,crops and derived products,processed,c371
+Cake of  linseed,335,oil-bearing crops,crops and derived products,processed,c372
+Oil of hempseed,337,oil-bearing crops,crops and derived products,processed,c373
+Cake of hempseed,338,oil-bearing crops,crops and derived products,processed,c374
+Oil of castor beans,266,oil-bearing crops,crops and derived products,processed,c375
+"Castor oil, hydrogenated",1273,oil-bearing crops,crops and derived products,processed,c376
+Oil of tung nuts,276,oil-bearing crops,crops and derived products,processed,c377
+Vegetable tallow,306,oil-bearing crops,crops and derived products,processed,c378
+Jojoba oil,278,oil-bearing crops,crops and derived products,processed,c379
+Butter of karite nuts,264,oil-bearing crops,crops and derived products,processed,c380
+"Other oil of vegetable origin, crude n.e.c.",340,oil-bearing crops,crops and derived products,processed,c381
+"Cake, oilseeds nes",341,oil-bearing crops,crops and derived products,processed,c382
+"Flours and meals of oil seeds or oleaginous fruits, except those of mustard",343,oil-bearing crops,crops and derived products,processed,c383
+Liquid margarine,1241,oil-bearing crops,crops and derived products,processed,c384
+Margarine and shortening,1242,oil-bearing crops,crops and derived products,processed,c385
+Flour of pulses,212,pulses,crops and derived products,processed,c386
+Bran of pulses,213,pulses,crops and derived products,processed,c387
+"Coffee, decaffeinated or roasted",657,stimulants and beverages,crops and derived products,processed,c388
+Coffee substitutes,658,stimulants and beverages,crops and derived products,processed,c389
+Coffee extracts,659,stimulants and beverages,crops and derived products,processed,c390
+Cocoa paste not defatted,662,stimulants and beverages,crops and derived products,processed,c391
+Cocoa husks and shells,663,stimulants and beverages,crops and derived products,processed,c392
+"Cocoa butter, fat and oil",664,stimulants and beverages,crops and derived products,processed,c393
+Cocoa powder and cake,665,stimulants and beverages,crops and derived products,processed,c394
+Chocolate products nes,666,stimulants and beverages,crops and derived products,processed,c395
+"Extracts, essences and concentrates of tea or mate, and preparations with a basis thereof or with a basis of tea or maté",672,stimulants and beverages,crops and derived products,processed,c396
+Other non-alcoholic caloric beverages,633,stimulants and beverages,crops and derived products,processed,c397
+"Cream, fresh",885,milk,livestock products,processed,c398
+Butter of cow milk,886,milk,livestock products,processed,c399
+Ghee from cow milk,887,milk,livestock products,processed,c400
+Skim milk of cows,888,milk,livestock products,processed,c401
+"Buttermilk, curdled and acidified milk",893,milk,livestock products,processed,c402
+Whole milk powder,897,milk,livestock products,processed,c403
+"Whole milk, condensed",889,milk,livestock products,processed,c404
+"Whole milk, evaporated",894,milk,livestock products,processed,c405
+"Skim milk, evaporated",895,milk,livestock products,processed,c406
+"Skim milk, condensed",896,milk,livestock products,processed,c407
+Skim milk and whey powder,898,milk,livestock products,processed,c408
+"Buttermilk, dry",899,milk,livestock products,processed,c409
+Reconstituted milk,908,milk,livestock products,processed,c410
+Standardized milk,883,milk,livestock products,processed,c411
+Cheese from whole cow milk,901,milk,livestock products,processed,c412
+Cheese from skimmed cow milk,904,milk,livestock products,processed,c413
+"Whey, fresh",903,milk,livestock products,processed,c414
+"Whey, dry",900,milk,livestock products,processed,c415
+"Whey, condensed",890,milk,livestock products,processed,c416
+Whey cheese,905,milk,livestock products,processed,c417
+Processed cheese,907,milk,livestock products,processed,c418
+Casein,917,milk,livestock products,processed,c419
+Yoghurt,891,milk,livestock products,processed,c420
+"Yoghurt, with additives",892,milk,livestock products,processed,c421
+Dairy products n.e.c.,909,milk,livestock products,processed,c422
+Butter and ghee of sheep milk,983,milk,livestock products,processed,c423
+Skim sheep milk,985,milk,livestock products,processed,c424
+"Cheese from milk of sheep, fresh or processed",984,milk,livestock products,processed,c425
+Butter of goat milk,1022,milk,livestock products,processed,c426
+Skim milk of goat,1023,milk,livestock products,processed,c427
+"Cheese from milk of goats, fresh or processed",1021,milk,livestock products,processed,c428
+Butter of buffalo milk,952,milk,livestock products,processed,c429
+Ghee from buffalo milk,953,milk,livestock products,processed,c430
+Skim milk of buffalo,954,milk,livestock products,processed,c431
+"Cheese from milk of buffalo, fresh or processed",955,milk,livestock products,processed,c432
+"Eggs, liquid",1063,eggs,livestock products,processed,c433
+"Eggs, dried",1064,eggs,livestock products,processed,c434
+Egg albumin,916,eggs,livestock products,processed,c435
+"Meat of cattle boneless, fresh or chilled",870,meat,livestock products,processed,c436
+"Meat of pig boneless, fresh or chilled",1038,meat,livestock products,processed,c437
+"Bovine meat, salted, dried or smoked",872,meat,livestock products,processed,c438
+beef and veal preparations nes,875,meat,livestock products,processed,c439
+"Sausages and similar products of meat, offal or blood of beef and veal",874,meat,livestock products,processed,c440
+"Pig meat, cuts, salted, dried or smoked (bacon and ham)",1039,meat,livestock products,processed,c441
+"Sausages and similar products of meat, offal or blood of pig",1041,meat,livestock products,processed,c442
+Pig meat preparations,1042,meat,livestock products,processed,c443
+Poultry meat preparations,1061,meat,livestock products,processed,c444
+Meat prepared n.e.c.,1172,meat,livestock products,processed,c445
+Homogenized meat preparations,877,meat,livestock products,processed,c446
+"Extracts and juices of meat, fish, crustaceans, molluscs or other aquatic invertebrates",873,meat,livestock products,processed,c447
+"Snails, fresh, chilled, frozen, dried, salted or in brine, except sea snails",1176,meat,livestock products,processed,c448
+Fatty liver preparations,1060,edible offals,livestock products,processed,c449
+Liver preparations,878,edible offals,livestock products,processed,c450
+"Other meat and edible meat offal, salted, in brine, dried or smoked; edible flours and meals of meat or meat offal",1164,edible offals,livestock products,processed,c451
+"Cattle, butcher fat",871,slaughter fats,livestock products,processed,c452
+"Pig, butcher fat",1040,slaughter fats,livestock products,processed,c453
+"Poultry fat, rendered",1066,slaughter fats,livestock products,processed,c454
+"Pig fat, rendered",1043,slaughter fats,livestock products,processed,c455
+Lard stearine and lard oil,1221,slaughter fats,livestock products,processed,c456
+Tallow,1225,slaughter fats,livestock products,processed,c457
+Fat preparations n.e.c.,1243,slaughter fats,livestock products,processed,c458
+hydrogenated oils and fats,1275,slaughter fats,"",processed,c459
+Degras,1222,slaughter fats,livestock products,processed,c460
+"Animal or vegetable fats and oils and their fractions, chemically modified, except those hydrogenated, inter-esterified, re-esterified or elaidinized; inedible mixtures or preparations of animal or vegetable fats or oils",1274,slaughter fats,livestock products,processed,c461
+"Beer of barley, malted",51,alcoholic products,crops and derived products,processed,c462
+Vermouth and other wine of fresh grapes flavoured with plats or aromatic substances,565,alcoholic products,crops and derived products,processed,c463
+Undenatured ethyl alcohol of an alcoholic strength by volume of 80% vol or higher,632,alcoholic products,crops and derived products,processed,c464
+"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages",634,alcoholic products,crops and derived products,processed,c465
+"Beer of maize, malted",66,alcoholic products,crops and derived products,processed,c466
+"Beer of millet, malted",82,alcoholic products,crops and derived products,processed,c467
+"Beer of sorghum, malted",86,alcoholic products,crops and derived products,processed,c468
+Wool grease and lanolin,994,wool,livestock products,processed,c469
+Infant food,109,"",crops and derived products,processed,c470
+Ice cream and other edible ice,910,"","",processed,c471
+Food preparations n.e.c.,1232,"","",processed,c472
+Industrial monocarboxylic fatty acids; acid oils from refining,1276,"","",processed,c473
+Residues of fatty substances,1277,"","",processed,c474

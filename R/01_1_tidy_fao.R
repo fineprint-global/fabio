@@ -292,6 +292,10 @@ setnames(sua, "item_code", "item_code_fcl")
 # sua <- sua[item %in% c("Oil palm fruit", "Palm kernels"),] # "Molasses"
 # sua[, item_code := as.numeric(item_code)]
 
+
+# fix readability -> maté leaves are not UTF-8 encoded
+sua[, item := iconv(item, from = "latin1", to = "UTF-8")]
+
 # Store
 saveRDS(sua, "data/tidy/sua_tidy.rds")
 rm(sua)
@@ -820,6 +824,9 @@ tcf_full <- data.table(
 tcf_full <- merge(tcf_full, tcf[ ,. (country_sua, item_sua, unit, variable, value)], 
                   by = c("country_sua", "item_sua", "variable", "unit"), all.x = TRUE)
 
+tcf_full[] <- lapply(tcf_full, function(x) {
+  if (is.character(x)) iconv(x, from = "", to = "UTF-8", sub = "byte") else x
+})
 #store
 saveRDS(tcf_full, "data/tidy/tcf_tidy.rds")
 

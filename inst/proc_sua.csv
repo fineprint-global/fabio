@@ -1,0 +1,485 @@
+proc_code,proc,comm_code,item_code_fcl,item
+p001,Wheat production,c001,15,Wheat
+p002,Rice production,c002,27,Rice
+p003,Barley production,c003,44,Barley
+p004,Maize (corn) production,c004,56,Maize (corn)
+p005,Rye production,c005,71,Rye
+p006,Oats production,c006,75,Oats
+p007,Millet production,c007,79,Millet
+p008,Sorghum production,c008,83,Sorghum
+p009,Buckwheat production,c009,89,Buckwheat
+p010,Quinoa production,c010,92,Quinoa
+p011,Triticale production,c011,97,Triticale
+p012,Mixed grain production,c012,103,Mixed grain
+p013,Cereals n.e.c. production,c013,108,Cereals n.e.c.
+p014,Fonio production,c014,94,Fonio
+p015,Canary seed production,c015,101,Canary seed
+p016,Potatoes production,c016,116,Potatoes
+p017,Sweet potatoes production,c017,122,Sweet potatoes
+p018,Cassava (fresh) production,c018,125,"Cassava, fresh"
+p018,Cassava (fresh) production,c019,378,Cassava leaves
+p019,Yautia production,c020,135,Yautia
+p020,Taro production,c021,136,Taro
+p021,Locust beans (carobs) production,c022,461,Locust beans (carobs)
+p022,Yams production,c023,137,Yams
+p023,Chicory roots production,c024,459,Chicory roots
+p024,"Edible roots and tubers with high starch or inulin content (fresh) production, n.e.c.",c025,149,"Edible roots and tubers with high starch or inulin content, n.e.c., fresh"
+p025,Sugar beet production,c026,157,Sugar beet
+p026,Sugar cane production,c027,156,Sugar cane
+p027,"Sugar crops production, other",c028,161,Other sugar crops n.e.c.
+p028,Cabbages production,c029,358,Cabbages
+p029,Artichokes production,c030,366,Artichokes
+p030,Asparagus production,c031,367,Asparagus
+p031,Lettuce and chicory production,c032,372,Lettuce and chicory
+p032,Spinach production,c033,373,Spinach
+p033,Tomatoes production,c034,388,Tomatoes
+p034,Cauliflowers and broccoli production,c035,393,Cauliflowers and broccoli
+p035,"Pumpkins, squash and gourds production",c036,394,"Pumpkins, squash and gourds"
+p036,Cucumbers and gherkins production,c037,397,Cucumbers and gherkins
+p037,Eggplants (aubergines) production,c038,399,Eggplants (aubergines)
+p038,Green chillies and peppers (Capsicum spp. and Pimenta spp.) production,c039,401,"Chillies and peppers, green (Capsicum spp. and Pimenta spp.)"
+p039,Green onions and shallots production,c040,402,"Onions and shallots, green"
+p040,Dry onions and shallots (excluding dehydrated) production,c041,403,"Onions and shallots, dry (excluding dehydrated)"
+p041,Green garlic production,c042,406,Green garlic
+p042,Leeks and other alliaceous vegetables production,c043,407,Leeks and other alliaceous vegetables
+p043,"Green beans production, other",c044,414,"Other beans, green"
+p044,Green peas production,c045,417,"Peas, green"
+p045,Green broad beans and horse beans production,c046,420,"Broad beans and horse beans, green"
+p046,Carrots and turnips production,c047,426,Carrots and turnips
+p047,Green corn (maize) production,c048,446,Green corn (maize)
+p048,Mushrooms and truffles production,c049,449,Mushrooms and truffles
+p049,"Vegetables production (fresh), other",c050,463,"Other vegetables, fresh n.e.c."
+p050,Watermelons production,c051,567,Watermelons
+p051,Cantaloupes and other melons production,c052,568,Cantaloupes and other melons
+p052,Okra production,c053,430,Okra
+p053,String beans production,c054,423,String beans
+p054,Bananas production,c055,486,Bananas
+p055,Plantains and cooking bananas production,c056,489,Plantains and cooking bananas
+p056,Oranges production,c057,490,Oranges
+p057,"Tangerines, mandarins, clementines production",c058,495,"Tangerines, mandarins, clementines"
+p058,Lemons and limes production,c059,497,Lemons and limes
+p059,Pomelos and grapefruits production,c060,507,Pomelos and grapefruits
+p060,"Citrus fruit production, n.e.c.",c061,512,"Other citrus fruit, n.e.c."
+p061,Apples production,c062,515,Apples
+p062,Pears production,c063,521,Pears
+p063,Quinces production,c064,523,Quinces
+p064,Apricots production,c065,526,Apricots
+p065,Sour cherries production,c066,530,Sour cherries
+p066,Cherries production,c067,531,Cherries
+p067,Peaches and nectarines production,c068,534,Peaches and nectarines
+p068,Plums and sloes production,c069,536,Plums and sloes
+p069,Other stone fruits production,c070,541,Other stone fruits
+p070,Strawberries production,c071,544,Strawberries
+p071,Raspberries production,c072,547,Raspberries
+p072,Currants production,c073,550,Currants
+p073,Blueberries production,c074,552,Blueberries
+p074,Cranberries production,c075,554,Cranberries
+p075,"Berries and fruits of the genus vaccinium production, n.e.c.",c076,558,Other berries and fruits of the genus vaccinium n.e.c.
+p076,Grapes production,c077,560,Grapes
+p077,Figs production,c078,569,Figs
+p078,"Mangoes, guavas and mangosteens production",c079,571,"Mangoes, guavas and mangosteens"
+p079,Avocados production,c080,572,Avocados
+p080,Pineapples production,c081,574,Pineapples
+p081,Dates production,c082,577,Dates
+p082,Persimmons production,c083,587,Persimmons
+p083,Kiwi fruit production,c084,592,Kiwi fruit
+p084,Papayas production,c085,600,Papayas
+p085,"Other tropical fruits production, n.e.c.",c086,603,"Other tropical fruits, n.e.c."
+p086,"Other fruits production, n.e.c.",c087,619,"Other fruits, n.e.c."
+p087,Gooseberries production,c088,549,Gooseberries
+p088,Cashewapple production,c089,591,Cashewapple
+p089,Other pome fruits production,c090,542,Other pome fruits
+p090,Brazil nuts (in shell) production,c091,216,"Brazil nuts, in shell"
+p091,Cashew nuts (in shell) production,c092,217,"Cashew nuts, in shell"
+p092,Chestnuts (in shell) production,c093,220,"Chestnuts, in shell"
+p093,Almonds (in shell) production,c094,221,"Almonds, in shell"
+p094,Walnuts (in shell) production,c095,222,"Walnuts, in shell"
+p095,Pistachios (in shell) production,c096,223,"Pistachios, in shell"
+p096,Hazelnuts (in shell) production,c097,225,"Hazelnuts, in shell"
+p097,Areca nuts production,c098,226,Areca nuts
+p098,"Other nuts in shell (excluding wild edible nuts and groundnuts) production, n.e.c.",c099,234,"Other nuts (excluding wild edible nuts and groundnuts), in shell, n.e.c."
+p099,Karite nuts (sheanuts) production,c100,263,Karite nuts (sheanuts)
+p100,Pepper (raw) (Piper spp.) production,c101,687,"Pepper (Piper spp.), raw"
+p101,"Chillies and peppers (raw, dry) (Capsicum spp., Pimenta spp.) production",c102,689,"Chillies and peppers, dry (Capsicum spp., Pimenta spp.), raw"
+p102,Vanilla (raw) production,c103,692,"Vanilla, raw"
+p103,Cinnamon and cinnamon-tree flowers (raw) production,c104,693,"Cinnamon and cinnamon-tree flowers, raw"
+p104,Cloves (raw) (whole stems) production,c105,698,"Cloves (whole stems), raw"
+p105,"Nutmeg, mace, cardamoms (raw) production",c106,702,"Nutmeg, mace, cardamoms, raw"
+p106,"Anise, badian, coriander, cumin, caraway, fennel and juniper berries (raw) production",c107,711,"Anise, badian, coriander, cumin, caraway, fennel and juniper berries, raw"
+p107,Ginger (raw) production,c108,720,"Ginger, raw"
+p108,"Other stimulant, spice and aromatic crops production, n.e.c.",c109,723,"Other stimulant, spice and aromatic crops, n.e.c."
+p109,Soya beans production,c110,236,Soya beans
+p110,Groundnuts (excluding shelled) production,c111,242,"Groundnuts, excluding shelled"
+p111,Coconuts (in shell) production,c112,249,"Coconuts, in shell"
+p112,Oil palm fruit production,c113,254,Oil palm fruit
+p113,Palm kernels production,c114,256,Palm kernels
+p114,Olives production,c115,260,Olives
+p115,Sunflower seed production,c116,267,Sunflower seed
+p116,Rape or colza seed production,c117,270,Rape or colza seed
+p117,Safflower seed production,c118,280,Safflower seed
+p118,Sesame seed production,c119,289,Sesame seed
+p119,Mustard seed production,c120,292,Mustard seed
+p120,Poppy seed production,c121,296,Poppy seed
+p121,Kapokseed (in shell) production,c122,311,Kapokseed in shell
+p122,Cotton seed production,c123,329,Cotton seed
+p123,Linseed production,c124,333,Linseed
+p124,Hempseed production,c125,336,Hempseed
+p125,Castor oil seeds production,c126,265,Castor oil seeds
+p126,Tung nuts production,c127,275,Tung nuts
+p127,Tallowtree seeds production,c128,305,Tallowtree seeds
+p128,Jojoba seeds production,c129,277,Jojoba seeds
+p129,Melonseed production,c130,299,Melonseed
+p130,"Other oil seeds production, n.e.c.",c131,339,"Other oil seeds, n.e.c."
+p131,Beans (dry) production,c132,176,"Beans, dry"
+p132,Broad beans and horse beans (dry) production,c133,181,"Broad beans and horse beans, dry"
+p133,Bambara beans (dry) production,c134,203,"Bambara beans, dry"
+p134,Lupins production,c135,210,Lupins
+p135,Peas (dry )production,c136,187,"Peas, dry"
+p136,Chick peas (dry) production,c137,191,"Chick peas, dry"
+p137,Cow peas (dry) production,c138,195,"Cow peas, dry"
+p138,Pigeon peas (dry) production,c139,197,"Pigeon peas, dry"
+p139,Lentils (dry) production,c140,201,"Lentils, dry"
+p140,Vetches production,c141,205,Vetches
+p141,"Other pulses production, n.e.c.",c142,211,Other pulses n.e.c.
+p142,Kapok fruit production,c143,310,Kapok fruit
+p143,Coffee (green) production,c144,656,"Coffee, green"
+p144,Cocoa beans production,c145,661,Cocoa beans
+p145,Tea leaves production,c146,667,Tea leaves
+p146,Maté leaves production,c147,671,Maté leaves
+p147,Kola nuts production,c148,224,Kola nuts
+p148,Raw milk of cattle production,c149,882,Raw milk of cattle
+p149,Raw milk of sheep production,c150,982,Raw milk of sheep
+p150,Raw milk of goats production,c151,1020,Raw milk of goats
+p151,Raw milk of buffalo production,c152,951,Raw milk of buffalo
+p152,Raw milk of camel production,c153,1130,Raw milk of camel
+p153,Hen eggs in shell (fresh) production,c154,1062,"Hen eggs in shell, fresh"
+p154,"Eggs from other birds in shell (fresh) production, n.e.c.",c155,1091,"Eggs from other birds in shell, fresh, n.e.c."
+p155,Meat of cattle with the bone (fresh or chilled) production,c156,867,"Meat of cattle with the bone, fresh or chilled"
+p156,Meat of sheep (fresh or chilled) production,c157,977,"Meat of sheep, fresh or chilled"
+p157,Meat of goat (fresh or chilled) production,c158,1017,"Meat of goat, fresh or chilled"
+p158,Meat of pig with the bone (fresh or chilled) production,c159,1035,"Meat of pig with the bone, fresh or chilled"
+p159,"Meat of chickens, fresh or chilled production",c160,1058,"Meat of chickens, fresh or chilled"
+p160,Meat of ducks (fresh or chilled) production,c161,1069,"Meat of ducks, fresh or chilled"
+p161,Meat of geese (fresh or chilled) production,c162,1073,"Meat of geese, fresh or chilled"
+p162,Meat of turkeys (fresh or chilled) production,c163,1080,"Meat of turkeys, fresh or chilled"
+p163,Meat of rabbits and hares (fresh or chilled) production,c164,1141,"Meat of rabbits and hares, fresh or chilled"
+p164,"Game meat (fresh, chilled or frozen) production",c165,1163,"Game meat, fresh, chilled or frozen"
+p165,Meat of other domestic rodents (fresh or chilled) production,c166,1151,"Meat of other domestic rodents, fresh or chilled"
+p166,Meat of buffalo (fresh or chilled) production,c167,947,"Meat of buffalo, fresh or chilled"
+p167,Meat of camels (fresh or chilled) production,c168,1127,"Meat of camels, fresh or chilled"
+p168,"Meat of pigeons and other birds (fresh, chilled or frozen) production, n.e.c.",c169,1089,"Meat of pigeons and other birds n.e.c., fresh, chilled or frozen"
+p169,Horse meat (fresh or chilled) production,c170,1097,"Horse meat, fresh or chilled"
+p170,Meat of asses (fresh or chilled) production,c171,1108,"Meat of asses, fresh or chilled"
+p171,Meat of mules (fresh or chilled) production,c172,1111,"Meat of mules, fresh or chilled"
+p172,"Other meat (excluding mammals, fresh, chilled or frozen) production, n.e.c.",c173,1166,"Other meat n.e.c. (excluding mammals), fresh, chilled or frozen"
+p155,Meat of cattle with the bone (fresh or chilled) production,c174,868,"Edible offal of cattle, fresh, chilled or frozen"
+p156,Meat of sheep (fresh or chilled) production,c175,978,"Edible offal of sheep, fresh, chilled or frozen"
+p157,Meat of goat (fresh or chilled) production,c176,1018,"Edible offal of goat, fresh, chilled or frozen"
+p173,Meat of pig (fresh or chilled) production,c177,1036,"Edible offal of pigs, fresh, chilled or frozen"
+p167,Meat of camels (fresh or chilled) production,c178,1128,"Edible offals of camels and other camelids, fresh, chilled or frozen"
+p166,Meat of buffalo (fresh or chilled) production,c179,948,"Edible offal of buffalo, fresh, chilled or frozen"
+p169,Horse meat (fresh or chilled) production,c180,1098,"Edible offals of horses and other equines,  fresh, chilled or frozen"
+p174,Meat of chickens (fresh or chilled) production,c181,1059,"Edible offals and liver of chickens and guinea fowl, fresh, chilled or frozen"
+p160,Meat of ducks (fresh or chilled) production,c182,1075,"Edible offals and liver of ducks, fresh, chilled or frozen"
+p162,Meat of turkeys (fresh or chilled) production,c183,1081,"Edible offals and liver of turkey, fresh, chilled or frozen"
+p161,Meat of geese (fresh or chilled) production,c184,1074,"Edible offals and liver of geese, fresh, chilled or frozen"
+p172,"Other meat (excluding mammals, fresh, chilled or frozen) production, n.e.c.",c185,1167,"Offals n.e.c. (excluding mammals), fresh, chilled or frozen"
+p155,Meat of cattle with the bone (fresh or chilled) production,c186,869,"Cattle fat, unrendered"
+p173,Meat of pig (fresh or chilled) production,c187,1037,Fat of pigs
+p166,Meat of buffalo (fresh or chilled) production,c188,949,"Buffalo fat, unrendered"
+p157,Meat of goat (fresh or chilled) production,c189,1019,"Goat fat, unrendered"
+p156,Meat of sheep (fresh or chilled) production,c190,979,"Sheep fat, unrendered"
+p162,Meat of turkeys (fresh or chilled) production,c191,1065,Fat of poultry
+p160,Meat of ducks (fresh or chilled) production,c191,1065,Fat of poultry
+p159,"Meat of chickens, fresh or chilled production",c191,1065,Fat of poultry
+p167,Meat of camels (fresh or chilled) production,c192,1129,Fat of camels
+p172,"Other meat (excluding mammals, fresh, chilled or frozen) production, n.e.c.",c193,1160,Fat of other camelids
+p175,"Animal oils and fats production, n.e.c.",c194,1168,Animal oils and fats n.e.c.
+p176,Natural honey production,c195,1182,Natural honey
+p177,Wheat flour production,c196,16,Wheat and meslin flour
+p177,Wheat flour production,c197,17,Bran of wheat
+p177,Wheat flour production,c198,19,Germ of wheat
+p178,Starch of wheat production,c199,23,Starch of wheat
+p178,Starch of wheat production,c200,24,Wheat gluten
+p179,Pasta production,c201,18,"Uncooked pasta, not stuffed or otherwise prepared"
+p180,Bread production,c202,20,Bread
+p181,Pastry production,c203,22,Pastry
+p182,Bulgur production,c204,21,Bulgur
+p183,Husked rice production,c205,28,Husked rice
+p184,Milled rice production,c206,31,"Rice, milled"
+p185,Rice (milled and husked) production,c207,29,"Rice, milled (husked)"
+p186,Broken rice production,c208,32,"Rice, broken"
+p187,Flour of rice production,c209,38,Flour of rice
+p184,Milled rice production,c210,35,Bran of rice
+p185,Rice (milled and husked) production,c210,35,Bran of rice
+p188,Starch of rice production,c211,34,Starch of rice
+p188,Starch of rice production,c212,33,"Rice, gluten"
+p189,Oil of rice bran production,c213,36,Oil of rice bran
+p189,Oil of rice bran production,c214,37,Cake of rice bran
+p190,Breakfast cereals production,c215,41,Breakfast cereals
+p191,Pot barley production,c216,45,Pot barley
+p191,Pot barley production,c217,47,Bran of barley
+p192,Pearled barley production,c218,46,"Barley, pearled"
+p192,Pearled barley production,c219,48,Barley flour and grits
+p193,Malt production,c220,49,"Malt, whether or not roasted"
+p194,Malt extract production,c221,50,Malt extract
+p195,Flour of maize production,c222,58,Flour of maize
+p195,Flour of maize production,c223,59,Bran of maize
+p195,Flour of maize production,c224,57,Germ of maize
+p196,Starch of maize production,c225,64,Starch of maize
+p196,Starch of maize production,c226,63,Maize gluten
+p197,Oil of maize production,c227,60,Oil of maize
+p197,Oil of maize production,c228,61,Cake of maize
+p198,Flour of rye production,c229,72,Flour of rye
+p198,Flour of rye production,c230,73,Bran of rye
+p199,Rolled oats production,c231,76,"Oats, rolled"
+p199,Rolled oats production,c232,77,Bran of oats
+p200,Flour of millet production,c233,80,Flour of millet
+p200,Flour of millet production,c234,81,Bran of millet
+p201,Flour of sorghum production,c235,84,Flour of sorghum
+p201,Flour of sorghum production,c236,85,Bran of sorghum
+p202,Flour of buckwheat production,c237,90,Flour of buckwheat
+p202,Flour of buckwheat production,c238,91,Bran of buckwheat
+p203,Flour of triticale production,c239,98,Flour of triticale
+p203,Flour of triticale production,c240,99,Bran of triticale
+p204,Flour of mixed grain production,c241,104,Flour of mixed grain
+p204,Flour of mixed grain production,c242,105,Bran of mixed grain
+p205,Flour of cereals n.e.c. production,c243,111,Flour of cereals n.e.c.
+p205,Flour of cereals n.e.c. production,c244,112,Bran of cereals n.e.c.
+p206,Flour of fonio production,c245,95,Flour of fonio
+p206,Flour of fonio production,c246,96,Bran of fonio
+p207,Wafer production,c247,110,"Communion wafers, empty cachets of a kind suitable for pharmaceutical use, sealing wafers, rice paper and similar products."
+p208,Cereal preparation,c248,113,Cereal preparations
+p209,Mixes and doughs production,c249,114,Mixes and doughs for the preparation of bakers' wares
+p210,"Food preparations of flour, meal or malt extract production",c250,115,"Food preparations of flour, meal or malt extract"
+p211,Gluten feed and meal production,c251,846,Gluten feed and meal
+p212,Frozen potatoes production,c252,118,"Potatoes, frozen"
+p213,"Flour, meal, powder, flakes, granules and pellets of potatoes production",c253,117,"Flour, meal, powder, flakes, granules and pellets of potatoes"
+p214,Starch of potatoes production,c254,119,Starch of potatoes
+p215,Tapioca of potatoes production,c255,121,Tapioca of potatoes
+p216,Cassava (dry) production,c256,128,"Cassava, dry"
+p217,Flour of cassava production,c257,126,Flour of cassava
+p218,Tapioca of cassava production,c258,127,Tapioca of cassava
+p219,Starch of cassava production,c259,129,Starch of cassava
+p220,"Edible roots and tubers with high starch or inulin content (dry) production, n.e.c.",c260,151,"Edible roots and tubers with high starch or inulin content, n.e.c., dry"
+p221,"Flour of roots and tubers production, n.e.c.",c261,150,Flour of roots and tubers n.e.c.
+p222,Fructose (chemically pure) production,c262,154,"Fructose, chemically pure"
+p223,Maltose (chemically pure) production,c263,155,"Maltose, chemically pure"
+p224,"Refined cane or beet sugar, in solid form, containing added flavouring or colouring matter; maple sugar and maple syrup production",c264,160,"Refined cane or beet sugar, in solid form, containing added flavouring or colouring matter; maple sugar and maple syrup"
+p225,Raw cane or beet sugar (centrifugal only) production,c265,162,Raw cane or beet sugar (centrifugal only)
+p226,Refined sugar production,c266,164,Refined sugar
+p227,Molasses production,c267,165,Molasses
+p228,"Fructose and syrup production, other",c268,166,Other fructose and syrup
+p229,Sugar and syrups n.e.c. production,c269,167,Sugar and syrups n.e.c.
+p230,Sugar confectionery production,c270,168,Sugar confectionery
+p231,Glucose and dextrose production,c271,172,Glucose and dextrose
+p232,Lactose production,c272,173,Lactose
+p233,Isoglucose production,c273,175,Isoglucose
+p234,Non-centrifugal cane sugar  production,c274,163,"Cane sugar, non-centrifugal"
+p235,Centrifugal cane sugar production,c275,158,"Cane sugar, centrifugal"
+p236,Tomato juice production,c276,390,Tomato juice
+p237,Paste of tomatoes production,c277,391,Paste of tomatoes
+p238,Peeled tomatoes (o/t vinegar) production,c278,392,"Tomatoes, peeled (o/t vinegar)"
+p239,Frozen sweet corn production,c279,447,"Sweet corn, frozen"
+p240,Sweet corn preparation or preservation,c280,448,"Sweet corn, prepared or preserved"
+p241,Dried mushrooms production,c281,450,Dried mushrooms
+p242,Canned mushrooms production,c282,451,Canned mushrooms
+p243,"Vegetable products (fresh or dry) production, n.e.c",c283,460,"Vegetable products, fresh or dry n.e.c."
+p244,"Vegetable juices production, other",c284,466,Other vegetable juices
+p245,Vegetables (dehydrated) production,c285,469,"Vegetables, dehydrated"
+p246,"Vegetables, pulses and potatoes, preservation in vinegar or acetic acid",c286,471,"Vegetables, pulses and potatoes, preserved by vinegar or acetic acid"
+p247,"Vegetables preservation, nes, (o/t vinegar)",c287,472,Vegetables preserved nes (o/t vinegar)
+p248,Frozen vegetables production,c288,473,Vegetables frozen
+p249,"Vegetables provisional preservation, other",c289,474,Other vegetables provisionally preserved
+p250,Vegetables preservation by freezing,c290,475,Vegetables preserved (frozen)
+p251,Homogenized vegetable preparations production,c291,476,Homogenized vegetable preparations
+p252,Wheat-fermented beverages production,c292,26,Wheat-fermented beverages
+p253,Rice-fermented beverages production,c293,39,Rice-fermented beverages
+p254,Orange juice production,c294,491,Orange juice
+p255,Orange juice (concentrated) production,c295,492,"Orange juice, concentrated"
+p256,Juice of lemon production,c296,498,Juice of lemon
+p257,Grapefruit juice production,c297,509,Grapefruit juice
+p258,Concentrated grapefruit juice production,c298,510,"Grapefruit juice, concentrated"
+p259,"Juice of citrus fruit production, n.e.c.",c299,513,Juice of citrus fruit n.e.c.
+p260,"Concentrated citrus juice production, n.e.c.",c300,514,"Citrus juice, concentrated n.e.c."
+p261,Cider and other fermented beverages production,c301,517,Cider and other fermented beverages
+p262,Apple juice production,c302,518,Apple juice
+p263,Concentrated apple juice production,c303,519,"Apple juice, concentrated"
+p264,Apricots (dried) production,c304,527,"Apricots, dried"
+p265,Dried plums production,c305,537,"Plums, dried"
+p266,Raisins production,c306,561,Raisins
+p267,Grape juice production,c307,562,Grape juice
+p268,Must of grape production,c308,563,Must of grape
+p269,Wine production,c309,564,Wine
+p270,Figs (dried) production,c310,570,"Figs, dried"
+p271,"Pineapples, other preparation or preservation",c311,575,"Pineapples, otherwise prepared or preserved"
+p272,Pineapple juice production,c312,576,Pineapple juice
+p273,Concentrated juice of pineapples production,c313,580,"Juice of pineapples, concentrated"
+p274,Juice of mango production,c314,583,Juice of mango
+p275,Mango pulp production,c315,584,Mango pulp
+p276,Other tropical fruit (dried) production,c316,604,"Other tropical fruit, dried"
+p277,"Other fruit (dried) production, n.e.c.",c317,620,"Other fruit n.e.c., dried"
+p278,"Juice of fruits production, n.e.c.",c318,622,Juice of fruits n.e.c.
+p279,"Fruit preparation, n.e.c.",c319,623,Fruit prepared n.e.c.
+p280,Flour of fruits production,c320,624,Flour of fruits
+p281,"Fruit, nuts, and peel preservation in sugar",c321,625,"Fruit, nuts, peel, sugar preserved"
+p282,Homogenized cooked fruit preparation,c322,626,"Homogenized cooked fruit, prepared"
+p283,Juice of tangerine production,c323,496,Juice of tangerine
+p284,Concentrated lemon juice production,c324,499,"Lemon juice, concentrated"
+p285,Juice of plum production,c325,538,Juice of plum
+p286,Concentrated juice of plum production,c326,539,"Juice of plum, concentrated"
+p287,Brazil nuts (shelled) production,c327,229,"Brazil nuts, shelled"
+p288,Cashew nuts (shelled) production,c328,230,"Cashew nuts, shelled"
+p289,Almonds (shelled) production,c329,231,"Almonds, shelled"
+p290,Walnuts (shelled) production,c330,232,"Walnuts, shelled"
+p291,Hazelnuts (shelled) production,c331,233,"Hazelnuts, shelled"
+p292,Nuts preparation,c332,235,Prepared nuts
+p293,Soya bean oil production,c333,237,Soya bean oil
+p293,Soya bean oil production,c334,238,Cake of  soya beans
+p294,Soya sauce production,c335,239,Soya sauce
+p295,Soya paste production,c336,240,Soya paste
+p296,Soya curd production,c337,241,Soya curd
+p297,Groundnuts (shelled) production,c338,243,"Groundnuts, shelled"
+p298,Groundnut oil production,c339,244,Groundnut oil
+p298,Groundnut oil production,c340,245,Cake of groundnuts
+p299,Groundnuts preparation,c341,246,Prepared groundnuts
+p300,Peanut butter production,c342,247,Peanut butter
+p301,Coconuts (desiccated) production,c343,250,"Coconuts, desiccated"
+p302,Coconut oil production,c344,252,Coconut oil
+p303,Palm oil production,c345,257,Palm oil
+p304,Oil of palm kernel production,c346,258,Oil of palm kernel
+p305,Palm kernel oil production,c347,259,Cake of palm kernel
+p306,Copra production,c348,251,Copra
+p307,Copra oil production,c349,253,Cake of copra
+p308,Olive oil production,c350,261,Olive oil
+p309,Olives preservation,c351,262,Olives preserved
+p310,Oil of olive residues production,c352,274,Oil of olive residues
+p311,Sunflower-seed oil (crude) production,c353,268,"Sunflower-seed oil, crude"
+p311,Sunflower-seed oil (crude) production,c354,269,Cake of sunflower seed
+p312,Rapeseed or canola oil (crude) production,c355,271,"Rapeseed or canola oil, crude"
+p312,Rapeseed or canola oil (crude) production,c356,272,Cake of rapeseed
+p313,Safflower-seed oil (crude) production,c357,281,"Safflower-seed oil, crude"
+p313,Safflower-seed oil (crude) production,c358,282,Cake of safflowerseed
+p314,Oil of sesame seed production,c359,290,Oil of sesame seed
+p314,Oil of sesame seed production,c360,291,Cake of sesame seed
+p315,Mustard seed oil (crude) production,c361,293,"Mustard seed oil, crude"
+p315,Mustard seed oil (crude) production,c362,294,Cake of mustard seed
+p316,Flour of mustard seed production,c363,295,Flour of mustard seed
+p317,Oil of poppy seed production,c364,297,Oil of poppy seed
+p317,Oil of poppy seed production,c365,298,"Cake, poppy seed"
+p318,Kapokseed (shelled) production,c366,312,"Kapokseed, shelled"
+p319,Oil of kapok production,c367,313,Oil of kapok
+p319,Oil of kapok production,c368,314,Cake of kapok
+p320,Cottonseed oil production,c369,331,Cottonseed oil
+p320,Cottonseed oil production,c370,332,Cake of cottonseed
+p321,Oil of linseed production,c371,334,Oil of linseed
+p321,Oil of linseed production,c372,335,Cake of  linseed
+p322,Oil of hempseed production,c373,337,Oil of hempseed
+p323,Cake of hempseed production,c374,338,Cake of hempseed
+p324,Oil of castor beans production,c375,266,Oil of castor beans
+p325,Castor oil (hydrogenated) production,c376,1273,"Castor oil, hydrogenated"
+p326,Oil of tung nuts production,c377,276,Oil of tung nuts
+p327,Vegetable tallow production,c378,306,Vegetable tallow
+p328,Jojoba oil production,c379,278,Jojoba oil
+p329,Butter of karite nuts production,c380,264,Butter of karite nuts
+p330,"Other oil of vegetable origin (crude) production, n.e.c.",c381,340,"Other oil of vegetable origin, crude n.e.c."
+p330,"Other oil of vegetable origin (crude) production, n.e.c.",c382,341,"Cake, oilseeds nes"
+p331,Flours and meals of oil seeds or oleaginous fruits (except those of mustard) production,c383,343,"Flours and meals of oil seeds or oleaginous fruits, except those of mustard"
+p332,Liquid margarine production,c384,1241,Liquid margarine
+p333,Margarine and shortening production,c385,1242,Margarine and shortening
+p334,Flour of pulses production,c386,212,Flour of pulses
+p334,Flour of pulses production,c387,213,Bran of pulses
+p335,Coffee (decaffeinated or roasted) production,c388,657,"Coffee, decaffeinated or roasted"
+p336,Coffee substitutes production,c389,658,Coffee substitutes
+p337,Coffee extracts production,c390,659,Coffee extracts
+p338,Cocoa paste not defatted production,c391,662,Cocoa paste not defatted
+p339,Cocoa husks and shells production,c392,663,Cocoa husks and shells
+p340,"Cocoa butter, fat and oil production",c393,664,"Cocoa butter, fat and oil"
+p341,Cocoa powder and cake production,c394,665,Cocoa powder and cake
+p342,Chocolate products nes production,c395,666,Chocolate products nes
+p343,"Extracts, essences and concentrates of tea or mate, and preparations with a basis thereof or with a basis of tea or maté production",c396,672,"Extracts, essences and concentrates of tea or mate, and preparations with a basis thereof or with a basis of tea or maté"
+p344,Other non-alcoholic caloric beverages production,c397,633,Other non-alcoholic caloric beverages
+p345,Cream (fresh) production,c398,885,"Cream, fresh"
+p346,Butter of cow milk production,c399,886,Butter of cow milk
+p347,Ghee from cow milk production,c400,887,Ghee from cow milk
+p347,Ghee from cow milk production,c401,888,Skim milk of cows
+p346,Butter of cow milk production,c401,888,Skim milk of cows
+p345,Cream (fresh) production,c401,888,Skim milk of cows
+p347,Ghee from cow milk production,c402,893,"Buttermilk, curdled and acidified milk"
+p346,Butter of cow milk production,c402,893,"Buttermilk, curdled and acidified milk"
+p345,Cream (fresh) production,c402,893,"Buttermilk, curdled and acidified milk"
+p348,Whole milk powder production,c403,897,Whole milk powder
+p349,Whole milk (condensed) production,c404,889,"Whole milk, condensed"
+p350,Whole milk (evaporated) production,c405,894,"Whole milk, evaporated"
+p351,Skim milk (evaporated) production,c406,895,"Skim milk, evaporated"
+p352,Skim milk (condensed) production,c407,896,"Skim milk, condensed"
+p353,Skim milk and whey powder production,c408,898,Skim milk and whey powder
+p354,Buttermilk (dry) production,c409,899,"Buttermilk, dry"
+p355,Reconstituted milk production,c410,908,Reconstituted milk
+p356,Standardized milk production,c411,883,Standardized milk
+p357,Cheese from whole cow milk production,c412,901,Cheese from whole cow milk
+p358,Cheese from skimmed cow milk production,c413,904,Cheese from skimmed cow milk
+p358,Cheese from skimmed cow milk production,c414,903,"Whey, fresh"
+p357,Cheese from whole cow milk production,c414,903,"Whey, fresh"
+p359,Whey (dry) production,c415,900,"Whey, dry"
+p360,Whey (condensed) production,c416,890,"Whey, condensed"
+p361,Whey cheese production,c417,905,Whey cheese
+p362,Processed cheese production,c418,907,Processed cheese
+p363,Casein production,c419,917,Casein
+p364,Yoghurt production,c420,891,Yoghurt
+p365,Yoghurt (with additives) production,c421,892,"Yoghurt, with additives"
+p366,"Dairy products production, n.e.c.",c422,909,Dairy products n.e.c.
+p367,Butter and ghee of sheep milk production,c423,983,Butter and ghee of sheep milk
+p367,Butter and ghee of sheep milk production,c424,985,Skim sheep milk
+p368,"Cheese from milk of sheep, fresh or processed production",c425,984,"Cheese from milk of sheep, fresh or processed"
+p369,Butter of goat milk production,c426,1022,Butter of goat milk
+p369,Butter of goat milk production,c427,1023,Skim milk of goat
+p370,"Cheese from milk of goats, fresh or processed production",c428,1021,"Cheese from milk of goats, fresh or processed"
+p371,Butter of buffalo milk production,c429,952,Butter of buffalo milk
+p372,Ghee from buffalo milk production,c430,953,Ghee from buffalo milk
+p372,Ghee from buffalo milk production,c431,954,Skim milk of buffalo
+p371,Butter of buffalo milk production,c431,954,Skim milk of buffalo
+p373,"Cheese from milk of buffalo, fresh or processed production",c432,955,"Cheese from milk of buffalo, fresh or processed"
+p374,Eggs (liquid) production,c433,1063,"Eggs, liquid"
+p375,Eggs (dried) production,c434,1064,"Eggs, dried"
+p376,Egg albumin production,c435,916,Egg albumin
+p377,Meat of cattle boneless (fresh or chilled) production,c436,870,"Meat of cattle boneless, fresh or chilled"
+p378,Meat of pig boneless (fresh or chilled) production,c437,1038,"Meat of pig boneless, fresh or chilled"
+p379,"Bovine meat (salted, dried or smoked) production",c438,872,"Bovine meat, salted, dried or smoked"
+p380,"beef and veal preparation, nes",c439,875,beef and veal preparations nes
+p381,"Sausages and similar products of meat, offal or blood of beef and veal production",c440,874,"Sausages and similar products of meat, offal or blood of beef and veal"
+p382,"Pig meat, cuts, salted, dried or smoked (bacon and ham) production",c441,1039,"Pig meat, cuts, salted, dried or smoked (bacon and ham)"
+p383,"Sausages and similar products of meat, offal or blood of pig production",c442,1041,"Sausages and similar products of meat, offal or blood of pig"
+p384,Pig meat preparation,c443,1042,Pig meat preparations
+p385,Poultry meat preparation,c444,1061,Poultry meat preparations
+p386,"meat preparation, n.e.c.",c445,1172,Meat prepared n.e.c.
+p387,Homogenized meat preparation,c446,877,Homogenized meat preparations
+p388,"Extracts and juices of meat, fish, crustaceans, molluscs or other aquatic invertebrates production",c447,873,"Extracts and juices of meat, fish, crustaceans, molluscs or other aquatic invertebrates"
+p389,"Snails (fresh, chilled, frozen, dried, salted or in brine, except sea snails) production",c448,1176,"Snails, fresh, chilled, frozen, dried, salted or in brine, except sea snails"
+p390,Fatty liver preparation,c449,1060,Fatty liver preparations
+p391,Liver preparation,c450,878,Liver preparations
+p392,"Other meat and edible meat offal, salted, in brine, dried or smoked; edible flours and meals of meat or meat offal production",c451,1164,"Other meat and edible meat offal, salted, in brine, dried or smoked; edible flours and meals of meat or meat offal"
+p377,Meat of cattle boneless (fresh or chilled) production,c452,871,"Cattle, butcher fat"
+p378,Meat of pig boneless (fresh or chilled) production,c453,1040,"Pig, butcher fat"
+p393,Poultry fat (rendered) production,c454,1066,"Poultry fat, rendered"
+p394,Pig fat (rendered) production,c455,1043,"Pig fat, rendered"
+p395,Lard stearine and lard oil production,c456,1221,Lard stearine and lard oil
+p396,Tallow production,c457,1225,Tallow
+p397,"Fat preparation, n.e.c.",c458,1243,Fat preparations n.e.c.
+p398,Margarine production,c459,1275,hydrogenated oils and fats
+p399,Hydrogenated oils and fats production,c459,1275,hydrogenated oils and fats
+p400,Degras production,c460,1222,Degras
+p401,"Animal or vegetable fats and oils and their fractions, chemically modified, except those hydrogenated, inter-esterified, re-esterified or elaidinized; inedible mixtures or preparations of animal or vegetable fats or oils production",c461,1274,"Animal or vegetable fats and oils and their fractions, chemically modified, except those hydrogenated, inter-esterified, re-esterified or elaidinized; inedible mixtures or preparations of animal or vegetable fats or oils"
+p402,Beer of barley (malted) production,c462,51,"Beer of barley, malted"
+p403,Vermouth and other wine of fresh grapes flavoured with plats or aromatic substances production,c463,565,Vermouth and other wine of fresh grapes flavoured with plats or aromatic substances
+p404,Undenatured ethyl alcohol of an alcoholic strength by volume of 80% vol or higher production,c464,632,Undenatured ethyl alcohol of an alcoholic strength by volume of 80% vol or higher
+p405,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages production",c465,634,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages"
+p406,Beer of maize (malted) production,c466,66,"Beer of maize, malted"
+p407,Beer of millet (malted)production,c467,82,"Beer of millet, malted"
+p408,Beer of sorghum (malted) production,c468,86,"Beer of sorghum, malted"
+p409,Wool grease and lanolin production,c469,994,Wool grease and lanolin
+p410,Infant food production,c470,109,Infant food
+p411,Ice cream and other edible ice production,c471,910,Ice cream and other edible ice
+p412,"Food preparation, n.e.c.",c472,1232,Food preparations n.e.c.
+p413,Industrial monocarboxylic fatty acids; acid oils from refining production,c473,1276,Industrial monocarboxylic fatty acids; acid oils from refining
+p414,Residues of fatty substances,c474,1277,Residues of fatty substances
