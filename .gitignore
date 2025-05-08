@@ -5,6 +5,7 @@
 *.Rproj
 
 input/
+output/
 data/
 R/exp/
 R/exp_pure/

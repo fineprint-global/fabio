@@ -56,7 +56,7 @@ for(col in c("importer_code", "exporter_code")) {
 baci <- dt_filter(baci, !is.na(importer) & !is.na(exporter))
 
 # Add item_code
-baci[, item_code := as.integer(category)]
+baci[, `:=`(item_code = as.integer(category), category = NULL)]
 
 # Convert from 1000 US$ to usd
 baci[, `:=`(usd = `1000 US$` * 1000, `1000 US$` = NULL)]

@@ -1,0 +1,272 @@
+hs_code,hs_name,isscaap_code,isscaap_name,source,fbs_code,fbs_name,fao_group_code,fao_group_name,tcf
+30191,"Trout, live",2,Diadromous fishes,baci,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,1
+30192,"Eels, live",2,Diadromous fishes,baci,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,1
+30193,"Carp, live",1,Freshwater fishes,baci,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,1
+30199,"Fish live, except trout, eel or carp",10,Fish nes,baci,2997,Fish nes,1997,Fish nes,1
+30211,"Trout, fresh or chilled, whole",2,Diadromous fishes,baci,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,1.05
+30212,"Salmon fresh or chilled, whole",2,Diadromous fishes,baci,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,1.14
+30213,"Pacific salmons, fresh or chilled",2,Diadromous fishes,proc,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,1.14
+30219,"Salmonidae, not trout or salmon, fresh or chilled, whole",2,Diadromous fishes,baci,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,1.14
+30221,"Halibut, fresh or chilled, whole",3,Marine fishes,both,2762,Demersal Fish,1514,Demersal Marine Fish,1.16
+30222,"Plaice, fresh or chilled, whole",3,Marine fishes,baci,2762,Demersal Fish,1514,Demersal Marine Fish,1.07
+30223,"Sole, fresh or chilled, whole",3,Marine fishes,both,2762,Demersal Fish,1514,Demersal Marine Fish,1.04
+30229,"Flatfish, not halibut/plaice/sole, fresh or chilled, whole",3,Marine fishes,both,2762,Demersal Fish,1514,Demersal Marine Fish,1.06
+30231,"Tuna (albacore, longfin), fresh or chilled, whole",3,Marine fishes,both,2763,Pelagic Fish,1527,Pelagic Marine Fish,1.08
+30232,"Tuna (yellowfin), fresh or chilled, whole",3,Marine fishes,both,2763,Pelagic Fish,1527,Pelagic Marine Fish,1.13
+30233,"Skipjack, stripe-belly bonito, fresh or chilled, whole",3,Marine fishes,baci,2763,Pelagic Fish,1527,Pelagic Marine Fish,1
+30234,"Bigeye tuna, fresh or chilled",3,Marine fishes,proc,2763,Pelagic Fish,1527,Pelagic Marine Fish,1.15
+30239,"Tuna nes, fresh or chilled, whole",3,Marine fishes,baci,2763,Pelagic Fish,1527,Pelagic Marine Fish,1.15
+30240,"Herring, fresh or chilled, whole",3,Marine fishes,baci,2763,Pelagic Fish,1527,Pelagic Marine Fish,1
+30241,"Herring, fresh or chilled, whole",3,Marine fishes,proc,2763,Pelagic Fish,1527,Pelagic Marine Fish,1
+30242,"Anchovies (Engraulis spp), fresh or chilled",3,Marine fishes,proc,2763,Pelagic Fish,1527,Pelagic Marine Fish,1
+30243,"Sardines, fresh or chilled",3,Marine fishes,proc,2763,Pelagic Fish,1527,Pelagic Marine Fish,1
+30244,"Chub mackerel, fresh or chilled",3,Marine fishes,proc,2763,Pelagic Fish,1527,Pelagic Marine Fish,1
+30245,"Jack and horse mackerels, fresh or chilled",3,Marine fishes,proc,2763,Pelagic Fish,1527,Pelagic Marine Fish,1
+30247,"Swordfish, fresh or chilled",3,Marine fishes,proc,2763,Pelagic Fish,1527,Pelagic Marine Fish,1.1
+30249,"Mackerels, Capelin, Marlins, Scads, Kawakawa, fresh or chilled",3,Marine fishes,proc,2763,Pelagic Fish,1527,Pelagic Marine Fish,1
+30250,"Cod, fresh or chilled, whole",3,Marine fishes,baci,2762,Demersal Fish,1514,Demersal Marine Fish,1.31
+30251,"Cod, fresh or chilled, whole",3,Marine fishes,proc,2762,Demersal Fish,1514,Demersal Marine Fish,1.31
+30254,"European hake, fresh or chilled",3,Marine fishes,proc,2762,Demersal Fish,1514,Demersal Marine Fish,1.1
+30255,"Alaska pollock, fresh or chilled",3,Marine fishes,proc,2762,Demersal Fish,1514,Demersal Marine Fish,1.1
+30261,"Sardines, brisling, sprats, fresh or chilled, whole",3,Marine fishes,baci,2763,Pelagic Fish,1527,Pelagic Marine Fish,1
+30262,"Haddock, fresh or chilled, whole",3,Marine fishes,baci,2762,Demersal Fish,1514,Demersal Marine Fish,1.14
+30263,"Coalfish, fresh or chilled, whole",3,Marine fishes,baci,2762,Demersal Fish,1514,Demersal Marine Fish,1.19
+30264,"Mackerel, fresh or chilled, whole",3,Marine fishes,baci,2763,Pelagic Fish,1527,Pelagic Marine Fish,1
+30265,"Dogfish and other sharks, fresh or chilled, whole",3,Marine fishes,baci,2764,"Marine Fish, Other",1540,Marine Fish NEI,1
+30266,"Eels, fresh or chilled, whole",2,Diadromous fishes,baci,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,1
+30269,"Fish nes, fresh or chilled, whole",10,Fish nes,baci,2997,Fish nes,1997,Fish nes,1
+30270,"Fish livers and roes, fresh or chilled",10,Fish nes,baci,2997,Fish nes,1997,Fish nes,1
+30272,"Catfish, fresh or chilled",1,Freshwater fishes,proc,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,1
+30273,"Carps, fresh or chilled",1,Freshwater fishes,proc,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,1
+30281,"Sharks nei, fresh or chilled",3,Marine fishes,proc,2764,"Marine Fish, Other",1540,Marine Fish NEI,1
+30289,"Freshwater fish, nei, fresh or chilled",1,Freshwater fishes,proc,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,1
+30291,"Fish livers, fresh or chilled",10,Fish nes,proc,2997,Fish nes,1997,Fish nes,1
+30310,"Salmon, Pacific, frozen, whole",2,Diadromous fishes,baci,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,1.3
+30311,"Sockeye salmon (red salmon)(Oncorhynchus nerka), frozen",2,Diadromous fishes,proc,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,1.3
+30312,"Pacific salmons, frozen, nei",2,Diadromous fishes,proc,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,1.3
+30313,"Atlantic salmon and Danube salmon, frozen",2,Diadromous fishes,proc,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,1.3
+30314,"Trouts and chars, frozen",2,Diadromous fishes,proc,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,1.13
+30319,"Whitefishes, frozen",2,Diadromous fishes,proc,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,1.13
+30321,"Trout, frozen, whole",2,Diadromous fishes,baci,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,1.13
+30322,"Salmon Atlantic or Danube, frozen, whole",2,Diadromous fishes,baci,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,1.3
+30323,"Tilapias, frozen",1,Freshwater fishes,proc,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,1.13
+30324,"Catfish, frozen",1,Freshwater fishes,proc,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,1.13
+30325,"Carps, frozen",1,Freshwater fishes,proc,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,1.13
+30326,"Eels, frozen",2,Diadromous fishes,proc,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,1.13
+30329,"Salmonidae, nes, frozen, whole",2,Diadromous fishes,both,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,1.12
+30331,"Halibut, frozen, whole",3,Marine fishes,both,2762,Demersal Fish,1514,Demersal Marine Fish,1.29
+30332,"Plaice, frozen, whole",3,Marine fishes,both,2762,Demersal Fish,1514,Demersal Marine Fish,1.07
+30333,"Sole, frozen, whole",3,Marine fishes,both,2762,Demersal Fish,1514,Demersal Marine Fish,1.05
+30334,"Turbots, frozen",3,Marine fishes,proc,2762,Demersal Fish,1514,Demersal Marine Fish,1.15
+30339,"Flatfish except halibut, plaice or sole, frozen, whole",3,Marine fishes,both,2762,Demersal Fish,1514,Demersal Marine Fish,1.19
+30341,"Tunas (albacore, longfin), frozen, whole",3,Marine fishes,both,2763,Pelagic Fish,1527,Pelagic Marine Fish,1.15
+30342,"Tunas (yellowfin), frozen, whole",3,Marine fishes,both,2763,Pelagic Fish,1527,Pelagic Marine Fish,1.16
+30343,"Skipjack, stripe-bellied bonito, frozen, whole",3,Marine fishes,both,2763,Pelagic Fish,1527,Pelagic Marine Fish,1.13
+30344,"Bigeye tuna, frozen, nei",3,Marine fishes,proc,2763,Pelagic Fish,1527,Pelagic Marine Fish,1.09
+30345,"Atlantic(Thunnus thynnus)and Pacific(Thunnus orientalis)bluefin tuna, frozen",3,Marine fishes,proc,2763,Pelagic Fish,1527,Pelagic Marine Fish,1.09
+30346,"Southern bluefin tuna(Thunnus maccoyii), frozen",3,Marine fishes,proc,2763,Pelagic Fish,1527,Pelagic Marine Fish,1.09
+30349,"Tunas nes, frozen, whole",3,Marine fishes,both,2763,Pelagic Fish,1527,Pelagic Marine Fish,1.09
+30350,"Herrings, frozen, whole",3,Marine fishes,baci,2763,Pelagic Fish,1527,Pelagic Marine Fish,1
+30351,"Atlantic herring, frozen",3,Marine fishes,proc,2763,Pelagic Fish,1527,Pelagic Marine Fish,1
+30353,"Pilchards(Sardinops spp.) and Sardinellas, frozen",3,Marine fishes,proc,2763,Pelagic Fish,1527,Pelagic Marine Fish,1
+30354,"Atlantic mackerel, frozen",3,Marine fishes,proc,2763,Pelagic Fish,1527,Pelagic Marine Fish,1
+30355,"Jack and horse mackerel, frozen",3,Marine fishes,proc,2763,Pelagic Fish,1527,Pelagic Marine Fish,1
+30356,"Cobia, frozen",3,Marine fishes,proc,2762,Demersal Fish,1514,Demersal Marine Fish,1
+30357,"Swordfish, frozen",3,Marine fishes,proc,2763,Pelagic Fish,1527,Pelagic Marine Fish,1.13
+30359,"Bonito, frozen",3,Marine fishes,proc,2763,Pelagic Fish,1527,Pelagic Marine Fish,1.13
+30360,"Cod, frozen, whole",3,Marine fishes,baci,2762,Demersal Fish,1514,Demersal Marine Fish,1.5
+30363,"Atlantic cod, frozen",3,Marine fishes,proc,2762,Demersal Fish,1514,Demersal Marine Fish,1.5
+30364,"Haddock, frozen",3,Marine fishes,proc,2762,Demersal Fish,1514,Demersal Marine Fish,1.4
+30365,"Saithe (=Pollock), frozen",3,Marine fishes,proc,2762,Demersal Fish,1514,Demersal Marine Fish,1.4
+30366,"South Pacific hake, frozen",3,Marine fishes,proc,2762,Demersal Fish,1514,Demersal Marine Fish,1.5
+30367,"Alaska pollock, frozen",3,Marine fishes,proc,2762,Demersal Fish,1514,Demersal Marine Fish,1.4
+30368,"Blue whiting (Micromesistius poutassou), frozen",3,Marine fishes,proc,2762,Demersal Fish,1514,Demersal Marine Fish,1.3
+30369,"Tusk, frozen",3,Marine fishes,proc,2762,Demersal Fish,1514,Demersal Marine Fish,1.3
+30371,"Sardines, brisling, sprats, frozen, whole",3,Marine fishes,baci,2763,Pelagic Fish,1527,Pelagic Marine Fish,1
+30372,"Haddock, frozen, whole",3,Marine fishes,baci,2762,Demersal Fish,1514,Demersal Marine Fish,1.4
+30373,"Coalfish, frozen, whole",3,Marine fishes,baci,2762,Demersal Fish,1514,Demersal Marine Fish,1.51
+30374,"Mackerel, frozen, whole",3,Marine fishes,baci,2763,Pelagic Fish,1527,Pelagic Marine Fish,1
+30375,"Dogfish and other sharks, frozen, whole",3,Marine fishes,baci,2764,"Marine Fish, Other",1540,Marine Fish NEI,1.34
+30376,"Eels, frozen, whole",2,Diadromous fishes,baci,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,1
+30377,"Sea bass, frozen, whole",3,Marine fishes,baci,2762,Demersal Fish,1514,Demersal Marine Fish,1.18
+30378,"Hake, frozen, whole",3,Marine fishes,baci,2762,Demersal Fish,1514,Demersal Marine Fish,1.5
+30379,"Fish nes, frozen, whole",10,Fish nes,baci,2997,Fish nes,1997,Fish nes,1.2
+30380,"Fish livers and roes, frozen",10,Fish nes,baci,2997,Fish nes,1997,Fish nes,1
+30381,"Dogfish and other sharks nei (excl. Squalus acanthias, Scyliorhinus spp., Lamna nasus, Prionace glauca), frozen",3,Marine fishes,proc,2764,"Marine Fish, Other",1540,Marine Fish NEI,1.34
+30382,"Rays and skates (Rajidae), frozen",3,Marine fishes,proc,2762,Demersal Fish,1514,Demersal Marine Fish,1.3
+30383,"Toothfish (Dissostichus spp.), frozen",3,Marine fishes,proc,2762,Demersal Fish,1514,Demersal Marine Fish,1.3
+30384,"Seabass, frozen",3,Marine fishes,proc,2762,Demersal Fish,1514,Demersal Marine Fish,1.18
+30389,"Pomfrets, ocean breams, frozen",3,Marine fishes,proc,2763,Pelagic Fish,1527,Pelagic Marine Fish,1
+30391,"Cod roes, frozen",3,Marine fishes,proc,2762,Demersal Fish,1514,Demersal Marine Fish,1
+30392,"Shark fins, frozen",3,Marine fishes,proc,2764,"Marine Fish, Other",1540,Marine Fish NEI,10
+30399,"Fish heads, tails, maws, tongues, nei frozen",10,Fish nes,proc,2997,Fish nes,1997,Fish nes,1
+30410,"Fish fillet or meat, fresh or chilled, not liver, roe",10,Fish nes,baci,2997,Fish nes,1997,Fish nes,2.5
+30420,"Fish fillets, frozen",10,Fish nes,baci,2997,Fish nes,1997,Fish nes,2.65
+30431,"Tilapia fillets, fresh or chilled",1,Freshwater fishes,proc,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,2.5
+30432,"Catfish fillets, fresh or chilled",1,Freshwater fishes,proc,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,2.5
+30433,"Nile perch fillets, fresh or chilled",1,Freshwater fishes,proc,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,2.5
+30439,"River eel fillets, fresh or chilled, nei",2,Diadromous fishes,proc,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,2.5
+30441,"Salmon fillets, fresh or chilled",2,Diadromous fishes,proc,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,2.5
+30442,"Trout fillets, fresh and chilled",2,Diadromous fishes,proc,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,2.5
+30443,"European plaice fillets, fresh or chilled",3,Marine fishes,proc,2762,Demersal Fish,1514,Demersal Marine Fish,2.5
+30444,"Atlantic cod, fillets, fresh or chilled",3,Marine fishes,proc,2762,Demersal Fish,1514,Demersal Marine Fish,2.5
+30445,"Swordfish fillets, fresh or chilled",3,Marine fishes,proc,2763,Pelagic Fish,1527,Pelagic Marine Fish,2.5
+30446,"Toothfish (Dissostichus spp.), fillets, fresh or chilled",3,Marine fishes,proc,2762,Demersal Fish,1514,Demersal Marine Fish,2.5
+30447,"Dogfish (Squalidae) and other sharks, fillets, fresh or chilled",3,Marine fishes,proc,2764,"Marine Fish, Other",1540,Marine Fish NEI,2.5
+30448,"Rays and skates (Rajidae) fillets, fresh or chilled",3,Marine fishes,proc,2762,Demersal Fish,1514,Demersal Marine Fish,2.5
+30449,"Miscellaneous demersal fish, fillets, fresh or chilled, nei,",3,Marine fishes,proc,2762,Demersal Fish,1514,Demersal Marine Fish,2.5
+30451,"Meat of tilapias, catfish, carp, eels, nile perch and snakeheads, fresh or chilled",1,Freshwater fishes,proc,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,2.5
+30452,"Salmon steaks, fresh or chilled",2,Diadromous fishes,proc,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,2.65
+30453,"Gadiformes, meat, fresh or chilled, nei",3,Marine fishes,proc,2762,Demersal Fish,1514,Demersal Marine Fish,2.5
+30454,"Swordfish, meat, fresh or chilled",3,Marine fishes,proc,2763,Pelagic Fish,1527,Pelagic Marine Fish,2.5
+30456,"Dogfish and other sharks, meat, whether or not minced, fresh or chilled",3,Marine fishes,proc,2764,"Marine Fish, Other",1540,Marine Fish NEI,2.5
+30459,"Fish steaks, fresh or chilled, nei",10,Fish nes,proc,2997,Fish nes,1997,Fish nes,2.65
+30461,"Tilapia fillets, frozen",1,Freshwater fishes,proc,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,2.65
+30462,"Catfish fillets, frozen",1,Freshwater fishes,proc,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,2.65
+30463,"Nile perch fillets, frozen",1,Freshwater fishes,proc,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,2.65
+30469,"River eel fillets, frozen, nei",2,Diadromous fishes,proc,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,2.65
+30471,"Atlantic cod fillets, frozen",3,Marine fishes,proc,2762,Demersal Fish,1514,Demersal Marine Fish,2.65
+30472,"Haddock fillets, frozen",3,Marine fishes,proc,2762,Demersal Fish,1514,Demersal Marine Fish,2.65
+30473,"Saithe (=Pollock) fillets, frozen",3,Marine fishes,proc,2762,Demersal Fish,1514,Demersal Marine Fish,2.65
+30474,"Hake fillets in blocks, frozen",3,Marine fishes,proc,2762,Demersal Fish,1514,Demersal Marine Fish,2.65
+30475,"Alaska pollock fillets, frozen",3,Marine fishes,proc,2762,Demersal Fish,1514,Demersal Marine Fish,2.65
+30479,"Ling fillets, frozen",3,Marine fishes,proc,2762,Demersal Fish,1514,Demersal Marine Fish,2.65
+30481,"Salmon fillets, frozen",2,Diadromous fishes,proc,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,2.65
+30482,"Trout fillets, frozen",2,Diadromous fishes,proc,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,2.65
+30483,"Greenland halibut fillets, frozen",3,Marine fishes,proc,2762,Demersal Fish,1514,Demersal Marine Fish,2.65
+30484,"Swordfish fillets, frozen",3,Marine fishes,proc,2763,Pelagic Fish,1527,Pelagic Marine Fish,2.65
+30485,"Toothfish (Dissostichus spp.), fillets, frozen",3,Marine fishes,proc,2762,Demersal Fish,1514,Demersal Marine Fish,2.65
+30486,"Atlantic herring fillets, frozen",3,Marine fishes,proc,2763,Pelagic Fish,1527,Pelagic Marine Fish,2.65
+30487,"Tuna loins and fillets, frozen",3,Marine fishes,proc,2763,Pelagic Fish,1527,Pelagic Marine Fish,2.65
+30488,"Shark fillets nei, frozen",3,Marine fishes,proc,2764,"Marine Fish, Other",1540,Marine Fish NEI,2.65
+30489,"Atka mackerel fillets, frozen",3,Marine fishes,proc,2763,Pelagic Fish,1527,Pelagic Marine Fish,2.65
+30490,"Fish meat & mince, except liver, roe & fillets, frozen",10,Fish nes,baci,2997,Fish nes,1997,Fish nes,2.5
+30491,"Swordfish meat, frozen",3,Marine fishes,proc,2763,Pelagic Fish,1527,Pelagic Marine Fish,2.5
+30493,"Catfish steaks, frozen",1,Freshwater fishes,proc,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,2.65
+30494,"Alaska pollock, portions and sticks, frozen",3,Marine fishes,proc,2762,Demersal Fish,1514,Demersal Marine Fish,2.65
+30495,"Hake minced, frozen",3,Marine fishes,proc,2762,Demersal Fish,1514,Demersal Marine Fish,2.65
+30496,"Dogfish (Squalidae) and other sharks, meat, frozen",3,Marine fishes,proc,2764,"Marine Fish, Other",1540,Marine Fish NEI,2.5
+30497,"Rays and skates (Rajidae) meat, frozen",3,Marine fishes,proc,2762,Demersal Fish,1514,Demersal Marine Fish,2.5
+30499,"Salmon steaks, frozen",2,Diadromous fishes,proc,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,2.65
+30510,"Flours, meals & pellets of fish for human consumption",10,Fish nes,both,2997,Fish nes,1997,Fish nes,1
+30520,"Livers and roes, dried, smoked, salted or in brine",10,Fish nes,both,2997,Fish nes,1997,Fish nes,2
+30530,"Fish fillets, dried, salted or in brine, not smoked",10,Fish nes,baci,2997,Fish nes,1997,Fish nes,3.35
+30531,"Tilapia, catfish, carp, eel, Nile perch and snakeheads, fillets, dried/salted/brine, not smoked",1,Freshwater fishes,proc,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,3.35
+30532,"Hakes, fillets, dried, salted or in brine",3,Marine fishes,proc,2762,Demersal Fish,1514,Demersal Marine Fish,3.35
+30539,"Miscellaneous coastal fish nei, fillets, dried, salted or in brine",10,Fish nes,proc,2997,Fish nes,1997,Fish nes,3.35
+30541,"Salmon, smoked, including fillets",2,Diadromous fishes,both,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,2.1
+30542,"Herrings, smoked, including fillets",3,Marine fishes,both,2763,Pelagic Fish,1527,Pelagic Marine Fish,1.81
+30543,"Trouts and chars, smoked",2,Diadromous fishes,proc,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,2.49
+30544,"Eels, smoked",2,Diadromous fishes,proc,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,2.49
+30549,Smoked fish & fillets other than herrings or salmon,10,Fish nes,both,2997,Fish nes,1997,Fish nes,2.49
+30551,"Cod dried, whether or not salted but not smoked",3,Marine fishes,both,2762,Demersal Fish,1514,Demersal Marine Fish,4.61
+30552,"River eels, dried, whether or not salted, not smoked, nei",2,Diadromous fishes,proc,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,3.34
+30553,"Gadiformes nei, dried, unsalted",3,Marine fishes,proc,2762,Demersal Fish,1514,Demersal Marine Fish,3.34
+30554,"Herrings, dried, unsalted",3,Marine fishes,proc,2763,Pelagic Fish,1527,Pelagic Marine Fish,3.34
+30559,"Dried fish, other than cod, not smoked",10,Fish nes,both,2997,Fish nes,1997,Fish nes,3.34
+30561,"Herrings, salted or in brine, not dried or smoked",3,Marine fishes,both,2763,Pelagic Fish,1527,Pelagic Marine Fish,1.46
+30562,"Cod, salted or in brine, not dried or smoked",3,Marine fishes,both,2762,Demersal Fish,1514,Demersal Marine Fish,1.92
+30563,"Anchovies, salted or in brine, not dried or smoked",3,Marine fishes,both,2763,Pelagic Fish,1527,Pelagic Marine Fish,1.33
+30564,"Tilapias, catfish, carp, eels, Nile perch and snakeheads, salted or in brine",1,Freshwater fishes,proc,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,1.65
+30569,"Fish nes, salted or in brine, not dried or smoked",10,Fish nes,both,2997,Fish nes,1997,Fish nes,1.65
+30571,"Shark fins, dried, unsalted",3,Marine fishes,proc,2764,"Marine Fish, Other",1540,Marine Fish NEI,20
+30572,"Fish heads, tail, maws etc., smoked, dried, salted, or in brine",10,Fish nes,proc,2997,Fish nes,1997,Fish nes,2
+30579,"Other  edible fish offal, smoked, dried, salted or in brine",10,Fish nes,proc,2997,Fish nes,1997,Fish nes,2
+30611,"Rock lobster and other sea crawfish, frozen",4,Crustaceans,both,2765,Crustaceans,1553,Crustaceans,1.63
+30612,Lobsters (Homarus) frozen,4,Crustaceans,both,2765,Crustaceans,1553,Crustaceans,1.57
+30613,"Shrimps and prawns, frozen",4,Crustaceans,baci,2765,Crustaceans,1553,Crustaceans,1.15
+30614,"Crabs, frozen",4,Crustaceans,both,2765,Crustaceans,1553,Crustaceans,2.1
+30615,"Norway lobsters (Nephrops spp.), whole, frozen",4,Crustaceans,proc,2765,Crustaceans,1553,Crustaceans,1.63
+30616,"Common shrimp (Crangon crangon), even smoked, frozen",4,Crustaceans,proc,2765,Crustaceans,1553,Crustaceans,1.15
+30617,"Shrimps and prawns, frozen, nei",4,Crustaceans,proc,2765,Crustaceans,1553,Crustaceans,1.15
+30619,"Crustaceans nes, frozen",4,Crustaceans,both,2765,Crustaceans,1553,Crustaceans,1.99
+30621,Rock lobster and other sea crawfish not frozen,4,Crustaceans,baci,2765,Crustaceans,1553,Crustaceans,1
+30622,"Lobsters (Homarus), not frozen",4,Crustaceans,baci,2765,Crustaceans,1553,Crustaceans,1.5
+30623,Shrimps and prawns,4,Crustaceans,baci,2765,Crustaceans,1553,Crustaceans,1.15
+30624,Crabs,4,Crustaceans,baci,2765,Crustaceans,1553,Crustaceans,2
+30629,"Other, including flours, meals and pellets of crustaceans, fit for human consumption",4,Crustaceans,baci,2765,Crustaceans,1553,Crustaceans,1
+30631,"Spiny lobsters (Panulirus spp.), whole, fresh or chilled",4,Crustaceans,proc,2765,Crustaceans,1553,Crustaceans,1
+30632,"American/European lobsters (Homarus spp.), whole, fresh or chilled",4,Crustaceans,proc,2765,Crustaceans,1553,Crustaceans,1.5
+30633,"Crabs, peeled or not, live, fresh or chilled, nei",4,Crustaceans,proc,2765,Crustaceans,1553,Crustaceans,1.5
+30635,"Cold-water shrimps and prawns Pandalus spp, in shell or not, live, fresh or chilled",4,Crustaceans,proc,2765,Crustaceans,1553,Crustaceans,1.15
+30636,"Shrimps and prawns, live, fresh or chilled, nei",4,Crustaceans,proc,2765,Crustaceans,1553,Crustaceans,1.15
+30639,"Crayfish (freshwater), live, fresh or chilled",4,Crustaceans,proc,2765,Crustaceans,1553,Crustaceans,1.15
+30691,"Rock lobster and other sea crawfish, not frozen",4,Crustaceans,proc,2765,Crustaceans,1553,Crustaceans,1
+30692,"American/European lobsters (Homarus spp.), not frozen",4,Crustaceans,proc,2765,Crustaceans,1553,Crustaceans,1.5
+30693,"Crabs, dried, salted or in brine, smoked, nei",4,Crustaceans,proc,2765,Crustaceans,1553,Crustaceans,2.5
+30694,"Norway lobsters (Nephrops spp.), nei, not frozen",4,Crustaceans,proc,2765,Crustaceans,1553,Crustaceans,1
+30695,"Shrimps and prawns, dried, salted or in brine, smoked nei",4,Crustaceans,proc,2765,Crustaceans,1553,Crustaceans,2
+30699,"Crustaceans nei, dried, salted or in brine, smoked",4,Crustaceans,proc,2765,Crustaceans,1553,Crustaceans,2
+30710,Oysters,5,Molluscs,baci,2767,"Molluscs, Other",1562,Molluscs excl. Cephalopods,1
+30711,"Flat oysters, shucked or not, live, fresh or chilled",5,Molluscs,proc,2767,"Molluscs, Other",1562,Molluscs excl. Cephalopods,2
+30712,"Flat oysters, frozen",5,Molluscs,proc,2767,"Molluscs, Other",1562,Molluscs excl. Cephalopods,1
+30719,"Oysters, dried, salted or in brine, smoked",5,Molluscs,proc,2767,"Molluscs, Other",1562,Molluscs excl. Cephalopods,10
+30721,"Scallops, live, fresh or chilled",5,Molluscs,both,2767,"Molluscs, Other",1562,Molluscs excl. Cephalopods,1
+30722,"Scallops, including queen scallop, frozen",5,Molluscs,proc,2767,"Molluscs, Other",1562,Molluscs excl. Cephalopods,4.5
+30729,"Scallops other than live, fresh or chilled",5,Molluscs,both,2767,"Molluscs, Other",1562,Molluscs excl. Cephalopods,6.22
+30731,"Mussels, shelled or not, live, fresh or chilled",5,Molluscs,both,2767,"Molluscs, Other",1562,Molluscs excl. Cephalopods,2
+30732,"Mussels nei, frozen",5,Molluscs,proc,2767,"Molluscs, Other",1562,Molluscs excl. Cephalopods,4.5
+30739,"Mussels, frozen, dried, salted or in brine",5,Molluscs,both,2767,"Molluscs, Other",1562,Molluscs excl. Cephalopods,4.5
+30741,"Cuttle fish, squid, live, fresh or chilled",5,Molluscs,baci,2766,Cephalopods,1570,Cephalopods,1.34
+30743,"Cuttlefishes (Sepia off., Rossia macrosoma, Sepiola rondeleti), frozen",5,Molluscs,proc,2766,Cephalopods,1570,Cephalopods,1.4
+30749,"Cuttle fish, squid, frozen, dried, salted or in brine",5,Molluscs,both,2766,Cephalopods,1570,Cephalopods,1.5
+30751,"Octopus, live, fresh or chilled",5,Molluscs,baci,2766,Cephalopods,1570,Cephalopods,1.23
+30752,"Octopus, frozen",5,Molluscs,proc,2766,Cephalopods,1570,Cephalopods,1.28
+30759,"Octopus, frozen, dried, salted or in brine",5,Molluscs,both,2766,Cephalopods,1570,Cephalopods,1.4
+30760,"Snails, edible (except sea snails)",5,Molluscs,baci,2767,"Molluscs, Other",1562,Molluscs excl. Cephalopods,1.5
+30771,"Clams, shucked or not, live, fresh or chilled",5,Molluscs,proc,2767,"Molluscs, Other",1562,Molluscs excl. Cephalopods,2
+30772,"Clam meat, frozen",5,Molluscs,proc,2767,"Molluscs, Other",1562,Molluscs excl. Cephalopods,4.5
+30779,"Clams, cockles, arkshells nei, dried, salted or in brine, smoked",5,Molluscs,proc,2767,"Molluscs, Other",1562,Molluscs excl. Cephalopods,4.5
+30781,"Abalones, shucked or not, live,fresh or chilled",5,Molluscs,proc,2767,"Molluscs, Other",1562,Molluscs excl. Cephalopods,2
+30782,"Stromboid conchs, live, fresh or chilled",5,Molluscs,proc,2767,"Molluscs, Other",1562,Molluscs excl. Cephalopods,1
+30783,"Abalone (Haliotis spp.), frozen",5,Molluscs,proc,2767,"Molluscs, Other",1562,Molluscs excl. Cephalopods,4.5
+30784,"Stromboid conchs (Strombus spp), frozen",5,Molluscs,proc,2767,"Molluscs, Other",1562,Molluscs excl. Cephalopods,4.5
+30787,"Abalones, dried, salted or in brine, smoked",5,Molluscs,proc,2767,"Molluscs, Other",1562,Molluscs excl. Cephalopods,4.5
+30791,"Aquatic invertebrates nes, fresh or chilled, live",11,Aquatic invertebrates nes,both,2998,Aquatic invertebrates nes,1998,Aquatic invertebrates nes,1
+30792,"Univalves nei, frozen",5,Molluscs,proc,2767,"Molluscs, Other",1562,Molluscs excl. Cephalopods,4.5
+30799,"Aquatic invertebrates nes, frozen or preserved",11,Aquatic invertebrates nes,both,2998,Aquatic invertebrates nes,1998,Aquatic invertebrates nes,1.5
+30811,"Sea-cucumber, live, fresh or chilled",7,Miscellaneous aquatic animals,proc,2769,"Aquatic Animals, Others",1587,Aquatic Animals NEI,1
+30812,"Sea-cucumber, frozen",7,Miscellaneous aquatic animals,proc,2769,"Aquatic Animals, Others",1587,Aquatic Animals NEI,1.5
+30819,"Sea-cucumber, dried, salted or in brine, smoked",7,Miscellaneous aquatic animals,proc,2769,"Aquatic Animals, Others",1587,Aquatic Animals NEI,2
+30821,"Sea-urchin, live, fresh or chilled",7,Miscellaneous aquatic animals,proc,2769,"Aquatic Animals, Others",1587,Aquatic Animals NEI,1
+30822,"Sea-urchin, frozen",7,Miscellaneous aquatic animals,proc,2769,"Aquatic Animals, Others",1587,Aquatic Animals NEI,1.5
+30829,"Sea-urchin, dried, salted or in brine; fermented, smoked",7,Miscellaneous aquatic animals,proc,2769,"Aquatic Animals, Others",1587,Aquatic Animals NEI,2
+30830,"Jellyfish, live, fresh or chilled",7,Miscellaneous aquatic animals,proc,2769,"Aquatic Animals, Others",1587,Aquatic Animals NEI,1
+30890,"Other aquatic invertebrates, live, fresh or chilled",11,Aquatic invertebrates nes,proc,2998,Aquatic invertebrates nes,1998,Aquatic invertebrates nes,1
+51191,"Animal products; of fish or crustaceans, molluscs or other aquatic invertebrates; dead animals of chapter 03, unfit for human consumption",12,Seafood nes,baci,2999,Seafood nes,1999,Seafood nes,1
+150410,"Oils of fish; fish-liver oils and their fractions, whether or not refined, but not chemically modified",10,Fish nes,both,2997,Fish nes,1997,Fish nes,1
+150420,"Fats and oils and their fractions; of fish, (excluding liver-oils)",10,Fish nes,both,2997,Fish nes,1997,Fish nes,1
+160411,"Fish preparations; salmon, prepared or preserved, whole or in pieces (but not minced)",2,Diadromous fishes,both,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,2.65
+160412,"Fish preparations; herrings, prepared or preserved, whole or in pieces (but not minced)",3,Marine fishes,both,2763,Pelagic Fish,1527,Pelagic Marine Fish,2.65
+160413,"Fish preparations; sardines, sardinella and brisling or sprats, prepared or preserved, whole or in pieces (but not minced)",3,Marine fishes,both,2763,Pelagic Fish,1527,Pelagic Marine Fish,2.65
+160414,"Fish preparations; tunas, skipjack and Atlantic bonito (sarda spp.), prepared or preserved, whole or in pieces (but not minced)",3,Marine fishes,both,2763,Pelagic Fish,1527,Pelagic Marine Fish,2.65
+160415,"Fish preparations; mackerel, prepared or preserved, whole or in pieces (but not minced)",3,Marine fishes,both,2763,Pelagic Fish,1527,Pelagic Marine Fish,2.65
+160416,"Fish preparations; anchovies, prepared or preserved, whole or in pieces (but not minced)",3,Marine fishes,both,2763,Pelagic Fish,1527,Pelagic Marine Fish,2.65
+160417,"Fish preparations; eels, prepared or preserved, whole or in pieces (but not minced)",2,Diadromous fishes,proc,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,2.65
+160419,"Fish preparations; fish prepared or preserved, whole or in pieces (but not minced), n.e.c. in heading no. 1604",10,Fish nes,both,2997,Fish nes,1997,Fish nes,2.65
+160420,"Fish preparations; fish minced or in forms n.e.c. in heading no. 1604, prepared or preserved",10,Fish nes,both,2997,Fish nes,1997,Fish nes,2.65
+160430,Fish preparations; caviar and substitutes,10,Fish nes,baci,2997,Fish nes,1997,Fish nes,2
+160431,Fish preparations; caviar,2,Diadromous fishes,proc,2761,Freshwater Fish,1501,Freshwater and Diadromous Fish,3
+160432,"Fish preparations; caviar substitutes, prepared from fish eggs",10,Fish nes,proc,2997,Fish nes,1997,Fish nes,1
+160510,"Crab, prepared or preserved",4,Crustaceans,both,2765,Crustaceans,1553,Crustaceans,2.5
+160520,"Shrimps and prawns, prepared or preserved",4,Crustaceans,baci,2765,Crustaceans,1553,Crustaceans,2
+160521,"Shrimps and prawns, prep. or pres., not in airtight containers",4,Crustaceans,proc,2765,Crustaceans,1553,Crustaceans,2
+160529,"Shrimps, peeled, cooked, prep. or pres.",4,Crustaceans,proc,2765,Crustaceans,1553,Crustaceans,2
+160530,"Lobster, prepared or preserved",4,Crustaceans,both,2765,Crustaceans,1553,Crustaceans,2
+160540,"Crustaceans nes, prepared or preserved",4,Crustaceans,both,2765,Crustaceans,1553,Crustaceans,2
+160551,"Oyster meat, prepared or preserved, nei",5,Molluscs,proc,2767,"Molluscs, Other",1562,Molluscs excl. Cephalopods,4.5
+160552,"Scallop meat, prepared or preserved",5,Molluscs,proc,2767,"Molluscs, Other",1562,Molluscs excl. Cephalopods,4.5
+160553,"Mussel meat, prepared or preserved, nei",5,Molluscs,proc,2767,"Molluscs, Other",1562,Molluscs excl. Cephalopods,4.5
+160554,"Mollusc preparations; cuttle fish and squid, prepared or preserved",5,Molluscs,proc,2766,Cephalopods,1570,Cephalopods,1.5
+160555,"Octopus, prepared or preserved",5,Molluscs,proc,2766,Cephalopods,1570,Cephalopods,1.5
+160556,"Clams, prep. or pres., whether or not in airtight containers",5,Molluscs,proc,2767,"Molluscs, Other",1562,Molluscs excl. Cephalopods,4.5
+160557,"Abalone meat, prepared or preserved",5,Molluscs,proc,2767,"Molluscs, Other",1562,Molluscs excl. Cephalopods,4.5
+160559,"Molluscs and other aq. invertebrates, prep. or pres., nei",5,Molluscs,proc,2767,"Molluscs, Other",1562,Molluscs excl. Cephalopods,4.5
+160561,"Sea-cucumber, prepared or preserved",7,Miscellaneous aquatic animals,proc,2769,"Aquatic Animals, Others",1587,Aquatic Animals NEI,1.5
+160562,"Sea-urchin, prepared or preserved",7,Miscellaneous aquatic animals,proc,2769,"Aquatic Animals, Others",1587,Aquatic Animals NEI,1.5
+160563,Jellyfish preparations,7,Miscellaneous aquatic animals,proc,2769,"Aquatic Animals, Others",1587,Aquatic Animals NEI,1.5
+160569,"Other aquatic invertebrates, prepared or preserved, nei",11,Aquatic invertebrates nes,proc,2998,Aquatic invertebrates nes,1998,Aquatic invertebrates nes,1.5
+160590,"Molluscs and shellfish nes, prepared or preserved",5,Molluscs,baci,2767,"Molluscs, Other",1562,Molluscs excl. Cephalopods,4.5
+210390,"Fish, sauce",10,Fish nes,proc,2997,Fish nes,1997,Fish nes,1
+230120,"Flours, meals and pellets; of fish or of crustaceans, molluscs or other aquatic invertebrates",12,Seafood nes,both,2999,Seafood nes,1999,Seafood nes,1
+230990,Solubles from fish,10,Fish nes,proc,2997,Fish nes,1997,Fish nes,1

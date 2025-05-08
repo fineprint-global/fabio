@@ -1,5 +1,6 @@
 
 library("data.table")
+library("tidyverse")
 source("R/01_tidy_functions.R")
 source("R/00_system_variables.R")
 
@@ -80,13 +81,20 @@ eth <- dt_rename(eth, drop = FALSE,
 
 cat("\nAdding fishery trade data.\n")
 
-fish <- baci[grep("^30[1-5]", category), ]
-fish[, `:=`(item = "Fish, Seafood", item_code = 2960, category = NULL)]
+fish <- baci[grep("^30[1-9]", category), ] %>% 
+  select(-category) %>% 
+  filter(unit=="tonnes")
+
+# match with tcfs and convert into fresh fish equivalents
+tcf <- read.csv("inst/tcf_fish.csv")
+fish <- merge(fish, tcf, by.x="item_code", by.y="hs_code", all.x = TRUE)
+fish[, value := value * tcf]
+fish[, `:=`(item = category, category = NULL, tcf = NULL, name = NULL)]
+fish[, `:=`(item_code = code, code = NULL)]
 
 fish <- dt_rename(fish, drop = FALSE,
   rename = c("exporter" = "from", "exporter_code" = "from_code",
     "importer" = "to", "importer_code" = "to_code"))
-
 
 
 # Merge --------------------------------------------------------------------
@@ -104,8 +112,8 @@ btd <- rbindlist(list(btd, eth, fish), use.names = TRUE) #fore
 btd <- btd[item_code %in% items$item_code & year %in% years, ]
 
 # Aggregate values
-btd <- btd[, list(value = na_sum(value)), by = c("item_code", "item",
-  "from", "from_code", "to", "to_code", "year", "unit")]
+btd <- btd[, .(value = na_sum(value)), 
+           by = setdiff(names(fish), "value")]
 
 # Add commodity codes
 btd[, comm_code := items$comm_code[match(btd$item_code, items$item_code)]]

@@ -1,0 +1,54 @@
+isscaap_division_code,isscaap_division_name,isscaap_group_code,isscaap_group_name
+1,Freshwater fishes,11,"Carps, barbels and other cyprinids"
+1,Freshwater fishes,12,Tilapias and other cichlids
+1,Freshwater fishes,13,Miscellaneous freshwater fishes
+2,Diadromous fishes,21,"Sturgeons, paddlefishes"
+2,Diadromous fishes,22,River eels
+2,Diadromous fishes,23,"Salmons, trouts, smelts"
+2,Diadromous fishes,24,Shads
+2,Diadromous fishes,25,Miscellaneous diadromous fishes
+3,Marine fishes,31,"Flounders, halibuts, soles"
+3,Marine fishes,32,"Cods, hakes, haddocks"
+3,Marine fishes,33,Miscellaneous coastal fishes
+3,Marine fishes,34,Miscellaneous demersal fishes
+3,Marine fishes,35,"Herrings, sardines, anchovies"
+3,Marine fishes,36,"Tunas, bonitos, billfishes"
+3,Marine fishes,37,Miscellaneous pelagic fishes
+3,Marine fishes,38,"Sharks, rays, chimaeras"
+3,Marine fishes,39,Marine fishes not identified
+4,Crustaceans,41,Freshwater crustaceans
+4,Crustaceans,42,"Crabs, sea-spiders"
+4,Crustaceans,43,"Lobsters, spiny-rock lobsters"
+4,Crustaceans,44,"King crabs, squat-lobsters"
+4,Crustaceans,45,"Shrimps, prawns"
+4,Crustaceans,46,"Krill, planktonic crustaceans"
+4,Crustaceans,47,Miscellaneous marine crustaceans
+5,Molluscs,51,Freshwater molluscs
+5,Molluscs,52,"Abalones, winkles, conchs"
+5,Molluscs,53,Oysters
+5,Molluscs,54,Mussels
+5,Molluscs,55,"Scallops, pectens"
+5,Molluscs,56,"Clams, cockles, arkshells"
+5,Molluscs,57,"Squids, cuttlefishes, octopuses"
+5,Molluscs,58,Miscellaneous marine molluscs
+6,"Whales, seals and other aquatic mammals",61,"Blue-whales, fin-whales"
+6,"Whales, seals and other aquatic mammals",62,"Sperm-whales, pilot-whales"
+6,"Whales, seals and other aquatic mammals",63,"Eared seals, hair seals, walruses"
+6,"Whales, seals and other aquatic mammals",64,Miscellaneous aquatic mammals
+7,Miscellaneous aquatic animals,71,Frogs and other amphibians
+7,Miscellaneous aquatic animals,72,Turtles
+7,Miscellaneous aquatic animals,73,Crocodiles and alligators
+7,Miscellaneous aquatic animals,74,Sea-squirts and other tunicates
+7,Miscellaneous aquatic animals,75,Horseshoe crabs and other arachnoids
+7,Miscellaneous aquatic animals,76,Sea-urchins and other echinoderms
+7,Miscellaneous aquatic animals,77,Miscellaneous aquatic invertebrates
+8,Miscellaneous aquatic animal products,81,"Pearls, mother-of-pearl, shells"
+8,Miscellaneous aquatic animal products,82,Corals
+8,Miscellaneous aquatic animal products,83,Sponges
+9,Aquatic plants,91,Brown seaweeds
+9,Aquatic plants,92,Red seaweeds
+9,Aquatic plants,93,Green seaweeds
+9,Aquatic plants,94,Miscellaneous aquatic plants
+10,Fish nes,100,Fish nes
+11,Aquatic invertebrates nes,110,Aquatic invertebrates nes
+12,Seafood nes,120,Seafood nes

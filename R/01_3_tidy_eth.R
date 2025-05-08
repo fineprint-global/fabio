@@ -52,7 +52,7 @@ eth_iea <- dt_filter(eth_iea, !is.na(area))
 
 eth_iea <- melt(eth_iea, id.vars = c("area", "area_code", "Time"),
   variable.name = "product", value.name = "value_iea", variable.factor = FALSE)
-eth_iea <- rename(eth_iea, year = "Time")
+eth_iea <- dplyr::rename(eth_iea, year = "Time")
 eth_iea[, value_iea := as.numeric(value_iea)]
 
 cat("Converting from ktoe to tonnes",

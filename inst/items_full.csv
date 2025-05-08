@@ -121,4 +121,21 @@ c119,2737,"Fats, Animals, Raw",tonnes,Livestock products,0.01,animals,Animal fat
 c120,2748,Hides and skins,tonnes,Livestock products,0,animals,"Hides, skins, wool"
 c121,2745,Honey,tonnes,Livestock products,0.17,animals,Honey
 c122,2747,Silk,tonnes,Livestock products,0,animals,"Hides, skins, wool"
-c123,2960,"Fish, Seafood",tonnes,Fish,0.7,animals,Fish
+c123,3001,"Freshwater fishes, capture",tonnes,Fish and seafood,0.7,Fish and seafood,"Fish and seafood, capture"
+c124,3002,"Diadromous fishes, capture",tonnes,Fish and seafood,0.7,Fish and seafood,"Fish and seafood, capture"
+c125,3003,"Marine fishes, capture",tonnes,Fish and seafood,0.7,Fish and seafood,"Fish and seafood, capture"
+c126,3004,"Crustaceans, capture",tonnes,Fish and seafood,0.7,Fish and seafood,"Fish and seafood, capture"
+c127,3005,"Molluscs, capture",tonnes,Fish and seafood,0.7,Fish and seafood,"Fish and seafood, capture"
+c128,3007,"Miscellaneous aquatic animals, capture",tonnes,Fish and seafood,0.7,Fish and seafood,"Fish and seafood, capture"
+c129,3101,"Freshwater fishes, aquaculture",tonnes,Fish and seafood,0.7,Fish and seafood,"Fish and seafood, aquaculture"
+c130,3102,"Diadromous fishes, aquaculture",tonnes,Fish and seafood,0.7,Fish and seafood,"Fish and seafood, aquaculture"
+c131,3103,"Marine fishes, aquaculture",tonnes,Fish and seafood,0.7,Fish and seafood,"Fish and seafood, aquaculture"
+c132,3104,"Crustaceans, aquaculture",tonnes,Fish and seafood,0.7,Fish and seafood,"Fish and seafood, aquaculture"
+c133,3105,"Molluscs, aquaculture",tonnes,Fish and seafood,0.7,Fish and seafood,"Fish and seafood, aquaculture"
+c134,3107,"Miscellaneous aquatic animals, aquaculture",tonnes,Fish and seafood,0.7,Fish and seafood,"Fish and seafood, aquaculture"
+c135,3201,Freshwater fishes,tonnes,Fish and seafood,0.7,Fish and seafood,Fish and seafood
+c136,3202,Diadromous fishes,tonnes,Fish and seafood,0.7,Fish and seafood,Fish and seafood
+c137,3203,Marine fishes,tonnes,Fish and seafood,0.7,Fish and seafood,Fish and seafood
+c138,3204,Crustaceans,tonnes,Fish and seafood,0.7,Fish and seafood,Fish and seafood
+c139,3205,Molluscs,tonnes,Fish and seafood,0.7,Fish and seafood,Fish and seafood
+c140,3207,Miscellaneous aquatic animals,tonnes,Fish and seafood,0.7,Fish and seafood,Fish and seafood
