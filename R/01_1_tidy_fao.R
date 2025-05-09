@@ -840,16 +840,12 @@ tcf[,item_sua := sua_conc$sua[match(item_tcf, sua_conc$tcf)]]
 
 # get unique item/variable/unit combinations
 unique_combinations <- unique(tcf[, .(item_sua, variable, unit)])
-unique_combinations <- unique_combinations[!is.na(item_sua)]
-unique_countries <- unique(country_conc_sua_tcf[, .(country_sua)])
+unique_combinations <- unique_combinations[!is.na(item_sua)][, join_key := 1]
+unique_countries <- unique(country_conc_sua_tcf[, .(country_sua)][, join_key := 1])
 
-# Repeat the combinations of item_sua, variable, and unit for all countries and years
-tcf_full <- data.table(
-  country_sua = rep(unique_countries$country_sua, each = length(years) * nrow(unique_combinations)),
-  item_sua = rep(unique_combinations$item_sua, times = length(years) * nrow(unique_countries)),
-  variable = rep(unique_combinations$variable, times = length(years) * nrow(unique_countries)),
-  unit = rep(unique_combinations$unit, times = length(years) * nrow(unique_countries))
-)
+# Repeat the combinations of item_sua, variable, and unit for all countries
+tcf_full <- merge(unique_combinations, unique_countries, by = "join_key", allow.cartesian = TRUE)
+tcf_full[, join_key := NULL]
 
 # add available tcf data to full table
 tcf_full <- merge(tcf_full, tcf[ ,. (country_sua, item_sua, unit, variable, value)], 
