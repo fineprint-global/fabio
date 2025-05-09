@@ -618,13 +618,14 @@ live[unit %in% c("Head", "An"), `:=`(unit = "head")]
 live[unit %in% c("1000 US$", "1000 USD"), `:=`(value = value * 1000, unit = "usd")]
 live[unit == "t", `:=`(unit = "tonnes")]
 
-# Gap fill cases where there are animal stocks but no production
-live <- readRDS("data/tidy/live_tidy.rds")
-input_path <- input_path <- "/mnt/nfs_fineprint/tmp/fabio/v1.2/current/"
-regions <- fread(file=paste0(input_path,"regions.csv"))
 
-live <- copy(live)
-live[, region := regions$region[match(area, regions$area)]]
+# gap fill cases where there are stocks and/or slaughtered animals reported but 
+# no production
+# live <- readRDS("data/tidy/live_tidy.rds")
+input_path <- input_path <- "/mnt/nfs_fineprint/tmp/fabio/v1.2/current/"
+
+
+live[, region := regions$region[match(area, regions$name)]]
 
 # Define the groupings for animals to later determine if there are stocks but no production
 item_to_group <- list(
@@ -642,32 +643,102 @@ item_to_group <- list(
   "Rodents" = c("Rodents, other", "Meat, other rodents")
 )
 
-# Convert item_to_group into a lookup table
-item_group_dt <- data.table::rbindlist(
-  lapply(names(item_to_group), function(group) {
-    data.table::data.table(item = item_to_group[[group]], group = group)
-  })
-)
+# Assign groups to each item (animal)
+live[, group := fifelse(
+  item %in% unlist(item_to_group["Cattle"]), "Cattle",
+  fifelse(
+    item %in% unlist(item_to_group["Buffaloes"]), "Buffaloes",
+    fifelse(
+      item %in% unlist(item_to_group["Sheep"]), "Sheep",
+      fifelse(
+        item %in% unlist(item_to_group["Goats"]), "Goats",
+        fifelse(
+          item %in% unlist(item_to_group["Pigs"]), "Pigs",
+          fifelse(
+            item %in% unlist(item_to_group["Poultry"]), "Poultry",
+            fifelse(
+              item %in% unlist(item_to_group["Horses"]), "Horses",
+              fifelse(
+                item %in% unlist(item_to_group["Asses"]), "Asses",
+                fifelse(
+                  item %in% unlist(item_to_group["Mules"]), "Mules",
+                  fifelse(
+                    item %in% unlist(item_to_group["Camels"]), "Camels",
+                    fifelse(
+                      item %in% unlist(item_to_group["Rabbits"]), "Rabbits",
+                      fifelse(
+                        item %in% unlist(item_to_group["Rodents"]), "Rodents",
+                        NA_character_
+                      )
+                    )
+                  )
+                )
+              )
+            )
+          )
+        )
+      )
+    )
+  )
+)]
 
-# Join group info to your 'live' data by 'item'
-live <- merge(live, item_group_dt, by = "item", all.x = TRUE)
+# create table for meat items and live animals to convert slaughtered animals/stocks to meat using averages
+conv_meat <-  live[, .(area, region, year, element, unit, item, group, value)]
 
-# find regional conversions from stocks to production for meat items that match live stock entries
-conv_meat <-  live[, .(area, region, year, element, item, group, value)]
-conv_meat <- conv_meat[element %in% c("Stocks", "Production") & 
-                         item %in% c("Cattle", "Meat, cattle", "Buffaloes", "Meat, buffalo", "Sheep", "Meat, sheep", 
-                                     "Goats", "Meat, goat", "Pigs", "Meat, pig", "Horses", 
-                                     "Meat, horse", "Asses", "Meat, ass", "Mules", "Meat, mule", "Camels", 
-                                     "Meat, camel", "Rabbits and hares", "Meat, rabbit", "Rodents, other", 
-                                     "Meat, other rodents", "Camelids, other", "Meat, other camelids" 
-                                     , "Meat, Poultry", "Poultry Birds")]
-conv_meat <- dcast(conv_meat, region + year + group +area ~ element, value.var = "value", fun.aggregate = sum)
+# only include meat items
+conv_meat <- conv_meat[item %in% c("Cattle", "Meat, cattle", "Buffaloes", "Meat, buffalo", "Sheep", "Meat, sheep", 
+                                   "Goats", "Meat, goat", "Pigs", "Meat, pig", "Horses", 
+                                   "Meat, horse", "Asses", "Meat, ass", "Mules", "Meat, mule", "Camels", 
+                                   "Meat, camel", "Rabbits and hares", "Meat, rabbit", "Rodents, other", 
+                                   "Meat, other rodents", "Camelids, other", "Meat, other camelids" 
+                                   , "Meat, Poultry", "Poultry Birds")]
+# check elements and their units
+elements <- unique(conv_meat[,.(element, unit)])
+
+# filter necessary elements
+conv_meat <- conv_meat[element %in% c("Stocks", "Production", "Producing Animals/Slaughtered"
+                                      ,"Yield/Carcass Weight") & (unit == "tonnes" |
+                                                                    unit == "head" | unit == "100 g/An")]
+
+# create wide table
+conv_meat <- dcast(conv_meat, region + year + group +area ~ element, value.var = "value")
+
+#find average yield (100g/an) to calculate production (tonnes) from number of slaughtered animals
+# -> for data points, slaughtered animals are reported but yield and production are missing in some years
+
+# take average yield from other years in the same country where available
+conv_meat[, average_yield := mean(`Yield/Carcass Weight`, na.rm = TRUE), by = .(
+  area, group)]
+
+#take regional average yields where country-specific yields are not available
+conv_meat[is.na(average_yield) | is.nan(average_yield), 
+          average_yield := mean(`Yield/Carcass Weight`, na.rm = TRUE), 
+          by = .(region, group)]
+
+# impute production by multiplying average production with slaughtered animals where possible
+conv_meat[`Producing Animals/Slaughtered` > 0 & !is.na(`Producing Animals/Slaughtered`) &
+            (Production == 0 | is.na(Production)),
+          Production := `Producing Animals/Slaughtered` * average_yield / 10000]
+conv_meat[, average_yield := NULL]
+
+# for cases where there are no slaughtered animals reported but only stocks, 
+# find regional average conversion factors from animal stocks to meat production
 conv_meat[, conversion := Production / Stocks]
-conv_meat[conversion == 0 | !is.finite(conversion),] <- NA
-conv_meat[, conversion := mean(conversion, na.rm = TRUE), by = .(region, year, group)] #regional average
-conv_meat[is.na(conversion), conversion := mean(conversion, na.rm = TRUE), by = .(year, group)] #global average
-conv_meat <- conv_meat[Stocks > 0 & !is.na(Stocks) & (Production == 0 | is.na(Production)),][
-  ,Production := Stocks * conversion]
+conv_meat[conversion == 0 | !is.finite(conversion), conversion := NA] 
+
+# average by region 
+conv_meat[, avg_conversion := mean(conversion, na.rm = TRUE), by = .(region, year, group)] 
+conv_meat[is.nan(avg_conversion), avg_conversion := NA]
+
+#average globally where no regional average is available
+conv_meat[, global_conversion := mean(conversion, na.rm = TRUE), by = .(year, group)]
+conv_meat[is.na(avg_conversion), avg_conversion := global_conversion][,
+                                                                      `:=` (global_conversion = NULL, conversion = NULL)] 
+
+
+# apply conversion factor to production values, where stocks are positive and production is 0
+conv_meat <- conv_meat[Stocks > 0 & !is.na(Stocks) & (Production == 0 | is.na(Production)),
+                       Production := Stocks * avg_conversion]
 
 
 #match meat items to rows in conv_meat
@@ -685,9 +756,8 @@ live[!is.na(Production) & element == "Production", value := Production ]
 live[, Production := NULL]
 
 # do the same for milk -> easier here, because of milk animal columns
-conv_milk <- live[element %in% c("Milk Animals", "Production") & 
-                    item %in% c("Milk, whole fresh camel", "Milk, whole fresh buffalo",                   
-                                "Milk, whole fresh cow", "Milk, whole fresh goat", "Milk, whole fresh sheep")]
+conv_milk <-live[item %in% c("Milk, whole fresh camel", "Milk, whole fresh buffalo",                   
+                             "Milk, whole fresh cow", "Milk, whole fresh goat", "Milk, whole fresh sheep")]
 conv_milk <- dcast(conv_milk, region + area + year + group ~ element, value.var = "value")
 conv_milk[, conversion := Production / `Milk Animals`]
 conv_milk[!is.finite(conversion) | conversion == 0,] <- NA
@@ -701,10 +771,14 @@ live <- merge(live, conv_milk[, .(area, year, group, Production)],
               by = c("area", "year", "group"), all.x = TRUE)
 live <- live[!is.na(Production) & element == "Production", value := Production ]
 live[, `:=`(Production = NULL, group =NULL, region = NULL)]
+setcolorder(live, c("area_code", "area", "element", "year", "unit", "item_code",
+                    "item","value"))
+
 
 # Store
 saveRDS(live, "data/tidy/live_tidy.rds")
 rm(live, live_conc, conv_meat, conv_milk, item_conc, item_to_group)
+
 
 
 # Prices -------------------------------------------------------------------
@@ -734,7 +808,7 @@ rm(prices, crop_conc)
 # Technical conversion factors -------------------------------------------------------------------
 
 cat("\nTidying tcfs.\n")
-tcf <- fread("./inst/tcf_rates.csv") 
+tcf <- fread("inst/tcf_rates_sua.csv") 
 
 # filter out unneeded items and columns 
 tcf <- tcf[!variable %in% c("seeding rates", "hatching eggs", "waste")]
@@ -772,7 +846,6 @@ unique_countries <- unique(country_conc_sua_tcf[, .(country_sua)])
 # Repeat the combinations of item_sua, variable, and unit for all countries and years
 tcf_full <- data.table(
   country_sua = rep(unique_countries$country_sua, each = length(years) * nrow(unique_combinations)),
-  year = rep(rep(years, each = nrow(unique_combinations)), times = nrow(unique_countries)),
   item_sua = rep(unique_combinations$item_sua, times = length(years) * nrow(unique_countries)),
   variable = rep(unique_combinations$variable, times = length(years) * nrow(unique_countries)),
   unit = rep(unique_combinations$unit, times = length(years) * nrow(unique_countries))
@@ -787,7 +860,7 @@ tcf_full[] <- lapply(tcf_full, function(x) {
 })
 
 #store
-saveRDS(tcf_full, "data/tidy/tcf_tidy.rds")
+saveRDS(tcf_full, "data/tidy/tcf_sua_tidy.rds")
 
 
 # Fish --------------------------------------------------------------------
