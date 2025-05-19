@@ -168,7 +168,7 @@ conc_gleam <- fread("inst/conc_gleam.csv", header = TRUE)
 feed_req_g <- merge.data.table(feed_req_g, conc_gleam, by="animal", all=TRUE, allow.cartesian = TRUE)
 setcolorder(feed_req_g, c("iso3c", "area", "animal", "proc", "proc_code"))
 
-# 2.2 Split dm intake for dairy and meat animals using bouwman
+# Split dm intake for dairy and meat animals using bouwman
 # We use the Bouwman ratios between meat and dairy herds to determine dry matter intake 
 # per feedtype, country and process. We determine the Bouwman ratios for the columns: 
 # a) crops, b) grass, c) residue and d) fodder 
@@ -427,6 +427,7 @@ cbs[item_code == 2001, `:=`(
 cbs[, grazing := NULL]
 
 # Clean up
-# rm(feed, grazing, feed_req, feed_sup, live, feed_req_b, feed_req_g, feed_req_k, 
-#    feed_req_g_all_years, conc_b, conc_gleam, conv_b, conv_k, change_rates, poultry)
+rm(avg_dairy, bouwman, temp, feed, feed_category, feed_category_lookup, feed_category_b, feed_category_g,
+   grazing, feed_req, feed_sup, live, feed_req_b, feed_req_g, feed_req_k,
+   feed_req_g_all_years, conc_b, conc_gleam, conv_b, conv_k, change_rates, poultry)
 

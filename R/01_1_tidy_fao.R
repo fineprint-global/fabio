@@ -216,12 +216,21 @@ saveRDS(cbs, "data/tidy/cbs_tidy.rds")
 cat("\nTidying SUA.\n")
 
 sua <- readRDS("input/fao/sua.rds")
+items_sua <- fread("inst/sua/items_sua.csv")
+
 sua <- dt_rename(sua, rename = rename)
 
 # keep only relevant elements
 sua <- sua[element %in% c("Production", "Import quantity", "Export quantity",
-                            "Processed", "Seed", "Feed", "Food supply quantity (tonnes)",
-                            "Other uses (non-food)", "Loss", "Residuals", "Stock Variation", "Tourist consumption"),]
+                          "Processed", "Seed", "Feed", "Food supply quantity (tonnes)",
+                          "Other uses (non-food)", "Loss", "Residuals", "Stock Variation", "Tourist consumption"),]
+
+# Fix encoding of item strings 
+sua[, item := iconv(item, from = "latin1", to = "UTF-8")]
+
+# keep only relevant items
+sua <- sua[item %in% items_sua$item]
+
 
 # Country / Area adjustments
 sua <- area_kick(sua, code = 351, pattern = "China", groups = TRUE)
@@ -281,8 +290,7 @@ setnames(sua, "item_code", "item_code_fcl")
 # sua <- sua[item %in% c("Oil palm fruit", "Palm kernels"),] # "Molasses"
 # sua[, item_code := as.numeric(item_code)]
 
-# fix readability -> maté leaves are not UTF-8 encoded
-sua[, item := iconv(item, from = "latin1", to = "UTF-8")]
+
 
 # Store
 saveRDS(sua, "data/tidy/sua_tidy.rds")
