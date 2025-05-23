@@ -335,6 +335,15 @@ cat("Applying TCF to trade data, where `unit == 'tonnes'` applies.\n")
 btd[unit != "tonnes", tcf := 1]
 btd <- tcf_apply(btd, na.rm = FALSE, filler = 1, fun = `/`)
 
+# Recode "1000 An" to "head"
+btd[unit == "1000 An", `:=`(value = value * 1000, unit = "Head")]
+btd[unit == "An", `:=`(unit = "head")]
+# Recode "1000 USD" to "usd"
+btd[unit == "1000 USD", `:=`(value = value * 1000, unit = "usd")]
+
+#store full version for sua
+saveRDS(btd, "data/tidy/btd_sua_tidy.rds")
+
 # Aggregate to CBS items
 btd_conc <- fread("inst/conc_btd-cbs.csv")
 
@@ -348,15 +357,9 @@ btd <- btd[, list(value = na_sum(value)), by = .(reporter_code, reporter,
                                                  partner_code, partner, item_code, item, year, imex, unit)]
 cat("Aggregation from", length(item_match), "to", nrow(btd), "observations.\n")
 
-# Recode "1000 An" to "head"
-btd[unit == "1000 An", `:=`(value = value * 1000, unit = "Head")]
-btd[unit == "An", `:=`(unit = "head")]
-# Recode "1000 USD" to "usd"
-btd[unit == "1000 USD", `:=`(value = value * 1000, unit = "usd")]
-
 # Store
 saveRDS(btd, "data/tidy/btd_tidy.rds")
-rm(btd, btd_conc, item_match)
+rm(btd, btd_full, btd_conc, item_match)
 
 
 # # Forestry ----------------------------------------------------------------
@@ -551,10 +554,14 @@ crop_prim <- dt_filter(crop_prim, element != "Yield")
 
 # Only keep fodder crops
 crop_prim <- merge(crop_prim, crop_conc,
-                   by.x = "item_code", by.y = "crop_item_code", all.x = TRUE)
+                   by.x = "item", by.y = "crop_item", all.x = TRUE) #OH -> merged by item not code, otherwise it does not run
 # Shouldn't we save crop_prim before we filter fodder crops? Or don't we need it for any other purposes?
 crop_prim <- dt_filter(crop_prim, cbs_item_code == 2000)
 crop_prim[, item := crop_item]
+
+# OH
+crop_prim[, crop_item := NA]
+crop_prim[, crop_item := item]
 
 # inter/extrapolate:
 # get relevant fodder crops and elements for each country
@@ -580,8 +587,8 @@ crop_prim <- dt_rename(crop_prim, drop = FALSE,
                        rename = c("cbs_item_code" = "item_code", "cbs_item" = "item"))
 crop_prim <- dt_filter(crop_prim, value >= 0)
 
-#
 # Bind all parts & store
+saveRDS(crop_prim, "data/tidy/fodder_tidy.rds") #OH
 saveRDS(rbind(crop, crop_prim), "data/tidy/crop_tidy.rds")
 rm(crop, crop_prim, crop_conc, cbs)
 
