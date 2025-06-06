@@ -313,17 +313,6 @@ for(col in c("reporter_code", "partner_code")) {
   btd <- area_fix(btd, regions, col = col)
 }
 
-# Cut down on the size / remove items not used
-btd <- dt_filter(btd, !item_code %in% c("Waters,ice etc" = 631,
-                                        "Cotton waste" = 769, "Vitamins" = 853, "Hair, goat, coarse" = 1031,
-                                        "Beehives" = 1181, "Beeswax" = 1183, "Hair, fine" = 1218,
-                                        "Crude materials" = 1293, "Waxes vegetable" = 1296,
-                                        "Hides, horse, dry salted" = 1104,
-                                        "Hides, camel, wet salted" = 1134,
-                                        "Hides and skins nes, fresh" =	1213,
-                                        "Hides nes" =	1216
-))
-
 btd <- dt_filter(btd, value >= 0)
 
 btd[, imex := factor(gsub("^(Import|Export) (.*)$", "\\1", element))]
@@ -341,6 +330,21 @@ btd[unit == "An", `:=`(unit = "head")]
 # Recode "1000 USD" to "usd"
 btd[unit == "1000 USD", `:=`(value = value * 1000, unit = "usd")]
 
+# Change from reporting & partner country to receiving & supplying country
+btd[, `:=`(from = ifelse(imex == "Import", partner, reporter),
+           from_code = ifelse(imex == "Import", partner_code, reporter_code),
+           to = ifelse(imex == "Import", reporter, partner),
+           to_code = ifelse(imex == "Import", reporter_code, partner_code),
+           reporter = NULL, reporter_code = NULL,
+           partner = NULL, partner_code = NULL)]
+
+# Give preference to reported export flows over import flows
+btd <- flow_pref(btd, pref = "Export")
+btd[, imex := NULL]
+
+# Exclude intra-regional trade flows
+btd <- dt_filter(btd, from_code != to_code)
+
 #store full version for sua
 saveRDS(btd, "data/tidy/btd_sua_tidy.rds")
 
@@ -353,8 +357,8 @@ btd[, `:=`(item_code = btd_conc$cbs_item_code[item_match],
            item = btd_conc$cbs_item[item_match])]
 # remove items not included in btd_conc (mainly food wastes and by-products for feed)
 btd <- btd[!is.na(item_code)]
-btd <- btd[, list(value = na_sum(value)), by = .(reporter_code, reporter,
-                                                 partner_code, partner, item_code, item, year, imex, unit)]
+btd <- btd[, list(value = na_sum(value)), by = .(from_code, from,
+                                                 to_code, to, item_code, item, year, element, unit)]
 cat("Aggregation from", length(item_match), "to", nrow(btd), "observations.\n")
 
 # Store
@@ -449,9 +453,11 @@ rm(btd, btd_full, btd_conc, item_match)
 # Crops -------------------------------------------------------------------
 
 # NOTE: crop and livestock production / trade are no longer reported separately, but in joint datasets
-# nevertheless. the distinction between crop and livestock is kept in the code, splitting the datasets in the beginning
+# for CBS: the distinction between crop and livestock is kept in the code, splitting the datasets in the beginning
+# for SUA: the distinction is no longer kept
 
-cat("\nTidying crops.\n")
+
+cat("\nTidying crops (cbs and sua) and livestock (sua).\n")
 
 crop_conc <- fread("inst/conc_crop-cbs.csv")
 
@@ -460,8 +466,11 @@ crop_conc <- fread("inst/conc_crop-cbs.csv")
 
 prod <- readRDS("input/fao/prod.rds")
 prod <- dt_rename(prod, rename, drop = TRUE)
+prod <- prod[element %in% c("Area harvested","Production", "Yield", "Stocks", "Producing Animals/Slaughtered",                             
+                            "Yield/Carcass Weight", "Milk Animals", "Laying", "Import quantity",                                           
+                            "Export quantity", "Export value", "Import value"),     ]
 
-# extrapolate production: after 2017, there is decreased data density from reporting gaps
+# extrapolate production: after 2022, there is decreased data density from reporting gaps
 prod_by_year <- prod[, .(n_year = .N), by = "year"]
 setorder(prod_by_year, by = year)
 prod_by_year
@@ -480,44 +489,35 @@ prod[, value_interp := forecast::na.interp(value),
 prod[is.na(value), value := value_interp]
 prod[,value_interp := NULL]
 
-# extract crops
-crop <- prod[item_code %in% crop_conc$crop_item_code,]
-crop <- unique(crop)
+# We stopped filtering items and keep all.
+# prod <- prod[item_code %in% crop_conc$crop_item_code,]
 
 # Country / Area adjustments
-crop <- area_kick(crop, code = 351, pattern = "China", groups = TRUE)
-crop <- area_merge(crop, orig = 62, dest = 238, pattern = "Ethiopia")
-crop <- area_merge(crop, orig = 206, dest = 276, pattern = "Sudan")
-crop <- area_fix(crop, regions)
+prod <- area_kick(prod, code = 351, pattern = "China", groups = TRUE)
+prod <- area_merge(prod, orig = 62, dest = 238, pattern = "Ethiopia")
+prod <- area_merge(prod, orig = 206, dest = 276, pattern = "Sudan")
+prod <- area_fix(prod, regions)
 
 trad <- readRDS("input/fao/trad.rds")
 trad <- dt_rename(trad, rename, drop = TRUE)
-crop_trad <- trad[item_code %in% crop_conc$crop_item_code,]
-crop_trad <- unique(crop_trad)
-crop_trad <- area_kick(crop_trad, code = 351, pattern = "China", groups = TRUE)
-crop_trad <- area_kick(crop_trad, code = 265, pattern = "China*")
-crop_trad <- area_merge(crop_trad, orig = 62, dest = 238, pattern = "Ethiopia")
-crop_trad <- area_merge(crop_trad, orig = 206, dest = 276, pattern = "Sudan")
-crop_trad <- area_fix(crop_trad, regions)
+trad <- trad[element %in% c("Area harvested","Production", "Yield", "Stocks", "Producing Animals/Slaughtered",                             
+                            "Yield/Carcass Weight", "Milk Animals", "Laying", "Import quantity",                                           
+                            "Export quantity", "Export value", "Import value"),     ]
+# We stopped filtering items and keep all.
+# crop_trad <- trad[item_code %in% crop_conc$crop_item_code,]
+trad <- unique(trad)
+trad <- area_kick(trad, code = 351, pattern = "China", groups = TRUE)
+trad <- area_kick(trad, code = 265, pattern = "China*")
+trad <- area_merge(trad, orig = 62, dest = 238, pattern = "Ethiopia")
+trad <- area_merge(trad, orig = 206, dest = 276, pattern = "Sudan")
+trad <- area_fix(trad, regions)
 
-crop <- rbind(crop, crop_trad)
+
+# create dataset with all crop and livestock production and trade data
+prod_trad <- rbind(prod, trad)
 
 # change 't' to 'tonnes'
-crop[, unit := ifelse(unit=="t", "tonnes", unit)]
-
-# save before converting into primary equivalents
-saveRDS(crop, "data/tidy/crop_full.rds")
-
-crop <- merge(crop, crop_conc,
-              by.x = "item_code", by.y = "crop_item_code", all.x = TRUE)
-crop <- tcf_apply(crop, fun = `*`, na.rm = TRUE)
-
-# Aggregate
-crop <- crop[, list(value = na_sum(value)),
-             by = .(area_code, area, element, year, unit, cbs_item_code, cbs_item)]
-crop <- dt_rename(crop, drop = FALSE,
-                  rename = c("cbs_item_code" = "item_code", "cbs_item" = "item"))
-crop <- dt_filter(crop, value >= 0)
+prod_trad[, unit := ifelse(unit=="t", "tonnes", unit)]
 
 
 ## Primary/Fodder ------------
@@ -553,15 +553,8 @@ crop_prim <- area_fix(crop_prim, regions)
 crop_prim <- dt_filter(crop_prim, element != "Yield")
 
 # Only keep fodder crops
-crop_prim <- merge(crop_prim, crop_conc,
-                   by.x = "item", by.y = "crop_item", all.x = TRUE) #OH -> merged by item not code, otherwise it does not run
-# Shouldn't we save crop_prim before we filter fodder crops? Or don't we need it for any other purposes?
-crop_prim <- dt_filter(crop_prim, cbs_item_code == 2000)
-crop_prim[, item := crop_item]
-
-# OH
-crop_prim[, crop_item := NA]
-crop_prim[, crop_item := item]
+crop_prim <- merge(crop_prim[item_code %in% crop_conc[cbs_item_code==2000, crop_item_code]], crop_conc,
+                   by.x = "item_code", by.y = "crop_item_code", all.x = TRUE)
 
 # inter/extrapolate:
 # get relevant fodder crops and elements for each country
@@ -587,139 +580,48 @@ crop_prim <- dt_rename(crop_prim, drop = FALSE,
                        rename = c("cbs_item_code" = "item_code", "cbs_item" = "item"))
 crop_prim <- dt_filter(crop_prim, value >= 0)
 
-# Bind all parts & store
-saveRDS(crop_prim, "data/tidy/fodder_tidy.rds") #OH
-saveRDS(rbind(crop, crop_prim), "data/tidy/crop_tidy.rds")
-rm(crop, crop_prim, crop_conc, cbs)
 
 
-# Livestock ---------------------------------------------------------------
-
-cat("\nTidying livestocks.\n")
-
-live_conc <- fread("inst/conc_live-cbs.csv")
-
-# aggregate chickens, turkeys, etc. into poultry
-live <- prod[item_code %in% live_conc$live_item_code, ]
-live_trad <- trad[item_code %in% live_conc$live_item_code,]
-
-live <- live[item_code != 1808,] # the Meat, poultry category is incomplete after 2017
-live[item_code %in% c(1058, 1069, 1080, 1084) , item_code := 1808]
-live_trad[item_code %in% c(1057, 1068, 1079, 1083) , item_code := 2029]
-
-live <- rbind(live, live_trad)
-
-# Country / Area adjustments
-live <- area_kick(live, code = 351, pattern = "China", groups = TRUE)
-live <- area_kick(live, code = 265, groups = FALSE)
-live <- area_merge(live, orig = 62, dest = 238, pattern = "Ethiopia")
-live <- area_merge(live, orig = 206, dest = 276, pattern = "Sudan")
-live <- area_fix(live, regions)
-
-live <- merge(live, live_conc,
-              by.x = "item_code", by.y = "live_item_code", all.x = TRUE)
-live <- dt_filter(live, !is.na(cbs_item_code))
-
-# Aggregate
-live <- live[, list(value = na_sum(value)),
-             by = .(area_code, area, element, year, unit, cbs_item_code, cbs_item)]
-live <- dt_rename(live, drop = FALSE,
-                  rename = c("cbs_item_code" = "item_code", "cbs_item" = "item"))
-live <- dt_filter(live, value >= 0)
-
-# Recode units
-live[unit %in% c("1000 Head", "1000 An"), `:=`(value = value * 1000, unit = "head")]
-live[unit %in% c("Head", "An"), `:=`(unit = "head")]
-live[unit %in% c("1000 US$", "1000 USD"), `:=`(value = value * 1000, unit = "usd")]
-live[unit == "t", `:=`(unit = "tonnes")]
-
-
-# gap fill cases where there are stocks and/or slaughtered animals reported but 
-# no production
-# live <- readRDS("data/tidy/live_tidy.rds")
-input_path <- input_path <- "/mnt/nfs_fineprint/tmp/fabio/v1.2/current/"
-
-
-live[, region := regions$region[match(area, regions$name)]]
-
-# Define the groupings for animals to later determine if there are stocks but no production
-item_to_group <- list(
-  "Cattle" = c("Cattle", "Meat, cattle", "Milk, whole fresh cow"),
-  "Buffaloes" = c("Buffaloes", "Meat, buffalo", "Milk, whole fresh buffalo"),
-  "Sheep" = c("Sheep", "Meat, sheep", "Milk, whole fresh sheep"),
-  "Goats" = c("Goats", "Meat, goat", "Milk, whole fresh goat"),
-  "Pigs" = c("Pigs", "Meat, pig"),
-  "Poultry" = c("Meat, Poultry", "Eggs Primary", "Poultry Birds"),
-  "Horses" = c("Horses", "Meat, horse"),
-  "Asses" = c("Asses", "Meat, ass"),
-  "Mules" = c("Mules", "Meat, mule"),
-  "Camels" = c("Camels", "Meat, camel", "Milk, whole fresh camel"),
-  "Rabbits" = c("Rabbits and hares", "Meat, rabbit"),
-  "Rodents" = c("Rodents, other", "Meat, other rodents")
-)
-
-# Assign groups to each item (animal)
-live[, group := fifelse(
-  item %in% unlist(item_to_group["Cattle"]), "Cattle",
-  fifelse(
-    item %in% unlist(item_to_group["Buffaloes"]), "Buffaloes",
-    fifelse(
-      item %in% unlist(item_to_group["Sheep"]), "Sheep",
-      fifelse(
-        item %in% unlist(item_to_group["Goats"]), "Goats",
-        fifelse(
-          item %in% unlist(item_to_group["Pigs"]), "Pigs",
-          fifelse(
-            item %in% unlist(item_to_group["Poultry"]), "Poultry",
-            fifelse(
-              item %in% unlist(item_to_group["Horses"]), "Horses",
-              fifelse(
-                item %in% unlist(item_to_group["Asses"]), "Asses",
-                fifelse(
-                  item %in% unlist(item_to_group["Mules"]), "Mules",
-                  fifelse(
-                    item %in% unlist(item_to_group["Camels"]), "Camels",
-                    fifelse(
-                      item %in% unlist(item_to_group["Rabbits"]), "Rabbits",
-                      fifelse(
-                        item %in% unlist(item_to_group["Rodents"]), "Rodents",
-                        NA_character_
-                      )
-                    )
-                  )
-                )
-              )
-            )
-          )
-        )
-      )
-    )
-  )
-)]
+# Gap filling livestock products --------------------------------------
+cat("\nGap-filling livestock products where stocks or slaughtered animals are 
+    reported but no production.\n")
 
 # create table for meat items and live animals to convert slaughtered animals/stocks to meat using averages
-conv_meat <-  live[, .(area, region, year, element, unit, item, group, value)]
+conv_meat <-  prod_trad[, .(area, year, element, unit, item, item_code, value)]
+conv_meat <- prod_trad[, region := regions$region[match(area, regions$name)]]
 
-# only include meat items
-conv_meat <- conv_meat[item %in% c("Cattle", "Meat, cattle", "Buffaloes", "Meat, buffalo", "Sheep", "Meat, sheep", 
-                                   "Goats", "Meat, goat", "Pigs", "Meat, pig", "Horses", 
-                                   "Meat, horse", "Asses", "Meat, ass", "Mules", "Meat, mule", "Camels", 
-                                   "Meat, camel", "Rabbits and hares", "Meat, rabbit", "Rodents, other", 
-                                   "Meat, other rodents", "Camelids, other", "Meat, other camelids" 
-                                   , "Meat, Poultry", "Poultry Birds")]
-# check elements and their units
-elements <- unique(conv_meat[,.(element, unit)])
+# only include live animals and meat
+conv_meat <- conv_meat[item_code %in% c(1127, 867, 1017, 977, 1035, 1097, 1141, 947, 1158, 1151, 
+                                        1108, 1111, 1058, 1069, 1073, 1080, 1089, 1126, 866, 1016, 
+                                        976, 1034, 1096, 1140, 946, 1157, 1150, 1107, 1110, 1057, 
+                                        1068, 1072, 1079, 1083)]
+
 
 # filter necessary elements
 conv_meat <- conv_meat[element %in% c("Stocks", "Production", "Producing Animals/Slaughtered"
-                                      ,"Yield/Carcass Weight") & (unit == "tonnes" |
-                                                                    unit == "head" | unit == "100 g/An")]
+                                      ,"Yield/Carcass Weight") & (unit == "kg/An" |
+                                                                    unit == "An"|
+                                                                    unit == "tonnes"|
+                                                                    unit == "g/An")]
+# Define groups
+item_group <- data.table(
+  item_code = c(866, 867, 946, 947, 976, 977, 1016, 1017,
+                1034, 1035, 1096, 1097, 1107, 1108, 1110, 1111,
+                1126, 1127),
+  group = c(rep("Cattle", 2),rep("Buffalo", 2), rep("Sheep", 2), rep("Goats", 2),
+            rep("Swine / pigs", 2), rep("Horses", 2), rep("Asses", 2),
+            rep("Mules and hinnies", 2), rep("Camels", 2)),
+  type = rep(c("live animals", "meat"), times = 9))
+
+conv_meat[, group := item_group$group[match(item_code, item_group$item_code)]]
+
+conv_meat <- conv_meat[!is.na(group)]
 
 # create wide table
-conv_meat <- dcast(conv_meat, region + year + group +area ~ element, value.var = "value")
+conv_meat <- dcast(conv_meat, region + year + group + area  ~ element, value.var = "value")
 
-#find average yield (100g/an) to calculate production (tonnes) from number of slaughtered animals
-# -> for data points, slaughtered animals are reported but yield and production are missing in some years
+#find average yield (kg/an) to calculate production (tonnes) from number of slaughtered animals
+# -> for some data points, slaughtered animals are reported but yield and production 
 
 # take average yield from other years in the same country where available
 conv_meat[, average_yield := mean(`Yield/Carcass Weight`, na.rm = TRUE), by = .(
@@ -757,42 +659,99 @@ conv_meat <- conv_meat[Stocks > 0 & !is.na(Stocks) & (Production == 0 | is.na(Pr
 
 
 #match meat items to rows in conv_meat
-item_conc <- rbindlist(
-  lapply(names(item_to_group), function(group) {
-    data.table(group = group, item = item_to_group[[group]])
-  })
-)
-item_conc <- item_conc[grepl("Meat", item, ignore.case = TRUE)]
-conv_meat <- conv_meat[, item := item_conc$item[match(group, item_conc$group)]  ]
+meat_codes <- item_group[type == "meat"]
 
-#add back to live
-live <- merge(live, conv_meat[,.(year, item, area, Production)], by = c("year", "item", "area"),all.x = TRUE)
-live[!is.na(Production) & element == "Production", value := Production ]
-live[, Production := NULL]
-
-# do the same for milk -> easier here, because of milk animal columns
-conv_milk <-live[item %in% c("Milk, whole fresh camel", "Milk, whole fresh buffalo",                   
-                             "Milk, whole fresh cow", "Milk, whole fresh goat", "Milk, whole fresh sheep")]
-conv_milk <- dcast(conv_milk, region + area + year + group ~ element, value.var = "value")
-conv_milk[, conversion := Production / `Milk Animals`]
-conv_milk[!is.finite(conversion) | conversion == 0,] <- NA
-conv_milk[, conversion := mean(conversion, na.rm = TRUE), by = .(region, year, group)]
-conv_milk[is.na(conversion), conversion := mean(conversion, na.rm = TRUE), by = .(year, group)]
-conv_milk <- conv_milk[`Milk Animals` > 0 & !is.na(`Milk Animals`) & (Production == 0 | is.na(Production)),][
-  ,Production := `Milk Animals` * conversion]
-
-# merge with live
-live <- merge(live, conv_milk[, .(area, year, group, Production)], 
-              by = c("area", "year", "group"), all.x = TRUE)
-live <- live[!is.na(Production) & element == "Production", value := Production ]
-live[, `:=`(Production = NULL, group =NULL, region = NULL)]
-setcolorder(live, c("area_code", "area", "element", "year", "unit", "item_code",
-                    "item","value"))
+# Match by group
+conv_meat[, item_code := meat_codes$item_code[match(group, meat_codes$group)]]
 
 
-# Store
-saveRDS(live, "data/tidy/live_tidy.rds")
-rm(live, live_conc, conv_meat, conv_milk, item_conc, item_to_group)
+#add back to prod_trad
+prod_trad <- merge(prod_trad, conv_meat[,.(year, item_code, area, Production)], 
+                   by = c("year", "item_code", "area"),all.x = TRUE)
+prod_trad[!is.na(Production) & element == "Production", value := Production ]
+prod_trad[, Production := NULL]
+
+# # do the same for milk -> easier here, because of milk animal columns
+# # NOTE: These reporting gaps no longer exist
+# conv_milk <- prod_trad[item_code %in% c(882, 951, 1130 ,1020, 982)]
+# conv_milk <- conv_milk[element %in% c("Production", "Milk Animals")]
+# conv_milk <- dcast(conv_milk, region + area + item + year ~ element, value.var = "value")
+# conv_milk[, conversion := Production / `Milk Animals`]
+# conv_milk[!is.finite(conversion) | conversion == 0,] <- NA
+# conv_milk[, conversion := mean(conversion, na.rm = TRUE), by = .(region, year, item)]
+# conv_milk[is.na(conversion), conversion := mean(conversion, na.rm = TRUE), by = .(year, item)]
+# conv_milk <- conv_milk[`Milk Animals` > 0 & !is.na(`Milk Animals`) & (Production == 0 | is.na(Production)),][
+#   ,Production := `Milk Animals` * conversion]
+# 
+# # merge with prod_trad
+# prod_trad <- merge(prod_trad, conv_milk[, .(area, year, group, Production)], 
+#               by = c("area", "year", "group"), all.x = TRUE)
+# prod_trad <- prod_trad[!is.na(Production) & element == "Production", value := Production ]
+# prod_trad[, `:=`(Production = NULL, group =NULL, region = NULL)]
+# setcolorder(prod_trad, c("area_code", "area", "element", "year", "unit", "item_code",
+#                     "item","value"))
+
+prod_trad[, region := NULL]
+# save before converting into primary equivalents
+saveRDS(rbind(prod_trad, crop_prim), "data/tidy/prod_trad_full.rds")
+
+
+# Aggregate
+crop <- merge(crop, unique(crop_conc[,.(crop_item_code, cbs_item_code, cbs_item, tcf)]),
+              by.x = "item_code", by.y = "crop_item_code", all.x = TRUE)
+crop <- tcf_apply(crop, fun = `*`, na.rm = TRUE)
+
+crop <- crop[, list(value = na_sum(value)),
+             by = .(area_code, area, element, year, unit, cbs_item_code, cbs_item)]
+crop <- dt_rename(crop, drop = FALSE,
+                  rename = c("cbs_item_code" = "item_code", "cbs_item" = "item"))
+crop <- dt_filter(crop, value >= 0)
+
+
+# Bind all parts & store
+saveRDS(rbind(crop, crop_prim), "data/tidy/crop_tidy.rds")
+rm(crop, crop_prim, crop_conc, cbs)
+
+
+# Livestock ---------------------------------------------------------------
+
+cat("\nTidying livestock for cbs.\n")
+
+live_conc <- fread("inst/conc_live-cbs.csv")
+
+# aggregate chickens, turkeys, etc. into poultry
+live <- prod[item_code %in% live_conc$live_item_code, ]
+live_trad <- trad[item_code %in% live_conc$live_item_code,]
+
+live <- live[item_code != 1808,] # the Meat, poultry category is incomplete after 2017
+live[item_code %in% c(1058, 1069, 1080, 1084) , item_code := 1808]
+live_trad[item_code %in% c(1057, 1068, 1079, 1083) , item_code := 2029]
+
+live <- rbind(live, live_trad)
+
+# Country / Area adjustments
+live <- area_kick(live, code = 351, pattern = "China", groups = TRUE)
+live <- area_kick(live, code = 265, groups = FALSE)
+live <- area_merge(live, orig = 62, dest = 238, pattern = "Ethiopia")
+live <- area_merge(live, orig = 206, dest = 276, pattern = "Sudan")
+live <- area_fix(live, regions)
+
+live <- merge(live, live_conc,
+              by.x = "item_code", by.y = "live_item_code", all.x = TRUE)
+live <- dt_filter(live, !is.na(cbs_item_code))
+
+# Aggregate
+live <- live[, list(value = na_sum(value)),
+             by = .(area_code, area, element, year, unit, cbs_item_code, cbs_item)]
+live <- dt_rename(live, drop = FALSE,
+                  rename = c("cbs_item_code" = "item_code", "cbs_item" = "item"))
+live <- dt_filter(live, value >= 0)
+
+# Recode units
+live[unit %in% c("1000 Head", "1000 An"), `:=`(value = value * 1000, unit = "head")]
+live[unit %in% c("Head", "An"), `:=`(unit = "head")]
+live[unit %in% c("1000 US$", "1000 USD"), `:=`(value = value * 1000, unit = "usd")]
+live[unit == "t", `:=`(unit = "tonnes")]
 
 
 
