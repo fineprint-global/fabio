@@ -1,0 +1,525 @@
+item,item_group,processed,comm_code,item_code_fcl,unit
+Wheat,cereals,primary,c001,15,tonnes
+Rice,cereals,primary,c002,27,tonnes
+Barley,cereals,primary,c003,44,tonnes
+Maize (corn),cereals,primary,c004,56,tonnes
+Rye,cereals,primary,c005,71,tonnes
+Oats,cereals,primary,c006,75,tonnes
+Millet,cereals,primary,c007,79,tonnes
+Sorghum,cereals,primary,c008,83,tonnes
+Buckwheat,cereals,primary,c009,89,tonnes
+Quinoa,cereals,primary,c010,92,tonnes
+Fonio,cereals,primary,c011,94,tonnes
+Triticale,cereals,primary,c012,97,tonnes
+Canary seed,cereals,primary,c013,101,tonnes
+Mixed grain,cereals,primary,c014,103,tonnes
+Cereals n.e.c.,cereals,primary,c015,108,tonnes
+Potatoes,roots and tubers,primary,c016,116,tonnes
+Sweet potatoes,roots and tubers,primary,c017,122,tonnes
+"Cassava, fresh",roots and tubers,primary,c018,125,tonnes
+Yautia,roots and tubers,primary,c019,135,tonnes
+Taro,roots and tubers,primary,c020,136,tonnes
+Yams,roots and tubers,primary,c021,137,tonnes
+"Edible roots and tubers with high starch or inulin content, n.e.c., fresh",roots and tubers,primary,c022,149,tonnes
+Cassava leaves,roots and tubers,primary,c023,378,tonnes
+Chicory roots,roots and tubers,primary,c024,459,tonnes
+Locust beans (carobs),roots and tubers,primary,c025,461,tonnes
+Sugar cane,sugar crops,primary,c026,156,tonnes
+Sugar beet,sugar crops,primary,c027,157,tonnes
+Other sugar crops n.e.c.,sugar crops,primary,c028,161,tonnes
+Cabbages,vegetables and melons,primary,c029,358,tonnes
+Artichokes,vegetables and melons,primary,c030,366,tonnes
+Asparagus,vegetables and melons,primary,c031,367,tonnes
+Lettuce and chicory,vegetables and melons,primary,c032,372,tonnes
+Spinach,vegetables and melons,primary,c033,373,tonnes
+Tomatoes,vegetables and melons,primary,c034,388,tonnes
+Cauliflowers and broccoli,vegetables and melons,primary,c035,393,tonnes
+"Pumpkins, squash and gourds",vegetables and melons,primary,c036,394,tonnes
+Cucumbers and gherkins,vegetables and melons,primary,c037,397,tonnes
+Eggplants (aubergines),vegetables and melons,primary,c038,399,tonnes
+"Chillies and peppers, green (Capsicum spp. and Pimenta spp.)",vegetables and melons,primary,c039,401,tonnes
+"Onions and shallots, green",vegetables and melons,primary,c040,402,tonnes
+"Onions and shallots, dry (excluding dehydrated)",vegetables and melons,primary,c041,403,tonnes
+Green garlic,vegetables and melons,primary,c042,406,tonnes
+Leeks and other alliaceous vegetables,vegetables and melons,primary,c043,407,tonnes
+"Other beans, green",vegetables and melons,primary,c044,414,tonnes
+"Peas, green",vegetables and melons,primary,c045,417,tonnes
+"Broad beans and horse beans, green",vegetables and melons,primary,c046,420,tonnes
+String beans,vegetables and melons,primary,c047,423,tonnes
+Carrots and turnips,vegetables and melons,primary,c048,426,tonnes
+Okra,vegetables and melons,primary,c049,430,tonnes
+Green corn (maize),vegetables and melons,primary,c050,446,tonnes
+Mushrooms and truffles,vegetables and melons,primary,c051,449,tonnes
+"Other vegetables, fresh n.e.c.",vegetables and melons,primary,c052,463,tonnes
+Watermelons,vegetables and melons,primary,c053,567,tonnes
+Cantaloupes and other melons,vegetables and melons,primary,c054,568,tonnes
+Bananas,fruits and berries,primary,c055,486,tonnes
+Plantains and cooking bananas,fruits and berries,primary,c056,489,tonnes
+Oranges,fruits and berries,primary,c057,490,tonnes
+"Tangerines, mandarins, clementines",fruits and berries,primary,c058,495,tonnes
+Lemons and limes,fruits and berries,primary,c059,497,tonnes
+Pomelos and grapefruits,fruits and berries,primary,c060,507,tonnes
+"Other citrus fruit, n.e.c.",fruits and berries,primary,c061,512,tonnes
+Apples,fruits and berries,primary,c062,515,tonnes
+Pears,fruits and berries,primary,c063,521,tonnes
+Quinces,fruits and berries,primary,c064,523,tonnes
+Apricots,fruits and berries,primary,c065,526,tonnes
+Sour cherries,fruits and berries,primary,c066,530,tonnes
+Cherries,fruits and berries,primary,c067,531,tonnes
+Peaches and nectarines,fruits and berries,primary,c068,534,tonnes
+Plums and sloes,fruits and berries,primary,c069,536,tonnes
+Other stone fruits,fruits and berries,primary,c070,541,tonnes
+Other pome fruits,fruits and berries,primary,c071,542,tonnes
+Strawberries,fruits and berries,primary,c072,544,tonnes
+Raspberries,fruits and berries,primary,c073,547,tonnes
+Gooseberries,fruits and berries,primary,c074,549,tonnes
+Currants,fruits and berries,primary,c075,550,tonnes
+Blueberries,fruits and berries,primary,c076,552,tonnes
+Cranberries,fruits and berries,primary,c077,554,tonnes
+Other berries and fruits of the genus vaccinium n.e.c.,fruits and berries,primary,c078,558,tonnes
+Grapes,fruits and berries,primary,c079,560,tonnes
+Figs,fruits and berries,primary,c080,569,tonnes
+"Mangoes, guavas and mangosteens",fruits and berries,primary,c081,571,tonnes
+Avocados,fruits and berries,primary,c082,572,tonnes
+Pineapples,fruits and berries,primary,c083,574,tonnes
+Dates,fruits and berries,primary,c084,577,tonnes
+Persimmons,fruits and berries,primary,c085,587,tonnes
+Cashewapple,fruits and berries,primary,c086,591,tonnes
+Kiwi fruit,fruits and berries,primary,c087,592,tonnes
+Papayas,fruits and berries,primary,c088,600,tonnes
+"Other tropical fruits, n.e.c.",fruits and berries,primary,c089,603,tonnes
+"Other fruits, n.e.c.",fruits and berries,primary,c090,619,tonnes
+"Brazil nuts, in shell",nuts,primary,c091,216,tonnes
+"Cashew nuts, in shell",nuts,primary,c092,217,tonnes
+"Chestnuts, in shell",nuts,primary,c093,220,tonnes
+"Almonds, in shell",nuts,primary,c094,221,tonnes
+"Walnuts, in shell",nuts,primary,c095,222,tonnes
+"Pistachios, in shell",nuts,primary,c096,223,tonnes
+"Hazelnuts, in shell",nuts,primary,c097,225,tonnes
+Areca nuts,nuts,primary,c098,226,tonnes
+"Other nuts (excluding wild edible nuts and groundnuts), in shell, n.e.c.",nuts,primary,c099,234,tonnes
+Karite nuts (sheanuts),nuts,primary,c100,263,tonnes
+"Pepper (Piper spp.), raw",spices,primary,c101,687,tonnes
+"Chillies and peppers, dry (Capsicum spp., Pimenta spp.), raw",spices,primary,c102,689,tonnes
+"Vanilla, raw",spices,primary,c103,692,tonnes
+"Cinnamon and cinnamon-tree flowers, raw",spices,primary,c104,693,tonnes
+"Cloves (whole stems), raw",spices,primary,c105,698,tonnes
+"Nutmeg, mace, cardamoms, raw",spices,primary,c106,702,tonnes
+"Anise, badian, coriander, cumin, caraway, fennel and juniper berries, raw",spices,primary,c107,711,tonnes
+"Ginger, raw",spices,primary,c108,720,tonnes
+"Other stimulant, spice and aromatic crops, n.e.c.",spices,primary,c109,723,tonnes
+"Peppermint, spearmint",spices,primary,c110,748,tonnes
+Soya beans,oil-bearing crops,primary,c111,236,tonnes
+"Groundnuts, excluding shelled",oil-bearing crops,primary,c112,242,tonnes
+"Coconuts, in shell",oil-bearing crops,primary,c113,249,tonnes
+Oil palm fruit,oil-bearing crops,primary,c114,254,tonnes
+Olives,oil-bearing crops,primary,c115,260,tonnes
+Castor oil seeds,oil-bearing crops,primary,c116,265,tonnes
+Sunflower seed,oil-bearing crops,primary,c117,267,tonnes
+Rape or colza seed,oil-bearing crops,primary,c118,270,tonnes
+Tung nuts,oil-bearing crops,primary,c119,275,tonnes
+Jojoba seeds,oil-bearing crops,primary,c120,277,tonnes
+Safflower seed,oil-bearing crops,primary,c121,280,tonnes
+Sesame seed,oil-bearing crops,primary,c122,289,tonnes
+Mustard seed,oil-bearing crops,primary,c123,292,tonnes
+Poppy seed,oil-bearing crops,primary,c124,296,tonnes
+Melonseed,oil-bearing crops,primary,c125,299,tonnes
+Tallowtree seeds,oil-bearing crops,primary,c126,305,tonnes
+Cotton seed,oil-bearing crops,primary,c127,329,tonnes
+Linseed,oil-bearing crops,primary,c128,333,tonnes
+Hempseed,oil-bearing crops,primary,c129,336,tonnes
+"Other oil seeds, n.e.c.",oil-bearing crops,primary,c130,339,tonnes
+"Beans, dry",pulses,primary,c131,176,tonnes
+"Broad beans and horse beans, dry",pulses,primary,c132,181,tonnes
+"Peas, dry",pulses,primary,c133,187,tonnes
+"Chick peas, dry",pulses,primary,c134,191,tonnes
+"Cow peas, dry",pulses,primary,c135,195,tonnes
+"Pigeon peas, dry",pulses,primary,c136,197,tonnes
+"Lentils, dry",pulses,primary,c137,201,tonnes
+"Bambara beans, dry",pulses,primary,c138,203,tonnes
+Vetches,pulses,primary,c139,205,tonnes
+Lupins,pulses,primary,c140,210,tonnes
+Other pulses n.e.c.,pulses,primary,c141,211,tonnes
+Kola nuts,stimulants and beverages,primary,c142,224,tonnes
+"Coffee, green",stimulants and beverages,primary,c143,656,tonnes
+Cocoa beans,stimulants and beverages,primary,c144,661,tonnes
+Tea leaves,stimulants and beverages,primary,c145,667,tonnes
+Maté leaves,stimulants and beverages,primary,c146,671,tonnes
+Fodder crops,fodder crops,primary,c147,2000,tonnes
+Kapok fruit,other,primary,c148,310,tonnes
+"Seed cotton, unginned",other,primary,c149,328,tonnes
+Hop cones,other,primary,c150,677,tonnes
+"Pyrethrum, dried flowers",other,primary,c151,754,tonnes
+"True hemp, raw or retted",other,primary,c152,777,tonnes
+"Kapok fibre, raw",other,primary,c153,778,tonnes
+"Jute, raw or retted",other,primary,c154,780,tonnes
+"Kenaf, and other textile bast fibres, raw or retted",other,primary,c155,782,tonnes
+"Ramie, raw or retted",other,primary,c156,788,tonnes
+"Sisal, raw",other,primary,c157,789,tonnes
+"Agave fibres, raw, n.e.c.",other,primary,c158,800,tonnes
+"Abaca, manila hemp, raw",other,primary,c159,809,tonnes
+"Coir, raw",other,primary,c160,813,tonnes
+"Other fibre crops, raw, n.e.c.",other,primary,c161,821,tonnes
+Unmanufactured tobacco,other,primary,c162,826,tonnes
+Natural rubber in primary forms,other,primary,c163,836,tonnes
+Cattle,live animals,primary,c164,866,head
+Buffalo,live animals,primary,c165,946,head
+Sheep,live animals,primary,c166,976,head
+Goats,live animals,primary,c167,1016,head
+Swine / pigs,live animals,primary,c168,1034,head
+Chickens,live animals,primary,c169,1057,1000 head
+Ducks,live animals,primary,c170,1068,1000 head
+Geese,live animals,primary,c171,1072,1000 head
+Turkeys,live animals,primary,c172,1079,1000 head
+Other birds,live animals,primary,c173,1083,1000 head
+Horses,live animals,primary,c174,1096,head
+Asses,live animals,primary,c175,1107,head
+Mules and hinnies,live animals,primary,c176,1110,head
+Camels,live animals,primary,c177,1126,head
+Rabbits and hares,live animals,primary,c178,1140,1000 head
+Other rodents,live animals,primary,c179,1150,1000 head
+Other camelids,live animals,primary,c180,1157,head
+Raw milk of cattle,milk,primary,c181,882,tonnes
+Raw milk of buffalo,milk,primary,c182,951,tonnes
+Raw milk of sheep,milk,primary,c183,982,tonnes
+Raw milk of goats,milk,primary,c184,1020,tonnes
+Raw milk of camel,milk,primary,c185,1130,tonnes
+"Hen eggs in shell, fresh",eggs,primary,c186,1062,tonnes
+"Eggs from other birds in shell, fresh, n.e.c.",eggs,primary,c187,1091,tonnes
+"Meat of cattle with the bone, fresh or chilled",meat,primary,c188,867,tonnes
+"Meat of buffalo, fresh or chilled",meat,primary,c189,947,tonnes
+"Meat of sheep, fresh or chilled",meat,primary,c190,977,tonnes
+"Meat of goat, fresh or chilled",meat,primary,c191,1017,tonnes
+"Meat of pig with the bone, fresh or chilled",meat,primary,c192,1035,tonnes
+"Meat of chickens, fresh or chilled",meat,primary,c193,1058,tonnes
+"Meat of ducks, fresh or chilled",meat,primary,c194,1069,tonnes
+"Meat of geese, fresh or chilled",meat,primary,c195,1073,tonnes
+"Meat of turkeys, fresh or chilled",meat,primary,c196,1080,tonnes
+"Meat of pigeons and other birds n.e.c., fresh, chilled or frozen",meat,primary,c197,1089,tonnes
+"Horse meat, fresh or chilled",meat,primary,c198,1097,tonnes
+"Meat of asses, fresh or chilled",meat,primary,c199,1108,tonnes
+"Meat of mules, fresh or chilled",meat,primary,c200,1111,tonnes
+"Meat of camels, fresh or chilled",meat,primary,c201,1127,tonnes
+"Meat of rabbits and hares, fresh or chilled",meat,primary,c202,1141,tonnes
+"Meat of other domestic rodents, fresh or chilled",meat,primary,c203,1151,tonnes
+"Meat of other domestic camelids, fresh or chilled",meat,primary,c204,1158,tonnes
+"Game meat, fresh, chilled or frozen",meat,primary,c205,1163,tonnes
+"Edible offal of cattle, fresh, chilled or frozen",edible offals,primary,c206,868,tonnes
+"Edible offal of buffalo, fresh, chilled or frozen",edible offals,primary,c207,948,tonnes
+"Edible offal of sheep, fresh, chilled or frozen",edible offals,primary,c208,978,tonnes
+"Edible offal of goat, fresh, chilled or frozen",edible offals,primary,c209,1018,tonnes
+"Edible offal of pigs, fresh, chilled or frozen",edible offals,primary,c210,1036,tonnes
+"Edible offals of camels and other camelids, fresh, chilled or frozen",edible offals,primary,c211,1128,tonnes
+"Cattle fat, unrendered",slaughter fats,primary,c212,869,tonnes
+"Buffalo fat, unrendered",slaughter fats,primary,c213,949,tonnes
+"Sheep fat, unrendered",slaughter fats,primary,c214,979,tonnes
+"Goat fat, unrendered",slaughter fats,primary,c215,1019,tonnes
+Fat of pigs,slaughter fats,primary,c216,1037,tonnes
+Fat of camels,slaughter fats,primary,c217,1129,tonnes
+Fat of other camelids,slaughter fats,primary,c218,1160,tonnes
+Raw hides and skins of cattle,hides and skins,primary,c219,919,tonnes
+Raw hides and skins of buffaloes,hides and skins,primary,c220,957,tonnes
+Raw hides and skins of sheep or lambs,hides and skins,primary,c221,995,tonnes
+Raw hides and skins of goats or kids,hides and skins,primary,c222,1025,tonnes
+Natural honey,honey,primary,c223,1182,tonnes
+"Shorn wool, greasy, including fleece-washed shorn wool",other animal products,primary,c224,987,tonnes
+Beeswax,other animal products,primary,c225,1183,tonnes
+Wheat and meslin flour,cereals,processed,c226,16,tonnes
+Bran of wheat,cereals,processed,c227,17,tonnes
+"Uncooked pasta, not stuffed or otherwise prepared",cereals,processed,c228,18,tonnes
+Germ of wheat,cereals,processed,c229,19,tonnes
+Bread,cereals,processed,c230,20,tonnes
+Bulgur,cereals,processed,c231,21,tonnes
+Pastry,cereals,processed,c232,22,tonnes
+Starch of wheat,cereals,processed,c233,23,tonnes
+Wheat gluten,cereals,processed,c234,24,tonnes
+Husked rice,cereals,processed,c235,28,tonnes
+"Rice, milled (husked)",cereals,processed,c236,29,tonnes
+"Rice, milled",cereals,processed,c237,31,tonnes
+"Rice, broken",cereals,processed,c238,32,tonnes
+"Rice, gluten",cereals,processed,c239,33,tonnes
+Starch of rice,cereals,processed,c240,34,tonnes
+Bran of rice,cereals,processed,c241,35,tonnes
+Oil of rice bran,cereals,processed,c242,36,tonnes
+Cake of rice bran,cereals,processed,c243,37,tonnes
+Flour of rice,cereals,processed,c244,38,tonnes
+Breakfast cereals,cereals,processed,c245,41,tonnes
+Pot barley,cereals,processed,c246,45,tonnes
+"Barley, pearled",cereals,processed,c247,46,tonnes
+Bran of barley,cereals,processed,c248,47,tonnes
+Barley flour and grits,cereals,processed,c249,48,tonnes
+"Malt, whether or not roasted",cereals,processed,c250,49,tonnes
+Malt extract,cereals,processed,c251,50,tonnes
+Germ of maize,cereals,processed,c252,57,tonnes
+Flour of maize,cereals,processed,c253,58,tonnes
+Bran of maize,cereals,processed,c254,59,tonnes
+Oil of maize,cereals,processed,c255,60,tonnes
+Cake of maize,cereals,processed,c256,61,tonnes
+Maize gluten,cereals,processed,c257,63,tonnes
+Starch of maize,cereals,processed,c258,64,tonnes
+Flour of rye,cereals,processed,c259,72,tonnes
+Bran of rye,cereals,processed,c260,73,tonnes
+"Oats, rolled",cereals,processed,c261,76,tonnes
+Bran of oats,cereals,processed,c262,77,tonnes
+Flour of millet,cereals,processed,c263,80,tonnes
+Bran of millet,cereals,processed,c264,81,tonnes
+Flour of sorghum,cereals,processed,c265,84,tonnes
+Bran of sorghum,cereals,processed,c266,85,tonnes
+Flour of buckwheat,cereals,processed,c267,90,tonnes
+Bran of buckwheat,cereals,processed,c268,91,tonnes
+Flour of fonio,cereals,processed,c269,95,tonnes
+Bran of fonio,cereals,processed,c270,96,tonnes
+Flour of triticale,cereals,processed,c271,98,tonnes
+Bran of triticale,cereals,processed,c272,99,tonnes
+Flour of mixed grain,cereals,processed,c273,104,tonnes
+Bran of mixed grain,cereals,processed,c274,105,tonnes
+"Communion wafers, empty cachets of a kind suitable for pharmaceutical use, sealing wafers, rice paper and similar products.",cereals,processed,c275,110,tonnes
+Flour of cereals n.e.c.,cereals,processed,c276,111,tonnes
+Bran of cereals n.e.c.,cereals,processed,c277,112,tonnes
+Cereal preparations,cereals,processed,c278,113,tonnes
+Mixes and doughs for the preparation of bakers' wares,cereals,processed,c279,114,tonnes
+"Food preparations of flour, meal or malt extract",cereals,processed,c280,115,tonnes
+Gluten feed and meal,cereals,processed,c281,846,tonnes
+"Flour, meal, powder, flakes, granules and pellets of potatoes",roots and tubers,processed,c282,117,tonnes
+"Potatoes, frozen",roots and tubers,processed,c283,118,tonnes
+Starch of potatoes,roots and tubers,processed,c284,119,tonnes
+Tapioca of potatoes,roots and tubers,processed,c285,121,tonnes
+Flour of cassava,roots and tubers,processed,c286,126,tonnes
+Tapioca of cassava,roots and tubers,processed,c287,127,tonnes
+"Cassava, dry",roots and tubers,processed,c288,128,tonnes
+Starch of cassava,roots and tubers,processed,c289,129,tonnes
+Flour of roots and tubers n.e.c.,roots and tubers,processed,c290,150,tonnes
+"Edible roots and tubers with high starch or inulin content, n.e.c., dry",roots and tubers,processed,c291,151,tonnes
+"Cane sugar, centrifugal",sugar crops,processed,c292,158,tonnes
+"Refined cane or beet sugar, in solid form, containing added flavouring or colouring matter; maple sugar and maple syrup",sugar crops,processed,c293,160,tonnes
+Raw cane or beet sugar (centrifugal only),sugar crops,processed,c294,162,tonnes
+"Cane sugar, non-centrifugal",sugar crops,processed,c295,163,tonnes
+Refined sugar,sugar crops,processed,c296,164,tonnes
+Molasses,sugar crops,processed,c297,165,tonnes
+Other fructose and syrup,sugar crops,processed,c298,166,tonnes
+Sugar and syrups n.e.c.,sugar crops,processed,c299,167,tonnes
+Sugar confectionery,sugar crops,processed,c300,168,tonnes
+Glucose and dextrose,sugar crops,processed,c301,172,tonnes
+Lactose,sugar crops,processed,c302,173,tonnes
+Isoglucose,sugar crops,processed,c303,175,tonnes
+Tomato juice,vegetables and melons,processed,c304,390,tonnes
+Paste of tomatoes,vegetables and melons,processed,c305,391,tonnes
+"Tomatoes, peeled (o/t vinegar)",vegetables and melons,processed,c306,392,tonnes
+"Sweet corn, frozen",vegetables and melons,processed,c307,447,tonnes
+"Sweet corn, prepared or preserved",vegetables and melons,processed,c308,448,tonnes
+Dried mushrooms,vegetables and melons,processed,c309,450,tonnes
+Canned mushrooms,vegetables and melons,processed,c310,451,tonnes
+"Vegetable products, fresh or dry n.e.c.",vegetables and melons,processed,c311,460,tonnes
+Other vegetable juices,vegetables and melons,processed,c312,466,tonnes
+"Vegetables, dehydrated",vegetables and melons,processed,c313,469,tonnes
+"Vegetables, pulses and potatoes, preserved by vinegar or acetic acid",vegetables and melons,processed,c314,471,tonnes
+Vegetables preserved nes (o/t vinegar),vegetables and melons,processed,c315,472,tonnes
+Vegetables frozen,vegetables and melons,processed,c316,473,tonnes
+Other vegetables provisionally preserved,vegetables and melons,processed,c317,474,tonnes
+Vegetables preserved (frozen),vegetables and melons,processed,c318,475,tonnes
+Homogenized vegetable preparations,vegetables and melons,processed,c319,476,tonnes
+Wheat-fermented beverages,fruits and berries,processed,c320,26,tonnes
+Rice-fermented beverages,fruits and berries,processed,c321,39,tonnes
+Orange juice,fruits and berries,processed,c322,491,tonnes
+"Orange juice, concentrated",fruits and berries,processed,c323,492,tonnes
+Juice of tangerine,fruits and berries,processed,c324,496,tonnes
+Juice of lemon,fruits and berries,processed,c325,498,tonnes
+"Lemon juice, concentrated",fruits and berries,processed,c326,499,tonnes
+Grapefruit juice,fruits and berries,processed,c327,509,tonnes
+"Grapefruit juice, concentrated",fruits and berries,processed,c328,510,tonnes
+Juice of citrus fruit n.e.c.,fruits and berries,processed,c329,513,tonnes
+"Citrus juice, concentrated n.e.c.",fruits and berries,processed,c330,514,tonnes
+Cider and other fermented beverages,fruits and berries,processed,c331,517,tonnes
+Apple juice,fruits and berries,processed,c332,518,tonnes
+"Apple juice, concentrated",fruits and berries,processed,c333,519,tonnes
+"Apricots, dried",fruits and berries,processed,c334,527,tonnes
+"Plums, dried",fruits and berries,processed,c335,537,tonnes
+Juice of plum,fruits and berries,processed,c336,538,tonnes
+"Juice of plum, concentrated",fruits and berries,processed,c337,539,tonnes
+Raisins,fruits and berries,processed,c338,561,tonnes
+Grape juice,fruits and berries,processed,c339,562,tonnes
+Must of grape,fruits and berries,processed,c340,563,tonnes
+Wine,fruits and berries,processed,c341,564,tonnes
+"Figs, dried",fruits and berries,processed,c342,570,tonnes
+"Pineapples, otherwise prepared or preserved",fruits and berries,processed,c343,575,tonnes
+Pineapple juice,fruits and berries,processed,c344,576,tonnes
+"Juice of pineapples, concentrated",fruits and berries,processed,c345,580,tonnes
+Juice of mango,fruits and berries,processed,c346,583,tonnes
+Mango pulp,fruits and berries,processed,c347,584,tonnes
+"Other tropical fruit, dried",fruits and berries,processed,c348,604,tonnes
+"Other fruit n.e.c., dried",fruits and berries,processed,c349,620,tonnes
+Juice of fruits n.e.c.,fruits and berries,processed,c350,622,tonnes
+Fruit prepared n.e.c.,fruits and berries,processed,c351,623,tonnes
+Flour of fruits,fruits and berries,processed,c352,624,tonnes
+"Fruit, nuts, peel, sugar preserved",fruits and berries,processed,c353,625,tonnes
+"Homogenized cooked fruit, prepared",fruits and berries,processed,c354,626,tonnes
+"Brazil nuts, shelled",nuts,processed,c355,229,tonnes
+"Cashew nuts, shelled",nuts,processed,c356,230,tonnes
+"Almonds, shelled",nuts,processed,c357,231,tonnes
+"Walnuts, shelled",nuts,processed,c358,232,tonnes
+"Hazelnuts, shelled",nuts,processed,c359,233,tonnes
+Prepared nuts,nuts,processed,c360,235,tonnes
+Soya bean oil,oil-bearing crops,processed,c361,237,tonnes
+Cake of  soya beans,oil-bearing crops,processed,c362,238,tonnes
+Soya sauce,oil-bearing crops,processed,c363,239,tonnes
+Soya paste,oil-bearing crops,processed,c364,240,tonnes
+Soya curd,oil-bearing crops,processed,c365,241,tonnes
+"Groundnuts, shelled",oil-bearing crops,processed,c366,243,tonnes
+Groundnut oil,oil-bearing crops,processed,c367,244,tonnes
+Cake of groundnuts,oil-bearing crops,processed,c368,245,tonnes
+Prepared groundnuts,oil-bearing crops,processed,c369,246,tonnes
+Peanut butter,oil-bearing crops,processed,c370,247,tonnes
+"Coconuts, desiccated",oil-bearing crops,processed,c371,250,tonnes
+Copra,oil-bearing crops,processed,c372,251,tonnes
+Coconut oil,oil-bearing crops,processed,c373,252,tonnes
+Cake of copra,oil-bearing crops,processed,c374,253,tonnes
+Palm kernels,oil-bearing crops,processed,c375,256,tonnes
+Palm oil,oil-bearing crops,processed,c376,257,tonnes
+Oil of palm kernel,oil-bearing crops,processed,c377,258,tonnes
+Cake of palm kernel,oil-bearing crops,processed,c378,259,tonnes
+Olive oil,oil-bearing crops,processed,c379,261,tonnes
+Olives preserved,oil-bearing crops,processed,c380,262,tonnes
+Butter of karite nuts,oil-bearing crops,processed,c381,264,tonnes
+Oil of castor beans,oil-bearing crops,processed,c382,266,tonnes
+"Sunflower-seed oil, crude",oil-bearing crops,processed,c383,268,tonnes
+Cake of sunflower seed,oil-bearing crops,processed,c384,269,tonnes
+"Rapeseed or canola oil, crude",oil-bearing crops,processed,c385,271,tonnes
+Cake of rapeseed,oil-bearing crops,processed,c386,272,tonnes
+Oil of tung nuts,oil-bearing crops,processed,c387,276,tonnes
+Jojoba oil,oil-bearing crops,processed,c388,278,tonnes
+"Safflower-seed oil, crude",oil-bearing crops,processed,c389,281,tonnes
+Cake of safflowerseed,oil-bearing crops,processed,c390,282,tonnes
+Oil of sesame seed,oil-bearing crops,processed,c391,290,tonnes
+Cake of sesame seed,oil-bearing crops,processed,c392,291,tonnes
+"Mustard seed oil, crude",oil-bearing crops,processed,c393,293,tonnes
+Cake of mustard seed,oil-bearing crops,processed,c394,294,tonnes
+Flour of mustard seed,oil-bearing crops,processed,c395,295,tonnes
+Oil of poppy seed,oil-bearing crops,processed,c396,297,tonnes
+"Cake, poppy seed",oil-bearing crops,processed,c397,298,tonnes
+Vegetable tallow,oil-bearing crops,processed,c398,306,tonnes
+Kapokseed in shell,oil-bearing crops,processed,c399,311,tonnes
+"Kapokseed, shelled",oil-bearing crops,processed,c400,312,tonnes
+Oil of kapok,oil-bearing crops,processed,c401,313,tonnes
+Cake of kapok,oil-bearing crops,processed,c402,314,tonnes
+Cottonseed oil,oil-bearing crops,processed,c403,331,tonnes
+Cake of cottonseed,oil-bearing crops,processed,c404,332,tonnes
+Oil of linseed,oil-bearing crops,processed,c405,334,tonnes
+Cake of  linseed,oil-bearing crops,processed,c406,335,tonnes
+Oil of hempseed,oil-bearing crops,processed,c407,337,tonnes
+Cake of hempseed,oil-bearing crops,processed,c408,338,tonnes
+"Other oil of vegetable origin, crude n.e.c.",oil-bearing crops,processed,c409,340,tonnes
+"Cake, oilseeds nes",oil-bearing crops,processed,c410,341,tonnes
+"Flours and meals of oil seeds or oleaginous fruits, except those of mustard",oil-bearing crops,processed,c411,343,tonnes
+"Flax, raw or retted",oil-bearing crops,processed,c412,771,tonnes
+Liquid margarine,oil-bearing crops,processed,c413,1241,tonnes
+Margarine and shortening,oil-bearing crops,processed,c414,1242,tonnes
+"Castor oil, hydrogenated",oil-bearing crops,processed,c415,1273,tonnes
+Flour of pulses,pulses,processed,c416,212,tonnes
+Bran of pulses,pulses,processed,c417,213,tonnes
+Other non-alcoholic caloric beverages,stimulants and beverages,processed,c418,633,tonnes
+"Coffee, decaffeinated or roasted",stimulants and beverages,processed,c419,657,tonnes
+Coffee substitutes,stimulants and beverages,processed,c420,658,tonnes
+Coffee extracts,stimulants and beverages,processed,c421,659,tonnes
+Cocoa paste not defatted,stimulants and beverages,processed,c422,662,tonnes
+Cocoa husks and shells,stimulants and beverages,processed,c423,663,tonnes
+"Cocoa butter, fat and oil",stimulants and beverages,processed,c424,664,tonnes
+Cocoa powder and cake,stimulants and beverages,processed,c425,665,tonnes
+Chocolate products nes,stimulants and beverages,processed,c426,666,tonnes
+"Extracts, essences and concentrates of tea or mate, and preparations with a basis thereof or with a basis of tea or maté",stimulants and beverages,processed,c427,672,tonnes
+"Green tea (not fermented), black tea (fermented) and partly fermented tea, in immediate packings of a content not exceeding 3 kg",stimulants and beverages,processed,c428,675,tonnes
+"Cotton lint, ginned",other,processed,c429,767,tonnes
+Cigarettes,other,processed,c430,828,tonnes
+Cigars and cheroots,other,processed,c431,829,tonnes
+Natural rubber in other forms,other,processed,c432,837,tonnes
+Ice cream and other edible ice,other,processed,c433,910,tonnes
+Industrial monocarboxylic fatty acids; acid oils from refining,other,processed,c434,1276,tonnes
+Residues of fatty substances,other,processed,c435,1277,tonnes
+"Alcohol, Non-Food",other,processed,c436,2659,tonnes
+Standardized milk,milk,processed,c437,883,tonnes
+"Cream, fresh",milk,processed,c438,885,tonnes
+Butter of cow milk,milk,processed,c439,886,tonnes
+Ghee from cow milk,milk,processed,c440,887,tonnes
+Skim milk of cows,milk,processed,c441,888,tonnes
+"Whole milk, condensed",milk,processed,c442,889,tonnes
+"Whey, condensed",milk,processed,c443,890,tonnes
+Yoghurt,milk,processed,c444,891,tonnes
+"Yoghurt, with additives",milk,processed,c445,892,tonnes
+"Buttermilk, curdled and acidified milk",milk,processed,c446,893,tonnes
+"Whole milk, evaporated",milk,processed,c447,894,tonnes
+"Skim milk, evaporated",milk,processed,c448,895,tonnes
+"Skim milk, condensed",milk,processed,c449,896,tonnes
+Whole milk powder,milk,processed,c450,897,tonnes
+Skim milk and whey powder,milk,processed,c451,898,tonnes
+"Buttermilk, dry",milk,processed,c452,899,tonnes
+"Whey, dry",milk,processed,c453,900,tonnes
+Cheese from whole cow milk,milk,processed,c454,901,tonnes
+"Whey, fresh",milk,processed,c455,903,tonnes
+Cheese from skimmed cow milk,milk,processed,c456,904,tonnes
+Whey cheese,milk,processed,c457,905,tonnes
+Processed cheese,milk,processed,c458,907,tonnes
+Reconstituted milk,milk,processed,c459,908,tonnes
+Dairy products n.e.c.,milk,processed,c460,909,tonnes
+Casein,milk,processed,c461,917,tonnes
+Butter of buffalo milk,milk,processed,c462,952,tonnes
+Ghee from buffalo milk,milk,processed,c463,953,tonnes
+Skim milk of buffalo,milk,processed,c464,954,tonnes
+"Cheese from milk of buffalo, fresh or processed",milk,processed,c465,955,tonnes
+Butter and ghee of sheep milk,milk,processed,c466,983,tonnes
+"Cheese from milk of sheep, fresh or processed",milk,processed,c467,984,tonnes
+Skim sheep milk,milk,processed,c468,985,tonnes
+"Cheese from milk of goats, fresh or processed",milk,processed,c469,1021,tonnes
+Butter of goat milk,milk,processed,c470,1022,tonnes
+Skim milk of goat,milk,processed,c471,1023,tonnes
+"Eggs, liquid",eggs,processed,c472,1063,tonnes
+"Eggs, dried",eggs,processed,c473,1064,tonnes
+"Meat of cattle boneless, fresh or chilled",meat,processed,c474,870,tonnes
+"Bovine meat, salted, dried or smoked",meat,processed,c475,872,tonnes
+"Extracts and juices of meat, fish, crustaceans, molluscs or other aquatic invertebrates",meat,processed,c476,873,tonnes
+"Sausages and similar products of meat, offal or blood of beef and veal",meat,processed,c477,874,tonnes
+beef and veal preparations nes,meat,processed,c478,875,tonnes
+Homogenized meat preparations,meat,processed,c479,877,tonnes
+"Meat of pig boneless, fresh or chilled",meat,processed,c480,1038,tonnes
+"Pig meat, cuts, salted, dried or smoked (bacon and ham)",meat,processed,c481,1039,tonnes
+"Sausages and similar products of meat, offal or blood of pig",meat,processed,c482,1041,tonnes
+Pig meat preparations,meat,processed,c483,1042,tonnes
+Poultry meat preparations,meat,processed,c484,1061,tonnes
+Meat prepared n.e.c.,meat,processed,c485,1172,tonnes
+"Snails, fresh, chilled, frozen, dried, salted or in brine, except sea snails",meat,processed,c486,1176,tonnes
+Liver preparations,edible offals,processed,c487,878,tonnes
+"Edible offals and liver of chickens and guinea fowl, fresh, chilled or frozen",edible offals,processed,c488,1059,tonnes
+Fatty liver preparations,edible offals,processed,c489,1060,tonnes
+"Edible offals and liver of geese, fresh, chilled or frozen",edible offals,processed,c490,1074,tonnes
+"Edible offals and liver of ducks, fresh, chilled or frozen",edible offals,processed,c491,1075,tonnes
+"Edible offals and liver of turkey, fresh, chilled or frozen",edible offals,processed,c492,1081,tonnes
+"Edible offals of horses and other equines,  fresh, chilled or frozen",edible offals,processed,c493,1098,tonnes
+"Other meat and edible meat offal, salted, in brine, dried or smoked; edible flours and meals of meat or meat offal",edible offals,processed,c494,1164,tonnes
+"Cattle, butcher fat",slaughter fats,processed,c495,871,tonnes
+"Pig, butcher fat",slaughter fats,processed,c496,1040,tonnes
+"Pig fat, rendered",slaughter fats,processed,c497,1043,tonnes
+Fat of poultry,slaughter fats,processed,c498,1065,tonnes
+"Poultry fat, rendered",slaughter fats,processed,c499,1066,tonnes
+Animal oils and fats n.e.c.,slaughter fats,processed,c500,1168,tonnes
+Lard stearine and lard oil,slaughter fats,processed,c501,1221,tonnes
+Tallow,slaughter fats,processed,c502,1225,tonnes
+Fat preparations n.e.c.,slaughter fats,processed,c503,1243,tonnes
+"Animal or vegetable fats and oils and their fractions, chemically modified, except those hydrogenated, inter-esterified, re-esterified or elaidinized; inedible mixtures or preparations of animal or vegetable fats or oils",slaughter fats,processed,c504,1274,tonnes
+hydrogenated oils and fats,slaughter fats,processed,c505,1275,tonnes
+"Beer of barley, malted",alcoholic products,processed,c506,51,tonnes
+"Beer of maize, malted",alcoholic products,processed,c507,66,tonnes
+"Beer of millet, malted",alcoholic products,processed,c508,82,tonnes
+"Beer of sorghum, malted",alcoholic products,processed,c509,86,tonnes
+Vermouth and other wine of fresh grapes flavoured with plats or aromatic substances,alcoholic products,processed,c510,565,tonnes
+Undenatured ethyl alcohol of an alcoholic strength by volume of 80% vol or higher,alcoholic products,processed,c511,632,tonnes
+"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages",alcoholic products,processed,c512,634,tonnes
+Freshwater Fish,aquatic products,processed,c513,2761,tonnes
+Demersal Fish,aquatic products,processed,c514,2762,tonnes
+Pelagic Fish,aquatic products,processed,c515,2763,tonnes
+"Marine Fish, Other",aquatic products,processed,c516,2764,tonnes
+Crustaceans,aquatic products,processed,c517,2765,tonnes
+Cephalopods,aquatic products,processed,c518,2766,tonnes
+"Molluscs, Other",aquatic products,processed,c519,2767,tonnes
+"Aquatic Animals, Others",aquatic products,processed,c520,2769,tonnes
+"Fish, Body Oil",aquatic products,processed,c521,2781,tonnes
+"Fish, Liver Oil",aquatic products,processed,c522,2782,tonnes
+"Aquatic Products, Other",aquatic products,processed,c523,2961,tonnes
+"Wool, degreased or carbonized, not carded or combed",other animal products,processed,c524,988,tonnes

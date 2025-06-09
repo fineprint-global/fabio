@@ -229,7 +229,7 @@ sua <- sua[element %in% c("Production", "Import quantity", "Export quantity",
 sua[, item := iconv(item, from = "latin1", to = "UTF-8")]
 
 # keep only relevant items
-sua <- sua[item %in% items_sua$item]
+sua <- sua[item_code %in% items_sua$item_code_fcl]
 
 
 # Country / Area adjustments
