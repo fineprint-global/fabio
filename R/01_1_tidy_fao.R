@@ -700,18 +700,8 @@ prod_trad[, region := NULL]
 saveRDS(rbind(prod_trad, crop_prim), "data/tidy/prod_trad_full.rds")
 
 
-
-
-
-
-
-
-
-
-
-
-# Aggregate
-crop <- merge(crop, unique(crop_conc[,.(crop_item_code, cbs_item_code, cbs_item, tcf)]),
+# Build crop dataset
+crop <- merge(prod_trad, unique(crop_conc[,.(crop_item_code, cbs_item_code, cbs_item, tcf)]),
               by.x = "item_code", by.y = "crop_item_code", all.x = TRUE)
 crop <- tcf_apply(crop, fun = `*`, na.rm = TRUE)
 
@@ -727,16 +717,191 @@ saveRDS(rbind(crop, crop_prim), "data/tidy/crop_tidy.rds")
 rm(crop, crop_prim, crop_conc, cbs)
 
 
+source("R/00_prep_functions.R")
+path_fao <- "input/fao/"
+# Fertilizers --------------------------------------------------------------
+# get FAO fertilizer data
+file <- c("fert" = "Inputs_FertilizersNutrient_E_All_Data_(Normalized).zip")
+fa_dl(file = file, path = path_fao, link = "https://bulks-faostat.fao.org/production/")
+
+# TODO: what is this error? (Currently no solution, can be ignored)
+fa_extract(path_in = path_fao, files = file, path_out=path_fao, 
+           name = names(file))
+fert <- fread(paste0(path_fao,"Inputs_FertilizersNutrient_E_All_Data_(Normalized).csv"))
+
+# rename and filter
+
+fert <- dt_rename(fert, rename = rename, drop = TRUE)
+fert <- fert[year %in% years & element %in% "Agricultural Use",]
+
+# clean up areas
+fert <- area_fix(fert, regions = regions)
+fert <- area_kick(fert, code = 351, pattern = "China", groups = TRUE)
+fert <- area_merge(fert, orig = 206, dest = 276, pattern = "Sudan")
+fert[, iso3c := regions$iso3c[match(area, regions$name)]]
+fert[ area == "Palestine", `:=` (area = "Israel", iso3c = "ISR")]
+fert[is.na(iso3c), `:=` (iso3c = "ROW", area = "RoW", area_code = 999)]
+fert <- fert[, .(area = unique(area), value = sum(value, na.rm = TRUE)), 
+             by = .(iso3c, item, year)]
+
+#convert to kg
+fert[, value := value * 1000]    
+
+saveRDS(fert, "data/tidy/fert_tidy.rds")
+
+rm(fert)
+
+# Crop Nutrient Balances ---------------------------------------------------
+#get files from FAO -> TODO: this should be in prep_FAO
+file <- c("Environment_Cropland_nutrient_budget_E_All_Data_(Normalized).zip")
+fa_dl(file = file, path = path_fao, link = "https://bulks-faostat.fao.org/production/")
+fa_extract(path_in = path_fao, file = file, path_out=path_fao, name = names(file))
+cnb <- fread(paste0(path_fao,"Environment_Cropland_nutrient_budget_E_All_Data_(Normalized).csv"))
+
+#clean up
+cnb <- dt_rename(cnb, rename = rename, drop = TRUE)
+cnb <- cnb[year %in% years, ]
+cnb <- area_fix(cnb, regions = regions)
+cnb <- area_kick(cnb, code = 351, pattern = "China", groups = TRUE)
+cnb <- area_merge(cnb, orig = 206, dest = 276, pattern = "Sudan")
+cnb[, iso3c := regions$iso3c[match(area, regions$name)]]
+
+# aggregate countries not in fabio to RoW
+cnb[is.na(iso3c), `:=` (iso3c = "ROW", area = "RoW", area_code = 999)]
+cnb_sum <- cnb[unit == "t", .(area = unique(area), unit= unique(unit), 
+                              value = sum(value, na.rm = TRUE)), 
+               by = .(iso3c, item, year, element)]
+cnb_mean <- cnb[unit %in% c("kg/ha" , "%"), .(area = unique(area), unit = unique(unit),
+                                              value = mean(value, na.rm = TRUE)), 
+                by = .(iso3c, item, year, element)]
+cnb <- bind_rows(cnb_sum, cnb_mean)
 
 
+# save
+saveRDS(cnb, "data/tidy/cnb_tidy.rds")
+
+rm(cnb, cnb_mean, cnb_sum)
 
 
+# Manure -------------------------------------------------------------------
+#get files from FAO
+file <- c("Environment_LivestockManure_E_All_Data_(Normalized).zip")
+fa_dl(file = file, path = path_fao, link = "https://bulks-faostat.fao.org/production/")
+fa_extract(path_in = path_fao, file = file, path_out=path_fao, name = names(file))
+manure <- fread(paste0(path_fao,"Environment_LivestockManure_E_All_Data_(Normalized).csv"))
+
+#clean up
+manure <- dt_rename(manure, rename = rename, drop = TRUE)
+manure <- manure[year %in% years, ]
+manure <- area_fix(manure, regions = regions)
+manure <- area_kick(manure, code = 351, pattern = "China", groups = TRUE)
+manure <- area_merge(manure, orig = 206, dest = 276, pattern = "Sudan")
+manure[, iso3c := regions$iso3c[match(area, regions$name)]]
+
+# exclude stocks and aggregate categories
+manure <- manure[element != "Stocks" & !item_code %in% c(1048, 1054,1126, 
+                                                         1177, 1755, 1759, 1749, 
+                                                         1757, 1759, 2029)]
+
+# aggregate countries not in fabio to RoW
+manure[is.na(iso3c), `:=` (iso3c = "ROW", area = "RoW", area_code = 999)]
+manure <- manure[, .(area = unique(area),area_code = unique(area_code),
+                     item_code = unique(item_code), unit = unique(unit),
+                     value = sum(value, na.rm = TRUE)), 
+                 by = .(iso3c, item, year, element)]
+
+# save
+saveRDS(manure, "data/tidy/manure_tidy.rds")
+
+# Emissions from crops -----------------------------------------------------------
+#get files from FAO
+file <- c("Emissions_crops_E_All_Data_(Normalized).zip")
+fa_dl(file = file, path = path_fao, link = "https://bulks-faostat.fao.org/production/")
+fa_extract(path_in = path_fao, file = file, path_out=path_fao, name = names(file))
+crop_emissions <- fread(paste0(path_fao,"Emissions_crops_E_All_Data_(Normalized).csv"))
+
+#clean up
+crop_emissions <- crop_emissions[ `Source Code` == 3050] # only FAO tier 1 emissions
+crop_emissions <- dt_rename(crop_emissions, rename = rename, drop = TRUE)
+crop_emissions <- crop_emissions[year %in% years, ]
+crop_emissions <- area_fix(crop_emissions, regions = regions)
+crop_emissions <- area_kick(crop_emissions, code = 351, pattern = "China", groups = TRUE)
+crop_emissions <- area_merge(crop_emissions, orig = 206, dest = 276, pattern = "Sudan")
+crop_emissions[, iso3c := regions$iso3c[match(area, regions$name)]]
 
 
+# aggregate countries not in fabio to RoW
+crop_emissions[is.na(iso3c), `:=` (iso3c = "ROW", area = "RoW", area_code = 999)]
+crop_emissions <- crop_emissions[, .(area = unique(area), unit = unique(unit), 
+                                     item_code = unique(item_code),
+                                     value = sum(value, na.rm = TRUE)), 
+                                 by = .(iso3c, item, year, element)]
+
+# replace crop items with cbs items
+conc <- fread("inst/conc_crop-cbs.csv")
+crop_emissions[, `:=` (item_cbs = conc$cbs_item[match(item_code, conc$crop_item_code)],
+                       item_code_cbs = conc$cbs_item_code[match(item_code, conc$crop_item_code)])]
+crop_emissions[!is.na(item_cbs), `:=` (item = item_cbs, item_code = item_code_cbs)][
+  , `:=` (item_cbs = NULL, item_code_cbs = NULL)]
 
 
+# save
+saveRDS(crop_emissions, "data/tidy/crop_emissions_tidy.rds")
 
 
+# Emissions from drained organic soils ----------------------------------------
+#get files from FAO
+file <- c("Emissions_Drained_Organic_Soils_E_All_Data_(Normalized).zip")
+fa_dl(file = file, path = path_fao, link = "https://bulks-faostat.fao.org/production/")
+fa_extract(path_in = path_fao, file = file, path_out=path_fao, name = names(file))
+drain_emissions <- fread(paste0(path_fao,"Emissions_Drained_Organic_Soils_E_All_Data_(Normalized).csv"))
+
+#clean up
+drain_emissions <- drain_emissions[ `Source Code` == 3050] # only FAO tier 1 emissions
+drain_emissions <- dt_rename(drain_emissions, rename = rename, drop = TRUE)
+drain_emissions <- drain_emissions[year %in% years, ]
+drain_emissions <- area_fix(drain_emissions, regions = regions)
+drain_emissions <- area_kick(drain_emissions, code = 351, pattern = "China", groups = TRUE)
+drain_emissions <- area_merge(drain_emissions, orig = 206, dest = 276, pattern = "Sudan")
+drain_emissions[, iso3c := regions$iso3c[match(area, regions$name)]]
+
+
+# aggregate countries not in fabio to RoW
+drain_emissions[is.na(iso3c), `:=` (iso3c = "ROW", area = "RoW", area_code = 999)]
+drain_emissions <- drain_emissions[, .(area = unique(area), unit= unique(unit), 
+                                       item_code = unique(item_code),
+                                       value = sum(value, na.rm = TRUE)), 
+                                   by = .(iso3c, item, year, element)]
+
+# save
+saveRDS(drain_emissions, "data/tidy/drain_emissions_tidy.rds")
+
+# Emissions from manure ----------------------------------------
+#get files from FAO
+file <- c("Emissions_livestock_E_All_Data_(Normalized).zip")
+fa_dl(file = file, path = path_fao, link = "https://bulks-faostat.fao.org/production/")
+fa_extract(path_in = path_fao, file = file, path_out=path_fao, name = names(file))
+manure_emissions <- fread(paste0(path_fao,"Emissions_livestock_E_All_Data_(Normalized).csv"))
+
+#clean up
+manure_emissions <- manure_emissions[ `Source Code` == 3050] # only FAO tier 1 emissions
+manure_emissions <- dt_rename(manure_emissions, rename = rename, drop = TRUE)
+manure_emissions <- manure_emissions[year %in% years, ]
+manure_emissions <- area_fix(manure_emissions, regions = regions)
+manure_emissions <- area_kick(manure_emissions, code = 351, pattern = "China", groups = TRUE)
+manure_emissions <- area_merge(manure_emissions, orig = 206, dest = 276, pattern = "Sudan")
+manure_emissions[, iso3c := regions$iso3c[match(area, regions$name)]]
+
+
+# aggregate countries not in fabio to RoW
+manure_emissions[is.na(iso3c), `:=` (iso3c = "ROW", area = "RoW", area_code = 999)]
+manure_emissions <- manure_emissions[, .(area = unique(area), unit = unique(unit),
+                                         item_code = unique(item_code),
+                                         value = sum(value, na.rm = TRUE)), 
+                                     by = .(iso3c, item, year, element)]
+
+# save
+saveRDS(manure_emissions, "data/tidy/manure_emissions_tidy.rds")
 
 
 # Livestock ---------------------------------------------------------------
