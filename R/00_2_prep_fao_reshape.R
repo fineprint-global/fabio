@@ -74,16 +74,20 @@ fbs[, Year := as.numeric(substr(Year, 2, nchar(Year)))]
 sua <- dt_replace(sua, cols = "Value")
 fbs <- dt_replace(fbs, cols = "Value")
 
-# # compare to normalized data until 2019
+sua[, `Year Code` := Year]
+fbs[, `Year Code` := Year]
+
+
+# # compare to normalized data until 2019 ------------------------------
 # sua_norm <- readRDS("~/fabio/input/fao/sua.rds")
 # fbs_norm <- readRDS("~/fabio/input/fao/cbs_food_new.rds")
-#
+# 
 # sua <- merge(sua, sua_norm, by = names(sua)[1:10], suffixes = c("","_norm"), all = TRUE)
 # fbs <- merge(fbs, fbs_norm, by = names(fbs)[1:10], suffixes = c("","_norm"), all = TRUE)
-#
+# 
 # sua[, diff := Value - Value_norm]
 # fbs[, diff := Value - Value_norm]
-#
+# 
 # # values match exactly
 # sua[, .(max_diff = max(diff, na.rm = TRUE)), by = Year]
 # fbs[, .(max_diff = max(diff, na.rm = TRUE)), by = Year]
@@ -91,14 +95,12 @@ fbs <- dt_replace(fbs, cols = "Value")
 # max(sua[is.na(diff) & Year <2020 ]$Value_norm, na.rm = TRUE)
 # max(fbs[is.na(diff) & Year <2020 ]$Value)
 # max(fbs[is.na(diff) & Year <2020 ]$Value_norm, na.rm = TRUE)
-#
+# 
 # # remove comparison
 # sua[, `:=`(Value_norm = NULL, diff = NULL, Flag = NULL, `Year Code` = NULL)]
 # fbs[, `:=`(Value_norm = NULL, diff = NULL, Flag = NULL, `Year Code` = NULL)]
 
-# save
-sua[, `Year Code` := Year]
-fbs[, `Year Code` := Year]
 
+# save
 saveRDS(sua, file = "input/fao/sua.rds")
 saveRDS(fbs, file = "input/fao/cbs_food_new.rds")

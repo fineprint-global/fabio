@@ -16,20 +16,6 @@ cat("\nBuilding full BTD.\n")
 
 btd <- readRDS("data/tidy/btd_tidy.rds")
 
-# Change from reporting & partner country to receiving & supplying country
-btd[, `:=`(from = ifelse(imex == "Import", partner, reporter),
-  from_code = ifelse(imex == "Import", partner_code, reporter_code),
-  to = ifelse(imex == "Import", reporter, partner),
-  to_code = ifelse(imex == "Import", reporter_code, partner_code),
-  reporter = NULL, reporter_code = NULL,
-  partner = NULL, partner_code = NULL)]
-
-# Give preference to reported export flows over import flows
-btd <- flow_pref(btd, pref = "Export")
-btd[, imex := NULL]
-
-# Exclude intra-regional trade flows
-btd <- dt_filter(btd, from_code != to_code)
 
 
 # # Forestry ----------------------------------------------------------------
@@ -68,8 +54,8 @@ btd <- dt_filter(btd, from_code != to_code)
 
 cat("\nAdding ethanol trade data.\n")
 
-eth <- baci[grep("^2207[0-9]*$", category), ]
-eth[, `:=`(item = "Alcohol, Non-Food", item_code = 2659, category = NULL)]
+eth <- baci[grep("^2207[0-9]*$", item_code), ]
+eth[, `:=`(item = "Alcohol, Non-Food", item_code = 2659)]
 
 eth <- dt_rename(eth, drop = FALSE,
   rename = c("exporter" = "from", "exporter_code" = "from_code",
@@ -77,29 +63,29 @@ eth <- dt_rename(eth, drop = FALSE,
 
 
 
-# Fish --------------------------------------------------------------------
-
-cat("\nAdding fishery trade data.\n")
-
-fish <- baci[grep("^30[1-9]", category), ] %>% 
-  select(-category) %>% 
-  filter(unit=="tonnes")
-
-# match with tcfs and convert into fresh fish equivalents
-tcf <- read.csv("inst/tcf_fish.csv")
-fish <- merge(fish, tcf, by.x="item_code", by.y="hs_code", all.x = TRUE)
-fish[, value := value * tcf]
-fish[, `:=`(item = category, category = NULL, tcf = NULL, name = NULL)]
-fish[, `:=`(item_code = code, code = NULL)]
-
-fish <- dt_rename(fish, drop = FALSE,
-  rename = c("exporter" = "from", "exporter_code" = "from_code",
-    "importer" = "to", "importer_code" = "to_code"))
+# # Fish --------------------------------------------------------------------
+# 
+# cat("\nAdding fishery trade data.\n")
+# 
+# fish <- baci[grep("^30[1-9]", item_code), ] %>% 
+#   filter(unit=="tonnes")
+# 
+# # match with tcfs and convert into fresh fish equivalents
+# tcf <- read.csv("inst/tcf_fish.csv")
+# fish <- merge(fish, tcf, by.x="item_code", by.y="hs_code", all.x = TRUE)
+# fish[, value := value * tcf]
+# fish[, `:=`(item = category, category = NULL, tcf = NULL, name = NULL)]
+# fish[, `:=`(item_code = code, code = NULL)]
+# 
+# fish <- dt_rename(fish, drop = FALSE,
+#   rename = c("exporter" = "from", "exporter_code" = "from_code",
+#     "importer" = "to", "importer_code" = "to_code"))
 
 
 # Merge --------------------------------------------------------------------
 
-btd <- rbindlist(list(btd, eth, fish), use.names = TRUE) #fore
+# btd <- rbindlist(list(btd, eth, fish), use.names = TRUE)
+btd <- rbindlist(list(btd, eth), use.names = TRUE)
 
 # Replace negatives with 0 (except for regions "Unspecified" and "Others (adjustments)")
 # (Not needed, because there are only negatives for these two regions.)

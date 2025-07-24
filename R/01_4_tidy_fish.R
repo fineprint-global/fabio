@@ -76,77 +76,77 @@ isscfc23 <- dt_rename(isscfc23, rename, drop = TRUE)
 # PREP METADATA  # 
 ##################
 
-# Prep CPC metadata ------------------------------------------------------------
-
-colnames(cpc) <- c("cpc_code", "cpc_name")
-cpc[cpc_name == "Cold-water shrimps and prawns (<i>Pandalus spp.</i>, <i>Crangon crangon</i>), live, fresh or chilled",
-    cpc_name := "Cold-water shrimps and prawns (Pandalus spp., Crangon crangon), live, fresh or chilled"]
-cpc[cpc_name == "Lobsters (<i>Homarus spp.</i>), live, fresh or chilled",
-    cpc_name := "Lobsters (Homarus spp.), live, fresh or chilled"]
-cpc[cpc_name == "Cuttle fish and squid, live, fresh or chilled",
-    cpc_name := "Cuttlefish and squid, live, fresh or chilled"]
-cpc[cpc_name == "Cuttle fish and squid, frozen, smoked, dried, salted or in brine",
-    cpc_name := "Cuttlefish and squid, frozen, smoked, dried, salted or in brine"]
-
-cpc <- cpc[cpc_name %in% items_aap$cpc_name | cpc_code %in% items_fc$cpc_code]
-cpc <- cpc[order(cpc_code)]
-cpc <- cpc[!duplicated(cpc_code) & !duplicated(cpc_name)]
-
-write.csv(cpc, "data/fish_cpc.csv", row.names = FALSE)
-
-
-# Prep ASFIS metadata ----------------------------------------------------------
-
-colnames(asfis) <- c("isscaap_code", "taxon_code", "species", "name_scientific", "name", "family", "order", "fishstat")
-setcolorder(asfis,
-            c("species", "name", "name_scientific", "taxon_code", "family", "order"))
-
-report_species <- unique(prod$species) #all species reported in prod(uction data)
-
-asfis <- asfis[species %in% report_species]
-asfis <- asfis[, c("species", "family", "order")]
-
-families <- unique(asfis$family)
-families <- families[order(families)]
-
-
-# Build metadata for primary production: items_aap -----------------------------
-
-items_aap <- items_aap[species %in% report_species]
-# add ISSCAAP-code:
-items_aap <- merge(items_aap, isscaap, by = "isscaap_name", all.x = TRUE) # 202 rows have empty isscaap_name (all of group_major "AMPHIBIA, REPTILIA") => all.x = TRUE to keep them nonetheless
-# add CPC-code:
-items_aap <- merge(items_aap, cpc, by = "cpc_name", all.x = TRUE)
-# add families and order:
-items_aap <- merge(items_aap, asfis, by = "species")
-
-items_aap <- items_aap[order(species)]
-setcolorder(items_aap,
-            c("species", "name", "name_scientific", "taxon_code", "family", "order", "isscaap_name", "isscaap_code", "cpc_name", "cpc_code", "group"))
-
-write.csv(items_aap, "data/items_aap.csv", row.names = FALSE)
-
-
-# Build metadata for processed production and trade: items_fc ------------------
-
-items_fc <- merge(items_fc, isscfc23[, c("commodity", "hs_code")], 
-                  by = "commodity", all.x = TRUE) #add HS17 codes from 2023 metadata to 2024 metadata
-
-items_fc[cpc_code == 4920, cpc_code := 492]
-
-report_commod <- unique(c(prod_proc$commodity, trad$commodity, trad_aggr$commodity)) #all commodities ever reported
-items_fc <- items_fc[commodity %in% report_commod]
-
-sum(items_fc$observ)
-items_fc[, observ := NULL]
-setcolorder(items_fc, c("commodity", "cpc_code", "hs_code"))
-
-items_fc[is.na(hs_code)]
-# => five commodities added (and reported) in 2024 with empty hs_code!! (because not present in 2023 data)
-# add missing HS manually:
-items_fc[is.na(hs_code), "hs_code"] <- c("0307.21", "0307.21", "0307.22", "0307.29", "0306.99")
-
-write.csv(items_fc, "data/items_fc.csv", row.names = FALSE)
+# # Prep CPC metadata ------------------------------------------------------------
+# 
+# colnames(cpc) <- c("cpc_code", "cpc_name")
+# cpc[cpc_name == "Cold-water shrimps and prawns (<i>Pandalus spp.</i>, <i>Crangon crangon</i>), live, fresh or chilled",
+#     cpc_name := "Cold-water shrimps and prawns (Pandalus spp., Crangon crangon), live, fresh or chilled"]
+# cpc[cpc_name == "Lobsters (<i>Homarus spp.</i>), live, fresh or chilled",
+#     cpc_name := "Lobsters (Homarus spp.), live, fresh or chilled"]
+# cpc[cpc_name == "Cuttle fish and squid, live, fresh or chilled",
+#     cpc_name := "Cuttlefish and squid, live, fresh or chilled"]
+# cpc[cpc_name == "Cuttle fish and squid, frozen, smoked, dried, salted or in brine",
+#     cpc_name := "Cuttlefish and squid, frozen, smoked, dried, salted or in brine"]
+# 
+# cpc <- cpc[cpc_name %in% items_aap$cpc_name | cpc_code %in% items_fc$cpc_code]
+# cpc <- cpc[order(cpc_code)]
+# cpc <- cpc[!duplicated(cpc_code) & !duplicated(cpc_name)]
+# 
+# write.csv(cpc, "data/fish_cpc.csv", row.names = FALSE)
+# 
+# 
+# # Prep ASFIS metadata ----------------------------------------------------------
+# 
+# colnames(asfis) <- c("isscaap_code", "taxon_code", "species", "name_scientific", "name", "family", "order", "fishstat")
+# setcolorder(asfis,
+#             c("species", "name", "name_scientific", "taxon_code", "family", "order"))
+# 
+# report_species <- unique(prod$species) #all species reported in prod(uction data)
+# 
+# asfis <- asfis[species %in% report_species]
+# asfis <- asfis[, c("species", "family", "order")]
+# 
+# families <- unique(asfis$family)
+# families <- families[order(families)]
+# 
+# 
+# # Build metadata for primary production: items_aap -----------------------------
+# 
+# items_aap <- items_aap[species %in% report_species]
+# # add ISSCAAP-code:
+# items_aap <- merge(items_aap, isscaap, by = "isscaap_name", all.x = TRUE) # 202 rows have empty isscaap_name (all of group_major "AMPHIBIA, REPTILIA") => all.x = TRUE to keep them nonetheless
+# # add CPC-code:
+# items_aap <- merge(items_aap, cpc, by = "cpc_name", all.x = TRUE)
+# # add families and order:
+# items_aap <- merge(items_aap, asfis, by = "species")
+# 
+# items_aap <- items_aap[order(species)]
+# setcolorder(items_aap,
+#             c("species", "name", "name_scientific", "taxon_code", "family", "order", "isscaap_name", "isscaap_code", "cpc_name", "cpc_code", "group"))
+# 
+# write.csv(items_aap, "data/items_aap.csv", row.names = FALSE)
+# 
+# 
+# # Build metadata for processed production and trade: items_fc ------------------
+# 
+# items_fc <- merge(items_fc, isscfc23[, c("commodity", "hs_code")], 
+#                   by = "commodity", all.x = TRUE) #add HS17 codes from 2023 metadata to 2024 metadata
+# 
+# items_fc[cpc_code == 4920, cpc_code := 492]
+# 
+# report_commod <- unique(c(prod_proc$commodity, trad$commodity, trad_aggr$commodity)) #all commodities ever reported
+# items_fc <- items_fc[commodity %in% report_commod]
+# 
+# sum(items_fc$observ)
+# items_fc[, observ := NULL]
+# setcolorder(items_fc, c("commodity", "cpc_code", "hs_code"))
+# 
+# items_fc[is.na(hs_code)]
+# # => five commodities added (and reported) in 2024 with empty hs_code!! (because not present in 2023 data)
+# # add missing HS manually:
+# items_fc[is.na(hs_code), "hs_code"] <- c("0307.21", "0307.21", "0307.22", "0307.29", "0306.99")
+# 
+# write.csv(items_fc, "data/items_fc.csv", row.names = FALSE)
 
 
 
@@ -211,52 +211,6 @@ prod_proc_agg <- prod_proc[, .(value = na_sum(value)),
                            by = .(country, year, unit, isscaap_code)]
 
 
-# Define functions -------------------------------------------------------------
-# for aggregations (which isscaap-cpc combinations to take)
-# building FISHIO product groups
-
-
-fish_fillet_meat <- function(x) {
-  ifelse(x %in% c("21222", "21223"), "21221", x)
-}
-# INPUT: CPC codes
-# OUTPUT: combines 21221 (fish fillet/meat fresh, chilled), 21222 (fish fillet, frozen),
-#         21223 (fish meat, frozen) to only a single category 21221 (i.e. "fish fillet and meat, fresh, chilled, or frozen")
-
-cpc_condition <- function(x) {
-  cpc <- as.numeric(x)
-  (cpc < 421) | (cpc > 429 & cpc < 21211) | cpc %in% c(21225, 21226, 21227, 21233, 21234) | (cpc > 21242)   #(cpc < 421) | (cpc > 429 & cpc < 21211) | (cpc > 21243 & !cpc %in% c(21291, 21524, 21525))
-} 
-# INPUT: CPC codes
-# OUTPUT: returns FALSE for finfish-specific CPC codes, TRUE for other aquatic animals and fish by-products
-
-cpc_isscaap_comb <- function(x) {
-  case_when(
-    cpc_condition(sub("-.*", "", x)) ~ sub("-\\d{2}$", "", x), #remove isscaap from all cpc_condition(CPC) = TRUE
-    as.numeric(sub("-.*", "", x)) < 430 ~ sub(".*?-", "", x),  #keep only isscaap for all cpc < 430
-    TRUE ~ x)
-}
-# INPUT: full CPC-ISSCAAP pairs
-# OUTPUT: sorted CPC-ISSCAAP for the trade data
-
-final_aggr <- function(x) {
-  case_when(
-    #TUNA:
-    x == "426-36" ~ "425-36",  #all tunas, bonitos, billfishes, fresh or chilled (isscaap 36) in one category 425-36
-    x == "21216-36" ~ "21215-36",  #all tunas, bonitos, billfishes, frozen (isscaap 36) in one category 21215-36
-    #FISH OFFALS AND CAVIAR:
-    x %in% c("21225", "21226", "21227", "21243") ~ "21234",  #combines Fish livers and roes with Caviar with Fish offal - common category 21234
-    #FISH, OTHERWISE PREPARED:
-    x %in% c("21233", "21241-39") ~ "21242-39",  #add edible fish meal and prepared dishes to fish, otherwise prepared
-    x == "21241-32" ~ "21242-32",  #add prepared dishes to fish, otherwise prepared
-    #OTHER AQUATIC INVERTEBRATES:
-    x %in% c("451", "452", "453") ~ "459",  #add Sea cucumbers, Sea urchins, and Jellyfish to Other aquatic invertebrates
-    TRUE ~ x
-  )
-} 
-# INPUT: CPC-ISSCAAP pairs
-# OUTPUT: final aggregated FISHIO commodity groups
-
 
 
 # prep prod --------------------------------------------------------------------
@@ -298,53 +252,7 @@ prod_proc <- prod_proc[, .(sum(value)), by = c("country", "cpc_isscaap", "year")
   rename(value = V1)
 
 
-# prep trad  -------------------------------------------------------------------
 
-remove_comm <- c("411", "419", "4911", "492", "21526")
-# remove a) ornamental fish, b) seeds for aquaculture, c) corals, shells, d) sponges, e) marine mammal fats and oils
-
-trad[flow == "R", flow := "E"] #rename all R=Reexports to E=Exports
-trad <- trad[!cpc_code %in% remove_comm] %>%
-  mutate(cpc_code = fish_fillet_meat(cpc_code)) %>%
-  mutate(cpc_isscaap = paste(cpc_code, isscaap_code, sep = "-")) %>%   #add column with cpc-isscaap-pairs
-  mutate(cpc_isscaap = cpc_isscaap_comb(cpc_isscaap)) %>%
-  mutate(cpc_isscaap = final_aggr(cpc_isscaap))
-
-trad <- trad[, .(sum(value)), by = c("country_reporter", "country_partner", "flow", "cpc_isscaap", "year")] %>%
-  rename(value = V1)
-
-
-# prep trad_aggr ---------------------------------------------------------------
-
-trad_aggr[flow == "R", flow := "E"] #rename all R=Reexports to E=Exports
-trad_aggr <- trad_aggr[!cpc_code %in% remove_comm] %>%
-  mutate(cpc_code = fish_fillet_meat(cpc_code)) %>%
-  mutate(cpc_isscaap = paste(cpc_code, isscaap_code, sep = "-")) %>%   #add column with cpc-isscaap-pairs
-  mutate(cpc_isscaap = cpc_isscaap_comb(cpc_isscaap)) %>% 
-  mutate(cpc_isscaap = final_aggr(cpc_isscaap))
-
-trad_aggr <- trad_aggr[, .(sum(value)), by = c("country", "flow", "cpc_isscaap", "year")] %>%
-  rename(value = V1)
-
-
-
-# commodity group overview/summary ---------------------------------------------
-
-com_gr <- sub(".$", "", unique(prod$cpc_isscaap))  # all cpc-isscaap pairs in prod (without the a/c)
-com_gr <- unique(c(com_gr, prod_proc$cpc_isscaap, trad$cpc_isscaap))
-
-com_gr <- data.table(commodity_code = com_gr)
-com_gr <- com_gr[, c("cpc_code", "isscaap_code") :=
-                   tstrsplit(commodity_code, "-", fixed = TRUE, fill = NA)] %>%  # add columns with separated cpc and isscaap
-  mutate(across(c(cpc_code, isscaap_code), as.numeric)) %>%
-  mutate(isscaap_code = if_else(cpc_code < 100, cpc_code, isscaap_code),
-         cpc_code = if_else(cpc_code < 100, NA, cpc_code)) %>%
-  merge(cpc, by = "cpc_code", all.x = TRUE) %>%   # add cpc names
-  merge(isscaap, by = "isscaap_code", all.x = TRUE) %>%   # add isscaap names
-  arrange(cpc_code, isscaap_code)   # ascending order
-setcolorder(com_gr, c("commodity_code", "cpc_code", "isscaap_code"))
-
-write.csv(com_gr, "data/FISHIO_commodity_groups.csv", row.names = FALSE)
 
 
 # save -------------------------------------------------------------------------

@@ -9,13 +9,15 @@ path_fao <- "input/fao/"
 # Settings ----------------------------------------------------------------
 
 files <- c(
-  "prod" = "Production_Crops_Livestock_E_All_Data_(Normalized).zip", #"Production_Crops_E_All_Data_(Normalized).zip",
+  "prod" = "Production_Crops_Livestock_E_All_Data_(Normalized).zip", 
+  #"crop_prod" = #"Production_Crops_E_All_Data_(Normalized).zip",
   #"crop_proc" = "Production_CropsProcessed_E_All_Data_(Normalized).zip",
   #"live_prod" = "Production_Livestock_E_All_Data_(Normalized).zip",
   #"live_prim" = "Production_LivestockPrimary_E_All_Data_(Normalized).zip",
   #"live_proc" = "Production_LivestockProcessed_E_All_Data_(Normalized).zip",
-  # "trade_1" = "Trade_Crops_Livestock_E_All_Data_(Normalized).zip",
-  "trad" = "Trade_CropsLivestock_E_All_Data_(Normalized).zip", #"Trade_LiveAnimals_E_All_Data_(Normalized).zip",
+  #"trade_1" = "Trade_Crops_Livestock_E_All_Data_(Normalized).zip",
+  #"trade_2" = "Trade_LiveAnimals_E_All_Data_(Normalized).zip",
+  "trad" = "Trade_CropsLivestock_E_All_Data_(Normalized).zip", 
   "btd_prod" = "Trade_DetailedTradeMatrix_E_All_Data_(Normalized).zip",
   #"cbs_crop" = "CommodityBalances_Crops_E_All_Data_(Normalized).zip",
   #"cbs_live" = "CommodityBalances_LivestockFish_E_All_Data_(Normalized).zip",
@@ -24,10 +26,11 @@ files <- c(
   "cbs_nonfood_old" = "CommodityBalances_(non-food)_(-2013_old_methodology)_E_All_Data_(Normalized).zip",
   "cbs_nonfood_new" = "CommodityBalances_(non-food)_(2010-)_E_All_Data_(Normalized).zip",
   "sua" = "SUA_Crops_Livestock_E_All_Data_(Normalized).zip",
-  #"fore_prod" = "Forestry_E_All_Data_(Normalized).zip",
-  #"fore_trad" = "Forestry_Trade_Flows_E_All_Data_(Normalized).zip",
   "prices" = "Prices_E_All_Data_(Normalized).zip",
-  "fish_prod" = "GlobalProduction_2022.1.1.zip") #"GlobalProduction_2019.1.0.zip")
+  "fish_prod" = "GlobalProduction_2022.1.1.zip") 
+  #"fish_prod" = "GlobalProduction_2019.1.0.zip",
+  #"fore_prod" = "Forestry_E_All_Data_(Normalized).zip",
+  #"fore_trad" = "Forestry_Trade_Flows_E_All_Data_(Normalized).zip")
 
 # Files to extract from the ZIP archives
 #extr <- c(rep(NA, length(files) - 1), "TS_FI_PRODUCTION.csv")

@@ -316,19 +316,15 @@ for(col in c("reporter_code", "partner_code")) {
 btd <- dt_filter(btd, value >= 0)
 
 btd[, imex := factor(gsub("^(Import|Export) (.*)$", "\\1", element))]
+btd[, element := NULL]
 
-# Apply TCF to observations with 'unit' == "tonnes"
-btd <- merge(btd, fread("inst/tcf_btd.csv"),
-             by = "item_code", all.x = TRUE)
-cat("Applying TCF to trade data, where `unit == 'tonnes'` applies.\n")
-btd[unit != "tonnes", tcf := 1]
-btd <- tcf_apply(btd, na.rm = FALSE, filler = 1, fun = `/`)
-
-# Recode "1000 An" to "head"
-btd[unit == "1000 An", `:=`(value = value * 1000, unit = "Head")]
-btd[unit == "An", `:=`(unit = "head")]
+# # Recode "1000 An" to "1000 head"
+# btd[unit == "1000 An", `:=`(value = value * 1000, unit = "Head")]
+# btd[unit == "An", `:=`(unit = "head")]
 # Recode "1000 USD" to "usd"
 btd[unit == "1000 USD", `:=`(value = value * 1000, unit = "usd")]
+# Recode "t" to "tonnes"
+btd[unit == "t", `:=`(unit = "tonnes")]
 
 # Change from reporting & partner country to receiving & supplying country
 btd[, `:=`(from = ifelse(imex == "Import", partner, reporter),
@@ -348,6 +344,14 @@ btd <- dt_filter(btd, from_code != to_code)
 #store full version for sua
 saveRDS(btd, "data/tidy/btd_sua_tidy.rds")
 
+
+# Apply TCF to observations with 'unit' == "tonnes"
+btd <- merge(btd, fread("inst/tcf_btd.csv"),
+             by = "item_code", all.x = TRUE)
+cat("Applying TCF to trade data, where `unit == 'tonnes'` applies.\n")
+btd[unit != "tonnes", tcf := 1]
+btd <- tcf_apply(btd, na.rm = FALSE, filler = 1, fun = `/`)
+
 # Aggregate to CBS items
 btd_conc <- fread("inst/conc_btd-cbs.csv")
 
@@ -358,7 +362,7 @@ btd[, `:=`(item_code = btd_conc$cbs_item_code[item_match],
 # remove items not included in btd_conc (mainly food wastes and by-products for feed)
 btd <- btd[!is.na(item_code)]
 btd <- btd[, list(value = na_sum(value)), by = .(from_code, from,
-                                                 to_code, to, item_code, item, year, element, unit)]
+                                                 to_code, to, item_code, item, year, unit)]
 cat("Aggregation from", length(item_match), "to", nrow(btd), "observations.\n")
 
 # Store
@@ -696,6 +700,16 @@ prod_trad[, region := NULL]
 saveRDS(rbind(prod_trad, crop_prim), "data/tidy/prod_trad_full.rds")
 
 
+
+
+
+
+
+
+
+
+
+
 # Aggregate
 crop <- merge(crop, unique(crop_conc[,.(crop_item_code, cbs_item_code, cbs_item, tcf)]),
               by.x = "item_code", by.y = "crop_item_code", all.x = TRUE)
@@ -711,6 +725,18 @@ crop <- dt_filter(crop, value >= 0)
 # Bind all parts & store
 saveRDS(rbind(crop, crop_prim), "data/tidy/crop_tidy.rds")
 rm(crop, crop_prim, crop_conc, cbs)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # Livestock ---------------------------------------------------------------
@@ -782,7 +808,7 @@ rm(prices, crop_conc)
 # Technical conversion factors -------------------------------------------------------------------
 
 cat("\nTidying tcfs.\n")
-tcf <- fread("inst/tcf_rates_sua.csv") 
+tcf <- fread("inst/sua/tcf_rates_sua.csv") 
 
 # filter out unneeded items and columns 
 tcf <- tcf[!variable %in% c("seeding rates", "hatching eggs", "waste")]
@@ -800,12 +826,12 @@ tcf <- unique(tcf, by = c("country_tcf", "item_tcf", "variable"))
 
 
 # country concordance with current SUAs
-country_conc_sua_tcf <-fread("inst/conc_country_sua_tcf.csv")
+country_conc_sua_tcf <-fread("inst/sua/conc_country_sua_tcf.csv")
 tcf[, country_sua := country_conc_sua_tcf$country_sua[match(country_tcf, country_conc_sua_tcf$country_tcf)]]
 
 #item concordance with current suas
 sua <- readRDS("data/tidy/sua_tidy.rds")
-sua_conc <- fread("inst/conc_sua_tcf.csv")
+sua_conc <- fread("inst/sua/conc_sua_tcf.csv")
 sua_conc[, names(sua_conc) := lapply(.SD, function(x) fifelse(x == "", NA, x))]
 tcf[,item_sua := sua_conc$sua[match(item_tcf, sua_conc$tcf)]]
 
