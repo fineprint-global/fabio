@@ -94,19 +94,19 @@ c092,2657,"Beverages, Fermented",tonnes,Crop products,0.9,crops,Alcohol
 c093,2658,"Beverages, Alcoholic",tonnes,Crop products,0.8,crops,Alcohol
 c094,2659,"Alcohol, Non-Food",tonnes,Crop products,0.2,crops,Ethanol
 c095,2661,Cotton lint,tonnes,Crop products,0.1,crops,Fibre crops
-c096,866,Cattle,1000 Head,Livestock,0,,Live animals
-c097,946,Buffaloes,1000 Head,Livestock,0,,Live animals
-c098,976,Sheep,1000 Head,Livestock,0,,Live animals
-c099,1016,Goats,1000 Head,Livestock,0,,Live animals
-c100,1034,Pigs,1000 Head,Livestock,0,,Live animals
-c101,2029,Poultry Birds,1000 Head,Livestock,0,,Live animals
-c102,1096,Horses,1000 Head,Livestock,0,,Live animals
-c103,1107,Asses,1000 Head,Livestock,0,,Live animals
-c104,1110,Mules,1000 Head,Livestock,0,,Live animals
-c105,1126,Camels,1000 Head,Livestock,0,,Live animals
-c106,1157,"Camelids, other",1000 Head,Livestock,0,,Live animals
-c107,1140,Rabbits and hares,1000 Head,Livestock,0,,Live animals
-c108,1150,"Rodents, other",1000 Head,Livestock,0,,Live animals
+c096,866,Cattle,animals,Livestock,0,,Live animals
+c097,946,Buffaloes,animals,Livestock,0,,Live animals
+c098,976,Sheep,animals,Livestock,0,,Live animals
+c099,1016,Goats,animals,Livestock,0,,Live animals
+c100,1034,Pigs,animals,Livestock,0,,Live animals
+c101,2029,Poultry Birds,1000 animals,Livestock,0,,Live animals
+c102,1096,Horses,animals,Livestock,0,,Live animals
+c103,1107,Asses,animals,Livestock,0,,Live animals
+c104,1110,Mules,animals,Livestock,0,,Live animals
+c105,1126,Camels,animals,Livestock,0,,Live animals
+c106,1157,"Camelids, other",animals,Livestock,0,,Live animals
+c107,1140,Rabbits and hares,1000 animals,Livestock,0,,Live animals
+c108,1150,"Rodents, other",1000 animals,Livestock,0,,Live animals
 c109,2848,Milk - Excluding Butter,tonnes,Livestock products,0.875,animals,Milk
 c110,2740,"Butter, Ghee",tonnes,Livestock products,0.15,animals,Milk
 c111,2744,Eggs,tonnes,Livestock products,0.744,animals,Eggs

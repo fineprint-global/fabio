@@ -112,6 +112,9 @@ cbs[item == "Groundnuts (Shelled Eq)", `:=` (item_code = 2552, item = "Groundnut
 cbs[item == "Rice (Milled Equivalent)", `:=` (item_code = 2807, item = "Rice and products", value = 1/0.674 * value)]
 # “Unmanufactured tobacco” into "Tobacco"
 cbs[item_code == 826, `:=` (item_code = 2671, item = "Tobacco", value = value)]
+# replace "other" with "Other" in c("Vegetables, other", "Fruits, other", "Cereals, other")
+cbs[item %in% c("Vegetables, other", "Fruits, other", "Cereals, other"),
+    item := sub("other", "Other", item)]
 # Note: Sugar (Raw Equivalent) was also present in old FBS, so we don't need to transform it here
 
 # aggregate tourist consumption into other uses and drop unused elements
@@ -275,7 +278,6 @@ sua[((balancing/stock_addition < -1.9) & is.finite(balancing/stock_addition)) |
 
 sua[, `:=`(corr = NULL, ratio = NULL)]
 
-
 ## add FAO codes --> no longer necessary as raw data now already has a column for that
 # fbs_sua_conc <- readxl::read_excel("inst/FBS and SUA list.xlsx")
 # fbs_sua_conc <- fbs_sua_conc[!is.na(fbs_sua_conc$FCL),]
@@ -290,8 +292,6 @@ setnames(sua, "item_code", "item_code_fcl")
 # sua <- sua[item %in% c("Oil palm fruit", "Palm kernels"),] # "Molasses"
 # sua[, item_code := as.numeric(item_code)]
 
-
-
 # Store
 saveRDS(sua, "data/tidy/sua_tidy.rds")
 rm(sua)
@@ -303,7 +303,6 @@ cat("\nTidying BTD.\n")
 
 btd <- readRDS("input/fao/btd_prod.rds")
 btd <- dt_rename(btd, rename, drop = TRUE)
-
 
 # Country / Area adjustments
 for(col in c("reporter_code", "partner_code")) {
@@ -914,9 +913,9 @@ live_conc <- fread("inst/conc_live-cbs.csv")
 live <- prod[item_code %in% live_conc$live_item_code, ]
 live_trad <- trad[item_code %in% live_conc$live_item_code,]
 
-live <- live[item_code != 1808,] # the Meat, poultry category is incomplete after 2017
-live[item_code %in% c(1058, 1069, 1080, 1084) , item_code := 1808]
-live_trad[item_code %in% c(1057, 1068, 1079, 1083) , item_code := 2029]
+# live <- live[item_code != 1808,] # the Meat, poultry category is incomplete after 2017
+# live[item_code %in% c(1058, 1069, 1080, 1084) , item_code := 1808]
+# live_trad[item_code %in% c(1057, 1068, 1079, 1083) , item_code := 2029]
 
 live <- rbind(live, live_trad)
 
@@ -939,11 +938,12 @@ live <- dt_rename(live, drop = FALSE,
 live <- dt_filter(live, value >= 0)
 
 # Recode units
-live[unit %in% c("1000 Head", "1000 An"), `:=`(value = value * 1000, unit = "head")]
-live[unit %in% c("Head", "An"), `:=`(unit = "head")]
+# live[unit %in% c("1000 Head", "1000 An"), `:=`(value = value * 1000, unit = "head")]
+# live[unit %in% c("Head", "An"), `:=`(unit = "head")]
 live[unit %in% c("1000 US$", "1000 USD"), `:=`(value = value * 1000, unit = "usd")]
 live[unit == "t", `:=`(unit = "tonnes")]
 
+saveRDS(live, "data/tidy/live_tidy.rds")
 
 
 # Prices -------------------------------------------------------------------

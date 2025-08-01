@@ -5,7 +5,7 @@ source("R/01_tidy_functions.R")
 source("R/00_system_variables.R")
 
 regions <- fread("inst/regions_full.csv")
-items <- fread("inst/items_full.csv")
+items <- fread("inst/items_full_123.csv")
 
 # CBS ---------------------------------------------------------------------
 
@@ -28,23 +28,23 @@ cat("\nAdding information from BTD.\n")
 btd <- readRDS("data/tidy/btd_full_tidy.rds")
 
 cat("\nGiving preference to units in the following order:\n",
-  "\t 'head' > 'tonnes'\n", "Dropping 'usd'.\n", sep = "")
+  "\t 'An' > '1000 An' > 'tonnes'\n", "Dropping 'usd'.\n", sep = "")
 
 # Imports
 imps <- btd[!unit %in% c("usd"), list(value = na_sum(value)),
   by = list(to_code, to, item_code, item, year, unit)]
 imps <- data.table::dcast(imps, to_code + to + item_code + item + year ~ unit,
   value.var = "value")
-imps[, `:=`(value = ifelse(!is.na(head), head, tonnes),
-  head = NULL, tonnes = NULL)]
+imps[, `:=`(value = ifelse(!is.na(An), An, ifelse(!is.na(`1000 An`), `1000 An`, tonnes)),
+  An = NULL, `1000 An` = NULL, tonnes = NULL)]
 
 # Exports
 exps <- btd[!unit %in% c("usd"), list(value = na_sum(value)),
   by = list(from_code, from, item_code, item, year, unit)]
 exps <- data.table::dcast(exps, from_code + from + item_code + item + year ~ unit,
   value.var = "value")
-exps[, `:=`(value = ifelse(!is.na(head), head, tonnes),
-  head = NULL, tonnes = NULL)]
+exps[, `:=`(value = ifelse(!is.na(An), An, ifelse(!is.na(`1000 An`), `1000 An`, tonnes)),
+  An = NULL, `1000 An` = NULL, tonnes = NULL)]
 
 
 # # Forestry ----------------------------------------------------------------
@@ -65,17 +65,17 @@ exps[, `:=`(value = ifelse(!is.na(head), head, tonnes),
 
 
 # Add items that are now contained in SUA ---------------------
-
-# so far, we only use palm fruit and palm kernels (palm kernels is included as a category in fbs but mistaken for fruit in fbs)
 sua <- readRDS("data/tidy/sua_tidy.rds")
+# we use palm fruit and palm kernels from sua (palm kernels is included as a category in fbs but mistaken for fruit)
 sua_items <- c("Oil palm fruit", "Palm kernels")
 sua <- sua[item %in% sua_items,]
 
 conc_sua_fabio <- data.frame(item_sua = sua_items, item = c("Oil, palm fruit", "Palm kernels"), item_code_sua = c(254, 256), item_code = c(254, 2562))
 
 # assign FABIO codes
-sua[, `:=`(item_code = conc_sua_fabio$item_code[match(item_code, conc_sua_fabio$item_code_sua)],
-           item = conc_sua_fabio$item[match(item_code, conc_sua_fabio$item_code_sua)])]
+sua[, `:=`(item_code = conc_sua_fabio$item_code[match(item_code_fcl, conc_sua_fabio$item_code_sua)],
+           item = conc_sua_fabio$item[match(item_code_fcl, conc_sua_fabio$item_code_sua)])]
+sua <- sua[, item_code_fcl := NULL]
 sua <- sua[year %in% years, ]
 
 # remove palm kernels in cbs and bind sua data to cbs
@@ -256,7 +256,7 @@ cak_conv[, `:=` (tcf = ifelse(is.na(tcf), tcf_global, tcf),
                  cof = ifelse(is.na(cof), cof_global, cof))]
 cak_conv[,`:=` ( tcf_global = NULL, cof_global = NULL)]
 # NOTE: if we want to derive cake production also for countries that never had cake production between 2000 and 2013, 
-# we need an addition step to fill tcf/cof with global averages for these cases!
+# we need an additional step to fill tcf/cof with global averages for these cases!
 
 # apply factors to cbs in following order: if processing > 0, use tcf, and if processing = 0 but oil production > 0, use cof
 cake <- cbind(cak_conv[rep(1:nrow(cak_conv), each = length(years))], year = years[rep(1:length(years), nrow(cak_conv))])
@@ -287,8 +287,8 @@ cake[, area := regions$name[match(cake$area_code,regions$code)]]
 
 
 # add trade
-cak_imp <- crop[element == "Import Quantity" & unit == "tonnes" & item_code %in% cak_item & year %in% years, ]
-cak_exp <- crop[element == "Export Quantity" & unit == "tonnes" & item_code %in% cak_item & year %in% years, ]
+cak_imp <- crop[element == "Import quantity" & unit == "tonnes" & item_code %in% cak_item & year %in% years, ]
+cak_exp <- crop[element == "Export quantity" & unit == "tonnes" & item_code %in% cak_item & year %in% years, ]
 cak_imp[, `:=`(element = NULL, unit = NULL)]
 cak_exp[, `:=`(element = NULL, unit = NULL)]
 
@@ -347,7 +347,7 @@ cat("\nFilling missing livestock data.\n")
 
 # live <- readRDS("data/tidy/live_tidy.rds")
 #
-# live <- live[element == "Production" & unit == "head", ] # this is empty!!
+# live <- live[element == "Production" & unit %in% c("An", "1000 An"), ] # this is empty!!
 # live[, `:=`(element = NULL, unit = NULL)]
 
 
@@ -369,8 +369,7 @@ src_item <- c(1127, 867, 1017, 977, 1808, 1035, 1097, 1141,
   947, 1158, 1151, 1108, 1111)
 
 live <- readRDS("data/tidy/live_tidy.rds")
-live <- live[element == "Producing Animals/Slaughtered" &
-  unit == "head", ]
+live <- live[element == "Producing Animals/Slaughtered", ]
 live[, `:=`(element = NULL, unit = NULL)]
 
 conc <- match(live$item_code, src_item)
@@ -386,8 +385,8 @@ live <- live[!is.na(item_code), ]
 # Add trade data
 live_trad <- readRDS("data/tidy/live_tidy.rds")
 
-live_imp <- live_trad[element == "Import Quantity" & unit == "head" & item_code %in% items$item_code, ]
-live_exp <- live_trad[element == "Export Quantity" & unit == "head" & item_code %in% items$item_code, ]
+live_imp <- live_trad[element == "Import quantity" & unit %in% c("An", "1000 An") & item_code %in% items$item_code, ]
+live_exp <- live_trad[element == "Export quantity" & unit %in% c("An", "1000 An") & item_code %in% items$item_code, ]
 
 live <- merge(live[, .(area_code, area, item_code, item, year, production = value)],
               live_imp[, .(area_code, area, item_code, item, year, imports = value)],
@@ -466,14 +465,14 @@ live <- live[, .(production = sum(production, na.rm = TRUE)), by = setdiff(names
 
 # Add trade data
 live_trad <- readRDS("data/tidy/live_tidy.rds")
-live_trad <- live_trad[element %in% c("Import Quantity", "Export Quantity") & unit == "tonnes", ]
+live_trad <- live_trad[element %in% c("Import quantity", "Export quantity") & unit == "tonnes", ]
 conc_trad <- match(live_trad$item_code, src_item)
 live_trad[, `:=`(item_code = tgt_item[conc_trad], item = tgt_name[conc_trad])]
 live_trad <- live_trad[!is.na(item_code), ]
 live_trad <- live_trad[, .(value = sum(value, na.rm = TRUE)), by = setdiff(names(live_trad), "value")]
 
-live_imp <- live_trad[element == "Import Quantity", ]
-live_exp <- live_trad[element == "Export Quantity", ]
+live_imp <- live_trad[element == "Import quantity", ]
+live_exp <- live_trad[element == "Export quantity", ]
 
 live <- merge(live[, .(area_code, area, item_code, item, year, production)],
               live_imp[, .(area_code, area, item_code, item, year, imports = value)],
@@ -719,8 +718,8 @@ cbs[, balancing := na_sum(production, imports, stock_withdrawal,
 
 # Attribute rest (resulting from rounding differences) to stock changes
 cbs[na_sum(balancing, residuals) < 0,
-    `:=`(stock_addition = na_sum(stock_addition, balancing),
-         stock_withdrawal = na_sum(stock_withdrawal, -balancing),
+    `:=`(stock_addition = na_sum(stock_addition, balancing, residuals),
+         stock_withdrawal = na_sum(stock_withdrawal, -balancing, -residuals),
          balancing = 0, residuals = 0)]
 cbs[balancing < 0, `:=`(residuals = residuals + balancing, balancing = 0)]
 cbs[residuals < 0, `:=`(balancing = residuals + balancing, residuals = 0)]
@@ -733,8 +732,7 @@ cat("\nSkip capping 'exports', 'seed' and 'processing' at",
 
 
 # # Balance CBS imports and exports -------------------------------------------------------
-# # --> This balancing step was moved to script 05_balance.R
-#
+# 
 # # Adjust CBS to have equal export and import numbers per item per year
 # # This is very helpful for the iterative proportional fitting of bilateral trade data
 # cbs_bal <- cbs[, list(exp_t = sum(exports, na.rm = TRUE), imp_t = sum(imports, na.rm = TRUE)),
@@ -748,13 +746,13 @@ cat("\nSkip capping 'exports', 'seed' and 'processing' at",
 #   exports = ifelse(diff < 0, na_sum(exports, -diff), exports),
 #   imports = ifelse(diff > 0, na_sum(imports, diff), imports))]
 # cbs[, diff := NULL]
-#
+# 
 # rm(cbs_bal); gc()
-#
+# 
 # # Rebalance RoW
 # cbs[, balancing := na_sum(production, imports, stock_withdrawal,
 #                           -exports, -food, -feed, -seed, -losses, -processing, -other, -unspecified)]
-#
+# 
 # cbs[, divisor := na_sum(other, processing, seed, food, feed, stock_addition, unspecified)]
 # cbs[balancing < 0 & divisor >= -balancing,
 #     `:=`(stock_addition = round(na_sum(stock_addition, (balancing / divisor * stock_addition))),
@@ -795,8 +793,8 @@ cbs[item_code %in% c(2000, 2001, 2555, 2559, 2590, 2591, 2592, 2593, 2594,
   `:=`(feed = na_sum(feed, unspecified, balancing, residuals),
        unspecified = 0, balancing = 0, residuals = 0)]
 
-cat("\nRest (mostly 'food', 'feed' and 'processing') remains in 'unspecified', 'balancing' and 'residuals'.\n")
-
+cat("\nRest (mostly 'food', 'feed' and 'processing') remains in 'unspecified' and 'balancing', while 'residuals' are removed from the dataset.\n")
+cbs[, `:=`(balancing = residuals + balancing, residuals = NULL)]
 
 cbs <- cbs[year %in% years, ]
 

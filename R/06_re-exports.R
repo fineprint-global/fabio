@@ -12,36 +12,19 @@ btd <- readRDS("data/btd_bal.rds")
 cbs <- readRDS("data/cbs_full.rds")
 
 areas <- fread("inst/regions_full.csv")[current==TRUE, code]
-items <- fread("inst/items_full.csv")[,item_code]
+items <- fread("inst/items_full_123.csv")[,item_code]
+n <- length(areas)
 
 
 # Prepare reallocation of re-exports --------------------------------------
-
-# TODO: # residuals --> for now all negative residuals are eliminated in build_cbs
-cbs[, dom_use := na_sum(feed, food, losses, other, processing, seed, stock_addition, balancing, unspecified, tourist, residuals)]
-cbs[, total_use := na_sum(dom_use, exports)]
-
 # Split stock changes into
 # - positive values (stock additions)  --> part of domestic use
 # - negative values (stock withdrawals) --> part of domestic supply
-# cbs <- cbs %>%
-#  mutate(stock_positive = ifelse(stock_addition > 0, stock_addition, 0),
-#         stock_negative = ifelse(stock_addition < 0, -stock_addition, 0), .after = stock_addition) %>%
-#  mutate(dom_supply = na_sum(production, stock_negative),
-#         total_supply = na_sum(total_supply, stock_negative),
-#         # negative stock additions previously decreased use
-#         dom_use = na_sum(dom_use, stock_negative),
-#         total_use = na_sum(total_use, stock_negative), .after = unspecified)
-
 cbs[, `:=`(stock_positive = ifelse(stock_addition > 0, stock_addition, 0),
            stock_negative = ifelse(stock_addition < 0, -stock_addition, 0))]
-
-cbs[, `:=`(dom_supply = na_sum(production, stock_negative),
-           total_supply = na_sum(total_supply, stock_negative),
-           # negative stock additions previously decreased use
-           dom_use = na_sum(dom_use, stock_negative),
-           total_use = na_sum(total_use, stock_negative))]
-
+# negative stock additions previously decreased use
+cbs[, `:=`(supply = na_sum(production, imports, stock_negative),
+           use = na_sum(production, imports, stock_negative, -exports))]
 
 # Create a structure to map importers to exporters per item (+ targets)
 mapping_templ <- data.table(
@@ -80,37 +63,35 @@ for(i in seq_along(years)) {
   for(j in as.character(items)) {
     data <- merge(data.table(area_code = areas),
                   cbs[year==y & item_code==as.integer(j),
-                      .(area_code, production, dom_supply, dom_use, total_use,
-                        dom_share = dom_supply / total_use)],
-                  by = "area_code", all = TRUE)
-    data[is.na(dom_use) | dom_use < 0, dom_use := 0] # NOTE: negative dom_use should not be existing any more because of the stock correction above
-    data[is.na(total_use), total_use := 0]
-    data[is.na(dom_share), dom_share := 0]
+                      .(area_code, production, supply, use)],
+                  by = "area_code", all.x = TRUE)
+    data[is.na(data)] <- 0
 
-    denom <- data$total_use
-    denom[denom == 0] <- 1
     mat <- mapping_reex[[j]]
-    # catch problems:
-    # TODO: is this still necessary now?
-    ## 2001: trade with 1107 (Asses) from 33 (Canada) to 251 (United States of America)
-    ## 2002: trade with 1107 (Asses) from 250 (Dem. rep. Congo) to 251 (Zambia)
-    # 2013: trade with 1157 from 50 to 158
-    # reduce values by one third
-    # if(y==2001 & j=="1107") mat[25,174] <- mat[25,174]/3*2
-    # if(y==2002 & j=="1107") mat[185,184] <- mat[185,184]/3*2
-    # if(y==2013 & j=="1157") mat[50,158] <- mat[50,158]/3*2
-    mat <- t(t(mat) / denom)
-    # if (max(colSums(mat)) > 1+1e-6) stop( "\n maximum colSum for ", j, " in ", y, " is larger than one: " , max(colSums(mat)), "\n")
-    mat <- diag(nrow(mat)) - mat
+    A <- sweep(mat, 2, data$supply, FUN = "/")
+    A[is.na(A)] <- 0
+    I <- diag(n)
+    
     # catch a problem with item 2593 in 2018-2020 and item 1157 in 2022 (matrix seems to be close to singular)
     if((y %in% 2018:2020 & j=="2593")|(y %in% 2022 & j=="1157")) {
-      mat <- MASS::ginv(as.matrix(mat))
-      mat[mat < 0] <- 0
-    } else mat <- solve(mat)
-    mat <- mat * data$dom_share
-    mat <- t(t(mat) * data$dom_use)
+      L <- MASS::ginv(as.matrix(I - A))
+      L[L < 0] <- 0
+    } else L <- solve(I - A)
+    
+    x <- L %*% data$use
+    
+    # Share of country k's production used to satisfy final demand in country l
+    result <- matrix(0, n, n)
+    for (k in 1:n) {
+      for (l in 1:n) {
+        result[k, l] <- ifelse(x[k] > 0, L[k, l] * data$production[k] / x[k], 0)
+      }
+    }
+    
+    # Multiply by final demand vector to get final flows
+    final_result <- round(result * matrix(rep(data$use, each = n), nrow = n))
 
-    mapping_reex[[j]] <- mat
+    mapping_reex[[j]] <- final_result
   }
 
   btd_final[[i]] <- lapply(names(mapping_reex), function(name) {
@@ -128,7 +109,7 @@ btd_final <- lapply(btd_final, rbindlist)
 # One datatable
 btd_final <- rbindlist(btd_final)
 # Add commodity codes
-items <- fread("inst/items_full.csv")
+items <- fread("inst/items_full_123.csv")
 btd_final[, comm_code := items$comm_code[match(btd_final$item_code, items$item_code)]]
 
 

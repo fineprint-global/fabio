@@ -4,7 +4,7 @@ source("R/00_system_variables.R")
 source("R/01_tidy_functions.R")
 source("R/00_prep_functions.R")
 path_fao <- "input/fao/"
-items <- fread("inst/items_full.csv")
+items <- fread("inst/items_full_123.csv")
 regions <- fread("inst/regions_full.csv")[current==TRUE]
 
 

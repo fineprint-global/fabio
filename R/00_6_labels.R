@@ -4,7 +4,7 @@ library(tidyverse)
 source("R/00_system_variables.R")
 source("R/01_tidy_functions.R")
 
-items <- fread("inst/items_full.csv")
+items <- fread("inst/items_full_123.csv")
 regions_full <- fread("inst/regions_full.csv")
 regions <- regions_full[current==TRUE, .(iso3c, area_code = code, area = name,
                                          continent, region, EU27)]
@@ -14,7 +14,7 @@ processes <- unique(processes[,1:2])
 nrreg <- nrow(regions)
 nrcom <- nrow(items)
 nrproc <- nrow(processes)
-fd <- c("balancing", "food", "losses", "other", "stock_addition", "tourist", "unspecified")
+fd <- c("food", "losses", "other", "stock_addition", "tourist", "unspecified")
 nrfd <- length(fd)
 
 
@@ -48,8 +48,8 @@ fd_labels <- data.table(
 fwrite(io_labels, file=file.path(output_dir,"io_labels.csv"))
 fwrite(su_labels, file=file.path(output_dir,"su_labels.csv"))
 fwrite(fd_labels, file=file.path(output_dir,"fd_labels.csv"))
-# fwrite(fd_labels[!fd %in% c("losses", "balancing")], file=file.path(output_dir,"losses/fd_labels.csv"))
 fwrite(fd_labels[!fd %in% c("losses")], file=file.path(output_dir,"losses/fd_labels.csv"))
 fwrite(items[, .(comm_code, item_code, item, unit, group, comm_group)],
        file=file.path(output_dir,"items.csv"))
 fwrite(regions, file=file.path(output_dir,"regions.csv"))
+

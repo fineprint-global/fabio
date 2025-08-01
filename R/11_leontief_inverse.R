@@ -72,7 +72,7 @@ Z_m <- readRDS(file.path(output_dir,"losses/Z_mass.rds"))
 Z_v <- readRDS(file.path(output_dir,"losses/Z_value.rds"))
 
 
-#year <- 2021
+#year <- 2022
 for(year in years){
 
   print(year)

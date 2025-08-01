@@ -27,14 +27,14 @@ E_bio <- readRDS(file=paste0(input_path,"E_biodiv.rds"))
 # Make settings
 consumption_categories <- c("food","other","stock_addition","balancing")
 country <- "AUT"
-extension <- "biodiversity global"
 # country <- "CHE"
-# extension <- "biodiversity global"
+extension <- "biodiversity global"
 # extension <- "biodiversity regional"
+extension <- "landuse"
 consumption <- "food"
 spread_stocks <- FALSE
 allocation <- "value"
-years <- 2010:2018
+years <- 2010:2022
 year <- 2021
 
 
@@ -48,6 +48,8 @@ for(year in years){
     ext <- rowSums(E_bio[[as.character(year)]][, 9:11]) / as.vector(Xi)
   } else if (extension == "biodiversity regional") {
     ext <- rowSums(E[[as.character(year)]][, 12:14]) / as.vector(Xi)
+  } else if (extension == "landuse") {
+    ext <- (as.numeric(unlist(E[[as.character(year)]][, "cropland"])) + as.numeric(unlist(E[[as.character(year)]][, "grassland"]))) / as.vector(Xi)
   } else {
     ext <- as.numeric(unlist(E[[as.character(year)]][, ..extension])) / as.vector(Xi)
   }

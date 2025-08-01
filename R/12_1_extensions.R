@@ -6,7 +6,7 @@ source("R/01_tidy_functions.R")
 source("R/00_prep_functions.R")
 path_fao <- "input/fao/"
 
-items <- fread("inst/items_full.csv")
+items <- fread("inst/items_full_123.csv")
 regions <- fread("inst/regions_full.csv")[current==TRUE]
 nrreg <- nrow(regions)
 nrcom <- nrow(items)
@@ -79,26 +79,26 @@ crop <- crop[, list(value = na_sum(value)),
   by = .(area_code, area, element, year, unit, item_code, item)]
 
 # prepare N extension (old) ---------------------------------------------------------
-# N <- read_csv("./input/extensions/N_kg_per_ha.csv")
-# N <- merge(regions[, .(iso3c, area_code = code, region)], N, by = "iso3c", all = TRUE)
-# N <- gather(N, key = "com", value = "value", -region, -iso3c, -area_code)
-# avg_N <- N %>%
-#   group_by(region, com) %>%
-#   summarise(avg = mean(value, na.rm = TRUE)) %>%
-#   ungroup() %>%
-#   filter(!is.na(region)) %>%
-#   group_by(com) %>%
-#   bind_rows(summarise(., avg = mean(avg, na.rm = TRUE), region = NA))
-#   # bind_rows(summarise_all(., ~ if (is.numeric(.)) sum(., na.rm = TRUE) else "Global"))
-# N <- merge(N, avg_N, by = c("region", "com"), all.x = TRUE)
-# N$value[is.na(N$value)] <- ifelse(is.na(N$avg[is.na(N$value)]), NA, N$avg[is.na(N$value)])
-# N <- N[, c("area_code", "iso3c", "com", "value")]
-# N$area_code[N$area_code==62] <- 238  # Ethiopia
-# N$area_code[N$area_code==206] <- 276  # Sudan
-# N <- N %>% arrange(across(c(area_code, com)))
-# items_conc <- read_csv("./inst/items_conc.csv")
-# N$com <- items_conc$com_1.2[match(N$com, items_conc$com_1.1)]
-# N <- N[!is.na(N$com) & !is.na(N$area_code),]
+N <- read_csv("./input/extensions/N_kg_per_ha.csv")
+N <- merge(regions[, .(iso3c, area_code = code, region)], N, by = "iso3c", all = TRUE)
+N <- gather(N, key = "com", value = "value", -region, -iso3c, -area_code)
+avg_N <- N %>%
+  group_by(region, com) %>%
+  summarise(avg = mean(value, na.rm = TRUE)) %>%
+  ungroup() %>%
+  filter(!is.na(region)) %>%
+  group_by(com) %>%
+  bind_rows(summarise(., avg = mean(avg, na.rm = TRUE), region = NA))
+  # bind_rows(summarise_all(., ~ if (is.numeric(.)) sum(., na.rm = TRUE) else "Global"))
+N <- merge(N, avg_N, by = c("region", "com"), all.x = TRUE)
+N$value[is.na(N$value)] <- ifelse(is.na(N$avg[is.na(N$value)]), NA, N$avg[is.na(N$value)])
+N <- N[, c("area_code", "iso3c", "com", "value")]
+N$area_code[N$area_code==62] <- 238  # Ethiopia
+N$area_code[N$area_code==206] <- 276  # Sudan
+N <- N %>% arrange(across(c(area_code, com)))
+items_conc <- read_csv("./inst/items_conc.csv")
+N$com <- items_conc$com_1.2[match(N$com, items_conc$com_1.1)]
+N <- N[!is.na(N$com) & !is.na(N$area_code),]
 
 # prepare P extension (old)-------------------------------------------------
 P <- read_csv("./input/extensions/P_kg_per_ha.csv")
@@ -139,26 +139,26 @@ E <- lapply(years, function(x, y) {
   y_biomass <- y[element=="Production" & year==x & item_code %in% items$item_code[items$group == "Primary crops"]]
   conc_land <- match(paste(data$area_code,data$item_code),paste(y_land$area_code,y_land$item_code))
   conc_biomass <- match(paste(data$area_code,data$item_code),paste(y_biomass$area_code,y_biomass$item_code))
-  data[, landuse := y_land[, value][conc_land]]
+  data[, cropland := y_land[, value][conc_land]]
   data[, biomass := y_biomass[, value][conc_biomass]]
   grass <- sup[year==x & item_code==2001]
   grass[is.na(production), production := 0]
   data[, grazing := grass$production[match(data$area_code, grass$area_code)]]
   data[item_code==2001, biomass := grazing]
   data[, grazing := grassland_yields$t_per_ha[match(data$area_code,grassland_yields$area_code)]]
-  data[item_code==2001, landuse := round((biomass * 0.2) / grazing)]
+  data[item_code==2001, grassland := round((biomass * 0.2) / grazing)]
   data[, grazing := NULL]
 
-  # cap grazing landuse at 80% of a country's land area
+  # cap grassland use at 80% of a country's land area
   data[, landarea := grassland_yields$land_1000ha[match(data$area_code,grassland_yields$area_code)]]
-  data[item == "Grazing", landuse := ifelse((landuse / 1000) > (landarea * 0.8), (landarea * 1000 * 0.8), landuse)]
+  data[item == "Grazing", grassland := ifelse((grassland / 1000) > (landarea * 0.8), (landarea * 1000 * 0.8), grassland)]
   data[, landarea := NULL]
 
   # add water footprints
   water <- water_lvst[water_lvst$year == x]
   data[, blue := water$blue[match(paste(data$area_code, data$item_code),
     paste(water$area_code, water$item_code))]]
-  data[, green := as.numeric(water_pasture$m3_per_ha[match(data$area_code, water_pasture$area_code)]) * landuse]
+  data[, green := as.numeric(water_pasture$m3_per_ha[match(data$area_code, water_pasture$area_code)]) * grassland]
   data[item_code != 2001, green := 0]
   data[, `:=`(fodder_blue = water_fodder$blue[match(data$area_code, water_fodder$area_code)],
                   fodder_green = water_fodder$green[match(data$area_code, water_fodder$area_code)])]
@@ -172,27 +172,28 @@ E <- lapply(years, function(x, y) {
   data[is.na(blue) | blue == 0, blue := crops_blue]
   data[is.na(green) | green == 0, green := crops_green]
   data[, `:=`(crops_blue = NULL, crops_green = NULL)]
-  data[is.na(landuse), landuse := 0]
+  data[is.na(cropland), cropland := 0]
   data[is.na(biomass), biomass := 0]
+  data[is.na(grassland), grassland := 0]
   data[is.na(blue), blue := 0]
   data[is.na(green), green := 0]
-  data[, `:=`(landuse = round(landuse), biomass = round(biomass),
+  data[, `:=`(cropland = round(cropland), biomass = round(biomass), grassland = round(grassland),
     blue = round(blue), green = round(green))]
 
   # fill gaps in land use with global average yields
-  yields <- data[, .(comm_code, landuse, biomass)] %>%
+  yields <- data[, .(comm_code, cropland, grassland, biomass)] %>%
     group_by(comm_code) %>%
-    summarize(yield = na_sum(biomass) / na_sum(landuse))
+    summarize(yield = na_sum(biomass) / na_sum(cropland))
   data[, yield := yields$yield[match(data$comm_code, yields$comm_code)]]
-  data[landuse == 0 & biomass > 0 & is.finite(yield), landuse := round(biomass / yield)]
+  data[cropland == 0 & biomass > 0 & is.finite(yield), cropland := round(biomass / yield)]
   data[, yield := NULL]
   data[, output := X[,as.character(x)]]
-  data[landuse>0 & output>0 & biomass==0, biomass := output]
+  data[cropland>0 & output>0 & biomass==0, biomass := output]
   data[, output := NULL]
 
   # add N and P application (kg per ha)
-  data[, ':='(p_application = ifelse(is.na(P$value), 0, round(P$value * landuse, 3)),
-              n_application = ifelse(is.na(N$value), 0, round(N$value * landuse)))]
+  data[, ':='(p_application = ifelse(is.na(P$value), 0, round(P$value * (cropland+grassland), 3)),
+              n_application = ifelse(is.na(N$value), 0, round(N$value * (cropland+grassland))))]
 
 
 }, y = crop[, .(year, element, area_code, item_code, value)])
@@ -205,6 +206,14 @@ saveRDS(E, file=file.path(output_dir,"E.rds"))
 # build biodiversity extensions ---------------------------------------------------------
 # (potential species loss from land use per hectare)
 
+#biodiv data from Chaudhary & Brooks, 2018
+# biodiv <- read_csv("./input/extensions/biodiversity.csv")
+# biodiv_data <- t(biodiv[, -(1:3)])
+# biodiv_data <- biodiv_data[rownames(biodiv_data) %in% regions[, iso3c],]
+# biodiv_labels <- biodiv[, 1:3]
+# biodiv_data <- biodiv_data[regions[, iso3c],]
+
+#biodiv data from Chaudhary et al., 2015
 biodiv_new <- fread("input/extensions/biodiversity_new.csv", dec=",")
 #convert to hectares
 CF_cols <- grep("_", names(biodiv_new), value = TRUE)
@@ -246,19 +255,7 @@ setcolorder(biodiv_new, c("iso3c", "glo_annual_crops" , "glo_permanent_crops" , 
 rm(col_means,china_row, sudan_row, TLS_row, RoW_CF, RoW_countries, countries_missing_in_bio, CF_cols)
 
 
-#biodiv with from Chaudhary & Brooks, 2018
-# biodiv <- read_csv("./input/extensions/biodiversity.csv")
-# biodiv_data <- t(biodiv[, -(1:3)])
-# biodiv_data <- biodiv_data[rownames(biodiv_data) %in% regions[, iso3c],]
-# biodiv_labels <- biodiv[, 1:3]
-# biodiv_data <- biodiv_data[regions[, iso3c],]
-
-
-
 E_biodiv <- lapply(E, function(x) {
-  # data <- merge(x[,1:8], aggregate(x$landuse, by=list(area_code=x$area_code), FUN=sum),
-  #                   by = "area_code", all.x = TRUE)
-  # data[item == "Grazing", x := landuse]
   data2 <- biodiv_new[rep(seq_along(regions$code), each = 123),]
   annual_crops <- c(
     "Rice and products", "Wheat and products", "Barley and products", "Maize and products", 
@@ -282,7 +279,7 @@ E_biodiv <- lapply(E, function(x) {
   data2[!x$item %in% permanent_crops, which(grepl("permanent", colnames(data2)))] <- 0
   data2[!x$item %in% annual_crops & !x$item %in% permanent_crops & x$item != "Grazing",
         which(grepl("_",colnames(data2)))] <- 0
-  data2[, (2:7) := lapply(.SD, function(y) y * x$landuse), .SDcols = 2:7]
+  data2[, (2:7) := lapply(.SD, function(y) y * (x$cropland + x$grassland)), .SDcols = 2:7]
   data <- cbind(x[,1:7], data2)
 })
 

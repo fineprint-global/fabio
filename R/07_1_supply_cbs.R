@@ -2,7 +2,7 @@
 library("data.table")
 
 regions <- fread("inst/regions_full.csv")
-items <- fread("inst/items_full.csv")
+items <- fread("inst/items_full_123.csv")
 
 
 # Supply ------------------------------------------------------------------
@@ -86,14 +86,15 @@ sup[, share := NULL]
 
 prices <- as.data.table(data.table::dcast(btd, from + from_code + to + to_code +
   item + item_code + year ~ unit, value.var = "value"))
-prices <- prices[!is.na(usd) & usd > 0 & sum(head, tonnes, na.rm = TRUE) > 0 &
-                   (!is.na(head) | !is.na(tonnes)),
-  list(usd = sum(usd, na.rm = TRUE), head = sum(head, na.rm = TRUE),
+prices <- prices[!is.na(usd) & usd > 0 & sum(An, `1000 An`, tonnes, na.rm = TRUE) > 0 &
+                   (!is.na(An) | !is.na(`1000 An`) | !is.na(tonnes)),
+  list(usd = sum(usd, na.rm = TRUE), An = sum(An, na.rm = TRUE), `1000 An` = sum(`1000 An`, na.rm = TRUE),
     tonnes = sum(tonnes, na.rm = TRUE)),
     by = list(from, from_code, item_code, item, year)]
 
 prices[, price := ifelse(tonnes != 0 & !is.na(tonnes), usd / tonnes,
-  ifelse(head != 0 & !is.na(head), usd / head, NA))]
+  ifelse(An != 0 & !is.na(An), usd / An, 
+  ifelse(`1000 An` != 0 & !is.na(`1000 An`), usd / `1000 An`, NA)))]
 
 # Cap prices at 10th and 90th quantiles.
 # We might want to add a yearly element.
@@ -113,10 +114,11 @@ prices[, price := ifelse(price > price_q90, price_q90,
 # Get worldprices to fill gaps
 na_sum <- function(x) {ifelse(all(is.na(x)), NA_real_, sum(x, na.rm = TRUE))}
 prices_world <- prices[!is.na(usd), list(usd = na_sum(usd),
-  tonnes = na_sum(tonnes), head = na_sum(head)),
+  tonnes = na_sum(tonnes), An = na_sum(An), `1000 An` = na_sum(`1000 An`)),
   by = list(item, item_code, year)]
-prices_world[, price_world := ifelse(head != 0, usd / head,
-  ifelse(tonnes != 0, usd / tonnes, NA))]
+prices_world[, price_world := ifelse(An != 0, usd / An, 
+  ifelse(`1000 An` != 0, usd / `1000 An`,
+  ifelse(tonnes != 0, usd / tonnes, NA)))]
 prices_world_all <- prices_world[, list(price_world = mean(price_world, na.rm = TRUE)),
   by = list(item, item_code)]
 prices <- merge(

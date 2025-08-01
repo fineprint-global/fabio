@@ -14,7 +14,7 @@ Y_l <- readRDS(file.path(output_dir,"losses/Y.rds"))
 # Chinese edible oil statistics
 # Sources: 
 # - China National Grain & Oils Information Center, Comprehensive balance analysis of China's edible oil market, http://www.grainoil.com.cn/, accessed on 01/03/2023
-# - USDA, Oilseeds and Products Update, Attaché Report (GAIN), https://fas.usda.gov/data/search?keyword=Oilseeds%20and%20Products%20Annual&reports%5B0%5D=report_commodities%3A27&reports%5B1%5D=report_commodities%3A28&reports%5B2%5D=report_regions%3A420&reports%5B3%5D=report_type%3A10251&page=0
+# - USDA GAIN, Oilseeds and Products Annual, https://gain.fas.usda.gov/#/search
 oil <- fread("input/oils_china.csv")
 
 Y_new <- Y

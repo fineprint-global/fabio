@@ -13,14 +13,14 @@ btd <- readRDS("data/btd_full.rds")
 btd_est <- readRDS("data/btd_est.rds")
 cbs <- readRDS("data/cbs_full.rds")
 
-areas <- fread("inst/regions.csv")$area_code
-items <- fread("inst/items_full.csv")$item_code
+areas <- fread("inst/regions_current.csv")$area_code
+items <- fread("inst/items_full_123.csv")$item_code
 
 
 # Prepare for creating balanced BTD sheets --------------------------------
 
 # Subset to only keep relevant units, years and items
-btd <- btd[unit %in% c("tonnes", "head", "m3") & item_code %in% items &
+btd <- btd[unit %in% c("tonnes", "An", "1000 An", "m3") & item_code %in% items &
              from_code %in% areas & to_code %in% areas, ]
 btd_est <- btd_est[year %in% years & item_code %in% items &
                      from_code %in% areas & to_code %in% areas, ]

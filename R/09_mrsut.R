@@ -7,7 +7,7 @@ source("R/00_system_variables.R")
 
 
 regions <- fread("inst/regions_full.csv")[current==TRUE]
-items <- fread("inst/items_full.csv")
+items <- fread("inst/items_full_123.csv")
 
 sup <- readRDS("data/sup_final.rds")
 
@@ -189,12 +189,12 @@ saveRDS(mr_use, file.path(output_dir,"mr_use.rds"))
 # Template to always get full tables
 template <- data.table(expand.grid(
   area_code = areas, comm_code = commodities,
-  variable = c("food", "other", "losses", "stock_addition", "balancing", "unspecified", "tourist", "residuals", "processing"),
+  variable = c("food", "other", "losses", "stock_addition", "balancing", "unspecified", "tourist", "processing"),
   stringsAsFactors = FALSE))
 setkey(template, area_code, comm_code, variable)
 
 use_fd <- melt(use_fd[, .(year, area_code, comm_code,
-  food, other, losses, stock_addition, balancing, unspecified, tourist, residuals, processing)],
+  food, other, losses, stock_addition, balancing, unspecified, tourist, processing)],
   id.vars = c("year", "area_code", "comm_code"))
 
 # List with final use matrices, per year

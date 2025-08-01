@@ -427,7 +427,7 @@ cbs[item_code == 2001, `:=`(
 cbs[, grazing := NULL]
 
 # Clean up
-rm(avg_dairy, bouwman, temp, feed, feed_category, feed_category_lookup, feed_category_b, feed_category_g,
+rm(avg_dairy, bouwman, temp, feed, feed_category_lookup, feed_category_b, feed_category_g,
    grazing, feed_req, feed_sup, live, feed_req_b, feed_req_g, feed_req_k,
    feed_req_g_all_years, conc_b, conc_gleam, conv_b, conv_k, change_rates, poultry)
 

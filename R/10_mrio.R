@@ -52,7 +52,7 @@ Z_v <- lapply(Z_v, round)
 # Rebalance row sums in Z and Y -----------------------------------------
 
 regions <- fread("inst/regions_full.csv")[current==TRUE]
-items <- fread("inst/items_full.csv")
+items <- fread("inst/items_full_123.csv")
 nrcom <- nrow(items)
 Y <- readRDS(file.path(output_dir,"mr_use_fd.rds"))
 
@@ -67,24 +67,106 @@ for(i in seq_along(Z_m)){
     Y[[i]][j, paste0(regions[reg, code], "_balancing")] <-
       Y[[i]][j, paste0(regions[reg, code], "_balancing")] - X[j]
   }
-
 }
 
-# Integrate balancing and residuals, food and processing
-for(i in seq_along(Y)){
+
+
+# Combine processing into food -----------------------------------------
+for (i in seq_along(Y)) {
+  print(years[i])
   
-  Y[[i]][, grepl("balancing", colnames(Y[[i]]))] <-
-    Y[[i]][, grepl("balancing", colnames(Y[[i]]))] +
-    Y[[i]][, grepl("residuals", colnames(Y[[i]]))]
+  Y[[i]][, which(grepl("food", colnames(Y[[i]])))] <- 
+    Y[[i]][, which(grepl("food", colnames(Y[[i]])))] + Y[[i]][, which(grepl("processing", colnames(Y[[i]])))]
   
-  Y[[i]][, grepl("food", colnames(Y[[i]]))] <-
-    Y[[i]][, grepl("food", colnames(Y[[i]]))] +
-    Y[[i]][, grepl("processing", colnames(Y[[i]]))]
-  
-  Y[[i]] <- Y[[i]][, !grepl("residuals", colnames(Y[[i]]))]
-  Y[[i]] <- Y[[i]][, !grepl("processing", colnames(Y[[i]]))]
-  
+  # Remove processing columns
+  Y[[i]] <- Y[[i]][, -which(grepl("processing", colnames(Y[[i]]))), drop = FALSE]
 }
+
+
+
+# Define function for spreading balancing -----------------------------------------
+balancing_correction <- function(Y_food, Y_other, Y_unspec, Y_bal) {
+  # Convert all to triplet format for coordinate access
+  Y_food <- as(Y_food, "TsparseMatrix")
+  Y_other <- as(Y_other, "TsparseMatrix")
+  Y_unspec <- as(Y_unspec, "TsparseMatrix")
+  Y_bal <- as(Y_bal, "TsparseMatrix")
+  
+  # Combine all indices
+  idx <- unique(paste(Y_bal@i, Y_bal@j, sep = "_"))
+  
+  parse_idx <- function(x) {
+    matrix(as.integer(do.call(rbind, strsplit(x, "_"))), ncol = 2)
+  }
+  
+  coords <- parse_idx(idx)
+  i <- coords[, 1] + 1
+  j <- coords[, 2] + 1
+  
+  # Extract corresponding values or 0 if not present
+  get_val <- function(mat) {
+    mat_val <- Matrix::sparseMatrix(i = mat@i + 1, j = mat@j + 1, x = mat@x, dims = dim(mat))
+    mat_val[cbind(i, j)]
+  }
+  
+  f <- get_val(Y_food)
+  o <- get_val(Y_other)
+  u <- get_val(Y_unspec)
+  b <- get_val(Y_bal)
+  
+  total <- f + o + u
+  valid <- total > 0
+  
+  # Proportional redistribution
+  f_add <- numeric(length(b))
+  o_add <- numeric(length(b))
+  u_add <- numeric(length(b))
+  
+  f_add[valid] <- b[valid] * f[valid] / total[valid]
+  o_add[valid] <- b[valid] * o[valid] / total[valid]
+  u_add[valid] <- b[valid] * u[valid] / total[valid]
+  
+  # Fallback: if total == 0, add all to unspecified
+  u_add[!valid] <- u_add[!valid] + b[!valid]
+  
+  dims <- dim(Y_food)
+  food_update <- sparseMatrix(i = i, j = j, x = f_add, dims = dims, dimnames = dimnames(Y_food))
+  other_update <- sparseMatrix(i = i, j = j, x = o_add, dims = dims, dimnames = dimnames(Y_food))
+  unspec_update <- sparseMatrix(i = i, j = j, x = u_add, dims = dims, dimnames = dimnames(Y_food))
+  
+  list(food = food_update, other = other_update, unspecified = unspec_update)
+}
+
+
+i=1
+# Spread balancing over food and other use
+for (i in seq_along(Y)) {
+  print(years[i])
+  
+  before <- sum(Y[[i]])
+  
+  corrections <- balancing_correction(
+    Y_food = Y[[i]][, grepl("food", colnames(Y[[i]]))],
+    Y_other = Y[[i]][, grepl("other", colnames(Y[[i]]))],
+    Y_unspec = Y[[i]][, grepl("unspecified", colnames(Y[[i]]))],
+    Y_bal = Y[[i]][, grepl("balancing", colnames(Y[[i]]))]
+  )
+  
+  Y[[i]][, grepl("food", colnames(Y[[i]]))] <- Y[[i]][, grepl("food", colnames(Y[[i]]))] + corrections$food
+  Y[[i]][, grepl("other", colnames(Y[[i]]))] <- Y[[i]][, grepl("other", colnames(Y[[i]]))] + corrections$other
+  Y[[i]][, grepl("unspecified", colnames(Y[[i]]))] <- Y[[i]][, grepl("unspecified", colnames(Y[[i]]))] + corrections$unspecified
+  
+  # Remove balancing column
+  Y[[i]] <- Y[[i]][, !grepl("balancing", colnames(Y[[i]]))]
+  
+  after <- sum(Y[[i]])
+  if (!all.equal(before, after, tolerance = 1e-6)) {
+    stop(sprintf("Mass inconsistency at i = %d: before = %.0f, after = %.0f", i, before, after))
+  }
+}
+
+
+
 
 
 # Derive total output X ---------------------------------------------
@@ -114,28 +196,48 @@ for(year in years){
   Yi <- Y[[as.character(year)]]
   Xi <- X[,as.character(year)]
   
+  # Assign column names
   colnames(Yi) <- fd_labels$fd
+  
+  # Precompute global totals
   Y_global <- t(agg(t(agg(Yi))))
   
-  for(i in 1:nrow(io_labels)){
-    if(Xi[i]!=0 & Zmi[i,i] >= Xi[i]) { 
-      # print(paste0(io_labels[i,]))
-      # print(as.numeric(mean(Zmi[i,i], Zvi[i,i])))
-      temp <- Yi[i, fd_labels$area_code==io_labels$area_code[i]]
-      if(sum(temp)==0){ temp <- Y_global[rownames(Y_global)==io_labels$comm_code[i],] }
-      Yi[i, fd_labels$area_code==io_labels$area_code[i]] <- temp + mean(Zmi[i,i], Zvi[i,i]) * 0.8 / sum(temp) * temp
-      Zmi[i,i] <- Zvi[i,i] <- mean(Zmi[i,i], Zvi[i,i]) * 0.2
-      Xi[i] <- sum(Zmi[i,]) + sum(Yi[i,])
+  # Pre-identify relevant indices where update is needed
+  diag_Zmi <- Matrix::diag(Zmi)
+  valid <- (Xi != 0) & (diag_Zmi >= Xi)
+  
+  # Get area match matrix (cache once)
+  area_match <- fd_labels$area_code
+  
+  for (i in which(valid)) {
+    
+    area_col <- which(area_match == io_labels$area_code[i])
+    temp <- Yi[i, area_col]
+    
+    if (sum(temp) == 0) {
+      temp <- Y_global[rownames(Y_global) == io_labels$comm_code[i], ]
+    }
+    
+    if (sum(temp) > 0) {
+      # Compute new Yi row for area
+      bal <- mean(Zmi[i,i], Zvi[i,i]) * 0.8
+      share <- temp / sum(temp)
+      Yi[i, area_col] <- temp + bal * share
+      
+      # Update Z matrices
+      Zmi[i, i] <- Zvi[i, i] <- mean(Zmi[i,i], Zvi[i,i]) * 0.2
+      
+      # Update X
+      Xi[i] <- sum(Zmi[i, ]) + sum(Yi[i, ])
     }
   }
   
+  # Save back results
   Z_m[[as.character(year)]] <- Zmi
   Z_v[[as.character(year)]] <- Zvi
   Y[[as.character(year)]] <- Yi
   X[,as.character(year)] <- Xi
-  
 }
-
 
 
 # Store X, Y, Z variables
@@ -147,37 +249,8 @@ saveRDS(X, file.path(output_dir,"X.rds"))
 
 
 
-# # redistribute balancing over all uses proportionally ---------------------------------------------
-# regions <- fread("inst/regions_full.csv")[current==TRUE]
-# items <- fread("inst/items_full.csv")
-# nrcom <- nrow(items)
-# nrreg <- nrow(regions)
-# nrfd <- ncol(Y[[1]])/nrreg
-# #i=28
-# for(i in seq_along(Z_m)){
-#   #reg=1
-#   for(reg in seq_len(nrow(regions))){
-#     z_range <- (nrcom*(reg-1)+1):(nrcom*reg)
-#     y_range <- (nrfd*(reg-1)+1):(nrfd*reg)
-#     Z_sum <- rowSums(Z_m[[i]][, z_range])
-#     Y_sum <- rowSums(Y[[i]][, y_range])
-#     balancing <- as.vector(Y[[i]][, grepl("balancing", colnames(Y[[i]]))][, reg])
-#     balancing <- balancing / as.vector(Z_sum + Y_sum - balancing)
-#     balancing[!is.finite(balancing)] <- 0
-#     Z_m[[i]][, z_range] <- Z_m[[i]][, z_range] * (1 + balancing)
-#     Z_v[[i]][, z_range] <- Z_v[[i]][, z_range] * (1 + balancing)
-#     Y[[i]][, y_range] <- Y[[i]][, y_range] * (1 + balancing)
-#   }
-# }
-#
-# saveRDS(Z_m, file.path(output_dir,"Z_mass_b.rds"))
-# saveRDS(Z_v, file.path(output_dir,"Z_value_b.rds"))
-# saveRDS(Y, file.path(output_dir,"Y_b.rds"))
-
-
-
-
 # create the losses version of fabio ---
+# i.e. a version where losses are considered an own use of each sector instead of being a final demand category
 
 for(year in years){
   
@@ -187,10 +260,6 @@ for(year in years){
   Yi <- Y[[as.character(year)]]
   losses <- as.matrix(Yi[, grepl("losses", colnames(Yi))])
   Yi <- Yi[, !grepl("losses", colnames(Yi))]
-  
-  # # remove balancing from Y
-  # balancing <- as.matrix(Yi[, grepl("balancing", colnames(Yi))])
-  # Yi <- Yi[, !grepl("balancing", colnames(Yi))]
   
   Y[[as.character(year)]] <- Yi
   
@@ -209,7 +278,7 @@ for(year in years){
 
   ## Apply the reshape_column function to each column using lapply
   matrix_list <- lapply(1:ncol(losses), function(i) {
-    v <- losses[, i] # + balancing[, i]
+    v <- losses[, i]
     reshape_column(v)
   })
 
@@ -230,7 +299,6 @@ for(year in years){
 }
 
 
-
 # PROBLEM: There are some products with only zeros in the rows, except of the main diagonal
 # i.e. the value on the main diagonal equals total output
 # this is mainly due to reporting issues in FAOSTAT, where some countries report seed = production
@@ -248,28 +316,49 @@ for(year in years){
   Yi <- Y[[as.character(year)]]
   Xi <- X[,as.character(year)]
   
+  # Assign column names
   colnames(Yi) <- fd_labels$fd
+  
+  # Precompute global totals
   Y_global <- t(agg(t(agg(Yi))))
   
-  for(i in 1:nrow(io_labels)){
-    if(Xi[i]!=0 & Zmi[i,i] >= Xi[i]) { 
-      # print(paste0(io_labels[i,]))
-      # print(as.numeric(mean(Zmi[i,i], Zvi[i,i])))
-      temp <- Yi[i, fd_labels$area_code==io_labels$area_code[i]]
-      if(sum(temp)==0){ temp <- Y_global[rownames(Y_global)==io_labels$comm_code[i],] }
-      Yi[i, fd_labels$area_code==io_labels$area_code[i]] <- temp + mean(Zmi[i,i], Zvi[i,i]) * 0.8 / sum(temp) * temp
-      Zmi[i,i] <- Zvi[i,i] <- mean(Zmi[i,i], Zvi[i,i]) * 0.2
-      Xi[i] <- sum(Zmi[i,]) + sum(Yi[i,])
+  # Pre-identify relevant indices where update is needed
+  diag_Zmi <- Matrix::diag(Zmi)
+  valid <- (Xi != 0) & (diag_Zmi >= Xi)
+  
+  # Get area match matrix (cache once)
+  area_match <- fd_labels$area_code
+  
+  for (i in which(valid)) {
+    
+    area_col <- which(area_match == io_labels$area_code[i])
+    temp <- Yi[i, area_col]
+    
+    if (sum(temp) == 0) {
+      temp <- Y_global[rownames(Y_global) == io_labels$comm_code[i], ]
+    }
+    
+    if (sum(temp) > 0) {
+      # Compute new Yi row for area
+      bal <- mean(Zmi[i,i], Zvi[i,i]) * 0.8
+      share <- temp / sum(temp)
+      Yi[i, area_col] <- temp + bal * share
+      
+      # Update Z matrices
+      Zmi[i, i] <- Zvi[i, i] <- mean(Zmi[i,i], Zvi[i,i]) * 0.2
+      
+      # Update X
+      Xi[i] <- sum(Zmi[i, ]) + sum(Yi[i, ])
     }
   }
   
+  # Save back results
   Z_m[[as.character(year)]] <- Zmi
   Z_v[[as.character(year)]] <- Zvi
   Y[[as.character(year)]] <- Yi
   X[,as.character(year)] <- Xi
   
 }
-
 
 
 saveRDS(X, file.path(output_dir,"losses/X.rds"))
@@ -281,7 +370,6 @@ saveRDS(Z_v, file.path(output_dir,"losses/Z_value.rds"))
 
 
 # allocate ghg emissions to products --------------------------------------------------------------
-# Note: this part needs to be updated in order to fit the new country classification
 ghg <- readRDS("/mnt/nfs_fineprint/tmp/fabio/ghg/E_ghg.rds")
 gwp <- readRDS("/mnt/nfs_fineprint/tmp/fabio/ghg/E_gwp.rds")
 luh <- readRDS("/mnt/nfs_fineprint/tmp/fabio/ghg/E_luh2.rds")
