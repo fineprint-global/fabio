@@ -42,13 +42,13 @@ The database consists of the following main components, in compressed .rds forma
 - L: the Leontief inverse, computed as (I – A)^-1, where A is the matrix of input coefficients derived from Z and x. Again, there are two versions, depending on the underlying version of Z (L_mass and L_value).
 
 - E: environmental extensions for each of the 23616 commodities, including four resource categories: 
---- 1) primary biomass extraction (in tonnes), 
---- 2) cropland use (in hectares), 
---- 3) grassland use (in hectares), 
---- 4) blue water use (in m3).
---- 5) green water use (in m3).
---- 6) phosphorous application (in kg)
---- 7) nitrogen application (in kg)
+      1) primary biomass extraction (in tonnes), 
+      2) cropland use (in hectares), 
+      3) grassland use (in hectares), 
+      4) blue water use (in m3).
+      5) green water use (in m3).
+      6) phosphorous application (in kg)
+      7) nitrogen application (in kg)
 
 - E_biodiv: Biodiversity extension in potential species loss per commodity, based on Characterization Factors from Chaudhary et al. (2015). CFs are available for plants, mammals, birds, reptiles and amphibians, for both cropland and pasture and are based on total species populations given in biodiv_labels.csv
 
