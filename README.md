@@ -10,19 +10,13 @@ This code repository is distributed under the CC BY-NC-SA 4.0 License. You are f
 
 ### How to cite
 To cite FABIO please refer to this paper:
-Bruckner, M., Wood, R., Moran, D., Kuschnig, N., Wieland, H., Maus, V., Börner, J. 2019. FABIO – The Construction of the Food and Agriculture Input–Output Model. Environmental Science & Technology 53(19), 11302–11312. DOI: 10.1021/acs.est.9b03554
-
-FABIO database v1.1:
-Bruckner, M. & Kuschnig, N. (2020). Food and Agriculture Biomass Input–Output (FABIO) database (1.1). Zenodo. https://doi.org/10.5281/zenodo.2577067
-
-FABIO database v2:
-Not yet published! Do not use or distribute without prior consent by the author. Contact [Martin Bruckner](mailto:martin.bruckner@wu.ac.at) for more information.
+Bruckner, M., Wood, R., Moran, D., Kuschnig, N., Wieland, H., Maus, V., Börner, J. 2019. FABIO – The Construction of the Food and Agriculture Input–Output Model. Environmental Science & Technology 53(19), 11302–11312. https://doi.org/10.1021/acs.est.9b03554
 
 ### Database availability
+The preliminary FABIO v2 database is available upon request. Contact [Martin Bruckner](mailto:martin.bruckner@wu.ac.at) for more information.
 The FABIO v1 database is available via Zenodo (http://dx.doi.org/10.5281/zenodo.2577067).
-The preliminary FABIO v2 database is available upon request.
 
-### Coverage
+### Coverage of FABIO v2 (preliminary)
 - 187 regions (186 countries + 1 RoW)
 - 119 processes (in the mr_sup and mr_use tables)
 - 123 commodities (raw and processed agricultural and food products)
