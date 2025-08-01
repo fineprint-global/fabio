@@ -5,6 +5,9 @@ FABIO provides a set of multi-regional physical supply-use and input-output tabl
 
 This repository provides all codes used to generate the FABIO database.
 
+### License
+This code repository is distributed under the CC BY-NC-SA 4.0 License. You are free to share and adapt the material for non-commercial purposes using proper citation. If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original. In case you are interested in a collaboration, I am happy to receive inquiries via [email](mailto:martin.bruckner@wu.ac.at).
+
 ### How to cite
 To cite FABIO please refer to this paper:
 Bruckner, M., Wood, R., Moran, D., Kuschnig, N., Wieland, H., Maus, V., Börner, J. 2019. FABIO – The Construction of the Food and Agriculture Input–Output Model. Environmental Science & Technology 53(19), 11302–11312. DOI: 10.1021/acs.est.9b03554
@@ -14,9 +17,6 @@ Bruckner, M. & Kuschnig, N. (2020). Food and Agriculture Biomass Input–Output 
 
 FABIO database v2:
 Not yet published! Do not use or distribute without prior consent by the author. Contact [Martin Bruckner](mailto:martin.bruckner@wu.ac.at) for more information.
-
-### License
-This data repository is distributed under the CC BY-NC-SA 4.0 License. You are free to share and adapt the material for non-commercial purposes using proper citation. If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original. In case you are interested in a collaboration, I am happy to receive inquiries via [email](mailto:martin.bruckner@wu.ac.at).
 
 ### Database availability
 The FABIO v1 database is available via Zenodo (http://dx.doi.org/10.5281/zenodo.2577067).
@@ -45,10 +45,10 @@ The database consists of the following main components, in compressed .rds forma
       1) primary biomass extraction (in tonnes), 
       2) cropland use (in hectares), 
       3) grassland use (in hectares), 
-      4) blue water use (in m3).
-      5) green water use (in m3).
-      6) phosphorous application (in kg)
-      7) nitrogen application (in kg)
+      4) blue water use (in m3), 
+      5) green water use (in m3), 
+      6) phosphorous application (in kg), and 
+      7) nitrogen application (in kg).
 
 - E_biodiv: Biodiversity extension in potential species loss per commodity, based on Characterization Factors from Chaudhary et al. (2015). CFs are available for plants, mammals, birds, reptiles and amphibians, for both cropland and pasture and are based on total species populations given in biodiv_labels.csv
 
