@@ -2,6 +2,7 @@
 # FAO data ----------------------------------------------------------------
 
 library("data.table")
+library("openxlsx")
 source("R/00_prep_functions.R")
 path_fao <- "input/fao/"
 
