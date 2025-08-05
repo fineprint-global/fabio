@@ -319,9 +319,12 @@ cbs[, flow := NULL]
 
 # Allocate negatives in processing use resulting from feedstock optimization to balancing and unspecified
 cbs[processing < 0, `:=`(balancing = na_sum(balancing, processing), processing = 0)]
-cbs[balancing < 0 & unspecified > 0, `:=`(unspecified = na_sum(balancing, unspecified), balancing = 0)]
+cbs[balancing < 0 & unspecified > 0 & na_sum(balancing, unspecified) >= 0, `:=`(unspecified = na_sum(balancing, unspecified), balancing = 0)]
+cbs[balancing < 0 & unspecified > 0 & na_sum(balancing, unspecified) < 0, `:=`(balancing = na_sum(balancing, unspecified), unspecified = 0)]
 cbs[balancing < 0 & balancing > -2, balancing := 0]
 cbs[balancing < 0, `:=`(food = food + balancing/na_sum(food,feed)*food, feed = feed + balancing/na_sum(food,feed)*feed, balancing = 0)]
+cbs[food < 0 , food := 0]
+cbs[feed < 0 , feed := 0]
 
 # add comm code
 cbs[, comm_code := items$comm_code[match(cbs$item_code, items$item_code)]]
@@ -345,9 +348,8 @@ use_fd <- cbs[, c("year", "comm_code", "area_code", "area", "item_code", "item",
 
 # replace Cyprus' tourist consumption data with more detailed data from SUAs
 tourist <- fread("input/Tourist_Cyprus.csv")
-use_fd <- merge(use_fd, tourist, by = c("item_code", "item", "year"), all.x = TRUE, allow.cartesian=TRUE)
-use_fd[area=="Cyprus" & !is.na(value) & tourist < value, `:=`(food = food + tourist - value, tourist = value)]
-use_fd[area=="Cyprus" & !is.na(value) & tourist > value & tourist == round(value, -3), `:=`(food = food + tourist - value, tourist = value)]
+use_fd <- merge(use_fd, tourist, by = c("item_code", "item", "year"), all.x = TRUE)
+use_fd[area=="Cyprus" & !is.na(value) & na_sum(food + tourist - value) >= 0, `:=`(food = food + tourist - value, tourist = value)]
 use_fd[, value := NULL]
 
 # Remove unneeded variables

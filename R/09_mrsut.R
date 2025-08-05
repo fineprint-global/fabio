@@ -2,6 +2,7 @@
 library("data.table")
 library("Matrix")
 library("parallel")
+library("future.apply")
 source("R/01_tidy_functions.R")
 source("R/00_system_variables.R")
 
@@ -22,6 +23,11 @@ processes <- sort(unique(use$proc_code))
 commodities <- sort(unique(use$comm_code))
 
 
+
+# Add Grazing to btd ---
+btd <- rbind(btd, sup[item_code==2001, .(year, item_code, from_code = area_code, to_code = area_code, value = production, comm_code)])
+
+
 # Supply ---
 
 # Template to always get full tables
@@ -34,30 +40,30 @@ mr_sup_mass <- mclapply(years, function(x) {
 
   matrices <- lapply(areas, function(y, sup_y) {
     # Get supply for area y and merge with the template
-    sup_x <- sup_y[area_code == y, .(proc_code, comm_code, production)]
+    sup_x <- sup_y[area_code == y, .(proc_code, comm_code, supply)]
     out <- if(nrow(sup_x) == 0) {
-      template[, .(proc_code, comm_code, production = 0)]
+      template[, .(proc_code, comm_code, supply = 0)]
     } else {merge(template, sup_x, all.x = TRUE)}
 
     # Cast the datatable to convert into a matrix
     out <- tryCatch(data.table::dcast(out, proc_code ~ comm_code,
-                                      value.var = "production", fun.aggregate = sum, na.rm = TRUE, fill = 0),
-                    error = function(e) {stop("Issue at ", x, "-", y, ": ", e)})
+                                      value.var = "supply", fun.aggregate = sum, na.rm = TRUE, fill = 0),
+                    error = function(e) {stop("Issue at ", x, "_", y, ": ", e)})
 
     # Return a (sparse) matrix of supply for region y and year x
     return(Matrix(data.matrix(out[, c(-1)]), sparse = TRUE,
                   dimnames = list(out$proc_code, colnames(out)[-1])))
 
-  }, sup_y = sup[year == x, .(area_code, proc_code, comm_code, production)])
+  }, sup_y = sup[year == x, .(area_code, proc_code, comm_code, supply)])
 
   # Return a block-diagonal matrix with all countries for year x
   return(bdiag(matrices))
 }, mc.cores = 10)
 
 # Convert to monetary values
-sup[!is.na(price) & is.finite(price), value := production * price]
+sup[!is.na(price) & is.finite(price), value := supply * price]
 # If no price available, keep physical quantities
-sup[is.na(price) | !is.finite(price), value := production]
+sup[is.na(price) | !is.finite(price), value := supply]
 
 # List with block-diagonal supply matrices in value, per year
 mr_sup_value <- mclapply(years, function(x) {
@@ -72,7 +78,7 @@ mr_sup_value <- mclapply(years, function(x) {
     # Cast the datatable to convert into a matrix
     out <- tryCatch(data.table::dcast(out, proc_code ~ comm_code,
                                       value.var = "value", fun.aggregate = sum, na.rm = TRUE, fill = 0),
-                    error = function(e) {stop("Issue at ", x, "-", y, ": ", e)})
+                    error = function(e) {stop("Issue at ", x, "_", y, ": ", e)})
 
     # Return a (sparse) matrix of supply for region y and year x
     return(Matrix(data.matrix(out[, c(-1)]), sparse = TRUE,
@@ -111,7 +117,7 @@ btd_cast <- mclapply(years, function(x, btd_x) {
                            value.var = "value", fun.aggregate = sum, na.rm = TRUE, fill = 0)
 
   return(Matrix(data.matrix(out[, c(-1, -2)]), sparse = TRUE,
-                dimnames = list(paste0(out$from_code, "-", out$comm_code),
+                dimnames = list(paste0(out$from_code, "_", out$comm_code),
                                 colnames(out)[c(-1, -2)])))
 
 }, btd_x = btd[, .(year, from_code, to_code, comm_code, value)], mc.cores = 10)
@@ -119,7 +125,7 @@ btd_cast <- mclapply(years, function(x, btd_x) {
 names(btd_cast) <- years
 
 # Get commodities and their positions from total supply for domestic use
-comms <- gsub("(^[0-9]+)-(c[0-9]+)", "\\2", rownames(btd_cast[[1]]))
+comms <- gsub("(^[0-9]+)_(c[0-9]+)", "\\2", rownames(btd_cast[[1]]))
 is <- as.numeric(vapply(unique(comms), function(x) {which(comms == x)},
   numeric(length(unique(areas)))))
 js <- rep(seq(unique(comms)), each = length(unique(areas)))
@@ -135,10 +141,11 @@ supply_shares <- mclapply(btd_cast, function(x, agg, js) {
   out <- as.matrix(x / as.matrix(denom[rep(seq(length(commodities)), length(areas)), ]))
   out[!is.finite(out)] <- 0 # See Issue #75
 
-  # source is domestic, where no sources given in btd_final
-  for(i in 1:nrow(regions)){
-    out[nrow(items)*(i-1)+62, i] <- 1
-  }
+  # # source is domestic, where no sources given in btd_final
+  # # this isn't needed anymore as domestic grazing supply is now included in btd
+  # for(i in 1:nrow(regions)){
+  #   out[nrow(items)*(i-1)+62, i] <- 1
+  # }
 
   return(as(out, "Matrix"))
 }, agg = agg, js = js, mc.cores = 10)
@@ -166,6 +173,7 @@ use_cast <- mclapply(years, function(x, use_x) {
 
 }, use_x = use[, .(year, area_code, proc_code, comm_code, use)], mc.cores = 10)
 
+
 # Apply supply shares to the use matrix
 mr_use <- mcmapply(function(x, y) {
   # Repeat use values, then adapted according to shares
@@ -179,6 +187,56 @@ mr_use <- mcmapply(function(x, y) {
 
   return(mr_x)
 }, use_cast, supply_shares, mc.cores = 10)
+
+
+# # Apply supply shares to the use matrix
+# # This code does the same. It offers more robustness and clarity, but takes 4 times as long to run.
+# future::plan(multisession, workers = 10)
+# mr_use <- future_lapply(seq_along(btd_cast), function(t) {
+#   B <- btd_cast[[t]]  # (R·C) × R
+#   U <- use_cast[[t]]  # C × (R·P)
+#   
+#   rc_ids <- rownames(B)
+#   rp_ids <- colnames(U)
+#   c_ids  <- rownames(U)
+#   
+#   rc_split <- do.call(rbind, strsplit(rc_ids, "_", fixed = TRUE))
+#   region_B <- rc_split[, 1]
+#   commodity_B <- rc_split[, 2]
+#   
+#   rp_split <- do.call(rbind, strsplit(rp_ids, "_", fixed = TRUE))
+#   region_U <- rp_split[, 1]
+#   process_U <- rp_split[, 2]
+#   
+#   col_B_map <- match(region_U, colnames(B))
+#   
+#   A <- Matrix(0, nrow = nrow(B), ncol = ncol(U), sparse = TRUE,
+#               dimnames = list(rc_ids, rp_ids))
+#   
+#   for (j in seq_along(rp_ids)) {
+#     r2_col <- col_B_map[j]
+#     if (is.na(r2_col)) next
+#     
+#     c_demand <- U[, j]
+#     nz <- which(c_demand != 0)
+#     
+#     for (i in nz) {
+#       c <- c_ids[i]
+#       demand <- c_demand[i]
+#       
+#       rows_c <- which(commodity_B == c)
+#       if (length(rows_c) == 0) next
+#       
+#       supply <- B[rows_c, r2_col]
+#       s_total <- sum(supply)
+#       if (s_total == 0) next
+#       
+#       A[rows_c, j] <- A[rows_c, j] + (supply / s_total) * demand
+#     }
+#   }
+#   
+#   return(A)
+# })
 
 names(mr_use) <- years
 saveRDS(mr_use, file.path(output_dir,"mr_use.rds"))
@@ -210,6 +268,7 @@ use_fd_cast <- mclapply(years, function(x, use_fd_x) {
     dimnames = list(out$comm_code, colnames(out)[-1]))
 }, use_fd[, .(year, area_code, comm_code, variable, value)], mc.cores = 6)
 
+
 # Apply supply shares to the final use matrix
 mr_use_fd <- mcmapply(function(x, y) {
   mr_x <- x[rep(seq_along(commodities), length(areas)), ]
@@ -220,6 +279,56 @@ mr_use_fd <- mcmapply(function(x, y) {
   }
   return(mr_x)
 }, use_fd_cast, supply_shares, mc.cores = 10)
+
+
+# # Apply supply shares to the final use matrix
+# # This code does the same. It offers more robustness and clarity, but takes 4 times as long to run.
+# mr_use_fd <- future_lapply(seq_along(btd_cast), function(t) {
+#   B <- btd_cast[[t]]  # (R·C) × R
+#   U <- use_fd_cast[[t]]  # C × (R·D)
+#   
+#   rc_ids <- rownames(B)
+#   rp_ids <- colnames(U)
+#   c_ids  <- rownames(U)
+#   
+#   rc_split <- do.call(rbind, strsplit(rc_ids, "_", fixed = TRUE))
+#   region_B <- rc_split[, 1]
+#   commodity_B <- rc_split[, 2]
+#   
+#   rp_split <- cbind(sub("_.*", "", rp_ids), sub("^[^_]*_", "", rp_ids))
+#   region_U <- rp_split[, 1]
+#   process_U <- rp_split[, 2]
+#   
+#   col_B_map <- match(region_U, colnames(B))
+#   
+#   A <- Matrix(0, nrow = nrow(B), ncol = ncol(U), sparse = TRUE,
+#               dimnames = list(rc_ids, rp_ids))
+#   
+#   for (j in seq_along(rp_ids)) {
+#     r2_col <- col_B_map[j]
+#     if (is.na(r2_col)) next
+#     
+#     c_demand <- U[, j]
+#     nz <- which(c_demand != 0)
+#     
+#     for (i in nz) {
+#       c <- c_ids[i]
+#       demand <- c_demand[i]
+#       
+#       rows_c <- which(commodity_B == c)
+#       if (length(rows_c) == 0) next
+#       
+#       supply <- B[rows_c, r2_col]
+#       s_total <- sum(supply)
+#       if (s_total == 0) next
+#       
+#       A[rows_c, j] <- A[rows_c, j] + (supply / s_total) * demand
+#     }
+#   }
+#   
+#   return(A)
+# })
+
 
 mr_use_fd <- lapply(mr_use_fd, round)
 names(mr_use_fd) <- years

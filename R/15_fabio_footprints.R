@@ -5,12 +5,14 @@
 library(Matrix)
 library(tidyverse)
 library(data.table)
+source("R/00_system_variables.R")
+
 
 is.finite.data.frame <- function(x) do.call(cbind, lapply(x, is.finite))
 agg <- function(x) { x <- as.matrix(x) %*% sapply(unique(colnames(x)),"==",colnames(x));  return(x) }
 
 # Read labels
-input_path <- "/mnt/nfs_fineprint/tmp/fabio/v1.2/current/"
+input_path <- output_dir
 regions <- fread(file=paste0(input_path,"regions.csv"))
 items <- fread(file=paste0(input_path,"items.csv"))
 nrreg <- nrow(regions)
@@ -124,3 +126,38 @@ for(year in years){
   # fwrite(results, file=paste0("./output/FABIO_",country,"_",year,"_",extension,"_",consumption,"_",allocation,"-alloc_full.csv"), sep=",")
 }
 
+
+
+for(year in years){
+  L <- readRDS(file=paste0(input_path,"losses/",year,"_L_",allocation,".rds"))
+  Xi <- X[, as.character(year)]
+  Yi <- Y[[as.character(year)]]
+  
+  # Prepare extension and final demand
+  if (extension == "biodiversity global") {
+    ext <- rowSums(E_bio[[as.character(year)]][, 9:11]) / as.vector(Xi)
+  } else if (extension == "biodiversity regional") {
+    ext <- rowSums(E[[as.character(year)]][, 12:14]) / as.vector(Xi)
+  } else if (extension == "landuse") {
+    ext <- (as.numeric(unlist(E[[as.character(year)]][, "cropland"])) + as.numeric(unlist(E[[as.character(year)]][, "grassland"]))) / as.vector(Xi)
+  } else {
+    ext <- as.numeric(unlist(E[[as.character(year)]][, ..extension])) / as.vector(Xi)
+  }
+  ext[!is.finite(ext)] <- 0
+  MP <- ext * L
+  
+  if(country=="EU27"){
+    Y_country <- Yi[, (fd$continent == "EU")]
+    colnames(Y_country) <- fd$fd[fd$continent == "EU"]
+    Y_country <- agg(Y_country)
+  } else {
+    Y_country <- Yi[, fd$iso3c == country]
+    colnames(Y_country) <- fd$fd[fd$iso3c == country]
+  }
+  
+  Y_country[,consumption][Y_country[,consumption]<0] <- 0
+  
+  # Calculate footprints
+  print(paste0(year,": ", round(sum(t(t(MP) * as.vector(as.matrix(Y_country[,consumption])))))))
+  
+}

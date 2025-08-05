@@ -21,8 +21,8 @@ get_beer_grain_penalties <- function(area_code) {
   # Return named vector of penalties for beer inputs
   beer_inputs <- c(2511, 2513, 2514, 2515, 2517, 2518, 2520, 2807)  # all beer-relevant grains
   penalties <- setNames(rep(500, length(beer_inputs)), beer_inputs)
-  penalties[as.character(preferred)] <- 1
-  if (preferred != 2513) penalties["2513"] <- 50  # treat barley neutrally if not preferred
+  penalties[as.character(preferred)] <- 100
+  if (preferred != 2513) penalties["2513"] <- 250  # treat barley neutrally if not preferred
   
   # Separate solution for China
   if (area_code == 41){

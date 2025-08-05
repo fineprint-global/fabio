@@ -1,5 +1,6 @@
 
 library("data.table")
+source("R/00_system_variables.R")
 
 regions <- fread("inst/regions_full.csv")
 items <- fread("inst/items_full_123.csv")
@@ -12,16 +13,22 @@ cbs <- readRDS("data/cbs_full.rds")
 sup <- fread("inst/items_supply.csv")
 
 
-cat("Allocate production to supplying processes.\n")
+cat("Allocate domestic supply quantities to supplying processes.\n")
 
 # Add grazing placeholder to the CBS
 grazing <- unique(cbs[, c("year", "area", "area_code")])
 grazing[, `:=`(item = "Grazing", item_code = 2001)]
 cbs <- rbindlist(list(cbs, grazing), use.names = TRUE, fill = TRUE)
 
+# Each country's supply is the sum of its production and stock withdrawals (i.e. where stock_addition < 0)
+cbs[, `:=`(from_stock = ifelse(stock_addition < 0, -stock_addition, 0))]
+# negative stock additions previously decreased use
+cbs[, `:=`(supply = na_sum(production, from_stock))]
+
+
 # Allocate production to supplying processes including double-counting
 sup <- merge(
-  cbs[, c("area_code", "area", "year", "item_code", "item", "production")],
+  cbs[, c("area_code", "area", "year", "item_code", "item", "supply")],
   sup[item_code %in% unique(cbs$item_code)],
   by = c("item_code", "item"), all = TRUE, allow.cartesian = TRUE)
 
@@ -62,21 +69,21 @@ sup <- merge(sup,
 
 cat("Applying livestock shares to",
   sup[comm_code %in% shares$comm_code, .N], "observations.\n")
-sup[is.na(share) & comm_code %in% shares$comm_code, production := 0]
+sup[is.na(share) & comm_code %in% shares$comm_code, supply := 0]
 sup[!is.na(share) & comm_code %in% shares$comm_code,
-  production := production * share]
+  supply := supply * share]
 
 cat("Applying oil extraction shares to",
   sup[item_code %in% c(2598), .N],
   "observations of Oilseed Cakes, Other with shares from Ricebran Oil, Maize Germ Oil and Oilcrops Oil, Other\n")
 shares_o <- sup[item_code %in% c(2581, 2582, 2586),
-  list(proc, share_o = production / sum(production, na.rm = TRUE)),
+  list(proc, share_o = supply / sum(supply, na.rm = TRUE)),
   by = list(area_code, year)]
 
 sup <- merge(sup, shares_o, by = c("area_code", "year", "proc"), all.x = TRUE)
 sup[is.na(share_o), share_o := 0]
 sup[is.na(share) & item_code %in% c(2598),  # 2598 = "Oilseed Cakes, Other"
-  `:=`(production = production * share_o)]
+  `:=`(supply = supply * share_o)]
 sup[, share_o := NULL]
 
 sup[, share := NULL]
