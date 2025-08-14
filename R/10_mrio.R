@@ -56,114 +56,114 @@ items <- fread("inst/items_full_123.csv")
 nrcom <- nrow(items)
 Y <- readRDS(file.path(output_dir,"mr_use_fd.rds"))
 
-# Rebalance row sums for each year
-for(i in seq_along(Z_m)){
-
-  X <- rowSums(Z_m[[i]]) + rowSums(Y[[i]])
-
-  for(j in which(X < 0)){
-    reg <- j %/% nrcom + 1
-    # print(paste0(regions[reg, name], " / ", X[j]))
-    Y[[i]][j, paste0(regions[reg, code], "_balancing")] <-
-      Y[[i]][j, paste0(regions[reg, code], "_balancing")] - X[j]
-  }
-}
-
-
-
-# Combine processing into food -----------------------------------------
-for (i in seq_along(Y)) {
-  print(years[i])
-  
-  Y[[i]][, which(grepl("food", colnames(Y[[i]])))] <- 
-    Y[[i]][, which(grepl("food", colnames(Y[[i]])))] + Y[[i]][, which(grepl("processing", colnames(Y[[i]])))]
-  
-  # Remove processing columns
-  Y[[i]] <- Y[[i]][, -which(grepl("processing", colnames(Y[[i]]))), drop = FALSE]
-}
-
-
-
-# Define function for spreading balancing -----------------------------------------
-balancing_correction <- function(Y_food, Y_other, Y_unspec, Y_bal) {
-  # Convert all to triplet format for coordinate access
-  Y_food <- as(Y_food, "TsparseMatrix")
-  Y_other <- as(Y_other, "TsparseMatrix")
-  Y_unspec <- as(Y_unspec, "TsparseMatrix")
-  Y_bal <- as(Y_bal, "TsparseMatrix")
-  
-  # Combine all indices
-  idx <- unique(paste(Y_bal@i, Y_bal@j, sep = "_"))
-  
-  parse_idx <- function(x) {
-    matrix(as.integer(do.call(rbind, strsplit(x, "_"))), ncol = 2)
-  }
-  
-  coords <- parse_idx(idx)
-  i <- coords[, 1] + 1
-  j <- coords[, 2] + 1
-  
-  # Extract corresponding values or 0 if not present
-  get_val <- function(mat) {
-    mat_val <- Matrix::sparseMatrix(i = mat@i + 1, j = mat@j + 1, x = mat@x, dims = dim(mat))
-    mat_val[cbind(i, j)]
-  }
-  
-  f <- get_val(Y_food)
-  o <- get_val(Y_other)
-  u <- get_val(Y_unspec)
-  b <- get_val(Y_bal)
-  
-  total <- f + o + u
-  valid <- total > 0
-  
-  # Proportional redistribution
-  f_add <- numeric(length(b))
-  o_add <- numeric(length(b))
-  u_add <- numeric(length(b))
-  
-  f_add[valid] <- b[valid] * f[valid] / total[valid]
-  o_add[valid] <- b[valid] * o[valid] / total[valid]
-  u_add[valid] <- b[valid] * u[valid] / total[valid]
-  
-  # Fallback: if total == 0, add all to unspecified
-  u_add[!valid] <- u_add[!valid] + b[!valid]
-  
-  dims <- dim(Y_food)
-  food_update <- sparseMatrix(i = i, j = j, x = f_add, dims = dims, dimnames = dimnames(Y_food))
-  other_update <- sparseMatrix(i = i, j = j, x = o_add, dims = dims, dimnames = dimnames(Y_food))
-  unspec_update <- sparseMatrix(i = i, j = j, x = u_add, dims = dims, dimnames = dimnames(Y_food))
-  
-  list(food = food_update, other = other_update, unspecified = unspec_update)
-}
+# # Rebalance row sums for each year
+# for(i in seq_along(Z_m)){
+# 
+#   X <- rowSums(Z_m[[i]]) + rowSums(Y[[i]])
+# 
+#   for(j in which(X < 0)){
+#     reg <- j %/% nrcom + 1
+#     # print(paste0(regions[reg, name], " / ", X[j]))
+#     Y[[i]][j, paste0(regions[reg, code], "_balancing")] <-
+#       Y[[i]][j, paste0(regions[reg, code], "_balancing")] - X[j]
+#   }
+# }
+# 
+# 
+# 
+# # Combine processing into food -----------------------------------------
+# for (i in seq_along(Y)) {
+#   print(years[i])
+#   
+#   Y[[i]][, which(grepl("food", colnames(Y[[i]])))] <- 
+#     Y[[i]][, which(grepl("food", colnames(Y[[i]])))] + Y[[i]][, which(grepl("processing", colnames(Y[[i]])))]
+#   
+#   # Remove processing columns
+#   Y[[i]] <- Y[[i]][, -which(grepl("processing", colnames(Y[[i]]))), drop = FALSE]
+# }
 
 
-i=1
-# Spread balancing over food and other use
-for (i in seq_along(Y)) {
-  print(years[i])
-  
-  before <- sum(Y[[i]])
-  
-  corrections <- balancing_correction(
-    Y_food = Y[[i]][, grepl("food", colnames(Y[[i]]))],
-    Y_other = Y[[i]][, grepl("other", colnames(Y[[i]]))],
-    Y_unspec = Y[[i]][, grepl("unspecified", colnames(Y[[i]]))],
-    Y_bal = Y[[i]][, grepl("balancing", colnames(Y[[i]]))]
-  )
-  
-  Y[[i]][, grepl("food", colnames(Y[[i]]))] <- Y[[i]][, grepl("food", colnames(Y[[i]]))] + corrections$food
-  Y[[i]][, grepl("other", colnames(Y[[i]]))] <- Y[[i]][, grepl("other", colnames(Y[[i]]))] + corrections$other
-  Y[[i]][, grepl("unspecified", colnames(Y[[i]]))] <- Y[[i]][, grepl("unspecified", colnames(Y[[i]]))] + corrections$unspecified
-  
-  # Remove balancing column
-  Y[[i]] <- Y[[i]][, !grepl("balancing", colnames(Y[[i]]))]
-  
-  after <- sum(Y[[i]])
-  if (!all.equal(before, after, tolerance = 1e-6)) {
-    stop(sprintf("Mass inconsistency at i = %d: before = %.0f, after = %.0f", i, before, after))
-  }
-}
+
+# # Define function for spreading balancing -----------------------------------------
+# balancing_correction <- function(Y_food, Y_other, Y_unspec, Y_bal) {
+#   # Convert all to triplet format for coordinate access
+#   Y_food <- as(Y_food, "TsparseMatrix")
+#   Y_other <- as(Y_other, "TsparseMatrix")
+#   Y_unspec <- as(Y_unspec, "TsparseMatrix")
+#   Y_bal <- as(Y_bal, "TsparseMatrix")
+#   
+#   # Combine all indices
+#   idx <- unique(paste(Y_bal@i, Y_bal@j, sep = "_"))
+#   
+#   parse_idx <- function(x) {
+#     matrix(as.integer(do.call(rbind, strsplit(x, "_"))), ncol = 2)
+#   }
+#   
+#   coords <- parse_idx(idx)
+#   i <- coords[, 1] + 1
+#   j <- coords[, 2] + 1
+#   
+#   # Extract corresponding values or 0 if not present
+#   get_val <- function(mat) {
+#     mat_val <- Matrix::sparseMatrix(i = mat@i + 1, j = mat@j + 1, x = mat@x, dims = dim(mat))
+#     mat_val[cbind(i, j)]
+#   }
+#   
+#   f <- get_val(Y_food)
+#   o <- get_val(Y_other)
+#   u <- get_val(Y_unspec)
+#   b <- get_val(Y_bal)
+#   
+#   total <- f + o + u
+#   valid <- total > 0
+#   
+#   # Proportional redistribution
+#   f_add <- numeric(length(b))
+#   o_add <- numeric(length(b))
+#   u_add <- numeric(length(b))
+#   
+#   f_add[valid] <- b[valid] * f[valid] / total[valid]
+#   o_add[valid] <- b[valid] * o[valid] / total[valid]
+#   u_add[valid] <- b[valid] * u[valid] / total[valid]
+#   
+#   # Fallback: if total == 0, add all to unspecified
+#   u_add[!valid] <- u_add[!valid] + b[!valid]
+#   
+#   dims <- dim(Y_food)
+#   food_update <- sparseMatrix(i = i, j = j, x = f_add, dims = dims, dimnames = dimnames(Y_food))
+#   other_update <- sparseMatrix(i = i, j = j, x = o_add, dims = dims, dimnames = dimnames(Y_food))
+#   unspec_update <- sparseMatrix(i = i, j = j, x = u_add, dims = dims, dimnames = dimnames(Y_food))
+#   
+#   list(food = food_update, other = other_update, unspecified = unspec_update)
+# }
+# 
+# 
+# i=1
+# # Spread balancing over food and other use
+# for (i in seq_along(Y)) {
+#   print(years[i])
+#   
+#   before <- sum(Y[[i]])
+#   
+#   corrections <- balancing_correction(
+#     Y_food = Y[[i]][, grepl("food", colnames(Y[[i]]))],
+#     Y_other = Y[[i]][, grepl("other", colnames(Y[[i]]))],
+#     Y_unspec = Y[[i]][, grepl("unspecified", colnames(Y[[i]]))],
+#     Y_bal = Y[[i]][, grepl("balancing", colnames(Y[[i]]))]
+#   )
+#   
+#   Y[[i]][, grepl("food", colnames(Y[[i]]))] <- Y[[i]][, grepl("food", colnames(Y[[i]]))] + corrections$food
+#   Y[[i]][, grepl("other", colnames(Y[[i]]))] <- Y[[i]][, grepl("other", colnames(Y[[i]]))] + corrections$other
+#   Y[[i]][, grepl("unspecified", colnames(Y[[i]]))] <- Y[[i]][, grepl("unspecified", colnames(Y[[i]]))] + corrections$unspecified
+#   
+#   # Remove balancing column
+#   Y[[i]] <- Y[[i]][, !grepl("balancing", colnames(Y[[i]]))]
+#   
+#   after <- sum(Y[[i]])
+#   if (!all.equal(before, after, tolerance = 1e-6)) {
+#     stop(sprintf("Mass inconsistency at i = %d: before = %.0f, after = %.0f", i, before, after))
+#   }
+# }
 
 
 
@@ -249,7 +249,7 @@ saveRDS(X, file.path(output_dir,"X.rds"))
 
 
 
-# create the losses version of fabio ---
+# create version of fabio with losses endogenized (on the main diagonal of Z) ---
 # i.e. a version where losses are considered an own use of each sector instead of being a final demand category
 
 for(year in years){

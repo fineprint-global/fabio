@@ -17,15 +17,6 @@ n <- length(areas)
 
 
 # Prepare reallocation of re-exports --------------------------------------
-# Split stock changes into
-# - positive values (stock additions)  --> part of domestic use
-# - negative values (stock withdrawals) --> part of domestic supply
-cbs[, `:=`(stock_positive = ifelse(stock_addition > 0, stock_addition, 0),
-           stock_negative = ifelse(stock_addition < 0, -stock_addition, 0))]
-# negative stock additions previously decreased use
-cbs[, `:=`(supply = na_sum(production, imports, stock_negative),
-           use = na_sum(production, imports, stock_negative, -exports))]
-
 # Create a structure to map importers to exporters per item (+ targets)
 mapping_templ <- data.table(
   from_code = rep(areas, each = length(areas), times = length(items)),

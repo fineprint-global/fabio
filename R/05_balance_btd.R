@@ -2,6 +2,7 @@
 library("data.table")
 library("Matrix")
 library("mipfp")
+library("future.apply")
 
 source("R/01_tidy_functions.R")
 source("R/00_system_variables.R")
@@ -97,27 +98,50 @@ for(i in seq_along(years)) {
     val_est = NULL)]
 
 
+  # start parallel processing
+  plan(multicore, workers = parallel::detectCores() - 2)
+  
   # Restructure in a list with matrices per item
-  mapping_ras <- lapply(
+  mapping_ras <- future_lapply(
     split(mapping, by = "item_code", keep.by = FALSE),
     function(x) {
-      out <- data.table::dcast(x, from_code ~ to_code,
-        fun.aggregate = sum, value.var = "value")[, -"from_code"]
-      as(out, "matrix")})
+      out <- data.table::dcast(
+        x, 
+        from_code ~ to_code,
+        fun.aggregate = sum, 
+        value.var = "value"
+        )[, -"from_code"]
+      as(out, "matrix")
+      })
 
   # Run iterative proportional fitting per item
-  for(j in as.character(items)) {
-    mapping_ras[[j]] <- Ipfp(mapping_ras[[j]],
-      target.list = list(1, 2), iter = 100, tol.margins = 1E5,
-      target.data = constraint[item_code == j, .(round(exports), round(imports))])$x.hat
-  }
+  results <- future_lapply(as.character(items), function(j) {
+    Ipfp(
+      mapping_ras[[j]],
+      target.list = list(1, 2),
+      iter        = 100,
+      tol.margins = 1e5,
+      target.data = constraint[item_code == j, .(round(exports), round(imports))]
+    )$x.hat
+  })
+  
+  # assign results back to mapping_ras
+  # for (k in seq_along(items)) {
+  #   mapping_ras[[as.character(items[k])]] <- results[[k]]
+  # }
+  mapping_ras[as.character(items)] <- setNames(results, as.character(items)) # does the same as the for loop
 
-  btd_bal[[i]] <- lapply(names(mapping_ras), function(name) {
+  btd_bal[[i]] <- future_lapply(names(mapping_ras), function(name) {
     out <- mapping_ras[[name]]
     out <- data.table(from_code = colnames(out), as.matrix(out))
     out <- melt(out, id.vars = c("from_code"), variable.name = "to_code", variable.factor = FALSE)
-    out[, .(year = y, item_code = as.integer(name),
-      from_code = as.integer(from_code), to_code = as.integer(to_code), value)]
+    out[, .(
+      year      = y,
+      item_code = as.integer(name),
+      from_code = as.integer(from_code),
+      to_code   = as.integer(to_code),
+      value
+    )]
   })
 }
 

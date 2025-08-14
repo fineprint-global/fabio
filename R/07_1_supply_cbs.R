@@ -20,15 +20,10 @@ grazing <- unique(cbs[, c("year", "area", "area_code")])
 grazing[, `:=`(item = "Grazing", item_code = 2001)]
 cbs <- rbindlist(list(cbs, grazing), use.names = TRUE, fill = TRUE)
 
-# Each country's supply is the sum of its production and stock withdrawals (i.e. where stock_addition < 0)
-cbs[, `:=`(from_stock = ifelse(stock_addition < 0, -stock_addition, 0))]
-# negative stock additions previously decreased use
-cbs[, `:=`(supply = na_sum(production, from_stock))]
-
 
 # Allocate production to supplying processes including double-counting
 sup <- merge(
-  cbs[, c("area_code", "area", "year", "item_code", "item", "supply")],
+  cbs[, .(area_code, area, year, item_code, item, supply = domestic_supply)],
   sup[item_code %in% unique(cbs$item_code)],
   by = c("item_code", "item"), all = TRUE, allow.cartesian = TRUE)
 
@@ -105,18 +100,27 @@ prices[, price := ifelse(tonnes != 0 & !is.na(tonnes), usd / tonnes,
 
 # Cap prices at 10th and 90th quantiles.
 # We might want to add a yearly element.
-caps <- prices[, list(price_q95 = quantile(price, .95, na.rm = TRUE),
+caps <- prices[, list(
+  price_max = max(price, na.rm = TRUE),
+  price_q95 = quantile(price, .95, na.rm = TRUE),
   price_q90 = quantile(price, .90, na.rm = TRUE),
+  price_q80 = quantile(price, .80, na.rm = TRUE),
   price_q50 = quantile(price, .50, na.rm = TRUE),
+  price_q20 = quantile(price, .20, na.rm = TRUE),
   price_q10 = quantile(price, .10, na.rm = TRUE),
-  price_q05 = quantile(price, .05, na.rm = TRUE)),
+  price_q05 = quantile(price, .05, na.rm = TRUE),
+  price_min = min(price, na.rm = TRUE)),
   by = list(item)]
-prices <- merge(prices, caps, by = "item", all.x = TRUE)
+# num_cols <- names(caps)[sapply(caps, is.numeric)]
+# caps[, (num_cols) := lapply(.SD, round), .SDcols = num_cols]
+
+prices <- merge(prices, caps, by = c("item"), all.x = TRUE)
 
 cat("Capping ", prices[price > price_q90 | price < price_q10, .N],
   " prices at the specific item's 90th and 10th quantiles.\n", sep = "")
-prices[, price := ifelse(price > price_q90, price_q90,
+prices[, price := ifelse(price > price_q10, price_q10,
   ifelse(price < price_q10, price_q10, price))]
+
 
 # Get worldprices to fill gaps
 na_sum <- function(x) {ifelse(all(is.na(x)), NA_real_, sum(x, na.rm = TRUE))}
@@ -148,6 +152,26 @@ cat("Filling ", prices[!is.finite(price) & !is.na(price_q50), .N],
 prices[!is.finite(price), price := price_q50]
 prices[!is.finite(price_world), price := price_q50]
 
+
+# Apply manual price caps for:
+price_caps <- fread('
+item,price_limit
+"Palm kernels",1000
+"Ricebran Oil",5000
+"Sesameseed Oil",6000
+"Horses",5000
+"Mules",2000
+"Poultry birds",5000
+"Rabbits and hares",8000
+"Rodents, other",8000
+')
+
+prices <- merge(prices, price_caps, by = c("item"), all.x = TRUE)
+cat("Applying manual upper price limits for ", price_caps$item,
+    ".\n", sep = " ")
+prices[item %in% price_caps$item, price := ifelse(price > price_limit, price_limit, price)]
+
+
 sup <- merge(sup, all.x = TRUE,
   prices[, c("from_code", "from", "item", "item_code", "year", "price")],
   by.x = c("area_code", "area", "item", "item_code", "year"),
@@ -162,13 +186,6 @@ sup <- merge(sup, all.x = TRUE,
   by = c("item", "item_code"))
 sup[, `:=`(price = ifelse(is.na(price), ifelse(is.na(price_world), price_average, price_world), price),
            price_world = NULL, price_average = NULL)]
-
-# estimate the price of palm kernels at 60% of the price of palm oil
-sup <- merge(sup, all.x = TRUE,
-  sup[item == "Palm Oil", .(year, area_code, price_oil = price)],
-  by = c("area_code", "year"))
-sup[, `:=`(price = ifelse(item == "Palm kernels", price_oil * 0.6, price),
-  price_oil = NULL)]
 
 # # fill missing prices for oils and cakes with global averages
 # price_oil <- prices[grepl(" Oil", item),
@@ -190,7 +207,7 @@ prices <- readRDS("data/tidy/prices_tidy.rds")
 prices <- prices[grepl("milk", item) & months == "Annual value" &
   unit == "USD", .(item, area_code, area, year, value)]
 prices[, item := stringr::word(item, -1)]
-prices <- dcast(prices, area_code + area + year ~ item, value.var = "value") # tidyr::spread(prices, item, value)
+prices <- dcast(prices, area_code + area + year ~ item, value.var = "value") 
 prices[, milk := rowMeans(.SD, na.rm = TRUE),
   by = c("area_code", "area", "year"),
   .SDcols = c("buffalo", "camel", "goats", "sheep")]
@@ -198,11 +215,6 @@ prices[!is.na(cattle), milk := cattle]
 sup <- merge(sup, all.x = TRUE,
   prices[, .(year, area_code, milk)],
   by = c("area_code", "year"))
-# use latest available price
-prices_earliest <- prices[, .SD[which.min(year)], by = area]
-sup <- merge(sup, all.x = TRUE,
-  prices_earliest[, .(area_code, milk_earliest = milk)],
-  by = c("area_code"))
 # use global average, where no value available
 prices_avg <- prices[, list(milk = mean(milk, na.rm = TRUE)),
   by = list(year)]
@@ -211,8 +223,8 @@ sup <- merge(sup, all.x = TRUE,
   by = c("year"))
 sup[is.na(milk_avg), milk_avg := prices_avg[which.min(year), milk]]
 sup[item == "Milk - Excluding Butter", price := ifelse(!is.na(milk),
-  milk, ifelse(!is.na(milk_earliest), milk_earliest, milk_avg))]
-sup[, `:=`(milk = NULL, milk_earliest = NULL, milk_avg = NULL)]
+  milk, milk_avg)]
+sup[, `:=`(milk = NULL, milk_avg = NULL)]
 
 
 

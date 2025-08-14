@@ -7,9 +7,6 @@ library("quadprog")
 source("R/00_system_variables.R")
 source("R/01_tidy_functions.R")
 
-# should the feedstock optimization be run or should previously stored results be used?
-run_optim <- FALSE
-
 cbs <- readRDS("data/cbs_full.rds")
 sup <- readRDS("data/sup.rds")
 items <- fread("inst/items_full_123.csv")
@@ -35,6 +32,7 @@ butter[, `:=`(max = production / 0.035,
 cbs <- merge(cbs, butter[, .(area_code, area, year, item = "Milk - Excluding Butter", max)], all.x = TRUE)
 cbs[!is.na(max) & max < processing, `:=`(food = food + processing - max, processing = max)]
 cbs[, max := NULL]
+cbs[, use := NULL]
 
 # Create long use table
 use <- merge(
@@ -53,7 +51,7 @@ cat("Allocating live animals to slaughtering use. Applies to items:\n\t",
 use[type == "slaughtering", `:=`(use = processing, processing = 0)]
 # Reduce processing
 cbs <- merge(cbs, use[type == "slaughtering" & !is.na(use) & use > 0,
-  c("area_code", "year", "item_code", "use")],
+  .(area_code, year, item_code, use)],
   by = c("area_code", "year", "item_code"), all.x = TRUE)
 cbs[!is.na(use), processing := na_sum(processing, -use)]
 cbs[, use := NULL]
@@ -234,12 +232,12 @@ opt_in <- fread("inst/optim_in.csv")
 opt_out <- fread("inst/optim_out.csv")
 # Add processing / production information from the balances
 input <- merge(opt_in,
-               cbs[, c("area_code", "year", "item_code", "processing", "balancing", "unspecified", "feed", "food")],
+               cbs[, c("area_code", "year", "item_code", "processing", "balancing", "feed", "food")],
                by = "item_code", all.x = TRUE)
-# Sum up processing, balancing and unspecified quantities, so that all of them can be used as inputs
-input[, `:=`(processing = round(na_sum(processing, balancing, unspecified),0),
+# Sum up processing, balancing quantities, so that all of them can be used as inputs
+input[, `:=`(processing = round(na_sum(processing, balancing),0),
              rest = round(na_sum(feed, food),0))]
-input[, `:=`(balancing = NULL, unspecified = NULL, feed = NULL, food = NULL)]
+input[, `:=`(balancing = NULL, feed = NULL, food = NULL)]
 input <- input[(is.finite(processing) & processing > 0) | (is.finite(rest) & rest > 0)]
 output <- merge(opt_out,
                 cbs[, c("area_code", "year", "item_code", "production")],
@@ -276,15 +274,17 @@ source("R/08_solver_functions.R")
 
 # Run optimization -----
 results_list <- mclapply(1:nrow(scenarios), function(i) {
-  row <- scenarios[i]
+  yr <- scenarios[i]$year
+  code <- scenarios[i]$area_code
+  area <- scenarios[i]$area
   
-  inp_i <- input[year==row$year & area_code==row$area_code]
-  out_i <- output[year==row$year & area_code==row$area_code]
-  tcf_i <- opt_tcf[area_code==row$area_code]
+  inp_i <- input[year==yr & area_code==code]
+  out_i <- output[year==yr & area_code==code]
+  tcf_i <- opt_tcf[area_code==code]
   
-  solve_flow_qp(area_code = as.integer(row$area_code),
-                area      = as.character(row$area),
-                year      = as.integer(row$year),
+  solve_flow_qp(area_code = as.integer(code),
+                area      = as.character(area),
+                year      = as.integer(yr),
                 inp       = inp_i,
                 out       = out_i,
                 tcf       = tcf_i)
@@ -305,7 +305,7 @@ flow_results[, proc_code := ifelse(out_code == 2658, "p083",
 # Add optimisation results to use (full detail) and cbs (item detail)
 use <- merge(use,
   flow_results[, .(area_code, year, item_code = inp_code, type = "optim",
-    proc_code, flow = round(flow, 0))],
+    proc_code, flow = round(flow))],
   by = c("area_code", "year", "item_code", "proc_code", "type"), all.x = TRUE)
 use[!is.na(flow) & type == "optim", use := flow]
 use[, flow := NULL]
@@ -314,21 +314,19 @@ cbs <- merge(cbs,
   flow_results[, list(flow = na_sum(flow)),
     by = .(area_code, year, item_code = inp_code)],
   by = c("area_code", "year", "item_code"), all.x = TRUE)
-cbs[!is.na(flow), processing := na_sum(processing, -flow)]
+cbs[!is.na(flow), processing := round(na_sum(processing, -flow))]
 cbs[, flow := NULL]
 
-# Allocate negatives in processing use resulting from feedstock optimization to balancing and unspecified
-cbs[processing < 0, `:=`(balancing = na_sum(balancing, processing), processing = 0)]
-cbs[balancing < 0 & unspecified > 0 & na_sum(balancing, unspecified) >= 0, `:=`(unspecified = na_sum(balancing, unspecified), balancing = 0)]
-cbs[balancing < 0 & unspecified > 0 & na_sum(balancing, unspecified) < 0, `:=`(balancing = na_sum(balancing, unspecified), unspecified = 0)]
-cbs[balancing < 0 & balancing > -2, balancing := 0]
-cbs[balancing < 0, `:=`(food = food + balancing/na_sum(food,feed)*food, feed = feed + balancing/na_sum(food,feed)*feed, balancing = 0)]
-cbs[food < 0 , food := 0]
-cbs[feed < 0 , feed := 0]
+# Allocate negatives in processing use resulting from feedstock optimization to food and feed
+cbs[processing < 0, 
+    `:=`(food = food + round(processing / na_sum(food, feed) * food), 
+         feed = feed + round(processing / na_sum(food, feed) * feed), 
+         processing = 0)]
+# cbs[food < 0 , food := 0]
+# cbs[feed < 0 , feed := 0]
 
 # add comm code
 cbs[, comm_code := items$comm_code[match(cbs$item_code, items$item_code)]]
-
 
 
 # Allocation of seed -----
@@ -343,8 +341,8 @@ use[, seed_use := NULL]
 # Allocate final demand from balances -----
 
 # The remainder of processing use (flows into supply chains that are not further tracked in FABIO) is interpreted as a new final demand category
-use_fd <- cbs[, c("year", "comm_code", "area_code", "area", "item_code", "item",
-  "food", "other", "losses", "stock_addition", "balancing", "unspecified", "tourist", "processing")]
+use_fd <- cbs[, .(year, area_code, area, item_code, item, comm_code, 
+  food = food + processing, losses, other, stock_addition = stock_addition - stock_withdrawal, tourist)]
 
 # replace Cyprus' tourist consumption data with more detailed data from SUAs
 tourist <- fread("input/Tourist_Cyprus.csv")
@@ -353,8 +351,8 @@ use_fd[area=="Cyprus" & !is.na(value) & na_sum(food + tourist - value) >= 0, `:=
 use_fd[, value := NULL]
 
 # Remove unneeded variables
-use <- use[, c("year", "area_code", "area", "comm_code", "item_code", "item",
-               "proc_code", "proc", "type", "use")]
+use <- use[, .(year, area_code, area, comm_code, item_code, item,
+               proc_code, proc, type, use)]
 
 
 # Save -----

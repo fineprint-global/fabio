@@ -34,8 +34,8 @@ prep_solve <- function(year, Z, X,
 }
 
 
-years_singular <- c(2011,2013)
-years_singular_losses <- c(2011,2013,2021,2022)
+years_singular <- 0 #c(2011,2013)
+years_singular_losses <- 0 #c(2011,2013,2021,2022)
 
 Z_m <- readRDS(file.path(output_dir,"Z_mass.rds"))
 Z_v <- readRDS(file.path(output_dir,"Z_value.rds"))

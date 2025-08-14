@@ -417,13 +417,14 @@ grazing <- feed[item_code == 2001, list(grazing = na_sum(feed_use)),
 
 sup <- merge(sup, grazing,
              by = c("area_code", "year", "item_code"), all.x = TRUE)
-sup[item_code == 2001, production := grazing]
+sup[item_code == 2001, `:=`(
+  production = grazing, supply = grazing)]
 sup[, grazing := NULL]
 
 cbs <- merge(cbs, grazing,
              by = c("area_code", "year", "item_code"), all.x = TRUE)
 cbs[item_code == 2001, `:=`(
-  production = grazing, total_supply = na_sum(grazing, imports))]
+  production = grazing, total_supply = grazing, feed = grazing)]
 cbs[, grazing := NULL]
 
 # Clean up

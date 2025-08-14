@@ -4,6 +4,7 @@ library("tidyverse")
 source("R/01_tidy_functions.R")
 source("R/00_system_variables.R")
 
+regions <- fread("inst/regions_full.csv")
 items <- fread("inst/items_full.csv")
 
 # BACI is used for ethanol and fishery trade
@@ -63,23 +64,23 @@ eth <- dt_rename(eth, drop = FALSE,
 
 
 
-# Fish --------------------------------------------------------------------
-
-cat("\nAdding fishery trade data.\n")
-
-fish <- baci[grep("^30[1-9]", item_code), ] %>%
-  filter(unit=="tonnes")
-
-# match with tcfs and convert into fresh fish equivalents
-tcf <- read.csv("inst/tcf_fish.csv")
-fish <- merge(fish, tcf, by.x="item_code", by.y="hs_code", all.x = TRUE)
-fish[, value := value * tcf]
-fish[, `:=`(item = category, category = NULL, tcf = NULL, name = NULL)]
-fish[, `:=`(item_code = code, code = NULL)]
-
-fish <- dt_rename(fish, drop = FALSE,
-  rename = c("exporter" = "from", "exporter_code" = "from_code",
-    "importer" = "to", "importer_code" = "to_code"))
+# # Fish --------------------------------------------------------------------
+# 
+# cat("\nAdding fishery trade data.\n")
+# 
+# fish <- baci[grep("^30[1-9]", item_code), ] %>%
+#   filter(unit=="tonnes")
+# 
+# # match with tcfs and convert into fresh fish equivalents
+# tcf <- read.csv("inst/tcf_fish.csv")
+# fish <- merge(fish, tcf, by.x="item_code", by.y="hs_code", all.x = TRUE)
+# fish[, value := value * tcf]
+# fish[, `:=`(item = category, category = NULL, tcf = NULL, name = NULL)]
+# fish[, `:=`(item_code = code, code = NULL)]
+# 
+# fish <- dt_rename(fish, drop = FALSE,
+#   rename = c("exporter" = "from", "exporter_code" = "from_code",
+#     "importer" = "to", "importer_code" = "to_code"))
 
 
 
@@ -98,6 +99,13 @@ btd <- rbindlist(list(btd, eth), use.names = TRUE)
 #   but somehow relevant also for many other countries)
 btd <- btd[item_code %in% items$item_code & year %in% years, ]
 
+# Aggregate RoW countries in BTD
+btd <- replace_RoW(btd, cols = c("from_code", "to_code"),
+                   codes = c(regions[current == TRUE, code], 252, 254))
+
+# Remove ROW-internal trade from BTD
+btd <- dt_filter(btd, from_code != to_code)
+
 # Aggregate values
 btd <- btd[, .(value = na_sum(value)), 
            by = setdiff(names(eth), "value")]
@@ -110,47 +118,6 @@ btd_live_tonnes <- btd[(comm_code %in% items[comm_group == "Live animals", comm_
 btd <- btd[!(comm_code %in% items[comm_group == "Live animals", comm_code] & unit == "tonnes")]
 
 setorder(btd, by = year)
-
-
-
-# Handle outliers ----------------------------------------------------------
-# some example outliers where exports in btd are a lot higher than total_supply
-# area_code	|	area	|	year	|	item_code	|	item	|	production	|	exports	|	imports	|	total_supply	|	diff
-# 144	|	Mozambique	|	2019	|	2671	|	Tobacco	|	142041	|	2093003	|	34756	|	176797	|	-1916206
-# 144	|	Mozambique	|	2020	|	2671	|	Tobacco	|	67000	|	1074105	|	47018	|	114018	|	-960086
-# 231	|	United States of America	|	2020	|	2661	|	Cotton lint	|	3180410	|	3847577	|	12126	|	3192536	|	-655041
-# 177	|	Puerto Rico	|	1999	|	2514	|	Maize and products	|	700	|	641483	|	4	|	704	|	-640779
-# 10	|	Australia	|	2021	|	2661	|	Cotton lint	|	114751	|	717061	|	156	|	114907	|	-602154
-# 177	|	Puerto Rico	|	1996	|	2514	|	Maize and products	|	750	|	596125	|	233	|	983	|	-595141
-# 177	|	Puerto Rico	|	1997	|	2514	|	Maize and products	|	820	|	554312	|	1	|	821	|	-553491
-# 100	|	India	|	2021	|	2667	|	Hard Fibres, Other	|	591440.97	|	1123744	|	3812	|	595253	|	-528490
-
-
-# data <- btd %>% 
-#   group_by(comm_code, item_code, item, from_code, from, to_code, to, unit) %>% 
-#   mutate(q1 = quantile())
-# data <- btd[comm_code == "c002" & from_code == 231 & to_code == 41 & unit=="tonnes", value]
-
-# for(u in unique(btd$unit)){ # u <- "tonnes"
-#   for(i in unique(btd$from_code)){  # i <- 231
-#     for(c in unique(btd$comm_code)){  #  c <- "c060"
-#       check <- btd[unit==u & from_code==i & comm_code==c, list(value = na_sum(value)), 
-#                    by = c("item_code", "item", "from", "from_code", "year", "unit")]
-#       print(paste0(c, ": ", length(tsoutliers(check$value)$index)))
-#       if(length(tsoutliers(check$value)$index) != 0 & sum(check$value) > 100000){
-#         for(j in unique(btd$to_code)){  #  j <- 35
-#           if(length(tsoutliers(check$value)$index) != 0 & sum(check$value) > 10000){
-#             check <- btd[unit==u & from_code==i & to_code==j & comm_code==c]
-#             print(paste0(length(tsoutliers(check$value)$index), ": ", j))
-#           }
-#         }
-#       }
-#     }
-#   }
-# }
-
-# clean <- tsclean(data, lambda = NULL)
-# compare <- round(cbind(data, clean))
 
 
 

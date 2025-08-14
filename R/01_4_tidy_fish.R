@@ -257,7 +257,7 @@ prod_proc <- prod_proc[, .(sum(value)), by = c("country", "cpc_isscaap", "year")
 
 # save -------------------------------------------------------------------------
 
-saveRDS(prod, "data/tidy/prod_final.rds")
-saveRDS(prod_proc, "data/tidy/prod_proc_final.rds")
-saveRDS(trad, "data/tidy/trad_final.rds")
-saveRDS(trad_aggr, "data/tidy/trad_aggr_final.rds")
+saveRDS(prod, "data/tidy/fish_prod_final.rds")
+saveRDS(prod_proc, "data/tidy/fish_prod_proc_final.rds")
+saveRDS(trad, "data/tidy/fish_trad_final.rds")
+saveRDS(trad_aggr, "data/tidy/fish_trad_aggr_final.rds")

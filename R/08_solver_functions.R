@@ -134,12 +134,13 @@ solve_flow_qp <- function(area_code, area, year, inp, out, tcf) {
   if (is.null(qp_result)) return(NULL)
   
   # Output results
-  solution <- round(qp_result$solution, 0)
+  solution <- round(qp_result$solution)
   tcf[, flow := solution]
-  tcf[, output := round(flow * value, 0)]
+  tcf[, output := round(flow * value)]
   
   flow <- tcf[flow > 0, .(inp_code, inp, out_code, out, area_code, year, flow, output)]
   
+  # Calculate over- and under-use
   input_used <- tcf[, .(input_use = sum(flow)), by = .(inp_code)]
   input_dt <- merge(inp[, .(inp_code = item_code, item, available = processing, area_code, year)],
                     input_used, by = "inp_code", all.x = TRUE)
@@ -147,6 +148,25 @@ solve_flow_qp <- function(area_code, area, year, inp, out, tcf) {
   input_dt[, overused := pmax(0, input_use - available)]
   input_dt[, underused := pmax(0, available - input_use)]
   
+  underused <- input_dt[underused > 1, .(inp_code, item, input_use, available, area_code, area, year, underused)]
+  overused  <- input_dt[overused > 1, .(inp_code, item, input_use, available, area_code, area, year, overused)]
+  
+  # Downscale flows for overused inputs
+  for (i in seq_len(nrow(overused))) {
+    scale_factor <- overused$available[i] / overused$input_use[i]
+    flow[inp_code == overused$inp_code[i], flow := round(flow * scale_factor)]
+  }
+  
+  # Re-calculate over- and under-use
+  input_used <- flow[, .(input_use = sum(flow)), by = .(inp_code)]
+  flow[, list(flow = na_sum(flow)), 
+       by = .(area_code, year, item_code = inp_code)]
+  
+  input_dt <- merge(inp[, .(inp_code = item_code, item, available = processing, area_code, year)],
+                    input_used, by = "inp_code", all.x = TRUE)
+  input_dt[is.na(input_use), input_use := 0]
+  input_dt[, overused := pmax(0, input_use - available)]
+  input_dt[, underused := pmax(0, available - input_use)]
   underused <- input_dt[underused > 1, .(inp_code, item, input_use, available, area_code, area, year, underused)]
   overused  <- input_dt[overused > 1, .(inp_code, item, input_use, available, area_code, area, year, overused)]
   

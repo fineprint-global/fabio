@@ -7,17 +7,22 @@ btd_item_code,btd_item,cbs_item_code,cbs_item,tcf
 20,Bread,2511,Wheat and products,0.9085
 21,Bulgur,2511,Wheat and products,0.95
 22,Pastry,2511,Wheat and products,0.9085
+23,Starch of wheat,2511,Wheat and products,1
+24,Wheat gluten,2511,Wheat and products,1
+26,Wheat-fermented beverages,2657,"Beverages, Fermented",1
 27,Rice,2807,Rice and products,1
 28,Husked rice,2807,Rice and products,0.77
 29,"Rice, milled (husked)",2807,Rice and products,0.77
 30,"Rice, paddy (rice milled equivalent)",2807,Rice and products,0.77
 31,"Rice, milled",2807,Rice and products,0.77
 32,"Rice, broken",2807,Rice and products,0.77
-35,Bran of rice,2807,Rice and products,0.77
+33,"Rice, gluten",2807,Rice and products,0.77
+34,Starch of rice,2807,Rice and products,0.7315
+35,Bran of rice,2807,Rice and products,0.7315
 36,Oil of rice bran,2581,Ricebran Oil,1
 37,Cake of rice bran,2598,"Oilseed Cakes, Other",1
 38,Flour of rice,2807,Rice and products,0.7315
-39,Rice-fermented beverages,2657,"Beverages, Fermented",5
+39,Rice-fermented beverages,2657,"Beverages, Fermented",1
 41,Breakfast cereals,2511,Wheat and products,0.85
 44,Barley,2513,Barley and products,1
 45,Pot barley,2513,Barley and products,0.91
@@ -26,13 +31,16 @@ btd_item_code,btd_item,cbs_item_code,cbs_item,tcf
 48,Barley flour and grits,2513,Barley and products,0.91
 49,"Malt, whether or not roasted",2513,Barley and products,0.73
 50,Malt extract,2513,Barley and products,0.584
-51,"Beer of barley, malted",2656,Beer,6.55
+51,"Beer of barley, malted",2656,Beer,1
 56,Maize (corn),2514,Maize and products,1
 57,Germ of maize,2514,Maize and products,0.99
 58,Flour of maize,2514,Maize and products,0.99
 59,Bran of maize,2514,Maize and products,1
 60,Oil of maize,2582,Maize Germ Oil,1
 61,Cake of maize,2598,"Oilseed Cakes, Other",1
+63,Maize gluten,2514,Maize and products,0.8415
+64,Starch of maize,2514,Maize and products,0.8415
+66,"Beer of maize, malted",2656,Beer,1
 71,Rye,2515,Rye and products,1
 72,Flour of rye,2515,Rye and products,1
 73,Bran of rye,2515,Rye and products,1
@@ -42,15 +50,21 @@ btd_item_code,btd_item,cbs_item_code,cbs_item,tcf
 79,Millet,2517,Millet and products,1
 80,Flour of millet,2517,Millet and products,1
 81,Bran of millet,2517,Millet and products,1
+82,"Beer of millet, malted",2656,Beer,1
 83,Sorghum,2518,Sorghum and products,1
 84,Flour of sorghum,2518,Sorghum and products,1
 85,Bran of sorghum,2518,Sorghum and products,1
+86,"Beer of sorghum, malted",2656,Beer,1
 89,Buckwheat,2520,"Cereals, Other",1
 90,Flour of buckwheat,2520,"Cereals, Other",1
 91,Bran of buckwheat,2520,"Cereals, Other",1
 92,Quinoa,2520,"Cereals, Other",1
 94,Fonio,2520,"Cereals, Other",1
+95,Flour of fonio,2520,"Cereals, Other",1
+96,Bran of fonio,2520,"Cereals, Other",1
 97,Triticale,2520,"Cereals, Other",1
+98,Flour of triticale,2520,"Cereals, Other",1
+99,Bran of triticale,2520,"Cereals, Other",1
 101,Canary seed,2520,"Cereals, Other",1
 103,Mixed grain,2520,"Cereals, Other",1
 104,Flour of mixed grain,2520,"Cereals, Other",1
@@ -66,6 +80,7 @@ btd_item_code,btd_item,cbs_item_code,cbs_item,tcf
 116,Potatoes,2531,Potatoes and products,1
 117,"Flour, meal, powder, flakes, granules and pellets of potatoes",2531,Potatoes and products,0.19
 118,"Potatoes, frozen",2531,Potatoes and products,0.5
+119,Starch of potatoes,2531,Potatoes and products,0.19
 120,Potato offals,2531,Potatoes and products,0.5
 121,Tapioca of potatoes,2531,Potatoes and products,0.2
 122,Sweet potatoes,2533,Sweet potatoes,1
@@ -82,6 +97,7 @@ btd_item_code,btd_item,cbs_item_code,cbs_item,tcf
 151,"Edible roots and tubers with high starch or inulin content, n.e.c., dry",2534,"Roots, Other",0.3
 156,Sugar cane,2536,Sugar cane,1
 157,Sugar beet,2537,Sugar beet,1
+158,"Cane sugar, centrifugal",2542,Sugar (Raw Equivalent),1
 160,"Refined cane or beet sugar, in solid form, containing added flavouring or colouring matter; maple sugar and maple syrup",2543,"Sweeteners, Other",1
 161,Other sugar crops n.e.c.,2543,"Sweeteners, Other",1
 162,Raw cane or beet sugar (centrifugal only),2542,Sugar (Raw Equivalent),1
@@ -130,6 +146,7 @@ btd_item_code,btd_item,cbs_item_code,cbs_item,tcf
 238,Cake of  soya beans,2590,Soyabean Cake,1
 239,Soya sauce,2555,Soyabeans,3.5
 240,Soya paste,2555,Soyabeans,4.5
+241,Soya curd,2555,Soyabeans,3.75
 242,"Groundnuts, excluding shelled",2552,Groundnuts,1
 243,"Groundnuts, shelled",2552,Groundnuts,0.7
 244,Groundnut oil,2572,Groundnut Oil,1
@@ -138,9 +155,10 @@ btd_item_code,btd_item,cbs_item_code,cbs_item,tcf
 247,Peanut butter,2552,Groundnuts,0.588
 249,"Coconuts, in shell",2560,Coconuts - Incl Copra,1
 250,"Coconuts, desiccated",2560,Coconuts - Incl Copra,0.5
-251,Copra,2560,Coconuts - Incl Copra,0.5
-252,Coconut oil,2578,Coconut Oil,0.5
-253,Cake of copra,2596,Copra Cake,0.5
+251,Copra,2560,Coconuts - Incl Copra,1
+252,Coconut oil,2578,Coconut Oil,1
+253,Cake of copra,2596,Copra Cake,1
+254,Oil palm fruit,254,"Oil, palm fruit",1
 256,Palm kernels,2562,Palm kernels,1
 257,Palm oil,2577,Palm Oil,1
 258,Oil of palm kernel,2576,Palmkernel Oil,1
@@ -162,6 +180,7 @@ btd_item_code,btd_item,cbs_item_code,cbs_item,tcf
 274,Oil of olive residues,2580,Olive Oil,1
 275,Tung nuts,2570,"Oilcrops, Other",1
 276,Oil of tung nuts,2586,"Oilcrops Oil, Other",1
+277,Jojoba seeds,2570,"Oilcrops, Other",1
 278,Jojoba oil,2586,"Oilcrops Oil, Other",1
 280,Safflower seed,2570,"Oilcrops, Other",1
 281,"Safflower-seed oil, crude",2586,"Oilcrops Oil, Other",1
@@ -175,9 +194,13 @@ btd_item_code,btd_item,cbs_item_code,cbs_item,tcf
 295,Flour of mustard seed,2558,Rape and Mustardseed,0.77
 296,Poppy seed,2570,"Oilcrops, Other",1
 297,Oil of poppy seed,2586,"Oilcrops Oil, Other",1
+298,"Cake, poppy seed",2598,"Oilseed Cakes, Other",1
 299,Melonseed,2570,"Oilcrops, Other",1
+305,Tallowtree seeds,2570,"Oilcrops, Other",1
 306,Vegetable tallow,2586,"Oilcrops Oil, Other",1
+310,Kapok fruit,2570,"Oilcrops, Other",1
 311,Kapokseed in shell,2570,"Oilcrops, Other",1
+312,"Kapokseed, shelled",2570,"Oilcrops, Other",1
 313,Oil of kapok,2586,"Oilcrops Oil, Other",1
 314,Cake of kapok,2598,"Oilseed Cakes, Other",1
 329,Cotton seed,2559,Cottonseed,1
@@ -187,6 +210,7 @@ btd_item_code,btd_item,cbs_item_code,cbs_item,tcf
 334,Oil of linseed,2586,"Oilcrops Oil, Other",1
 335,Cake of  linseed,2598,"Oilseed Cakes, Other",1
 336,Hempseed,2570,"Oilcrops, Other",1
+337,Oil of hempseed,2586,"Oilcrops Oil, Other",1
 338,Cake of hempseed,2598,"Oilseed Cakes, Other",1
 339,"Other oil seeds, n.e.c.",2570,"Oilcrops, Other",1
 340,"Other oil of vegetable origin, crude n.e.c.",2586,"Oilcrops Oil, Other",1
@@ -197,6 +221,7 @@ btd_item_code,btd_item,cbs_item_code,cbs_item,tcf
 367,Asparagus,2605,"Vegetables, Other",1
 372,Lettuce and chicory,2605,"Vegetables, Other",1
 373,Spinach,2605,"Vegetables, Other",1
+378,Cassava leaves,2605,"Vegetables, Other",1
 388,Tomatoes,2601,Tomatoes and products,1
 390,Tomato juice,2601,Tomatoes and products,0.465
 391,Paste of tomatoes,2601,Tomatoes and products,0.22
@@ -263,9 +288,11 @@ btd_item_code,btd_item,cbs_item_code,cbs_item,tcf
 531,Cherries,2625,"Fruits, Other",1
 534,Peaches and nectarines,2625,"Fruits, Other",1
 536,Plums and sloes,2625,"Fruits, Other",1
-537,"Plums, dried",2625,"Fruits, Other",0.35
+537,"Plums, dried",2625,"Fruits, Other",0.6
+538,Juice of plum,2625,"Fruits, Other",0.35
 539,"Juice of plum, concentrated",2625,"Fruits, Other",0.3
 541,Other stone fruits,2625,"Fruits, Other",1
+542,Other pome fruits,2625,"Fruits, Other",1
 544,Strawberries,2625,"Fruits, Other",1
 547,Raspberries,2625,"Fruits, Other",1
 549,Gooseberries,2625,"Fruits, Other",1
@@ -307,11 +334,12 @@ btd_item_code,btd_item,cbs_item_code,cbs_item,tcf
 625,"Fruit, nuts, peel, sugar preserved",2625,"Fruits, Other",1.1
 626,"Homogenized cooked fruit, prepared",2625,"Fruits, Other",1.1
 628,"Pulp, waste of fruit for feed",2625,"Fruits, Other",1
-630,Cane tops,,Cane tops,1
-631,Ice and snow,,"Waters,ice etc",1
+630,Cane tops,NA,Cane tops,1
+631,Ice and snow,NA,"Waters,ice etc",1
+632,Undenatured ethyl alcohol of an alcoholic strength by volume of 80% vol or higher,2659,"Alcohol, Non-Food",1
 633,Other non-alcoholic caloric beverages,2543,"Sweeteners, Other",5
-634,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages",2658,"Beverages, Alcoholic",0.2
-635,"Cereal straw, husks, unprepared, ground, pressed, or in the form of pellets",,Straw husks,1
+634,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages",2658,"Beverages, Alcoholic",1
+635,"Cereal straw, husks, unprepared, ground, pressed, or in the form of pellets",NA,Straw husks,1
 636,"Forage and silage, maize",2000,Fodder crops,1
 641,"Forage and silage, alfalfa",2000,Fodder crops,1
 646,"Turnips, for forage",2000,Fodder crops,1
@@ -319,17 +347,17 @@ btd_item_code,btd_item,cbs_item_code,cbs_item,tcf
 649,Swedes for fodder,2000,Fodder crops,1
 651,"Other forage products, n.e.c.",2000,Fodder crops,1
 652,Vegetable products for feed n.e.c.,2000,Fodder crops,1
-653,Food wastes,,Food wastes,1
-654,Brewing or distilling dregs and waste,,"Dregs from brewing, distillation",1
+653,Food wastes,NA,Food wastes,1
+654,Brewing or distilling dregs and waste,NA,"Dregs from brewing, distillation",1
 655,Vegetables and roots fodder,2000,Fodder crops,1
 656,"Coffee, green",2630,Coffee and products,1
 657,"Coffee, decaffeinated or roasted",2630,Coffee and products,0.8
-658,Coffee substitutes,2630,Coffee and products,0.5
+658,Coffee substitutes,NA,Coffee substitutes,1
 659,Coffee extracts,2630,Coffee and products,0.33
 660,Coffee husks and skins,2630,Coffee and products,1
 661,Cocoa beans,2633,Cocoa Beans and products,1
 662,Cocoa paste not defatted,2633,Cocoa Beans and products,0.8
-663,Cocoa husks and shells,,Cocoa husks and shells,1
+663,Cocoa husks and shells,NA,Cocoa husks and shells,1
 664,"Cocoa butter, fat and oil",2586,"Oilcrops Oil, Other",1
 665,Cocoa powder and cake,2633,Cocoa Beans and products,0.424
 666,Chocolate products nes,2633,Cocoa Beans and products,1.9928
@@ -353,7 +381,7 @@ btd_item_code,btd_item,cbs_item_code,cbs_item,tcf
 755,Pyrethrum extract,2645,"Spices, Other",1
 767,"Cotton lint, ginned",2661,Cotton lint,1
 768,"Cotton, carded or combed",2661,Cotton lint,1
-769,Cotton waste,,Cotton waste,1
+769,Cotton waste,NA,Cotton waste,1
 770,Cotton linters,2661,Cotton lint,1
 771,"Flax, raw or retted",2664,"Soft-Fibres, Other",1
 773,"Flax, processed but not spun",2664,"Soft-Fibres, Other",1
@@ -373,18 +401,18 @@ btd_item_code,btd_item,cbs_item_code,cbs_item,tcf
 831,Other manufactured tobacco and manufactured tobacco substitutes; 'homogenized' or 'reconstituted' tobacco; tobacco extracts and essences,2671,Tobacco,0.9
 836,Natural rubber in primary forms,2672,Rubber,1
 837,Natural rubber in other forms,2672,Rubber,1
-839,"Balata, gutta-percha, guayule, chicle and similar natural gums in primary forms or in plates, sheets or strip",,"Balata, gutta-percha, guayule, chicle and similar natural gums in primary forms or in plates, sheets or strip",1
-840,"Feed, compound, cattle",,"Feed, compound, cattle",1
-841,"Feed, compound, poultry",,"Feed, compound, poultry",1
-842,"Feed, compound, pigs",,"Feed, compound, pigs",1
+839,"Balata, gutta-percha, guayule, chicle and similar natural gums in primary forms or in plates, sheets or strip",NA,"Balata, gutta-percha, guayule, chicle and similar natural gums in primary forms or in plates, sheets or strip",1
+840,"Feed, compound, cattle",NA,"Feed, compound, cattle",1
+841,"Feed, compound, poultry",NA,"Feed, compound, poultry",1
+842,"Feed, compound, pigs",NA,"Feed, compound, pigs",1
 843,"Dog or cat food, put up for retail sale",843,Pet food,1
-845,Compound feed n.e.c.,,Compound feed n.e.c.,1
-846,Gluten feed and meal,,Gluten feed and meal,1
-850,Feed supplements,,Feed supplements,1
-852,"Feed, other concentrates nes",,"Feed, other concentrates nes",1
-853,Vitamins,,Vitamins,1
-854,Feed additives,,Feed additives,1
-855,Feed minerals,,Feed minerals,1
+845,Compound feed n.e.c.,NA,Compound feed n.e.c.,1
+846,Gluten feed and meal,2514,Maize and products,0.8415
+850,Feed supplements,NA,Feed supplements,1
+852,"Feed, other concentrates nes",NA,"Feed, other concentrates nes",1
+853,Vitamins,NA,Vitamins,1
+854,Feed additives,NA,Feed additives,1
+855,Feed minerals,NA,Feed minerals,1
 857,"Hay, non-leguminous",2000,Fodder crops,0.3
 858,"Hay for forage, from legumes",2000,Fodder crops,0.3
 859,"Hay for forage, from other crops n.e.c.",2000,Fodder crops,0.3
@@ -402,6 +430,7 @@ btd_item_code,btd_item,cbs_item_code,cbs_item,tcf
 877,Homogenized meat preparations,2731,Bovine Meat,1
 878,Liver preparations,2731,Bovine Meat,1
 882,Raw milk of cattle,2848,Milk - Excluding Butter,1
+883,Standardized milk,2848,Milk - Excluding Butter,1
 885,"Cream, fresh",2848,Milk - Excluding Butter,1
 886,Butter of cow milk,2740,"Butter, Ghee",1
 887,Ghee from cow milk,2740,"Butter, Ghee",1
@@ -423,8 +452,10 @@ btd_item_code,btd_item,cbs_item_code,cbs_item,tcf
 904,Cheese from skimmed cow milk,2848,Milk - Excluding Butter,0.2
 905,Whey cheese,2848,Milk - Excluding Butter,0.2
 907,Processed cheese,2848,Milk - Excluding Butter,0.2
+908,Reconstituted milk,2848,Milk - Excluding Butter,1
 909,Dairy products n.e.c.,2848,Milk - Excluding Butter,0.8
 910,Ice cream and other edible ice,2848,Milk - Excluding Butter,1
+917,Casein,2848,Milk - Excluding Butter,1
 919,Raw hides and skins of cattle,2748,Hides and skins,1
 920,"Hides, wet-salted of cattle",2748,Hides and skins,0.8
 921,"Hides, cattle, dry salted",2748,Hides and skins,0.4
@@ -434,8 +465,13 @@ btd_item_code,btd_item,cbs_item_code,cbs_item,tcf
 930,"Skins, calve nes",2748,Hides and skins,0.8
 946,Buffalo,946,Buffaloes,1
 947,"Meat of buffalo, fresh or chilled",2731,Bovine Meat,0.71
-948,"Edible offal of buffalo, fresh, chilled or frozen",2731,Bovine Meat,0.71
+948,"Edible offal of buffalo, fresh, chilled or frozen",2731,Bovine Meat,1
+949,"Buffalo fat, unrendered",2737,"Fats, Animals, Raw",1
+951,Raw milk of buffalo,2848,Milk - Excluding Butter,1
+952,Butter of buffalo milk,2740,"Butter, Ghee",1
 953,Ghee from buffalo milk,2740,"Butter, Ghee",1
+954,Skim milk of buffalo,2848,Milk - Excluding Butter,1
+955,"Cheese from milk of buffalo, fresh or processed",2848,Milk - Excluding Butter,0.2
 958,"Hides, wet-salted of buffalo",2748,Hides and skins,0.8
 959,"Hides, dry-salted of buffalo",2748,Hides and skins,0.4
 976,Sheep,976,Sheep,1
@@ -445,6 +481,7 @@ btd_item_code,btd_item,cbs_item_code,cbs_item,tcf
 982,Raw milk of sheep,2848,Milk - Excluding Butter,1
 983,Butter and ghee of sheep milk,2740,"Butter, Ghee",1
 984,"Cheese from milk of sheep, fresh or processed",2848,Milk - Excluding Butter,0.2
+985,Skim sheep milk,2848,Milk - Excluding Butter,1
 987,"Shorn wool, greasy, including fleece-washed shorn wool",2746,Wool (Clean Eq.),1
 988,"Wool, degreased or carbonized, not carded or combed",2746,Wool (Clean Eq.),1
 994,Wool grease and lanolin,2737,"Fats, Animals, Raw",1
@@ -459,8 +496,11 @@ btd_item_code,btd_item,cbs_item_code,cbs_item,tcf
 1016,Goats,1016,Goats,1
 1017,"Meat of goat, fresh or chilled",2732,Mutton & Goat Meat,1
 1018,"Edible offal of goat, fresh, chilled or frozen",2736,"Offals, Edible",1
+1019,"Goat fat, unrendered",2737,"Fats, Animals, Raw",1
+1020,Raw milk of goats,2848,Milk - Excluding Butter,1
 1021,"Cheese from milk of goats, fresh or processed",2848,Milk - Excluding Butter,0.2
 1022,Butter of goat milk,2740,"Butter, Ghee",1
+1023,Skim milk of goat,2848,Milk - Excluding Butter,1
 1026,"Skins, wet-salted of goats",2748,Hides and skins,0.8
 1027,"Skins, goat, dry salted",2748,Hides and skins,0.4
 1028,"Skins, goat nes",2748,Hides and skins,0.8
@@ -468,8 +508,8 @@ btd_item_code,btd_item,cbs_item_code,cbs_item,tcf
 1031,Coarse goat hair,2748,Hides and skins,0.8
 1034,Swine / pigs,1034,Pigs,1
 1035,"Meat of pig with the bone, fresh or chilled",2733,Pigmeat,0.91
-1036,"Edible offal of pigs, fresh, chilled or frozen",2736,"Offals, Edible",0.91
-1037,Fat of pigs,2737,"Fats, Animals, Raw",0.91
+1036,"Edible offal of pigs, fresh, chilled or frozen",2736,"Offals, Edible",1
+1037,Fat of pigs,2737,"Fats, Animals, Raw",1
 1038,"Meat of pig boneless, fresh or chilled",2733,Pigmeat,1
 1039,"Pig meat, cuts, salted, dried or smoked (bacon and ham)",2733,Pigmeat,0.9
 1040,"Pig, butcher fat",2737,"Fats, Animals, Raw",1
@@ -511,15 +551,20 @@ btd_item_code,btd_item,cbs_item_code,cbs_item,tcf
 1107,Asses,1107,Asses,1
 1108,"Meat of asses, fresh or chilled",2735,"Meat, Other",1
 1110,Mules and hinnies,1110,Mules,1
+1111,"Meat of mules, fresh or chilled",2735,"Meat, Other",1
 1126,Camels,1126,Camels,1
 1127,"Meat of camels, fresh or chilled",2735,"Meat, Other",1
+1128,"Edible offals of camels and other camelids, fresh, chilled or frozen",2736,"Offals, Edible",1
 1129,Fat of camels,2737,"Fats, Animals, Raw",1
+1130,Raw milk of camel,2848,Milk - Excluding Butter,1
 1134,"Hides, wet-salted of camels",2748,Hides and skins,0.8
 1140,Rabbits and hares,1140,Rabbits and hares,1
 1141,"Meat of rabbits and hares, fresh or chilled",2735,"Meat, Other",1
 1146,"Skins, rabbit",2748,Hides and skins,0.8
 1150,Other rodents,1150,"Rodents, other",1
+1151,"Meat of other domestic rodents, fresh or chilled",2735,"Meat, Other",1
 1157,Other camelids,1157,"Camelids, other",1
+1160,Fat of other camelids,2737,"Fats, Animals, Raw",1
 1163,"Game meat, fresh, chilled or frozen",2735,"Meat, Other",1
 1164,"Other meat and edible meat offal, salted, in brine, dried or smoked; edible flours and meals of meat or meat offal",2735,"Meat, Other",0.46
 1166,"Other meat of mammals, fresh or chilled",2735,"Meat, Other",1
@@ -528,10 +573,11 @@ btd_item_code,btd_item,cbs_item_code,cbs_item,tcf
 1169,"Other live animals non food, n.e.c.",1171,"Live animals, other",1
 1171,"Other live animals, n.e.c.",1171,"Live animals, other",1
 1172,Meat prepared n.e.c.,2735,"Meat, Other",1
-1173,Meat meal,,"Meat, meal",1
-1181,Bees,,Bees,1
+1173,Meat meal,NA,"Meat, meal",1
+1176,"Snails, fresh, chilled, frozen, dried, salted or in brine, except sea snails",NA,"Snails, fresh, chilled, frozen, dried, salted or in brine, except sea snails",1
+1181,Bees,NA,Bees,1
 1182,Natural honey,2745,Honey,1
-1183,Beeswax,,Beeswax,1
+1183,Beeswax,NA,Beeswax,1
 1185,Silk-worm cocoons suitable for reeling,2747,Silk,1
 1186,Raw silk (not thrown),2747,Silk,1
 1187,Silk waste,2747,Silk,2
@@ -546,15 +592,16 @@ btd_item_code,btd_item,cbs_item_code,cbs_item,tcf
 1221,Lard stearine and lard oil,2737,"Fats, Animals, Raw",1
 1222,Degras,2737,"Fats, Animals, Raw",1
 1225,Tallow,2737,"Fats, Animals, Raw",1
-1232,Food preparations n.e.c.,,Food preparations n.e.c.,1
+1232,Food preparations n.e.c.,NA,Food preparations n.e.c.,1
 1241,Liquid margarine,2586,"Oilcrops Oil, Other",1
 1242,Margarine and shortening,2586,"Oilcrops Oil, Other",1
 1243,Fat preparations n.e.c.,2737,"Fats, Animals, Raw",1
-1259,"Feed, food waste preparations",,"Feed, food waste preparations",1
+1259,"Feed, food waste preparations",NA,"Feed, food waste preparations",1
+1273,"Castor oil, hydrogenated",2586,"Oilcrops Oil, Other",1
 1274,"Animal or vegetable fats and oils and their fractions, chemically modified, except those hydrogenated, inter-esterified, re-esterified or elaidinized; inedible mixtures or preparations of animal or vegetable fats or oils",2586,"Oilcrops Oil, Other",1
 1275,hydrogenated oils and fats,2586,"Oilcrops Oil, Other",1
 1276,Industrial monocarboxylic fatty acids; acid oils from refining,2577,Palm Oil,1
 1277,Residues of fatty substances,2577,Palm Oil,1
-1293,Crude organic material n.e.c.,,Crude organic material n.e.c.,1
-1295,Spermaceti,,Spermaceti,1
-1296,"Vegetable waxes (other than triglycerides), whether or not refined or coloured",,"Vegetable waxes (other than triglycerides), whether or not refined or coloured",1
+1293,Crude organic material n.e.c.,NA,Crude organic material n.e.c.,1
+1295,Spermaceti,NA,Spermaceti,1
+1296,"Vegetable waxes (other than triglycerides), whether or not refined or coloured",NA,"Vegetable waxes (other than triglycerides), whether or not refined or coloured",1

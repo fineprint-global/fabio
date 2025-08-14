@@ -10,22 +10,16 @@ source("R/00_system_variables.R")
 regions <- fread("inst/regions_full.csv")[current==TRUE]
 items <- fread("inst/items_full_123.csv")
 
-sup <- readRDS("data/sup_final.rds")
-
-cbs <- readRDS("data/cbs_final.rds")
 btd <- readRDS("data/btd_final.rds")
 
+sup <- readRDS("data/sup_final.rds")
 use <- readRDS("data/use_final.rds")
 use_fd <- readRDS("data/use_fd_final.rds")
 
-areas <- sort(unique(cbs$area_code))
+areas <- regions$code
 processes <- sort(unique(use$proc_code))
 commodities <- sort(unique(use$comm_code))
 
-
-
-# Add Grazing to btd ---
-btd <- rbind(btd, sup[item_code==2001, .(year, item_code, from_code = area_code, to_code = area_code, value = production, comm_code)])
 
 
 # Supply ---
@@ -247,12 +241,12 @@ saveRDS(mr_use, file.path(output_dir,"mr_use.rds"))
 # Template to always get full tables
 template <- data.table(expand.grid(
   area_code = areas, comm_code = commodities,
-  variable = c("food", "other", "losses", "stock_addition", "balancing", "unspecified", "tourist", "processing"),
+  variable = c("food", "losses", "other", "stock_addition", "tourist"),
   stringsAsFactors = FALSE))
 setkey(template, area_code, comm_code, variable)
 
 use_fd <- melt(use_fd[, .(year, area_code, comm_code,
-  food, other, losses, stock_addition, balancing, unspecified, tourist, processing)],
+  food, losses, other, stock_addition, tourist)],
   id.vars = c("year", "area_code", "comm_code"))
 
 # List with final use matrices, per year

@@ -14,7 +14,7 @@ processes <- unique(processes[,1:2])
 nrreg <- nrow(regions)
 nrcom <- nrow(items)
 nrproc <- nrow(processes)
-fd <- c("food", "losses", "other", "stock_addition", "tourist", "unspecified")
+fd <- c("food", "losses", "other", "stock_addition", "tourist")
 nrfd <- length(fd)
 
 
