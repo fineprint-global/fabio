@@ -783,7 +783,6 @@ fert <- area_fix(fert, regions = regions)
 fert <- area_kick(fert, code = 351, pattern = "China", groups = TRUE)
 fert <- area_merge(fert, orig = 206, dest = 276, pattern = "Sudan")
 fert[, iso3c := regions$iso3c[match(area, regions$name)]]
-fert[ area == "Palestine", `:=` (area = "Israel", iso3c = "ISR")]
 fert[is.na(iso3c), `:=` (iso3c = "ROW", area = "RoW", area_code = 999)]
 fert <- fert[, .(area = unique(area), value = sum(value, na.rm = TRUE)), 
              by = .(iso3c, item, year)]
@@ -842,14 +841,14 @@ manure <- area_kick(manure, code = 351, pattern = "China", groups = TRUE)
 manure <- area_merge(manure, orig = 206, dest = 276, pattern = "Sudan")
 manure[, iso3c := regions$iso3c[match(area, regions$name)]]
 
-# exclude stocks and aggregate categories
-manure <- manure[element != "Stocks" & !item_code %in% c(1048, 1054,1126, 
-                                                         1177, 1755, 1759, 1749, 
+# exclude stocks and duplicate categories
+manure <- manure[element != "Stocks" & !item_code %in% c(1048, 1054, 1126, 
+                                                         1177, 1749, 1755,  
                                                          1757, 1759, 2029)]
 
 # aggregate countries not in fabio to RoW
 manure[is.na(iso3c), `:=` (iso3c = "ROW", area = "RoW", area_code = 999)]
-manure <- manure[, .(area = unique(area),area_code = unique(area_code),
+manure <- manure[, .(area = unique(area), area_code = unique(area_code),
                      item_code = unique(item_code), unit = unique(unit),
                      value = sum(value, na.rm = TRUE)), 
                  by = .(iso3c, item, year, element)]
@@ -946,7 +945,6 @@ manure_emissions <- manure_emissions[, .(area = unique(area), unit = unique(unit
 
 # save
 saveRDS(manure_emissions, "data/tidy/manure_emissions_tidy.rds")
-
 
 # Livestock ---------------------------------------------------------------
 
