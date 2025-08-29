@@ -1,0 +1,174 @@
+crop,item,item_code
+abaca,Abaca,2666
+agave,"Fruits, Other",2625
+alfalfa,Fodder crops,2000
+almond,Nuts and products,2551
+aniseetc,"Spices, Other",2645
+apple,Apples and products,2617
+apricot,"Fruits, Other",2625
+areca,"",
+artichoke,"Vegetables, Other",2605
+asparagus,"Vegetables, Other",2605
+avocado,"Fruits, Other",2625
+bambara,"Pulses, Other and products",2549
+banana,Bananas,2615
+barley,Barley and products,2513
+bean,Beans,2546
+beetfor,Fodder crops,2000
+berrynes,"Fruits, Other",2625
+blueberry,"Fruits, Other",2625
+brazil,Nuts and products,2551
+broadbean,"Pulses, Other and products",2549
+buckwheat,"Cereals, Other",2520
+cabbage,"Vegetables, Other",2605
+cabbagefor,Fodder crops,2000
+canaryseed,"Cereals, Other",2520
+carob,"Fruits, Other",2625
+carrot,"Vegetables, Other",2605
+carrotfor,Fodder crops,2000
+cashew,Nuts and products,2551
+cashewapple,"Fruits, Other",2625
+cassava,Cassava and products,2532
+castor,"Oilcrops, Other",2570
+cauliflower,"Vegetables, Other",2605
+cerealnes,"Cereals, Other",2520
+cherry,"Fruits, Other",2625
+chestnut,Nuts and products,2551
+chickpea,"Pulses, Other and products",2549
+chicory,"Vegetables, Other",2605
+chilleetc,"Vegetables, Other",2605
+cinnamon,"Spices, Other",2645
+citrusnes,"Citrus, Other",2614
+clove,Cloves,2642
+clover,Fodder crops,2000
+cocoa,Cocoa Beans and products,2633
+coconut,Coconuts - Incl Copra,2560
+coffee,Coffee and products,2630
+cotton,Seed cotton,328
+cowpea,"Pulses, Other and products",2549
+cranberry,"Fruits, Other",2625
+cucumberetc,"Vegetables, Other",2605
+currant,"Fruits, Other",2625
+date,Dates,2619
+eggplant,"Vegetables, Other",2605
+fibrenes,"Hard Fibres, Other",2667
+fig,"Fruits, Other",2625
+flax,"Oilcrops, Other",2570
+fonio,"Cereals, Other",2520
+fornes,Fodder crops,2000
+fruitnes,"Fruits, Other",2625
+garlic,"Vegetables, Other",2605
+ginger,"Spices, Other",2645
+gooseberry,"Fruits, Other",2625
+grape,Grapes and products (excl wine),2620
+grapefruitetc,Grapefruit and products,2613
+grassnes,Grazing,2001
+greenbean,"Vegetables, Other",2605
+greenbroadbean,"Vegetables, Other",2605
+greencorn,"Vegetables, Other",2605
+greenonion,"Vegetables, Other",2605
+greenpea,Peas,2547
+groundnut,Groundnuts,2552
+hazelnut,Nuts and products,2551
+hemp,"Soft-Fibres, Other",2664
+hempseed,"Oilcrops, Other",2570
+hop,Hops,677
+jute,Jute,2662
+jutelikefiber,Jute-Like Fibres,2663
+kapokfiber,"Soft-Fibres, Other",2664
+kapokseed,"Oilcrops, Other",2570
+karite,"Oilcrops, Other",2570
+kiwi,"Fruits, Other",2625
+kolanut,Nuts and products,2551
+legumenes,"Pulses, Other and products",2549
+lemonlime,"Lemons, Limes and products",2612
+lentil,"Pulses, Other and products",2549
+lettuce,"Vegetables, Other",2605
+linseed,"Oilcrops, Other",2570
+lupin,"Pulses, Other and products",2549
+maize,Maize and products,2514
+maizefor,Fodder crops,2000
+mango,"Fruits, Other",2625
+mate,Tea (including mate),2635
+melonetc,"Fruits, Other",2625
+melonseed,"Oilcrops, Other",2570
+millet,Millet and products,2517
+mixedgrain,"Cereals, Other",2520
+mixedgrass,Grazing,2001
+mushroom,"Vegetables, Other",2605
+mustard,Rape and Mustardseed,2558
+nutmeg,"Spices, Other",2645
+nutnes,Nuts and products,2551
+oats,Oats,2516
+oilpalm,"Oil, palm fruit",254
+oilseedfor,Fodder crops,2000
+oilseednes,"Oilcrops, Other",2570
+okra,"Vegetables, Other",2605
+olive,Olives (including preserved),2563
+onion,Onions,2602
+orange,"Oranges, Mandarines",2611
+papaya,"Fruits, Other",2625
+pea,Peas,2547
+peachetc,"Fruits, Other",2625
+pear,"Fruits, Other",2625
+pepper,Pepper,2640
+peppermint,"Spices, Other",2645
+persimmon,"Fruits, Other",2625
+pigeonpea,"Pulses, Other and products",2549
+pimento,Pimento,2641
+pineapple,Pineapples and products,2618
+pistachio,Nuts and products,2551
+plantain,Plantains,2616
+plum,"Fruits, Other",2625
+popcorn,Maize and products,2514
+poppy,"Oilcrops, Other",2570
+potato,Potatoes and products,2531
+pulsenes,"Pulses, Other and products",2549
+pumpkinetc,"Vegetables, Other",2605
+pyrethrum,"",
+quince,"Fruits, Other",2625
+quinoa,"Cereals, Other",2520
+ramie,"Soft-Fibres, Other",2664
+rapeseed,Rape and Mustardseed,2558
+rasberry,"Fruits, Other",2625
+rice,Rice and products,2807
+rootnes,"Roots, Other",2534
+rubber,Rubber,2672
+rye,Rye and products,2515
+ryefor,Fodder crops,2000
+safflower,"Oilcrops, Other",2570
+sesame,Sesame seed,2561
+sisal,Sisal,2665
+sorghum,Sorghum and products,2518
+sorghumfor,Fodder crops,2000
+sourcherry,"Fruits, Other",2625
+soybean,Soyabeans,2555
+spicenes,"Spices, Other",2645
+spinach,"Vegetables, Other",2605
+stonefruitnes,"Fruits, Other",2625
+strawberry,"Fruits, Other",2625
+stringbean,"Vegetables, Other",2605
+sugarbeet,Sugar beet,2537
+sugarcane,Sugar cane,2536
+sugarnes,Sugar cane,2536
+sunflower,Sunflower seed,2557
+swedefor,Fodder crops,2000
+sweetpotato,Sweet potatoes,2533
+tangetc,"Citrus, Other",2614
+taro,"Roots, Other",2534
+tea,Tea (including mate),2635
+tobacco,Tobacco,2671
+tomato,Tomatoes and products,2601
+triticale,"Cereals, Other",2520
+tropicalnes,"Fruits, Other",2625
+tung,"Oilcrops, Other",2570
+turnipfor,Fodder crops,2000
+vanilla,"Spices, Other",2645
+vegetablenes,"Vegetables, Other",2605
+vegfor,Fodder crops,2000
+vetch,Fodder crops,2000
+walnut,Nuts and products,2551
+watermelon,"Fruits, Other",2625
+wheat,Wheat and products,2511
+yam,Yams,2535
+yautia,"Roots, Other",2534

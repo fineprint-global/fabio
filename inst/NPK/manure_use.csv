@@ -1,0 +1,63 @@
+comm_code,item_code,item,manure
+c001,2807,Rice and products,medium
+c002,2511,Wheat and products,high
+c003,2513,Barley and products,high
+c004,2514,Maize and products,medium
+c005,2515,Rye and products,medium
+c006,2516,Oats,medium
+c007,2517,Millet and products,medium
+c008,2518,Sorghum and products,medium
+c009,2520,"Cereals, Other",medium
+c010,2531,Potatoes and products,high
+c011,2532,Cassava and products,high
+c012,2533,Sweet potatoes,high
+c013,2534,"Roots, Other",high
+c014,2535,Yams,high
+c015,2536,Sugar cane,low
+c016,2537,Sugar beet,high
+c017,2546,Beans,low
+c018,2547,Peas,low
+c019,2549,"Pulses, Other and products",low
+c020,2551,Nuts and products,low
+c021,2555,Soyabeans,low
+c022,2552,Groundnuts,low
+c023,2557,Sunflower seed,medium
+c024,2558,Rape and Mustardseed,high
+c025,328,Seed cotton,low
+c026,2560,Coconuts - Incl Copra,low
+c027,2561,Sesame seed,low
+c028,254,"Oil, palm fruit",low
+c029,2563,Olives (including preserved),low
+c030,2570,"Oilcrops, Other",low
+c031,2601,Tomatoes and products,high
+c032,2602,Onions,high
+c033,2605,"Vegetables, Other",high
+c034,2611,"Oranges, Mandarines",low
+c035,2612,"Lemons, Limes and products",low
+c036,2613,Grapefruit and products,low
+c037,2614,"Citrus, Other",low
+c038,2615,Bananas,low
+c039,2616,Plantains,low
+c040,2617,Apples and products,low
+c041,2618,Pineapples and products,low
+c042,2619,Dates,low
+c043,2620,Grapes and products (excl wine),low
+c044,2625,"Fruits, Other",low
+c045,2630,Coffee and products,low
+c046,2633,Cocoa Beans and products,low
+c047,2635,Tea (including mate),low
+c048,677,Hops,low
+c049,2640,Pepper,low
+c050,2641,Pimento,low
+c051,2642,Cloves,low
+c052,2645,"Spices, Other",low
+c053,2662,Jute,low
+c054,2663,Jute-Like Fibres,low
+c055,2664,"Soft-Fibres, Other",low
+c056,2665,Sisal,low
+c057,2666,Abaca,low
+c058,2667,"Hard Fibres, Other",low
+c059,2671,Tobacco,low
+c060,2672,Rubber,low
+c061,2000,Fodder crops,fodder
+c062,2001,Grazing,fodder
