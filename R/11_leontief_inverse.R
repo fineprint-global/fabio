@@ -15,7 +15,7 @@ prep_solve <- function(year, Z, X,
   #A <- Z
   #A@x <- A@x / rep.int(X, diff(A@p))
 
-  if(adj_A) {A[A < 0] <- 0}
+  if(adj_A) {A@x <- pmax(A@x, 0)}
 
   if(adj_diag) {diag(A)[diag(A) == 1] <- 1 - 1e-10}
 

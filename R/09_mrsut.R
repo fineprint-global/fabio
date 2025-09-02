@@ -52,7 +52,7 @@ mr_sup_mass <- mclapply(years, function(x) {
 
   # Return a block-diagonal matrix with all countries for year x
   return(bdiag(matrices))
-}, mc.cores = 10)
+}, mc.cores = detectCores() - 2)
 
 # Convert to monetary values
 sup[!is.na(price) & is.finite(price), value := supply * price]
@@ -82,7 +82,7 @@ mr_sup_value <- mclapply(years, function(x) {
 
   # Return a block-diagonal matrix with all countries for year x
   return(bdiag(matrices))
-}, mc.cores = 10)
+}, mc.cores = detectCores() - 2)
 
 names(mr_sup_mass) <- names(mr_sup_value) <- years
 
@@ -91,6 +91,13 @@ saveRDS(mr_sup_value, file.path(output_dir,"mr_sup_value.rds"))
 
 
 # Bilateral supply shares ---
+
+# Add grazing
+btd <- merge(btd, sup[item=="Grazing", .(from_code = area_code, to_code = area_code,
+                                         grazing = supply, year, item_code, comm_code)],
+             by = c("from_code", "to_code", "year", "item_code", "comm_code"), all.x = TRUE)
+btd[!is.na(grazing), value := grazing]
+btd[, grazing := NULL]
 
 # Template to always get full tables
 template <- data.table(expand.grid(
@@ -114,7 +121,7 @@ btd_cast <- mclapply(years, function(x, btd_x) {
                 dimnames = list(paste0(out$from_code, "_", out$comm_code),
                                 colnames(out)[c(-1, -2)])))
 
-}, btd_x = btd[, .(year, from_code, to_code, comm_code, value)], mc.cores = 10)
+}, btd_x = btd[, .(year, from_code, to_code, comm_code, value)], mc.cores = detectCores() - 2)
 
 names(btd_cast) <- years
 
@@ -142,7 +149,7 @@ supply_shares <- mclapply(btd_cast, function(x, agg, js) {
   # }
 
   return(as(out, "Matrix"))
-}, agg = agg, js = js, mc.cores = 10)
+}, agg = agg, js = js, mc.cores = detectCores() - 2)
 
 
 # Use ---
@@ -165,7 +172,7 @@ use_cast <- mclapply(years, function(x, use_x) {
   return(Matrix(data.matrix(out[, c(-1)]), sparse = TRUE,
     dimnames = list(out$comm_code, colnames(out)[-1])))
 
-}, use_x = use[, .(year, area_code, proc_code, comm_code, use)], mc.cores = 10)
+}, use_x = use[, .(year, area_code, proc_code, comm_code, use)], mc.cores = detectCores() - 2)
 
 
 # Apply supply shares to the use matrix
@@ -180,7 +187,7 @@ mr_use <- mcmapply(function(x, y) {
   }
 
   return(mr_x)
-}, use_cast, supply_shares, mc.cores = 10)
+}, use_cast, supply_shares, mc.cores = detectCores() - 2)
 
 
 # # Apply supply shares to the use matrix
@@ -241,12 +248,12 @@ saveRDS(mr_use, file.path(output_dir,"mr_use.rds"))
 # Template to always get full tables
 template <- data.table(expand.grid(
   area_code = areas, comm_code = commodities,
-  variable = c("food", "losses", "other", "stock_addition", "tourist"),
+  variable = c("food", "losses", "other", "stock_addition", "stock_withdrawal", "tourist"),
   stringsAsFactors = FALSE))
 setkey(template, area_code, comm_code, variable)
 
 use_fd <- melt(use_fd[, .(year, area_code, comm_code,
-  food, losses, other, stock_addition, tourist)],
+  food, losses, other, stock_addition, stock_withdrawal = -stock_withdrawal, tourist)],
   id.vars = c("year", "area_code", "comm_code"))
 
 # List with final use matrices, per year
@@ -272,7 +279,7 @@ mr_use_fd <- mcmapply(function(x, y) {
       mr_x[, seq(1 + (j - 1) * n_var, j * n_var)] * y[, j]
   }
   return(mr_x)
-}, use_fd_cast, supply_shares, mc.cores = 10)
+}, use_fd_cast, supply_shares, mc.cores = detectCores() - 2)
 
 
 # # Apply supply shares to the final use matrix
@@ -322,6 +329,37 @@ mr_use_fd <- mcmapply(function(x, y) {
 #   
 #   return(A)
 # })
+
+
+# Put stock_withdrawal on the domestic block
+mr_use_fd <- mcmapply(function(smat, n_prod = length(commodities), n_ctry = length(areas)) {
+  # 1. Extract stock_withdrawal columns
+  stock_cols <- grep("stock_withdrawal$", colnames(smat))
+  stock_mat  <- smat[, stock_cols, drop = FALSE]  # 23001 x 187
+  
+  # 2. Aggregate rows by product → 123 x 187
+  group_index <- rep(1:n_prod, times = n_ctry)
+  agg_mat <- matrix(0, n_prod, n_ctry)
+  for (j in seq_len(n_ctry)) {
+    agg_mat[, j] <- rowsum(as.numeric(stock_mat[, j]), group = group_index)
+  }
+  agg_mat <- Matrix(agg_mat, sparse = TRUE)  # 123 x 187
+  
+  # 3. Expand into 23001 x 187
+  expand_mat <- Matrix(0, n_prod * n_ctry, n_ctry, sparse = TRUE)
+  for (j in seq_len(n_ctry)) {
+    rows <- ((j - 1) * n_prod + 1):(j * n_prod)
+    expand_mat[rows, j] <- agg_mat[, j]
+  }
+  
+  # 4. Replace stock_withdrawals
+  smat <- smat[, -stock_cols]
+  stock_cols <- grep("stock_addition$", colnames(smat))
+  smat[, stock_cols] <- smat[, stock_cols] + expand_mat
+  
+  smat
+  
+}, mr_use_fd, mc.cores = detectCores() - 2, SIMPLIFY = FALSE)
 
 
 mr_use_fd <- lapply(mr_use_fd, round)

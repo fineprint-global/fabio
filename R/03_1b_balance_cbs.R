@@ -244,8 +244,10 @@ cbs[, `:=`(balancing = residuals + balancing, residuals = 0)]
 key_cols <- c("area_code", "item_code", "year")
 keys <- unique(outliers[, do.call(paste, .SD), .SDcols = key_cols])
 idx  <- cbs[, do.call(paste, .SD), .SDcols = key_cols] %chin% keys
-cbs[idx & item == "Copra Cake", balancing := na_sum(production, imports, stock_withdrawal,
-                                                    -exports, -food, -feed, -seed, -losses, -processing, -other, -tourist, -residuals, -stock_addition)]
+cbs[idx & item == "Copra Cake", 
+    balancing := na_sum(production, imports, stock_withdrawal,
+                        -exports, -food, -feed, -seed, -losses, -processing, 
+                        -other, -tourist, -residuals, -stock_addition)]
 
 items_other <- c("Horses", "Camels", "Mules", "Asses", "Wool (Clean Eq.)")
 items_proc <- c("Pigs", "Goats", "Cattle", "Buffaloes", "Rodents, other")
@@ -267,6 +269,11 @@ cbs[, `:=`(domestic_use = na_sum(food, feed, other, tourist, seed, losses, proce
 cbs[, `:=`(use = na_sum(domestic_use, exports))]
 
 
+# Adjust exports where -balancing == exports and domestic supply <= exports
+cbs[round(na_sum(-balancing, -residuals)) == round(exports) & balancing < 0 & na_sum(production, imports) <= exports,
+    `:=`(exports = 0, balancing = 0, residuals = 0)]
+
+
 
 # Balance CBS imports and exports -------------------------------------------------------
 
@@ -285,16 +292,16 @@ cbs_bal <- cbs[, .(
 cbs <- merge(cbs, cbs_bal,
              by = c("year", "item_code", "item"), all = TRUE)
 
+# 1. Start with adjusting exports
 cat("\nAdjust exports for ", cbs[na_sum(balancing, residuals) < 0 & !is.na(exports) & exp_total > imp_total & 
                                    bal_negative <0 & !is.na(exports), .N],
     " observations, where balancing < 0 and total exports > total imports.\n", sep = "")
 cbs[na_sum(balancing, residuals) < 0 & !is.na(exports) & exp_total > imp_total, 
-    `:=`(exports = pmax(round(exports - (pmin((exp_total - imp_total), -bal_negative) / exp_when_neg * exports)), 0),
-         imp_total = NULL, exp_total = NULL, bal_negative = NULL, exp_when_neg = NULL)]
+    `:=`(exports = pmax(round(exports - (pmin((exp_total - imp_total), -bal_negative) / exp_when_neg * exports)), 0))]
+cbs[, `:=`(imp_total = NULL, exp_total = NULL, bal_negative = NULL, exp_when_neg = NULL)]
 
 
-# Adjust CBS to have equal export and import numbers per item per year
-# This is very helpful for the iterative proportional fitting of bilateral trade data
+# 2. Continue with imports and exports
 cbs_bal <- cbs[, .(
   exp_total      = sum(exports, na.rm = TRUE),
   imp_total      = sum(imports, na.rm = TRUE)
@@ -306,11 +313,52 @@ cbs_bal <- cbs[, .(
 cbs <- merge(cbs, cbs_bal,
              by = c("year", "item_code", "item"), all = TRUE)
 
-# Spread the discrepancies over all countries proportionally by down-scaling to the lower of the two
+cbs[, diff := imp_total - exp_total]
+
+# Calculate weight based on domestic use
+cbs[, weight := {
+  total_du <- sum(domestic_use, na.rm = TRUE)
+  if (total_du > 0) domestic_use / total_du else rep(1/.N, .N)
+}, by = .(year, item_code, item)]
+
+# Compute adjustment factors for exports and imports
 cbs[, `:=`(
-  imports = ifelse(exp_total < imp_total, round(imports / imp_total * exp_total), imports),
-  exports = ifelse(imp_total < exp_total, round(exports / exp_total * imp_total), exports),
-  imp_total = NULL, exp_total = NULL)]
+  # Half of the difference goes to each side
+  exports = fifelse(diff > 0,
+                       # Imports > Exports -> upscale exports according to weights
+                       exports + diff/2 * weight,
+                       # Exports > Imports -> downscale exports proportionally
+                       exports + diff/2 * exports / exp_total),
+  imports = fifelse(diff > 0,
+                       # Imports > Exports -> downscale imports according to weights
+                       imports - diff/2 * weight,
+                       # Exports > Imports -> upscale imports proportionally
+                       imports - diff/2 * imports / imp_total)
+)]
+
+# Secure positive rounded values
+cbs[, `:=`(
+  exports = pmax(0, round(exports)),
+  imports = pmax(0, round(imports))
+)]
+
+# Clean up helper columns
+cbs[, c("diff","weight","exp_total","imp_total") := NULL]
+
+
+# check balances
+cbs_bal <- merge(cbs_bal, cbs[, .(
+  exp_total_new      = sum(exports, na.rm = TRUE),
+  imp_total_new      = sum(imports, na.rm = TRUE)
+  ), by = .(year, item_code, item)],
+  by = c("year", "item_code", "item"))
+
+
+# # Spread the discrepancies over all countries proportionally by down-scaling to the lower of the two
+# cbs[, `:=`(
+#   imports = ifelse(exp_total < imp_total, round(imports / imp_total * exp_total), imports),
+#   exports = ifelse(imp_total < exp_total, round(exports / exp_total * imp_total), exports),
+#   imp_total = NULL, exp_total = NULL)]
 
 rm(cbs_bal)
 

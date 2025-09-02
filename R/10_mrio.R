@@ -10,40 +10,52 @@ agg <- function(x) { as.matrix(x) %*% sapply(unique(colnames(x)),"==",colnames(x
 
 # MRIO Table ---
 
-mr_sup_m <- readRDS(file.path(output_dir,"mr_sup_mass.rds"))
-mr_sup_v <- readRDS(file.path(output_dir,"mr_sup_value.rds"))
-mr_use <- readRDS(file.path(output_dir,"mr_use.rds"))
 
-# Mass
+# Load multi-regional supply and use tables ---
+mr_sup_m <- readRDS(file.path(output_dir,"mr_sup_mass.rds"))  # list of industry × product in mass units
+mr_sup_v <- readRDS(file.path(output_dir,"mr_sup_value.rds")) # list of industry × product in monetary units
+mr_use <- readRDS(file.path(output_dir,"mr_use.rds"))         # list of product × industry in mass units
+
+
+# Mass allocation ---
+
+# --- Step 1: Normalize supply (industry shares of products) ---
 trans_m <- mclapply(mr_sup_m, function(x) {
-  #out <- as.matrix(x / rowSums(x))
+  rs <- rowSums(x)                # row sums (industry outputs)
+  rs[rs == 0] <- 1                # avoid division by zero
   out <- x
-  out@x <- out@x / rowSums(out)[(out@i+1)]
-  out[!is.finite(out)] <- 0 # See Issue #75
-  #return(as(out, "Matrix"))
-  return(out)
-}, mc.cores = 10)
+  out@x <- out@x / rs[out@i + 1]
+  out
+}, mc.cores = detectCores() - 2)
 
-Z_m <- mcmapply(function(x, y) {
-  x %*% y
-}, x = mr_use, y = trans_m, mc.cores = 10)
+# --- Step 2: Compute symmetric product × product tables ---
+Z_m <- mcmapply(function(use, trans) {
+  out <- use %*% trans
+  out[!is.finite(out)] <- 0  # just in case
+  out
+}, mr_use, trans_m, SIMPLIFY = FALSE, mc.cores = detectCores() - 2)
 
 Z_m <- lapply(Z_m, round)
 
 
-# Value
-trans_v <- mclapply(mr_sup_v, function(x) {
-  #out <- as.matrix(x / rowSums(x))
-  out <- x
-  out@x <- out@x / rowSums(out)[(out@i+1)]
-  out[!is.finite(out)] <- 0 # See Issue #75
-  #return(as(out, "Matrix"))
-  return(out)
-}, mc.cores = 10)
+# Value allocation ---
 
-Z_v <- mcmapply(function(x, y) {
-  x %*% y
-}, x = mr_use, y = trans_v, mc.cores = 10)
+# --- Step 1: Normalize supply (industry shares of products) ---
+trans_v <- mclapply(mr_sup_v, function(x) {
+  rs <- rowSums(x)                # row sums (industry outputs)
+  rs[rs == 0] <- 1                # avoid division by zero
+  out <- x
+  out@x <- out@x / rs[out@i + 1]
+  out
+}, mc.cores = detectCores() - 2)
+
+# --- Step 2: Compute symmetric product × product tables ---
+Z_v <- mcmapply(function(use, trans) {
+  out <- use %*% trans
+  out[!is.finite(out)] <- 0  # just in case
+  out
+}, mr_use, trans_v, SIMPLIFY = FALSE, mc.cores = detectCores() - 2)
+
 
 Z_v <- lapply(Z_v, round)
 
@@ -55,116 +67,6 @@ regions <- fread("inst/regions_full.csv")[current==TRUE]
 items <- fread("inst/items_full_123.csv")
 nrcom <- nrow(items)
 Y <- readRDS(file.path(output_dir,"mr_use_fd.rds"))
-
-# # Rebalance row sums for each year
-# for(i in seq_along(Z_m)){
-# 
-#   X <- rowSums(Z_m[[i]]) + rowSums(Y[[i]])
-# 
-#   for(j in which(X < 0)){
-#     reg <- j %/% nrcom + 1
-#     # print(paste0(regions[reg, name], " / ", X[j]))
-#     Y[[i]][j, paste0(regions[reg, code], "_balancing")] <-
-#       Y[[i]][j, paste0(regions[reg, code], "_balancing")] - X[j]
-#   }
-# }
-# 
-# 
-# 
-# # Combine processing into food -----------------------------------------
-# for (i in seq_along(Y)) {
-#   print(years[i])
-#   
-#   Y[[i]][, which(grepl("food", colnames(Y[[i]])))] <- 
-#     Y[[i]][, which(grepl("food", colnames(Y[[i]])))] + Y[[i]][, which(grepl("processing", colnames(Y[[i]])))]
-#   
-#   # Remove processing columns
-#   Y[[i]] <- Y[[i]][, -which(grepl("processing", colnames(Y[[i]]))), drop = FALSE]
-# }
-
-
-
-# # Define function for spreading balancing -----------------------------------------
-# balancing_correction <- function(Y_food, Y_other, Y_unspec, Y_bal) {
-#   # Convert all to triplet format for coordinate access
-#   Y_food <- as(Y_food, "TsparseMatrix")
-#   Y_other <- as(Y_other, "TsparseMatrix")
-#   Y_unspec <- as(Y_unspec, "TsparseMatrix")
-#   Y_bal <- as(Y_bal, "TsparseMatrix")
-#   
-#   # Combine all indices
-#   idx <- unique(paste(Y_bal@i, Y_bal@j, sep = "_"))
-#   
-#   parse_idx <- function(x) {
-#     matrix(as.integer(do.call(rbind, strsplit(x, "_"))), ncol = 2)
-#   }
-#   
-#   coords <- parse_idx(idx)
-#   i <- coords[, 1] + 1
-#   j <- coords[, 2] + 1
-#   
-#   # Extract corresponding values or 0 if not present
-#   get_val <- function(mat) {
-#     mat_val <- Matrix::sparseMatrix(i = mat@i + 1, j = mat@j + 1, x = mat@x, dims = dim(mat))
-#     mat_val[cbind(i, j)]
-#   }
-#   
-#   f <- get_val(Y_food)
-#   o <- get_val(Y_other)
-#   u <- get_val(Y_unspec)
-#   b <- get_val(Y_bal)
-#   
-#   total <- f + o + u
-#   valid <- total > 0
-#   
-#   # Proportional redistribution
-#   f_add <- numeric(length(b))
-#   o_add <- numeric(length(b))
-#   u_add <- numeric(length(b))
-#   
-#   f_add[valid] <- b[valid] * f[valid] / total[valid]
-#   o_add[valid] <- b[valid] * o[valid] / total[valid]
-#   u_add[valid] <- b[valid] * u[valid] / total[valid]
-#   
-#   # Fallback: if total == 0, add all to unspecified
-#   u_add[!valid] <- u_add[!valid] + b[!valid]
-#   
-#   dims <- dim(Y_food)
-#   food_update <- sparseMatrix(i = i, j = j, x = f_add, dims = dims, dimnames = dimnames(Y_food))
-#   other_update <- sparseMatrix(i = i, j = j, x = o_add, dims = dims, dimnames = dimnames(Y_food))
-#   unspec_update <- sparseMatrix(i = i, j = j, x = u_add, dims = dims, dimnames = dimnames(Y_food))
-#   
-#   list(food = food_update, other = other_update, unspecified = unspec_update)
-# }
-# 
-# 
-# i=1
-# # Spread balancing over food and other use
-# for (i in seq_along(Y)) {
-#   print(years[i])
-#   
-#   before <- sum(Y[[i]])
-#   
-#   corrections <- balancing_correction(
-#     Y_food = Y[[i]][, grepl("food", colnames(Y[[i]]))],
-#     Y_other = Y[[i]][, grepl("other", colnames(Y[[i]]))],
-#     Y_unspec = Y[[i]][, grepl("unspecified", colnames(Y[[i]]))],
-#     Y_bal = Y[[i]][, grepl("balancing", colnames(Y[[i]]))]
-#   )
-#   
-#   Y[[i]][, grepl("food", colnames(Y[[i]]))] <- Y[[i]][, grepl("food", colnames(Y[[i]]))] + corrections$food
-#   Y[[i]][, grepl("other", colnames(Y[[i]]))] <- Y[[i]][, grepl("other", colnames(Y[[i]]))] + corrections$other
-#   Y[[i]][, grepl("unspecified", colnames(Y[[i]]))] <- Y[[i]][, grepl("unspecified", colnames(Y[[i]]))] + corrections$unspecified
-#   
-#   # Remove balancing column
-#   Y[[i]] <- Y[[i]][, !grepl("balancing", colnames(Y[[i]]))]
-#   
-#   after <- sum(Y[[i]])
-#   if (!all.equal(before, after, tolerance = 1e-6)) {
-#     stop(sprintf("Mass inconsistency at i = %d: before = %.0f, after = %.0f", i, before, after))
-#   }
-# }
-
 
 
 
@@ -186,7 +88,7 @@ X <- mapply(function(x, y) {
 fd_labels <- fread(file.path(output_dir,"fd_labels.csv"))
 io_labels <- read_csv(file.path(output_dir,"io_labels.csv"))
 
-# year <- 2019
+# year <- 2020
 for(year in years){
   
   print(year)
@@ -205,6 +107,7 @@ for(year in years){
   # Pre-identify relevant indices where update is needed
   diag_Zmi <- Matrix::diag(Zmi)
   valid <- (Xi != 0) & (diag_Zmi >= Xi)
+  # print(table(valid))
   
   # Get area match matrix (cache once)
   area_match <- fd_labels$area_code
@@ -325,6 +228,7 @@ for(year in years){
   # Pre-identify relevant indices where update is needed
   diag_Zmi <- Matrix::diag(Zmi)
   valid <- (Xi != 0) & (diag_Zmi >= Xi)
+  # print(table(valid))
   
   # Get area match matrix (cache once)
   area_match <- fd_labels$area_code
@@ -365,6 +269,69 @@ saveRDS(X, file.path(output_dir,"losses/X.rds"))
 saveRDS(Y, file.path(output_dir,"losses/Y.rds"))
 saveRDS(Z_m, file.path(output_dir,"losses/Z_mass.rds"))
 saveRDS(Z_v, file.path(output_dir,"losses/Z_value.rds"))
+
+
+
+
+
+
+# Correction of Other vs. Food use of Chinese veg. oils --------------------------------------------------------------
+# FAO overstates other and understates food use. We use official Chinese data and USDA data to correct this.
+io <- fread(file.path(output_dir,"io_labels.csv"))
+su <- fread(file.path(output_dir,"su_labels.csv"))
+fd <- fread(file.path(output_dir,"fd_labels.csv"))
+Y <- readRDS(file.path(output_dir,"Y.rds"))
+fd_l <- fread(file.path(output_dir,"losses/fd_labels.csv"))
+Y_l <- readRDS(file.path(output_dir,"losses/Y.rds"))
+
+# Chinese edible oil statistics
+# Sources: 
+# - China National Grain & Oils Information Center, Comprehensive balance analysis of China's edible oil market, http://www.grainoil.com.cn/, accessed on 01/03/2023
+# - USDA GAIN, Oilseeds and Products Annual, https://gain.fas.usda.gov/#/search
+oil <- fread("input/oils_china.csv")
+
+Y_new <- Y
+Y_l_new <- Y_l
+
+# correct food and other use of veg. oils for China
+i = 1
+for(i in seq_along(Y)){
+  print(years[i])
+  data <- merge(io, oil[year==oil$year[which.min(abs(oil$year - years[i]))],.(comm_code, food_share)], 
+                by = "comm_code", all.x = TRUE, sort = FALSE)
+  
+  data <- cbind(data, as.matrix(Y[[i]][,fd$area=="China, mainland"]))
+  # data[, food_share_fao := `41_food` / (`41_food` + `41_other`)]
+  # data[, `:=`(food = `41_food`, other = `41_other`)]
+  data[!is.na(food_share), `:=`(food = round((food + other) * food_share),
+                                other = round((food + other) * (1-food_share)))]
+  Y_new[[i]][, fd$area_code==41 & fd$fd=="food"] <- data$food
+  Y_new[[i]][, fd$area_code==41 & fd$fd=="other"] <- data$other
+  
+  data_l <- cbind(data, as.matrix(Y_l[[i]][,fd_l$area=="China, mainland"]))
+  data_l[!is.na(food_share), `:=`(food = round((food + other) * food_share),
+                                  other = round((food + other) * (1-food_share)))]
+  Y_l_new[[i]][, fd_l$area_code==41 & fd_l$fd=="food"] <- data_l$food
+  Y_l_new[[i]][, fd_l$area_code==41 & fd_l$fd=="other"] <- data_l$other
+}
+
+# compare old and new values
+for(i in seq_along(Y)){
+  food <- sum(Y[[i]][io$comm_code %in% oil$comm_code, fd$area_code==41 & fd$fd=="food"])
+  other <- sum(Y[[i]][io$comm_code %in% oil$comm_code, fd$area_code==41 & fd$fd=="other"])
+  share <- food / (food + other)
+  food_new <- sum(Y_new[[i]][io$comm_code %in% oil$comm_code, fd$area_code==41 & fd$fd=="food"])
+  other_new <- sum(Y_new[[i]][io$comm_code %in% oil$comm_code, fd$area_code==41 & fd$fd=="other"])
+  share_new <- food_new / (food_new + other_new)
+  print(paste0(years[i], ": ", round(food/1000000), "/", round(other/1000000), " Mt, ", round(share*100), "% // ",
+               round(food_new/1000000), "/", round(other_new/1000000), " Mt, ", round(share_new*100), "%"))
+}
+
+saveRDS(Y_new, file.path(output_dir,"Y.rds"))
+saveRDS(Y_l_new, file.path(output_dir,"losses/Y.rds"))
+
+
+
 
 
 
