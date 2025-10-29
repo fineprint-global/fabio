@@ -242,7 +242,7 @@ sua <- sua[element %in% c("Production", "Import quantity", "Export quantity",
 sua[, item := iconv(item, from = "latin1", to = "UTF-8")]
 
 # keep only relevant items
-sua <- sua[item_code %in% items_sua$item_code_fcl & value != 0]
+sua <- sua[item_code %in% items_sua$item_code & value != 0]
 
 
 # Country / Area adjustments
@@ -307,7 +307,7 @@ sua[, `:=`(supply = na_sum(domestic_supply, imports))]
 sua[, `:=`(domestic_use = na_sum(food, feed, other, tourist, seed, losses, processing, stock_addition))]
 sua[, `:=`(use = na_sum(domestic_use, exports))]
 
-setnames(sua, "item_code", "item_code_fcl")
+setnames(sua, "item_code", "item_code")
 
 # Store
 saveRDS(sua, "data/tidy/sua_tidy.rds")
@@ -315,10 +315,10 @@ saveRDS(sua, "data/tidy/sua_tidy.rds")
 
 # Match SUA items to corresponding (aggregate) FABIO item
 conc <- fread("inst/conc_btd-cbs.csv")
-sua <- merge(sua, conc[,.(item_code_fcl = btd_item_code, item = btd_item, cbs_item_code, cbs_item, tcf)], 
-             by = c("item_code_fcl", "item"), all.x = TRUE)
-sua <- sua[item_code_fcl != 1276]  # remove fatty acids to avoid double-counting
-sua[, `:=`(item_code_fcl = NULL, item = NULL)]
+sua <- merge(sua, conc[,.(item_code = btd_item_code, item = btd_item, cbs_item_code, cbs_item, tcf)], 
+             by = c("item_code", "item"), all.x = TRUE)
+sua <- sua[item_code != 1276]  # remove fatty acids to avoid double-counting
+sua[, `:=`(item_code = NULL, item = NULL)]
 setnames(sua, old = c("cbs_item_code", "cbs_item"), new = c("item_code", "item"))
 # remove NAs
 sua <- sua[!is.na(item_code)]
