@@ -35,7 +35,7 @@ The database consists of the following main components, in compressed .rds forma
 
 - L: the Leontief inverse, computed as (I – A)^-1, where A is the matrix of input coefficients derived from Z and x. Again, there are two versions, depending on the underlying version of Z (L_mass and L_value).
 
-- E: environmental extensions for each of the 23616 commodities, including four resource categories: 
+- E: environmental extensions for each of the 23001 commodities, including four resource categories: 
       1) primary biomass extraction (in tonnes), 
       2) cropland use (in hectares), 
       3) grassland use (in hectares), 
