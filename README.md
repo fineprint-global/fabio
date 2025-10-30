@@ -29,7 +29,7 @@ The database consists of the following main components, in compressed .rds forma
 
 - Z: the inter-commodity input-output matrix, displaying the intermediate use of each commodity in the production of each commodity, in physical units (tonnes, heads). The matrix has 23001 rows and columns (123 commodities x 187 regions), and is available in two versions, where process inputs are allocated to process outputs in relation to their mass or value respectively: Z_mass (mass allocation) and Z_value (value allocation). Note that the row sums of the Z matrices of the two versions (i.e. the total intermediate use by commodity) are identical in both versions.
 
-- Y: the final demand matrix, denoting the consumption of all 23001 commodities by destination country and final use category. There are five final use categories (yielding 187 x 5 = 935 columns): 1) food, 2) other (i.e. non-food), 3) stock_addition, 4) tourist, 5) unspecified.
+- Y: the final demand matrix, denoting the consumption of all 23001 commodities by destination country and final use category. There are five final use categories (yielding 187 x 4 = 748 columns): 1) food, 2) other (i.e. non-food), 3) stock_addition, 4) tourist.
 
 - X: the total output vector of all 23001 commodities. Total output is equal to the sum of intermediate and final use by commodity.
 
