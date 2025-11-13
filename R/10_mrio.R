@@ -80,6 +80,38 @@ X <- mapply(function(x, y) {
 
 
 
+X <- mcmapply(function(z, y) {
+  # Initial row sums
+  x <- rowSums(z) + rowSums(y)
+  
+  # Find negative entries
+  neg_idx <- which(x < 0)
+  
+  if (length(neg_idx) > 0) {
+    for (i in neg_idx) {
+      diff <- -x[i]  # amount needed to fix
+      
+      # Find a negative in y to adjust
+      y_row <- y[i, ]
+      y_neg <- which(y_row < 0)
+      
+      if (length(y_neg) > 0) {
+        j <- y_neg[1] # pick first negative (could also choose biggest abs value etc.)
+        y[i, j] <- y[i, j] + diff
+      }
+    }
+  }
+  
+  # Return corrected row sums
+  rowSums(z) + rowSums(y)
+}, z = Z_m, y = Y, SIMPLIFY = FALSE, mc.cores = detectCores() - 2)
+
+# Convert list of vectors to a matrix
+X <- do.call(cbind, X)
+
+
+
+
 # PROBLEM: There are some products with only zeros in the rows, except of the main diagonal
 # i.e. the value on the main diagonal equals total output
 # this is mainly due to reporting issues in FAOSTAT, where some countries report seed = production
@@ -98,8 +130,9 @@ for(year in years){
   Yi <- Y[[as.character(year)]]
   Xi <- X[,as.character(year)]
   
-  # Assign column names
+  # Assign column and row names
   colnames(Yi) <- fd_labels$fd
+  rownames(Yi) <- io_labels$comm_code
   
   # Precompute global totals
   Y_global <- t(agg(t(agg(Yi))))
@@ -140,6 +173,32 @@ for(year in years){
   Z_v[[as.character(year)]] <- Zvi
   Y[[as.character(year)]] <- Yi
   X[,as.character(year)] <- Xi
+}
+
+
+# set row and column names in X
+colnames(X) <- years
+rownames(X) <- paste0("r", sprintf("%03d", io_labels$area_code), "_", io_labels$comm_code)
+
+# set row and column names in X
+for(year in years){
+  
+  print(year)
+  
+  Zmi <- Z_m[[as.character(year)]]
+  Zvi <- Z_v[[as.character(year)]]
+  Yi <- Y[[as.character(year)]]
+  
+  # Assign row and column names
+  rownames(Yi) <- rownames(Zmi) <- colnames(Zmi) <- 
+    rownames(Zvi) <- colnames(Zvi) <- paste0("r", sprintf("%03d", io_labels$area_code), "_", io_labels$comm_code)
+  colnames(Yi) <- paste0("r", sprintf("%03d", fd_labels$area_code), "_", fd_labels$fd)
+  
+  
+  # Save back results
+  Z_m[[as.character(year)]] <- Zmi
+  Z_v[[as.character(year)]] <- Zvi
+  Y[[as.character(year)]] <- Yi
 }
 
 
@@ -219,11 +278,11 @@ for(year in years){
   Yi <- Y[[as.character(year)]]
   Xi <- X[,as.character(year)]
   
-  # Assign column names
-  colnames(Yi) <- fd_labels$fd
-  
   # Precompute global totals
-  Y_global <- t(agg(t(agg(Yi))))
+  Y_global <- copy(Yi)
+  colnames(Y_global) <- fd_labels$fd
+  rownames(Y_global) <- io_labels$comm_code
+  Y_global <- t(agg(t(agg(Y_global))))
   
   # Pre-identify relevant indices where update is needed
   diag_Zmi <- Matrix::diag(Zmi)
@@ -302,7 +361,7 @@ for(i in seq_along(Y)){
   
   data <- cbind(data, as.matrix(Y[[i]][,fd$area=="China, mainland"]))
   # data[, food_share_fao := `41_food` / (`41_food` + `41_other`)]
-  # data[, `:=`(food = `41_food`, other = `41_other`)]
+  data[, `:=`(food = `r041_food`, other = `r041_other`)]
   data[!is.na(food_share), `:=`(food = round((food + other) * food_share),
                                 other = round((food + other) * (1-food_share)))]
   Y_new[[i]][, fd$area_code==41 & fd$fd=="food"] <- data$food

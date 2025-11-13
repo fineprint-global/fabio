@@ -29,7 +29,8 @@ area_index <- setNames(seq_along(areas), areas)
 # Fill this structure per year btd values
 # Then do re-export reallocation via the Leontief inverse for each item
 btd_final <- vector("list", length(years))
-names(btd_final) <- years
+sup_shares <- vector("list", length(years))
+names(btd_final) <- names(sup_shares) <- years
 
 for(i in seq_along(years)) {
   y <- years[i]
@@ -50,6 +51,8 @@ for(i in seq_along(years)) {
       out <- data.table::dcast(x, from_code ~ to_code,
                                fun.aggregate = sum, value.var = "value")[, -"from_code"]
       as(out, "Matrix")})
+  
+  mapping_shares <- copy(mapping_reex)
   
   # Slice cbs once for the year
   cbs_slice <- cbs[year == y, .(area_code, item_code, domestic_supply, domestic_use, supply)]
@@ -103,18 +106,23 @@ for(i in seq_along(years)) {
       # final numeric matrix (rounded), keep sparse
       final_result <- round(as.matrix(final_result))
       final_result <- Matrix::Matrix(final_result, sparse = TRUE)
-      
+      S <- Matrix::Matrix(S, sparse = TRUE)
     }
     
     mapping_reex[[j]] <- final_result
+    mapping_shares[[j]] <- S
     
   }
   
   btd_final[[i]] <- mapping_reex
+  sup_shares[[i]] <- mapping_shares
   
 }
 
-# melt all matrices into one data.table
+saveRDS(sup_shares, "data/sup_shares_list.rds")
+
+
+# melt all btd matrices into one data.table
 btd_final <- lapply(names(btd_final), function(y) {
   lst <- btd_final[[y]]
   lapply(names(lst), function(name) {
@@ -131,13 +139,33 @@ btd_final <- lapply(names(btd_final), function(y) {
 }) |> rbindlist()
 
 
+# melt all supply share matrices into one data.table
+sup_shares <- lapply(names(sup_shares), function(y) {
+  lst <- sup_shares[[y]]
+  lapply(names(lst), function(name) {
+    out <- lst[[name]]
+    colnames(out) <- areas
+    out <- data.table(from_code = areas, as.matrix(out))
+    out <- melt(out, id.vars = "from_code",
+                variable.name = "to_code", variable.factor = FALSE)
+    out[, year := as.integer(y)]           # use the outer list name
+    out[, item_code := as.integer(name)]   # add item_code
+    out[, to_code := as.integer(to_code)]
+    out
+  }) |> rbindlist()
+}) |> rbindlist()
+
+
 # Remove negative values
 btd_final[, value := pmax(0, value)]
+sup_shares[, value := pmax(0, value)]
 # Add commodity codes
 items <- fread("inst/items_full_123.csv")
 btd_final[, comm_code := items$comm_code[match(btd_final$item_code, items$item_code)]]
+sup_shares[, comm_code := items$comm_code[match(sup_shares$item_code, items$item_code)]]
 
 
 # Store the balanced sheets -----------------------------------------------
 saveRDS(btd_final, "data/btd_final.rds")
+saveRDS(sup_shares, "data/sup_shares.rds")
 

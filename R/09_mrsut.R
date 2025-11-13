@@ -114,42 +114,72 @@ btd_cast <- mclapply(years, function(x, btd_x) {
   out <- data.table::dcast(merge(template,
                                  btd_x[year == x, .(from_code, to_code, comm_code, value)],
                                  by = c("from_code", "to_code", "comm_code"), all.x = TRUE),
-                           from_code + comm_code ~ to_code,
+                           to_code + comm_code ~ from_code,
                            value.var = "value", fun.aggregate = sum, na.rm = TRUE, fill = 0)
 
   return(Matrix(data.matrix(out[, c(-1, -2)]), sparse = TRUE,
-                dimnames = list(paste0(out$from_code, "_", out$comm_code),
+                dimnames = list(paste0(out$to_code, "_", out$comm_code),
                                 colnames(out)[c(-1, -2)])))
 
 }, btd_x = btd[, .(year, from_code, to_code, comm_code, value)], mc.cores = detectCores() - 2)
 
 names(btd_cast) <- years
 
-# Get commodities and their positions from total supply for domestic use
-comms <- gsub("(^[0-9]+)_(c[0-9]+)", "\\2", rownames(btd_cast[[1]]))
-is <- as.numeric(vapply(unique(comms), function(x) {which(comms == x)},
-  numeric(length(unique(areas)))))
-js <- rep(seq(unique(comms)), each = length(unique(areas)))
-# Matrix used to aggregate over commodities
-agg <- Matrix::sparseMatrix(i = is, j = js)
+# # Get commodities and their positions from total supply for domestic use
+# comms <- gsub("(^[0-9]+)_(c[0-9]+)", "\\2", rownames(btd_cast[[1]]))
+# is <- as.numeric(vapply(unique(comms), function(x) {which(comms == x)},
+#   numeric(length(unique(areas)))))
+# js <- rep(seq(unique(comms)), each = length(unique(areas)))
+# # Matrix used to aggregate over commodities
+# agg <- Matrix::sparseMatrix(i = is, j = js)
+# 
+# # Build supply shares, per year
+# supply_shares <- mclapply(btd_cast, function(x, agg, js) {
+#   # x_agg <- colSums(crossprod(x, agg)) # Aggregate total supply (all countries)
+#   x_agg <- crossprod(x, agg) # Aggregate total supply (per country)
+#   denom <- data.table(as.matrix(t(x_agg)))
+#   # Calculate shares (per country)
+#   out <- as.matrix(x / as.matrix(denom[rep(seq(length(commodities)), length(areas)), ]))
+#   out[!is.finite(out)] <- 0 # See Issue #75
+# 
+#   # # source is domestic, where no sources given in btd_final
+#   # # this isn't needed anymore as domestic grazing supply is now included in btd
+#   # for(i in 1:nrow(regions)){
+#   #   out[nrow(items)*(i-1)+62, i] <- 1
+#   # }
+# 
+#   return(as(out, "Matrix"))
+# }, agg = agg, js = js, mc.cores = detectCores() - 2)
 
-# Build supply shares, per year
-supply_shares <- mclapply(btd_cast, function(x, agg, js) {
-  # x_agg <- colSums(crossprod(x, agg)) # Aggregate total supply (all countries)
-  x_agg <- crossprod(x, agg) # Aggregate total supply (per country)
-  denom <- data.table(as.matrix(t(x_agg)))
-  # Calculate shares (per country)
-  out <- as.matrix(x / as.matrix(denom[rep(seq(length(commodities)), length(areas)), ]))
-  out[!is.finite(out)] <- 0 # See Issue #75
 
-  # # source is domestic, where no sources given in btd_final
-  # # this isn't needed anymore as domestic grazing supply is now included in btd
-  # for(i in 1:nrow(regions)){
-  #   out[nrow(items)*(i-1)+62, i] <- 1
-  # }
+# supply_shares <- readRDS("data/sup_shares_list.rds")
 
-  return(as(out, "Matrix"))
-}, agg = agg, js = js, mc.cores = detectCores() - 2)
+
+# Build use shares, per year
+use_shares <- mclapply(btd_cast, function(x) {
+  rs <- rowSums(x)
+  rs[rs == 0] <- 1  
+  # normalize each row
+  shares <- x / rs
+  
+  
+  # reshape shares from target-country * product (Ct–P) × source-country (Cs) to Cs-P × Ct
+  n_ctry <- length(areas)
+  n_prod <- length(commodities)
+  
+  mat <- matrix(0, nrow = n_ctry * n_prod, ncol = n_ctry)
+  
+  for (co in seq_len(n_ctry)) {
+    v <- as.numeric(shares[, co])
+    M <- matrix(v, nrow = n_ctry, ncol = n_prod, byrow = TRUE) # R × P
+    block <- t(M)  # P × R
+    rows <- ((co - 1) * n_prod + 1):(co * n_prod)
+    mat[rows, ] <- block
+  }
+  
+  return(as(mat, "Matrix"))
+}, mc.cores = detectCores() - 2)
+
 
 
 # Use ---
@@ -175,19 +205,49 @@ use_cast <- mclapply(years, function(x, use_x) {
 }, use_x = use[, .(year, area_code, proc_code, comm_code, use)], mc.cores = detectCores() - 2)
 
 
+# # Apply supply shares to the use matrix
+# mr_use <- mcmapply(function(x, y) {
+#   # Repeat use values, then adapted according to shares
+#   mr_x <- x[rep(seq_along(commodities), length(areas)), ]
+#   n_proc <- length(processes)
+# 
+#   for(j in seq_along(areas)) { # Per country j
+#     mr_x[, seq(1 + (j - 1) * n_proc, j * n_proc)] <-
+#       mr_x[, seq(1 + (j - 1) * n_proc, j * n_proc)] * y[, j]
+#   }
+# 
+#   return(mr_x)
+# }, use_cast, supply_shares, mc.cores = detectCores() - 2)
+
+
+
 # Apply supply shares to the use matrix
 mr_use <- mcmapply(function(x, y) {
-  # Repeat use values, then adapted according to shares
-  mr_x <- x[rep(seq_along(commodities), length(areas)), ]
-  n_proc <- length(processes)
+  # dimensions
+  C <- nrow(x)      # number of commodities
+  RP <- ncol(x)     # regions * processes
+  RC <- nrow(y)     # regions * commodities
+  R  <- ncol(y)     # number of regions
+  P  <- RP / R      # processes
+  
+  # Expand x and y to dimension (R * C) × (R * P) = 23001 × 22253
+  
+  # Expand x: replicate each commodity row for each region
+  # dim(x) = C × (R * P) = 123 × 22253
+  X_expanded <- kronecker(Matrix::Matrix(1, R, 1), x)
+  
+  # Expand y: replicate supply shares for each process
+  # dim(y) = (R * C) × R = 23001 × 187
+  Y_expanded <- kronecker(y, Matrix::Matrix(1, 1, P))
+  Y_expanded <- Y_expanded[, order(rep(1:ncol(y), each = P))]
+  
+  # Multiply elementwise
+  result <- Y_expanded * X_expanded
+  
+  return(result)
+}, use_cast, use_shares, mc.cores = detectCores() - 2)
 
-  for(j in seq_along(areas)) { # Per country j
-    mr_x[, seq(1 + (j - 1) * n_proc, j * n_proc)] <-
-      mr_x[, seq(1 + (j - 1) * n_proc, j * n_proc)] * y[, j]
-  }
 
-  return(mr_x)
-}, use_cast, supply_shares, mc.cores = detectCores() - 2)
 
 
 # # Apply supply shares to the use matrix
@@ -270,16 +330,16 @@ use_fd_cast <- mclapply(years, function(x, use_fd_x) {
 }, use_fd[, .(year, area_code, comm_code, variable, value)], mc.cores = 6)
 
 
-# Apply supply shares to the final use matrix
-mr_use_fd <- mcmapply(function(x, y) {
-  mr_x <- x[rep(seq_along(commodities), length(areas)), ]
-  n_var <- length(unique(use_fd[,variable]))
-  for(j in seq_along(areas)) { # Could do this vectorised
-    mr_x[, seq(1 + (j - 1) * n_var, j * n_var)] <-
-      mr_x[, seq(1 + (j - 1) * n_var, j * n_var)] * y[, j]
-  }
-  return(mr_x)
-}, use_fd_cast, supply_shares, mc.cores = detectCores() - 2)
+# # Apply supply shares to the final use matrix
+# mr_use_fd <- mcmapply(function(x, y) {
+#   mr_x <- x[rep(seq_along(commodities), length(areas)), ]
+#   n_var <- length(unique(use_fd[,variable]))
+#   for(j in seq_along(areas)) { # Could do this vectorised
+#     mr_x[, seq(1 + (j - 1) * n_var, j * n_var)] <-
+#       mr_x[, seq(1 + (j - 1) * n_var, j * n_var)] * y[, j]
+#   }
+#   return(mr_x)
+# }, use_fd_cast, supply_shares, mc.cores = detectCores() - 2)
 
 
 # # Apply supply shares to the final use matrix
@@ -331,11 +391,41 @@ mr_use_fd <- mcmapply(function(x, y) {
 # })
 
 
+# Apply use shares to the use_fd matrix
+mr_use_fd <- mcmapply(function(x, y) {
+  # dimensions
+  C  <- nrow(x)     # number of commodities
+  RD <- ncol(x)     # regions * final demand categories
+  RC <- nrow(y)     # regions * commodities
+  R  <- ncol(y)     # number of regions
+  D  <- RD / R      # final demand categories
+  
+  # Expand x and y to dimension (R * C) × (R * FD) = 23001 × 1122
+  
+  # Expand x: replicate each commodity row for each region
+  # dim(x) = C × (R * D) = 123 × 1122
+  X_expanded <- kronecker(Matrix::Matrix(1, R, 1), x)
+  
+  # Expand y: replicate supply shares for each process
+  # dim(y) = (R * C) × R = 23001 × 187
+  Y_expanded <- kronecker(y, Matrix::Matrix(1, 1, D))
+  Y_expanded <- Y_expanded[, order(rep(1:ncol(y), each = D))]
+  
+  # Multiply elementwise
+  result <- Y_expanded * X_expanded
+  
+  colnames(result) <- colnames(x)
+  
+  return(result)
+}, use_fd_cast, use_shares, mc.cores = detectCores() - 2)
+
+
+
 # Put stock_withdrawal on the domestic block
-mr_use_fd <- mcmapply(function(smat, n_prod = length(commodities), n_ctry = length(areas)) {
+mr_use_fd <- mcmapply(function(x, n_prod = length(commodities), n_ctry = length(areas)) {
   # 1. Extract stock_withdrawal columns
-  stock_cols <- grep("stock_withdrawal$", colnames(smat))
-  stock_mat  <- smat[, stock_cols, drop = FALSE]  # 23001 x 187
+  stock_cols <- grep("stock_withdrawal$", colnames(x))
+  stock_mat  <- x[, stock_cols, drop = FALSE]  # 23001 x 187
   
   # 2. Aggregate rows by product → 123 x 187
   group_index <- rep(1:n_prod, times = n_ctry)
@@ -353,11 +443,11 @@ mr_use_fd <- mcmapply(function(smat, n_prod = length(commodities), n_ctry = leng
   }
   
   # 4. Replace stock_withdrawals
-  smat <- smat[, -stock_cols]
-  stock_cols <- grep("stock_addition$", colnames(smat))
-  smat[, stock_cols] <- smat[, stock_cols] + expand_mat
+  x <- x[, -stock_cols]
+  stock_cols <- grep("stock_addition$", colnames(x))
+  x[, stock_cols] <- x[, stock_cols] + expand_mat
   
-  smat
+  x
   
 }, mr_use_fd, mc.cores = detectCores() - 2, SIMPLIFY = FALSE)
 

@@ -29,7 +29,7 @@ E_bio <- readRDS(file=paste0(input_path,"E_biodiv.rds"))
 # Make settings
 consumption_categories <- c("food","other","stock_addition","balancing")
 country <- "AUT"
-# country <- "CHE"
+# country <- "FRA"
 extension <- "biodiversity global"
 # extension <- "biodiversity regional"
 extension <- "landuse"
@@ -37,7 +37,7 @@ consumption <- "food"
 spread_stocks <- FALSE
 allocation <- "value"
 years <- 2010:2022
-year <- 2021
+year <- 2016
 
 
 for(year in years){
@@ -124,6 +124,17 @@ for(year in years){
   # fwrite(data, file=paste0("./output/FABIO_",country,"_",year,"_",extension,"_",consumption,"_",allocation,"-alloc_detailed.csv"), sep=",")
   
   # fwrite(results, file=paste0("./output/FABIO_",country,"_",year,"_",extension,"_",consumption,"_",allocation,"-alloc_full.csv"), sep=",")
+  
+  reg <- regions$area[match(results$country_origin, regions$iso3c)]
+  
+  data <- results[, country_origin := reg] %>%
+    filter(group_origin=="Grazing") %>%
+    filter(value != 0) %>%
+    group_by(item_target, continent_origin, country_origin) %>%
+    summarise(value = round(sum(value))) %>% 
+    filter(value != 0) %>%
+    spread(item_target, value, fill = 0)
+  fwrite(data, file=paste0("./output/FABIO_",country,"_",year,"_",extension,"_",consumption,"_",allocation,"-alloc_grazing.csv"), sep=",")
 }
 
 
