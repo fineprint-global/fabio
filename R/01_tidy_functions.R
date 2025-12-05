@@ -82,7 +82,7 @@ area_fix <- function(x, regions, col = "area_code") {
   matched <- match(x[[col]], regions[["code"]])
   if(any(is.na(matched))) {
     na_codes <- unique(x[[col]][is.na(matched)])
-    if(all(na_codes >= 5000)) {
+    if(all(na_codes >= 420)) {
       message("Found no match for grouped areas:\n\t",
               paste0(unique(x[[col_name]][is.na(matched)]), " - ",
                      na_codes, collapse = ", "),
@@ -133,15 +133,15 @@ area_kick <- function(x, code, col = "area_code", pattern = "*", groups = TRUE) 
   # Remove country groups
   if(groups) {
     # To-do: the four three-digit exceptions could be handled cleaner.
-    n_groups <- x[idx >= 5000 | idx %in% c(269, 268, 266, 261), .N]
+    n_groups <- x[idx >= 5000 | idx %in% c(269, 268, 266, 261, 420), .N]
     cat("Found", n_groups, "observations of grouped areas.\n")
     if(n_groups > 0) {
       cat("Removing observations of:\n\t",
           paste0("'", unique(x[[col_name]][idx >= 5000 |
-                                             idx %in% c(269, 268, 266, 261)]), "'", collapse = ", "),
+                                             idx %in% c(269, 268, 266, 261, 420)]), "'", collapse = ", "),
           ".\n", sep = "")
     }
-    x <- x[idx < 5000 & ! idx %in% c(269, 268, 266, 261), ]
+    x <- x[idx < 5000 & ! idx %in% c(269, 268, 266, 261, 420), ]
   }
 
   return(x)

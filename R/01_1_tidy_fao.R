@@ -763,6 +763,32 @@ rm(crop, crop_prim, crop_conc, cbs)
 
 source("R/00_prep_functions.R")
 path_fao <- "input/fao/"
+# Land use --------------------------------------------------------------
+# get FAO land use data
+file <- c("land" = "Inputs_LandUse_E_All_Data_(Normalized).zip")
+fa_dl(file = file, path = path_fao, link = "https://bulks-faostat.fao.org/production/")
+
+# TODO: what is this error? (Currently no solution, can be ignored)
+fa_extract(path_in = path_fao, files = file, path_out=path_fao, 
+           name = names(file))
+land <- fread(paste0(path_fao,"Inputs_LandUse_E_All_Data_(Normalized).csv"))
+
+# rename and filter
+land <- dt_rename(land, rename = rename, drop = TRUE)
+land <- land[ element == "Area",]
+
+# clean up areas
+land <- area_fix(land, regions = regions)  
+#land <- land[area_code < 420]
+land <- area_kick(land, code = 351, pattern = "China", groups = TRUE)
+land <- area_merge(land, orig = 206, dest = 276, pattern = "Sudan")
+land[, iso3c := regions$iso3c[match(area, regions$name)]]
+
+
+saveRDS(land, "data/tidy/land_tidy.rds")
+
+rm(land)
+
 # Fertilizers --------------------------------------------------------------
 # get FAO fertilizer data
 file <- c("fert" = "Inputs_FertilizersNutrient_E_All_Data_(Normalized).zip")
@@ -783,9 +809,6 @@ fert <- area_fix(fert, regions = regions)
 fert <- area_kick(fert, code = 351, pattern = "China", groups = TRUE)
 fert <- area_merge(fert, orig = 206, dest = 276, pattern = "Sudan")
 fert[, iso3c := regions$iso3c[match(area, regions$name)]]
-fert[is.na(iso3c), `:=` (iso3c = "ROW", area = "RoW", area_code = 999)]
-fert <- fert[, .(area = unique(area), value = sum(value, na.rm = TRUE)), 
-             by = .(iso3c, item, year)]
 
 #convert to kg
 fert[, value := value * 1000]    
