@@ -35,3 +35,6 @@ na_sum <- function(..., rowwise = TRUE) {
     return(na_sum(vapply(dots, na_sum, double(1L))))
   }
 }
+
+# Aggregate a matrix based on its column names
+agg <- function(x) { x <- as.matrix(x) %*% sapply(unique(colnames(x)),"==",colnames(x));  return(x) }

@@ -11,6 +11,7 @@ regions <- regions_full[current==TRUE, .(iso3c, area_code = code, area = name,
 fwrite(regions, "inst/regions_current.csv")
 processes <- fread("inst/items_use.csv")
 processes <- unique(processes[,1:2])
+setorder(processes, proc_code)
 nrreg <- nrow(regions)
 nrcom <- nrow(items)
 nrproc <- nrow(processes)

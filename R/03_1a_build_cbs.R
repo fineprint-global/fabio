@@ -87,8 +87,9 @@ setkey(crop_prod, year, area_code, item_code)
 
 # Replace production data in CBS with data from FAOSTAT's Production domain ---
 cbs <- merge(cbs, crop_prod,
-             by = c("area_code", "area", "item_code", "item", "year"), all.x = TRUE)
+             by = c("area_code", "area", "item_code", "item", "year"), all = TRUE)
 cbs[!is.na(value) & !item %like% "Other" & item != "Beer", production := value]
+cbs[!is.na(value) & is.na(production), production := value]
 cbs[, value := NULL]
 
 
@@ -430,22 +431,21 @@ live <- live[element == "Production" & unit == "tonnes" & year %in% years, ]
 live[, `:=`(element = NULL, unit = NULL)]
 
 # Map "Meat, ..." items AND non-food livestock items ("Hides and skins", "Wool", "Silk") to CBS items
-src_item <- c(1035,1097,1108,1111,1127,
-              1141,1151,1158,1163,1166,
+src_item <- c(1035,1089,1097,1108,1111,1127,
+              1141,1151,1158,1163,1164,1166,1172,1176,
               1806,1807,1808,
               919, 957, 995, 999, 1025,
               987, 1185, 1186)
-tgt_item <- c(2733,2735,2735,2735,2735,
-              2735,2735,2735,2735,2735,
+tgt_item <- c(2733,2735,2735,2735,2735,2735,2735,
+              2735,2735,2735,2735,2735,2735,2735,
               2731,2732,2734,
               2748, 2748, 2748, 2748, 2748,
               2746, 2747, 2747)
-tgt_name <- c("Pigmeat","Meat, Other","Meat, Other","Meat, Other","Meat, Other",
-              "Meat, Other","Meat, Other","Meat, Other","Meat, Other","Meat, Other",
+tgt_name <- c("Pigmeat","Meat, Other","Meat, Other","Meat, Other","Meat, Other","Meat, Other","Meat, Other",
+              "Meat, Other","Meat, Other","Meat, Other","Meat, Other","Meat, Other","Meat, Other","Meat, Other",
               "Bovine Meat","Mutton & Goat Meat","Poultry Meat",
               "Hides and skins", "Hides and skins", "Hides and skins", "Hides and skins", "Hides and skins",
               "Wool (Clean Eq.)", "Silk", "Silk")
-
 conc <- match(live$item_code, src_item)
 live[, `:=`(item_code = tgt_item[conc], item = tgt_name[conc])]
 live <- live[!is.na(item_code), ]
@@ -584,14 +584,15 @@ cbs <- merge(
   by.x = c("area_code", "area", "item_code", "item", "year"),
   by.y = c("to_code", "to", "item_code", "item", "year"),
   all.x = TRUE)
-cbs[, `:=`(imports = ifelse(is.na(imports) | area_code == 999 | (!is.na(value) & imports == 0), 
-                          value, imports), value = NULL)]
+cbs[, `:=`(
+  imports = ifelse(is.na(imports) | area_code == 999 | (!is.na(value) & imports == 0 & round(value/1000) > 0 ),
+                   value, imports), value = NULL)]
 cbs <- merge(
   cbs, exps[, c("from_code", "from", "item_code", "item", "year", "value")],
   by.x = c("area_code", "area", "item_code", "item", "year"),
   by.y = c("from_code", "from", "item_code", "item", "year"),
   all.x = TRUE)
-cbs[, `:=`(exports = ifelse(is.na(exports) | area_code == 999 | (!is.na(value) & exports == 0),
+cbs[, `:=`(exports = ifelse(is.na(exports) | area_code == 999 | (!is.na(value) & exports == 0 & production > value * 0.99),
                           value, exports), value = NULL)]
 rm(imps, exps)
 
