@@ -9,20 +9,23 @@ library(rnaturalearth)
 library(rnaturalearthdata)
 library(rnaturalearthhires)
 
-# fabio input data
+# set system variables
 source("R/00_system_variables.R")
+path_geo <- "/mnt/nfs_fineprint/tmp/geo_data/"
+
+# get fabio input data
 items <- fread("inst/items_full.csv")
 regions <- fread("inst/regions_full.csv")[current==TRUE]
 
 # spatial input data
-r_zones <- rast("input/extensions/IPCC_Climate_Zones_ts_3.25.tif")
-r_country <- rast("input/extensions/Countries_2018.nc")  
+r_zones <- rast(paste0(path_geo, "IPCC_Climate_Zones_ts_3.25.tif"))
+r_country <- rast(paste0(path_geo, "Countries_2018.nc"))  
 r_soils <- rast("data/NPK/HWSD2_soiltype.tif")  
 country_mapping <- readRDS("data/NPK/country_mapping.rds")
 
 # Define directories for fertilizer and area datasets (173 each) ----------
-nc_fert_dir <- "./input/extensions/NPKGrids"
-nc_area_dir <- "./input/extensions/Cropgrids"
+nc_fert_dir <- paste0(path_geo, "NPKGrids")
+nc_area_dir <- paste0(path_geo, "Cropgrids")
 nc_fert_files <- list.files(nc_fert_dir, pattern = "\\.nc$", full.names = TRUE)
 nc_area_files <- list.files(nc_area_dir, pattern = "\\.nc$", full.names = TRUE)
 
@@ -227,6 +230,25 @@ for (i in seq_along(nc_fert_files)) {
 
 }
 
+# Tidy climate dataset
+climate <- copy(crop_summary_climate_soils)
+zone_names <- fread("inst/NPK/climate_zones.csv")
+conc <-  fread("inst/NPK/conc_NPK_items.csv")
+
+climate[, zone := zone_names$label[match(climate_zone, zone_names$ids)] ]
+climate[, item := conc$item[match(crop, conc$crop)]]
+climate[, area := regions$name[match(iso_a3, regions$iso3c)]]
+climate[, area_code := regions$code[match(iso_a3, regions$iso3c)]]
+climate[, item_code := items$item_code[match(item, items$item)]]
+
+climate <- climate[, .(iso3c = iso_a3, item, zone_code = climate_zone, 
+                       crop_area_h = sum(crop_area, na.rm =TRUE)),
+                   by = .(area, item_code, zone, HWSD2)]
+setcolorder(climate, c("iso3c", "area", "item", "item_code",  "zone_code",
+                       "zone", "HWSD2", "crop_area_h"))
+setorder(climate, iso3c, item, zone_code, HWSD2)
+
+# save
 saveRDS(crop_summary_N, "data/NPK/N_cropland_application_npkgrids.rds")
 saveRDS(harv_summary_N, "data/NPK/N_harvland_application_npkgrids.rds")
 
@@ -239,5 +261,5 @@ saveRDS(harv_summary_K, "data/NPK/K_harvland_application_npkgrids.rds")
 saveRDS(crop_summary_area, "data/NPK/cropland_area_cropgrids.rds")
 saveRDS(harv_summary_area, "data/NPK/harvland_area_cropgrids.rds")
 
-saveRDS(crop_summary_climate_soils, "data/NPK/climate_soils_cropland.rds")
+saveRDS(climate, "data/NPK/climate_soils_cropland.rds")
 saveRDS(harv_summary_climate_soils, "data/NPK/climate_soils_harvland.rds")

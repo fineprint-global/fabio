@@ -22,6 +22,7 @@ cat("\nGap-filling TCF for countries that have produced the processed item in at
 
 cat("\n1. Copy values for similar countries and countries with new borders\n")
 
+#TODO: add this function to gap filling script
 fill_country_gaps <- function(dt, source_countries, target_countries) {
   stopifnot(length(source_countries) == length(target_countries))
   

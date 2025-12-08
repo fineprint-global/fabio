@@ -17,7 +17,6 @@ sua <- readRDS("data/tidy/sua_tidy.rds")
 # Add CBS data ---------------------------------------
 cbs <- readRDS("data/tidy/cbs_tidy.rds")
 cbs <- cbs[year %in% years & !item %in% sua$item & item %in% items_sua$item]
-setnames(cbs, "item_code", "item_code_fcl")
 
 sua <- rbind(sua, cbs)
 
@@ -28,10 +27,10 @@ cat("\nAdding information from BTD.\n")
 
 btd <- readRDS("data/tidy/btd_sua_tidy.rds")
 btd <- btd[year %in% years, ]
-setnames(btd, "item_code", "item_code_fcl")
 
 # Adapt units for small animals
-btd[item_code_fcl %in% prod_trad[unit == "1000 An" & element == "Stocks", unique(item_code)],
+# TODO: What's up here? -> no need to change anything anymore after Martin's update, but this code does not seem right
+btd[item_code %in% prod_trad[unit == "1000 An" & element == "Stocks", unique(item_code)],
                                  `:=` (value = value/1000 , unit = "1000 head")]
 
 
@@ -40,9 +39,9 @@ cat("\nGiving preference to units in the following order:\n",
 
 # Imports
 imps <- btd[!unit %in% c("usd", "No") , list(value = na_sum(value)),
-            by = list(to_code, to, item_code_fcl, item, year, unit)]
+            by = list(to_code, to, item_code, item, year, unit)]
 imps[unit == "Head", unit := "head"]
-imps <- data.table::dcast(imps, to_code + to + item_code_fcl + item + year ~ unit,
+imps <- data.table::dcast(imps, to_code + to + item_code + item + year ~ unit,
                           value.var = "value")
 imps[, value := ifelse(!is.na(head), head,
                        ifelse(!is.na(`1000 head`), `1000 head`, t))][, `:=` 
@@ -51,9 +50,9 @@ imps$item <- iconv(imps$item, from = "", to = "UTF-8")
 
 # Exports
 exps <- btd[!unit %in% c("usd", "No") , list(value = na_sum(value)),
-            by = list(from_code, from, item_code_fcl, item, year, unit)]
+            by = list(from_code, from, item_code, item, year, unit)]
 exps[ unit == "Head", unit := "head"]
-exps <- data.table::dcast(exps, from_code + from + item_code_fcl + item + year ~ unit,
+exps <- data.table::dcast(exps, from_code + from + item_code + item + year ~ unit,
                           value.var = "value")
 exps[, value := ifelse(!is.na(head), head,
                        ifelse(!is.na(`1000 head`), `1000 head`, t))][, `:=` 
@@ -101,18 +100,18 @@ live <- merge(live,
 # add trade values from btd in case they are missing in live_trad
 live <- merge(
   live,
-  imps[item_code_fcl %in% unique(live[, item_code]) & value > 0,  # these are in heads as well
-       c("to_code", "to", "item_code_fcl", "item", "year", "value")],
+  imps[item_code %in% unique(live[, item_code]) & value > 0,  # these are in heads as well
+       c("to_code", "to", "item_code", "item", "year", "value")],
   by.x = c("area_code", "area", "item_code", "item", "year"),
-  by.y = c("to_code", "to", "item_code_fcl", "item", "year"),
+  by.y = c("to_code", "to", "item_code", "item", "year"),
   all.x = TRUE)
 live[, `:=`(imports = ifelse(is.na(imports), value, imports), value = NULL)]
 live <- merge(
   live,
-  exps[item_code_fcl %in% live[, item_code] & value > 0,
-       c("from_code", "from", "item_code_fcl", "item", "year", "value")],
+  exps[item_code %in% live[, item_code] & value > 0,
+       c("from_code", "from", "item_code", "item", "year", "value")],
   by.x = c("area_code", "area", "item_code", "item", "year"),
-  by.y = c("from_code", "from", "item_code_fcl", "item", "year"),
+  by.y = c("from_code", "from", "item_code", "item", "year"),
   all.x = TRUE)
 live[, `:=`(exports = ifelse(is.na(exports), value, exports), value = NULL)]
 
@@ -127,7 +126,7 @@ live[, exports := ifelse(exports > total_supply, total_supply, exports)]
 # all uses are assumed to go to processing
 live[, processing := na_sum(production, imports, -exports)]
 #live <- live[total_supply > 0, ]
-setnames(live, "item_code", "item_code_fcl")
+setnames(live, "item_code", "item_code")
 
 # add live animals to sua 
 sua <- dplyr::bind_rows(sua, live)
@@ -145,14 +144,14 @@ prod <- prod_trad[element == "Production" & unit == "tonnes", ]
 prod[, `:=`(element = NULL, unit = NULL)]
 setkey(prod, year, area_code, item_code)
 
-prod <- prod[item_code %in% items_sua$item_code_fcl]
+prod <- prod[item_code %in% items_sua$item_code]
 
 # rename
-setnames(prod, "item_code", "item_code_fcl")
+setnames(prod, "item_code", "item_code")
 
 # Add production to SUA where is.na or is zero ---
 sua <- merge(sua, prod,
-             by = c("area_code", "area", "item_code_fcl", "item", "year"), all.x = TRUE)
+             by = c("area_code", "area", "item_code", "item", "year"), all.x = TRUE)
 cat("\nFilling missing sua production with production data. Items:\n",
     paste0(unique(sua[(is.na(production) | production == 0) & !is.na(value), item]), collapse = "; "),
     ".\n", sep = "")
@@ -163,24 +162,24 @@ sua[, value := NULL]
 # Add rows for item country combinations that are missing completely ---------------------
 # Filter datapoints that are not yet in SUA
 addsua <- dt_filter(prod,
-                    !paste(area_code,item_code_fcl,year) %in% paste(sua$area_code,sua$item_code_fcl,sua$year))
+                    !paste(area_code,item_code,year) %in% paste(sua$area_code,sua$item_code,sua$year))
 addsua[, names(addsua) := lapply(.SD, function(x) if (is.character(x)) iconv(x, from = "", to = "UTF-8") else x)]
 setnames(addsua, "value", "production")
 
 # Add imports and exports to addsua 
 # seed cotton from BACI? ( item code 520210)
-addsua <- merge(addsua, prod_trad[element == "Import Quantity", .(year, area_code, item_code_fcl = item_code, imports = value)],
-                by = c("area_code", "item_code_fcl", "year"), all.x = TRUE)
-addsua <- merge(addsua, prod_trad[element == "Export Quantity", .(year, area_code, item_code_fcl = item_code, exports = value)],
-                by = c("area_code", "item_code_fcl", "year"), all.x = TRUE)
+addsua <- merge(addsua, prod_trad[element == "Import Quantity", .(year, area_code, item_code = item_code, imports = value)],
+                by = c("area_code", "item_code", "year"), all.x = TRUE)
+addsua <- merge(addsua, prod_trad[element == "Export Quantity", .(year, area_code, item_code = item_code, exports = value)],
+                by = c("area_code", "item_code", "year"), all.x = TRUE)
 
 
 # add missing imports and exports from btd
-addsua[, exports_btd := exps$value[match(paste(addsua$year, addsua$area_code, addsua$item_code_fcl),
-                                     paste(exps$year, exps$from_code, exps$item_code_fcl))]]
+addsua[, exports_btd := exps$value[match(paste(addsua$year, addsua$area_code, addsua$item_code),
+                                     paste(exps$year, exps$from_code, exps$item_code))]]
 addsua[is.na(exports), exports := exports_btd]
 
-addsua[, imports_btd := imps$value[match(paste(addsua$year, addsua$area_code, addsua$item_code_fcl),
+addsua[, imports_btd := imps$value[match(paste(addsua$year, addsua$area_code, addsua$item_code),
                                      paste(imps$year, imps$to_code, imps$item_code))]]
 addsua[is.na(imports), imports := imports_btd]
 
@@ -205,19 +204,19 @@ proc_sua <- fread("inst/sua/proc_sua.csv")
 
 
 # only keep rows with parent items that are needed in addsua 
-tcf_crop_sua[, parent_code_fcl := items_sua$item_code_fcl[match(parent, items_sua$item)]]
-tcf_crop_sua <- tcf_crop_sua[paste(area, parent_code_fcl) %in% paste(addsua$area, addsua$item_code_fcl)]
+tcf_crop_sua[, parent_code_fcl := items_sua$item_code[match(parent, items_sua$item)]]
+tcf_crop_sua <- tcf_crop_sua[paste(area, parent_code_fcl) %in% paste(addsua$area, addsua$item_code)]
 
 # only keep needed columns
 tcf_crop_sua[, `:=` (proc = NULL, proc_code = NULL, child_code = NULL, parent_code = NULL,
                      min = NULL, max = NULL)]
 
 # add years and child production from sua_prelim
-tcf_crop_sua[, child_code_fcl := items_sua$item_code_fcl[match(child, items_sua$item)]]
-tcf_crop_sua <- merge(sua_prelim[paste(area, item_code_fcl) %in% paste(tcf_crop_sua$area, tcf_crop_sua$child_code_fcl),
-                             .(area, year, item_code_fcl, child_production = production)], 
+tcf_crop_sua[, child_code_fcl := items_sua$item_code[match(child, items_sua$item)]]
+tcf_crop_sua <- merge(sua_prelim[paste(area, item_code) %in% paste(tcf_crop_sua$area, tcf_crop_sua$child_code_fcl),
+                             .(area, year, item_code, child_production = production)], 
                            tcf_crop_sua, 
-                      by.x = c("area", "item_code_fcl"),
+                      by.x = c("area", "item_code"),
                       by.y = c("area", "child_code_fcl"),allow.cartesian = TRUE)
 tcf_crop_sua <- tcf_crop_sua[child_production > 0]
 
@@ -234,7 +233,7 @@ structure <- use_structure[ child %in% tcf_crop_sua$child]
 
 # merge the structure with supply data from sua_prelim 
 parent_supply <- sua_prelim[item %in% structure$parent, 
-                            .(area, year, parent_code_fcl = item_code_fcl, item, 
+                            .(area, year, parent_code_fcl = item_code, item, 
                               supply = na_sum(production, imports, stock_withdrawal, -exports ))]
 parent_supply <- merge(structure, parent_supply, by.x = c("parent"), 
                        by.y = c("item"), allow.cartesian = TRUE)
@@ -263,7 +262,7 @@ tcf_crop_sua[!is.finite(processing), processing := 0]
 
 # add processes and average by process to avoid double-counting in coupled processes
 
-tcf_crop_sua[, proc := proc_sua$proc[match(item_code_fcl, proc_sua$item_code_fcl)]]
+tcf_crop_sua[, proc := proc_sua$proc[match(item_code, proc_sua$item_code)]]
 tcf_crop_sua <- tcf_crop_sua[, .(processing = mean(processing, na.rm = TRUE)), 
                      by = .(area, year, proc, parent, parent_code_fcl)]
 
@@ -278,7 +277,7 @@ tcf_crop_sua <- unique(tcf_crop_sua[, .(area, year, parent, parent_code_fcl, pro
 
 
 # merge back to addsua
-addsua[, processing := tcf_crop_sua$processing[match(paste(area, year, item_code_fcl), 
+addsua[, processing := tcf_crop_sua$processing[match(paste(area, year, item_code), 
                                                      paste(tcf_crop_sua$area, tcf_crop_sua$year, tcf_crop_sua$parent_code_fcl))]]
 
 outliers <- addsua[(processing + exports) > total_supply] 
@@ -298,7 +297,7 @@ addsua[, food := na_sum(total_supply, - processing, - exports)]
 
 # Allocate 'Seed cotton, unginned' and 'Hop cones', 'green coffee', palm kernels',
 # cocoa beans, 'molasses'  and ' Castor oil seeds' supply fully to processing
-addsua[item_code_fcl %in% c(165, 265, 328, 656, 661, 677, 256), 
+addsua[item_code %in% c(165, 265, 328, 656, 661, 677, 256), 
        `:=`(processing = na_sum(total_supply, -exports, -food), food = 0)]
 
 # add the following items fully to other:
@@ -309,12 +308,12 @@ addsua[item_code_fcl %in% c(165, 265, 328, 656, 661, 677, 256),
 # "Raw hides and skins of cattle", "Raw hides and skins of sheep or lambs", "Raw hides and skins of goats or kids",
 # "Raw hides and skins of buffaloes", "Beeswax", "Shorn wool, greasy, including fleece-washed shorn wool"
 
-addsua[item_code_fcl %in% c(280,754, 767, 777, 778, 789, 780, 782, 788, 
+addsua[item_code %in% c(280,754, 767, 777, 778, 789, 780, 782, 788, 
                             800, 813, 821, 826, 836, 919, 957, 987, 995, 1025, 1183), 
        `:=` (other = na_sum(total_supply, -exports, -processing), food = 0)]
 
 # Allocate 'Fodder crops', 'vetches' and left-over cotton seed supply to feed
-addsua[item_code_fcl %in% c(2000, 205, 329), `:=` 
+addsua[item_code %in% c(2000, 205, 329), `:=` 
        (feed = na_sum(total_supply, -processing, -exports), food = 0)]
 
 # add back to sua
@@ -333,10 +332,10 @@ eth <- readRDS("data/tidy/eth_tidy.rds")
 eth <- eth[year %in% years]
 # Keep one unit and recode for merging
 eth <- eth[, `:=`(unit = NULL,
-                  item = "Alcohol, Non-Food", item_code_fcl = 2659)]
+                  item = "Alcohol, Non-Food", item_code = 2659)]
 
 eth_sua <- merge(sua[item == "Alcohol, Non-Food", ], eth, all = TRUE,
-                 by = c("area_code", "area", "year", "item", "item_code_fcl"))
+                 by = c("area_code", "area", "year", "item", "item_code"))
 
 cat("Using EIA/IEA ethanol production values where FAO's",
     "CBS are not (or under-) reported.\n")
@@ -353,7 +352,7 @@ eth_sua[, other := na_sum(production, imports, -exports, -stock_addition)]
 # rebalance
 eth_sua[, balancing := na_sum(production, imports, -exports, -stock_addition, -other)]
 
-sua <- rbindlist(list(sua[item_code_fcl != 2659, ], eth_sua), use.names = TRUE)
+sua <- rbindlist(list(sua[item_code != 2659, ], eth_sua), use.names = TRUE)
 rm(eth, eth_sua)
 
 
@@ -362,15 +361,15 @@ rm(eth, eth_sua)
 
 cat("\nAdding missing export and import data to SUA from BTD.\n")
 sua <- merge(
-  sua, imps[, c("to_code", "to", "item_code_fcl", "item", "year", "value")],
-  by.x = c("area_code", "area", "item_code_fcl", "item", "year"),
-  by.y = c("to_code", "to", "item_code_fcl", "item", "year"),
+  sua, imps[, c("to_code", "to", "item_code", "item", "year", "value")],
+  by.x = c("area_code", "area", "item_code", "item", "year"),
+  by.y = c("to_code", "to", "item_code", "item", "year"),
   all.x = TRUE)
 sua[, `:=`(imports = ifelse(is.na(imports), value, imports), value = NULL)]
 sua <- merge(
-  sua, exps[, c("from_code", "from", "item_code_fcl", "item", "year", "value")],
-  by.x = c("area_code", "area", "item_code_fcl", "item", "year"),
-  by.y = c("from_code", "from", "item_code_fcl", "item", "year"),
+  sua, exps[, c("from_code", "from", "item_code", "item", "year", "value")],
+  by.x = c("area_code", "area", "item_code", "item", "year"),
+  by.y = c("from_code", "from", "item_code", "item", "year"),
   all.x = TRUE)
 sua[, `:=`(exports = ifelse(is.na(exports), value, exports), value = NULL)]
 rm(imps, exps)
@@ -381,21 +380,21 @@ rm(imps, exps)
 # Aggregate RoW countries in sua
 sua <- replace_RoW(sua, codes = regions[current == TRUE, code])
 sua <- sua[, lapply(.SD, na_sum),
-           by = c("area_code", "area", "item_code_fcl", "item", "year")]
+           by = c("area_code", "area", "item_code", "item", "year")]
 
 # Aggregate RoW countries in BTD
 btd <- replace_RoW(btd, cols = c("from_code", "to_code"),
                    codes = c(regions[current == TRUE, code], 252, 254))
 btd <- btd[, lapply(.SD, na_sum), by = c("from_code", "from",
-                                         "to_code", "to","element", "item_code_fcl", 
+                                         "to_code", "to","element", "item_code", 
                                          "item", "unit", "year")]
 
 # Remove ROW-internal trade from sua
 intra <- btd[from_code==to_code & unit!="usd", sum(value),
-             by=c("from_code","from","item_code_fcl","item","year")]
+             by=c("from_code","from","item_code","item","year")]
 sua <- merge(sua, intra,
-             by.x = c("area_code", "area", "item_code_fcl", "item", "year"),
-             by.y = c("from_code", "from", "item_code_fcl", "item", "year"),
+             by.x = c("area_code", "area", "item_code", "item", "year"),
+             by.y = c("from_code", "from", "item_code", "item", "year"),
              all.x = TRUE)
 sua[!is.na(V1), `:=`(exports = na_sum(exports,-V1),
                      imports = na_sum(imports,-V1))]
@@ -591,19 +590,19 @@ cat("\nSkip capping 'exports', 'seed' and 'processing' at",
 cat("\nAllocate remaining supply from 'unspecified' and 'balancing' to uses.\n")
 
 cat("\nHops, oil palm fruit, palm kernels, sugar crops and live animals to 'processing'.\n")
-sua[item_code_fcl %in% c(254, 328, 677, 866, 946, 976, 1016, 1034, 2029, 1096, 1107, 1110,
+sua[item_code %in% c(254, 328, 677, 866, 946, 976, 1016, 1034, 2029, 1096, 1107, 1110,
                      1126, 1157, 1140, 1150, 1171, 2536, 2537, 2562) & na_sum( balancing, residuals) > 0,
     `:=`(processing = na_sum(processing, balancing, residuals),
          unspecified = 0, balancing = 0, residuals = 0)]
 
 cat("\nNon-food crops to 'other'.\n")
-sua[item_code_fcl %in% c(2662, 2663, 2664, 2665, 2666, 2667, 2671, 2672, 2659,
+sua[item_code %in% c(2662, 2663, 2664, 2665, 2666, 2667, 2671, 2672, 2659,
                      1864, 1866, 1867, 2661, 2746, 2748, 2747) & na_sum(unspecified, balancing, residuals, processing) > 0,
     `:=`(other = na_sum(other,  balancing, residuals, processing),
          balancing = 0, residuals = 0, processing = 0)]
 
 cat("\nFeed crops to 'feed'.\n")
-sua[item_code_fcl %in% c(2000, 2001, 2555, 2559, 2590, 2591, 2592, 2593, 2594,
+sua[item_code %in% c(2000, 2001, 2555, 2559, 2590, 2591, 2592, 2593, 2594,
                      2595, 2596, 2597, 2598, 2749) & na_sum( balancing, residuals) > 0,
     `:=`(feed = na_sum(feed, balancing, residuals),
           balancing = 0, residuals = 0)]

@@ -8,7 +8,7 @@ items_sua <- fread("inst/sua/items_sua.csv")
 proc_sua <- fread("inst/sua/proc_sua.csv")
 
 sua <- readRDS("data/sua_full.rds")
-sua[, comm_code := items_sua$comm_code[match(item_code_fcl, items_sua$item_code_fcl)]] # for now
+sua[, comm_code := items_sua$comm_code[match(item_code, items_sua$item_code)]] # for now
 tcf <- readRDS("data/sua/tcf_sua_final.rds")
 
 # model after this (not needed in the end)
@@ -16,9 +16,9 @@ supply_cbs <- readRDS("data/sup_final.rds")
 
 # build supply table ------
 # create sua supply table -> here some of the values are double counted (e.g., skim milk)
-supply_sua <- sua[, .(area, area_code, item_code_fcl, item, year, production)]
-supply_sua <- merge(supply_sua, proc_sua[, .(proc, proc_code, comm_code, item_code_fcl)], 
-                    by = c("item_code_fcl"), 
+supply_sua <- sua[, .(area, area_code, item_code, item, year, production)]
+supply_sua <- merge(supply_sua, proc_sua[, .(proc, proc_code, comm_code, item_code)], 
+                    by = c("item_code"), 
                     allow.cartesian = TRUE)
 
 
@@ -62,7 +62,7 @@ extraction_avg <- extraction_avg[, .(area_code, area, year, proc,
                                             proc_code, item = child,
                                             comm_code = child_code,
                                             extraction_rate, min, max) ]
-extraction_avg[, item_code_fcl := items_sua$item_code_fcl[match(comm_code, items_sua$comm_code)]]
+extraction_avg[, item_code := items_sua$item_code[match(comm_code, items_sua$comm_code)]]
 extraction_avg <- unique(extraction_avg)
 extraction_avg[, production := sua$production[match(paste(area_code, year, comm_code),
                                               paste(sua$area_code, sua$year, sua$comm_code))]]
@@ -74,13 +74,13 @@ double_proc <- double_proc[!paste(area_code, year, proc_code, comm_code) %in%
 double_proc <- rbind(extraction_avg, double_proc)
 
 # separate into main products and by-products to estimate how much of each by-product comes from which process
-double_proc[, by_product := ifelse(item_code_fcl %in% by_proc$item_code_fcl ,TRUE, FALSE)]
+double_proc[, by_product := ifelse(item_code %in% by_proc$item_code ,TRUE, FALSE)]
 
-by_products <- double_proc[by_product == TRUE][, `:=`(by_product = NULL, item_code_fcl = NULL)]
+by_products <- double_proc[by_product == TRUE][, `:=`(by_product = NULL, item_code = NULL)]
 setnames(by_products, c("item", "comm_code", "production", "extraction_rate", "min", "max"), 
          c("by_item", "by_code", "total_by_production","by_extraction", "by_min", "by_max"))
 
-main_products <- double_proc[by_product == FALSE][, `:=`(by_product = NULL, item_code_fcl = NULL)]
+main_products <- double_proc[by_product == FALSE][, `:=`(by_product = NULL, item_code = NULL)]
 setnames(main_products, c("item","comm_code", "production", "extraction_rate", "min", "max"), 
          c("main_item", "main_code", "main_production", "main_extraction", "main_min", "main_max"))
 
@@ -198,13 +198,13 @@ double_proc[, `:=` (estimated_by_production = NULL, estimated_by_max = NULL,
                     main_item = NULL, main_production = NULL, 
                     by_code = NULL, main_code = NULL)]
 setnames(double_proc, c("by_item", "scaled_by_production"), c("item", "production"))
-double_proc[, `:=` (item_code_fcl = items_sua$item_code_fcl[match(item, items_sua$item)],
+double_proc[, `:=` (item_code = items_sua$item_code[match(item, items_sua$item)],
                     comm_code = items_sua$comm_code[match(item, items_sua$item)])]
 
 # exclude rows that are in double_proc from supply_sua
-supply_sua <- supply_sua[!paste(area_code, year, proc_code, item_code_fcl) %in%
+supply_sua <- supply_sua[!paste(area_code, year, proc_code, item_code) %in%
                                 paste(double_proc$area_code, double_proc$year,
-                                      double_proc$proc_code, double_proc$item_code_fcl)]
+                                      double_proc$proc_code, double_proc$item_code)]
 
 supply_sua <- bind_rows(double_proc,supply_sua)
 saveRDS(supply_sua, "data/sua/supply_sua_final.rds")

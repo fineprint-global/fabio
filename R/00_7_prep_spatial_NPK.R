@@ -5,12 +5,15 @@ library(sf)
 library(rnaturalearth)
 library(rnaturalearthdata)
 
+# set input path
+path_geo <- "/mnt/nfs_fineprint/tmp/geo_data/"
+
 # Match IDs from soil dataset to soil types (~7hrs)---------------------
 # Here, the IDs given in the HWSD2 raster are matched to their datapoints and
 # aggregated to the same level as the NPKgrids datesets.
 
-r_soils <- rast("input/extensions/HWSD2/HWSD2.bil")
-lookup <- fread("input/extensions/HWSD2/HWSD2_SMU.csv")
+r_soils <- rast(paste0(path_geo, "HWSD2/HWSD2.bil"))
+lookup <- fread(paste0(path_geo, "HWSD2/HWSD2_SMU.csv"))
 lookup <- lookup[, .(id = as.numeric(HWSD2_SMU_ID), soil_type = as.numeric(WRB2_CODE))]
 
 # # test on smaller set of data 
@@ -44,11 +47,11 @@ terra::writeRaster(r_soils, filename = "data/NPK/HWSD2_soiltype.tif", overwrite 
 # the rnaturalearth package using random sampling. This creates a country mapping
 # that enables the use of original country borders when aggregating the NPK dataset
 
-countries_NPK <- rast("input/extensions/Countries_2018.nc")
+countries_NPK <- rast(paste0(path_geo, "Countries_2018.nc"))
 countries_dt <- as.data.table(countries_NPK, xy = TRUE)
 country_borders <- ne_countries(scale = "medium", returnclass = "sf")[, c("iso_a3_eh", "geometry")]
  
-# get 100 random points from the NPK country file
+# get 1000 random points from the NPK country file
 set.seed(90)
 sampled_points <- countries_dt[!is.na(country), .SD[sample(.N, min(1000, .N))], by = country]
 sampled_points_sf <- st_as_sf(sampled_points, coords = c("x", "y"), crs = 4326)
