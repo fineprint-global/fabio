@@ -1,4 +1,4 @@
-crop,item,item_code
+item_npk,item,item_code
 abaca,Abaca,2666
 agave,"Fruits, Other",2625
 alfalfa,Fodder crops,2000
@@ -62,7 +62,7 @@ ginger,"Spices, Other",2645
 gooseberry,"Fruits, Other",2625
 grape,Grapes and products (excl wine),2620
 grapefruitetc,Grapefruit and products,2613
-grassnes,Grazing,2001
+grassnes,"Fodder crops",2000
 greenbean,"Vegetables, Other",2605
 greenbroadbean,"Vegetables, Other",2605
 greencorn,"Vegetables, Other",2605
@@ -94,7 +94,7 @@ melonetc,"Fruits, Other",2625
 melonseed,"Oilcrops, Other",2570
 millet,Millet and products,2517
 mixedgrain,"Cereals, Other",2520
-mixedgrass,Grazing,2001
+mixedgrass,"Fodder crops",2000
 mushroom,"Vegetables, Other",2605
 mustard,Rape and Mustardseed,2558
 nutmeg,"Spices, Other",2645
