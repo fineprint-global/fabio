@@ -620,6 +620,9 @@ crop_prim[count > 3, value_interp := forecast::na.interp(value),
           by=.(area,item_code,element)]
 crop_prim[, value := ifelse(is.na(value), value_interp, value)][, `:=` (count = NULL, value_interp = NULL)]
 
+# save non-aggregated version
+saveRDS(crop_prim)
+
 # aggregate
 crop_prim <- crop_prim[, list(value = na_sum(value)),
                        by = .(area_code, area, element, unit, year, cbs_item_code, cbs_item)]
