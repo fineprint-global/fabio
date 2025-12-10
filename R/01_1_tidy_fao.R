@@ -609,15 +609,15 @@ fod_country <- unique(crop_prim[,.(area_code, area, item_code, item, element, un
 fod_country <- as.data.table(reshape::expand.grid.df(fod_country, data.table(year = years)))
 cbs_years <- unique(cbs[,.(area_code, area, year)])
 fod_country <- merge(fod_country, cbs_years) # to avoid years for countries that did not exist at the time (e.g. Belgium-Luxembourg)
-crop_prim <- merge(crop_prim, fod_country, by = names(fod_country), all = TRUE)
+crop_prim_test <- merge(crop_prim, fod_country, by = names(fod_country), all = TRUE)
 
 # consider country-item-element combinations with only NAs or only one value (no inter/extrapolation possible)
-crop_prim[, count := sum(is.finite(value)), by =.(area,item,element)]
+crop_prim[, count := sum(is.finite(value)), by =.(area,item_code,element)]
 
 # interpolate using linear interpolation (if more than 3 values are available for whole time series)
 # the interpolation takes moving averages for data gaps between existing values, and takes the last available value as extrapolation for new years
 crop_prim[count > 3, value_interp := forecast::na.interp(value),
-          by=.(area,item,element)]
+          by=.(area,item_code,element)]
 crop_prim[, value := ifelse(is.na(value), value_interp, value)][, `:=` (count = NULL, value_interp = NULL)]
 
 # aggregate
