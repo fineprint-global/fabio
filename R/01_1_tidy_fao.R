@@ -621,7 +621,7 @@ crop_prim[count > 3, value_interp := forecast::na.interp(value),
 crop_prim[, value := ifelse(is.na(value), value_interp, value)][, `:=` (count = NULL, value_interp = NULL)]
 
 # save non-aggregated version
-saveRDS(crop_prim)
+saveRDS(crop_prim, "data/tidy/fodder_crop_non_agg_tidy.rds")
 
 # aggregate
 crop_prim <- crop_prim[, list(value = na_sum(value)),
