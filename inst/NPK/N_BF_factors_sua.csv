@@ -14,6 +14,11 @@ Other pulses n.e.c.;211;Global;62;% of crop yield;global
 Rice;27;Global;22;kg/ha;global
 Maize (corn);56;Global;13;kg/ha;global
 Wheat;15;Global;13;kg/ha;global
+Forage and silage, clover;640;Global;222;kg/ha;global
+Forage and silage, alfalfa;641;Global;164;kg/ha;global
+Forage and silage, green oilseeds;642;Global;75;kg/ha;global
+Forage and silage, legumes;643;Global;120;kg/ha;global
+Forage products;651;Global;15;kg/ha;global
 Sugar cane;156;Global;20;kg/ha;global
 Sugar cane;156;Brazil;40;kg/ha;country
 Soya beans;236;Former USSR;44;% of crop yield;regional

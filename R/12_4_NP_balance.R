@@ -27,6 +27,15 @@ if(cbs == TRUE){
 cont <- fread("inst/NPK/nutrient_content_npk.csv")
 cont[, `:=` (K = NULL)]
 
+#add dry matter conversion for grazing (from Lee et al., 2018)
+cont[, dm_conv := ifelse(item_code == 2001,0.41,1)]
+
+# Average nutrient content of fodder crops
+cont_fodder <- fread("inst/NPK/fodder_NP_content.csv")
+
+# bind all NP contents
+cont <- rbind(cont, cont_fodder)
+
 # match with cbs items
 if(cbs == TRUE) {
   item_conc <- fread("inst/conc_crop-cbs.csv")
@@ -34,13 +43,11 @@ if(cbs == TRUE) {
               by.x = "item_code", by.y = "crop_item_code", all.x = TRUE)
   cont[item == "grass", `:=`(item_cbs = "Grazing", cbs_item_code = 2001)]}
 
-#assume Grass N removal rate for fodder crops
-cont <- rbind(cont, cont[item_code == 2001][, `:=` (
-  item_code = 2000, item = "Fodder crops")]) 
 
 # create full table from prod_trad_full (this is the same for the cbs and sua version)
 cont_full <- readRDS("data/tidy/prod_trad_full.rds")[element == "Production" & year %in% years, 
-                       .(area, item, item_code, year, production = value)]
+                       .(area_code, item, item_code, year, production = value)]
+
 
 # filter for primary crops 
 items_sua <- fread("inst/sua/items_sua.csv") # needed separately here
@@ -48,43 +55,72 @@ cont_full <- cont_full[item_code %in% items_sua[processed == FALSE &
                                                   comm_group == "crops", item_code]]
 
 #aggregate countries not in fabio to RoW
-cont_full[!area %in% regions$name , area := "RoW"]
+cont_full[!area_code %in% regions$code , area := "RoW"]
 cont_full <- cont_full[, .(production = sum(production, na.rm = TRUE)),
-                       by = .(area, item, item_code, year)]
+                       by = .(area_code, item, item_code, year)]
+
+
+# add fodder production from FAO files
+cont_full <- cont_full[item_code != 2000]
+fodder_prod <- readRDS("data/tidy/fodder_crop_non_agg_tidy.rds")
+fodder_prod <- fodder_prod[element == "Production" & year %in% years, 
+                           .(area_code, item, item_code, year, 
+                             production = value )]
 
 # add grazing "production" from supply table
 grass_prod <- readRDS("data/sup_final.rds")[item_code == 2001, 
-                                            .(area, item, item_code, year, production)]
-cont_full <- rbind(cont_full, grass_prod)
-cont_full <- merge(cont_full, cont[, .(item_code, N, P)], by = c("item_code"), 
+                                            .(area_code, item, item_code, year, production)]
+cont_full <- rbind(cont_full, grass_prod, fodder_prod)
+cont_full <- merge(cont_full, cont[, .(item_code,dm_conv, N, P)], by = c("item_code"), 
                    allow.cartesian = TRUE)
+cont_full[, area := regions$name[match(area_code, regions$code)]]
+setcolorder(cont_full, "area", before = "area_code")
 
+# save version with all fodder crops
+cont_full_fodder <- copy(cont_full)
+
+# aggregate to CBS items (if cbs == T) or only aggregate fodder crops (if cbs = F)
+# weighing the nutrient content by production
 if(cbs == TRUE){
-  # aggregate to cbs items, weighing nutrient contents by production
-  cont_full[, item_code_cbs := 
+  cont_full[, item_code_agg := 
               item_conc$cbs_item_code[match(item_code, item_conc$crop_item_code)]]
-  cont_full[item_code %in% c(2000, 2001), item_code_cbs := item_code]
-  cont_full[, total_production := sum(production, na.rm =TRUE), 
-            by = .(area, item_code_cbs, year)]
-  cont_full[, prod_share := production/total_production]
-  cont_full[, N_cbs := sum(N * prod_share, na.rm = TRUE),
-            by = .(area, year, item_code_cbs)]
-  cont_full[, P_cbs := sum (P * prod_share, na.rm = TRUE),
-            by = .(area, year, item_code_cbs)]
-  # only keep rows with unique cbs totals, now including weighted averages for nutrient
+  }else{
+  cont_full[, item_code_agg := ifelse(item_code %in% cont_fodder$item_code, 
+                                      2000, item_code)]
+}
+  
+cont_full[item_code %in% c(2001), item_code_agg := 2001]
+cont_full[item_code %in% cont_fodder$item_code, item_code_agg := 2000]
+cont_full[, total_production := sum(production, na.rm =TRUE), 
+            by = .(area, item_code_agg, year)]
+cont_full[, prod_share := production/total_production]
+cont_full[, N := sum(N * prod_share, na.rm = TRUE),
+            by = .(area, year, item_code_agg)]
+cont_full[, P := sum (P * prod_share, na.rm = TRUE),
+            by = .(area, year, item_code_agg)]
+cont_full[, dm_conv := sum(dm_conv * prod_share, na.rm = TRUE),
+          by = .(area, year, item_code_agg)]
+  # only keep rows with unique aggregated totals, now including weighted averages for nutrient
   # content
-  cont_full <- unique(cont_full[, .(area, year, item_code = item_code_cbs,
-                                    production = total_production, N = round(N_cbs, 2), 
-                                    P = round(P_cbs, 2))])
-  cont_full <- cont_full[!item_code %in% c(2543) & !is.na(item_code)]
-  cont_full[, item := items$item[match(item_code, items$item_code)]]
-  setcolorder(cont_full, c("area", "year", "item", "item_code", "N", "P", "production"))
-  }
+cont_full <- unique(cont_full[, .(area, year, item_code = item_code_agg,
+                                    production = total_production, N = round(N, 2), 
+                                    P = round(P, 2), dm_conv = round(dm_conv, 2))])
+cont_full <- cont_full[!item_code %in% c(2543) & !is.na(item_code)]
+cont_full[, item := items$item[match(item_code, items$item_code)]]
+setcolorder(cont_full, c("area", "year", "item", "item_code", "N", "P","dm_conv",
+                         "production"))
 
 
 # multiply to get total N removal by country, year and crop in kg
-cont_full[, `:=` (N_removal = production * N,
-                  P_removal = production * P)]
+cont_full[, `:=` (N_removal = production * N * dm_conv,
+                  P_removal = production * P * dm_conv)]
+
+# same for version with all fodder crops
+cont_full_fodder[, `:=` (N_removal = production * N * dm_conv,
+                  P_removal = production * P * dm_conv)]
+
+# save version with all fodder crops
+saveRDS(cont_full_fodder, "data/NPK/np_cont_full_fodder.rds")
 
 # add iso codes
 cont_full[, iso3c := regions$iso3c[match(area, regions$name)]]
@@ -92,12 +128,13 @@ cont_full[, iso3c := regions$iso3c[match(area, regions$name)]]
 # tidy
 setcolorder(cont_full, "iso3c", before = 1)
 
-rm(cont)
+rm(cont, cont_fodder, fodder_prod, cont_full_fodder)
 
 # Biological Fixation (N) -----------------------------------------------------
 # Factors from Kevin
 # For grass fixation, global 20 Tg are distributed by grass area (Reis-Ely et al., 2025) 
 # (bf for cereals from Ladha et al., 2016)
+# bf for fodder crops from Lassaletta et al (2014)
 
 if(cbs == TRUE){
   bf <- fread("inst/NPK/N_BF_factors_cbs.csv")
@@ -174,6 +211,30 @@ bf_full[item_code == 2001, biological_fixation := area_share * global_grass_fixa
 
 #clean up
 bf_full <- bf_full[, .(area, iso3c, year, item, item_code, biological_fixation)]
+
+# calculate species-specific fodder crop bf
+bf_fodder <- readRDS("data/tidy/fodder_crop_non_agg_tidy.rds")
+
+# filter for leguminous fodder species, years and area
+bf_fodder <- bf_fodder[item_code %in% bf$item_code &
+                             year %in% years &
+                             element == "Area harvested"]
+bf_fodder[, bf_rate_kg := bf$bio_fixation[match(item_code, bf$item_code)]]
+bf_fodder[, bf := value * bf_rate_kg]
+bf_fodder <- bf_fodder[, .(bf = sum(bf, na.rm = TRUE)), 
+                       by = .(year, area_code)]
+
+# add columns to merge with bf_full
+bf_fodder[, `:=` (iso3c = regions$iso3c[match(area_code, regions$code)],
+                  item = "Fodder crops", item_code = 2000)]
+
+# add fodder data to other bf data
+bf_full[item_code == 2000, biological_fixation := bf_fodder$bf[match(paste(iso3c, item_code, year),
+                                                                     paste(bf_fodder$iso3c, 
+                                                                           bf_fodder$item_code,
+                                                                           bf_fodder$year))]]
+
+#clean up
 bf_full[is.na(biological_fixation), biological_fixation := 0]
 
 rm(bf, soybean_avg, grass_prod)
