@@ -585,14 +585,14 @@ cbs <- merge(
   by.y = c("to_code", "to", "item_code", "item", "year"),
   all.x = TRUE)
 cbs[, `:=`(
-  imports = ifelse(is.na(imports) | area_code == 999 | (!is.na(value) & imports == 0 & round(value/1000) > 0 ),
+  imports = ifelse(is.na(imports) | area_code == 999 | (!is.na(value) & imports == 0),
                    value, imports), value = NULL)]
 cbs <- merge(
   cbs, exps[, c("from_code", "from", "item_code", "item", "year", "value")],
   by.x = c("area_code", "area", "item_code", "item", "year"),
   by.y = c("from_code", "from", "item_code", "item", "year"),
   all.x = TRUE)
-cbs[, `:=`(exports = ifelse(is.na(exports) | area_code == 999 | (!is.na(value) & exports == 0 & production > value * 0.99),
+cbs[, `:=`(exports = ifelse(is.na(exports) | area_code == 999 | (!is.na(value) & exports == 0),
                           value, exports), value = NULL)]
 rm(imps, exps)
 
