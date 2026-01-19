@@ -32,7 +32,7 @@ conc <- match(water_crop$water_item, conc_water$water_item)
 water_crop <- water_crop[, `:=`(fao_code = conc_water$fao_code[conc],
                                 item_code = conc_water$item_code[conc],
                                 item = conc_water$item[conc])]
-crop <- readRDS("./data/tidy/crop_full.rds")
+crop <- readRDS("./data/tidy/crop_tidy.rds")
 water_crop <- merge(crop[unit == "tonnes" & value > 0 & item_code %in% unique(water_crop$fao_code) & element == "Production",
   .(area_code, fao_code = item_code, year, production = value)],
   water_crop[!is.na(fao_code),
@@ -298,7 +298,7 @@ for(i in seq_along(names)){
 }
 
 # extrapolate emissions data
-for(i in (max(as.integer(names(ghg[[1]])))+1):max(years)){
+for(i in 2014:max(years)){
   for(j in 1:length(ghg)){
     data <- t(t(ghg[[j]][["2013"]]) / X[,"2013"] * X[,as.character(i)])
     data[!is.finite(data)] <- 0

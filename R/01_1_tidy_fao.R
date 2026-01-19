@@ -1031,7 +1031,7 @@ prices <- area_merge(prices, orig = 62, dest = 238, pattern = "Ethiopia")
 prices <- area_merge(prices, orig = 206, dest = 276, pattern = "Sudan")
 prices <- area_fix(prices, regions)
 
-prices <- merge(prices, crop_conc[, .(crop_item_code, cbs_item_code, cbs_item, tcf)],
+prices <- merge(prices, unique(crop_conc[, .(crop_item_code, cbs_item_code, cbs_item, tcf)]),
                 by.x = "item_code", by.y = "crop_item_code", all.x = TRUE)
 
 # Store

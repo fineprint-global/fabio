@@ -230,23 +230,6 @@ for (i in seq_along(nc_fert_files)) {
 
 }
 
-# Tidy climate dataset
-climate <- copy(crop_summary_climate_soils)
-zone_names <- fread("inst/NPK/climate_zones.csv")
-conc <-  fread("inst/NPK/conc_NPK_items.csv")
-
-climate[, zone := zone_names$label[match(climate_zone, zone_names$ids)] ]
-climate[, item := conc$item[match(crop, conc$crop)]]
-climate[, area := regions$name[match(iso_a3, regions$iso3c)]]
-climate[, area_code := regions$code[match(iso_a3, regions$iso3c)]]
-climate[, item_code := items$item_code[match(item, items$item)]]
-
-climate <- climate[, .(iso3c = iso_a3, item, zone_code = climate_zone, 
-                       crop_area_h = sum(crop_area, na.rm =TRUE)),
-                   by = .(area, item_code, zone, HWSD2)]
-setcolorder(climate, c("iso3c", "area", "item", "item_code",  "zone_code",
-                       "zone", "HWSD2", "crop_area_h"))
-setorder(climate, iso3c, item, zone_code, HWSD2)
 
 # save
 saveRDS(crop_summary_N, "data/NPK/N_cropland_application_npkgrids.rds")

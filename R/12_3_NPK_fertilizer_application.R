@@ -107,7 +107,7 @@ if(cbs == TRUE){
 
 # Synthetic fertilizer application from HFUBC------------------------
 # Starting with hfubc (this dataset has a timeline but relatively few data points)
-hfubc <- fread("input/extensions/HFUBC_fert_application_by_crop.csv")
+hfubc <- fread("input/NPK/HFUBC_fert_application_by_crop.csv")
 
 if(cbs == TRUE){
   conc <- fread("inst/NPK/conc_HFUBC_cbs.csv")
