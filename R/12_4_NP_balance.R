@@ -353,7 +353,7 @@ dep <- app[, .(iso3c, year, item, country, ha)]
 # dep[, total_area := sum(ha, na.rm = TRUE), by = .(iso3c, year)]
 # dep[, area_share := ha/total_area]
 
-dep <- merge(cnb[element == "Cropland nitrogen per unit area" & item == "Atmospheric Deposition",
+dep <- merge(cnb[element == "Cropland nitrogen per unit area" & item == "Atmospheric deposition",
                  .(area, year, dep_rate = value)], 
              dep, by.x = c("area", "year"), by.y = c("country", "year"),
              all.y = TRUE)
@@ -905,8 +905,8 @@ nrow(p_balance[bal >0])
 
 # save
 if(cbs == TRUE){
-saveRDS(n_balance, "data/NPK/N_balance_cbs.rds")
-saveRDS(p_balance, "data/NPK/P_balance_cbs.rds")
+  saveRDS(n_balance, "data/NPK/N_balance_cbs.rds")
+  saveRDS(p_balance, "data/NPK/P_balance_cbs.rds")
 }else{
   saveRDS(n_balance, "data/NPK/N_balance_sua.rds")
   saveRDS(p_balance, "data/NPK/P_balance_sua.rds")
