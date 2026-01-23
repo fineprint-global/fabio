@@ -30,8 +30,10 @@ baci_full <- fa_extract(path_in = path_trade, files = file, path_out = path_trad
 # unzip auxiliary files
 extr <- unzip(paste0(path_trade, file), list = TRUE)[[1]]
 extr <- extr[-grep(pattern, extr)]
-baci_full <- fa_extract(path_in = path_trade, files = file, path_out = path_trade,
-                        name = name, extr = extr, stack = FALSE)
+for(i in seq_along(extr)) {
+  unzip(paste0(path_trade, file), extr[i], exdir = path_trade)
+}
+
 
 # select fish (30___), fish meal (230120), fish oil (1504__), inedible fish products (51191), 
 # fish preparations (1604__), mollusc preparations (1605__), and ethanol (2207__) data
