@@ -76,8 +76,8 @@ for(i in seq_along(years)) {
     imp_t = sum(imports, na.rm = TRUE)), by = c("item_code")]
   constraint <- merge(constraint, trade_bal,
     by = c("item_code"), all.x = TRUE)
-  constraint[, `:=`(imports = ifelse(imp_t > exp_t, imports / imp_t * exp_t, imports),
-                    exports = ifelse(exp_t > imp_t, exports / exp_t * imp_t, exports))]
+  constraint[, `:=`(imports = if_else(imp_t==0, 0, imports / imp_t * ((imp_t + exp_t) / 2)),
+                    exports = if_else(exp_t==0, 0, exports / exp_t * ((imp_t + exp_t) / 2)))]
 
   # Eliminate estimates where data exist
   mapping[, val_est := ifelse(is.na(value), val_est, NA)]

@@ -21,6 +21,9 @@ lookup <- lookup[, .(id = as.numeric(HWSD2_SMU_ID), soil_type = as.numeric(WRB2_
 
 # r_small <- crop(r_soils, ext_austria)
 
+# create temp folder
+dir.create("temp")
+
 # set up temporary memory for chunking data
 terraOptions(tempdir = "temp", progress = 1)
 
@@ -34,7 +37,10 @@ r_soils <- subst(
    overwrite = TRUE,
    wopt = list(datatype = "INT2S", gdal = c("COMPRESS=LZW"))
  )
- 
+
+# delete temp folder
+unlink("temp", recursive = TRUE)
+
 # Aggregate to same level as NPK data, using mode of aggregated cells
 r_soils <- aggregate(r_soils, fact = 5, fun = "modal")
 

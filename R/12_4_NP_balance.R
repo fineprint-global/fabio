@@ -353,7 +353,7 @@ dep <- app[, .(iso3c, year, item, country, ha)]
 # dep[, total_area := sum(ha, na.rm = TRUE), by = .(iso3c, year)]
 # dep[, area_share := ha/total_area]
 
-dep <- merge(cnb[element == "Cropland nitrogen per unit area" & item == "Atmospheric Deposition",
+dep <- merge(cnb[element == "Cropland nitrogen per unit area" & item == "Atmospheric deposition",
                  .(area, year, dep_rate = value)], 
              dep, by.x = c("area", "year"), by.y = c("country", "year"),
              all.y = TRUE)
@@ -813,9 +813,9 @@ setcolorder(n_balance, "harv_area",  after = "item_code")
 # saveRDS(n_balance,"/mnt/nfs_fineprint/tmp/fabio/v3/n_balance.rds")
 
 # P weathering, runoff/erosion, deposition -------------------
-P_weathering <- fread("input/extensions/P_weathering_kg.csv")
-P_deposition <- fread("input/extensions/P_deposition_kg.csv")
-P_runoff <- fread("input/extensions/P_runoff_erosion_kg.csv")
+P_weathering <- fread("input/NPK/P_weathering_kg.csv")
+P_deposition <- fread("input/NPK/P_deposition_kg.csv")
+P_runoff <- fread("input/NPK/P_runoff_erosion_kg.csv")
 
 P_list <- list(P_weathering, P_deposition, P_runoff)
 names(P_list) <- c("weathering", "deposition", "runoff")
@@ -892,7 +892,7 @@ p_balance[, (numeric_cols) :=
                .SDcols = numeric_cols]
 
 setcolorder(p_balance, "harv_area",  after = "item_code")
-saveRDS(p_balance, "/mnt/nfs_fineprint/tmp/fabio/v3/p_balance.rds")
+# saveRDS(p_balance, "/mnt/nfs_fineprint/tmp/fabio/v3/p_balance.rds")
 
  # tests
 # p_balance[, gap := round(bal / removal * 100,0)]
@@ -905,8 +905,8 @@ nrow(p_balance[bal >0])
 
 # save
 if(cbs == TRUE){
-saveRDS(n_balance, "data/NPK/N_balance_cbs.rds")
-saveRDS(p_balance, "data/NPK/P_balance_cbs.rds")
+  saveRDS(n_balance, "data/NPK/N_balance_cbs.rds")
+  saveRDS(p_balance, "data/NPK/P_balance_cbs.rds")
 }else{
   saveRDS(n_balance, "data/NPK/N_balance_sua.rds")
   saveRDS(p_balance, "data/NPK/P_balance_sua.rds")
