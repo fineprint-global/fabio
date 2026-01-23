@@ -603,13 +603,16 @@ crop_prim <- dt_filter(crop_prim, element != "Yield")
 crop_prim <- merge(crop_prim[item_code %in% crop_conc[cbs_item_code==2000, crop_item_code]], crop_conc,
                    by.x = "item_code", by.y = "crop_item_code", all.x = TRUE)
 
+# exclude item name (this has changed over time, leading to double counts)
+crop_prim[, item := NULL]
+
 # inter/extrapolate:
 # get relevant fodder crops and elements for each country
-fod_country <- unique(crop_prim[,.(area_code, area, item_code, item, element, unit, crop_item, cbs_item_code, cbs_item, tcf)])
+fod_country <- unique(crop_prim[,.(area_code, area, item_code, element, unit, crop_item, cbs_item_code, cbs_item, tcf)])
 fod_country <- as.data.table(reshape::expand.grid.df(fod_country, data.table(year = years)))
 cbs_years <- unique(cbs[,.(area_code, area, year)])
 fod_country <- merge(fod_country, cbs_years) # to avoid years for countries that did not exist at the time (e.g. Belgium-Luxembourg)
-crop_prim_test <- merge(crop_prim, fod_country, by = names(fod_country), all = TRUE)
+crop_prim <- merge(crop_prim, fod_country, by = names(fod_country), all = TRUE)
 
 # consider country-item-element combinations with only NAs or only one value (no inter/extrapolation possible)
 crop_prim[, count := sum(is.finite(value)), by =.(area,item_code,element)]
@@ -620,6 +623,10 @@ crop_prim[count > 3, value_interp := forecast::na.interp(value),
           by=.(area,item_code,element)]
 crop_prim[, value := ifelse(is.na(value), value_interp, value)][, `:=` (count = NULL, value_interp = NULL)]
 
+# add back (consistent) item names
+crop_prim[, item := fod_country$crop_item[match(paste(item_code, year),
+                                                paste(fod_country$item_code, fod_country$year))]]
+
 # save non-aggregated version
 saveRDS(crop_prim, "data/tidy/fodder_crop_non_agg_tidy.rds")
 
@@ -629,7 +636,6 @@ crop_prim <- crop_prim[, list(value = na_sum(value)),
 crop_prim <- dt_rename(crop_prim, drop = FALSE,
                        rename = c("cbs_item_code" = "item_code", "cbs_item" = "item"))
 crop_prim <- dt_filter(crop_prim, value >= 0)
-
 
 
 # Gap filling livestock products --------------------------------------
