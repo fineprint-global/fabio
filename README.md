@@ -14,7 +14,8 @@ Bruckner, M., Wood, R., Moran, D., Kuschnig, N., Wieland, H., Maus, V., Börner,
 
 ### Database availability
 The preliminary FABIO v2 database is available upon request. Contact [Martin Bruckner](mailto:martin.bruckner@wu.ac.at) for more information.
-The FABIO v1 database is available via Zenodo (http://dx.doi.org/10.5281/zenodo.2577067).
+FABIO v1.1 (130 products, 1986-2013) is available via Zenodo (http://dx.doi.org/10.5281/zenodo.2577067), while FABIO v1.2 (123 products, 1986-2021) can be made available upon request.
+
 
 ### Coverage of FABIO v2 (preliminary)
 - 187 regions (186 countries + 1 RoW)
