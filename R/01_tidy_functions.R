@@ -319,3 +319,50 @@ split_tcf <- function(y, z, C, cap = TRUE) {
 
   return(out)
 }
+
+agg_sua_to_cbs <- function(dt, value_col = "value", cnc = conc, itms = items,
+                           agg_method = "sum", weight_col = NULL) {
+  dt[, item_code_cbs := conc$item_code_cbs[match(item_code, conc$item_code_sua)]]
+  
+  if (agg_method == "sum") {
+    dt <- dt[, .(value = sum(.SD[[value_col]], na.rm = TRUE)),
+             by = .(area_code, year, item_code_cbs)]
+  } else {
+    dt[, total_weight := sum(.SD[[weight_col]], na.rm = TRUE),
+       by = .(area_code, year, item_code_cbs)]
+    dt[, weight_share := .SD[[weight_col]] / total_weight]
+    dt <- dt[, .(value = sum(.SD[[value_col]] * weight_share, na.rm = TRUE)),
+             by = .(area_code, year, item_code_cbs)]
+  }
+  dt[, `:=` (area = regions$name[match(area_code, regions$code)],
+             item = items_cbs$item[match(item_code_cbs, items_cbs$item_code)],
+             comm_code = items_cbs$comm_code[match(item_code_cbs, items_cbs$item_code)])]
+  
+  return(dt)
+}
+
+format_extension <- function(dt, yrs = years, reg = regions, itms = items,
+                             value_col = "value") {
+  
+  template <- CJ(year = yrs, area_code = reg$code, 
+                 comm_code = items$comm_code)
+  template[, iso3c := regions$iso3c[match(area_code, regions$code)]]
+  
+  result_list <- lapply(yrs, function(yr) {
+    
+    tmpl_yr <- template[year == yr]
+    dt_yr <- dt[year == yr]
+    
+    vals <- dt_yr[[value_col]]
+    
+    values <- vals[match(paste(tmpl_yr$area_code, tmpl_yr$comm_code),
+                         paste(dt_yr$area_code, dt_yr$comm_code))]
+    values[is.na(values)] <- 0
+    
+    col_names <- paste(tmpl_yr$iso3c, tmpl_yr$comm_code, sep = "_")
+    
+    matrix(values, nrow = 1, dimnames = list(NULL, col_names))
+  })
+  
+  setNames(result_list, yrs)
+}

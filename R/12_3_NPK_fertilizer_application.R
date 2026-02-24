@@ -9,29 +9,14 @@ source("R/03_gap_functions.R")
 
 years_full <- (1978:2022)
 regions <- fread("inst/regions_full.csv")[current==TRUE]
-
-
-# the script can aggregate either by CBS items (for older FABIO versions) or by
-# SUA items (for publication and newer FABIO versions)
-cbs <-  F
-
-if(cbs == TRUE){
-  items <- fread("inst/items_full.csv")
-}else{
-  items <- fread("inst/sua/items_sua.csv")}
+items <- fread("inst/sua/items_sua.csv")
 
 
 # Harvested area per crop -----------------------------------------------
 # harvested area from FAO production domain is combined with permanent meadows and pastures
 # under FAO land use domain
 
-
-if (cbs == TRUE) {
-  harv_area <- readRDS("data/tidy/crop_tidy.rds")
-} else {
-  harv_area <- readRDS("data/tidy/prod_trad_full.rds")
-}
-
+harv_area <- readRDS("data/tidy/prod_trad_full.rds")
 harv_area <- harv_area[year %in% years_full & element == "Area harvested" ]
 harv_area[, iso3c := regions$iso3c[match(area, regions$name)]] 
 harv_area[is.na(iso3c), `:=`(iso3c = "ROW", area = "RoW", area_code = 999)]
@@ -39,14 +24,10 @@ harv_area <- harv_area[, .(area = first(area),
                            ha = sum(value, na.rm = TRUE)), 
                        by = .(iso3c, year, item, item_code)]
 
-# for some small countries, area for sweeteners is reported -> this is a crop product, not primary crop
-if(cbs ==TRUE) {
-  harv_area <- harv_area[item %in% items[group == "Primary crops", item]]
-  }else {
-    harv_area <- harv_area[item_code %in% items[processed == FALSE & 
-                                                 comm_group == "crops", item_code]]
-  }
-
+#filter for primary products
+harv_area <- harv_area[item_code %in% items[processed == FALSE & 
+                                            comm_group == "crops", item_code]]
+  
 harv_area[, area := NULL]
 
 # # add grazing area (old, from FABIO)
@@ -86,11 +67,7 @@ land <- land[, .(item_code = 2001, item = "Grazing",
 # add grazing area to harvested area of crops
 harv_area <- rbind(harv_area, land)
 
-
-if(cbs == TRUE){
-  saveRDS(harv_area[year %in% years], "data/NPK/harv_area_cbs_incl_grazing.rds")
-}else{
-  saveRDS(harv_area[year %in% years], "data/NPK/harv_area_sua_incl_grazing.rds")}
+saveRDS(harv_area[year %in% years], "data/NPK/harv_area_sua_incl_grazing.rds")
 
 
 # #tests harvested area 
@@ -107,16 +84,14 @@ if(cbs == TRUE){
 
 # Synthetic fertilizer application from HFUBC------------------------
 # Starting with hfubc (this dataset has a timeline but relatively few data points)
+# can be downloaded from https://datadryad.org/downloads/file_stream/3940356
 hfubc <- fread("input/NPK/HFUBC_fert_application_by_crop.csv")
-
-if(cbs == TRUE){
-  conc <- fread("inst/NPK/conc_HFUBC_cbs.csv")
-}else{
-    conc <- fread("inst/NPK/conc_HFUBC_sua.csv")}
+conc <- fread("inst/NPK/conc_HFUBC_sua.csv")
 
 
 # subset
-hfubc <- hfubc[,.(Country, iso3c = ISO3_code, Year, Crop, Crop_area_k_ha, N_k_t, P2O5_k_t, K2O_k_t )]
+hfubc <- hfubc[,.(Country, iso3c = ISO3_code, Year, Crop, 
+                  Crop_area_k_ha, N_k_t, P2O5_k_t, K2O_k_t )]
 
 #convert fertilizer years to calendar years where necessary
 hfubc <- hfubc[Year %in% c("1990/91","1991/92","1992/93", "1989/90", "1999/2000", "1998/99", "1997-98"), 
@@ -157,11 +132,7 @@ numeric_cols <- names(P_app)[sapply(P_app, is.numeric)]
 P_app[, (numeric_cols) := lapply(.SD, function(x) x * 0.436), .SDcols = numeric_cols]
 app <- merge(app, P_app, by = c("iso_a3", "crop"), all = TRUE)
 
-
-if(cbs == TRUE){
-  conc <- fread("inst/NPK/conc_NPK_cbs.csv")
-}else{
-  conc <- fread("inst/NPK/conc_NPK_sua.csv")}
+conc <- fread("inst/NPK/conc_NPK_sua.csv")
 
 
 # for ensuring concordance, harvested area from the cropgrids dataset is used
@@ -201,15 +172,10 @@ app[,  `:=`(N_rate = fifelse(is.na(N_rate), weighted_N, N_rate),
            , `:=` (weighted_N = NULL, weighted_P = NULL)]
 
 # Creating full dt for gap filling
-if(cbs == TRUE) {
-  app_full <- CJ(items[group == "Primary crops", item_code],
+app_full <- CJ(items[processed == FALSE & comm_group == "crops", item_code],
                  regions[, iso3c],
                  years_full)
-}else{
-  app_full <- CJ(items[processed == FALSE & comm_group == "crops", item_code],
-                 regions[, iso3c],
-                 years_full)
-}
+
 
 
 setnames(app_full, c("item_code", "iso3c", "year"))
@@ -283,11 +249,8 @@ setcolorder(app, c("iso3c", "country", "year", "item", "item_code", "comm_code",
                    "N_kg",  "N_rate", "P_kg", "P_rate", "ha"))
 setkey(app, iso3c, year, comm_code)
 
-if(cbs == TRUE){
-  saveRDS(app, "data/NPK/SF_application_cbs.rds")
-}else{
-  saveRDS(app, "data/NPK/SF_application_sua.rds")
-}
+saveRDS(app, "data/NPK/SF_application_sua.rds")
+
 
 rm(list = ls())
 gc()

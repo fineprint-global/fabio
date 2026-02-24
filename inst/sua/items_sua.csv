@@ -1,4 +1,4 @@
-item,comm_code,item_code,item_group,comm_group,processed,unit
+item,comm_code,item_code,group,comm_group,processed,unit
 Wheat,c001,15,cereals,crops,FALSE,tonnes
 Rice,c002,27,cereals,crops,FALSE,tonnes
 Barley,c003,44,cereals,crops,FALSE,tonnes

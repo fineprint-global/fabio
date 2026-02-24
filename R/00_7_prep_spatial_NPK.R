@@ -5,13 +5,14 @@ library(sf)
 library(rnaturalearth)
 library(rnaturalearthdata)
 
-# set input path
+# set input path 
 path_geo <- "/mnt/nfs_fineprint/tmp/geo_data/"
 
 # Match IDs from soil dataset to soil types (~7hrs)---------------------
 # Here, the IDs given in the HWSD2 raster are matched to their datapoints and
 # aggregated to the same level as the NPKgrids datesets.
 
+# can be downloaded from https://s3.eu-west-1.amazonaws.com/data.gaezdev.aws.fao.org/HWSD/HWSD2_RASTER.zip)
 r_soils <- rast(paste0(path_geo, "HWSD2/HWSD2.bil"))
 lookup <- fread(paste0(path_geo, "HWSD2/HWSD2_SMU.csv"))
 lookup <- lookup[, .(id = as.numeric(HWSD2_SMU_ID), soil_type = as.numeric(WRB2_CODE))]
@@ -53,6 +54,7 @@ terra::writeRaster(r_soils, filename = "data/NPK/HWSD2_soiltype.tif", overwrite 
 # the rnaturalearth package using random sampling. This creates a country mapping
 # that enables the use of original country borders when aggregating the NPK dataset
 
+# can be downloaded from https://figshare.com/ndownloader/articles/24616050/versions/4
 countries_NPK <- rast(paste0(path_geo, "Countries_2018.nc"))
 countries_dt <- as.data.table(countries_NPK, xy = TRUE)
 country_borders <- ne_countries(scale = "medium", returnclass = "sf")[, c("iso_a3_eh", "geometry")]

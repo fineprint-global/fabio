@@ -14,16 +14,19 @@ source("R/00_system_variables.R")
 path_geo <- "/mnt/nfs_fineprint/tmp/geo_data/"
 
 # get fabio input data
-items <- fread("inst/items_full.csv")
+items <- fread("inst/sua/items_sua.csv")
 regions <- fread("inst/regions_full.csv")[current==TRUE]
 
 # spatial input data
+# climate zones can be downloaded from https://zenodo.org/records/7303808/files/IPCC_Climate_Zones_ts_3.25.tif?download=1
 r_zones <- rast(paste0(path_geo, "IPCC_Climate_Zones_ts_3.25.tif"))
 r_country <- rast(paste0(path_geo, "Countries_2018.nc"))  
 r_soils <- rast("data/NPK/HWSD2_soiltype.tif")  
 country_mapping <- readRDS("data/NPK/country_mapping.rds")
 
 # Define directories for fertilizer and area datasets (173 each) ----------
+# NPK and Cropgrids data can be downloaded from https://figshare.com/ndownloader/articles/24616050/versions/4
+# and https://figshare.com/ndownloader/articles/22491997/versions/9
 nc_fert_dir <- paste0(path_geo, "NPKGrids")
 nc_area_dir <- paste0(path_geo, "Cropgrids")
 nc_fert_files <- list.files(nc_fert_dir, pattern = "\\.nc$", full.names = TRUE)
@@ -46,7 +49,6 @@ crop_summary_climate_soils <- data.table()
 harv_summary_climate_soils <- data.table()
 
 
-
 # Process each pair of NetCDF files (one for fertilizer and one for crop area)
 for (i in seq_along(nc_fert_files)) {
   nc_fert <- nc_fert_files[i]
@@ -67,9 +69,9 @@ for (i in seq_along(nc_fert_files)) {
   # Extract and resample each layer individually
   fert_layers <- lapply(bands_fert, function(i) resample(r_fert[[i]], ref_raster))
   area_layers <- lapply(bands_area, function(i) resample(r_area[[i]], ref_raster))
-  country_layer <- resample(r_country[[1]], ref_raster, method = "near")
-  zone_layer <- resample(r_zones, ref_raster, method = "near")
-  soil_layer <- resample(r_soils, ref_raster, method = "near") 
+  country_layer <- project(r_country[[1]], ref_raster, method = "near")
+  zone_layer <- project(r_zones, ref_raster, method = "near")
+  soil_layer <- project(r_soils, ref_raster, method = "near") 
   
   # Flatten the list of layers
   all_layers <- c(fert_layers, area_layers, list(country_layer, zone_layer, soil_layer))
