@@ -28,14 +28,12 @@ files <- c(
   "cbs_nonfood_new" = "CommodityBalances_(non-food)_(2010-)_E_All_Data_(Normalized).zip",
   "sua" = "SUA_Crops_Livestock_E_All_Data_(Normalized).zip",
   "prices" = "Prices_E_All_Data_(Normalized).zip",
-  "fish_prod" = "GlobalProduction_2022.1.1.zip") 
-  #"fish_prod" = "GlobalProduction_2019.1.0.zip",
+  "fish_prod" = "GlobalProduction_2023.1.1.zip") 
   #"fore_prod" = "Forestry_E_All_Data_(Normalized).zip",
   #"fore_trad" = "Forestry_Trade_Flows_E_All_Data_(Normalized).zip")
 
 # Files to extract from the ZIP archives
-#extr <- c(rep(NA, length(files) - 1), "TS_FI_PRODUCTION.csv")
-extr <- c(rep(NA, length(files) - 1), "Global_production_Quantity.csv")
+extr <- c(rep(NA, length(files) - 1), "Global_production_quantity.csv")
 
 name <- names(files)
 

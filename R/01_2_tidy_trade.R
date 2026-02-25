@@ -22,13 +22,9 @@ rename_baci <- c(
 
 cat("\nTidying BACI.\n")
 
-### adapt BACI regions code: Belgium now code 56 and Belgium_Luxembourg separately contained with 58
-
 baci <- readRDS("input/trade/baci_sel.rds")
-#baci_v2 <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v2/input/trade/baci_sel.rds")
 
 baci <- dt_rename(baci, rename_baci, drop = TRUE)
-#baci_v2 <- dt_rename(baci_v2, rename_baci, drop = TRUE)
 
 baci <- baci[year %in% years,]
 
@@ -39,13 +35,6 @@ baci[, `:=`(importer = regions$name[importer_match],
   importer_code = regions$code[importer_match],
   exporter = regions$name[exporter_match],
   exporter_code = regions$code[exporter_match])]
-
-#importer_match <- match(baci_v2[["importer"]], regions[["baci"]])
-#exporter_match <- match(baci_v2[["exporter"]], regions[["baci"]])
-#baci_v2[, `:=`(importer = regions$name[importer_match],
-#            importer_code = regions$code[importer_match],
-#            exporter = regions$name[exporter_match],
-#            exporter_code = regions$code[exporter_match])]
 
 for(col in c("importer_code", "exporter_code")) {
   baci <- area_merge(baci, orig = 62, dest = 238,

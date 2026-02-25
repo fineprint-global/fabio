@@ -1,5 +1,4 @@
 library("data.table")
-library("ggplot2")
 library("dplyr")
 source("R/01_tidy_functions.R")
 
@@ -52,6 +51,7 @@ prod <- prod[value > 0]
 prod_proc <- readRDS("input/fish/prod_proc.rds")
 prod_proc <- dt_rename(prod_proc, rename, drop = TRUE)
 prod_proc <- prod_proc[value > 0]
+prod_proc[, isscaap_code := as.numeric(isscaap_code)]
 
 trad <- readRDS("input/fish/trad.rds")
 trad <- dt_rename(trad, rename, drop = TRUE)
@@ -156,26 +156,28 @@ isscfc23 <- dt_rename(isscfc23, rename, drop = TRUE)
 
 # CPC + ISSCAAP codes in prod/prod_proc/trad/trad_aggr -------------------------
 
-prod <- merge(prod, items_fish[, .(species, isscaap_code = isscaap_division_code, isscaap_name = isscaap_division_name, 
+prod <- merge(prod, species[, .(species, isscaap_code = isscaap_division_code, isscaap_name = isscaap_division_name, 
                                    cpc_code = cpc_group_code, cpc_group = cpc_group_name)], by = "species", all.x = TRUE)
 setcolorder(prod, c("country", "species", "isscaap_code", "isscaap_name", "cpc_code", "cpc_group"))
 
-prod_proc <- merge(prod_proc, items_fc[, .(commodity, isscaap_code, cpc_code, hs_code)],
+prod_proc[, cpc_group_code := as.numeric(str_sub(cpc_code, 1, 2))]
+prod_proc[, cpc_code := as.numeric(cpc_code)]
+prod_proc <- merge(prod_proc, isscfc23[, .(commodity, isscaap_code, cpc_code, hs_code)],
                    by = "commodity", all.x = TRUE)
-prod_proc <- merge(prod_proc, items_fish[, .(isscaap_code = isscaap_, isscaap_division_code, isscaap_name = isscaap_division_name)],
+prod_proc <- merge(prod_proc, unique(species[, .(isscaap_code = isscaap_group_code, isscaap_name = isscaap_group_name)]),
                    by = "isscaap_code", all.x = TRUE)
-prod_proc <- merge(prod_proc, items_fish[, .(cpc_code = cpc_group_code, cpc_group = cpc_group_name)],
-                   by = "cpc_code", all.x = TRUE)
+prod_proc <- merge(prod_proc, unique(species[!is.na(cpc_group_code), .(cpc_group_code, cpc_group_name)]),
+                   by = "cpc_group_code", all.x = TRUE)
 
 setcolorder(prod_proc, c("country", "commodity", "isscaap_code", "cpc_code",
                          "hs_code", "unit", "year", "value", "status"))
 
-trad <- merge(trad, items_fc[, c("commodity", "isscaap_code", "cpc_code", "hs_code")],
+trad <- merge(trad, isscfc23[, c("commodity", "isscaap_code", "cpc_code", "hs_code")],
               by = "commodity", all.x = TRUE)
 setcolorder(trad, c("country_reporter", "country_partner", "flow", "commodity", "isscaap_code", "cpc_code", 
                     "hs_code", "unit", "year", "value", "status"))
 
-trad_aggr <- merge(trad_aggr, items_fc[, c("commodity", "isscaap_code", "cpc_code", "hs_code")],
+trad_aggr <- merge(trad_aggr, isscfc23[, c("commodity", "isscaap_code", "cpc_code", "hs_code")],
                    by = "commodity", all.x = TRUE) %>% rename("country" = "country_reporter")
 setcolorder(trad_aggr, c("country", "flow", "commodity", "isscaap_code", "cpc_code",
                          "hs_code", "unit", "year", "value", "status"))
@@ -188,15 +190,15 @@ saveRDS(trad_aggr, "data/tidy/fish_trad_aggr.rds")
 
 
 
-# CPC code overview ------------------------------------------------------------
-
-cpc_summary <- copy(cpc) %>%
-  mutate(in_prod_aap = cpc_code %in% prod$cpc_code) %>%
-  mutate(in_prod_proc_fc = cpc_code %in% prod_proc$cpc_code) %>%
-  mutate(in_trad_fc = cpc_code %in% trad$cpc_code) %>%
-  mutate(in_trad_aggr_fc = cpc_code %in% trad_aggr$cpc_code)
-
-write.csv(cpc_summary, "data/cpc_summary_aap_fc.csv", row.names = FALSE)
+# # CPC code overview ------------------------------------------------------------
+# 
+# cpc_summary <- copy(cpc) %>%
+#   mutate(in_prod_aap = cpc_code %in% prod$cpc_code) %>%
+#   mutate(in_prod_proc_fc = cpc_code %in% prod_proc$cpc_code) %>%
+#   mutate(in_trad_fc = cpc_code %in% trad$cpc_code) %>%
+#   mutate(in_trad_aggr_fc = cpc_code %in% trad_aggr$cpc_code)
+# 
+# write.csv(cpc_summary, "data/cpc_summary_aap_fc.csv", row.names = FALSE)
 
 
 
@@ -240,16 +242,16 @@ prod <- prod[!cpc_isscaap %in% c("447a"),   #remove octopus from aquaculture (on
   rename(value = V1)
 
 
-# prep prod_proc ---------------------------------------------------------------
-
-prod_proc <- prod_proc[!cpc_code %in% c(cpc_in_prod, "21526")] %>%   #remove all primary production, and marine mammal fats and oils
-  mutate(cpc_code = fish_fillet_meat(cpc_code)) %>%
-  mutate(cpc_isscaap = paste(cpc_code, isscaap_code, sep = "-")) %>%   #add column with cpc-isscaap-pairs
-  mutate(cpc_isscaap = cpc_isscaap_comb(cpc_isscaap)) %>%
-  mutate(cpc_isscaap = final_aggr(cpc_isscaap))
-
-prod_proc <- prod_proc[, .(sum(value)), by = c("country", "cpc_isscaap", "year")] %>%
-  rename(value = V1)
+# # prep prod_proc ---------------------------------------------------------------
+# 
+# prod_proc <- prod_proc[!cpc_code %in% c(cpc_in_prod, "21526")] %>%   #remove all primary production, and marine mammal fats and oils
+#   mutate(cpc_code = fish_fillet_meat(cpc_code)) %>%
+#   mutate(cpc_isscaap = paste(cpc_code, isscaap_code, sep = "-")) %>%   #add column with cpc-isscaap-pairs
+#   mutate(cpc_isscaap = cpc_isscaap_comb(cpc_isscaap)) %>%
+#   mutate(cpc_isscaap = final_aggr(cpc_isscaap))
+# 
+# prod_proc <- prod_proc[, .(sum(value)), by = c("country", "cpc_isscaap", "year")] %>%
+#   rename(value = V1)
 
 
 
