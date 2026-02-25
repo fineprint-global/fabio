@@ -191,9 +191,7 @@ cat("\nSkip filling cbs seed.",
 cat("\nAdding ", nrow(addcbs), " missing cbs accounts.\n", sep = "")
 cbs <- dplyr::bind_rows(cbs, addcbs)
 
-rm(crop_prod, addcbs,
-  tcf_crop, tcf_codes, tcf_data, input, output, results, yrs, areas,
-  C, input_x, output_x, input_y, output_y)
+rm(crop_prod, addcbs, tcf_crop, tcf_codes, tcf_data, input, output, results, yrs, areas, C)
 
 
 # This is not necessary anymore, since oil cakes are now reported again

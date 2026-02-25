@@ -688,9 +688,9 @@ setcolorder(n_balance, "harv_area",  after = "item_code")
 
 # P weathering, runoff/erosion, deposition -------------------
 # this data needs to be requested from the authors
-P_weathering <- fread("input/extensions/P_weathering_kg.csv")
-P_deposition <- fread("input/extensions/P_deposition_kg.csv")
-P_runoff <- fread("input/extensions/P_runoff_erosion_kg.csv")
+P_weathering <- fread("input/NPK/P_weathering_kg.csv")
+P_deposition <- fread("input/NPK/P_deposition_kg.csv")
+P_runoff <- fread("input/NPK/P_runoff_erosion_kg.csv")
 
 P_list <- list(P_weathering, P_deposition, P_runoff)
 names(P_list) <- c("weathering", "deposition", "runoff")

@@ -151,6 +151,7 @@ txt <- "
   118	1126	Kuwait	Camels	2018	imp	10
   118	1126	Kuwait	Camels	2018	exp	100
   250	2848	Democratic Republic of the Congo	Milk - Excluding Butter	2022	imp	100
+  250	2848	Democratic Republic of the Congo	Milk - Excluding Butter	2023	imp	100
   216	1150	Thailand	Rodents, other	2020	exp	10000
   209	2746	Eswatini	Wool (Clean Eq.)	2022	imp	1000
   96	2596	China, Hong Kong SAR	Copra Cake	2014	imp	1000
@@ -160,7 +161,7 @@ txt <- "
   189	866	Saint Lucia	Cattle	2021	imp	1000
   194	946	Saudi Arabia	Buffaloes	2016	imp	100
   194	946	Saudi Arabia	Buffaloes	2019	imp	10
-  194	1096	Saudi Arabia	Horses	2022	exp	10
+  194	946	Saudi Arabia	Buffaloes	2023	imp	10
   203	1110	Spain	Mules	2017	imp	10
   229	1107	United Kingdom	Asses	2018	imp	1000
   20	1034	Botswana	Pigs	2016	imp	10
@@ -169,6 +170,12 @@ txt <- "
 outliers <- fread(txt)
 
 # case <- outliers[47]
+
+# big_jumps[outliers[, .(area_code, item_code)], on = .(area_code, item_code), nomatch = 0] %>% View()
+# big_jumps_total[outliers[, .(area_code, item_code)], on = .(area_code, item_code), nomatch = 0] %>% View()
+# big_jumps_trade[outliers[, .(area_code, item_code)], on = .(area_code, item_code), nomatch = 0] %>% View()
+
+cbs[area_code==194 & item_code==1096 & year==2022, `:=`(production = 60000, other = other + 60000)]
 
 for(i in 1:nrow(outliers)){
   case <- outliers[i]

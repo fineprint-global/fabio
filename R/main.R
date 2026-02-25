@@ -1,60 +1,63 @@
 
 # 0_prep ------------------------------------------------------------------
 
-library("data.table") # 1.12.0
-library("comtradr") # 0.2.2
-# library("openxlsx") # 4.1.0
-
-source("R/00_prep_functions.R")
-
 # Will download required ZIP files and convert the contents to RDS
-source("R/00_prep_fao.R")
+source("R/00_1_prep_fao.R")
+source("R/00_2_prep_fao_reshape.R")
+
+# Requires BACI92 ZIP files as well as data.table::rbindlist(comtrade)
+source("R/00_3_prep_trade.R")
 
 # Requires EIA and IEA CSV files that are available from:
 # https://www.eia.gov/opendata/qb.php?category=2135203 (in 1000 bbl/d)
 # http://dx.doi.org/10.1787/data-00550-en
-source("R/00_prep_eth.R")
+source("R/00_4_prep_eth.R")
 
-# Requires BACI92 ZIP files as well as data.table::rbindlist(comtrade)
-source("R/00_prep_trade.R")
+# Will download required ZIP files and convert the contents to RDS
+source("R/00_5_prep_fish.R")
+source("R/00_6_labels.R")
+source("R/00_7_prep_spatial_NPK.R")
+rm(list = ls()); gc()
+
+
+# 1_tidy ------------------------------------------------------------------
 
 # Depends on outputs produced in step 0
-source("R/01_tidy_fao.R")
-source("R/01_tidy_eth.R")
-source("R/01_tidy_trade.R")
+source("R/01_1_tidy_fao.R")
+source("R/01_2_tidy_trade.R")
+source("R/01_3_tidy_eth.R")
+source("R/01_4_tidy_fish.R")
+rm(list = ls()); gc()
 
-# Build full BTD, integrating trade data
-source("R/02_build_btd.R")
+# Build full BTD ---------------------------------------------------------
+source("R/02_build_btd.R"); rm(list = ls()); gc()
 
-# Build full CBS, integrating production data, etc.
-source("R/03_build_cbs.R")
+# Build full CBS ---------------------------------------------------------
+source("R/03_1a_build_cbs.R"); rm(list = ls()); gc()
+source("R/03_1b_balance_cbs.R"); rm(list = ls()); gc()
 
-# Estimate trade shares from the CBS
-source("R/04_estimate_btd.R")
+# Estimate BTD from totals -----------------------------------------------
+source("R/04_estimate_btd.R"); rm(list = ls()); gc()
 
-# Balance trade using RAS
-source("R/05_balance.R")
+# Balance trade using RAS ------------------------------------------------
+source("R/05_balance_btd.R"); rm(list = ls()); gc()
 
-# Allocate re-exports
-source("R/06_re-exports.R")
+# Allocate re-exports ----------------------------------------------------
+source("R/06_re-exports.R"); rm(list = ls()); gc()
 
-# Create the supply structure
-source("R/07_supply.R")
+# Create the supply structure --------------------------------------------
+source("R/07_1_supply_cbs.R"); rm(list = ls()); gc()
 
-# Create the use structure
-source("R/08_use.R")
+# Create the use structure -----------------------------------------------
+source("R/08_1a_use_cbs.R"); rm(list = ls()); gc()
 
-# Build multi-regional supply use tables
-source("R/09_mrsut.R")
+# Build multi-regional supply, use and IO tables -------------------------
+source("R/09_mrsut.R"); rm(list = ls()); gc()
+source("R/10_mrio.R"); rm(list = ls()); gc()
 
-# Build MRIO blocks
-source("R/10_mrio.R")
+# Derive Leontief inverses -----------------------------------------------
+source("R/11_leontief_inverse.R"); rm(list = ls()); gc()
 
-# Derive Leontief inverses
-source("R/11_leontief_inverse.R")
+# Prepare env. extensions ------------------------------------------------
+source("R/12_1_extensions.R"); rm(list = ls()); gc()
 
-# Prepare env. extensions
-source("R/12_extensions.R")
-
-# Create sheets with IO codes for users
-source("R/13_codes.R")

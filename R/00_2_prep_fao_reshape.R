@@ -35,13 +35,13 @@ col_types <- list(
                  "numeric", "character", "logical", "numeric", "character", "logical", "numeric", "character", "logical", 
                  "numeric", "character", "logical", "numeric", "character", "logical", "numeric", "character", "logical", 
                  "numeric", "character", "logical", "numeric", "character", "logical", "numeric", "character", "logical", 
-                 "numeric", "character", "logical"),
+                 "numeric", "character", "logical", "numeric", "character", "logical"),
   "sua_wide" = c("numeric", "character", "character", "numeric", "character", "character", "numeric", "character", "character",
                  "numeric", "character", "character", "numeric", "character", "character", "numeric", "character", "character",
                  "numeric", "character", "character", "numeric", "character", "character", "numeric", "character", "character",
                  "numeric", "character", "character", "numeric", "character", "character", "numeric", "character", "character",
                  "numeric", "character", "character", "numeric", "character", "character", "numeric", "character", "character",
-                 "numeric", "character", "character")
+                 "numeric", "character", "character", "numeric", "character", "character")
 )
 
 # update: add read_method as there are some issues in the trad csv file (probably a missing quote somewhere) that fread cannot deal with, but readr::read_csv can.

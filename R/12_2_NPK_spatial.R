@@ -51,6 +51,7 @@ harv_summary_climate_soils <- data.table()
 
 # Process each pair of NetCDF files (one for fertilizer and one for crop area)
 for (i in seq_along(nc_fert_files)) {
+  print(paste0("processing file ", i, "/", length(nc_fert_files)))
   nc_fert <- nc_fert_files[i]
   nc_area <- nc_area_files[i]
 
@@ -229,6 +230,12 @@ for (i in seq_along(nc_fert_files)) {
   # Append to the overall summary table
   crop_summary_climate_soils <- rbind(crop_summary_climate_soils, summary_crop_climate, fill = TRUE)
   harv_summary_climate_soils <- rbind(harv_summary_climate_soils, summary_harv_climate, fill = TRUE)
+  
+  # clean up
+  rm(r_fert, r_area, r_stack, ref_points, fert_layers, area_layers, 
+     country_layer, zone_layer, soil_layer)
+  terra::tmpFiles(remove = TRUE)
+  gc()
 
 }
 
@@ -246,5 +253,5 @@ saveRDS(harv_summary_K, "data/NPK/K_harvland_application_npkgrids.rds")
 saveRDS(crop_summary_area, "data/NPK/cropland_area_cropgrids.rds")
 saveRDS(harv_summary_area, "data/NPK/harvland_area_cropgrids.rds")
 
-saveRDS(climate, "data/NPK/climate_soils_cropland.rds")
+saveRDS(crop_summary_climate_soils, "data/NPK/climate_soils_cropland.rds")
 saveRDS(harv_summary_climate_soils, "data/NPK/climate_soils_harvland.rds")
