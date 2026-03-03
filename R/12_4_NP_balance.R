@@ -1,5 +1,5 @@
-# This script calculates a mass balance for Nitrogen and Phosphorus with the 
-# goal of obtaining emissions to the ground which are needed in BAMBOO
+# This script creates a comprehensive dataset for all relevant agricultural nutrient
+# inputs and outputs
 
 library(data.table)
 library(tidyverse)
@@ -25,17 +25,14 @@ setcolorder(template_full, c("iso3c", "year" , "item", "item_code"))
 # Add Removal
 # units are kg N|P removal/ton production
 
-# Average nutrient content of crop products
-cont <- fread("inst/NPK/NP_cont_crops_grass.csv")
-cont[, `:=` (K = NULL)]
-
-#add dry matter conversion for grazing (from Lee et al., 2018)
-cont[, dm_conv := ifelse(item_code == 2001,0.41,1)]
-
-# Average nutrient content of fodder crops
+# Average nutrient content of crop and fodder products
+cont <- fread("inst/NPK/NP_cont_crops_grass.csv")[, `:=` (K = NULL)]
 cont_fodder <- fread("inst/NPK/NP_cont_fodder.csv")
 
-# bind all NP contents
+#add dry matter conversion of 0.41 for grazing (from Lee et al., 2018)
+cont[, dm_conv := ifelse(item_code == 2001,0.41,1)]
+
+# combine
 cont <- rbind(cont, cont_fodder)
 
 # create full table from prod_trad_full 
@@ -96,9 +93,21 @@ setcolorder(cont_full, c("area", "year", "item", "item_code", "N", "P","dm_conv"
 # multiply to get total N removal by country, year and crop in kg
 cont_full[, `:=` (N_removal = production * N * dm_conv,
                   P_removal = production * P * dm_conv)]
-
-# tidy
 cont_full[, iso3c := regions$iso3c[match(area, regions$name)]]
+
+
+# add harvested area to cap grazing nutrient removal at 200 kg N /ha
+# FABIO production estimation yields unrealistically high values in some cases
+cont_full[, harv_area := harv_area$ha[match(paste(iso3c, year, item_code),
+                                            paste(harv_area$iso3c, harv_area$year,
+                                                  harv_area$item_code))]]
+cont_full[, rem_rate := N_removal/harv_area]
+cont_full[item_code == 2001 & rem_rate > 200, scaling_factor := 200/rem_rate]
+cont_full[!is.na(scaling_factor) & is.finite(scaling_factor), 
+          `:=` (N_removal = N_removal * scaling_factor,
+                P_removal = P_removal * scaling_factor)]
+# tidy
+cont_full[, `:=` (rem_rate = NULL, scaling_factor = NULL, harv_area = NULL)]
 setcolorder(cont_full, "iso3c", before = 1)
 
 rm(cont, cont_fodder, fodder_prod)
@@ -688,9 +697,9 @@ setcolorder(n_balance, "harv_area",  after = "item_code")
 
 # P weathering, runoff/erosion, deposition -------------------
 # this data needs to be requested from the authors
-P_weathering <- fread("input/extensions/P_weathering_kg.csv")
-P_deposition <- fread("input/extensions/P_deposition_kg.csv")
-P_runoff <- fread("input/extensions/P_runoff_erosion_kg.csv")
+P_weathering <- fread("input/NPK/P_weathering_kg.csv")
+P_deposition <- fread("input/NPK/P_deposition_kg.csv")
+P_runoff <- fread("input/NPK/P_runoff_erosion_kg.csv")
 
 P_list <- list(P_weathering, P_deposition, P_runoff)
 names(P_list) <- c("weathering", "deposition", "runoff")
