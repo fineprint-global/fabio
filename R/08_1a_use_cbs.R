@@ -360,61 +360,47 @@ use <- use[, .(year, area_code, area, comm_code, item_code, item,
 
 
 # Correct remaining imbalances between supply and use -----
-a <- use %>% group_by(comm_code, item, year) %>% summarise(use_io = round(sum(use, na.rm = T)/1)) %>% as.data.table()
-c <- sup %>% group_by(comm_code, item, year) %>% summarise(supply_total = round(sum(supply, na.rm = T)/1)) %>% as.data.table()
-b <- use_fd %>% group_by(comm_code, item, year) %>% 
+a <- use %>% group_by(comm_code, year) %>% summarise(use_io = round(sum(use, na.rm = T)/1)) %>% as.data.table()
+c <- sup %>% group_by(comm_code, year) %>% summarise(supply_total = round(sum(supply, na.rm = T)/1)) %>% as.data.table()
+b <- use_fd %>% group_by(comm_code, year) %>%
   summarise(use_fd = round(na_sum(na_sum(food, losses, other, stock_addition, tourist))/1)) %>% as.data.table()
 d <- merge(merge(a,b), c)
 d[, use_total := na_sum(use_io, use_fd)]
 d[, diff      := na_sum(supply_total, -use_total)]
-d[, `:=`(diff_io = diff / use_total * use_io, 
+d[, `:=`(diff_io = diff / use_total * use_io,
          diff_fd = diff / use_total * use_fd)]
 d[, diff_share := round(diff / supply_total *100)]
 
 # correct use_fd
-use_fd <- merge(use_fd, d[, .(comm_code, year, use_fd, diff)],
+use_fd <- merge(use_fd, d[, .(comm_code, year, diff, use_fd_global = use_fd)],
                 by = c("comm_code", "year"), all.x = TRUE)
 
-# use_fd[, share := ifelse(use_fd > 0, diff / use_total, 0)]
-use_fd[item != "Meat, Other", `:=`(
-  food            = na_sum(food,            round(diff / use_fd * food)),
-  losses          = na_sum(losses,          round(diff / use_fd * losses)),
-  other           = na_sum(other,           round(diff / use_fd * other)),
-  stock_addition  = na_sum(stock_addition,  round(diff / use_fd * stock_addition)),
-  tourist         = na_sum(tourist,         round(diff / use_fd * tourist))
+# Calculate b at the country level
+b2 <- use_fd %>% group_by(comm_code, area_code, year) %>%
+  summarise(use_fd = round(na_sum(na_sum(food, losses, other, stock_addition, tourist))/1)) %>% as.data.table()
+
+use_fd <- merge(use_fd, b2[, .(comm_code, area_code, year, use_fd_country = use_fd)],
+                by = c("comm_code", "area_code", "year"), all.x = TRUE)
+
+# not for oilseed cakes, hops, livestock, fodder crops and grazing
+use_fd[!is.na(diff / use_fd_global) & !item %like% "Cake" & item_code > 2029, `:=`(
+  food            = na_sum(food,            round(diff / use_fd_global * food)),
+  losses          = na_sum(losses,          round(diff / use_fd_global * losses)),
+  other           = na_sum(other,           round(diff / use_fd_global * other)),
+  stock_addition  = na_sum(stock_addition,  round(diff / use_fd_global * stock_addition)),
+  tourist         = na_sum(tourist,         round(diff / use_fd_global * tourist))
 )]
 
-# correct Meat, Other in use_fd
-supply_meat_other <- sup %>% filter(item=="Meat, Other") %>% group_by(area_code, year) %>% 
-  summarise(supply_meat_other = round(sum(supply, na.rm = T))) %>% as.data.table()
-use_meat_other <- use_fd %>% filter(item=="Meat, Other") %>% group_by(area_code, year) %>% 
-  summarise(use_meat_other = round(na_sum(food, losses, other, stock_addition, -stock_withdrawal, tourist))) %>% as.data.table()
-use_io_meat_other <- use %>% filter(item=="Meat, Other") %>% group_by(area_code, year) %>% 
-  summarise(use_io_meat_other = round(na_sum(use))) %>% as.data.table()
+use_fd[, `:=`(diff = NULL, use_fd_global = NULL, use_fd_country = NULL)]
 
-meat_other <- merge(supply_meat_other, merge(use_meat_other, use_io_meat_other), by = c("area_code", "year"), all.x = TRUE)
 
-use_fd <- merge(use_fd, meat_other[, .(year, area_code, supply_meat_other, use_meat_other, use_io_meat_other)],
-                by = c("area_code", "year"), all.x = TRUE)
+# correct oilseed cakes, hops, livestock, fodder crops and grazing in use
+use <- merge(use, d[, .(comm_code, year, diff, use_io)],
+             by = c("comm_code", "year"), all.x = TRUE)
+use[(item %like% "Cake" | item_code <= 2029) & !is.na(diff / use_io), 
+    use := na_sum(use, round(diff / use_io * use))]
 
-use_fd[item == "Meat, Other" & use_meat_other==0 & supply_meat_other>0, `:=`(food = supply_meat_other)]
-use_fd[item == "Meat, Other" & use_meat_other>0 & supply_meat_other==0, `:=`(food = 0, losses = 0, other = 0, stock_addition = 0, tourist = 0)]
-use_fd[item == "Meat, Other" & use_meat_other>0 & supply_meat_other>0, `:=`(
-  food            = round(food           * (supply_meat_other - use_io_meat_other) / use_meat_other),
-  losses          = round(losses         * (supply_meat_other - use_io_meat_other) / use_meat_other),
-  other           = round(other          * (supply_meat_other - use_io_meat_other) / use_meat_other),
-  stock_addition  = round(stock_addition * (supply_meat_other - use_io_meat_other) / use_meat_other),
-  tourist         = round(tourist        * (supply_meat_other - use_io_meat_other) / use_meat_other)
-)]
-
-use_fd[, `:=`(use_fd = NULL, diff = NULL, supply_meat_other = NULL, use_meat_other = NULL, use_io_meat_other = NULL)]
-
-# correct Meat, Other in use
-use <- merge(use, meat_other[, .(year, area_code, supply_meat_other)],
-             by = c("area_code", "year"), all.x = TRUE)
-use[item == "Meat, Other" & supply_meat_other==0, use := 0]
-
-use[, `:=`(supply_meat_other = NULL)]
+use[, `:=`(diff = NULL, use_io = NULL)]
 
 
 

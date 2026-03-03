@@ -119,8 +119,8 @@ for(i in seq_along(years)) {
     Ipfp(
       mapping_ras[[j]],
       target.list = list(1, 2),
-      iter        = 100,
-      tol.margins = 1e5,
+      iter        = 50,
+      tol.margins = 1e4,
       target.data = constraint[item_code == j, .(round(exports), round(imports))]
     )$x.hat
   })

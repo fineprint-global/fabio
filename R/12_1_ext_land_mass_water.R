@@ -163,8 +163,8 @@ extra[, (num_cols_avg) := lapply(.SD, function(x) mean(x, na.rm = TRUE)),
       .SDcols = num_cols_avg]
 
 # change years and update production
-year_conc <- data.table(old_year = 2017:2019,
-                        new_year = 2020:2022)
+year_conc <- data.table(old_year = 2016:2019,
+                        new_year = 2020:max(years))
 extra[, year := year_conc$new_year[match(year, year_conc$old_year)]]
 extra[, production_t := biomass$value[match(paste(year, area_code, item_code),
                                       paste(biomass$year, biomass$area_code, 
@@ -229,7 +229,7 @@ water_lvst <- rbind(water_live, water_meat)
 water_lvst <- water_lvst[!is.na(item)]
 
 # match intensities with production
-water_lvst[,`:=` (wfb_m3_unit = live_ints$wfb_m3_unit[match(item_code,
+water_lvst[,`:=` (wfb_m3_unit = live_ints$blue[match(item_code,
                                                 live_ints$item_code)])]
 
 # calculate totals
@@ -245,7 +245,7 @@ water_blue <- rbind(water_crop[, .(year, area_code, item_code, comm_code,
                     water_lvst[, .(year, area_code, item_code, comm_code, value= wfb_m3)])
 
 rm(water_crop, water_pasture, water_live, water_meat, water_lvst, extra, 
-   sudan_rows, year_conc, ints, live_ints, land_grass, grass_prod, prod_land)
+   year_conc, ints, live_ints, land_grass, grass_prod, prod_land)
                  
 
 # CBS aggregations for alternative version ------------

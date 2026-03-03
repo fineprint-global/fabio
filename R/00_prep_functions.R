@@ -67,8 +67,7 @@ fa_extract <- function(
   rm = TRUE, v = TRUE, ...) {
 
   zip = paste0(path_in, files)
-  dest_rds <- paste0(path_out, name, ".rds")
-
+  
   if(length(zip) == 1 && length(extr) > 1 || is.null(extr)) {
     if(v) cat("Extracting multiple files from a single ZIP archive\n")
     csv <- unzip(zip, extr, exdir = gsub("(.*)/", "\\1", path_out))
@@ -86,7 +85,7 @@ fa_extract <- function(
       # } else { csv[i] <- unzip(zip[i], extr[i], exdir = gsub("(.*)/", "\\1", path_out)) }
     }
   }
-
+  
   rds <- vector("list", length(csv))
   for(i in seq_along(csv)) {
     cat("Reading:", csv[i], "\n")
@@ -98,9 +97,11 @@ fa_extract <- function(
   }
 
   if(stack) {
+    dest_rds <- paste0(path_out, name, ".rds")
     if(v) cat("Stacking CSV files via data.table::rbindlist()")
     saveRDS(data.table::rbindlist(rds), dest_rds)
   } else {
+    dest_rds <- paste0(path_out, tools::file_path_sans_ext(basename(csv)), ".rds")
     for(i in seq_along(csv)) saveRDS(rds[[i]], dest_rds[i])
   }
 

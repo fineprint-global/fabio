@@ -5,33 +5,35 @@ library("data.table")
 # library("comtradr")
 source("R/00_prep_functions.R")
 path_trade <- "input/trade/"
+path_trade_source <- "/mnt/nfs_fineprint/tmp/baci/"
 
 
 # BACI92 ------------------------------------------------------------------
 
-file <- c("baci_full" = "BACI_HS92_V202501.zip")
+version <- "V202601"
+file <- c("baci_full" = paste0("BACI_HS12_",version,".zip"))
 name <- names(file)
 link <- "https://www.cepii.fr/DATA_DOWNLOAD/baci/data/"
 
 # download file
 options(timeout = max(600, getOption("timeout")))
-fa_dl(file = file, link = link, path = path_trade)
+fa_dl(file = file, link = link, path = path_trade_source)
 
-pattern <- "(BACI_HS92_Y[0-9]{4}_V202501)([.]csv)"
+pattern <- paste0("(BACI_HS12_Y[0-9]{4}_",version,")([.]csv)")
 
 # unzip data files
-extr <- unzip(paste0(path_trade, file), list = TRUE)[[1]]
+extr <- unzip(paste0(path_trade_source, file), list = TRUE)[[1]]
 extr <- extr[grep(pattern, extr)]
 col_types <- rep(list(c("integer", "integer", "integer", "integer",
                            "numeric", "numeric")), length(extr))
-baci_full <- fa_extract(path_in = path_trade, files = file, path_out = path_trade,
+baci_full <- fa_extract(path_in = path_trade_source, files = file, path_out = path_trade,
   name = name, extr = extr, col_types = col_types, stack = TRUE)
 
 # unzip auxiliary files
-extr <- unzip(paste0(path_trade, file), list = TRUE)[[1]]
+extr <- unzip(paste0(path_trade_source, file), list = TRUE)[[1]]
 extr <- extr[-grep(pattern, extr)]
 for(i in seq_along(extr)) {
-  unzip(paste0(path_trade, file), extr[i], exdir = path_trade)
+  unzip(paste0(path_trade_source, file), extr[i], exdir = path_trade)
 }
 
 

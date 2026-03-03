@@ -10,11 +10,11 @@ path_fish23 <- paste0(path_fish, "2023/")
 
 files <- c(
   "prod" = "GlobalProduction_2025.1.0.zip", #total primary production (capture + aquaculture)
-  "prod_proc" = "FI_Trade_PP_2024.1.1.zip", #processed production
-  "trad" = "FI_Trade_Partners_2024.1.1.zip", #trade by partner country (since 2019)
-  "trad_aggr" = "FI_Trade_2024.1.1.zip", #countries' total import and export
+  "prod_proc" = "FI_Trade_PP_2025.1.0.zip", #processed production
+  "trad" = "FI_Trade_Partners_2025.1.0.zip", #trade by partner country (since 2019)
+  "trad_aggr" = "FI_Trade_2025.1.0.zip", #countries' total import and export
   "isscaap" = "GlobalProduction_2025.1.0.zip", #catch/aquaculture metadata items
-  "isscfc" = "FI_Trade_PP_2024.1.1.zip" #trade/processed metadata items
+  "isscfc" = "FI_Trade_PP_2025.1.0.zip" #trade/processed metadata items
 )
 
 # Files to extract from the ZIP archives
