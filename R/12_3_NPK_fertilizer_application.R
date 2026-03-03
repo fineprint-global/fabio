@@ -1,5 +1,6 @@
 # This script creates a dataset for N and P application by year, country and crop.
-# Nutrients are always converted to kg and hectares. 
+# Nutrients are always converted to elemental mass in kg, area is always converted to
+# hectares. 
 
 library(data.table)
 library(tidyverse)
@@ -30,20 +31,6 @@ harv_area <- harv_area[item_code %in% items[processed == FALSE &
   
 harv_area[, area := NULL]
 
-# # add grazing area (old, from FABIO)
-# input_path <- "/mnt/nfs_fineprint/tmp/fabio/v2/"
-# E <- readRDS(file=paste0(input_path,"E.rds"))
-# 
-# grazing <- rbindlist(lapply(names(E), function(year) {
-#   dt <- E[[year]]
-#   dt <- dt[item == "Grazing", .(year = as.integer(year), area, grassland)]
-# }), use.names = TRUE, fill = TRUE)
-# grazing[, `:=` (iso3c = regions$iso3c[match(area, regions$name)], item = "Grazing",
-#                 item_code = 2001)][
-#   ,area := NULL]
-# setnames(grazing, "grassland", "ha")
-# setcolorder(grazing, colnames(harv_area))
-# harv_area <- bind_rows(harv_area, grazing)
 
 # add grazing area from FAO landuse
 land <- readRDS("data/tidy/land_tidy.rds")
@@ -69,33 +56,20 @@ harv_area <- rbind(harv_area, land)
 
 saveRDS(harv_area[year %in% years], "data/NPK/harv_area_sua_incl_grazing.rds")
 
-
-# #tests harvested area 
-# app <- merge(app, harv_area[, .(iso3c, item, value)], 
-#                by.x = c("iso_a3", "item"), by.y = c("iso3c", "item"), 
-#                all = TRUE)
-# app[, ':='(ha = sum(ha, na.rm = TRUE),
-#              value = sum(value, na.rm = TRUE)), by = .(item)]
-# app[, diff := ha - value]
-# test <- app[, .(item = unique(item))]
-# test <- test[!is.na(item)]
-# test <- merge(test, unique(app[, .(item, diff)]), by = "item", all.x = TRUE)
-
-
 # Synthetic fertilizer application from HFUBC------------------------
 # Starting with hfubc (this dataset has a timeline but relatively few data points)
-# can be downloaded from https://datadryad.org/downloads/file_stream/3940356
-hfubc <- fread("input/NPK/HFUBC_fert_application_by_crop.csv")
+# can be downloaded from https://datadryad.org/downloads/file_stream/3940355
+hfubc <- fread("input/NPK/FUBC_1_to_9_data.csv")
 conc <- fread("inst/NPK/conc_HFUBC_sua.csv")
-
 
 # subset
 hfubc <- hfubc[,.(Country, iso3c = ISO3_code, Year, Crop, 
                   Crop_area_k_ha, N_k_t, P2O5_k_t, K2O_k_t )]
 
 #convert fertilizer years to calendar years where necessary
-hfubc <- hfubc[Year %in% c("1990/91","1991/92","1992/93", "1989/90", "1999/2000", "1998/99", "1997-98"), 
-               Year := substr(Year, 1, 4)] 
+hfubc[Year == "1999/2000", Year := "2000"]
+hfubc[Year %in% c("1990/91", "1991/92", "1992/93", "1989/90", "1998/99", "1997-98"),
+      Year := paste0("19", substr(Year, nchar(Year) - 1, nchar(Year)))]
 
 # convert fertilizer units from kt of oxidized (N)PK to kg of elemental NPK
 hfubc[, `:=` (P = P2O5_k_t* 436000, K = K2O_k_t * 830000, N = N_k_t * 1000000)][
@@ -208,8 +182,6 @@ app_full[is.na(ha), ha := 0]
 app_full[, `:=` (N_rate = fifelse(ha == 0, 0, N_rate),
                  P_rate = fifelse(ha == 0, 0, P_rate))]
 
-
-# test <- app_full[ha > 0 & N_rate == 0] # values were checked and seem reasonable
 
 # Interpolate app rates and area in same country between years with at least two data points
 vars <- c("N_rate", "P_rate")
