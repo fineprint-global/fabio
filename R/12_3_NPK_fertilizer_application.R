@@ -11,7 +11,7 @@ source("R/03_gap_functions.R")
 years_full <- (1978:2022)
 regions <- fread("inst/regions_full.csv")[current==TRUE]
 items <- fread("inst/sua/items_sua.csv")
-
+conc_NPK <- fread("inst/NPK/conc_NPK_sua.csv")
 
 # Harvested area per crop -----------------------------------------------
 # harvested area from FAO production domain is combined with permanent meadows and pastures
@@ -26,8 +26,7 @@ harv_area <- harv_area[, .(area = first(area),
                        by = .(iso3c, year, item, item_code)]
 
 #filter for primary products
-harv_area <- harv_area[item_code %in% items[processed == FALSE & 
-                                            comm_group == "crops", item_code]]
+harv_area <- harv_area[item_code %in% conc_NPK$item_code]
   
 harv_area[, area := NULL]
 
@@ -146,7 +145,7 @@ app[,  `:=`(N_rate = fifelse(is.na(N_rate), weighted_N, N_rate),
            , `:=` (weighted_N = NULL, weighted_P = NULL)]
 
 # Creating full dt for gap filling
-app_full <- CJ(items[processed == FALSE & comm_group == "crops", item_code],
+app_full <- CJ(items[item_code %in% conc_NPK$item_code, item_code],
                  regions[, iso3c],
                  years_full)
 

@@ -1,178 +1,178 @@
 proc,proc_code,item,comm_code,avg_trees,min,max
-Cattle slaughtering,p188,"Meat of cattle with the bone, fresh or chilled",c189,0.52,0.46,0.57
-Cattle slaughtering,p188,"Edible offal of cattle, fresh, chilled or frozen",c207,0.07,0.04,0.1
-Cattle slaughtering,p188,"Cattle fat, unrendered",c213,0.03,0.02,0.05
-Sheep slaughtering,p190,"Meat of sheep, fresh or chilled",c191,0.5,0.44,0.56
-Sheep slaughtering,p190,"Edible offal of sheep, fresh, chilled or frozen",c209,0.08,0.04,0.1
-Sheep slaughtering,p190,"Sheep fat, unrendered",c215,0.03,0.02,0.06
-Chicken slaughtering,p193,"Meat of chickens, fresh or chilled",c194,0.78,0.73,0.83
-Pig slaughtering,p192,"Edible offal of pigs, fresh, chilled or frozen",c211,0.04,0.04,0.1
-Pig slaughtering,p192,Fat of pigs,c217,0.06,0.04,0.15
-Chicken slaughtering,p193,"Edible offals and liver of chickens and guinea fowl, fresh, chilled or frozen",c489,,,
-Wheat flour production,p210,Wheat and meslin flour,c227,0.79,0.7,0.9
-Wheat flour production,p210,Bran of wheat,c228,0.18,0.1,0.26
-Wheat flour production,p210,Germ of wheat,c230,0.02,0.02,0.03
-Starch of wheat production,p215,Starch of wheat,c234,,,0.85
-Starch of wheat production,p215,Wheat gluten,c235,,,0.15
-Pasta production,p211,"Uncooked pasta, not stuffed or otherwise prepared",c229,1,,
-Bread production,p212,Bread,c231,,1,1.3
-Pastry production,p214,Pastry,c233,,1,1.3
-Bulgur production,p213,Bulgur,c232,0.95,0.93,0.98
-Husked rice production,p216,Husked rice,c236,0.77,0.7,0.85
-Milled rice production,p218,"Rice, milled",c238,0.67,0.6,0.7
-Milled rice production,p218,Bran of rice,c242,0.08,,0.1
-Rice (milled and husked) production,p217,"Rice, milled (husked)",c237,0.9,0.83,0.9
-Rice (milled and husked) production,p217,Bran of rice,c242,,,0.15
-Broken rice production,p219,"Rice, broken",c239,,,1
-Flour of rice production,p222,Flour of rice,c245,,,0.95
-Starch of rice production,p220,Starch of rice,c241,0.85,0.66,0.9
-Starch of rice production,p220,"Rice, gluten",c240,,,0.1
-Oil of rice bran production,p221,Oil of rice bran,c243,0.14,,0.2
-Oil of rice bran production,p221,Cake of rice bran,c244,,,0.8
-Breakfast cereals production,p223,Breakfast cereals,c246,,,
-Pot barley production,p224,Pot barley,c247,0.72,0.6,0.85
-Pot barley production,p224,Bran of barley,c249,0.19,,0.3
-Pearled barley production,p225,"Barley, pearled",c248,,,0.55
-Pearled barley production,p225,Barley flour and grits,c250,,,0.45
-Malt production,p226,"Malt, whether or not roasted",c251,0.73,0.65,0.8
-Malt extract production,p227,Malt extract,c252,0.8,,
-Flour of maize production,p228,Flour of maize,c254,0.82,0.7,0.95
-Flour of maize production,p228,Bran of maize,c255,0.11,,0.2
-Flour of maize production,p228,Germ of maize,c253,0.06,,0.08
-Starch of maize production,p230,Starch of maize,c259,0.75,,0.88
-Starch of maize production,p230,Maize gluten,c258,0.1,,0.15
-Oil of maize production,p229,Oil of maize,c256,0.45,,0.5
-Oil of maize production,p229,Cake of maize,c257,0.52,,0.55
-Flour of rye production,p231,Flour of rye,c260,0.8,0.7,0.85
-Flour of rye production,p231,Bran of rye,c261,0.17,0.14,0.28
-Rolled oats production,p232,"Oats, rolled",c262,0.53,0.45,0.7
-Rolled oats production,p232,Bran of oats,c263,0.2,0.15,0.3
-Flour of millet production,p233,Flour of millet,c264,0.86,,0.95
-Flour of millet production,p233,Bran of millet,c265,0.1,,0.2
-Flour of sorghum production,p234,Flour of sorghum,c266,0.9,,0.95
-Flour of sorghum production,p234,Bran of sorghum,c267,0.08,,0.15
-Flour of buckwheat production,p235,Flour of buckwheat,c268,0.75,0.6,0.85
-Flour of buckwheat production,p235,Bran of buckwheat,c269,0.2,0.05,0.3
-Flour of triticale production,p237,Flour of triticale,c272,0.75,,0.8
-Flour of triticale production,p237,Bran of triticale,c273,0.23,,0.28
-Flour of mixed grain production,p238,Flour of mixed grain,c274,0.8,,0.85
-Flour of mixed grain production,p238,Bran of mixed grain,c275,,,0.2
-Flour of fonio production,p236,Flour of fonio,c270,0.8,,0.85
-Flour of fonio production,p236,Bran of fonio,c271,0.15,,0.2
-Cereal preparation,p241,Cereal preparations,c279,,0.9,1
-Frozen potatoes production,p246,"Potatoes, frozen",c284,,0.45,0.55
-Starch of potatoes production,p247,Starch of potatoes,c285,,0.16,0.22
-Tapioca of potatoes production,p248,Tapioca of potatoes,c286,,,0.2
-Cassava (dry) production,p251,"Cassava, dry",c289,,,0.35
-Flour of cassava production,p249,Flour of cassava,c287,,,0.3
-Tapioca of cassava production,p250,Tapioca of cassava,c288,,,0.2
-Starch of cassava production,p252,Starch of cassava,c290,,,0.25
-"Edible roots and tubers with high starch or inulin content (dry) production, n.e.c.",p254,"Edible roots and tubers with high starch or inulin content, n.e.c., dry",c292,,,0.3
-"Flour of roots and tubers production, n.e.c.",p253,Flour of roots and tubers n.e.c.,c291,,,0.25
-Refined sugar production,p259,Refined sugar,c297,,,0.935
-Centrifugal cane sugar production,p255,"Cane sugar, centrifugal",c293,0.09,,0.13
-Centrifugal cane sugar production,p255,Molasses,c298,,,0.05
-Tomato juice production,p266,Tomato juice,c305,,,0.8
-Paste of tomatoes production,p267,Paste of tomatoes,c306,,,0.25
-Peeled tomatoes (o/t vinegar) production,p268,"Tomatoes, peeled (o/t vinegar)",c307,,,0.8
-Frozen sweet corn production,p269,"Sweet corn, frozen",c308,,,0.35
-Sweet corn preparation or preservation,p270,"Sweet corn, prepared or preserved",c309,,,0.45
-Dried mushrooms production,p271,Dried mushrooms,c310,0.26,,0.3
-Canned mushrooms production,p272,Canned mushrooms,c311,,,1.1
-Orange juice production,p284,Orange juice,c323,,,0.55
-Orange juice (concentrated) production,p285,"Orange juice, concentrated",c324,0.1,,0.15
-Juice of lemon production,p287,Juice of lemon,c326,0.39,,0.45
-Grapefruit juice production,p289,Grapefruit juice,c328,0.47,,0.55
-Concentrated grapefruit juice production,p290,"Grapefruit juice, concentrated",c329,0.14,,0.16
-Apple juice production,p294,Apple juice,c333,,,0.65
-Apricots (dried) production,p296,"Apricots, dried",c335,0.29,,
-Dried plums production,p297,"Plums, dried",c336,0.35,,
-Raisins production,p300,Raisins,c339,0.25,,
-Grape juice production,p301,Grape juice,c340,0.75,,
-Must of grape production,p302,Must of grape,c341,0.86,,
-Wine production,p303,Wine,c342,0.7,,
-Figs (dried) production,p304,"Figs, dried",c343,0.35,,
-Pineapple juice production,p306,Pineapple juice,c345,0.2,,
-Concentrated juice of pineapples production,p307,"Juice of pineapples, concentrated",c346,0.08,,
-Juice of mango production,p308,Juice of mango,c347,0.1,,
-Juice of mango production,p308,Mango pulp,c348,0.55,,
-"Other fruit (dried) production, n.e.c.",p310,"Other fruit n.e.c., dried",c350,0.12,,
-Juice of tangerine production,p286,Juice of tangerine,c325,,,0.45
-Concentrated lemon juice production,p288,"Lemon juice, concentrated",c327,,,0.12
-Brazil nuts (shelled) production,p316,"Brazil nuts, shelled",c356,,,0.55
-Cashew nuts (shelled) production,p317,"Cashew nuts, shelled",c357,,,0.3
-Almonds (shelled) production,p318,"Almonds, shelled",c358,,,0.5
-Walnuts (shelled) production,p319,"Walnuts, shelled",c359,,,0.53
-Hazelnuts (shelled) production,p320,"Hazelnuts, shelled",c360,,,0.5
-Nuts preparation,p321,Prepared nuts,c361,,0.8,1
-Soya bean oil production,p322,Soya bean oil,c362,0.18,,0.19
-Soya bean oil production,p322,Cake of  soya beans,c363,0.79,,0.8
-Soya sauce production,p323,Soya sauce,c364,,3,4
-Soya paste production,p324,Soya paste,c365,4.5,,
-Soya curd production,p325,Soya curd,c366,3.75,,
-Groundnuts (shelled) production,p326,"Groundnuts, shelled",c367,0.7,,0.75
-Groundnut oil production,p327,Groundnut oil,c368,0.43,,0.5
-Groundnut oil production,p327,Cake of groundnuts,c369,0.54,,0.6
-Groundnuts preparation,p328,Prepared groundnuts,c370,,,1
-Peanut butter production,p329,Peanut butter,c371,,,0.85
-Coconuts (desiccated) production,p330,"Coconuts, desiccated",c372,0.2,0.15,0.25
-Coconut oil production,p332,Coconut oil,c374,0.61,0.6,0.65
-Palm oil production,p335,Palm oil,c377,0.19,0.12,0.28
-Oil of palm kernel production,p336,Oil of palm kernel,c378,0.46,0.4,0.5
-Palm kernel oil production,p337,Cake of palm kernel,c379,0.52,0.4,0.55
-Copra production,p331,Copra,c373,0.21,0.15,0.25
-Copra oil production,p333,Cake of copra,c375,0.36,0.32,0.37
-Olive oil production,p338,Olive oil,c380,0.2,0.14,0.25
-Olives preservation,p339,Olives preserved,c381,,,1
-Sunflower-seed oil (crude) production,p342,"Sunflower-seed oil, crude",c384,0.41,0.35,0.45
-Sunflower-seed oil (crude) production,p342,Cake of sunflower seed,c385,0.47,0.4,0.55
-Rapeseed or canola oil (crude) production,p343,"Rapeseed or canola oil, crude",c386,0.38,0.32,0.42
-Rapeseed or canola oil (crude) production,p343,Cake of rapeseed,c387,0.6,0.45,0.6
-Oil of sesame seed production,p347,Oil of sesame seed,c392,0.43,0.4,0.48
-Oil of sesame seed production,p347,Cake of sesame seed,c393,0.51,0.45,0.55
-Mustard seed oil (crude) production,p348,"Mustard seed oil, crude",c394,0.36,0.25,0.4
-Mustard seed oil (crude) production,p348,Cake of mustard seed,c395,0.6,,0.7
-Flour of mustard seed production,p349,Flour of mustard seed,c396,,,0.8
-Kapokseed (shelled) production,p353,"Kapokseed, shelled",c401,0.7,,
-Oil of kapok production,p354,Oil of kapok,c402,0.2,,
-Oil of kapok production,p354,Cake of kapok,c403,0.8,,
-Cottonseed oil production,p355,Cottonseed oil,c404,0.16,0.12,0.22
-Cottonseed oil production,p355,Cake of cottonseed,c405,0.51,0.4,0.65
-Oil of linseed production,p356,Oil of linseed,c406,0.35,0.32,0.36
-Oil of linseed production,p356,Cake of  linseed,c407,0.63,0.55,0.65
-Oil of castor beans production,p341,Oil of castor beans,c383,0.4,,0.45
-Vegetable tallow production,p351,Vegetable tallow,c399,0.15,,
-Flours and meals of oil seeds or oleaginous fruits (except those of mustard) production,p360,"Flours and meals of oil seeds or oleaginous fruits, except those of mustard",c412,,,0.85
-Flour of pulses production,p365,Flour of pulses,c417,0.72,,0.8
-Flour of pulses production,p365,Bran of pulses,c418,0.23,,0.3
-Cocoa paste not defatted production,p370,Cocoa paste not defatted,c423,0.8,,
-"Cocoa butter, fat and oil production",p371,"Cocoa butter, fat and oil",c425,0.47,,
-Chocolate products nes production,p372,Chocolate products nes,c427,4.7,,
-Cream (fresh) production,p383,"Cream, fresh",c439,0.15,0.1,0.3
-Cream (fresh) production,p383,Skim milk of cows,c442,,0.7,0.9
-Cream (fresh) production,p383,"Buttermilk, curdled and acidified milk",c447,,0.7,0.9
-Butter of cow milk production,p384,Butter of cow milk,c440,0.047,0.035,0.1
-Butter of cow milk production,p384,Skim milk of cows,c442,0.93,0.85,0.95
-Butter of cow milk production,p384,"Buttermilk, curdled and acidified milk",c447,0.93,0.85,0.95
-Ghee from cow milk production,p385,Ghee from cow milk,c441,0.05,,0.05
-Ghee from cow milk production,p385,Skim milk of cows,c442,0.93,0.85,0.95
-Ghee from cow milk production,p385,"Buttermilk, curdled and acidified milk",c447,0.93,0.85,0.95
-Whole milk powder production,p393,Whole milk powder,c451,,0.1,0.2
-Whole milk (condensed) production,p386,"Whole milk, condensed",c443,,0.2,0.45
-Whole milk (evaporated) production,p390,"Whole milk, evaporated",c448,,0.3,0.5
-Skim milk (evaporated) production,p391,"Skim milk, evaporated",c449,0.4,,
-Skim milk (condensed) production,p392,"Skim milk, condensed",c450,0.36,,
-Skim milk and whey powder production,p394,Skim milk and whey powder,c452,0.1,,
-Buttermilk (dry) production,p395,"Buttermilk, dry",c453,0.1,,
-Cheese from whole cow milk production,p397,Cheese from whole cow milk,c455,,0.1,0.2
-Cheese from whole cow milk production,p397,"Whey, fresh",c456,0.73,0.4,0.83
-Cheese from skimmed cow milk production,p398,Cheese from skimmed cow milk,c457,0.18,,
-Casein production,p405,Casein,c462,,,0.03
-Yoghurt production,p388,Yoghurt,c445,0.8,,0.8
-Yoghurt (with additives) production,p389,"Yoghurt, with additives",c446,0.8,,0.8
-Meat of cattle boneless (fresh or chilled) production,p413,"Meat of cattle boneless, fresh or chilled",c475,0.71,,
-Meat of cattle boneless (fresh or chilled) production,p413,"Cattle, butcher fat",c496,0.12,,
-Meat of pig boneless (fresh or chilled) production,p419,"Meat of pig boneless, fresh or chilled",c481,0.73,,
-Meat of pig boneless (fresh or chilled) production,p419,"Pig, butcher fat",c497,,0.1,0.25
-"Beef and veal preparation, nes",p417,beef and veal preparations nes,c479,0.6,,
-Pig meat preparation,p422,Pig meat preparations,c484,0.88,,
+Cattle slaughtering,p180,"Meat of cattle with the bone, fresh or chilled",c181,0.52,0.46,0.57
+Cattle slaughtering,p180,"Edible offal of cattle, fresh, chilled or frozen",c200,0.07,0.04,0.1
+Cattle slaughtering,p180,"Cattle fat, unrendered",c206,0.03,0.02,0.05
+Sheep slaughtering,p182,"Meat of sheep, fresh or chilled",c183,0.5,0.44,0.56
+Sheep slaughtering,p182,"Edible offal of sheep, fresh, chilled or frozen",c202,0.08,0.04,0.1
+Sheep slaughtering,p182,"Sheep fat, unrendered",c208,0.03,0.02,0.06
+Chicken slaughtering,p185,"Meat of chickens, fresh or chilled",c186,0.78,0.73,0.83
+Pig slaughtering,p184,"Edible offal of pigs, fresh, chilled or frozen",c204,0.04,0.04,0.1
+Pig slaughtering,p184,Fat of pigs,c210,0.06,0.04,0.15
+Chicken slaughtering,p185,"Edible offals and liver of chickens and guinea fowl, fresh, chilled or frozen",c469,,,
+Wheat flour production,p219,Wheat and meslin flour,c234,0.79,0.7,0.9
+Wheat flour production,p219,Bran of wheat,c235,0.18,0.1,0.26
+Wheat flour production,p219,Germ of wheat,c237,0.02,0.02,0.03
+Starch of wheat production,p224,Starch of wheat,c241,,,0.85
+Starch of wheat production,p224,Wheat gluten,c242,,,0.15
+Pasta production,p220,"Uncooked pasta, not stuffed or otherwise prepared",c236,1,,
+Bread production,p221,Bread,c238,,1,1.3
+Pastry production,p223,Pastry,c240,,1,1.3
+Bulgur production,p222,Bulgur,c239,0.95,0.93,0.98
+Husked rice production,p225,Husked rice,c243,0.77,0.7,0.85
+Milled rice production,p227,"Rice, milled",c245,0.67,0.6,0.7
+Milled rice production,p227,Bran of rice,c249,0.08,,0.1
+Rice (milled and husked) production,p226,"Rice, milled (husked)",c244,0.9,0.83,0.9
+Rice (milled and husked) production,p226,Bran of rice,c249,,,0.15
+Broken rice production,p228,"Rice, broken",c246,,,1
+Flour of rice production,p231,Flour of rice,c251,,,0.95
+Starch of rice production,p229,Starch of rice,c248,0.85,0.66,0.9
+Starch of rice production,p229,"Rice, gluten",c247,,,0.1
+Oil of rice bran production,p230,Oil of rice bran,c349,0.14,,0.2
+Oil of rice bran production,p230,Cake of rice bran,c250,,,0.8
+Breakfast cereals production,p232,Breakfast cereals,c252,,,
+Pot barley production,p233,Pot barley,c253,0.72,0.6,0.85
+Pot barley production,p233,Bran of barley,c255,0.19,,0.3
+Pearled barley production,p234,"Barley, pearled",c254,,,0.55
+Pearled barley production,p234,Barley flour and grits,c256,,,0.45
+Malt production,p235,"Malt, whether or not roasted",c257,0.73,0.65,0.8
+Malt extract production,p236,Malt extract,c258,0.8,,
+Flour of maize production,p237,Flour of maize,c260,0.82,0.7,0.95
+Flour of maize production,p237,Bran of maize,c261,0.11,,0.2
+Flour of maize production,p237,Germ of maize,c259,0.06,,0.08
+Starch of maize production,p239,Starch of maize,c264,0.75,,0.88
+Starch of maize production,p239,Maize gluten,c263,0.1,,0.15
+Oil of maize production,p238,Oil of maize,c350,0.45,,0.5
+Oil of maize production,p238,Cake of maize,c262,0.52,,0.55
+Flour of rye production,p240,Flour of rye,c265,0.8,0.7,0.85
+Flour of rye production,p240,Bran of rye,c266,0.17,0.14,0.28
+Rolled oats production,p241,"Oats, rolled",c267,0.53,0.45,0.7
+Rolled oats production,p241,Bran of oats,c268,0.2,0.15,0.3
+Flour of millet production,p242,Flour of millet,c269,0.86,,0.95
+Flour of millet production,p242,Bran of millet,c270,0.1,,0.2
+Flour of sorghum production,p243,Flour of sorghum,c271,0.9,,0.95
+Flour of sorghum production,p243,Bran of sorghum,c272,0.08,,0.15
+Flour of buckwheat production,p244,Flour of buckwheat,c273,0.75,0.6,0.85
+Flour of buckwheat production,p244,Bran of buckwheat,c274,0.2,0.05,0.3
+Flour of triticale production,p246,Flour of triticale,c277,0.75,,0.8
+Flour of triticale production,p246,Bran of triticale,c278,0.23,,0.28
+Flour of mixed grain production,p247,Flour of mixed grain,c279,0.8,,0.85
+Flour of mixed grain production,p247,Bran of mixed grain,c280,,,0.2
+Flour of fonio production,p245,Flour of fonio,c275,0.8,,0.85
+Flour of fonio production,p245,Bran of fonio,c276,0.15,,0.2
+Cereal preparation,p250,Cereal preparations,c284,,0.9,1
+Frozen potatoes production,p255,"Potatoes, frozen",c289,,0.45,0.55
+Starch of potatoes production,p256,Starch of potatoes,c290,,0.16,0.22
+Tapioca of potatoes production,p257,Tapioca of potatoes,c291,,,0.2
+Cassava (dry) production,p260,"Cassava, dry",c294,,,0.35
+Flour of cassava production,p258,Flour of cassava,c292,,,0.3
+Tapioca of cassava production,p259,Tapioca of cassava,c293,,,0.2
+Starch of cassava production,p261,Starch of cassava,c295,,,0.25
+"Edible roots and tubers with high starch or inulin content (dry) production, n.e.c.",p263,"Edible roots and tubers with high starch or inulin content, n.e.c., dry",c297,,,0.3
+"Flour of roots and tubers production, n.e.c.",p262,Flour of roots and tubers n.e.c.,c296,,,0.25
+Refined sugar production,p268,Refined sugar,c302,,,0.935
+Centrifugal cane sugar production,p264,"Cane sugar, centrifugal",c298,0.09,,0.13
+Centrifugal cane sugar production,p264,Molasses,c303,,,0.05
+Tomato juice production,p329,Tomato juice,c379,,,0.8
+Paste of tomatoes production,p330,Paste of tomatoes,c380,,,0.25
+Peeled tomatoes (o/t vinegar) production,p331,"Tomatoes, peeled (o/t vinegar)",c381,,,0.8
+Frozen sweet corn production,p332,"Sweet corn, frozen",c382,,,0.35
+Sweet corn preparation or preservation,p333,"Sweet corn, prepared or preserved",c383,,,0.45
+Dried mushrooms production,p334,Dried mushrooms,c384,0.26,,0.3
+Canned mushrooms production,p335,Canned mushrooms,c385,,,1.1
+Orange juice production,p346,Orange juice,c396,,,0.55
+Orange juice (concentrated) production,p347,"Orange juice, concentrated",c397,0.1,,0.15
+Juice of lemon production,p349,Juice of lemon,c399,0.39,,0.45
+Grapefruit juice production,p351,Grapefruit juice,c401,0.47,,0.55
+Concentrated grapefruit juice production,p352,"Grapefruit juice, concentrated",c402,0.14,,0.16
+Apple juice production,p355,Apple juice,c405,,,0.65
+Apricots (dried) production,p357,"Apricots, dried",c407,0.29,,
+Dried plums production,p358,"Plums, dried",c408,0.35,,
+Raisins production,p361,Raisins,c411,0.25,,
+Grape juice production,p362,Grape juice,c412,0.75,,
+Must of grape production,p363,Must of grape,c413,0.86,,
+Wine production,p385,Wine,c438,0.7,,
+Figs (dried) production,p364,"Figs, dried",c414,0.35,,
+Pineapple juice production,p366,Pineapple juice,c416,0.2,,
+Concentrated juice of pineapples production,p367,"Juice of pineapples, concentrated",c417,0.08,,
+Juice of mango production,p368,Juice of mango,c418,0.1,,
+Juice of mango production,p368,Mango pulp,c419,0.55,,
+"Other fruit (dried) production, n.e.c.",p370,"Other fruit n.e.c., dried",c421,0.12,,
+Juice of tangerine production,p348,Juice of tangerine,c398,,,0.45
+Concentrated lemon juice production,p350,"Lemon juice, concentrated",c400,,,0.12
+Brazil nuts (shelled) production,p277,"Brazil nuts, shelled",c313,,,0.55
+Cashew nuts (shelled) production,p278,"Cashew nuts, shelled",c314,,,0.3
+Almonds (shelled) production,p279,"Almonds, shelled",c315,,,0.5
+Walnuts (shelled) production,p280,"Walnuts, shelled",c316,,,0.53
+Hazelnuts (shelled) production,p281,"Hazelnuts, shelled",c317,,,0.5
+Nuts preparation,p282,Prepared nuts,c318,,0.8,1
+Soya bean oil production,p284,Soya bean oil,c351,0.18,,0.19
+Soya bean oil production,p284,Cake of  soya beans,c320,0.79,,0.8
+Soya sauce production,p285,Soya sauce,c321,,3,4
+Soya paste production,p286,Soya paste,c322,4.5,,
+Soya curd production,p287,Soya curd,c323,3.75,,
+Groundnuts (shelled) production,p288,"Groundnuts, shelled",c324,0.7,,0.75
+Groundnut oil production,p289,Groundnut oil,c352,0.43,,0.5
+Groundnut oil production,p289,Cake of groundnuts,c325,0.54,,0.6
+Groundnuts preparation,p290,Prepared groundnuts,c326,,,1
+Peanut butter production,p291,Peanut butter,c327,,,0.85
+Coconuts (desiccated) production,p292,"Coconuts, desiccated",c328,0.2,0.15,0.25
+Coconut oil production,p313,Coconut oil,c353,0.61,0.6,0.65
+Palm oil production,p314,Palm oil,c354,0.19,0.12,0.28
+Oil of palm kernel production,p315,Oil of palm kernel,c355,0.46,0.4,0.5
+Palm kernel oil production,p296,Cake of palm kernel,c332,0.52,0.4,0.55
+Copra production,p293,Copra,c329,0.21,0.15,0.25
+Copra oil production,p294,Cake of copra,c330,0.36,0.32,0.37
+Olive oil production,p316,Olive oil,c356,0.2,0.14,0.25
+Olives preservation,p297,Olives preserved,c333,,,1
+Sunflower-seed oil (crude) production,p298,"Sunflower-seed oil, crude",c359,0.41,0.35,0.45
+Sunflower-seed oil (crude) production,p298,Cake of sunflower seed,c334,0.47,0.4,0.55
+Rapeseed or canola oil (crude) production,p299,"Rapeseed or canola oil, crude",c360,0.38,0.32,0.42
+Rapeseed or canola oil (crude) production,p299,Cake of rapeseed,c335,0.6,0.45,0.6
+Oil of sesame seed production,p301,Oil of sesame seed,c364,0.43,0.4,0.48
+Oil of sesame seed production,p301,Cake of sesame seed,c337,0.51,0.45,0.55
+Mustard seed oil (crude) production,p302,"Mustard seed oil, crude",c365,0.36,0.25,0.4
+Mustard seed oil (crude) production,p302,Cake of mustard seed,c338,0.6,,0.7
+Flour of mustard seed production,p303,Flour of mustard seed,c339,,,0.8
+Kapokseed (shelled) production,p306,"Kapokseed, shelled",c342,0.7,,
+Oil of kapok production,p307,Oil of kapok,c368,0.2,,
+Oil of kapok production,p307,Cake of kapok,c343,0.8,,
+Cottonseed oil production,p308,Cottonseed oil,c369,0.16,0.12,0.22
+Cottonseed oil production,p308,Cake of cottonseed,c344,0.51,0.4,0.65
+Oil of linseed production,p309,Oil of linseed,c370,0.35,0.32,0.36
+Oil of linseed production,p309,Cake of  linseed,c345,0.63,0.55,0.65
+Oil of castor beans production,p318,Oil of castor beans,c358,0.4,,0.45
+Vegetable tallow production,p321,Vegetable tallow,c367,0.15,,
+Flours and meals of oil seeds or oleaginous fruits (except those of mustard) production,p312,"Flours and meals of oil seeds or oleaginous fruits, except those of mustard",c348,,,0.85
+Flour of pulses production,p276,Flour of pulses,c311,0.72,,0.8
+Flour of pulses production,p276,Bran of pulses,c312,0.23,,0.3
+Cocoa paste not defatted production,p378,Cocoa paste not defatted,c429,0.8,,
+"Cocoa butter, fat and oil production",p326,"Cocoa butter, fat and oil",c376,0.47,,
+Chocolate products nes production,p379,Chocolate products nes,c432,4.7,,
+Cream (fresh) production,p419,"Cream, fresh",c474,0.15,0.1,0.3
+Cream (fresh) production,p419,Skim milk of cows,c492,,0.7,0.9
+Cream (fresh) production,p419,"Buttermilk, curdled and acidified milk",c497,,0.7,0.9
+Butter of cow milk production,p420,Butter of cow milk,c475,0.047,0.035,0.1
+Butter of cow milk production,p420,Skim milk of cows,c492,0.93,0.85,0.95
+Butter of cow milk production,p420,"Buttermilk, curdled and acidified milk",c497,0.93,0.85,0.95
+Ghee from cow milk production,p421,Ghee from cow milk,c476,0.05,,0.05
+Ghee from cow milk production,p421,Skim milk of cows,c492,0.93,0.85,0.95
+Ghee from cow milk production,p421,"Buttermilk, curdled and acidified milk",c497,0.93,0.85,0.95
+Whole milk powder production,p442,Whole milk powder,c501,,0.1,0.2
+Whole milk (condensed) production,p435,"Whole milk, condensed",c493,,0.2,0.45
+Whole milk (evaporated) production,p439,"Whole milk, evaporated",c498,,0.3,0.5
+Skim milk (evaporated) production,p440,"Skim milk, evaporated",c499,0.4,,
+Skim milk (condensed) production,p441,"Skim milk, condensed",c500,0.36,,
+Skim milk and whey powder production,p443,Skim milk and whey powder,c502,0.1,,
+Buttermilk (dry) production,p444,"Buttermilk, dry",c503,0.1,,
+Cheese from whole cow milk production,p446,Cheese from whole cow milk,c505,,0.1,0.2
+Cheese from whole cow milk production,p446,"Whey, fresh",c506,0.73,0.4,0.83
+Cheese from skimmed cow milk production,p447,Cheese from skimmed cow milk,c507,0.18,,
+Casein production,p454,Casein,c512,,,0.03
+Yoghurt production,p437,Yoghurt,c495,0.8,,0.8
+Yoghurt (with additives) production,p438,"Yoghurt, with additives",c496,0.8,,0.8
+Meat of cattle boneless (fresh or chilled) production,p400,"Meat of cattle boneless, fresh or chilled",c454,0.71,,
+Meat of cattle boneless (fresh or chilled) production,p400,"Cattle, butcher fat",c481,0.12,,
+Meat of pig boneless (fresh or chilled) production,p406,"Meat of pig boneless, fresh or chilled",c460,0.73,,
+Meat of pig boneless (fresh or chilled) production,p406,"Pig, butcher fat",c482,,0.1,0.25
+"Beef and veal preparation, nes",p404,beef and veal preparations nes,c458,0.6,,
+Pig meat preparation,p409,Pig meat preparations,c463,0.88,,

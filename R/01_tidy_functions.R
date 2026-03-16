@@ -345,9 +345,8 @@ format_extension <- function(dt, yrs = years, reg = regions, itms = items,
                              value_col = "value") {
   
   template <- CJ(year = yrs, area_code = reg$code, 
-                 comm_code = items$comm_code)
-  template[, iso3c := regions$iso3c[match(area_code, regions$code)]]
-  
+                 comm_code = itms$comm_code)  
+  template[, iso3c := reg$iso3c[match(area_code, reg$code)]]  
   result_list <- lapply(yrs, function(yr) {
     
     tmpl_yr <- template[year == yr]
@@ -365,4 +364,25 @@ format_extension <- function(dt, yrs = years, reg = regions, itms = items,
   })
   
   setNames(result_list, yrs)
+}
+
+
+read_excel_sheets <- function(filename, sheets = NULL) {
+  all_sheets <- readxl::excel_sheets(filename)
+  
+  if (!is.null(sheets)) {
+    invalid <- setdiff(sheets, all_sheets)
+    if (length(invalid) > 0) {
+      stop("The following sheets were not found: ", paste(invalid, collapse = ", "))
+    }
+    sheets_out <- intersect(all_sheets, sheets)  
+  } else {
+    sheets_out <- all_sheets
+  }
+  
+  x <- lapply(sheets_out, function(X) readxl::read_excel(filename, sheet = X))
+  x <- lapply(x, as.data.table)
+  names(x) <- sheets_out
+  
+  x
 }

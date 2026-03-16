@@ -12,7 +12,7 @@ tcf_expert <- fread("inst/sua/tcf_sua_expert.csv")
 #prod_trad <- readRDS("data/tidy/prod_trad_full.rds")
   
 proc_sua <- fread("inst/sua/proc_sua.csv")
-sua <- readRDS("data/sua_full.rds")
+sua <- readRDS("data/tidy/sua_tidy.rds") # does this work?
 use_structure <- fread("inst/sua/use_structure_sua.csv")
 
 items_sua <- fread("inst/sua/items_sua.csv")
@@ -214,18 +214,18 @@ tcf_full <- merge(tcf_full, problems_full[,.(proc, child, area, parent, correcte
 tcf_full[is.na(extraction_rate) & !is.na(corrected_rate), extraction_rate := corrected_rate]
 tcf_full[extraction_rate == 100000000, extraction_rate := NA][, corrected_rate := NULL]
 
-# #Finding missing values to create expert table
-# #find officially available rates -> used in "building_expert_tcf"
-# tcf_avg_avail <- unique(tcf_full[!is.na(extraction_rate), .(parent, proc, child)])
-# fwrite(tcf_avg_avail, "input/tcf_sua/tcf_avg_avail.csv")
-# 
-# tcf_min_avail <- unique(tcf_full[!is.na(min), .(parent, proc, child)])
-# fwrite(tcf_min_avail, "input/tcf_sua/tcf_min_avail.csv")
-# 
-# tcf_max_avail <- unique(tcf_full[!is.na(max), .(parent, proc, child)])
-# fwrite(tcf_max_avail, "input/tcf_sua/tcf_max_avail.csv")
+#Finding missing values to create expert table
+#find officially available rates -> used in "building_expert_tcf"
+tcf_avg_avail <- unique(tcf_full[!is.na(extraction_rate), .(parent, proc, child)])
+fwrite(tcf_avg_avail, "input/tcf_sua/tcf_avg_avail.csv")
 
+tcf_min_avail <- unique(tcf_full[!is.na(min), .(parent, proc, child)])
+fwrite(tcf_min_avail, "input/tcf_sua/tcf_min_avail.csv")
 
+tcf_max_avail <- unique(tcf_full[!is.na(max), .(parent, proc, child)])
+fwrite(tcf_max_avail, "input/tcf_sua/tcf_max_avail.csv")
+
+stop("break")
 # Merging TCF and TCF_expert ---------------------------------------------------
 tcf_full <- merge(tcf_full, tcf_expert[,.(parent, child, proc,expert_rate = extraction_rate, 
                                           expert_min = min, expert_max = max)], 

@@ -41,8 +41,7 @@ cont_full <- readRDS("data/tidy/prod_trad_full.rds")[element == "Production" & y
 
 # filter for primary crops 
 items_sua <- fread("inst/sua/items_sua.csv") 
-cont_full <- cont_full[item_code %in% items_sua[processed == FALSE & 
-                                                  comm_group == "crops", item_code]]
+cont_full <- cont_full[item_code %in% app$item_code]
 
 # aggregate countries not in fabio to RoW
 cont_full[!area_code %in% regions$code , area := "RoW"]
@@ -347,12 +346,6 @@ crop_res <- crop_res[item != "All Crops"]
 # aggregate regions not in fabio to RoW
 crop_res[!iso3c %in% regions$iso3c, `:=` (iso3c = "ROW", area = "RoW")]
 
-# match to sua items (orginal table is for cbs items), all matches are 1:1
-conc <- fread("inst/conc_crop-cbs.csv")[cbs_item_code %in% crop_res$item_code]
-crop_res[, `:=` (item_code_sua = conc$crop_item_code[match(item_code, conc$cbs_item_code)],
-                  item_sua = conc$crop_item[match(item_code, conc$cbs_item_code)])]
-crop_res[, `:=` (item_code = NULL, item = NULL)]
-setnames(crop_res, c("item_sua", "item_code_sua"), c("item", "item_code"))
 setcolorder(crop_res, c("iso3c", "area", "year", "item", "item_code", 
                           "element", "value", "unit"))
 
@@ -513,13 +506,18 @@ drain_full[ item_code == 2001, n2o_n_drain := `Grassland organic soils`][
 drain_full[, emission_share := soils$share[match(paste(iso3c, item),
                                                    paste(soils$iso3c, soils$item))]]
 
+
 # multiply to obtain emissions by crop
 drain_full[ item_code != 2001, n2o_n_drain := `Cropland organic soils` * emission_share][
   ,`Cropland organic soils` := NULL
 ]
-drain_full[, emission_share := NULL]
 drain_full[is.na(n2o_n_drain), n2o_n_drain := 0]
+drain_full[is.na(emission_share), emission_share := 0]
 
+#save separately for GHG extension
+saveRDS(drain_full[, .(iso3c, year, item_code, emission_share)], "data/NPK/drain_shares.rds")
+
+drain_full[, emission_share := NULL]
 rm(drain)
 
 # (iv) Emissions from manure deposited on grasslands 
@@ -783,16 +781,20 @@ for (dt in balances) {
   dt[, comm_code := items_sua$comm_code[match(item_code, items_sua$item_code)]]
 }
 
-# rename and select for FABIO extension
+# save GHG emissions separately (they will be used in the GHG extension script)
+n2o_emis <- n_balance[, .(area_code, iso3c, comm_code, item_code, item, year, n2o_n_total_direct,
+                            n2o_n_total_indirect, n2o_n_total)]
+saveRDS(n2o_emis, "data/NPK/n2o_emis.rds")
+
+# rename and select for FABIO extension (emissions will be treated separately in the GHG extension)
 value_cols_n <- c("fertilizer", "manure", "removal", "biological_fixation", "atmospheric_deposition",
-                  "nh3_n", "n2o_n_direct", "n2o_n_indirect", "leaching_runoff", 
-                  "n2o_n_total")
+                  "nh3_n",  "leaching_runoff")
 value_cols_p <- c("fertilizer", "manure", "removal", "atmospheric_deposition", 
                   "weathering", "runoff_erosion")
 
 setnames(n_balance, 
-         c("fa", "man", "rem", "n_bf", "ad", "nh3_n", "n2o_n_total_direct", 
-           "n2o_n_total_indirect", "n_lr", "n2o_n_total"),
+         c("fa", "man", "rem", "n_bf", "ad", "nh3_n", 
+           "n_lr"),
          value_cols_n)
 
 setnames(p_balance, c("fa", "man", "rem", "ad", "p_wea", "p_re"),
@@ -805,20 +807,21 @@ E_p_sua <- lapply(value_cols_p, \(col) format_extension(p_balance, value_col = c
 names(E_n_sua) <- value_cols_n
 names(E_p_sua) <- value_cols_p
 
+items_cbs <- fread("inst/items_full_123.csv")
 # CBS
-E_n_cbs <- lapply(value_cols_n, \(col) format_extension(n_balance, value_col = col, cbs = TRUE))
-E_p_cbs <- lapply(value_cols_p, \(col) format_extension(p_balance, value_col = col, cbs = TRUE))
+E_n_cbs <- lapply(value_cols_n, \(col) format_extension(n_balance, value_col = col, itms = items_cbs))
+E_p_cbs <- lapply(value_cols_p, \(col) format_extension(p_balance, value_col = col, itms = items_cbs))
 names(E_n_cbs) <- value_cols_n
 names(E_p_cbs) <- value_cols_p
 
 # save versions for extension
 for (nm in value_cols_n) {
-  saveRDS(E_n_sua[[nm]], paste0("data/extensions/sua/E_n_", nm, ".rds"))
-  saveRDS(E_n_cbs[[nm]], paste0("data/extensions/cbs/E_n_", nm, ".rds"))
+  saveRDS(E_n_sua[[nm]], paste0("data/extensions/sua/n_", nm, ".rds"))
+  saveRDS(E_n_cbs[[nm]], paste0("data/extensions/cbs/n_", nm, ".rds"))
 }
 for (nm in value_cols_p) {
-  saveRDS(E_p_sua[[nm]], paste0("data/extensions/sua/E_p_", nm, ".rds"))
-  saveRDS(E_p_cbs[[nm]], paste0("data/extensions/cbs/E_p_", nm, ".rds"))
+  saveRDS(E_p_sua[[nm]], paste0("data/extensions/sua/p_", nm, ".rds"))
+  saveRDS(E_p_cbs[[nm]], paste0("data/extensions/cbs/p_", nm, ".rds"))
 }
 
 # save versions for paper

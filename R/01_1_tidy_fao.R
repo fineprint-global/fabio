@@ -852,7 +852,7 @@ saveRDS(cnb, "data/tidy/cnb_tidy.rds")
 rm(cnb, cnb_mean, cnb_sum)
 
 
-# Manure -------------------------------------------------------------------
+# Manure -------------------------------------------
 #get files from FAO
 file <- c("Environment_LivestockManure_E_All_Data_(Normalized).zip")
 fa_dl(file = file, path = path_fao, link = "https://bulks-faostat.fao.org/production/")
@@ -883,7 +883,8 @@ manure <- manure[, .(area = unique(area), area_code = unique(area_code),
 # save
 saveRDS(manure, "data/tidy/manure_tidy.rds")
 
-# Emissions from crops -----------------------------------------------------------
+# Emissions farm gate -----------------------------------------
+## Crops ------------------------
 #get files from FAO
 file <- c("Emissions_crops_E_All_Data_(Normalized).zip")
 fa_dl(file = file, path = path_fao, link = "https://bulks-faostat.fao.org/production/")
@@ -908,19 +909,63 @@ crop_emissions <- crop_emissions[, .(area = unique(area), unit = unique(unit),
                                      value = sum(value, na.rm = TRUE)), 
                                  by = .(iso3c, item, year, element)]
 
-# replace crop items with cbs items
-conc <- fread("inst/conc_crop-cbs.csv")
-crop_emissions[, `:=` (item_cbs = conc$cbs_item[match(item_code, conc$crop_item_code)],
-                       item_code_cbs = conc$cbs_item_code[match(item_code, conc$crop_item_code)])]
-crop_emissions[!is.na(item_cbs), `:=` (item = item_cbs, item_code = item_code_cbs)][
-  , `:=` (item_cbs = NULL, item_code_cbs = NULL)]
-
-
 # save
 saveRDS(crop_emissions, "data/tidy/crop_emissions_tidy.rds")
 
 
-# Emissions from drained organic soils ----------------------------------------
+## Livestock ----------------------------------------
+#get files from FAO
+file <- c("Emissions_livestock_E_All_Data_(Normalized).zip")
+fa_dl(file = file, path = path_fao, link = "https://bulks-faostat.fao.org/production/")
+fa_extract(path_in = path_fao, file = file, path_out=path_fao, name = names(file))
+lvst_emissions <- read_rds(paste0(path_fao,"Emissions_livestock_E_All_Data_(Normalized).rds"))
+
+#clean up
+lvst_emissions <- lvst_emissions[ `Source Code` == 3050] # only FAO tier 1 emissions
+lvst_emissions <- dt_rename(lvst_emissions, rename = rename, drop = TRUE)
+lvst_emissions <- lvst_emissions[year %in% years, ]
+lvst_emissions <- area_kick(lvst_emissions, code = 351, pattern = "China", groups = TRUE)
+lvst_emissions <- area_fix(lvst_emissions, regions)
+lvst_emissions <- area_merge(lvst_emissions, orig = 206, dest = 276, pattern = "Sudan")
+setDT(lvst_emissions)
+lvst_emissions[, iso3c := regions$iso3c[match(area, regions$name)]]
+
+# exclude items at wrong level of aggregation
+lvst_emissions <- lvst_emissions[item_code %in% items$item_code]
+
+# save
+saveRDS(lvst_emissions, "data/tidy/lvst_emissions_tidy.rds")
+
+## Energy use in agriculture
+#get files from FAO
+file <- c("Emissions_Agriculture_Energy_E_All_Data_(Normalized).zip")
+fa_dl(file = file, path = path_fao, link = "https://bulks-faostat.fao.org/production/")
+fa_extract(path_in = path_fao, file = file, path_out=path_fao, name = names(file))
+engy_emissions <- read_rds(paste0(path_fao,"Emissions_Agriculture_Energy_E_All_Data_(Normalized).rds"))
+
+#clean up
+engy_emissions <- dt_rename(engy_emissions, rename = rename, drop = TRUE)
+engy_emissions <- engy_emissions[year %in% years, ]
+engy_emissions <- area_kick(engy_emissions, code = 351, pattern = "China", groups = TRUE)
+engy_emissions <- area_fix(engy_emissions, regions)
+engy_emissions <- area_merge(engy_emissions, orig = 206, dest = 276, pattern = "Sudan")
+setDT(engy_emissions)
+engy_emissions[, iso3c := regions$iso3c[match(area, regions$name)]]
+
+
+# aggregate countries not in fabio to RoW
+engy_emissions[is.na(iso3c), `:=` (iso3c = "ROW", area = "RoW", area_code = 999)]
+engy_emissions <- engy_emissions[, .(area = unique(area), unit = unique(unit),
+                                     item_code = unique(item_code),
+                                     value = sum(value, na.rm = TRUE)), 
+                                 by = .(iso3c, item, year, element)]
+
+# save
+saveRDS(engy_emissions, "data/tidy/energy_emissions_tidy.rds")
+
+
+# Emissions from LUC ----------------------------
+## Drained organic soils ----------------------------------------
 #get files from FAO
 file <- c("Emissions_Drained_Organic_Soils_E_All_Data_(Normalized).zip")
 fa_dl(file = file, path = path_fao, link = "https://bulks-faostat.fao.org/production/")
@@ -948,33 +993,29 @@ drain_emissions <- drain_emissions[, .(area = unique(area), unit= unique(unit),
 # save
 saveRDS(drain_emissions, "data/tidy/drain_emissions_tidy.rds")
 
-# Emissions from manure ----------------------------------------
+
+# Emissions pre- and post agricultural production -----------------
 #get files from FAO
-file <- c("Emissions_livestock_E_All_Data_(Normalized).zip")
+file <- c("Emissions_Pre_Post_Production_E_All_Data_(Normalized).zip")
 fa_dl(file = file, path = path_fao, link = "https://bulks-faostat.fao.org/production/")
 fa_extract(path_in = path_fao, file = file, path_out=path_fao, name = names(file))
-manure_emissions <- read_rds(paste0(path_fao,"Emissions_livestock_E_All_Data_(Normalized).rds"))
+ppap_emissions <- read_rds(paste0(path_fao,"Emissions_Pre_Post_Production_E_All_Data_(Normalized).rds"))
 
 #clean up
-manure_emissions <- manure_emissions[ `Source Code` == 3050] # only FAO tier 1 emissions
-manure_emissions <- dt_rename(manure_emissions, rename = rename, drop = TRUE)
-manure_emissions <- manure_emissions[year %in% years, ]
-manure_emissions <- area_kick(manure_emissions, code = 351, pattern = "China", groups = TRUE)
-manure_emissions <- area_fix(manure_emissions, regions)
-manure_emissions <- area_merge(manure_emissions, orig = 206, dest = 276, pattern = "Sudan")
-setDT(manure_emissions)
-manure_emissions[, iso3c := regions$iso3c[match(area, regions$name)]]
+ppap_emissions <- dt_rename(ppap_emissions, rename = rename, drop = TRUE)
+ppap_emissions <- ppap_emissions[year %in% years, ]
+ppap_emissions <- area_kick(ppap_emissions, code = 351, pattern = "China", groups = TRUE)
+ppap_emissions <- ppap_emissions[area_code != 283] # TODO: should Jersey be mapped to regions instead?
+ppap_emissions <- area_fix(ppap_emissions, regions)
+ppap_emissions <- area_merge(ppap_emissions, orig = 206, dest = 276, pattern = "Sudan")
+setDT(ppap_emissions)
+ppap_emissions[, iso3c := regions$iso3c[match(area, regions$name)]]
 
-
-# aggregate countries not in fabio to RoW
-manure_emissions[is.na(iso3c), `:=` (iso3c = "ROW", area = "RoW", area_code = 999)]
-manure_emissions <- manure_emissions[, .(area = unique(area), unit = unique(unit),
-                                         item_code = unique(item_code),
-                                         value = sum(value, na.rm = TRUE)), 
-                                     by = .(iso3c, item, year, element)]
 
 # save
-saveRDS(manure_emissions, "data/tidy/manure_emissions_tidy.rds")
+saveRDS(ppap_emissions, "data/tidy/ppap_emissions_tidy.rds")
+
+
 
 # Livestock ---------------------------------------------------------------
 

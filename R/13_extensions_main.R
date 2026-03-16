@@ -16,10 +16,11 @@ E_cbs <- lapply(years, function(yr) {
 
 # set list names
 names(E_cbs) <- years
+row_names <- tools::file_path_sans_ext(basename(files_cbs))
 
 # set rownames
 for (yr in as.character(years)) {
-  rownames(E_sua[[yr]]) <- row_names
+  rownames(E_cbs[[yr]]) <- row_names
 }
 
 # save
@@ -46,10 +47,6 @@ for (yr in as.character(years)) {
 #save
 saveRDS(E_sua, "/mnt/nfs_fineprint/tmp/fabio/v2_525/E.rds")
 
-
-# Check if label filenames are the same as in cbs and sua folders -> if not, print message
-
-# if yes, compile to one .csv and save to output_dir
 
 
 
