@@ -366,6 +366,27 @@ format_extension <- function(dt, yrs = years, reg = regions, itms = items,
   setNames(result_list, yrs)
 }
 
+unformat_extension <- function(data, ext_names) { # this yields a long table, be mindful of different units!
+  out <- rbindlist(
+    lapply(ext_names, function(p) {
+      rbindlist(
+        lapply(names(data[[p]]), function(yr) {
+          mat <- data[[p]][[yr]]
+          data.table(
+            year    = as.integer(yr),
+            col_key = colnames(mat),
+            value   = as.numeric(mat)
+          )
+        })
+      )[, ext := p]
+    })
+  )
+  out[, `:=`(iso3c = substr(col_key, 1, 3), comm_code = substr(col_key, 5, 8))]
+  out[, col_key := NULL]
+  setcolorder(out, c("year", "iso3c", "comm_code", "ext", "value"))
+  out
+}
+
 
 read_excel_sheets <- function(filename, sheets = NULL) {
   all_sheets <- readxl::excel_sheets(filename)

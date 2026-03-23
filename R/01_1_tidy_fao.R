@@ -931,7 +931,15 @@ setDT(lvst_emissions)
 lvst_emissions[, iso3c := regions$iso3c[match(area, regions$name)]]
 
 # exclude items at wrong level of aggregation
-lvst_emissions <- lvst_emissions[item_code %in% items$item_code]
+lvst_emissions <- lvst_emissions[!item_code %in% c(1755, 1760, 960, 961, 1052, 1053, 
+                                                   1177, 1759, 2029, 1051, 1049, 1749)]
+
+# correct codes  (for some reason some of the codes from the
+# emissions domain don't match the codes from the production domain)
+src_code <- c(1757, 1054, 1048)
+tgt_code <- c(866, 1057, 1034)
+
+lvst_emissions[item_code %in% src_code, item_code := tgt_code[match(item_code, src_code)]]
 
 # save
 saveRDS(lvst_emissions, "data/tidy/lvst_emissions_tidy.rds")
