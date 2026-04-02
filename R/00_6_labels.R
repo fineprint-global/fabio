@@ -59,13 +59,13 @@ for(i in loop){
     fd = rep(fd, nrreg))
 
   if(i == "cbs"){
-  #   fwrite(io_labels, file=file.path(output_dir,"io_labels.csv"))
-  #   fwrite(su_labels, file=file.path(output_dir,"su_labels.csv"))
-  #   fwrite(fd_labels, file=file.path(output_dir,"fd_labels.csv"))
-  #   fwrite(fd_labels[!fd %in% c("losses")], file=file.path(output_dir,"losses/fd_labels.csv"))
-  #   fwrite(items[, .(comm_code, item_code, item, unit, group, comm_group)],
-  #          file=file.path(output_dir,"items.csv"))
-  #   fwrite(regions, file=file.path(output_dir,"regions.csv"))
+    fwrite(io_labels, file=file.path(output_dir,"io_labels.csv"))
+    fwrite(su_labels, file=file.path(output_dir,"su_labels.csv"))
+    fwrite(fd_labels, file=file.path(output_dir,"fd_labels.csv"))
+    fwrite(fd_labels[!fd %in% c("losses")], file=file.path(output_dir,"losses/fd_labels.csv"))
+    fwrite(items[, .(comm_code, item_code, item, unit, group, comm_group)],
+           file=file.path(output_dir,"items.csv"))
+    fwrite(regions, file=file.path(output_dir,"regions.csv"))
   }else{
     output_dir <- "/mnt/nfs_fineprint/tmp/fabio/v2_525"
     fwrite(io_labels, file=file.path(output_dir,"io_labels.csv"))
