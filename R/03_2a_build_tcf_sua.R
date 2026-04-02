@@ -3,7 +3,7 @@ library("data.table")
 source("R/00_system_variables.R")
 
 regions_full <- fread("inst/regions_full.csv")
-regions <- fread("inst/regions.csv")
+regions <- fread("inst/regions_full.csv")[current==TRUE]
 
 tcf <- readRDS("data/tidy/tcf_sua_tidy.rds") 
 tcf_avg <- fread("inst/sua/tcf_sua_world_averages.csv")
