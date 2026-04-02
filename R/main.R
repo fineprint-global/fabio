@@ -35,6 +35,8 @@ source("R/02_build_btd.R"); rm(list = ls()); gc()
 # Build full CBS ---------------------------------------------------------
 source("R/03_1a_build_cbs.R"); rm(list = ls()); gc()
 source("R/03_1b_balance_cbs.R"); rm(list = ls()); gc()
+source("R/03_2a_build_tcf_sua.R"); rm(list = ls()); gc()
+source("R/03_2b_build_sua.R"); rm(list = ls()); gc()
 
 # Estimate BTD from totals -----------------------------------------------
 source("R/04_estimate_btd.R"); rm(list = ls()); gc()
@@ -47,6 +49,7 @@ source("R/06_re-exports.R"); rm(list = ls()); gc()
 
 # Create the supply structure --------------------------------------------
 source("R/07_1_supply_cbs.R"); rm(list = ls()); gc()
+source("R/07_2_supply_sua.R"); rm(list = ls()); gc()
 
 # Create the use structure -----------------------------------------------
 source("R/08_1a_use_cbs.R"); rm(list = ls()); gc()
