@@ -405,44 +405,49 @@ saveRDS(btd, "data/tidy/btd_tidy.rds")
 rm(btd, btd_conc, item_match)
 
 
-# # Forestry ----------------------------------------------------------------
-#
-# cat("\nTidying forestry.\n")
-#
-# #
-# # Production
-# fore_prod <- readRDS("input/fao/fore_prod.rds")
-#
-# fore_prod <- dt_rename(fore_prod, rename, drop = TRUE)
-#
-# # Country / Area adjustments
-# fore_prod <- area_kick(fore_prod, code = 351, pattern = "China", groups = TRUE)
-# fore_prod <- area_merge(fore_prod, orig = 62, dest = 238, pattern = "Ethiopia")
-# fore_prod <- area_merge(fore_prod, orig = 206, dest = 276, pattern = "Sudan")
-# fore_prod <- area_fix(fore_prod, regions)
-#
-# # Cut down to certain products
-# fore_prod <- dt_filter(fore_prod, item_code %in% c("Wood fuel" = 1864,
-#   "Industrial roundwood, coniferous" = 1866,
-#   "Industrial roundwood, non-coniferous" = 1867))
-# fore_prod <- dt_filter(fore_prod, value >= 0)
-# # fore_prod <- dt_filter(fore_prod, unit != "1000 US$")
-# # Recode "1000 US$" to "usd"
-# fore_prod[unit == "1000 US$", `:=`(value = value * 1000, unit = "usd")]
-#
-# fore_prod[, imex := factor(gsub("^(Import|Export) (.*)$", "\\1", element))]
-#
-# # Get this in the format of CBS
-# fore_prod <- dt_filter(fore_prod, unit == "m3")
-# fore_prod[, unit := NULL]
-# fore_prod <- data.table::dcast(fore_prod,
-#   area_code + area + item_code + item + year ~ imex, value.var = "value")
-# fore_prod <- dt_rename(fore_prod, rename, drop = FALSE)
-#
-# # Store
-# saveRDS(fore_prod, "data/tidy/fore_prod_tidy.rds")
-# rm(fore_prod)
-#
+# Forestry ----------------------------------------------------------------
+cat("\nTidying forestry.\n")
+source("R/00_prep_functions.R")
+path_fao <- "input/fao/"
+
+# get FAO land use data
+file <- c("fore_prod" = "Forestry_E_All_Data_(Normalized).zip")
+fa_dl(file = file, path = path_fao, link = "https://bulks-faostat.fao.org/production/")
+
+fa_extract(path_in = path_fao, files = file, path_out=path_fao, 
+           name = names(file))
+
+# Production
+fore_prod <- readRDS(paste0(path_fao,"Forestry_E_All_Data_(Normalized).rds"))
+fore_prod <- dt_rename(fore_prod, rename, drop = TRUE)
+
+# Country / Area adjustments
+fore_prod <- area_kick(fore_prod, code = 351, pattern = "China", groups = TRUE)
+fore_prod <- area_merge(fore_prod, orig = 62, dest = 238, pattern = "Ethiopia")
+fore_prod <- area_merge(fore_prod, orig = 206, dest = 276, pattern = "Sudan")
+fore_prod <- area_fix(fore_prod, regions)
+
+# Cut down to certain products
+fore_prod <- dt_filter(fore_prod, item_code %in% c("Wood fuel" = 1864,
+  "Roundwood" = 1861))
+fore_prod <- dt_filter(fore_prod, value >= 0)
+# fore_prod <- dt_filter(fore_prod, unit != "1000 US$")
+# Recode "1000 US$" to "usd"
+fore_prod[unit == "1000 US$", `:=`(value = value * 1000, unit = "usd")]
+
+fore_prod[, imex := factor(gsub("^(Import|Export) (.*)$", "\\1", element))]
+
+# Get this in the format of CBS
+fore_prod <- dt_filter(fore_prod, unit == "m3")
+fore_prod[, unit := NULL]
+fore_prod <- data.table::dcast(fore_prod,
+  area_code + area + item_code + item + year ~ imex, value.var = "value")
+fore_prod <- dt_rename(fore_prod, rename, drop = FALSE)
+
+# Store
+saveRDS(fore_prod, "data/tidy/fore_prod_tidy.rds")
+rm(fore_prod)
+
 # #
 # # Trade
 # fore_trad <- readRDS("input/fao/fore_trad.rds")

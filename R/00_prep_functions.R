@@ -71,6 +71,10 @@ fa_extract <- function(
   if(length(zip) == 1 && length(extr) > 1 || is.null(extr)) {
     if(v) cat("Extracting multiple files from a single ZIP archive\n")
     csv <- unzip(zip, extr, exdir = gsub("(.*)/", "\\1", path_out))
+    
+    junk_patterns <- c("\\.DS_Store$", "^__MACOSX", "\\._")
+    csv <- csv[!grepl(paste(junk_patterns, collapse = "|"), csv)]
+    
   } else {
     if(v) cat("Extracting single files from multiple ZIP archives\n")
     csv <- vector("character", length(zip))
@@ -93,7 +97,10 @@ fa_extract <- function(
       rds[[i]] <- data.table::fread(csv[i], colClasses = col_types[[i]])
     } else if (read_method[i] == "read_csv") {
       rds[[i]] <- as.data.table(readr::read_csv(csv[i]))
-    } else {stop("Wrong read_method specified for", csv[i], ". Must be either 'fread' or 'read_csv'. If read_method is NULL, fread is used by default. \n")}
+    } else if (read_method[i] == "read_xlsx") {
+    sheet <- if(!is.null(col_types[[i]]$sheet)) col_types[[i]]$sheet else 1
+    rds[[i]] <- as.data.table(readxl::read_excel(csv[i], sheet = sheet))
+    } else {stop("Wrong read_method specified for", csv[i], ". Must be either 'fread', 'read_csv', or 'read_xlsx'. If read_method is NULL, fread is used by default. \n")}
   }
 
   if(stack) {
