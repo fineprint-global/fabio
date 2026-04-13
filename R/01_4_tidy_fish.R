@@ -51,7 +51,7 @@ prod <- prod[value > 0]
 prod_proc <- readRDS("input/fish/prod_proc.rds")
 prod_proc <- dt_rename(prod_proc, rename, drop = TRUE)
 prod_proc <- prod_proc[value > 0]
-prod_proc[, isscaap_code := as.numeric(isscaap_code)]
+prod_proc[, country := as.numeric(country)]
 
 trad <- readRDS("input/fish/trad.rds")
 trad <- dt_rename(trad, rename, drop = TRUE)
@@ -160,10 +160,10 @@ prod <- merge(prod, species[, .(species, isscaap_code = isscaap_division_code, i
                                    cpc_code = cpc_group_code, cpc_group = cpc_group_name)], by = "species", all.x = TRUE)
 setcolorder(prod, c("country", "species", "isscaap_code", "isscaap_name", "cpc_code", "cpc_group"))
 
-prod_proc[, cpc_group_code := as.numeric(str_sub(cpc_code, 1, 2))]
-prod_proc[, cpc_code := as.numeric(cpc_code)]
 prod_proc <- merge(prod_proc, isscfc23[, .(commodity, isscaap_code, cpc_code, hs_code)],
                    by = "commodity", all.x = TRUE)
+prod_proc[, cpc_group_code := as.numeric(str_sub(cpc_code, 1, 2))]
+prod_proc[, `:=`(isscaap_code = as.numeric(isscaap_code), cpc_code = as.numeric(cpc_code))]
 prod_proc <- merge(prod_proc, unique(species[, .(isscaap_code = isscaap_group_code, isscaap_name = isscaap_group_name)]),
                    by = "isscaap_code", all.x = TRUE)
 prod_proc <- merge(prod_proc, unique(species[!is.na(cpc_group_code), .(cpc_group_code, cpc_group_name)]),

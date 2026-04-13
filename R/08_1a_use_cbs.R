@@ -221,7 +221,7 @@ rm(eth, eth_tcf)
 
 # Optimise feedstock allocation ----------------------------------------------------------------
 # Allocate feedstocks to the production of alcoholic beverages and sweeteners
-regions <- fread("inst/regions_current.csv")
+regions <- fread("inst/regions_tidy.csv")
 opt_tcf <- fread("inst/tcf_optim.csv")
 opt_in <- fread("inst/optim_in.csv")
 opt_out <- fread("inst/optim_out.csv")
@@ -383,7 +383,9 @@ use_fd <- merge(use_fd, b2[, .(comm_code, area_code, year, use_fd_country = use_
                 by = c("comm_code", "area_code", "year"), all.x = TRUE)
 
 # not for oilseed cakes, hops, livestock, fodder crops and grazing
-use_fd[!is.na(diff / use_fd_global) & !item %like% "Cake" & item_code > 2029, `:=`(
+use_fd[!is.na(diff / use_fd_global) & !item %like% "Cake" & 
+         !item_code %in% items[group=="Livestock", item_code] & 
+         !item_code %in% c(2000, 2001), `:=`(
   food            = na_sum(food,            round(diff / use_fd_global * food)),
   losses          = na_sum(losses,          round(diff / use_fd_global * losses)),
   other           = na_sum(other,           round(diff / use_fd_global * other)),

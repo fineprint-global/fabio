@@ -2,7 +2,7 @@
 library("data.table")
 source("R/00_system_variables.R")
 
-regions <- fread("inst/regions_full.csv")[regions$current]
+regions <- fread("inst/regions_full.csv")[current==TRUE]
 items <- fread("inst/items_full_123.csv")
 
 

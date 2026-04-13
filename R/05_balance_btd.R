@@ -14,7 +14,7 @@ btd <- readRDS("data/btd_full.rds")
 btd_est <- readRDS("data/btd_est.rds")
 cbs <- readRDS("data/cbs_full.rds")
 
-areas <- fread("inst/regions_current.csv")$area_code
+areas <- fread("inst/regions_full.csv")[current==TRUE, code]
 items <- fread("inst/items_full_123.csv")$item_code
 
 

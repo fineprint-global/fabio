@@ -4,16 +4,18 @@ library(tidyverse)
 source("R/00_system_variables.R")
 source("R/01_tidy_functions.R")
 
+# Read regions
+regions_full <- fread("inst/regions_full.csv")
+regions <- regions_full[current==TRUE, .(iso3c, area_code = code, area = name,
+                                         continent, region, EU27)]
+fwrite(regions, "inst/regions_tidy.csv")
+nrreg <- nrow(regions)
+
+
 # set vector for creating cbs and sua level labels
 loop <- c("cbs", "sua")
 
 for(i in loop){
-  # Read regions
-  regions_full <- fread("inst/regions_full.csv")
-  regions <- regions_full[current==TRUE, .(iso3c, area_code = code, area = name,
-                                           continent, region, EU27)]
-  fwrite(regions, "inst/regions_current.csv")
-  nrreg <- nrow(regions)
   
   if(i == "cbs"){
     items <- fread("inst/items_full_123.csv")
