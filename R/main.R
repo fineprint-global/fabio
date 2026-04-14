@@ -35,6 +35,8 @@ source("R/02_build_btd.R"); rm(list = ls()); gc()
 # Build full CBS ---------------------------------------------------------
 source("R/03_1a_build_cbs.R"); rm(list = ls()); gc()
 source("R/03_1b_balance_cbs.R"); rm(list = ls()); gc()
+
+# Build full SUA ---------------------------------------------------------
 source("R/03_2a_build_tcf_sua.R"); rm(list = ls()); gc()
 source("R/03_2b_build_sua.R"); rm(list = ls()); gc()
 

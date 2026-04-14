@@ -192,9 +192,9 @@ cbs[, `:=`(corr = NULL, ratio = NULL)]
 cbs[, `:=`(stock_addition = ifelse(stock_addition < 0, 0, stock_addition))]
 cbs[, `:=`(stock_withdrawal = ifelse(stock_withdrawal < 0, 0, stock_withdrawal))]
 # Each country's supply is the sum of its production and stock withdrawals (i.e. where stock_addition < 0)
-cbs[, `:=`(domestic_supply = na_sum(production, stock_withdrawal))]
+cbs[, `:=`(domestic_supply = production)]
 cbs[, `:=`(supply = na_sum(domestic_supply, imports))]
-cbs[, `:=`(domestic_use = na_sum(food, feed, other, tourist, seed, losses, processing, stock_addition))]
+cbs[, `:=`(domestic_use = na_sum(food, feed, other, tourist, seed, losses, processing, stock_addition, -stock_withdrawal))]
 cbs[, `:=`(use = na_sum(domestic_use, exports))]
 
 # fix discrepancies of stock additions with 'supply'
@@ -294,9 +294,9 @@ sua[, `:=`(corr = NULL, ratio = NULL)]
 sua[, `:=`(stock_addition = ifelse(stock_addition < 0, 0, stock_addition))]
 sua[, `:=`(stock_withdrawal = ifelse(stock_withdrawal < 0, 0, stock_withdrawal))]
 # Each country's supply is the sum of its production and stock withdrawals (i.e. where stock_addition < 0)
-sua[, `:=`(domestic_supply = na_sum(production, stock_withdrawal))]
+sua[, `:=`(domestic_supply = production)]
 sua[, `:=`(supply = na_sum(domestic_supply, imports))]
-sua[, `:=`(domestic_use = na_sum(food, feed, other, tourist, seed, losses, processing, stock_addition))]
+sua[, `:=`(domestic_use = na_sum(food, feed, other, tourist, seed, losses, processing, stock_addition, -stock_withdrawal))]
 sua[, `:=`(use = na_sum(domestic_use, exports))]
 
 setnames(sua, "item_code", "item_code")
