@@ -22,8 +22,9 @@ cbs <- rbindlist(list(cbs, grazing), use.names = TRUE, fill = TRUE)
 
 
 # Allocate production to supplying processes including double-counting
+# supply here equals production; stock withdrawals or imports are not part of supply
 sup <- merge(
-  cbs[, .(area_code, area, year, item_code, item, supply = domestic_supply)],
+  cbs[, .(area_code, area, year, item_code, item, supply = production)],
   sup[item_code %in% unique(cbs$item_code)],
   by = c("item_code", "item"), all = TRUE, allow.cartesian = TRUE)
 
