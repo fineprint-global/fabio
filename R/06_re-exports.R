@@ -91,7 +91,11 @@ for(i in seq_along(years)) {
       I <- Diagonal(n)
       # Try regular solve, fallback to generalized inverse if singular
       L <- tryCatch(solve(I - A),
-                    error = function(e) MASS::ginv(as.matrix(I - A)))
+                    error = function(e) {
+                      mat <- as.matrix(I - A)
+                      mat[is.na(mat) | is.infinite(mat)] <- 0
+                      MASS::ginv(mat)
+                    })
 
       # Allocate exports proportionally to total domestic use
       F <- L * DS
@@ -101,7 +105,7 @@ for(i in seq_along(years)) {
       col_sums <- colSums(F)
       
       # Handle division by zero: if col_sum is 0, set corresponding column to 0
-      S <- t(t(F) / pmax(col_sums, 1))
+      S <- as.matrix(t(t(F) / pmax(col_sums, 1)))
       S[, col_sums == 0] <- 0
       S[is.na(S) | is.infinite(S)] <- 0  # Clean up any remaining NAs or Inf
       
