@@ -17,6 +17,9 @@ biofuels_eia_cols <- c("character", "character", "character", rep("character", l
 biofuels_eia <- fread(paste0(path_biofuels, "eia_biofuels_2024.csv"), header = TRUE,
                    check.names = FALSE, colClasses = biofuels_eia_cols, na.strings = c("-", "--", "", "NA"))
 
+# no data for 2023 available yet, therefore reuse 2022 data
+biofuels_eia[, `2023` := `2022`]
+
 biofuels_eia <- biofuels_eia[,(as.character(years)) := lapply(.SD,as.numeric),.SDcols=as.character(years)]
 # biofuels_eia[, country := str_trim(country)]
 

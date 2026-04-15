@@ -308,12 +308,12 @@ saveRDS(mr_use, file.path(output_dir,"mr_use.rds"))
 # Template to always get full tables
 template <- data.table(expand.grid(
   area_code = areas, comm_code = commodities,
-  variable = c("food", "losses", "other", "stock_addition", "stock_withdrawal", "tourist"),
+  variable = c("food", "losses", "other", "stock_addition", "tourist"),
   stringsAsFactors = FALSE))
 setkey(template, area_code, comm_code, variable)
 
 use_fd <- melt(use_fd[, .(year, area_code, comm_code,
-  food, losses, other, stock_addition, stock_withdrawal = -stock_withdrawal, tourist)],
+  food, losses, other, stock_addition, tourist)],
   id.vars = c("year", "area_code", "comm_code"))
 
 # List with final use matrices, per year
@@ -421,35 +421,36 @@ mr_use_fd <- mcmapply(function(x, y) {
 
 
 
-# Put stock_withdrawal on the domestic block
-mr_use_fd <- mcmapply(function(x, n_prod = length(commodities), n_ctry = length(areas)) {
-  # 1. Extract stock_withdrawal columns
-  stock_cols <- grep("stock_withdrawal$", colnames(x))
-  stock_mat  <- x[, stock_cols, drop = FALSE]  # 23001 x 187
-  
-  # 2. Aggregate rows by product → 123 x 187
-  group_index <- rep(1:n_prod, times = n_ctry)
-  agg_mat <- matrix(0, n_prod, n_ctry)
-  for (j in seq_len(n_ctry)) {
-    agg_mat[, j] <- rowsum(as.numeric(stock_mat[, j]), group = group_index)
-  }
-  agg_mat <- Matrix(agg_mat, sparse = TRUE)  # 123 x 187
-  
-  # 3. Expand into 23001 x 187
-  expand_mat <- Matrix(0, n_prod * n_ctry, n_ctry, sparse = TRUE)
-  for (j in seq_len(n_ctry)) {
-    rows <- ((j - 1) * n_prod + 1):(j * n_prod)
-    expand_mat[rows, j] <- agg_mat[, j]
-  }
-  
-  # 4. Replace stock_withdrawals
-  x <- x[, -stock_cols]
-  stock_cols <- grep("stock_addition$", colnames(x))
-  x[, stock_cols] <- x[, stock_cols] + expand_mat
-  
-  x
-  
-}, mr_use_fd, mc.cores = detectCores() - 2, SIMPLIFY = FALSE)
+# # This step is not needed. Stock withdrawals are simply treated as negative stock additions and kept in fd.
+# # Put stock_withdrawal on the domestic block
+# mr_use_fd <- mcmapply(function(x, n_prod = length(commodities), n_ctry = length(areas)) {
+#   # 1. Extract stock_withdrawal columns
+#   stock_cols <- grep("stock_withdrawal$", colnames(x))
+#   stock_mat  <- x[, stock_cols, drop = FALSE]  # 23001 x 187
+#   
+#   # 2. Aggregate rows by product → 123 x 187
+#   group_index <- rep(1:n_prod, times = n_ctry)
+#   agg_mat <- matrix(0, n_prod, n_ctry)
+#   for (j in seq_len(n_ctry)) {
+#     agg_mat[, j] <- rowsum(as.numeric(stock_mat[, j]), group = group_index)
+#   }
+#   agg_mat <- Matrix(agg_mat, sparse = TRUE)  # 123 x 187
+#   
+#   # 3. Expand into 23001 x 187
+#   expand_mat <- Matrix(0, n_prod * n_ctry, n_ctry, sparse = TRUE)
+#   for (j in seq_len(n_ctry)) {
+#     rows <- ((j - 1) * n_prod + 1):(j * n_prod)
+#     expand_mat[rows, j] <- agg_mat[, j]
+#   }
+#   
+#   # 4. Replace stock_withdrawals
+#   x <- x[, -stock_cols]
+#   stock_cols <- grep("stock_addition$", colnames(x))
+#   x[, stock_cols] <- x[, stock_cols] + expand_mat
+#   
+#   x
+#   
+# }, mr_use_fd, mc.cores = detectCores() - 2, SIMPLIFY = FALSE)
 
 
 mr_use_fd <- lapply(mr_use_fd, round)

@@ -470,9 +470,9 @@ cbs[na_sum(balancing, residuals) > 0,
 
 
 # Re-calculate supply and use
-cbs[, `:=`(domestic_supply = na_sum(production, stock_withdrawal))]
+cbs[, `:=`(domestic_supply = production)]
 cbs[, `:=`(supply = na_sum(domestic_supply, imports))]
-cbs[, `:=`(domestic_use = na_sum(food, feed, other, tourist, seed, losses, processing, stock_addition))]
+cbs[, `:=`(domestic_use = na_sum(food, feed, other, tourist, seed, losses, processing, stock_addition, -stock_withdrawal))]
 cbs[, `:=`(use = na_sum(domestic_use, exports))]
 
 

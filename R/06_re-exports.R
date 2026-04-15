@@ -10,7 +10,6 @@ source("R/00_system_variables.R")
 
 btd <- readRDS("data/btd_bal.rds")
 cbs <- readRDS("data/cbs_full.rds")
-
 areas <- fread("inst/regions_full.csv")[current==TRUE, code]
 items <- fread("inst/items_full_123.csv")[,item_code]
 n <- length(areas)
@@ -92,7 +91,11 @@ for(i in seq_along(years)) {
       I <- Diagonal(n)
       # Try regular solve, fallback to generalized inverse if singular
       L <- tryCatch(solve(I - A),
-                    error = function(e) MASS::ginv(as.matrix(I - A)))
+                    error = function(e) {
+                      mat <- as.matrix(I - A)
+                      mat[is.na(mat) | is.infinite(mat)] <- 0
+                      MASS::ginv(mat)
+                    })
 
       # Allocate exports proportionally to total domestic use
       F <- L * DS
@@ -100,7 +103,12 @@ for(i in seq_along(years)) {
       
       # Final bilateral flows: re-scale X to domestic supply
       col_sums <- colSums(F)
-      S <- t(t(F) / col_sums)
+      
+      # Handle division by zero: if col_sum is 0, set corresponding column to 0
+      S <- as.matrix(t(t(F) / pmax(col_sums, 1)))
+      S[, col_sums == 0] <- 0
+      S[is.na(S) | is.infinite(S)] <- 0  # Clean up any remaining NAs or Inf
+      
       final_result <- t(t(S) * DU)
       
       # final numeric matrix (rounded), keep sparse

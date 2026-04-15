@@ -35,6 +35,8 @@ source("R/02_build_btd.R"); rm(list = ls()); gc()
 # Build full CBS ---------------------------------------------------------
 source("R/03_1a_build_cbs.R"); rm(list = ls()); gc()
 source("R/03_1b_balance_cbs.R"); rm(list = ls()); gc()
+
+# Build full SUA ---------------------------------------------------------
 source("R/03_2a_build_tcf_sua.R"); rm(list = ls()); gc()
 source("R/03_2b_build_sua.R"); rm(list = ls()); gc()
 
@@ -62,5 +64,13 @@ source("R/10_mrio.R"); rm(list = ls()); gc()
 source("R/11_leontief_inverse.R"); rm(list = ls()); gc()
 
 # Prepare env. extensions ------------------------------------------------
-source("R/12_1_extensions.R"); rm(list = ls()); gc()
+source("R/12_1_land_mass_water.R"); rm(list = ls()); gc()
+source("R/12_2_NPK_spatial.R"); rm(list = ls()); gc()
+source("R/12_3_NPK_fertilizer_application.R"); rm(list = ls()); gc()
+source("R/12_4_NP_balance.R"); rm(list = ls()); gc()
+source("R/12_5_ghg.R"); rm(list = ls()); gc()
+source("R/12_6_biodiversity.R"); rm(list = ls()); gc()
+source("R/13_extensions_main.R"); rm(list = ls()); gc()
+
+
 
