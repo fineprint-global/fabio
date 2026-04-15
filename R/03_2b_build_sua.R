@@ -7,6 +7,8 @@ items_sua <- fread("inst/sua/items_sua.csv")
 use_structure <- fread("inst/sua/use_structure_sua.csv")
 prod_trad <- readRDS("data/tidy/prod_trad_full.rds")
 
+#TODO: domestic supply should be equal to production, not production + stock withdrawal
+# instead: stock addition as final demand
 
 # SUA ---------------------------------------------------------------------
 
