@@ -172,8 +172,8 @@ bf_fodder <- readRDS("data/tidy/fodder_crop_non_agg_tidy.rds")
 
 # filter for leguminous fodder species, years and area
 bf_fodder <- bf_fodder[item_code %in% bf$item_code &
-                             year %in% years &
-                             element == "Area harvested"]
+                         year %in% years &
+                         element == "Area harvested"]
 bf_fodder[, bf_rate_kg := bf$bio_fixation[match(item_code, bf$item_code)]]
 bf_fodder[, bf := value * bf_rate_kg]
 bf_fodder <- bf_fodder[, .(bf = sum(bf, na.rm = TRUE)), 
@@ -330,15 +330,15 @@ rm(cnb)
 crop_res <- readRDS("data/tidy/crop_emissions_tidy.rds")
 crop_res <- crop_res[element %in% c("Burning crop residues (Emissions N2O)",
                                     "Crop residues (Direct emissions N2O)",
-                                   "Crop residues (N content)")]
+                                    "Crop residues (N content)")]
 # convert to kg, where necessary
 crop_res[unit == "kt", 
          `:=` (value = value * 1e6, unit = "kg")]
 
 #convert to elemental N, where necessary
 crop_res[element %in%  c("Burning crop residues (Emissions N2O)",
-                          "Crop residues (Direct emissions N2O)"),
-          value := value * 28/44]
+                         "Crop residues (Direct emissions N2O)"),
+         value := value * 28/44]
 
 # exclude totals from crop_res 
 crop_res <- crop_res[item != "All Crops"]
@@ -347,22 +347,22 @@ crop_res <- crop_res[item != "All Crops"]
 crop_res[!iso3c %in% regions$iso3c, `:=` (iso3c = "ROW", area = "RoW")]
 
 setcolorder(crop_res, c("iso3c", "area", "year", "item", "item_code", 
-                          "element", "value", "unit"))
+                        "element", "value", "unit"))
 
 
 # aggregate (direct) emissions from burning and from mineralization
 crop_em <- crop_res[element != "Crop residues (N content)", 
                     .(res_emissions = sum(value, na.rm = TRUE), 
                       item_code = unique(item_code)), 
-                     by = .(iso3c, item, year)]
+                    by = .(iso3c, item, year)]
 
 # get full table
 crop_em_full <- copy(template_full)
-  
+
 # fill in available values 
 crop_em_full <- merge(crop_em_full, crop_em[, !"item", with = FALSE], 
-                  by = c("iso3c", "year", "item_code"),
-                  all.x = TRUE)
+                      by = c("iso3c", "year", "item_code"),
+                      all.x = TRUE)
 
 # assume emissions from crop residues for crops not in FAO data at 0
 crop_em_full[is.na(res_emissions), res_emissions := 0]
@@ -403,32 +403,32 @@ climate <- unique(climate[, .(iso3c, item, item_code, wet_fraction)])
 
 # get inputs
 direct_inputs <- merge( app[, .(iso3c, year, item, item_code, N_synthetic = N_kg)],
-                      manure[, .(iso3c, year, item_code, N_man = N)],  
-                      by = c("iso3c", "year", "item_code"), all.x = TRUE)
+                        manure[, .(iso3c, year, item_code, N_man = N)],  
+                        by = c("iso3c", "year", "item_code"), all.x = TRUE)
 
 # add continents
 direct_inputs[, continent := regions$continent[match(iso3c,regions$iso3c)]]
 
 # add wet fractions
 direct_inputs[, wet_fraction := climate$wet_fraction[match(paste(iso3c, item_code),
-                                              paste(climate$iso3c, climate$item_code))]]
+                                                           paste(climate$iso3c, climate$item_code))]]
 
 # multiply direct inputs with EFs
 # EF for flooded rice used for Asian rice 
 # (assumption: all Asian rice is flooded, other rice is not)
 direct_inputs[continent == "ASI" & item_code %in% c(27, 2807), `:=` (n2o_n_syn = N_synthetic * 0.004,
-                                                              n2o_n_man = N_man * 0.004)]
+                                                                     n2o_n_man = N_man * 0.004)]
 direct_inputs[!(continent == "ASI" & item_code %in% c(27, 2807)) &
                 !is.na(wet_fraction), 
               `:=` (n2o_n_syn = (N_synthetic * wet_fraction * 0.016 +
-                                 N_synthetic * (1- wet_fraction) * 0.005), 
+                                   N_synthetic * (1- wet_fraction) * 0.005), 
                     n2o_n_man = N_man * wet_fraction * 0.006 +
                       N_man * (1 - wet_fraction) * 0.005)]
 
 # use default values where wet fractions are not available
 direct_inputs[!(continent == "ASI" & item_code %in% c(27, 2807)) &
                 is.na(wet_fraction), `:=` (n2o_n_syn = N_synthetic * 0.01, 
-                    n2o_n_man = N_man * 0.01)]
+                                           n2o_n_man = N_man * 0.01)]
 direct_inputs[, wet_fraction := NULL]
 
 # set grass emissions from manure to 0 -> this will be calculated later
@@ -436,8 +436,8 @@ direct_inputs[item_code == 2001, `:=` (n2o_n_syn = 0)]
 
 # add emissions from residues
 direct_inputs[, n2o_n_res := crop_em_full$res_emissions[match(paste(iso3c, year, item_code),
-                                                        paste(crop_em_full$iso3c, crop_em_full$year,
-                                                              crop_em_full$item_code))]]
+                                                              paste(crop_em_full$iso3c, crop_em_full$year,
+                                                                    crop_em_full$item_code))]]
 
 rm(crop_em_full)
 # (c) Emissions from managed and drained organic soils
@@ -478,7 +478,7 @@ setnames(soils, "harv_area", "hist_area")
 soils[, harv_area_fao_total := harv_area$ha[match(paste(iso_a3, item), 
                                                   paste(harv_area$iso3c, 
                                                         harv_area$item))]]
- 
+
 # set histosol area to 0 where FAO reports no harvested area (data mismatch)
 soils[harv_area_fao_total == 0 | is.na(harv_area_fao_total), hist_area := 0]
 
@@ -486,7 +486,7 @@ soils[harv_area_fao_total == 0 | is.na(harv_area_fao_total), hist_area := 0]
 soils[, fabio_iso := regions$iso3c[match(iso_a3, regions$iso3c)]]
 soils[ , iso3c := ifelse(is.na(fabio_iso),"ROW", fabio_iso)][, iso_a3:= NULL]
 soils <- soils[, .(hist_area = sum(hist_area, na.rm = TRUE) ),
-                               by = .(iso3c, item)]
+               by = .(iso3c, item)]
 
 # add up total areas by country to get distribution of histosols
 soils[, total := sum(hist_area, na.rm = TRUE), by = .(iso3c)]
@@ -504,7 +504,7 @@ drain_full[ item_code == 2001, n2o_n_drain := `Grassland organic soils`][
 
 # add histosol shares from soils dataset
 drain_full[, emission_share := soils$share[match(paste(iso3c, item),
-                                                   paste(soils$iso3c, soils$item))]]
+                                                 paste(soils$iso3c, soils$item))]]
 
 
 # multiply to obtain emissions by crop
@@ -534,8 +534,8 @@ pasture[, EFcpp := ifelse(item_code %in% c(960, 961, 1049, 1051, 1052, 1053, 106
                           TRUE, FALSE)]
 pasture[, n2o_prp := ifelse(EFcpp, value * 0.004, value * 0.003)]
 pasture <- pasture[, .(n2o_prp = sum(n2o_prp, na.rm = TRUE), unit = unique(unit), 
-                             area = unique(area)), 
-                         by = .(iso3c, year)]
+                       area = unique(area)), 
+                   by = .(iso3c, year)]
 pasture[, `:=` (unit = NULL, area = NULL)]
 
 # add emissions from manure inputs to grasslands to the other direct inputs
@@ -574,7 +574,7 @@ rm(indirect_vol)
 crop_res <- crop_res[element == "Crop residues (N content)"]
 crop_res[!iso3c %in% regions$iso3c, iso3c == "ROW"]
 crop_res <- crop_res[, .(value = sum(value, na.rm = TRUE)),
-                       by = .(iso3c, item, item_code, year)]
+                     by = .(iso3c, item, item_code, year)]
 
 
 # merge with FA and manure application
@@ -583,8 +583,8 @@ leach <- merge(app[, .(iso3c, year, item, item_code, sf = N_kg)],
                by = c("iso3c", "year", "item_code"),
                all.x = TRUE)
 leach <- merge(leach, crop_res[, .(iso3c, year, item_code, res = value)],
-                by = c("iso3c", "year", "item_code"),
-                all.x = TRUE)
+               by = c("iso3c", "year", "item_code"),
+               all.x = TRUE)
 
 # calculate total N input to croplands
 leach[, N := na_sum(sf, man, res)][, c("sf", "man", "res") := NULL]
@@ -595,8 +595,8 @@ leach[, wet_fraction := climate$wet_fraction[match(paste(iso3c, item_code),
 
 # assume countries' average wet fraction for grazing and fodder crops
 leach[, ha := harv_area$ha[match(paste(iso3c, item_code, year),
-                                        paste(harv_area$iso3c, harv_area$item_code,
-                                              harv_area$year))]]
+                                 paste(harv_area$iso3c, harv_area$item_code,
+                                       harv_area$year))]]
 leach[!item_code %in% c(2000, 2001), total_area := sum(ha, na.rm =TRUE), by = .(iso3c, year)]
 leach[, avg_wet_fraction :=  sum((wet_fraction * ha) / total_area, na.rm = TRUE),
       by = .(iso3c, year)]
@@ -621,12 +621,15 @@ n2o_n <- merge(direct_inputs, drain_full[, !"item", with = FALSE], by = c("item_
 n2o_n <- merge(n2o_n, indirect[,.(iso3c, year, item_code, n2o_n_vol = n2o_indirect)], 
                by = c("item_code", "iso3c", "year"))
 n2o_n <- merge(n2o_n, leach[,.(iso3c, year, item_code, n2o_n_leach)],
-                    by = c("item_code", "iso3c", "year"))
+               by = c("item_code", "iso3c", "year"))
 
 # calculate total emissions
 n2o_n[, n2o_n_total_direct := na_sum(n2o_n_syn, n2o_n_man, n2o_n_res, n2o_n_drain)] 
 n2o_n[, n2o_n_total_indirect := na_sum(n2o_n_vol, n2o_n_leach)]
 n2o_n[, n2o_n_total := na_sum(n2o_n_total_direct, n2o_n_total_indirect)]
+
+# save for GHG extension
+saveRDS(n2o_n, "data/NPK/n2o_emis.rds")
 
 # set NAs to 0 
 n2o_n[, (names(.SD)) := lapply(.SD, function(x) { x[is.na(x)] <- 0; x }), .SDcols = is.numeric]
@@ -645,52 +648,52 @@ n2o_n[, n2_n := na_sum(n2o_n_total_direct, n2o_n_vol) * 67/21]
 
 # N balance ----------------------------------------------
 # (dep + bf + SF + man - removal - direct n20 emissions - NH3 emissions - N2 "emissions" )
-n_balance <- merge(n2o_n,
-                   app[, .(iso3c, year, item, fa = N_kg)],
-                   by = c("iso3c", "year", "item"), all.x = TRUE)
-n_balance <- merge(n_balance, manure[, .(item, iso3c, year, man = N)],
-                   by = c("iso3c", "year", "item"), all.x = TRUE)
-n_balance <- merge(n_balance, bf_full[, .(item, iso3c, year, n_bf = biological_fixation)],
-                   by = c("iso3c", "year", "item"), all.x = TRUE)
-n_balance <- merge(n_balance, cont_full[, .(item, iso3c, year, rem = N_removal)],
-                   by = c("iso3c", "year", "item"), all.x = TRUE)
-n_balance <- merge(n_balance, dep[, .(item, iso3c, year, ad = dep)],
-                   by = c("iso3c", "year", "item"), all.x = TRUE)
-n_balance <- merge(n_balance, volatilization[, .(item, iso3c, year, nh3_n = N_vol)],
-                   by = c("iso3c", "year", "item"), all.x = TRUE)
-n_balance <- merge(n_balance, leach[, .(iso3c, year, item, n_lr = n_leach)],
-                        by = c("iso3c", "year", "item"), all.x = TRUE)
+n_budget <- merge(n2o_n,
+                  app[, .(iso3c, year, item, fa = N_kg)],
+                  by = c("iso3c", "year", "item"), all.x = TRUE)
+n_budget <- merge(n_budget, manure[, .(item, iso3c, year, man = N)],
+                  by = c("iso3c", "year", "item"), all.x = TRUE)
+n_budget <- merge(n_budget, bf_full[, .(item, iso3c, year, n_bf = biological_fixation)],
+                  by = c("iso3c", "year", "item"), all.x = TRUE)
+n_budget <- merge(n_budget, cont_full[, .(item, iso3c, year, rem = N_removal)],
+                  by = c("iso3c", "year", "item"), all.x = TRUE)
+n_budget <- merge(n_budget, dep[, .(item, iso3c, year, ad = dep)],
+                  by = c("iso3c", "year", "item"), all.x = TRUE)
+n_budget <- merge(n_budget, volatilization[, .(item, iso3c, year, nh3_n = N_vol)],
+                  by = c("iso3c", "year", "item"), all.x = TRUE)
+n_budget <- merge(n_budget, leach[, .(iso3c, year, item, n_lr = n_leach)],
+                  by = c("iso3c", "year", "item"), all.x = TRUE)
 
 # add harv_area and item_codes for final version
-n_balance[, item_code := items$item_code[match(item, items$item)]]
-n_balance[, harv_area := harv_area$ha[match(paste(iso3c, year, item),
-                                                 paste(harv_area$iso3c,
-                                                       harv_area$year,
-                                                       harv_area$item))]]
+n_budget[, item_code := items$item_code[match(item, items$item)]]
+n_budget[, harv_area := harv_area$ha[match(paste(iso3c, year, item),
+                                           paste(harv_area$iso3c,
+                                                 harv_area$year,
+                                                 harv_area$item))]]
 
 # tidy
-setcolorder(n_balance, c("iso3c", "year", "item", "item_code", "fa", "man", "ad",
-                              "rem",  "n_bf", "n_lr",  "nh3_n", "n2_n",
-                              "n2o_n_syn" , "n2o_n_man", "n2o_n_res",  "n2o_n_drain",           
-                              "n2o_n_vol",  "n2o_n_leach",
-                              "n2o_n_total_direct", "n2o_n_total_indirect",
-                              "n2o_n_total"))
+setcolorder(n_budget, c("iso3c", "year", "item", "item_code", "fa", "man", "ad",
+                        "rem",  "n_bf", "n_lr",  "nh3_n", "n2_n",
+                        "n2o_n_syn" , "n2o_n_man", "n2o_n_res",  "n2o_n_drain",           
+                        "n2o_n_vol",  "n2o_n_leach",
+                        "n2o_n_total_direct", "n2o_n_total_indirect",
+                        "n2o_n_total"))
 
 # set NAs to 0 and round to two digits
-numeric_cols <- names(n_balance)[sapply(n_balance, is.numeric) 
-                                      & !names(n_balance) %in% 
-                                        c("year", "item_code")]
-n_balance[, (numeric_cols) := 
-                 lapply(.SD, function(x) fifelse(is.na(x), 0, x)), 
-               .SDcols = numeric_cols]
-n_balance[, (numeric_cols) :=
-                 lapply(.SD, function(x) round(x, 2)),
-               .SDcols = numeric_cols]
+numeric_cols <- names(n_budget)[sapply(n_budget, is.numeric) 
+                                & !names(n_budget) %in% 
+                                  c("year", "item_code")]
+n_budget[, (numeric_cols) := 
+           lapply(.SD, function(x) fifelse(is.na(x), 0, x)), 
+         .SDcols = numeric_cols]
+n_budget[, (numeric_cols) :=
+           lapply(.SD, function(x) round(x, 2)),
+         .SDcols = numeric_cols]
 
 #set emissions to 0 where FAO reports no area (data mismatch issue between
 # FAO and NPK data)
-n_balance[harv_area == 0, (setdiff(numeric_cols, harv_area)) := 0] 
-setcolorder(n_balance, "harv_area",  after = "item_code")
+n_budget[harv_area == 0, (setdiff(numeric_cols, harv_area)) := 0] 
+setcolorder(n_budget, "harv_area",  after = "item_code")
 
 
 # P weathering, runoff/erosion, deposition -------------------
@@ -718,17 +721,45 @@ for (i in seq_along(P_list)) {
   )
   P_list[[i]][, year := as.integer(year)]
   P_list[[i]] <- P_list[[i]][, .(value = sum(value, na.rm = TRUE)), 
-                                     by = .(year, fabio_iso3c)]
-
+                             by = .(year, fabio_iso3c)]
+  
   setnames(P_list[[i]], "value", names(P_list)[i])
   
   P_wdr <- merge(P_wdr, P_list[[i]], by.x = c("iso3c", "year"),
-                by.y = c("fabio_iso3c", "year"), all.x = TRUE)
+                 by.y = c("fabio_iso3c", "year"), all.x = TRUE)
 }
+
+# delete rows after 2022 (no data for this in this step, will be added below)
+P_wdr <- P_wdr[year <= 2022]
+
+
+# extrapolate using average from last three available years
+cols <- c("weathering", "deposition", "runoff")
+extra <- P_wdr[year %in% c(2020:2022)]
+extra[, (cols) := lapply(.SD, function(x) mean(x, na.rm = TRUE)),
+      by = .(iso3c, item_code),
+      .SDcols = cols]
+
+# delete years and reduce to unique footprints
+extra <- unique(extra[, .(iso3c, item_code, item, weathering, deposition, runoff)])
+years_extra <- (2023:max(years))
+extra[, column := paste0(iso3c, "_", item_code)]
+
+# create full table
+extra_full <- CJ(year = years_extra, column = extra$column)
+extra_full[, `:=` (iso3c = substr(column, 1, 3),
+                   item_code = as.numeric(sub(".*_", "", column)))][, column := NULL]
+
+# add data
+extra <- merge(extra_full, extra, by = c("iso3c", "item_code"), all.x = TRUE)[, column := NULL]
+
+
+# add extrapolated rows back to original table
+P_wdr <- rbind(P_wdr, extra, use.names = TRUE)
 
 # add harvested area to distribute wdr
 P_wdr[, ha := harv_area$ha[match(paste(iso3c, year, item_code),
-                           paste(harv_area$iso3c, harv_area$year, harv_area$item_code))]]
+                                 paste(harv_area$iso3c, harv_area$year, harv_area$item_code))]]
 
 # set FAO data to 0 where it is NA (this is how the FAO reports 0s)
 P_wdr[is.na(ha), ha := 0]
@@ -743,48 +774,44 @@ P_wdr[, `:=` (ha = NULL, area_share = NULL)]
 
 rm(P_list, P_cols, P_weathering, P_deposition, P_runoff)
 
-# P_balance ------------------------------------------------
-p_balance <- merge(app[, .(iso3c, year, item, item_code, fa = P_kg)],
-                   manure[, .(iso3c, year, item, item_code, man = P)],
-                   by = c("iso3c", "year", "item", "item_code"), all.x = TRUE)
-p_balance <- merge(p_balance, 
-                   cont_full[, .(iso3c, year, item, item_code, rem = P_removal)],
-                   by = c("iso3c", "year", "item", "item_code"), all.x = TRUE)
-p_balance <- merge(p_balance,
-                   P_wdr[, .(iso3c, year, item, item_code, ad = deposition, p_wea = weathering,
-                             p_re = runoff)],
-                   by = c("iso3c", "year", "item", "item_code"), all.x = TRUE)
+# p_budget ------------------------------------------------
+p_budget <- merge(app[, .(iso3c, year, item, item_code, fa = P_kg)],
+                  manure[, .(iso3c, year, item, item_code, man = P)],
+                  by = c("iso3c", "year", "item", "item_code"), all.x = TRUE)
+p_budget <- merge(p_budget, 
+                  cont_full[, .(iso3c, year, item, item_code, rem = P_removal)],
+                  by = c("iso3c", "year", "item", "item_code"), all.x = TRUE)
+p_budget <- merge(p_budget,
+                  P_wdr[, .(iso3c, year, item, item_code, ad = deposition, p_wea = weathering,
+                            p_re = runoff)],
+                  by = c("iso3c", "year", "item", "item_code"), all.x = TRUE)
 
 # add item_code and harv_area for final version
-p_balance[, item_code := items$item_code[match(item, items$item)]]
-p_balance[,harv_area  := harv_area$ha[match(paste(iso3c, year, item),
-                                                 paste(harv_area$iso3c,
-                                                       harv_area$year,
-                                                       harv_area$item))]]
+p_budget[, item_code := items$item_code[match(item, items$item)]]
+p_budget[,harv_area  := harv_area$ha[match(paste(iso3c, year, item),
+                                           paste(harv_area$iso3c,
+                                                 harv_area$year,
+                                                 harv_area$item))]]
 
 #tidy
 
-numeric_cols <- setdiff(names(p_balance)[sapply(p_balance, is.numeric)], c("item_code", "year"))
-p_balance[, (numeric_cols) := 
-                 lapply(.SD, function(x) fifelse(is.na(x), 0, x)), 
-               .SDcols = numeric_cols]
-p_balance[, (numeric_cols) :=
-                 lapply(.SD, function(x) round(x, 2)),
-               .SDcols = numeric_cols]
-setcolorder(p_balance, "harv_area",  after = "item_code")
+numeric_cols <- setdiff(names(p_budget)[sapply(p_budget, is.numeric)], c("item_code", "year"))
+p_budget[, (numeric_cols) := 
+           lapply(.SD, function(x) fifelse(is.na(x), 0, x)), 
+         .SDcols = numeric_cols]
+p_budget[, (numeric_cols) :=
+           lapply(.SD, function(x) round(x, 2)),
+         .SDcols = numeric_cols]
+setcolorder(p_budget, "harv_area",  after = "item_code")
 
 # re-format as FABIO extensions ---------
 # add area codes
-balances <- list(n_balance, p_balance)
+balances <- list(n_budget, p_budget)
 for (dt in balances) {
   dt[, area_code := regions$code[match(iso3c, regions$iso3c)]]
   dt[, comm_code := items_sua$comm_code[match(item_code, items_sua$item_code)]]
 }
 
-# save GHG emissions separately (they will be used in the GHG extension script)
-n2o_emis <- n_balance[, .(area_code, iso3c, comm_code, item_code, item, year, n2o_n_total_direct,
-                            n2o_n_total_indirect, n2o_n_total)]
-saveRDS(n2o_emis, "data/NPK/n2o_emis.rds")
 
 # rename and select for FABIO extension (emissions will be treated separately in the GHG extension)
 value_cols_n <- c("fertilizer", "manure", "removal", "biological_fixation", "atmospheric_deposition",
@@ -792,25 +819,25 @@ value_cols_n <- c("fertilizer", "manure", "removal", "biological_fixation", "atm
 value_cols_p <- c("fertilizer", "manure", "removal", "atmospheric_deposition", 
                   "weathering", "runoff_erosion")
 
-setnames(n_balance, 
+setnames(n_budget, 
          c("fa", "man", "rem", "n_bf", "ad", "nh3_n", 
            "n_lr"),
          value_cols_n)
 
-setnames(p_balance, c("fa", "man", "rem", "ad", "p_wea", "p_re"),
+setnames(p_budget, c("fa", "man", "rem", "ad", "p_wea", "p_re"),
          value_cols_p)
 
 
 # SUA
-E_n_sua <- lapply(value_cols_n, \(col) format_extension(n_balance, value_col = col))
-E_p_sua <- lapply(value_cols_p, \(col) format_extension(p_balance, value_col = col))
+E_n_sua <- lapply(value_cols_n, \(col) format_extension(n_budget, value_col = col))
+E_p_sua <- lapply(value_cols_p, \(col) format_extension(p_budget, value_col = col))
 names(E_n_sua) <- value_cols_n
 names(E_p_sua) <- value_cols_p
 
 items_cbs <- fread("inst/items_full_123.csv")
 # CBS
-E_n_cbs <- lapply(value_cols_n, \(col) format_extension(n_balance, value_col = col, itms = items_cbs))
-E_p_cbs <- lapply(value_cols_p, \(col) format_extension(p_balance, value_col = col, itms = items_cbs))
+E_n_cbs <- lapply(value_cols_n, \(col) format_extension(n_budget, value_col = col, itms = items_cbs))
+E_p_cbs <- lapply(value_cols_p, \(col) format_extension(p_budget, value_col = col, itms = items_cbs))
 names(E_n_cbs) <- value_cols_n
 names(E_p_cbs) <- value_cols_p
 
@@ -825,9 +852,9 @@ for (nm in value_cols_p) {
 }
 
 # save versions for paper
-saveRDS(n_balance, "data/NPK/N_balance_sua.rds")
-saveRDS(p_balance, "data/NPK/P_balance_sua.rds")
+saveRDS(n_budget, "data/NPK/n_budget_sua.rds")
+saveRDS(p_budget, "data/NPK/p_budget_sua.rds")
 
 
-#rm(list = ls())
-#gc()
+rm(list = ls())
+gc()

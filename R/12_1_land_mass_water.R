@@ -23,17 +23,16 @@ prod_land[, iso3c := regions$iso3c[match(area_code, regions$code)]]
 # Biomass extension -----------------------
 # get primary crop production 
 biomass <- prod_land[element == "Production" 
-                     & item_code %in% items[processed == FALSE & comm_group == "vegetal products", 
+                     & item_code %in% items[processed == FALSE & group == "vegetal products", 
                                             item_code]]
-biomass[,`:=` ( iso3c = regions$iso3c[match(area_code, regions$code)],
-                element = NULL)] 
+biomass[,`:=` (element = NULL)] 
 
 # add grazing production from supply table
 sup <- readRDS("data/sup_final.rds")
-grass_prod <- sup[item_code==2001]
-grass_prod[is.na(production), production := 0]
+grass_prod <- sup[item_code == 2001]
+grass_prod[is.na(supply), supply := 0]
 grass_prod <- grass_prod[, .(year, item_code, area, area_code, item, 
-                   unit = "tonnes", value = production, comm_code)]
+                   unit = "tonnes", value = supply, comm_code)]
 grass_prod[, iso3c := regions$iso3c[match(area_code, regions$code)]]
 
 # combine
@@ -86,10 +85,7 @@ setkey(crop_harv, iso_a3, item_code)
 crop_harv[, harv_crop_ratio := harv_area / crop_area]
 crop_harv[is.nan(harv_crop_ratio), harv_crop_ratio := NA_real_]
 
-numeric_cols <- which(sapply(crop_harv, is.numeric))
-crop_harv[, (numeric_cols) := lapply(.SD, round, 2), .SDcols = numeric_cols]
 crop_harv[, area_code := regions$code[match(iso_a3, regions$iso3c)]]
-
 setnames(crop_harv, "iso_a3", "iso3c")
 
 #tidy
@@ -97,7 +93,7 @@ rm(crop_grids, harv_grids)
 
 # create full timeline
 land_crop <- CJ(year = years, area_code = regions$code, 
-               item_code = items[processed == FALSE & comm_group == "vegetal products", 
+               item_code = items[processed == FALSE & group == "vegetal products", 
                                  item_code])
 
 # add data to full table
@@ -113,8 +109,7 @@ land_crop <- merge(land_crop, crop_harv[, .(area_code, item_code, harv_crop_rati
 land_crop[is.na(harv_crop_ratio) & harv_area > 0, harv_crop_ratio := 1]
 
 # estimate crop area from harvested area
-land_crop[, est_crop_area := round(harv_area / harv_crop_ratio, 0)]#[, `:=` (harv_area = NULL,
-                                                                  #harv_crop_ratio = NULL)]
+land_crop[, est_crop_area := harv_area / harv_crop_ratio][, `:=` (harv_crop_ratio = NULL)]
 land_crop[is.na(est_crop_area), est_crop_area := 0]
 land_crop[, crop_area := NA_real_]
 
@@ -128,7 +123,7 @@ land_crop_totals <- dcast(land_crop_totals,
 land_crop <- merge(land_crop, land_crop_totals[, .(area_code, year, permanent_crops,
                                               temporary_crops, temporary_fallow,
                                               temporary_meadows_and_pastures)], 
-                   by = c("area_code", "year"))
+                   by = c("area_code", "year"), all.x = TRUE)
 
 # assign area "temporary meadows and pastures" to grazing crop area
 land_crop[item_code == 2001, crop_area := temporary_meadows_and_pastures][, temporary_meadows_and_pastures := NULL]
@@ -137,15 +132,18 @@ land_crop[item_code == 2001, crop_area := temporary_meadows_and_pastures][, temp
 land_crop[, temporary := na_sum(temporary_crops, temporary_fallow)][, `:=` (
   temporary_crops = NULL, temporary_fallow = NULL)]
 
-# find estimated totals by crop group
+# find estimated totals by crop type (grazing is automatically included, because it does 
+# not have a type)
 land_crop[type == "perennial", est_permanent := sum(est_crop_area, na.rm = TRUE),
           by = .(area_code, year)]
 land_crop[type == "annual", est_temporary := sum(est_crop_area, na.rm = TRUE),
           by = .(area_code, year)]
 
-# find scaling factors by group
+# find scaling factors by type
 land_crop[, scale_factor_temp := temporary/est_temporary]
 land_crop[, scale_factor_perm := permanent_crops/est_permanent]
+
+scale_factors <- c("scale_factor_perm", "scale_factor_temp")
 
 # scale to FAO estimates (some outliers propagate from FAO data, e.g. djibouti)
 land_crop[type == "annual", crop_area := round(est_crop_area * scale_factor_temp)]
@@ -156,6 +154,13 @@ land_crop[type == "perennial", crop_area := round(est_crop_area * scale_factor_p
 # distributed between crops and the data is lost.
 
 land_crop[is.na(crop_area), crop_area := 0]
+
+# cap harv/crop ratios 0.5 and 2 (reporting inconsistencies within FAO)
+land_crop <- land_crop[, .(area_code, year, item_code, harv_area, crop_area)]
+land_crop[, ratio := harv_area / crop_area]
+land_crop[ratio > 2, crop_area := harv_area * 0.5]
+land_crop[ratio < 0.5, crop_area := harv_area * 2 ]
+
 
 # add names and codes
 land_crop[, area := regions$name[match(area_code, regions$code)]]
@@ -226,35 +231,44 @@ water_crop <- water_crop[, lapply(.SD, function(x) sum(x, na.rm = TRUE)),
                          by = .(iso3c, year, item_code), 
                          .SDcols = num_cols_prod]
 
-# add comm and area codes
-water_crop[, area_code := regions$code[match(iso3c, regions$iso3c)]]
-water_crop[, comm_code := items$comm_code[match(item_code, items$ item_code)]]
-
 # Extrapolate to 2023
-# average over the last 4 available years
-extra <- water_crop[year %in% c(2016:2019)]
+# average over the last 3 available years
+extra <- water_crop[year %in% c(2017:2019)]
 extra[, (num_cols_avg) := lapply(.SD, function(x) mean(x, na.rm = TRUE)),
       by = .(iso3c, item_code),
       .SDcols = num_cols_avg]
 
-# change years and update production
-year_conc <- data.table(old_year = 2016:2019,
-                        new_year = 2020:max(years))
-extra[, year := year_conc$new_year[match(year, year_conc$old_year)]]
-extra[, production_t := biomass$value[match(paste(year, area_code, item_code),
-                                      paste(biomass$year, biomass$area_code, 
-                                            biomass$item_code))]]
+# delete years and reduce to unique footprints
+extra <- unique(extra[, .(iso3c, item_code, wfg_m3_t, wfb_cr_m3_t, wfb_i_m3_t, wf_tot_m3_t)])
+years_extra <- (2020:max(years))
+extra[, column := paste0(iso3c, "_", item_code)]
+
+# create full table
+extra_full <- CJ(year = years_extra, column = extra$column)
+extra_full[, `:=` (iso3c = substr(column, 1, 3),
+                   item_code = as.numeric(sub(".*_", "", column)))][, column := NULL]
+
+# add data
+extra <- merge(extra_full, extra, by = c("iso3c", "item_code"), all.x = TRUE)[, column := NULL]
+extra <- merge(extra, prod_land[element == "Production", .(year, iso3c, 
+                                                           item_code,
+                                                           production_t = value)],
+               by = c("year", "iso3c", "item_code"), all.x = TRUE)
+
 
 # add extrapolated rows back to original table
-water_crop <- rbind(water_crop, extra)
+water_crop <- rbind(water_crop, extra, use.names = TRUE)
 
 # calculate totals
 water_crop[, (num_cols_avg) := lapply(.SD, function(x) x * production_t),
            .SDcols = num_cols_avg]
 
 # rename cols to reflect change in unit
-num_cols_avg <- sub("_t$", "", num_cols_avg)
-setnames(water_crop, old = paste0(num_cols_avg, "_t"), new = num_cols_avg)
+setnames(water_crop, num_cols_avg, new = sub("_t$", "", num_cols_avg))
+
+# add comm and area codes
+water_crop[, area_code := regions$code[match(iso3c, regions$iso3c)]]
+water_crop[, comm_code := items$comm_code[match(item_code, items$ item_code)]]
 
 # optional todo: some small island states are missing from the water data -> gap fill?
 
@@ -268,7 +282,6 @@ water_pasture[, crop_area := land_crop$value[match(paste(item_code, year, area_c
 water_pasture[, ha := value + crop_area][, `:=` (value = NULL, crop_area = NULL)]
 
 # get pasture intensities, assume all grazing is green water (i.e. no irrigated pastures)
-# TODO @MB: Where does this source come from?
 ints <- fread("input/grazing/grazing.csv")[area_code %in% regions$code
   , .(area_code, m3_per_ha)]
 
@@ -302,7 +315,6 @@ water_live[, comm_code := items$comm_code[match(item_code, items$item_code)]]
 # match intensities with production
 water_live[,`:=` (wfb_m3_unit = live_ints$wfb_m3_unit[match(item_code,
                                                             live_ints$item_code)])]
-
 # calculate totals
 water_live[, wfb_m3 := wfb_m3_unit * value]
 
@@ -316,7 +328,6 @@ water_meat[,`:=` (wfb_m3_unit = live_ints$wfb_m3_unit[match(item_code,
 
 # calculate totals
 water_meat[, wfb_m3 := wfb_m3_unit * value][, `:=` (value = NULL, wfb_m3_unit = NULL)]
-
 rm(src_item, tgt_item, tgt_name)
 
 ## Water - blue total -------------------
@@ -342,8 +353,8 @@ water_blue_live <- water_live[, .(year, area_code, item_code, comm_code, value =
 water_blue_meat <- water_meat[, .(year, area_code, item_code, comm_code, value = wfb_m3)]
 water_blue_total <- water_blue_total[, .(year, area_code, item_code, comm_code, value = wfb_m3_total)]
   
-rm(water_crop, water_pasture, water_live, water_meat,  extra, 
-   year_conc, ints, live_ints, grass_prod, prod_land, land_tidy)
+rm(water_crop, water_pasture, water_live, water_meat,  extra, extra_full,
+    ints, live_ints, grass_prod, prod_land, land_tidy)
                  
 
 # CBS aggregations for alternative version ------------

@@ -10,6 +10,8 @@ if (branch_name == "data-1986-2013") {
   stop("Unknown branch!")
 }
 
+output_dir_v525 <-"/mnt/nfs_fineprint/tmp/fabio/v2_525/"
+
 # Ensure the directory exists
 dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
 

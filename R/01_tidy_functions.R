@@ -320,6 +320,7 @@ split_tcf <- function(y, z, C, cap = TRUE) {
   return(out)
 }
 
+# Extension functions --------------
 agg_sua_to_cbs <- function(dt, value_col = "value", cnc = conc, itms = items,
                            agg_method = "sum", weight_col = NULL) {
   dt[, item_code_cbs := conc$item_code_cbs[match(item_code, conc$item_code_sua)]]
@@ -366,27 +367,181 @@ format_extension <- function(dt, yrs = years, reg = regions, itms = items,
   setNames(result_list, yrs)
 }
 
-unformat_extension <- function(data, ext_names) { # this yields a long table, be mindful of different units!
-  out <- rbindlist(
-    lapply(ext_names, function(p) {
+# function to convert environmental extension back into list (or long table) that is by 
+# environmental pressure, not by year
+unformat_extension <- function(data, ext_names, long = TRUE) {
+  if (long) {
+    out <- rbindlist(
+      lapply(ext_names, function(p) {
+        rbindlist(
+          lapply(names(data[[p]]), function(yr) {
+            mat <- data[[p]][[yr]]
+            data.table(
+              year    = as.integer(yr),
+              col_key = colnames(mat),
+              value   = as.numeric(mat)
+            )
+          })
+        )[, ext := p]
+      })
+    )
+    out[, `:=`(iso3c = substr(col_key, 1, 3), comm_code = substr(col_key, 5, 8))]
+    out[, col_key := NULL]
+    setcolorder(out, c("year", "iso3c", "comm_code", "ext", "value"))
+    return(out)
+  } else {
+    out <- lapply(ext_names, function(p) {
       rbindlist(
         lapply(names(data[[p]]), function(yr) {
           mat <- data[[p]][[yr]]
-          data.table(
-            year    = as.integer(yr),
-            col_key = colnames(mat),
-            value   = as.numeric(mat)
+          dt <- data.table(
+            year      = as.integer(yr),
+            col_key   = colnames(mat),
+            value     = as.numeric(mat)
           )
+          dt[, `:=`(iso3c = substr(col_key, 1, 3), comm_code = substr(col_key, 5, 8))]
+          dt[, col_key := NULL]
+          setcolorder(dt, c("iso3c", "comm_code", "year", "value"))
+          dt
         })
-      )[, ext := p]
+      )
     })
-  )
-  out[, `:=`(iso3c = substr(col_key, 1, 3), comm_code = substr(col_key, 5, 8))]
-  out[, col_key := NULL]
-  setcolorder(out, c("year", "iso3c", "comm_code", "ext", "value"))
-  out
+    names(out) <- ext_names
+    return(out)
+  }
 }
 
+set_co2eq <- function(nm, lst, gwp) {
+  dt <- copy(lst[[nm]])
+  dt[, GWP := gwp[nm]]
+  dt[, value := value * GWP]
+  dt
+}
+
+# This function adds up all co2eq totals from different ghgs
+merge_gwp_lists <- function(prefix) {
+  
+  matching_names <- ls(envir = .GlobalEnv, pattern = paste0("^", prefix, "_"))
+  
+  dt_list <- list()
+  
+  for (list_name in matching_names) {
+    gwp_list <- get(list_name, envir = .GlobalEnv)
+    
+    # Find the element whose name ends in one of the gas names (these are the co2eq for each gas)
+    gas <- grep(paste0(gases, "$", collapse = "|"), names(gwp_list), value = TRUE)
+    
+    dt <- gwp_list[[gas]]
+    
+    if (is.data.table(dt)) {
+      dt_list[[list_name]] <- dt
+    }
+  }
+  
+  combined <- rbindlist(dt_list, use.names = TRUE)
+  gwp_total <- combined[, .(value = sum(value, na.rm = TRUE)), 
+                        by = .(area_code, year, item_code)]
+  
+  return(gwp_total)
+}
+
+# this function renames columns from lc-impact and functional diversity biodiversity
+# characterization factors from BAMBOO
+tidy_cfs <-  function(dt, cols_to_remove = cols_remove, old_nms = old_names, 
+                      new_nms = new_names){
+  dt[, intersect(cols_to_remove, names(dt)) := NULL]
+  setnames(dt, old_nms, new_nms, skip_absent = TRUE)
+  
+  # deal with Sudan and Netherlands Antilles
+  if (!"SSD" %in% dt$iso3c && "SDN" %in% dt$iso3c) {
+    sudan_rows <- copy(dt[iso3c == "SDN"])
+    sudan_rows[, `:=`(iso3c = "SSD", area = "South Sudan")]
+    dt <- rbind(dt, sudan_rows)
+  }
+  
+  if (!"ANT" %in% dt$iso3c && "ATG" %in% dt$iso3c) {
+    nant_rows <- copy(dt[iso3c == "ATG"])
+    nant_rows[, `:=`(iso3c = "ANT", area = "Netherlands Antilles")]
+    dt <- rbind(dt, nant_rows)
+  }
+  
+  dt
+}
+
+
+
+# this function merges lc-impact pressures and impacts (can be used for lc-impact directly
+# and for ecosystem functionality CFs) merges by iso3c for non-climate CFs and 
+# adds all climate CFs with cbind
+# needs wide tables with pressure types in column names as inputs (1 row for climate,
+# 187 rows for non-climate)
+merging_pressures_impacts <- function(pressures, dt, climate_dt = NULL) {
+  impacts <- lapply(names(pressures), function(nm) {
+    cols <- c("iso3c", colnames(dt)[grepl(nm, colnames(dt))])
+    merged <- if(length(cols) > 1) {
+      merge(pressures[[nm]], dt[, ..cols], by = "iso3c", all.x = TRUE, sort = FALSE)
+    } else {
+      pressures[[nm]]
+    }
+    
+    if(!is.null(climate_dt) && nm %like% "ghg") {
+      climate_cols <- colnames(climate_dt)[grepl(nm, colnames(climate_dt))]
+      if(length(climate_cols) > 0) {
+        merged <- cbind(merged, climate_dt[, ..climate_cols])
+      }
+    }
+    
+    #setnames(merged, names(merged), gsub(paste0(nm, "_"), "", names(merged)))
+    merged
+  })
+  names(impacts) <- names(pressures)
+  impacts
+}
+
+# this function takes an output list from "merging_pressures_impacts" and multiplies
+# pressures with impacts
+multiply_pressures_impacts <- function(impacts_list, key_cols) {
+  invisible(lapply(names(impacts_list), function(nm) {
+    dt <- impacts_list[[nm]]
+    cols <- setdiff(colnames(dt), key_cols)
+    dt[, (cols) := lapply(.SD, function(x) x * value), .SDcols = cols]
+    dt[, value := NULL]
+    setnames(dt, cols, gsub("cf_", "", cols))
+  }))
+}
+
+# this function aggregates impacts from a wide table within the same impact categories
+# and realms
+
+aggregate_impact_categories <- function(impacts, impact_categories, realms) {
+  invisible(lapply(impact_categories, function(cat) {
+    cols <- colnames(impacts)[colnames(impacts) %like% cat]
+    if(length(cols) > 0) {
+      impacts[, (cat) := rowSums(.SD, na.rm = TRUE), .SDcols = cols]
+      impacts[, (cols) := NULL]
+    }
+  }))
+  
+  invisible(lapply(realms, function(r) {
+    cols <- colnames(impacts)[colnames(impacts) %like% r]
+    if(length(cols) > 0) {
+      impacts[, (r) := rowSums(.SD, na.rm = TRUE), .SDcols = cols]
+    }
+  }))
+}
+
+# This function compiles the individual extensions into one big one
+compile_extension <- function(data, files, yrs = years) {
+  result <- lapply(yrs, function(yr) {
+    do.call(rbind, lapply(data, function(x) x[[as.character(yr)]]))
+  })
+  names(result) <- yrs
+  row_names <- tools::file_path_sans_ext(basename(files))
+  for (yr in as.character(yrs)) {
+    rownames(result[[yr]]) <- row_names
+  }
+  result
+}
 
 read_excel_sheets <- function(filename, sheets = NULL) {
   all_sheets <- readxl::excel_sheets(filename)
