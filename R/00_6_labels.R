@@ -29,10 +29,8 @@ for(i in loop){
   nrcom <- nrow(items)
   nrproc <- nrow(processes)
   fd <- c("food", "losses", "other", "stock_addition", "tourist")
-  ext <- c("cropland", "grassland", "biomass", "blue", "green") # TODO: fill with new ext categories
   nrfd <- length(fd)
-  nrext <- length(ext)
-  
+
   io_labels <- data.table(
     iso3c = rep(regions$iso3c, each = nrcom),
     area_code = rep(regions$area_code, each = nrcom),
@@ -68,7 +66,7 @@ for(i in loop){
     fwrite(items[, .(comm_code, item_code, item, unit, group, comm_group)],
            file=file.path(output_dir,"items.csv"))
     fwrite(regions, file=file.path(output_dir,"regions.csv"))
-  }else{
+  } else {
     fwrite(io_labels, file=file.path(output_dir_v525,"io_labels.csv"))
     fwrite(su_labels, file=file.path(output_dir_v525,"su_labels.csv"))
     fwrite(fd_labels, file=file.path(output_dir_v525,"fd_labels.csv"))

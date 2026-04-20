@@ -119,7 +119,7 @@ prices <- merge(prices, caps, by = c("item"), all.x = TRUE)
 
 cat("Capping ", prices[price > price_q90 | price < price_q10, .N],
   " prices at the specific item's 90th and 10th quantiles.\n", sep = "")
-prices[, price := ifelse(price > price_q10, price_q10,
+prices[, price := ifelse(price > price_q90, price_q90,
   ifelse(price < price_q10, price_q10, price))]
 
 

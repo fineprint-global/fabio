@@ -14,14 +14,14 @@ path_fun <- "input/biodiversity/functional_diversity/"
 
 # Get data (LC-Impact + FD) -----------------
 ## LC-Impact ----------------
-files <- c(climate_change_terrestrial    = "3_CF_CLIMATE_CHANGE.zip?download=1",
-           climate_change_freshwater     = "3_CF_CLIMATE_CHANGE.zip?download=1",
-           climate_change_marine         = "3_CF_CLIMATE_CHANGE.zip?download=1",
-           acidification                 = "4_CF_ACIDIFICATION.zip?download=1",
-           water_use                     = "5_CF_WATER_USE.zip?download=1",
-           land_use                      = "6_CF_LAND_USE.zip?download=1",
-           eutrophication_freshwater     = "8_CF_EUTROPHICATION.zip?download=1",
-           invasive_species              = "9_CF_INVASIVE_SPECIES.zip?download=1")
+files <- c(climate_change_terrestrial    = "3_CF_CLIMATE_CHANGE.zip",
+           climate_change_freshwater     = "3_CF_CLIMATE_CHANGE.zip",
+           climate_change_marine         = "3_CF_CLIMATE_CHANGE.zip",
+           acidification                 = "4_CF_ACIDIFICATION.zip",
+           water_use                     = "5_CF_WATER_USE.zip",
+           land_use                      = "6_CF_LAND_USE.zip",
+           eutrophication_freshwater     = "8_CF_EUTROPHICATION.zip",
+           invasive_species              = "9_CF_INVASIVE_SPECIES.zip")
 
 fa_dl(file = files, path = path_lc, link = "https://zenodo.org/records/19202729/files/")
 

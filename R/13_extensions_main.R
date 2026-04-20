@@ -34,8 +34,8 @@ nms_fd <- copy(nms_fd_sua)
 rm(nms_cbs, nms_sua, nms_fd_sua, nms_fd_cbs, p, pairs, msg)
 
 # E_label checks -----------
-E_labels <- fread("data/extensions/E_labels.csv")
-E_fd_labels <- fread("data/extensions/E_fd_labels.csv")
+E_labels <- fread("inst/E_labels.csv")
+E_fd_labels <- fread("inst/E_fd_labels.csv")
 
 # check if E_labels is fully updated
 missing_labels <- E_labels[!Stressor %in% nms]
@@ -78,8 +78,6 @@ E_fd_cbs <- compile_extension(data_fd_cbs, files_fd_cbs)
 E_sua <- compile_extension(data_sua, files_sua)  
 E_fd_sua <- compile_extension(data_fd_sua, files_fd_sua)  
 
-# TOOD: rename output dir for 525
-
 # save
 saveRDS(E_cbs, paste(output_dir, "E.rds"))
 saveRDS(E_fd_cbs, paste(output_dir, "E_fd.rds"))
@@ -87,11 +85,11 @@ saveRDS(E_fd_cbs, paste(output_dir, "E_fd.rds"))
 saveRDS(E_sua, paste(output_dir_v525, "E.rds"))
 saveRDS(E_fd_sua, paste(output_dir_v525, "E_fd.rds"))
 
-saveRDS(E_labels, paste(output_dir, "E_labels.rds"))
-saveRDS(E_fd_labels, paste(output_dir, "E_fd_labels.rds"))
+fwrite(E_labels, paste(output_dir, "ex_labels.csv"))
+fwrite(E_fd_labels, paste(output_dir, "ex_fd_labels.csv"))
 
-saveRDS(E_labels, paste(output_dir_v525, "E_labels.rds"))
-saveRDS(E_fd_labels, paste(output_dir_v525, "E_fd_labels.rds"))
+fwrite(E_labels, paste(output_dir_v525, "ex_labels.csv"))
+fwrite(E_fd_labels, paste(output_dir_v525, "ex_fd_labels.csv"))
 
 
 
