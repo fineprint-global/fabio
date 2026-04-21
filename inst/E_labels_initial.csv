@@ -123,7 +123,7 @@ ghg_co2,ghg,co2,"",tonnes co2,Total CO2 emissions,All sources listed in ghg_co2,
 ghg_co2_crops_drain,ghg,co2,"",tonnes co2,CO2 emissions from  organic soils drained for agricultural usage,"Own estimations based on:
 https://www.fao.org/faostat/en/#data/GCE and
 https://www.fao.org/soils-portal/data-hub/soil-maps-and-databases/harmonized-world-soil-database-v20/en/",1
-ghg_co2_farm_energy,ghg,co2,"",tonnes co2,"CH4 emissions from on-farm energy use, distributed to crops/pastures by shares of production",https://www.fao.org/faostat/en/#data/GN,1
+ghg_co2_farm_energy,ghg,co2,"",tonnes co2,"CO2 emissions from on-farm energy use, distributed to crops/pastures by shares of production",https://www.fao.org/faostat/en/#data/GN,1
 ghg_co2_deforestation,ghg,co2,"",tonnes co2,CO2 emissions from the net conversion of forests to agricultural land,https://doi.org/10.5281/zenodo.18953516,1
 ghg_co2_waste_incineration,ghg,co2,"",tonnes co2,"CO2 emissions from incinerated agriculural waste, distributed to crops by shares of production",https://www.fao.org/faostat/en/#data/GPP,1
 ghg_n2o,ghg,n2o,"",tonnes n2o,Total N2O emissions,All sources listed in ghg_n2o,273
@@ -146,7 +146,7 @@ ghg_n2o_farm_energy,ghg,n2o,"",tonnes n2o,N2O emissions from on-farm energy use,
 ghg_n2o_lvst_dir_manure_man,ghg,n2o,"",tonnes n2o,N2O emissions from manure management (allocated to the animals that excreted the manure; direct),https://www.fao.org/faostat/en/#data/GLE,273
 ghg_n2o_lvst_ind_manure_man,ghg,n2o,"",tonnes n2o,N2O emissions from manure management (allocated to the animals that excreted the manure; indirect),https://www.fao.org/faostat/en/#data/GLE,273
 ghg_n2o_lvst_manure_man_total,ghg,n2o,"",tonnes n2o,N2O emissions from manure management (total),https://www.fao.org/faostat/en/#data/GLE,273
-ghg_n2o_waste_ind_water,ghg,n2o,"",tonnes n2o,CH4 emissions from industrial wastewater. Distributed between items according to item shares of production of processed products (excluding all cereal products except starch).,https://www.fao.org/faostat/en/#data/GPP,273
+ghg_n2o_waste_ind_water,ghg,n2o,"",tonnes n2o,N2O emissions from industrial wastewater. Distributed between items according to item shares of production of processed products (excluding all cereal products except starch).,https://www.fao.org/faostat/en/#data/GPP,273
 gwp_ch4,ghg,ch4,"",tonnes co2eq (AR6),Total CH4 emissions,All sources listed in ghg_ch4,27
 gwp_ch4_crops_res,ghg,ch4,"",tonnes co2eq (AR6),CH4 emissions from burning of crop residues,https://www.fao.org/faostat/en/#data/GCE,27
 gwp_ch4_crops_rice,ghg,ch4,"",tonnes co2eq (AR6),CH4 emissions from rice farming,https://www.fao.org/faostat/en/#data/GCE,27
@@ -161,7 +161,7 @@ gwp_co2,ghg,co2,"",tonnes co2eq (AR6),Total CO2 emissions,All sources listed in 
 gwp_co2_crops_drain,ghg,co2,"",tonnes co2eq (AR6),CO2 emissions from  organic soils drained for agricultural usage,"Own estimations based on:
 https://www.fao.org/faostat/en/#data/GCE and
 https://www.fao.org/soils-portal/data-hub/soil-maps-and-databases/harmonized-world-soil-database-v20/en/",1
-gwp_co2_farm_energy,ghg,co2,"",tonnes co2eq (AR6),"CH4 emissions from on-farm energy use, distributed to crops/pastures by shares of production",https://www.fao.org/faostat/en/#data/GN,1
+gwp_co2_farm_energy,ghg,co2,"",tonnes co2eq (AR6),"CO2 emissions from on-farm energy use, distributed to crops/pastures by shares of production",https://www.fao.org/faostat/en/#data/GN,1
 gwp_co2_deforestation,ghg,co2,"",tonnes co2eq (AR6),CO2 emissions from the net conversion of forests to agricultural land,https://doi.org/10.5281/zenodo.18953516,1
 gwp_co2_waste_incineration,ghg,co2,"",tonnes co2eq (AR6),"CO2 emissions from incinerated agriculural waste, distributed to crops by shares of production",https://www.fao.org/faostat/en/#data/GPP,1
 gwp_n2o,ghg,n2o,"",tonnes co2eq (AR6),Total N2O emissions,All sources listed in ghg_n2o,273
@@ -184,8 +184,8 @@ gwp_n2o_farm_energy,ghg,n2o,"",tonnes co2eq (AR6),N2O emissions from on-farm ene
 gwp_n2o_lvst_dir_manure_man,ghg,n2o,"",tonnes co2eq (AR6),N2O emissions from manure management (allocated to the animals that excreted the manure; direct),https://www.fao.org/faostat/en/#data/GLE,273
 gwp_n2o_lvst_ind_manure_man,ghg,n2o,"",tonnes co2eq (AR6),N2O emissions from manure management (allocated to the animals that excreted the manure; indirect),https://www.fao.org/faostat/en/#data/GLE,273
 gwp_n2o_lvst_manure_man_total,ghg,n2o,"",tonnes co2eq (AR6),N2O emissions from manure management (total),https://www.fao.org/faostat/en/#data/GLE,273
-gwp_n2o_waste_ind_water,ghg,n2o,"",tonnes co2eq (AR6),CH4 emissions from industrial wastewater. Distributed between items according to item shares of production of processed products (excluding all cereal products except starch).,https://www.fao.org/faostat/en/#data/GPP,273
-gwp_total,ghg,"","",tonnes co2eq (AR6),Total CO2 equivalent emissions from all agricultural activities.,All sources under Compartment -ghg-,
+gwp_n2o_waste_ind_water,ghg,n2o,"",tonnes co2eq (AR6),N2O emissions from industrial wastewater. Distributed between items according to item shares of production of processed products (excluding all cereal products except starch).,https://www.fao.org/faostat/en/#data/GPP,273
+gwp_total,gwp,"","",tonnes co2eq (AR6),Total CO2 equivalent emissions from all agricultural activities.,All sources under Compartment -ghg-,
 ibif_co2_eq,ibif,terrestrial,"",MSA loss * year * km^2,Mean species abundance loss that occurs due to climate change. Weighted by duration and extent of exposure to pressure. Can be added up with other MSA measures but not with pdf.,10.1038/s41597-025-05946-1,
 ibif_land_crop,ibif,terrestrial,"",MSA loss * year * km^2,Mean species abundance loss that occurs due land use for cropland. Temporary meadows and pastures not included. Weighted by duration and extent of exposure to pressure. Can be added up with other MSA measures but not with pdf.,10.1038/s41597-025-05946-1,
 ibif_land_grass,ibif,terrestrial,"",MSA loss * year * km^2,Mean species abundance loss that occurs due to land use for grazing. Sum of permanent meadows and pastures and temporary meadows and pastures. Weighted by duration and extent of exposure to pressure. Can be added up with other MSA measures but not with pdf.,10.1038/s41597-025-05946-1,
