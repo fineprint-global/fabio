@@ -4,9 +4,7 @@ The Food and Agriculture Biomass Input-Output database
 
 FABIO provides a set of multi-regional physical supply-use and input-output
 tables covering global agriculture and forestry. The work is based on mostly
-freely available data from FAOSTAT, IEA, EIA, and UN Comtrade/BACI. FABIO
-currently covers 191 countries + RoW, 118 processes and 125 commodities for
-1986-2013.
+freely available data from FAOSTAT, IEA, EIA, and UN Comtrade/BACI.
 
 Detailed information on the construction of the database can be found in
 Bruckner et al (2018): www.doi.org/10.1021/acs.est.9b03554. Please refer to
@@ -99,7 +97,6 @@ E:
 "regions_csv" = read.csv(sprintf("%s/regions.csv",source_folder))
 
 """
-
 import numpy as np
 import pandas as pd
 from scipy import sparse
@@ -115,15 +112,26 @@ class read():
 
     Parameters
     ----------
-    path : STR, optional
-        File path to the FABIO v2 database.
-        The default is "data/fabio_v2/fabio_v2_csv".
-    year : INT, optional
-        Year of the FABIO database. The default is 2013.
+    path: File path to the database.
+    year: Year of the database.
+    version: Version of the database.
+    readRDS: readRDS object from the robjects package.
+    items: Product names, codes, and other information.
+    regions: Region and region codes codes.
+    io_codes: Combined product and region codes.
+    su_codes: Combined process and region codes.
+    start_year: Fist available year of the database.
+    end_year: Final available year of database.
 
-    Returns
+    Methods
     -------
-    None.
+    E(): Returns pd.DataFrame with satellite accounts.
+    X(): Returns pd.Series with total product output.
+    Y(): Returns pd.DataFrame with final demand consumption.
+    L(version): Returns pd.DataFrame with the Leontief matrix, if available.
+                Version refers to the suffix used for the file name.
+    Z(version): Returns pd.DataFrame with the transaction matrix.
+                Version refers to the suffix used for the file name.
 
     """
 
@@ -137,15 +145,15 @@ class read():
         Parameters
         ----------
         path : STR, optional
-            File path to the FABIO v2 database.
-            The default is "data/fabio_v2/fabio_v2/".
+            File path to the FABIO database.
         year : INT, optional
-            Year of the FABIO database. The default is 2013.
+            Year of the FABIO database.
+        version : INT, FLOAT, optional
+            FABIO version.
 
         Returns
         -------
         None.
-
         """
         self.path = path
         self.year = year
@@ -155,33 +163,32 @@ class read():
         print(f"FABIO path {self.path}")
 
         # Items
-        # 125 items
-        read.items = pd.read_csv(
+        self.items = pd.read_csv(
             f"{self.path}/items.csv"
             )
 
         # Regions
-        # 192 regions
-        read.regions = pd.read_csv(
+        self.regions = pd.read_csv(
             f"{self.path}/regions.csv",
             encoding="ISO-8859-1"
             )
 
         # IO-codes
         # 192 regions * 125 items = 24000 codes
-        read.io_codes = pd.read_csv(
+        self.io_codes = pd.read_csv(
             f"{self.path}/io_codes.csv"
             )
 
         # SU-codes
         # 192 regions * 118 x = 22656 ???
-        read.su_codes = pd.read_csv(
+        self.su_codes = pd.read_csv(
             f"{self.path}/su_codes.csv"
             )
 
     def E(self):
         """
         Import E (satellite accounts).
+        Only works for some satellite acounts due to difference in file format.
 
         Returns
         -------
@@ -194,7 +201,7 @@ class read():
         readRDS = robjects.r['readRDS']
 
         # Read RDS file
-        rds_file = readRDS(f"{self.path}/E.rds")
+        rds_file = self.readRDS(f"{self.path}/E.rds")
 
         # Extract year
         rds_file_year = rds_file[rds_file.names.index(f"{self.year}")]
@@ -211,7 +218,7 @@ class read():
 
     def X(self):
         """
-        Import x (???).
+        Import x (total product output vector).
 
         Returns
         -------
@@ -316,13 +323,17 @@ class read():
 
     def Z_value(self):
         """
-        Import transactions matrix.
+        Import L (Leontief inverse matrix).
+
+        Parameters
+        ----------
+        version : STR, optional
+            Wheter to use mass, value, or calorie (no_suffix) version.
 
         Returns
         -------
-        df : pd.DataFrame()
-            Pandas dataframe containing the transaction matrix.
-
+        df: pd.DataFrame()
+            Pandas dataframe containing the Leontief inverse matrix.
         """
         print("Reading Z_value ...")
 
@@ -368,7 +379,12 @@ class read():
 
     def Z_mass(self):
         """
-        Import transactions matrix.
+        Import Z (transactions matrix).
+
+        Parameters
+        ----------
+        version : STR, optional
+            Wheter to use mass, value, or calorie (no_suffix) version.
 
         Returns
         -------
