@@ -21,7 +21,7 @@ FABIO v1.1 (130 products, 1986-2013) is available via Zenodo (http://dx.doi.org/
 - 187 regions (186 countries + 1 RoW)
 - 119 processes (in the mr_sup and mr_use tables)
 - 123 commodities (raw and processed agricultural and food products)
-- Years 2010-2022
+- Years 2010-2023
 
 All R codes and auxilliary data are available on GitHub: https://github.com/fineprint-global/fabio
 
