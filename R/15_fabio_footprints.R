@@ -91,8 +91,10 @@ data_continent <- results %>%
   mutate(group = paste(group, continent_origin, sep = "_")) %>%
   group_by(item_target, group) %>%
   filter(value != 0) %>%
-  summarise(value = round(sum(value)), .groups = "drop") %>%
-  spread(group, value, fill = 0)
+  summarise(value = sum(value), .groups = "drop") %>%
+  spread(group, value, fill = 0) %>%
+  # mutate(Total = rowSums(select(., -item_target))) 
+  mutate(Total = rowSums(across(where(is.numeric))))
 
 fwrite(data_continent, 
        file.path("output", paste0("FABIO_", country, "_", year, "_", 
@@ -111,7 +113,7 @@ data_domestic <- results %>%
                        sep = "_")) %>%
   group_by(item_target, group) %>%
   filter(value != 0) %>%
-  summarise(value = round(sum(value)), .groups = "drop") %>%
+  summarise(value = sum(value), .groups = "drop") %>%
   spread(group, value, fill = 0)
 
 fwrite(data_domestic, 
