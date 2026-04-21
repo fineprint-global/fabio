@@ -79,17 +79,17 @@ E_sua <- compile_extension(data_sua, files_sua)
 E_fd_sua <- compile_extension(data_fd_sua, files_fd_sua)  
 
 # save
-saveRDS(E_cbs, paste(output_dir, "E.rds"))
-saveRDS(E_fd_cbs, paste(output_dir, "E_fd.rds"))
+saveRDS(E_cbs, paste0(output_dir, "E.rds"))
+saveRDS(E_fd_cbs, paste0(output_dir, "E_fd.rds"))
 
-saveRDS(E_sua, paste(output_dir_v525, "E.rds"))
-saveRDS(E_fd_sua, paste(output_dir_v525, "E_fd.rds"))
+saveRDS(E_sua, paste0(output_dir_v525, "E.rds"))
+saveRDS(E_fd_sua, paste0(output_dir_v525, "E_fd.rds"))
 
-fwrite(E_labels, paste(output_dir, "ex_labels.csv"))
-fwrite(E_fd_labels, paste(output_dir, "ex_fd_labels.csv"))
+fwrite(E_labels, paste0(output_dir, "ex_labels.csv"))
+fwrite(E_fd_labels, paste0(output_dir, "ex_fd_labels.csv"))
 
-fwrite(E_labels, paste(output_dir_v525, "ex_labels.csv"))
-fwrite(E_fd_labels, paste(output_dir_v525, "ex_fd_labels.csv"))
+fwrite(E_labels, paste0(output_dir_v525, "ex_labels.csv"))
+fwrite(E_fd_labels, paste0(output_dir_v525, "ex_fd_labels.csv"))
 
 
 

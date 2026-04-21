@@ -1,33 +1,36 @@
 
 # 0_prep ------------------------------------------------------------------
 
-# Will download required ZIP files and convert the contents to RDS
+# Will download ZIP files from FAOSTAT
 source("R/00_1_prep_fao.R")
 source("R/00_2_prep_fao_reshape.R")
 
-# Requires BACI92 ZIP files as well as data.table::rbindlist(comtrade)
+# Requires downloading BACI ZIP files available from:
+# https://www.cepii.fr/CEPII/en/bdd_modele/bdd_modele_item.asp?id=37
 source("R/00_3_prep_trade.R")
 
-# Requires EIA and IEA CSV files that are available from:
+# Requires EIA and IEA CSV files available from:
 # https://www.eia.gov/opendata/qb.php?category=2135203 (in 1000 bbl/d)
 # http://dx.doi.org/10.1787/data-00550-en
 source("R/00_4_prep_eth.R")
 
-# Will download required ZIP files and convert the contents to RDS
+# Will download ZIP files from FAOSTAT
 source("R/00_5_prep_fish.R")
 source("R/00_6_labels.R")
+rm(list = ls()); gc()
+
+# Requires downloading some data (see script)
 source("R/00_7_prep_spatial_NPK.R")
 rm(list = ls()); gc()
 
 
 # 1_tidy ------------------------------------------------------------------
-
-# Depends on outputs produced in step 0
 source("R/01_1_tidy_fao.R")
 source("R/01_2_tidy_trade.R")
 source("R/01_3_tidy_eth.R")
 source("R/01_4_tidy_fish.R")
 rm(list = ls()); gc()
+
 
 # Build full BTD ---------------------------------------------------------
 source("R/02_build_btd.R"); rm(list = ls()); gc()
@@ -69,7 +72,10 @@ source("R/12_2_NPK_spatial.R"); rm(list = ls()); gc()
 source("R/12_3_NPK_fertilizer_application.R"); rm(list = ls()); gc()
 source("R/12_4_NP_balance.R"); rm(list = ls()); gc()
 source("R/12_5_ghg.R"); rm(list = ls()); gc()
-source("R/12_6_biodiversity.R"); rm(list = ls()); gc()
+source("R/12_6_biodiversity_ibif.R"); rm(list = ls()); gc()
+source("R/12_7_biodiversity_tidy.R"); rm(list = ls()); gc()
+source("R/12_8_biodiversity_lc_fd.R"); rm(list = ls()); gc()
+source("R/12_9_ecosystem_services.R"); rm(list = ls()); gc()
 source("R/13_extensions_main.R"); rm(list = ls()); gc()
 
 

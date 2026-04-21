@@ -19,7 +19,7 @@ year <- 2021
 country <- "AUT"
 consumption_categories <- unique(fd$fd)
 consumption <- consumption_categories[1]
-extension <- ex$name[1]
+extension <- ex$Stressor[99]
 
 # Read data --------------------------------------------------------------------
 X <- readRDS(file=paste0(input_path,"losses/X.rds"))
@@ -28,11 +28,12 @@ E <- readRDS(file=paste0(input_path,"E.rds"))
 L <- readRDS(file=paste0(input_path,"losses/",year,"_L_",allocation,".rds"))
 Xi <- X[, as.character(year)]
 Yi <- Y[[as.character(year)]]
+Ei <- E[[as.character(year)]]
 
 
 # Prepare calculations ---------------------------------------------------------
 # Prepare extension
-ext <- E[[as.character(year)]][ex$name == extension, ] / as.vector(Xi)
+ext <- as.numeric(Ei[ex$Stressor == extension, ]) / as.vector(Xi)
 ext[!is.finite(ext)] <- 0
 
 # Prepare final demand
