@@ -1,60 +1,82 @@
 
 # 0_prep ------------------------------------------------------------------
 
-library("data.table") # 1.12.0
-library("comtradr") # 0.2.2
-# library("openxlsx") # 4.1.0
+# Will download ZIP files from FAOSTAT
+source("R/00_1_prep_fao.R")
+source("R/00_2_prep_fao_reshape.R")
 
-source("R/00_prep_functions.R")
+# Requires downloading BACI ZIP files available from:
+# https://www.cepii.fr/CEPII/en/bdd_modele/bdd_modele_item.asp?id=37
+source("R/00_3_prep_trade.R")
 
-# Will download required ZIP files and convert the contents to RDS
-source("R/00_prep_fao.R")
-
-# Requires EIA and IEA CSV files that are available from:
+# Requires EIA and IEA CSV files available from:
 # https://www.eia.gov/opendata/qb.php?category=2135203 (in 1000 bbl/d)
 # http://dx.doi.org/10.1787/data-00550-en
-source("R/00_prep_eth.R")
+source("R/00_4_prep_eth.R")
 
-# Requires BACI92 ZIP files as well as data.table::rbindlist(comtrade)
-source("R/00_prep_trade.R")
+# Will download ZIP files from FAOSTAT
+source("R/00_5_prep_fish.R")
+source("R/00_6_labels.R")
+rm(list = ls()); gc()
 
-# Depends on outputs produced in step 0
-source("R/01_tidy_fao.R")
-source("R/01_tidy_eth.R")
-source("R/01_tidy_trade.R")
+# Requires downloading some data (see script)
+source("R/00_7_prep_spatial_NPK.R")
+rm(list = ls()); gc()
 
-# Build full BTD, integrating trade data
-source("R/02_build_btd.R")
 
-# Build full CBS, integrating production data, etc.
-source("R/03_build_cbs.R")
+# 1_tidy ------------------------------------------------------------------
+source("R/01_1_tidy_fao.R")
+source("R/01_2_tidy_trade.R")
+source("R/01_3_tidy_eth.R")
+source("R/01_4_tidy_fish.R")
+rm(list = ls()); gc()
 
-# Estimate trade shares from the CBS
-source("R/04_estimate_btd.R")
 
-# Balance trade using RAS
-source("R/05_balance.R")
+# Build full BTD ---------------------------------------------------------
+source("R/02_build_btd.R"); rm(list = ls()); gc()
 
-# Allocate re-exports
-source("R/06_re-exports.R")
+# Build full CBS ---------------------------------------------------------
+source("R/03_1a_build_cbs.R"); rm(list = ls()); gc()
+source("R/03_1b_balance_cbs.R"); rm(list = ls()); gc()
 
-# Create the supply structure
-source("R/07_supply.R")
+# Build full SUA ---------------------------------------------------------
+source("R/03_2a_build_tcf_sua.R"); rm(list = ls()); gc()
+source("R/03_2b_build_sua.R"); rm(list = ls()); gc()
 
-# Create the use structure
-source("R/08_use.R")
+# Estimate BTD from totals -----------------------------------------------
+source("R/04_estimate_btd.R"); rm(list = ls()); gc()
 
-# Build multi-regional supply use tables
-source("R/09_mrsut.R")
+# Balance trade using RAS ------------------------------------------------
+source("R/05_balance_btd.R"); rm(list = ls()); gc()
 
-# Build MRIO blocks
-source("R/10_mrio.R")
+# Allocate re-exports ----------------------------------------------------
+source("R/06_re-exports.R"); rm(list = ls()); gc()
 
-# Derive Leontief inverses
-source("R/11_leontief_inverse.R")
+# Create the supply structure --------------------------------------------
+source("R/07_1_supply_cbs.R"); rm(list = ls()); gc()
+source("R/07_2_supply_sua.R"); rm(list = ls()); gc()
 
-# Prepare env. extensions
-source("R/12_extensions.R")
+# Create the use structure -----------------------------------------------
+source("R/08_1a_use_cbs.R"); rm(list = ls()); gc()
 
-# Create sheets with IO codes for users
-source("R/13_codes.R")
+# Build multi-regional supply, use and IO tables -------------------------
+source("R/09_mrsut.R"); rm(list = ls()); gc()
+source("R/10_mrio.R"); rm(list = ls()); gc()
+
+# Derive Leontief inverses -----------------------------------------------
+source("R/11_leontief_inverse.R"); rm(list = ls()); gc()
+
+# Prepare env. extensions ------------------------------------------------
+source("R/12_1_land_mass_water.R"); rm(list = ls()); gc()
+source("R/12_2_NPK_spatial.R"); rm(list = ls()); gc()
+source("R/12_3_NPK_fertilizer_application.R"); rm(list = ls()); gc()
+source("R/12_4_NP_balance.R"); rm(list = ls()); gc()
+source("R/12_5_ghg.R"); rm(list = ls()); gc()
+source("R/12_6_biodiversity_ibif.R"); rm(list = ls()); gc()
+source("R/12_7_biodiversity_tidy.R"); rm(list = ls()); gc()
+source("R/12_8_biodiversity_lc_fd.R"); rm(list = ls()); gc()
+source("R/12_9_ecosystem_services.R"); rm(list = ls()); gc()
+source("R/13_extensions_main.R"); rm(list = ls()); gc()
+
+
+

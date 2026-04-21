@@ -62,108 +62,104 @@ p060,Rubber production,c060,2672,Rubber
 p061,Fodder crops production,c061,2000,Fodder crops
 p062,Grazing production,c062,2001,Grazing
 p063,Cotton production,c063,2559,Cottonseed
-p063,Cotton production,c096,2661,Cotton lint
+p063,Cotton production,c095,2661,Cotton lint
 p064,"Sugar production, non-centrifugal",c065,2541,Sugar non-centrifugal
-p065,Sugar production,c067,2542,"Sugar (Raw Equivalent)"
-p066,"Sweeteners production, Other",c068,2543,"Sweeteners, Other"
-p067,Soyabean Oil extraction,c069,2571,Soyabean Oil
-p068,Groundnut Oil extraction,c070,2572,Groundnut Oil
-p069,Sunflowerseed Oil extraction,c071,2573,Sunflowerseed Oil
-p070,Rape and Mustard Oil extraction,c072,2574,Rape and Mustard Oil
-p071,Cottonseed Oil extraction,c073,2575,Cottonseed Oil
-p072,Palmkernel Oil extraction,c074,2576,Palmkernel Oil
+p065,Sugar production,c066,2542,Sugar (Raw Equivalent)
+p066,"Sweeteners production, Other",c067,2543,"Sweeteners, Other"
+p067,Soyabean Oil extraction,c068,2571,Soyabean Oil
+p068,Groundnut Oil extraction,c069,2572,Groundnut Oil
+p069,Sunflowerseed Oil extraction,c070,2573,Sunflowerseed Oil
+p070,Rape and Mustard Oil extraction,c071,2574,Rape and Mustard Oil
+p071,Cottonseed Oil extraction,c072,2575,Cottonseed Oil
+p072,Palmkernel Oil extraction,c073,2576,Palmkernel Oil
 p073,Palm Oil production,c064,2562,Palm kernels
-p073,Palm Oil production,c075,2577,Palm Oil
-p074,Coconut Oil extraction,c076,2578,Coconut Oil
-p075,Sesameseed Oil extraction,c077,2579,Sesameseed Oil
-p076,Olive Oil extraction,c078,2580,Olive Oil
-p077,Ricebran Oil extraction,c079,2581,Ricebran Oil
-p078,Maize Germ Oil extraction,c080,2582,Maize Germ Oil
-p079,"Oilcrops Oil extraction, Other",c081,2586,"Oilcrops Oil, Other"
-p067,Soyabean Oil extraction,c082,2590,Soyabean Cake
-p068,Groundnut Oil extraction,c083,2591,Groundnut Cake
-p069,Sunflowerseed Oil extraction,c084,2592,Sunflowerseed Cake
-p070,Rape and Mustard Oil extraction,c085,2593,Rape and Mustard Cake
-p071,Cottonseed Oil extraction,c086,2594,Cottonseed Cake
-p072,Palmkernel Oil extraction,c087,2595,Palmkernel Cake
-p074,Coconut Oil extraction,c088,2596,Copra Cake
-p075,Sesameseed Oil extraction,c089,2597,Sesameseed Cake
-p077,Ricebran Oil extraction,c090,2598,"Oilseed Cakes, Other"
-p078,Maize Germ Oil extraction,c090,2598,"Oilseed Cakes, Other"
-p079,"Oilcrops Oil extraction, Other",c090,2598,"Oilseed Cakes, Other"
-p080,Wine production,c091,2655,Wine
-p081,Beer production,c092,2656,Beer
-p082,"Beverages production, Fermented",c093,2657,"Beverages, Fermented"
-p083,"Beverages production, Alcoholic",c094,2658,"Beverages, Alcoholic"
-p084,"Alcohol production, Non-Food",c095,2659,"Alcohol, Non-Food"
-p085,Cattle husbandry,c097,866,Cattle
-p086,Buffaloes husbandry,c098,946,Buffaloes
-p087,Sheep husbandry,c099,976,Sheep
-p088,Goats husbandry,c100,1016,Goats
-p089,Pigs farming,c101,1034,Pigs
-p090,Poultry Birds farming,c102,2029,Poultry Birds
-p091,Horses husbandry,c103,1096,Horses
-p092,Asses husbandry,c104,1107,Asses
-p093,Mules husbandry,c105,1110,Mules
-p094,Camels husbandry,c106,1126,Camels
-p095,"Camelids husbandry, other",c107,1157,"Camelids, other"
-p096,Rabbits husbandry,c108,1140,Rabbits and hares
-p097,"Rodents husbandry, other",c109,1150,"Rodents, other"
-p099,Dairy cattle husbandry,c110,2848,Milk - Excluding Butter
-p100,Dairy buffaloes husbandry,c110,2848,Milk - Excluding Butter
-p101,Dairy sheep husbandry,c110,2848,Milk - Excluding Butter
-p102,Dairy goats husbandry,c110,2848,Milk - Excluding Butter
-p103,Dairy camels husbandry,c110,2848,Milk - Excluding Butter
-p099,Dairy cattle husbandry,c111,2740,"Butter, Ghee"
-p100,Dairy buffaloes husbandry,c111,2740,"Butter, Ghee"
-p101,Dairy sheep husbandry,c111,2740,"Butter, Ghee"
-p102,Dairy goats husbandry,c111,2740,"Butter, Ghee"
-p103,Dairy camels husbandry,c111,2740,"Butter, Ghee"
-p104,Cattle slaughtering,c114,2731,Bovine Meat
-p105,Buffaloes slaughtering,c114,2731,Bovine Meat
-p106,Sheep slaughtering,c115,2732,Mutton & Goat Meat
-p107,Goat slaughtering,c115,2732,Mutton & Goat Meat
-p106,Sheep slaughtering,c113,2746,Wool (Clean Eq.)
-p108,Pigs slaughtering,c116,2733,Pigmeat
-p109,Poultry slaughtering,c117,2734,Poultry Meat
-p109,Poultry slaughtering,c112,2744,Eggs
-p110,Horses slaughtering,c118,2735,"Meat, Other"
-p111,Asses slaughtering,c118,2735,"Meat, Other"
-p112,Mules slaughtering,c118,2735,"Meat, Other"
-p113,Camels slaughtering,c118,2735,"Meat, Other"
-p114,"Camelids slaughtering, other",c118,2735,"Meat, Other"
-p115,Rabbits slaughtering,c118,2735,"Meat, Other"
-p116,"Rodents slaughtering, other",c118,2735,"Meat, Other"
-p104,Cattle slaughtering,c119,2736,"Offals, Edible"
-p105,Buffaloes slaughtering,c119,2736,"Offals, Edible"
-p106,Sheep slaughtering,c119,2736,"Offals, Edible"
-p107,Goat slaughtering,c119,2736,"Offals, Edible"
-p108,Pigs slaughtering,c119,2736,"Offals, Edible"
-p109,Poultry slaughtering,c119,2736,"Offals, Edible"
-p110,Horses slaughtering,c119,2736,"Offals, Edible"
-p111,Asses slaughtering,c119,2736,"Offals, Edible"
-p112,Mules slaughtering,c119,2736,"Offals, Edible"
-p113,Camels slaughtering,c119,2736,"Offals, Edible"
-p114,"Camelids slaughtering, other",c119,2736,"Offals, Edible"
-p115,Rabbits slaughtering,c119,2736,"Offals, Edible"
-p116,"Rodents slaughtering, other",c119,2736,"Offals, Edible"
-p104,Cattle slaughtering,c120,2737,"Fats, Animals, Raw"
-p105,Buffaloes slaughtering,c120,2737,"Fats, Animals, Raw"
-p106,Sheep slaughtering,c120,2737,"Fats, Animals, Raw"
-p107,Goat slaughtering,c120,2737,"Fats, Animals, Raw"
-p108,Pigs slaughtering,c120,2737,"Fats, Animals, Raw"
-p109,Poultry slaughtering,c120,2737,"Fats, Animals, Raw"
-p110,Horses slaughtering,c120,2737,"Fats, Animals, Raw"
-p111,Asses slaughtering,c120,2737,"Fats, Animals, Raw"
-p112,Mules slaughtering,c120,2737,"Fats, Animals, Raw"
-p113,Camels slaughtering,c120,2737,"Fats, Animals, Raw"
-p114,"Camelids slaughtering, other",c120,2737,"Fats, Animals, Raw"
-p115,Rabbits slaughtering,c120,2737,"Fats, Animals, Raw"
-p116,"Rodents slaughtering, other",c120,2737,"Fats, Animals, Raw"
-p104,Cattle slaughtering,c121,2748,Hides and skins
-p105,Buffaloes slaughtering,c121,2748,Hides and skins
-p106,Sheep slaughtering,c121,2748,Hides and skins
-p107,Goat slaughtering,c121,2748,Hides and skins
-p118,Beekeeping,c123,2745,Honey
-p119,Silkworm breeding,c124,2747,Silk
-p120,Fishing,c125,2960,"Fish, Seafood"
+p073,Palm Oil production,c074,2577,Palm Oil
+p074,Coconut Oil extraction,c075,2578,Coconut Oil
+p075,Sesameseed Oil extraction,c076,2579,Sesameseed Oil
+p076,Olive Oil extraction,c077,2580,Olive Oil
+p077,Ricebran Oil extraction,c078,2581,Ricebran Oil
+p078,Maize Germ Oil extraction,c079,2582,Maize Germ Oil
+p079,"Oilcrops Oil extraction, Other",c080,2586,"Oilcrops Oil, Other"
+p067,Soyabean Oil extraction,c081,2590,Soyabean Cake
+p068,Groundnut Oil extraction,c082,2591,Groundnut Cake
+p069,Sunflowerseed Oil extraction,c083,2592,Sunflowerseed Cake
+p070,Rape and Mustard Oil extraction,c084,2593,Rape and Mustard Cake
+p071,Cottonseed Oil extraction,c085,2594,Cottonseed Cake
+p072,Palmkernel Oil extraction,c086,2595,Palmkernel Cake
+p074,Coconut Oil extraction,c087,2596,Copra Cake
+p075,Sesameseed Oil extraction,c088,2597,Sesameseed Cake
+p077,Ricebran Oil extraction,c089,2598,"Oilseed Cakes, Other"
+p078,Maize Germ Oil extraction,c089,2598,"Oilseed Cakes, Other"
+p079,"Oilcrops Oil extraction, Other",c089,2598,"Oilseed Cakes, Other"
+p080,Wine production,c090,2655,Wine
+p081,Beer production,c091,2656,Beer
+p082,"Beverages production, Fermented",c092,2657,"Beverages, Fermented"
+p083,"Beverages production, Alcoholic",c093,2658,"Beverages, Alcoholic"
+p084,"Alcohol production, Non-Food",c094,2659,"Alcohol, Non-Food"
+p085,Cattle husbandry,c096,866,Cattle
+p086,Buffaloes husbandry,c097,946,Buffaloes
+p087,Sheep husbandry,c098,976,Sheep
+p088,Goats husbandry,c099,1016,Goats
+p089,Pigs farming,c100,1034,Pigs
+p090,Poultry Birds farming,c101,2029,Poultry Birds
+p091,Horses husbandry,c102,1096,Horses
+p092,Asses husbandry,c103,1107,Asses
+p093,Mules husbandry,c104,1110,Mules
+p094,Camels husbandry,c105,1126,Camels
+p095,"Camelids husbandry, other",c106,1157,"Camelids, other"
+p096,Rabbits husbandry,c107,1140,Rabbits and hares
+p097,"Rodents husbandry, other",c108,1150,"Rodents, other"
+p099,Dairy cattle husbandry,c109,2848,Milk - Excluding Butter
+p100,Dairy buffaloes husbandry,c109,2848,Milk - Excluding Butter
+p101,Dairy sheep husbandry,c109,2848,Milk - Excluding Butter
+p102,Dairy goats husbandry,c109,2848,Milk - Excluding Butter
+p103,Dairy camels husbandry,c109,2848,Milk - Excluding Butter
+p121,Butter production,c110,2740,"Butter, Ghee"
+p104,Cattle slaughtering,c113,2731,Bovine Meat
+p105,Buffaloes slaughtering,c113,2731,Bovine Meat
+p106,Sheep slaughtering,c114,2732,Mutton & Goat Meat
+p107,Goat slaughtering,c114,2732,Mutton & Goat Meat
+p106,Sheep slaughtering,c112,2746,Wool (Clean Eq.)
+p108,Pigs slaughtering,c115,2733,Pigmeat
+p109,Poultry slaughtering,c116,2734,Poultry Meat
+p109,Poultry slaughtering,c111,2744,Eggs
+p110,Horses slaughtering,c117,2735,"Meat, Other"
+p111,Asses slaughtering,c117,2735,"Meat, Other"
+p112,Mules slaughtering,c117,2735,"Meat, Other"
+p113,Camels slaughtering,c117,2735,"Meat, Other"
+p114,"Camelids slaughtering, other",c117,2735,"Meat, Other"
+p115,Rabbits slaughtering,c117,2735,"Meat, Other"
+p116,"Rodents slaughtering, other",c117,2735,"Meat, Other"
+p104,Cattle slaughtering,c118,2736,"Offals, Edible"
+p105,Buffaloes slaughtering,c118,2736,"Offals, Edible"
+p106,Sheep slaughtering,c118,2736,"Offals, Edible"
+p107,Goat slaughtering,c118,2736,"Offals, Edible"
+p108,Pigs slaughtering,c118,2736,"Offals, Edible"
+p109,Poultry slaughtering,c118,2736,"Offals, Edible"
+p110,Horses slaughtering,c118,2736,"Offals, Edible"
+p111,Asses slaughtering,c118,2736,"Offals, Edible"
+p112,Mules slaughtering,c118,2736,"Offals, Edible"
+p113,Camels slaughtering,c118,2736,"Offals, Edible"
+p114,"Camelids slaughtering, other",c118,2736,"Offals, Edible"
+p115,Rabbits slaughtering,c118,2736,"Offals, Edible"
+p116,"Rodents slaughtering, other",c118,2736,"Offals, Edible"
+p104,Cattle slaughtering,c119,2737,"Fats, Animals, Raw"
+p105,Buffaloes slaughtering,c119,2737,"Fats, Animals, Raw"
+p106,Sheep slaughtering,c119,2737,"Fats, Animals, Raw"
+p107,Goat slaughtering,c119,2737,"Fats, Animals, Raw"
+p108,Pigs slaughtering,c119,2737,"Fats, Animals, Raw"
+p109,Poultry slaughtering,c119,2737,"Fats, Animals, Raw"
+p110,Horses slaughtering,c119,2737,"Fats, Animals, Raw"
+p111,Asses slaughtering,c119,2737,"Fats, Animals, Raw"
+p112,Mules slaughtering,c119,2737,"Fats, Animals, Raw"
+p113,Camels slaughtering,c119,2737,"Fats, Animals, Raw"
+p114,"Camelids slaughtering, other",c119,2737,"Fats, Animals, Raw"
+p115,Rabbits slaughtering,c119,2737,"Fats, Animals, Raw"
+p116,"Rodents slaughtering, other",c119,2737,"Fats, Animals, Raw"
+p104,Cattle slaughtering,c120,2748,Hides and skins
+p105,Buffaloes slaughtering,c120,2748,Hides and skins
+p106,Sheep slaughtering,c120,2748,Hides and skins
+p107,Goat slaughtering,c120,2748,Hides and skins
+p118,Beekeeping,c121,2745,Honey
+p119,Silkworm breeding,c122,2747,Silk
+p120,Fishing,c123,2960,"Fish, Seafood"

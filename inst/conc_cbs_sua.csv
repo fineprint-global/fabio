@@ -1,0 +1,526 @@
+item_cbs,item_code_cbs,item_sua,item_code_sua
+"Groundnuts, excluding shelled",242,"Groundnuts, excluding shelled",242
+"Groundnuts, shelled",243,"Groundnuts, shelled",243
+Prepared groundnuts,246,Prepared groundnuts,246
+Peanut butter,247,Peanut butter,247
+"Mustard seed oil, crude",293,"Mustard seed oil, crude",293
+"Seed cotton, unginned",328,"Seed cotton, unginned",328
+Cocoa husks and shells,663,Cocoa husks and shells,663
+"Green tea (not fermented), black tea (fermented) and partly fermented tea, in immediate packings of a content not exceeding 3 kg",675,"Green tea (not fermented), black tea (fermented) and partly fermented tea, in immediate packings of a content not exceeding 3 kg",675
+Hop cones,677,Hop cones,677
+"Peppermint, spearmint",748,"Peppermint, spearmint",748
+"Pyrethrum, dried flowers",754,"Pyrethrum, dried flowers",754
+"Cotton lint, ginned",767,"Cotton lint, ginned",767
+"Flax, raw or retted",771,"Flax, raw or retted",771
+"True hemp, raw or retted",777,"True hemp, raw or retted",777
+"Kapok fibre, raw",778,"Kapok fibre, raw",778
+"Jute, raw or retted",780,"Jute, raw or retted",780
+"Kenaf, and other textile bast fibres, raw or retted",782,"Kenaf, and other textile bast fibres, raw or retted",782
+"Ramie, raw or retted",788,"Ramie, raw or retted",788
+"Sisal, raw",789,"Sisal, raw",789
+"Agave fibres, raw, n.e.c.",800,"Agave fibres, raw, n.e.c.",800
+"Abaca, manila hemp, raw",809,"Abaca, manila hemp, raw",809
+"Coir, raw",813,"Coir, raw",813
+"Other fibre crops, raw, n.e.c.",821,"Other fibre crops, raw, n.e.c.",821
+Unmanufactured tobacco,826,Unmanufactured tobacco,826
+Cigarettes,828,Cigarettes,828
+Cigars and cheroots,829,Cigars and cheroots,829
+Natural rubber in primary forms,836,Natural rubber in primary forms,836
+Natural rubber in other forms,837,Natural rubber in other forms,837
+Gluten feed and meal,846,Gluten feed and meal,846
+Cattle,866,Cattle,866
+"Cream, fresh",885,"Cream, fresh",885
+Raw hides and skins of cattle,919,Raw hides and skins of cattle,919
+Buffalo,946,Buffalo,946
+Raw hides and skins of buffaloes,957,Raw hides and skins of buffaloes,957
+Sheep,976,Sheep,976
+"Shorn wool, greasy, including fleece-washed shorn wool",987,"Shorn wool, greasy, including fleece-washed shorn wool",987
+"Wool, degreased or carbonized, not carded or combed",988,"Wool, degreased or carbonized, not carded or combed",988
+Raw hides and skins of sheep or lambs,995,Raw hides and skins of sheep or lambs,995
+Goats,1016,Goats,1016
+Raw hides and skins of goats or kids,1025,Raw hides and skins of goats or kids,1025
+Swine / pigs,1034,Swine / pigs,1034
+Chickens,1057,Chickens,1057
+Ducks,1068,Ducks,1068
+Geese,1072,Geese,1072
+Turkeys,1079,Turkeys,1079
+Other birds,1083,Other birds,1083
+Horses,1096,Horses,1096
+Asses,1107,Asses,1107
+Mules and hinnies,1110,Mules and hinnies,1110
+Camels,1126,Camels,1126
+Rabbits and hares,1140,Rabbits and hares,1140
+Other rodents,1150,Other rodents,1150
+Other camelids,1157,Other camelids,1157
+Beeswax,1183,Beeswax,1183
+Fodder crops,2000,Fodder crops,2000
+Grazing,2001,Grazing,2001
+WHEAT & products,2511,wheat,15
+WHEAT & products,2511,wheat and meslin flour,16
+WHEAT & products,2511,bran of wheat,17
+WHEAT & products,2511,"uncooked pasta, not stuffed or otherwise prepared",18
+WHEAT & products,2511,germ of wheat,19
+WHEAT & products,2511,bread,20
+WHEAT & products,2511,bulgur,21
+WHEAT & products,2511,pastry,22
+WHEAT & products,2511,starch of wheat,23
+WHEAT & products,2511,wheat gluten,24
+WHEAT & products,2511,breakfast cereals,41
+WHEAT & products,2511,"communion wafers, empty cachets of a kind suitable for pharmaceutical use, sealing wafers, rice paper and similar products.",110
+WHEAT & products,2511,mixes and doughs for the preparation of bakers' wares (calories only),114
+WHEAT & products,2511,"food preparations of flour, meal or malt extract (calories only)",115
+BARLEY & products,2513,barley,44
+BARLEY & products,2513,pot barley,45
+BARLEY & products,2513,"barley, pearled",46
+BARLEY & products,2513,bran of barley,47
+BARLEY & products,2513,barley flour and grits,48
+BARLEY & products,2513,"malt, whether or not roasted",49
+BARLEY & products,2513,malt extract,50
+MAIZE & products,2514,maize (corn),56
+MAIZE & products,2514,germ of maize,57
+MAIZE & products,2514,flour of maize,58
+MAIZE & products,2514,bran of maize,59
+MAIZE & products,2514,maize gluten,63
+MAIZE & products,2514,starch of maize,64
+Maize and products,2514,Cake of maize,61
+RYE & products,2515,rye,71
+RYE & products,2515,flour of rye,72
+RYE & products,2515,bran of rye,73
+OATS & products,2516,oats,75
+OATS & products,2516,"oats, rolled",76
+OATS & products,2516,bran of oats,77
+MILLET & products,2517,millet,79
+MILLET & products,2517,flour of millet,80
+MILLET & products,2517,bran of millet,81
+SORGHUM & products,2518,sorghum,83
+SORGHUM & products,2518,flour of sorghum,84
+SORGHUM & products,2518,bran of sorghum,85
+"CEREALS, OTHER & products",2520,buckwheat,89
+"CEREALS, OTHER & products",2520,flour of buckwheat,90
+"CEREALS, OTHER & products",2520,bran of buckwheat,91
+"CEREALS, OTHER & products",2520,quinoa,92
+"CEREALS, OTHER & products",2520,fonio,94
+"CEREALS, OTHER & products",2520,flour of fonio,95
+"CEREALS, OTHER & products",2520,bran of fonio,96
+"CEREALS, OTHER & products",2520,triticale,97
+"CEREALS, OTHER & products",2520,flour of triticale,98
+"CEREALS, OTHER & products",2520,bran of triticale,99
+"CEREALS, OTHER & products",2520,canary seed,101
+"CEREALS, OTHER & products",2520,mixed grain,103
+"CEREALS, OTHER & products",2520,flour of mixed grain,104
+"CEREALS, OTHER & products",2520,bran of mixed grain,105
+"CEREALS, OTHER & products",2520,other cereals n.e.c.,108
+"CEREALS, OTHER & products",2520,flour of cereals nes,111
+"CEREALS, OTHER & products",2520,bran of cereals nes,112
+"CEREALS, OTHER & products",2520,cereal preparations,113
+POTATOES & products,2531,potatoes,116
+POTATOES & products,2531,"flour, meal, powder, flakes, granules and pellets of potatoes",117
+POTATOES & products,2531,"potatoes, frozen",118
+POTATOES & products,2531,starch of potatoes,119
+POTATOES & products,2531,tapioca of potatoes,121
+CASSAVA & products,2532,"cassava, fresh",125
+CASSAVA & products,2532,flour of cassava,126
+CASSAVA & products,2532,tapioca of cassava,127
+CASSAVA & products,2532,"cassava, dried",128
+CASSAVA & products,2532,starch of cassava,129
+SWEET POTATOES,2533,sweet potatoes,122
+"ROOTS, OTHER & products",2534,yautia,135
+"ROOTS, OTHER & products",2534,taro,136
+"ROOTS, OTHER & products",2534,"edible roots and tubers with high starch or inulin content, n.e.c., fresh",149
+"ROOTS, OTHER & products",2534,flour of roots and tubers nes,150
+"ROOTS, OTHER & products",2534,"edible roots and tubers with high starch or inulin content, n.e.c., dry",151
+YAMS,2535,yams,137
+SUGAR CANE,2536,sugar cane,156
+SUGAR BEET,2537,sugar beet,157
+SUGAR NON-CENTRIFUGAL,2541,"cane sugar, non-centrifugal",163
+SUGAR (RAW EQUIVALENT) & products,2542,raw cane or beet sugar (centrifugal only),162
+SUGAR (RAW EQUIVALENT) & products,2542,"cane sugar, centrifugal",158
+SUGAR (RAW EQUIVALENT) & products,2542,refined sugar,164
+SUGAR (RAW EQUIVALENT) & products,2542,sugar confectionery,168
+"SWEETENERS, NES & products",2543,"refined cane or beet sugar, in solid form, containing added flavouring or colouring matter; maple sugar and maple syrup",160
+"SWEETENERS, NES & products",2543,other sugar crops n.e.c.,161
+"SWEETENERS, NES & products",2543,"molasses (from beet, cane and maize)",165
+"SWEETENERS, NES & products",2543,other fructose and syrup,166
+"SWEETENERS, NES & products",2543,sugar and syrups nes,167
+"SWEETENERS, NES & products",2543,glucose and dextrose,172
+"SWEETENERS, NES & products",2543,lactose,173
+"SWEETENERS, NES & products",2543,isoglucose,175
+"SWEETENERS, NES & products",2543,other non-alcoholic caloric beverages n.e.c.,633
+BEANS DRY,2546,"beans, dry",176
+PEAS DRY,2547,"peas, dry",187
+"PULSES, OTHER & products",2549,"broad beans and horse beans, dry",181
+"PULSES, OTHER & products",2549,"chick peas, dry",191
+"PULSES, OTHER & products",2549,"cow peas, dry",195
+"PULSES, OTHER & products",2549,"pigeon peas, dry",197
+"PULSES, OTHER & products",2549,"lentils, dry",201
+"PULSES, OTHER & products",2549,"bambara beans, dry",203
+"PULSES, OTHER & products",2549,vetches,205
+"PULSES, OTHER & products",2549,lupins,210
+"PULSES, OTHER & products",2549,other pulses n.e.c.,211
+"PULSES, OTHER & products",2549,flour of pulses,212
+"PULSES, OTHER & products",2549,bran of pulses,213
+NUTS & products,2551,"brazil nuts, in shell",216
+NUTS & products,2551,"cashew nuts, in shell",217
+NUTS & products,2551,"chestnuts, in shell",220
+NUTS & products,2551,"almonds, in shell",221
+NUTS & products,2551,"walnuts, in shell",222
+NUTS & products,2551,"pistachios, in shell",223
+NUTS & products,2551,kola nuts,224
+NUTS & products,2551,"hazelnuts, in shell",225
+NUTS & products,2551,areca nuts,226
+NUTS & products,2551,"brazil nuts, shelled",229
+NUTS & products,2551,"cashew nuts, shelled",230
+NUTS & products,2551,"almonds, shelled",231
+NUTS & products,2551,"walnuts, shelled",232
+NUTS & products,2551,"hazelnuts, shelled",233
+NUTS & products,2551,"other nuts (excluding wild edible nuts and groundnuts), in shell, n.e.c.",234
+NUTS & products,2551,prepared nuts,235
+SOYBEANS & products,2555,soya beans,236
+SOYBEANS & products,2555,soya sauce,239
+SOYBEANS & products,2555,soya paste,240
+SOYBEANS & products,2555,soya curd,241
+SUNFLOWERSEED,2557,sunflower seed,267
+RAPE AND MUSTARDSEED & products,2558,rapeseed or colza seed,270
+RAPE AND MUSTARDSEED & products,2558,mustard seed,292
+RAPE AND MUSTARDSEED & products,2558,flour of mustard seed,295
+COTTONSEED,2559,cottonseed,329
+COCONUTS (INCL. COPRA) & products,2560,"coconuts, in shell",249
+COCONUTS (INCL. COPRA) & products,2560,"coconuts, desiccated",250
+COCONUTS (INCL. COPRA) & products,2560,copra,251
+SESAMESEED,2561,sesame seed,289
+PALM KERNELS & products,2562,oil palm fruit,254
+PALM KERNELS & products,2562,palm kernels,256
+OLIVES & products,2563,olives,260
+OLIVES & products,2563,olives preserved,262
+"OILCROPS, OTHER & products",2570,karite nuts (sheanuts),263
+"OILCROPS, OTHER & products",2570,castor oil seeds,265
+"OILCROPS, OTHER & products",2570,tung nuts,275
+"OILCROPS, OTHER & products",2570,jojoba seeds,277
+"OILCROPS, OTHER & products",2570,safflower seed,280
+"OILCROPS, OTHER & products",2570,poppy seed,296
+"OILCROPS, OTHER & products",2570,melonseed,299
+"OILCROPS, OTHER & products",2570,tallowtree seeds,305
+"OILCROPS, OTHER & products",2570,kapok fruit,310
+"OILCROPS, OTHER & products",2570,kapokseed in shell,311
+"OILCROPS, OTHER & products",2570,"kapokseed, shelled",312
+"OILCROPS, OTHER & products",2570,linseed,333
+"OILCROPS, OTHER & products",2570,hempseed,336
+"OILCROPS, OTHER & products",2570,"other oil seeds, n.e.c.",339
+"OILCROPS, OTHER & products",2570,"flours and meals of oil seeds or oleaginous fruits, except those of mustard",343
+SOYBEAN OIL,2571,soya bean oil,237
+GROUNDNUT OIL,2572,groundnut oil,244
+SUNFLOWERSEED OIL,2573,"sunflower-seed oil, crude",268
+RAPE AND MUSTARD OIL & products,2574,"rapeseed or canola oil , crude",271
+COTTONSEED OIL,2575,cottonseed oil,331
+PALM KERNEL OIL,2576,oil of palm kernel,258
+PALM OIL & products,2577,palm oil,257
+PALM OIL & products,2577,industrial monocarboxylic fatty acids; acid oils from refining,1276
+PALM OIL & products,2577,residues of fatty substances,1277
+COPRA OIL,2578,coconut oil,252
+SESAMESEED OIL,2579,oil of sesame seed,290
+OLIVE OIL & products,2580,olive oil,261
+RICE BRAN OIL,2581,oil of rice bran,36
+MAIZE GERM OIL,2582,oil of maize,60
+"OILCROPS OIL, OTHER & products",2586,butter of karite nuts,264
+"OILCROPS OIL, OTHER & products",2586,oil of castor beans,266
+"OILCROPS OIL, OTHER & products",2586,oil of tung nuts,276
+"OILCROPS OIL, OTHER & products",2586,jojoba oil,278
+"OILCROPS OIL, OTHER & products",2586,"safflower-seed oil, crude",281
+"OILCROPS OIL, OTHER & products",2586,oil of poppy seed,297
+"OILCROPS OIL, OTHER & products",2586,vegetable tallow,306
+"OILCROPS OIL, OTHER & products",2586,oil of kapok,313
+"OILCROPS OIL, OTHER & products",2586,oil of linseed,334
+"OILCROPS OIL, OTHER & products",2586,oil of hempseed,337
+"OILCROPS OIL, OTHER & products",2586,"other oil of vegetable origin, crude n.e.c.",340
+"OILCROPS OIL, OTHER & products",2586,"cocoa butter, fat and oil",664
+"OILCROPS OIL, OTHER & products",2586,liquid margarine,1241
+"OILCROPS OIL, OTHER & products",2586,margarine and shortening,1242
+"OILCROPS OIL, OTHER & products",2586,"castor oil, hydrogenated",1273
+"OILCROPS OIL, OTHER & products",2586,"animal or vegetable fats and oils and their fractions, chemically modified…..",1274
+"OILCROPS OIL, OTHER & products",2586,hydrogenated oils and fats,1275
+Soyabean Cake,2590,Cake of  soya beans,238
+Groundnut Cake,2591,Cake of groundnuts,245
+Sunflowerseed Cake,2592,Cake of sunflower seed,269
+Rape and Mustard Cake,2593,Cake of rapeseed,272
+Rape and Mustard Cake,2593,Cake of mustard seed,294
+Cottonseed Cake,2594,Cake of cottonseed,332
+Palmkernel Cake,2595,Cake of palm kernel,259
+Copra Cake,2596,Cake of copra,253
+Sesameseed Cake,2597,Cake of sesame seed,291
+"Oilseed Cakes, Other",2598,"Cake, poppy seed",298
+"Oilseed Cakes, Other",2598,Cake of kapok,314
+"Oilseed Cakes, Other",2598,Cake of  linseed,335
+"Oilseed Cakes, Other",2598,Cake of hempseed,338
+"Oilseed Cakes, Other",2598,"Cake, oilseeds nes",341
+"Oilseed Cakes, Other",2598,Cake of safflowerseed,282
+TOMATOES & products,2601,tomatoes,388
+TOMATOES & products,2601,tomato juice,390
+TOMATOES & products,2601,paste of tomatoes,391
+TOMATOES & products,2601,"tomatoes, peeled (o/t vinegar)",392
+"ONIONS, DRY",2602,"onions and shallots, dry (excluding dehydrated)",403
+"VEGETABLES, OTHER & products",2605,cabbages,358
+"VEGETABLES, OTHER & products",2605,artichokes,366
+"VEGETABLES, OTHER & products",2605,asparagus,367
+"VEGETABLES, OTHER & products",2605,lettuce and chicory,372
+"VEGETABLES, OTHER & products",2605,spinach,373
+"VEGETABLES, OTHER & products",2605,cassava leaves,378
+"VEGETABLES, OTHER & products",2605,cauliflowers and broccoli,393
+"VEGETABLES, OTHER & products",2605,watermelons,567
+"VEGETABLES, OTHER & products",2605,cantaloupes and other melons,568
+"VEGETABLES, OTHER & products",2605,"pumpkins, squash and gourds",394
+"VEGETABLES, OTHER & products",2605,cucumbers and gherkins,397
+"VEGETABLES, OTHER & products",2605,eggplants (aubergines),399
+"VEGETABLES, OTHER & products",2605,"chillies and peppers, green (capsicum spp. and pimenta spp.)",401
+"VEGETABLES, OTHER & products",2605,"onions and shallots, green",402
+"VEGETABLES, OTHER & products",2605,green garlic,406
+"VEGETABLES, OTHER & products",2605,leeks and other alliaceous vegetables,407
+"VEGETABLES, OTHER & products",2605,"other beans, green",414
+"VEGETABLES, OTHER & products",2605,"peas, green",417
+"VEGETABLES, OTHER & products",2605,"broad beans and horse beans, green",420
+"VEGETABLES, OTHER & products",2605,string beans,423
+"VEGETABLES, OTHER & products",2605,carrots and turnips,426
+"VEGETABLES, OTHER & products",2605,okra,430
+"VEGETABLES, OTHER & products",2605,green corn (maize),446
+"VEGETABLES, OTHER & products",2605,"sweet corn, frozen",447
+"VEGETABLES, OTHER & products",2605,"sweet corn, prepared or preserved",448
+"VEGETABLES, OTHER & products",2605,mushrooms and truffles,449
+"VEGETABLES, OTHER & products",2605,dried mushrooms,450
+"VEGETABLES, OTHER & products",2605,canned mushrooms,451
+"VEGETABLES, OTHER & products",2605,chicory roots,459
+"VEGETABLES, OTHER & products",2605,"vegetable products, fresh or dry n.e.c.",460
+"VEGETABLES, OTHER & products",2605,locust beans (carobs),461
+"VEGETABLES, OTHER & products",2605,"other vegetables, fresh n.e.c.",463
+"VEGETABLES, OTHER & products",2605,other vegetable juices,466
+"VEGETABLES, OTHER & products",2605,"vegetables, dehydrated",469
+"VEGETABLES, OTHER & products",2605,"vegetables, pulses and potatoes, preserved by vinegar or acetic acid",471
+"VEGETABLES, OTHER & products",2605,vegetables preserved nes (o/t vinegar),472
+"VEGETABLES, OTHER & products",2605,vegetables frozen,473
+"VEGETABLES, OTHER & products",2605,other vegetables provisionally preserved,474
+"VEGETABLES, OTHER & products",2605,vegetables preserved (frozen),475
+"VEGETABLES, OTHER & products",2605,homogenized vegetable preparations,476
+"VEGETABLES, OTHER & products",2605,coffee substitutes,658
+ORANGES AND MANDARINS & products,2611,oranges,490
+ORANGES AND MANDARINS & products,2611,orange juice,491
+ORANGES AND MANDARINS & products,2611,"orange juice, concentrated",492
+ORANGES AND MANDARINS & products,2611,"tangerines, mandarins, clementines",495
+ORANGES AND MANDARINS & products,2611,juice of tangerine,496
+LEMONS AND LIMES & products,2612,lemons and limes,497
+LEMONS AND LIMES & products,2612,juice of lemon,498
+LEMONS AND LIMES & products,2612,"lemon juice, concentrated",499
+GRAPEFRUIT & products,2613,pomelos and grapefruits,507
+GRAPEFRUIT & products,2613,grapefruit juice,509
+GRAPEFRUIT & products,2613,"grapefruit juice, concentrated",510
+"CITRUS, OTHER & products",2614,"other citrus fruit, n.e.c.",512
+"CITRUS, OTHER & products",2614,juice of citrus fruit n.e.c.,513
+"CITRUS, OTHER & products",2614,"citrus juice, concentrated n.e.c.",514
+BANANAS,2615,bananas,486
+PLANTAINS,2616,plantains and others,489
+APPLES (EXCL. CIDER) & products,2617,apples,515
+APPLES (EXCL. CIDER) & products,2617,apple juice,518
+APPLES (EXCL. CIDER) & products,2617,"apple juice, concentrated",519
+PINEAPPLES & products,2618,pineapples,574
+PINEAPPLES & products,2618,"pineapples, otherwise prepared or preserved",575
+PINEAPPLES & products,2618,pineapple juice,576
+PINEAPPLES & products,2618,"juice of pineapples, concentrated",580
+DATES,2619,dates,577
+GRAPES (EXCL. WINE) & products,2620,grapes,560
+GRAPES (EXCL. WINE) & products,2620,raisins,561
+GRAPES (EXCL. WINE) & products,2620,grape juice,562
+GRAPES (EXCL. WINE) & products,2620,must of grape,563
+"FRUIT, OTHER & products",2625,pears,521
+"FRUIT, OTHER & products",2625,quinces,523
+"FRUIT, OTHER & products",2625,apricots,526
+"FRUIT, OTHER & products",2625,"apricots, dried",527
+"FRUIT, OTHER & products",2625,sour cherries,530
+"FRUIT, OTHER & products",2625,cherries,531
+"FRUIT, OTHER & products",2625,peaches and nectarines,534
+"FRUIT, OTHER & products",2625,plums and sloes,536
+"FRUIT, OTHER & products",2625,"plums, dried",537
+"FRUIT, OTHER & products",2625,juice of plum,538
+"FRUIT, OTHER & products",2625,"juice of plum, concentrated",539
+"FRUIT, OTHER & products",2625,other stone fruits,541
+"FRUIT, OTHER & products",2625,other pome fruits,542
+"FRUIT, OTHER & products",2625,strawberries,544
+"FRUIT, OTHER & products",2625,raspberries,547
+"FRUIT, OTHER & products",2625,gooseberries,549
+"FRUIT, OTHER & products",2625,currants,550
+"FRUIT, OTHER & products",2625,blueberries,552
+"FRUIT, OTHER & products",2625,cranberries,554
+"FRUIT, OTHER & products",2625,other berries and fruits of the genus vaccinium,558
+"FRUIT, OTHER & products",2625,figs,569
+"FRUIT, OTHER & products",2625,"figs, dried",570
+"FRUIT, OTHER & products",2625,"mangoes, guavas, mangosteens",571
+"FRUIT, OTHER & products",2625,avocados,572
+"FRUIT, OTHER & products",2625,juice of mango,583
+"FRUIT, OTHER & products",2625,mango pulp,584
+"FRUIT, OTHER & products",2625,persimmons,587
+"FRUIT, OTHER & products",2625,cashewapple,591
+"FRUIT, OTHER & products",2625,kiwi fruit,592
+"FRUIT, OTHER & products",2625,papayas,600
+"FRUIT, OTHER & products",2625,"other tropical fruits, n.e.c.",603
+"FRUIT, OTHER & products",2625,"other tropical fruit, dried",604
+"FRUIT, OTHER & products",2625,other fruits n.e.c.,619
+"FRUIT, OTHER & products",2625,"other fruit n.e.c., dried",620
+"FRUIT, OTHER & products",2625,juice of fruits n.e.c.,622
+"FRUIT, OTHER & products",2625,fruit prepared n.e.c.,623
+"FRUIT, OTHER & products",2625,flour of fruits,624
+"FRUIT, OTHER & products",2625,"fruit, nuts, peel, sugar preserved",625
+"FRUIT, OTHER & products",2625,"homogenized cooked fruit, prepared",626
+COFFEE & products,2630,"coffee, green",656
+COFFEE & products,2630,"coffee, decaffeinated or roasted",657
+COFFEE & products,2630,coffee extracts,659
+COCOA BEANS & products,2633,cocoa beans,661
+COCOA BEANS & products,2633,cocoa paste not defatted,662
+COCOA BEANS & products,2633,cocoa powder and cake,665
+COCOA BEANS & products,2633,chocolate products nes,666
+TEA & products,2635,tea leaves,667
+TEA & products,2635,maté leaves,671
+TEA & products,2635,"extracts, essences and concentrates of tea or mate, and preparations with a basis thereof or with a basis of tea or maté",672
+PEPPER,2640,"pepper (piper spp.), raw",687
+PIMENTO,2641,"chillies and peppers, dry (capsicum spp. and pimenta spp.), raw",689
+CLOVES,2642,"cloves (whole stems), raw",698
+"SPICES, OTHER & products",2645,"other stimulant, spice and aromatic crops, n.e.c.",723
+"SPICES, OTHER & products",2645,"vanilla, raw",692
+"SPICES, OTHER & products",2645,"cinnamon and cinnamon-tree flowers, raw",693
+"SPICES, OTHER & products",2645,"nutmeg, mace, cardamoms, raw",702
+"SPICES, OTHER & products",2645,"anise, badian, coriander, cumin, caraway, fennel and juniper berries, raw",711
+"SPICES, OTHER & products",2645,"ginger, raw",720
+WINE & products,2655,wine,564
+WINE & products,2655,vermouth and other wine of fresh grapes flavoured with plats or aromatic substances,565
+BARLEY BEER,2656,"beer of barley, malted",51
+"BEVERAGES, FERMENTED & products",2657,wheat-fermented beverages,26
+"BEVERAGES, FERMENTED & products",2657,rice-fermented beverages,39
+"BEVERAGES, FERMENTED & products",2657,cider and other fermented beverages,517
+"BEVERAGES, FERMENTED & products",2657,"beer of maize, malted",66
+"BEVERAGES, FERMENTED & products",2657,"beer of millet, malted",82
+"BEVERAGES, FERMENTED & products",2657,"beer of sorghum, malted",86
+"BEVERAGES, ALCOHOLIC",2658,"undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages",634
+"ALCOHOL, NON-FOOD",2659,undenatured ethyl alcohol of an alcoholic strength by volume of 80% vol or higher,632
+"Alcohol, Non-Food",2659,"Alcohol, Non-Food",2659
+BOVINE MEAT & products,2731,"meat of cattle with the bone, fresh or chilled",867
+BOVINE MEAT & products,2731,"meat of cattle boneless, fresh or chilled",870
+BOVINE MEAT & products,2731,"bovine meat, salted, dried or smoked",872
+BOVINE MEAT & products,2731,"extracts and juices of meat, fish, crustaceans, molluscs or other aquatic invertebrates",873
+BOVINE MEAT & products,2731,"sausages and similar products of meat, offal or blood of beef and veal",874
+BOVINE MEAT & products,2731,beef and veal preparations nes,875
+BOVINE MEAT & products,2731,homogenized meat preparations,877
+BOVINE MEAT & products,2731,"meat of buffalo, fresh or chilled",947
+MUTTON/GOAT MEAT & products,2732,"meat of sheep, fresh or chilled",977
+MUTTON/GOAT MEAT & products,2732,"meat of goat, fresh or chilled",1017
+PIG MEAT & products,2733,"meat of pig with the bone, fresh or chilled",1035
+PIG MEAT & products,2733,"meat of pig boneless, fresh or chilled",1038
+PIG MEAT & products,2733,"pig meat, cuts, salted, dried or smoked (bacon and ham)",1039
+PIG MEAT & products,2733,"sausages and similar products of meat, offal or blood of pig",1041
+PIG MEAT & products,2733,pig meat preparations,1042
+POULTRY MEAT & products,2734,"meat of chickens, fresh or chilled",1058
+POULTRY MEAT & products,2734,fatty liver preparations,1060
+POULTRY MEAT & products,2734,poultry meat preparations,1061
+POULTRY MEAT & products,2734,"meat of ducks, fresh or chilled",1069
+POULTRY MEAT & products,2734,"meat of geese, fresh or chilled",1073
+POULTRY MEAT & products,2734,"meat of turkeys, fresh or chilled",1080
+OTHER MEAT & products,2735,"meat of pigeons and other birds n.e.c., fresh, chilled or frozen",1089
+OTHER MEAT & products,2735,"horse meat, fresh or chilled",1097
+OTHER MEAT & products,2735,"meat of asses, fresh or chilled",1108
+OTHER MEAT & products,2735,"meat of mules, fresh or chilled",1111
+OTHER MEAT & products,2735,"meat of camels, fresh or chilled",1127
+OTHER MEAT & products,2735,"meat of rabbits and hares, fresh or chilled",1141
+OTHER MEAT & products,2735,"meat of other domestic rodents, fresh or chilled",1151
+OTHER MEAT & products,2735,"game meat, fresh, chilled or frozen",1163
+OTHER MEAT & products,2735,"other meat and edible meat offal, salted, in brine, dried or smoked; edible flours and meals of meat or meat offal",1164
+OTHER MEAT & products,2735,meat prepared n.e.c.,1172
+OTHER MEAT & products,2735,"snails, fresh, chilled, frozen, dried, salted or in brine, except sea snails",1176
+OTHER MEAT & products,2735,"meat of other domestic camelids, fresh or chilled",1158
+OFFALS & products,2736,"edible offal of cattle, fresh, chilled or frozen",868
+OFFALS & products,2736,liver preparations,878
+OFFALS & products,2736,"edible offal of buffalo, fresh, chilled or frozen",948
+OFFALS & products,2736,"edible offal of sheep, fresh, chilled or frozen",978
+OFFALS & products,2736,"edible offal of goat, fresh, chilled or frozen",1018
+OFFALS & products,2736,"edible offal of pigs, fresh, chilled or frozen",1036
+OFFALS & products,2736,"edible offals and liver of chickens and guinea fowl, fresh, chilled or frozen",1059
+OFFALS & products,2736,"edible offals and liver of geese, fresh, chilled or frozen",1074
+OFFALS & products,2736,"edible offals and liver of ducks, fresh, chilled or frozen",1075
+OFFALS & products,2736,"edible offals and liver of turkey,fresh, chilled or frozen",1081
+OFFALS & products,2736,"edible offals of horses and other equines, fresh, chilled or frozen",1098
+OFFALS & products,2736,"edible offals of camels and other camelids, fresh, chilled or frozen",1128
+"FATS, ANIMAL, RAW & products",2737,"cattle fat, unrendered",869
+"FATS, ANIMAL, RAW & products",2737,"cattle, butcher fat",871
+"FATS, ANIMAL, RAW & products",2737,"buffalo fat, unrendered",949
+"FATS, ANIMAL, RAW & products",2737,"sheep fat, unrendered",979
+"FATS, ANIMAL, RAW & products",2737,"goat fat, unrendered",1019
+"FATS, ANIMAL, RAW & products",2737,fat of pigs,1037
+"FATS, ANIMAL, RAW & products",2737,"pig, butcher fat",1040
+"FATS, ANIMAL, RAW & products",2737,"pig fat, rendered",1043
+"FATS, ANIMAL, RAW & products",2737,fat of poultry,1065
+"FATS, ANIMAL, RAW & products",2737,"poultry fat, rendered",1066
+"FATS, ANIMAL, RAW & products",2737,fat of camels,1129
+"FATS, ANIMAL, RAW & products",2737,fat of other camelids,1160
+"FATS, ANIMAL, RAW & products",2737,animal oils and fats nes,1168
+"FATS, ANIMAL, RAW & products",2737,lard stearine and lard oil,1221
+"FATS, ANIMAL, RAW & products",2737,tallow,1225
+"FATS, ANIMAL, RAW & products",2737,fat preparations n.e.c.,1243
+"BUTTER, GHEE & products",2740,butter of cow milk,886
+"BUTTER, GHEE & products",2740,ghee from cow milk,887
+"BUTTER, GHEE & products",2740,butter of buffalo milk,952
+"BUTTER, GHEE & products",2740,"ghee, from buffalo milk",953
+"BUTTER, GHEE & products",2740,butter and ghee of sheep milk,983
+"BUTTER, GHEE & products",2740,butter of goat milk,1022
+EGGS & products,2744,"hen eggs in shell, fresh",1062
+EGGS & products,2744,"eggs, liquid",1063
+EGGS & products,2744,"eggs, dried",1064
+EGGS & products,2744,"eggs from other birds in shell, fresh, n.e.c.",1091
+HONEY,2745,natural honey,1182
+Freshwater Fish,2761,Freshwater Fish,2761
+Demersal Fish,2762,Demersal Fish,2762
+Pelagic Fish,2763,Pelagic Fish,2763
+"Marine Fish, Other",2764,"Marine Fish, Other",2764
+Crustaceans,2765,Crustaceans,2765
+Cephalopods,2766,Cephalopods,2766
+"Molluscs, Other",2767,"Molluscs, Other",2767
+"Aquatic Animals, Others",2769,"Aquatic Animals, Others",2769
+"Fish, Body Oil",2781,"Fish, Body Oil",2781
+"Fish, Liver Oil",2782,"Fish, Liver Oil",2782
+RICE & products,2807,rice,27
+RICE & products,2807,husked rice,28
+RICE & products,2807,"rice, milled (husked)",29
+RICE & products,2807,"rice, milled",31
+RICE & products,2807,"rice, broken",32
+RICE & products,2807,"rice, gluten",33
+RICE & products,2807,starch of rice,34
+RICE & products,2807,bran of rice,35
+RICE & products,2807,flour of rice,38
+Rice and products,2807,Cake of rice bran,37
+MILK & products (excl. butter),2848,raw milk of cattle,882
+MILK & products (excl. butter),2848,skim milk of cows,888
+MILK & products (excl. butter),2848,"whole milk, condensed",889
+MILK & products (excl. butter),2848,"whey, condensed",890
+MILK & products (excl. butter),2848,yoghurt,891
+MILK & products (excl. butter),2848,"yoghurt, with additives",892
+MILK & products (excl. butter),2848,"buttermilk, curdled and acidified milk",893
+MILK & products (excl. butter),2848,"whole milk, evaporated",894
+MILK & products (excl. butter),2848,"skim milk, evaporated",895
+MILK & products (excl. butter),2848,"skim milk, condensed",896
+MILK & products (excl. butter),2848,whole milk powder,897
+MILK & products (excl. butter),2848,skim milk and whey powder,898
+MILK & products (excl. butter),2848,"buttermilk, dry",899
+MILK & products (excl. butter),2848,"whey, dry",900
+MILK & products (excl. butter),2848,cheese from whole cow milk,901
+MILK & products (excl. butter),2848,"whey, fresh",903
+MILK & products (excl. butter),2848,cheese from skimmed cow milk,904
+MILK & products (excl. butter),2848,whey cheese,905
+MILK & products (excl. butter),2848,processed cheese,907
+MILK & products (excl. butter),2848,reconstituted milk,908
+MILK & products (excl. butter),2848,dairy products n.e.c.,909
+MILK & products (excl. butter),2848,ice cream and other edible ice,910
+MILK & products (excl. butter),2848,casein,917
+MILK & products (excl. butter),2848,raw milk of buffalo,951
+MILK & products (excl. butter),2848,skim milk of buffalo,954
+MILK & products (excl. butter),2848,"cheese from milk of buffalo, fresh or processed",955
+MILK & products (excl. butter),2848,raw milk of sheep,982
+MILK & products (excl. butter),2848,"cheese from milk of sheep, fresh or processed",984
+MILK & products (excl. butter),2848,standardized milk,883
+MILK & products (excl. butter),2848,skim sheep milk,985
+MILK & products (excl. butter),2848,raw milk of goats,1020
+MILK & products (excl. butter),2848,"cheese from milk of goats, fresh or processed",1021
+MILK & products (excl. butter),2848,skim milk of goat,1023
+MILK & products (excl. butter),2848,raw milk of camel,1130
+"Aquatic Products, Other",2961,"Aquatic Products, Other",2961

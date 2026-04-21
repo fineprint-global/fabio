@@ -1,3 +1,15 @@
+Release v2.0.beta, 2025-08-01
+
+- The data structure was adapted to match FAO's new reporting structure of Food and Commodity Balances.
+- Accordingly, also the time series was updated to cover 2010-2022.
+- Country coverage was reduced to 186 + RoW, removing countries not existent during the covered time period.
+- The livestock module was improved by linking with FAO's GLEAM model.
+- Re-export allocation was revised.
+- Feedstock optimization was improved, avoiding both under- and over-production.
+- Mass balancing was improved.
+
+
+
 Release v1.2.beta, 2022-06-07
 
 - ...

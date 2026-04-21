@@ -1,0 +1,41 @@
+item,item_code,region,bio_fixation,unit_bf,level
+"Groundnuts, excluding shelled",242,Global,62,% of crop yield,global
+"Beans, dry",176,Global,38,% of crop yield,global
+"Broad beans and horse beans, dry",181,Global,38,% of crop yield,global
+"Peas, dry",187,Global,62,% of crop yield,global
+"Chick peas, dry",191,Global,62,% of crop yield,global
+"Cow peas, dry",195,Global,62,% of crop yield,global
+"Pigeon peas, dry",197,Global,62,% of crop yield,global
+"Lentils, dry",201,Global,62,% of crop yield,global
+"Bambara beans, dry",203,Global,62,% of crop yield,global
+Vetches,205,Global,62,% of crop yield,global
+Lupins,210,Global,62,% of crop yield,global
+Other pulses n.e.c.,211,Global,62,% of crop yield,global
+Rice,27,Global,22,kg/ha,global
+Maize (corn),56,Global,13,kg/ha,global
+Wheat,15,Global,13,kg/ha,global
+"Forage and silage, clover",640,Global,222,kg/ha,global
+"Forage and silage, alfalfa",641,Global,164,kg/ha,global
+"Forage and silage, green oilseeds",642,Global,75,kg/ha,global
+"Forage and silage, legumes",643,Global,120,kg/ha,global
+Forage products,651,Global,15,kg/ha,global
+Sugar cane,156,Global,20,kg/ha,global
+Sugar cane,156,Brazil,40,kg/ha,country
+Soya beans,236,Former USSR,44,% of crop yield,regional
+Soya beans,236,South Asia,61,% of crop yield,regional
+Soya beans,236,Eastern Europe,44,% of crop yield,regional
+Soya beans,236,Northern Africa,61,% of crop yield,regional
+Soya beans,236,Southern Africa,61,% of crop yield,regional
+Soya beans,236,Central America,73,% of crop yield,regional
+Soya beans,236,South America,61,% of crop yield,regional
+Soya beans,236,Oceania,66,% of crop yield,regional
+Soya beans,236,OECD Europe,44,% of crop yield,regional
+Soya beans,236,Middle East,66,% of crop yield,regional
+Soya beans,236,South East Asia,61,% of crop yield,regional
+Soya beans,236,Eastern Africa,61,% of crop yield,regional
+Soya beans,236,Western Africa,61,% of crop yield,regional
+Soya beans,236,Canada,61,% of crop yield,regional
+Soya beans,236,East Asia,61,% of crop yield,regional
+Soya beans,236,Japan,61,% of crop yield,regional
+Soya beans,236,USA,61,% of crop yield,regional
+Soya beans,236,Brazil,78,% of crop yield,country

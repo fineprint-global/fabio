@@ -1,0 +1,615 @@
+parent,parent_code,proc,proc_code,child,child_code,extraction_rate,min,max
+Wheat,c001,Breakfast cereals production,p223,Breakfast cereals,c246,0.77,0,1
+Wheat,c001,Alcohol (non-food) production,p381,"Alcohol, Non-Food",c437,0.28,0.224,0.336
+Wheat,c001,Undenatured ethyl alcohol of an alcoholic strength by volume of 80% vol or higher production,p447,Undenatured ethyl alcohol of an alcoholic strength by volume of 80% vol or higher,c512,0.31,0.11,0.55
+Wheat,c001,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages production",p448,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages",c513,0.63,0.28,0.77
+Rice,c002,Alcohol (non-food) production,p381,"Alcohol, Non-Food",c437,0.19899,0.159192,0.238788
+Barley,c003,Alcohol (non-food) production,p381,"Alcohol, Non-Food",c437,0.2044,0.16352,0.24528
+Barley,c003,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages production",p448,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages",c513,0.46,0.28,0.77
+Maize (corn),c004,Breakfast cereals production,p223,Breakfast cereals,c246,0.85,0.7,1.2
+Maize (corn),c004,Alcohol (non-food) production,p381,"Alcohol, Non-Food",c437,0.35,0.28,0.42
+Maize (corn),c004,Beer of barley (malted) production,p442,"Beer of barley, malted",c507,7.07,2.76,9.01
+Maize (corn),c004,Beer of maize (malted) production,p443,"Beer of maize, malted",c508,4.86,2.79,6.15
+Maize (corn),c004,Undenatured ethyl alcohol of an alcoholic strength by volume of 80% vol or higher production,p447,Undenatured ethyl alcohol of an alcoholic strength by volume of 80% vol or higher,c512,0.36,0.25,0.55
+Maize (corn),c004,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages production",p448,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages",c513,0.53,0,1
+Rye,c005,Breakfast cereals production,p223,Breakfast cereals,c246,0.91,0.8,1
+Rye,c005,Alcohol (non-food) production,p381,"Alcohol, Non-Food",c437,0.27,0.216,0.324
+Rye,c005,Undenatured ethyl alcohol of an alcoholic strength by volume of 80% vol or higher production,p447,Undenatured ethyl alcohol of an alcoholic strength by volume of 80% vol or higher,c512,0.28,0.25,0.5
+Rye,c005,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages production",p448,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages",c513,0.48,0.23,0.77
+Oats,c006,Breakfast cereals production,p223,Breakfast cereals,c246,1,1,1
+Oats,c006,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages production",p448,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages",c513,1.08,0.39,1.12
+Millet,c007,Beer of millet (malted)production,p444,"Beer of millet, malted",c509,4.78,2.4,5
+Sorghum,c008,Alcohol (non-food) production,p381,"Alcohol, Non-Food",c437,0.294,0.2352,0.3528
+Sorghum,c008,Beer of barley (malted) production,p442,"Beer of barley, malted",c507,5,5,5
+Sorghum,c008,Beer of sorghum (malted) production,p445,"Beer of sorghum, malted",c510,4.81,2.4,5
+Sorghum,c008,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages production",p448,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages",c513,0.36,0.3,0.4
+Quinoa,c010,Flour of cereals n.e.c. production,p240,Flour of cereals n.e.c.,c277,0.72,0.72,0.72
+Quinoa,c010,Flour of cereals n.e.c. production,p240,Bran of cereals n.e.c.,c278,0.27,0.27,0.27
+Canary seed,c013,Flour of cereals n.e.c. production,p240,Flour of cereals n.e.c.,c277,0.67,0.6,0.8
+Canary seed,c013,Flour of cereals n.e.c. production,p240,Bran of cereals n.e.c.,c278,0.27,0.15,0.3
+Mixed grain,c014,Undenatured ethyl alcohol of an alcoholic strength by volume of 80% vol or higher production,p447,Undenatured ethyl alcohol of an alcoholic strength by volume of 80% vol or higher,c512,0.26,0.25,0.5
+Mixed grain,c014,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages production",p448,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages",c513,0.48,0,0.87
+Cereals n.e.c.,c015,Flour of cereals n.e.c. production,p240,Flour of cereals n.e.c.,c277,0.93,0.6,0.96
+Cereals n.e.c.,c015,Flour of cereals n.e.c. production,p240,Bran of cereals n.e.c.,c278,0.17,0.02,0.4
+Cereals n.e.c.,c015,Alcohol (non-food) production,p381,"Alcohol, Non-Food",c437,0.275,0.22,0.33
+Cereals n.e.c.,c015,Undenatured ethyl alcohol of an alcoholic strength by volume of 80% vol or higher production,p447,Undenatured ethyl alcohol of an alcoholic strength by volume of 80% vol or higher,c512,0.39,0.37,0.4
+Cereals n.e.c.,c015,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages production",p448,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages",c513,0.45,0.44,0.45
+Potatoes,c016,Alcohol (non-food) production,p381,"Alcohol, Non-Food",c437,0.09,0.072,0.108
+Potatoes,c016,Undenatured ethyl alcohol of an alcoholic strength by volume of 80% vol or higher production,p447,Undenatured ethyl alcohol of an alcoholic strength by volume of 80% vol or higher,c512,0.35,0.1,0.5
+Potatoes,c016,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages production",p448,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages",c513,0.41,0.04,0.77
+Sweet potatoes,c017,"Flour of roots and tubers production, n.e.c.",p253,Flour of roots and tubers n.e.c.,c291,0.19,0.15,
+Sweet potatoes,c017,"Edible roots and tubers with high starch or inulin content (dry) production, n.e.c.",p254,"Edible roots and tubers with high starch or inulin content, n.e.c., dry",c292,0.35,0.35,
+"Cassava, fresh",c018,Alcohol (non-food) production,p381,"Alcohol, Non-Food",c437,0.09,0.072,0.108
+"Cassava, fresh",c018,Undenatured ethyl alcohol of an alcoholic strength by volume of 80% vol or higher production,p447,Undenatured ethyl alcohol of an alcoholic strength by volume of 80% vol or higher,c512,0.2,0.1,0.22
+"Cassava, fresh",c018,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages production",p448,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages",c513,0.1,0.1,0.1
+Taro,c020,"Flour of roots and tubers production, n.e.c.",p253,Flour of roots and tubers n.e.c.,c291,0.16,0.1,
+Taro,c020,"Edible roots and tubers with high starch or inulin content (dry) production, n.e.c.",p254,"Edible roots and tubers with high starch or inulin content, n.e.c., dry",c292,0.4,0.4,
+Sugar cane,c026,Centrifugal cane sugar production,p255,Molasses,c298,0.05,0.01,
+Sugar cane,c026,Raw cane or beet sugar (centrifugal only) production,p257,Raw cane or beet sugar (centrifugal only),c295,0.12,0.05,2.82
+Sugar cane,c026,Raw cane or beet sugar (centrifugal only) production,p257,Molasses,c298,0.05,0.01,0.08
+Sugar cane,c026,Sugar and syrups n.e.c. production,p261,Sugar and syrups n.e.c.,c300,0.97,0,1
+Sugar cane,c026,Alcohol (non-food) production,p381,"Alcohol, Non-Food",c437,0.075,0.06,0.09
+Sugar cane,c026,Undenatured ethyl alcohol of an alcoholic strength by volume of 80% vol or higher production,p447,Undenatured ethyl alcohol of an alcoholic strength by volume of 80% vol or higher,c512,0.24,0,0.55
+Sugar cane,c026,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages production",p448,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages",c513,0.55,0.1,1.15
+Sugar beet,c027,Centrifugal cane sugar production,p255,Molasses,c298,0.04,0.02,
+Sugar beet,c027,Raw cane or beet sugar (centrifugal only) production,p257,Raw cane or beet sugar (centrifugal only),c295,0.15,0,10
+Sugar beet,c027,Raw cane or beet sugar (centrifugal only) production,p257,Molasses,c298,0.04,0.02,1
+Sugar beet,c027,Alcohol (non-food) production,p381,"Alcohol, Non-Food",c437,0.065,0.052,0.078
+Sugar beet,c027,Undenatured ethyl alcohol of an alcoholic strength by volume of 80% vol or higher production,p447,Undenatured ethyl alcohol of an alcoholic strength by volume of 80% vol or higher,c512,0.46,0,0.5
+Sugar beet,c027,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages production",p448,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages",c513,0.25,0,0.43
+Other sugar crops n.e.c.,c028,Sugar and syrups n.e.c. production,p261,Sugar and syrups n.e.c.,c300,0.68,0.1,1
+Cabbages,c029,"Vegetable products (fresh or dry) production, n.e.c",p273,"Vegetable products, fresh or dry n.e.c.",c312,,0.2,1.1
+Cabbages,c029,"Vegetables preservation, nes, (o/t vinegar)",p277,Vegetables preserved nes (o/t vinegar),c316,0.86,0.64,1
+Artichokes,c030,"Vegetable products (fresh or dry) production, n.e.c",p273,"Vegetable products, fresh or dry n.e.c.",c312,,0.2,1.1
+Artichokes,c030,"Vegetables preservation, nes, (o/t vinegar)",p277,Vegetables preserved nes (o/t vinegar),c316,0.8,0.7,0.87
+Asparagus,c031,"Vegetable products (fresh or dry) production, n.e.c",p273,"Vegetable products, fresh or dry n.e.c.",c312,,0.2,1.1
+Asparagus,c031,"Vegetables preservation, nes, (o/t vinegar)",p277,Vegetables preserved nes (o/t vinegar),c316,0.95,0.7,1
+Lettuce and chicory,c032,"Vegetable products (fresh or dry) production, n.e.c",p273,"Vegetable products, fresh or dry n.e.c.",c312,,0.2,1.1
+Spinach,c033,"Vegetable products (fresh or dry) production, n.e.c",p273,"Vegetable products, fresh or dry n.e.c.",c312,,0.2,1.1
+Tomatoes,c034,"Vegetable products (fresh or dry) production, n.e.c",p273,"Vegetable products, fresh or dry n.e.c.",c312,,0.2,1.1
+Tomatoes,c034,"Vegetables preservation, nes, (o/t vinegar)",p277,Vegetables preserved nes (o/t vinegar),c316,0.69,0.3,0.9
+Cauliflowers and broccoli,c035,"Vegetable products (fresh or dry) production, n.e.c",p273,"Vegetable products, fresh or dry n.e.c.",c312,,0.2,1.1
+Cauliflowers and broccoli,c035,"Vegetables preservation, nes, (o/t vinegar)",p277,Vegetables preserved nes (o/t vinegar),c316,0.85,0.64,1
+"Pumpkins, squash and gourds",c036,"Vegetable products (fresh or dry) production, n.e.c",p273,"Vegetable products, fresh or dry n.e.c.",c312,,0.2,1.1
+"Pumpkins, squash and gourds",c036,"Vegetables preservation, nes, (o/t vinegar)",p277,Vegetables preserved nes (o/t vinegar),c316,0.85,0.65,1
+Cucumbers and gherkins,c037,"Vegetable products (fresh or dry) production, n.e.c",p273,"Vegetable products, fresh or dry n.e.c.",c312,,0.2,1.1
+Cucumbers and gherkins,c037,"Vegetables preservation, nes, (o/t vinegar)",p277,Vegetables preserved nes (o/t vinegar),c316,0.81,0.64,1
+Eggplants (aubergines),c038,"Vegetable products (fresh or dry) production, n.e.c",p273,"Vegetable products, fresh or dry n.e.c.",c312,,0.2,1.1
+Eggplants (aubergines),c038,"Vegetables preservation, nes, (o/t vinegar)",p277,Vegetables preserved nes (o/t vinegar),c316,0.72,0.65,0.8
+"Chillies and peppers, green (Capsicum spp. and Pimenta spp.)",c039,"Vegetable products (fresh or dry) production, n.e.c",p273,"Vegetable products, fresh or dry n.e.c.",c312,,0.2,1.1
+"Chillies and peppers, green (Capsicum spp. and Pimenta spp.)",c039,"Vegetables preservation, nes, (o/t vinegar)",p277,Vegetables preserved nes (o/t vinegar),c316,0.84,0.65,1.35
+"Onions and shallots, green",c040,"Vegetable products (fresh or dry) production, n.e.c",p273,"Vegetable products, fresh or dry n.e.c.",c312,,0.2,1.1
+"Onions and shallots, green",c040,"Vegetables preservation, nes, (o/t vinegar)",p277,Vegetables preserved nes (o/t vinegar),c316,0.87,0.86,0.87
+"Onions and shallots, dry (excluding dehydrated)",c041,"Vegetable products (fresh or dry) production, n.e.c",p273,"Vegetable products, fresh or dry n.e.c.",c312,,0.2,1.1
+"Onions and shallots, dry (excluding dehydrated)",c041,"Vegetables preservation, nes, (o/t vinegar)",p277,Vegetables preserved nes (o/t vinegar),c316,0.82,0.64,1
+Green garlic,c042,"Vegetable products (fresh or dry) production, n.e.c",p273,"Vegetable products, fresh or dry n.e.c.",c312,,0.2,1.1
+Leeks and other alliaceous vegetables,c043,"Vegetable products (fresh or dry) production, n.e.c",p273,"Vegetable products, fresh or dry n.e.c.",c312,,0.2,1.1
+"Other beans, green",c044,"Vegetable products (fresh or dry) production, n.e.c",p273,"Vegetable products, fresh or dry n.e.c.",c312,,0.2,1.1
+"Other beans, green",c044,"Vegetables preservation, nes, (o/t vinegar)",p277,Vegetables preserved nes (o/t vinegar),c316,0.82,0.64,1
+"Peas, green",c045,"Vegetable products (fresh or dry) production, n.e.c",p273,"Vegetable products, fresh or dry n.e.c.",c312,,0.2,1.1
+"Peas, green",c045,"Vegetables preservation, nes, (o/t vinegar)",p277,Vegetables preserved nes (o/t vinegar),c316,0.88,0.64,1.35
+"Broad beans and horse beans, green",c046,"Vegetable products (fresh or dry) production, n.e.c",p273,"Vegetable products, fresh or dry n.e.c.",c312,,0.2,1.1
+"Broad beans and horse beans, green",c046,"Vegetables preservation, nes, (o/t vinegar)",p277,Vegetables preserved nes (o/t vinegar),c316,0.8,0.8,0.8
+String beans,c047,"Vegetable products (fresh or dry) production, n.e.c",p273,"Vegetable products, fresh or dry n.e.c.",c312,,0.2,1.1
+String beans,c047,"Vegetables preservation, nes, (o/t vinegar)",p277,Vegetables preserved nes (o/t vinegar),c316,0.98,0.8,1
+Carrots and turnips,c048,"Vegetable products (fresh or dry) production, n.e.c",p273,"Vegetable products, fresh or dry n.e.c.",c312,,0.2,1.1
+Carrots and turnips,c048,"Vegetables preservation, nes, (o/t vinegar)",p277,Vegetables preserved nes (o/t vinegar),c316,0.83,0.64,1
+Okra,c049,"Vegetable products (fresh or dry) production, n.e.c",p273,"Vegetable products, fresh or dry n.e.c.",c312,,0.2,1.1
+Green corn (maize),c050,"Vegetable products (fresh or dry) production, n.e.c",p273,"Vegetable products, fresh or dry n.e.c.",c312,,0.2,1.1
+Mushrooms and truffles,c051,"Vegetable products (fresh or dry) production, n.e.c",p273,"Vegetable products, fresh or dry n.e.c.",c312,,0.2,1.1
+Mushrooms and truffles,c051,"Vegetables preservation, nes, (o/t vinegar)",p277,Vegetables preserved nes (o/t vinegar),c316,0.77,0.77,0.77
+"Other vegetables, fresh n.e.c.",c052,"Vegetable products (fresh or dry) production, n.e.c",p273,"Vegetable products, fresh or dry n.e.c.",c312,,0.2,1.1
+"Other vegetables, fresh n.e.c.",c052,"Vegetables preservation, nes, (o/t vinegar)",p277,Vegetables preserved nes (o/t vinegar),c316,0.84,0.65,1
+"Other vegetables, fresh n.e.c.",c052,Homogenized vegetable preparations production,p281,Homogenized vegetable preparations,c320,0.64,0.2,1
+Watermelons,c053,Undenatured ethyl alcohol of an alcoholic strength by volume of 80% vol or higher production,p447,Undenatured ethyl alcohol of an alcoholic strength by volume of 80% vol or higher,c512,0.51,0.4,0.54
+Watermelons,c053,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages production",p448,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages",c513,0.38,0.34,0.87
+Bananas,c055,Other tropical fruit (dried) production,p309,"Other tropical fruit, dried",c349,0.26,0.18,0.5
+Bananas,c055,"Other fruit (dried) production, n.e.c.",p310,"Other fruit n.e.c., dried",c350,,0.2,0.8
+Bananas,c055,"Fruit preparation, n.e.c.",p312,Fruit prepared n.e.c.,c352,0.7,0,1.2
+Bananas,c055,Flour of fruits production,p313,Flour of fruits,c353,0.22,0.12,0.4
+Bananas,c055,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages production",p448,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages",c513,0.52,0.35,0.64
+Oranges,c057,"Juice of citrus fruit production, n.e.c.",p291,Juice of citrus fruit n.e.c.,c330,0.61,0.35,0.8
+Oranges,c057,"Concentrated citrus juice production, n.e.c.",p292,"Citrus juice, concentrated n.e.c.",c331,0.26,0.08,0.5
+Oranges,c057,"Juice of fruits production, n.e.c.",p311,Juice of fruits n.e.c.,c351,0.61,0.3,0.9
+Oranges,c057,"Fruit preparation, n.e.c.",p312,Fruit prepared n.e.c.,c352,0.74,0.3,0.9
+"Tangerines, mandarins, clementines",c058,"Juice of citrus fruit production, n.e.c.",p291,Juice of citrus fruit n.e.c.,c330,0.55,0.1,0.8
+"Tangerines, mandarins, clementines",c058,"Concentrated citrus juice production, n.e.c.",p292,"Citrus juice, concentrated n.e.c.",c331,0.22,0.08,0.5
+"Tangerines, mandarins, clementines",c058,"Juice of fruits production, n.e.c.",p311,Juice of fruits n.e.c.,c351,0.63,0.4,0.84
+"Tangerines, mandarins, clementines",c058,"Fruit preparation, n.e.c.",p312,Fruit prepared n.e.c.,c352,0.9,0.6,1.2
+Lemons and limes,c059,"Juice of citrus fruit production, n.e.c.",p291,Juice of citrus fruit n.e.c.,c330,0.54,0.34,0.8
+Lemons and limes,c059,"Concentrated citrus juice production, n.e.c.",p292,"Citrus juice, concentrated n.e.c.",c331,0.26,0.08,0.5
+Lemons and limes,c059,"Juice of fruits production, n.e.c.",p311,Juice of fruits n.e.c.,c351,0.59,0.4,0.8
+Lemons and limes,c059,"Fruit preparation, n.e.c.",p312,Fruit prepared n.e.c.,c352,0.87,0.3,1
+Pomelos and grapefruits,c060,"Juice of citrus fruit production, n.e.c.",p291,Juice of citrus fruit n.e.c.,c330,0.46,0.35,0.8
+Pomelos and grapefruits,c060,"Concentrated citrus juice production, n.e.c.",p292,"Citrus juice, concentrated n.e.c.",c331,0.17,0.07,0.25
+Pomelos and grapefruits,c060,"Juice of fruits production, n.e.c.",p311,Juice of fruits n.e.c.,c351,0.6,0.4,0.9
+Pomelos and grapefruits,c060,"Fruit preparation, n.e.c.",p312,Fruit prepared n.e.c.,c352,0.77,0.3,0.95
+"Other citrus fruit, n.e.c.",c061,"Juice of citrus fruit production, n.e.c.",p291,Juice of citrus fruit n.e.c.,c330,0.46,0.25,0.71
+"Other citrus fruit, n.e.c.",c061,"Concentrated citrus juice production, n.e.c.",p292,"Citrus juice, concentrated n.e.c.",c331,0.26,0.08,0.6
+"Other citrus fruit, n.e.c.",c061,"Juice of fruits production, n.e.c.",p311,Juice of fruits n.e.c.,c351,0.58,0.17,0.9
+"Other citrus fruit, n.e.c.",c061,"Fruit preparation, n.e.c.",p312,Fruit prepared n.e.c.,c352,0.87,0.5,1.2
+Apples,c062,"Other fruit (dried) production, n.e.c.",p310,"Other fruit n.e.c., dried",c350,,0.18,0.8
+Apples,c062,"Juice of fruits production, n.e.c.",p311,Juice of fruits n.e.c.,c351,0.65,0.4,0.9
+Apples,c062,"Fruit preparation, n.e.c.",p312,Fruit prepared n.e.c.,c352,0.8,0.48,1.2
+Apples,c062,"Fruit, nuts, and peel preservation in sugar",p314,"Fruit, nuts, peel, sugar preserved",c354,0.3,0.3,0.3
+Apples,c062,Homogenized cooked fruit preparation,p315,"Homogenized cooked fruit, prepared",c355,0.79,0.7,1
+Apples,c062,Alcohol (non-food) production,p381,"Alcohol, Non-Food",c437,0.19934,0.159472,0.239208
+Apples,c062,Undenatured ethyl alcohol of an alcoholic strength by volume of 80% vol or higher production,p447,Undenatured ethyl alcohol of an alcoholic strength by volume of 80% vol or higher,c512,0.45,0,0.55
+Apples,c062,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages production",p448,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages",c513,0.57,0,1.17
+Pears,c063,"Other fruit (dried) production, n.e.c.",p310,"Other fruit n.e.c., dried",c350,,0.2,0.8
+Pears,c063,"Juice of fruits production, n.e.c.",p311,Juice of fruits n.e.c.,c351,0.66,0.4,0.9
+Pears,c063,"Fruit preparation, n.e.c.",p312,Fruit prepared n.e.c.,c352,0.81,0.48,1.2
+Pears,c063,"Fruit, nuts, and peel preservation in sugar",p314,"Fruit, nuts, peel, sugar preserved",c354,0.3,0,0.3
+Pears,c063,Homogenized cooked fruit preparation,p315,"Homogenized cooked fruit, prepared",c355,0.79,0.7,1
+Pears,c063,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages production",p448,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages",c513,0.39,0.04,0.87
+Quinces,c064,"Fruit preparation, n.e.c.",p312,Fruit prepared n.e.c.,c352,0.75,0.6,0.9
+Apricots,c065,"Fruit preparation, n.e.c.",p312,Fruit prepared n.e.c.,c352,0.83,0.6,1.2
+Apricots,c065,"Fruit, nuts, and peel preservation in sugar",p314,"Fruit, nuts, peel, sugar preserved",c354,0.3,0.3,0.3
+Apricots,c065,Homogenized cooked fruit preparation,p315,"Homogenized cooked fruit, prepared",c355,0.76,0.7,1
+Apricots,c065,Undenatured ethyl alcohol of an alcoholic strength by volume of 80% vol or higher production,p447,Undenatured ethyl alcohol of an alcoholic strength by volume of 80% vol or higher,c512,0.46,0.25,0.5
+Apricots,c065,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages production",p448,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages",c513,0.35,0.2,0.45
+Sour cherries,c066,"Juice of fruits production, n.e.c.",p311,Juice of fruits n.e.c.,c351,0.62,0.6,0.7
+Sour cherries,c066,"Fruit preparation, n.e.c.",p312,Fruit prepared n.e.c.,c352,0.67,0.5,0.9
+Sour cherries,c066,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages production",p448,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages",c513,0.59,0.43,0.66
+Cherries,c067,"Other fruit (dried) production, n.e.c.",p310,"Other fruit n.e.c., dried",c350,,0.2,0.72
+Cherries,c067,"Juice of fruits production, n.e.c.",p311,Juice of fruits n.e.c.,c351,0.66,0.5,0.89
+Cherries,c067,"Fruit preparation, n.e.c.",p312,Fruit prepared n.e.c.,c352,0.69,0.48,0.9
+Cherries,c067,"Fruit, nuts, and peel preservation in sugar",p314,"Fruit, nuts, peel, sugar preserved",c354,0.3,0.3,0.3
+Cherries,c067,Homogenized cooked fruit preparation,p315,"Homogenized cooked fruit, prepared",c355,0.75,0.7,1
+Cherries,c067,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages production",p448,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages",c513,0.55,0.34,0.87
+Peaches and nectarines,c068,"Other fruit (dried) production, n.e.c.",p310,"Other fruit n.e.c., dried",c350,,0.18,0.8
+Peaches and nectarines,c068,"Juice of fruits production, n.e.c.",p311,Juice of fruits n.e.c.,c351,0.66,0.12,0.89
+Peaches and nectarines,c068,"Fruit preparation, n.e.c.",p312,Fruit prepared n.e.c.,c352,0.85,0.5,1.2
+Peaches and nectarines,c068,"Fruit, nuts, and peel preservation in sugar",p314,"Fruit, nuts, peel, sugar preserved",c354,0.3,0.3,0.3
+Peaches and nectarines,c068,Homogenized cooked fruit preparation,p315,"Homogenized cooked fruit, prepared",c355,0.79,0.7,1
+Peaches and nectarines,c068,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages production",p448,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages",c513,0.4,0.2,0.87
+Plums and sloes,c069,Juice of plum production,p298,Juice of plum,c337,0.48,0.384,0.576
+Plums and sloes,c069,Concentrated juice of plum production,p299,"Juice of plum, concentrated",c338,0.2,0.16,0.24
+Plums and sloes,c069,"Fruit preparation, n.e.c.",p312,Fruit prepared n.e.c.,c352,0.68,0.5,0.9
+Plums and sloes,c069,"Fruit, nuts, and peel preservation in sugar",p314,"Fruit, nuts, peel, sugar preserved",c354,0.3,0.3,0.3
+Plums and sloes,c069,Homogenized cooked fruit preparation,p315,"Homogenized cooked fruit, prepared",c355,0.72,0.7,1
+Plums and sloes,c069,Undenatured ethyl alcohol of an alcoholic strength by volume of 80% vol or higher production,p447,Undenatured ethyl alcohol of an alcoholic strength by volume of 80% vol or higher,c512,0.48,0.25,0.5
+Plums and sloes,c069,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages production",p448,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages",c513,0.45,0.2,0.85
+Other stone fruits,c070,"Other fruit (dried) production, n.e.c.",p310,"Other fruit n.e.c., dried",c350,,0.2,0.25
+Other stone fruits,c070,"Juice of fruits production, n.e.c.",p311,Juice of fruits n.e.c.,c351,0.64,0.6,0.7
+Other stone fruits,c070,"Fruit preparation, n.e.c.",p312,Fruit prepared n.e.c.,c352,0.81,0.6,0.85
+Strawberries,c072,"Fruit preparation, n.e.c.",p312,Fruit prepared n.e.c.,c352,0.85,0.6,1.2
+Strawberries,c072,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages production",p448,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages",c513,0.45,0.2,1
+Raspberries,c073,"Juice of fruits production, n.e.c.",p311,Juice of fruits n.e.c.,c351,0.69,0.65,0.7
+Raspberries,c073,"Fruit preparation, n.e.c.",p312,Fruit prepared n.e.c.,c352,0.68,0.6,0.85
+Raspberries,c073,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages production",p448,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages",c513,0.54,0.45,0.66
+Currants,c075,"Juice of fruits production, n.e.c.",p311,Juice of fruits n.e.c.,c351,0.62,0.5,0.7
+Currants,c075,"Fruit preparation, n.e.c.",p312,Fruit prepared n.e.c.,c352,0.6,0.6,0.66
+Currants,c075,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages production",p448,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages",c513,0.72,0.59,0.87
+Other berries and fruits of the genus vaccinium n.e.c.,c078,"Juice of fruits production, n.e.c.",p311,Juice of fruits n.e.c.,c351,0.4,0,0.8
+Other berries and fruits of the genus vaccinium n.e.c.,c078,"Fruit preparation, n.e.c.",p312,Fruit prepared n.e.c.,c352,0.72,0,1.2
+Other berries and fruits of the genus vaccinium n.e.c.,c078,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages production",p448,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages",c513,0.2,0.2,0.2
+Grapes,c079,Raisins production,p300,Raisins,c339,,0.14,0.51
+Grapes,c079,"Fruit preparation, n.e.c.",p312,Fruit prepared n.e.c.,c352,0.69,0.35,0.95
+Grapes,c079,Alcohol (non-food) production,p381,"Alcohol, Non-Food",c437,0.19934,0.159472,0.239208
+Grapes,c079,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages production",p448,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages",c513,0.35,0,0.66
+Figs,c080,"Other fruit (dried) production, n.e.c.",p310,"Other fruit n.e.c., dried",c350,,0.42,0.42
+Figs,c080,"Fruit preparation, n.e.c.",p312,Fruit prepared n.e.c.,c352,0.82,0.6,0.82
+"Mangoes, guavas and mangosteens",c081,"Juice of fruits production, n.e.c.",p311,Juice of fruits n.e.c.,c351,0.52,0.3,0.75
+"Mangoes, guavas and mangosteens",c081,"Fruit preparation, n.e.c.",p312,Fruit prepared n.e.c.,c352,0.82,0.5,1
+Avocados,c082,"Fruit preparation, n.e.c.",p312,Fruit prepared n.e.c.,c352,1.01,0.5,1.2
+Pineapples,c083,"Juice of fruits production, n.e.c.",p311,Juice of fruits n.e.c.,c351,0.66,0.4,0.88
+Pineapples,c083,"Fruit preparation, n.e.c.",p312,Fruit prepared n.e.c.,c352,0.64,0.5,0.9
+Dates,c084,Other tropical fruit (dried) production,p309,"Other tropical fruit, dried",c349,0.33,0.25,0.7
+Dates,c084,"Other fruit (dried) production, n.e.c.",p310,"Other fruit n.e.c., dried",c350,,0.2,0.71
+Dates,c084,"Fruit preparation, n.e.c.",p312,Fruit prepared n.e.c.,c352,0.76,0.5,0.95
+Dates,c084,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages production",p448,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages",c513,0.43,0.43,0.44
+"Other tropical fruits, n.e.c.",c089,Other tropical fruit (dried) production,p309,"Other tropical fruit, dried",c349,0.26,0.2,0.4
+"Other tropical fruits, n.e.c.",c089,"Other fruit (dried) production, n.e.c.",p310,"Other fruit n.e.c., dried",c350,,0.2,0.4
+"Other tropical fruits, n.e.c.",c089,"Juice of fruits production, n.e.c.",p311,Juice of fruits n.e.c.,c351,0.52,0.4,0.7
+"Other tropical fruits, n.e.c.",c089,"Fruit preparation, n.e.c.",p312,Fruit prepared n.e.c.,c352,0.83,0.5,0.9
+"Other tropical fruits, n.e.c.",c089,Flour of fruits production,p313,Flour of fruits,c353,0.24,0.2,0.4
+"Other tropical fruits, n.e.c.",c089,Undenatured ethyl alcohol of an alcoholic strength by volume of 80% vol or higher production,p447,Undenatured ethyl alcohol of an alcoholic strength by volume of 80% vol or higher,c512,0.49,0.22,0.55
+"Other tropical fruits, n.e.c.",c089,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages production",p448,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages",c513,0.5,0.4,0.5
+"Other fruits, n.e.c.",c090,"Other fruit (dried) production, n.e.c.",p310,"Other fruit n.e.c., dried",c350,,0,0.8
+"Other fruits, n.e.c.",c090,"Juice of fruits production, n.e.c.",p311,Juice of fruits n.e.c.,c351,0.58,0.15,0.9
+"Other fruits, n.e.c.",c090,"Fruit preparation, n.e.c.",p312,Fruit prepared n.e.c.,c352,0.8,0.3,1
+"Other fruits, n.e.c.",c090,Flour of fruits production,p313,Flour of fruits,c353,0.24,0.05,0.4
+"Other fruits, n.e.c.",c090,Alcohol (non-food) production,p381,"Alcohol, Non-Food",c437,0.19934,0.159472,0.239208
+"Other fruits, n.e.c.",c090,Undenatured ethyl alcohol of an alcoholic strength by volume of 80% vol or higher production,p447,Undenatured ethyl alcohol of an alcoholic strength by volume of 80% vol or higher,c512,0.54,0.11,0.55
+"Other fruits, n.e.c.",c090,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages production",p448,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages",c513,0.53,0.2,1
+Soya beans,c111,Flours and meals of oil seeds or oleaginous fruits (except those of mustard) production,p360,"Flours and meals of oil seeds or oleaginous fruits, except those of mustard",c412,0.71,0.2,
+Oil palm fruit,c114,Palm kernels production,p334,Palm kernels,c376,0.06,0.02,0.27
+Castor oil seeds,c116,Castor oil (hydrogenated) production,p364,"Castor oil, hydrogenated",c416,1.1,0.88,1.32
+Rape or colza seed,c118,Flours and meals of oil seeds or oleaginous fruits (except those of mustard) production,p360,"Flours and meals of oil seeds or oleaginous fruits, except those of mustard",c412,0.8,0.71,
+Jojoba seeds,c120,Jojoba oil production,p345,Jojoba oil,c389,0.49,0.392,0.588
+Mustard seed,c123,Flours and meals of oil seeds or oleaginous fruits (except those of mustard) production,p360,"Flours and meals of oil seeds or oleaginous fruits, except those of mustard",c412,0.8,0.79,
+Poppy seed,c124,Oil of poppy seed production,p350,Oil of poppy seed,c397,0.42,0.336,0.504
+Poppy seed,c124,Oil of poppy seed production,p350,"Cake, poppy seed",c398,0.58,0.464,0.696
+Melonseed,c125,"Other oil of vegetable origin (crude) production, n.e.c.",p359,"Other oil of vegetable origin, crude n.e.c.",c410,0.35,0.3,0.35
+Melonseed,c125,"Other oil of vegetable origin (crude) production, n.e.c.",p359,"Cake, oilseeds nes",c411,0.24,0.15,0.65
+Tallowtree seeds,c126,Vegetable tallow production,p351,Vegetable tallow,c399,,0.15,0.15
+Hempseed,c129,Oil of hempseed production,p357,Oil of hempseed,c408,0.3,0.27,0.33
+Hempseed,c129,Cake of hempseed production,p358,Cake of hempseed,c409,0.62,0.6,0.69
+"Other oil seeds, n.e.c.",c130,"Other oil of vegetable origin (crude) production, n.e.c.",p359,"Other oil of vegetable origin, crude n.e.c.",c410,0.35,0.13,1.16
+"Other oil seeds, n.e.c.",c130,"Other oil of vegetable origin (crude) production, n.e.c.",p359,"Cake, oilseeds nes",c411,0.53,0.3,0.81
+"Other oil seeds, n.e.c.",c130,Flours and meals of oil seeds or oleaginous fruits (except those of mustard) production,p360,"Flours and meals of oil seeds or oleaginous fruits, except those of mustard",c412,0.78,0.25,
+"Pigeon peas, dry",c136,"Vegetables preservation, nes, (o/t vinegar)",p277,Vegetables preserved nes (o/t vinegar),c316,0.8,0.8,0.8
+Tea leaves,c145,"Extracts, essences and concentrates of tea or mate, and preparations with a basis thereof or with a basis of tea or maté production",p373,"Extracts, essences and concentrates of tea or mate, and preparations with a basis thereof or with a basis of tea or maté",c428,,,
+Tea leaves,c145,Tea production,p374,"Green tea (not fermented), black tea (fermented) and partly fermented tea, in immediate packings of a content not exceeding 3 kg",c429,0.25,0.2,0.33
+Maté leaves,c146,"Extracts, essences and concentrates of tea or mate, and preparations with a basis thereof or with a basis of tea or maté production",p373,"Extracts, essences and concentrates of tea or mate, and preparations with a basis thereof or with a basis of tea or maté",c428,,,
+"Seed cotton, unginned",c149,Cotton seed production,p126,Cotton seed,c127,0.63,0.27,1.19
+"Seed cotton, unginned",c149,Cotton seed production,p126,"Cotton lint, ginned",c430,0.34,0.18,0.99
+Kapok fruit,c160,Kapok fibre production,p150,"Kapok fibre, raw",c151,0.31,0.3,0.33
+Kapok fruit,c160,Kapokseed (in shell) production,p352,Kapokseed in shell,c400,0.74,0.7,0.83
+Unmanufactured tobacco,c163,Cigarette production,p375,Cigarettes,c431,0.68,0.64,0.72
+Unmanufactured tobacco,c163,Cigars and cheroots production,p376,Cigars and cheroots,c432,0.375,0.3,0.45
+Natural rubber in primary forms,c164,Natural rubber (other forms) production,p377,Natural rubber in other forms,c433,0.99,0.23,1
+Horses,c175,Horse slaughtering,p198,"Edible offals of horses and other equines,  fresh, chilled or frozen",c494,1,1,1
+Raw milk of cattle,c182,Ice cream and other edible ice production,p378,Ice cream and other edible ice,c434,1.6,1.6,2.5
+Raw milk of cattle,c182,Standardized milk production,p382,Standardized milk,c438,0.9,0.9,1
+Raw milk of cattle,c182,Yoghurt production,p388,Yoghurt,c445,,0.8,
+Raw milk of cattle,c182,Yoghurt (with additives) production,p389,"Yoghurt, with additives",c446,,0.64,
+Raw milk of cattle,c182,"Dairy products production, n.e.c.",p404,Dairy products n.e.c.,c461,1,0.98,1
+Raw milk of buffalo,c183,"Dairy products production, n.e.c.",p404,Dairy products n.e.c.,c461,1,0.98,1
+Raw milk of buffalo,c183,Butter of buffalo milk production,p406,Skim milk of buffalo,c465,0.93,0.9,0.94
+Raw milk of buffalo,c183,Ghee from buffalo milk production,p407,Skim milk of buffalo,c465,0.93,0.9,0.94
+Raw milk of sheep,c184,"Cheese from milk of sheep, fresh or processed production",p399,"Whey, fresh",c456,0.78,0.6,0.85
+Raw milk of sheep,c184,"Dairy products production, n.e.c.",p404,Dairy products n.e.c.,c461,1,0.98,1
+Raw milk of sheep,c184,Butter and ghee of sheep milk production,p409,Skim sheep milk,c469,0.94,0.9,0.95
+Raw milk of goats,c185,"Cheese from milk of goats, fresh or processed production",p400,"Whey, fresh",c456,0.8,0.4,0.86
+Raw milk of goats,c185,"Dairy products production, n.e.c.",p404,Dairy products n.e.c.,c461,1,0.98,1
+Raw milk of goats,c185,Butter of goat milk production,p410,Butter of goat milk,c471,0.03,0.024,0.036
+Raw milk of goats,c185,Butter of goat milk production,p410,Skim milk of goat,c472,0.9,0.72,1.08
+Raw milk of camel,c186,"Dairy products production, n.e.c.",p404,Dairy products n.e.c.,c461,1,0.98,1
+"Hen eggs in shell, fresh",c187,Eggs (liquid) production,p411,"Eggs, liquid",c473,0.85,0.8,0.92
+"Hen eggs in shell, fresh",c187,Eggs (dried) production,p412,"Eggs, dried",c474,0.24,0.2,0.4
+"Meat of cattle with the bone, fresh or chilled",c189,Meat of cattle boneless (fresh or chilled) production,p413,"Meat of cattle boneless, fresh or chilled",c475,,0.59,0.88
+"Meat of cattle with the bone, fresh or chilled",c189,Meat of cattle boneless (fresh or chilled) production,p413,"Cattle, butcher fat",c496,,0.05,0.3
+"Meat of cattle with the bone, fresh or chilled",c189,"Bovine meat (salted, dried or smoked) production",p414,"Bovine meat, salted, dried or smoked",c476,0.46,0.25,0.85
+"Meat of cattle with the bone, fresh or chilled",c189,"Extracts and juices of meat, fish, crustaceans, molluscs or other aquatic invertebrates production",p415,"Extracts and juices of meat, fish, crustaceans, molluscs or other aquatic invertebrates",c477,0.26,0.08,0.3
+"Meat of cattle with the bone, fresh or chilled",c189,"Sausages and similar products of meat, offal or blood of beef and veal production",p416,"Sausages and similar products of meat, offal or blood of beef and veal",c478,0.86,0.79,1
+"Meat of cattle with the bone, fresh or chilled",c189,"Beef and veal preparation, nes",p417,beef and veal preparations nes,c479,,0.35,1
+"Meat of cattle with the bone, fresh or chilled",c189,Homogenized meat preparation,p418,Homogenized meat preparations,c480,0.88,0.6,1
+"Meat of cattle with the bone, fresh or chilled",c189,"Meat preparation, n.e.c.",p424,Meat prepared n.e.c.,c486,0.95,0.8,1.25
+"Meat of pig with the bone, fresh or chilled",c193,Meat of pig boneless (fresh or chilled) production,p419,"Meat of pig boneless, fresh or chilled",c481,,0.58,0.95
+"Meat of pig with the bone, fresh or chilled",c193,"Pig meat, cuts, salted, dried or smoked (bacon and ham) production",p420,"Pig meat, cuts, salted, dried or smoked (bacon and ham)",c482,0.79,0.5,1
+"Meat of pig with the bone, fresh or chilled",c193,"Sausages and similar products of meat, offal or blood of pig production",p421,"Sausages and similar products of meat, offal or blood of pig",c483,0.89,0.75,1
+"Meat of pig with the bone, fresh or chilled",c193,Pig meat preparation,p422,Pig meat preparations,c484,,0.74,0.9
+"Meat of chickens, fresh or chilled",c194,Homogenized meat preparation,p418,Homogenized meat preparations,c480,0.9,0.6,1
+"Meat of chickens, fresh or chilled",c194,Poultry meat preparation,p423,Poultry meat preparations,c485,0.94,0.1,2.5
+"Meat of chickens, fresh or chilled",c194,Chicken offal and liver production,p427,"Edible offals and liver of chickens and guinea fowl, fresh, chilled or frozen",c489,0.98,0,1
+"Meat of chickens, fresh or chilled",c194,Chicken offal and liver production,p427,"Edible offals and liver of chickens and guinea fowl, fresh, chilled or frozen",c489,0.98,0,1
+"Meat of chickens, fresh or chilled",c194,Chicken offal and liver production,p427,"Edible offals and liver of chickens and guinea fowl, fresh, chilled or frozen",c489,0.98,0.98,1
+"Meat of chickens, fresh or chilled",c194,Chicken offal and liver production,p427,"Edible offals and liver of chickens and guinea fowl, fresh, chilled or frozen",c489,0.98,0.98,1
+"Meat of chickens, fresh or chilled",c194,Chicken offal and liver production,p427,"Edible offals and liver of chickens and guinea fowl, fresh, chilled or frozen",c489,1,0,1
+"Meat of chickens, fresh or chilled",c194,Chicken offal and liver production,p427,"Edible offals and liver of chickens and guinea fowl, fresh, chilled or frozen",c489,1,0,1
+"Meat of chickens, fresh or chilled",c194,Chicken offal and liver production,p427,"Edible offals and liver of chickens and guinea fowl, fresh, chilled or frozen",c489,1,0.98,1
+"Meat of chickens, fresh or chilled",c194,Chicken offal and liver production,p427,"Edible offals and liver of chickens and guinea fowl, fresh, chilled or frozen",c489,1,0.98,1
+"Meat of chickens, fresh or chilled",c194,Fatty liver preparation,p428,Fatty liver preparations,c490,0.83,0.75,1
+"Meat of chickens, fresh or chilled",c194,Fat of poultry production,p434,Fat of poultry,c499,1,1,1
+"Meat of ducks, fresh or chilled",c195,Duck offal and liver production,p430,"Edible offals and liver of ducks, fresh, chilled or frozen",c492,1,1,1
+"Meat of ducks, fresh or chilled",c195,Duck offal and liver production,p430,"Edible offals and liver of ducks, fresh, chilled or frozen",c492,1,1,1
+"Meat of ducks, fresh or chilled",c195,Duck offal and liver production,p430,"Edible offals and liver of ducks, fresh, chilled or frozen",c492,1,0.98,1
+"Meat of ducks, fresh or chilled",c195,Duck offal and liver production,p430,"Edible offals and liver of ducks, fresh, chilled or frozen",c492,1,0.98,1
+"Meat of ducks, fresh or chilled",c195,Duck offal and liver production,p430,"Edible offals and liver of ducks, fresh, chilled or frozen",c492,1,1,1
+"Meat of ducks, fresh or chilled",c195,Duck offal and liver production,p430,"Edible offals and liver of ducks, fresh, chilled or frozen",c492,1,1,1
+"Meat of ducks, fresh or chilled",c195,Duck offal and liver production,p430,"Edible offals and liver of ducks, fresh, chilled or frozen",c492,1,0.98,1
+"Meat of ducks, fresh or chilled",c195,Duck offal and liver production,p430,"Edible offals and liver of ducks, fresh, chilled or frozen",c492,1,0.98,1
+"Meat of geese, fresh or chilled",c196,Goose offal and liver production,p429,"Edible offals and liver of geese, fresh, chilled or frozen",c491,1,0.2,1
+"Meat of geese, fresh or chilled",c196,Goose offal and liver production,p429,"Edible offals and liver of geese, fresh, chilled or frozen",c491,1,0.2,1
+"Meat of geese, fresh or chilled",c196,Goose offal and liver production,p429,"Edible offals and liver of geese, fresh, chilled or frozen",c491,1,0.98,1
+"Meat of geese, fresh or chilled",c196,Goose offal and liver production,p429,"Edible offals and liver of geese, fresh, chilled or frozen",c491,1,0.98,1
+"Meat of geese, fresh or chilled",c196,Goose offal and liver production,p429,"Edible offals and liver of geese, fresh, chilled or frozen",c491,1,0.2,1
+"Meat of geese, fresh or chilled",c196,Goose offal and liver production,p429,"Edible offals and liver of geese, fresh, chilled or frozen",c491,1,0.2,1
+"Meat of geese, fresh or chilled",c196,Goose offal and liver production,p429,"Edible offals and liver of geese, fresh, chilled or frozen",c491,1,0.98,1
+"Meat of geese, fresh or chilled",c196,Goose offal and liver production,p429,"Edible offals and liver of geese, fresh, chilled or frozen",c491,1,0.98,1
+"Meat of turkeys, fresh or chilled",c197,Turkey offal and liver production,p431,"Edible offals and liver of turkey, fresh, chilled or frozen",c493,1,1,1
+"Meat of turkeys, fresh or chilled",c197,Turkey offal and liver production,p431,"Edible offals and liver of turkey, fresh, chilled or frozen",c493,1,1,1
+"Meat of turkeys, fresh or chilled",c197,Turkey offal and liver production,p431,"Edible offals and liver of turkey, fresh, chilled or frozen",c493,1,0.98,1
+"Meat of turkeys, fresh or chilled",c197,Turkey offal and liver production,p431,"Edible offals and liver of turkey, fresh, chilled or frozen",c493,1,0.98,1
+"Meat of turkeys, fresh or chilled",c197,Turkey offal and liver production,p431,"Edible offals and liver of turkey, fresh, chilled or frozen",c493,1,1,1
+"Meat of turkeys, fresh or chilled",c197,Turkey offal and liver production,p431,"Edible offals and liver of turkey, fresh, chilled or frozen",c493,1,1,1
+"Meat of turkeys, fresh or chilled",c197,Turkey offal and liver production,p431,"Edible offals and liver of turkey, fresh, chilled or frozen",c493,1,0.98,1
+"Meat of turkeys, fresh or chilled",c197,Turkey offal and liver production,p431,"Edible offals and liver of turkey, fresh, chilled or frozen",c493,1,0.98,1
+"Edible offal of cattle, fresh, chilled or frozen",c207,Liver preparation,p426,Liver preparations,c488,0.9,0.1,1
+"Edible offal of cattle, fresh, chilled or frozen",c207,"Other meat and edible meat offal, salted, in brine, dried or smoked; edible flours and meals of meat or meat offal production",p432,"Other meat and edible meat offal, salted, in brine, dried or smoked; edible flours and meals of meat or meat offal",c495,0.65,0.5,0.85
+"Cattle fat, unrendered",c213,"Animal oils and fats production, n.e.c.",p436,Animal oils and fats n.e.c.,c501,0.91,0.8,1
+"Cattle fat, unrendered",c213,Tallow production,p438,Tallow,c503,0.83,0.43,3.01
+"Cattle fat, unrendered",c213,"Fat preparation, n.e.c.",p439,Fat preparations n.e.c.,c504,0.97,0.72,1.25
+"Buffalo fat, unrendered",c214,Tallow production,p438,Tallow,c503,0.8,0.76,0.94
+"Buffalo fat, unrendered",c214,"Fat preparation, n.e.c.",p439,Fat preparations n.e.c.,c504,1,1,1
+"Sheep fat, unrendered",c215,"Animal oils and fats production, n.e.c.",p436,Animal oils and fats n.e.c.,c501,0.98,0.8,1
+"Sheep fat, unrendered",c215,Tallow production,p438,Tallow,c503,0.83,0.42,3.01
+"Sheep fat, unrendered",c215,"Fat preparation, n.e.c.",p439,Fat preparations n.e.c.,c504,1.04,0.8,1.25
+"Goat fat, unrendered",c216,"Animal oils and fats production, n.e.c.",p436,Animal oils and fats n.e.c.,c501,0.99,0.92,1
+"Goat fat, unrendered",c216,Tallow production,p438,Tallow,c503,0.92,0.65,3.01
+"Goat fat, unrendered",c216,"Fat preparation, n.e.c.",p439,Fat preparations n.e.c.,c504,1.02,1,1.1
+Fat of pigs,c217,Pig fat (rendered) production,p433,"Pig fat, rendered",c498,0.79,0.42,1.13
+Fat of pigs,c217,"Animal oils and fats production, n.e.c.",p436,Animal oils and fats n.e.c.,c501,0.99,0.8,1
+Fat of pigs,c217,Tallow production,p438,Tallow,c503,0.81,0.46,1.21
+Fat of pigs,c217,"Fat preparation, n.e.c.",p439,Fat preparations n.e.c.,c504,1.08,0,1.25
+Raw hides and skins of sheep or lambs,c222,Sheep slaughtering,p190,Raw hides and skins of sheep or lambs,c222,1,1,1
+Raw hides and skins of goats or kids,c223,Goat slaughtering,p191,Raw hides and skins of goats or kids,c223,0.66,0.6,1
+"Shorn wool, greasy, including fleece-washed shorn wool",c225,Wool degreasing and carbonization,p460,"Wool, degreased or carbonized, not carded or combed",c525,0.88,0.84,0.92
+Wheat and meslin flour,c227,Pasta production,p211,"Uncooked pasta, not stuffed or otherwise prepared",c229,,0.84,1.06
+Wheat and meslin flour,c227,Breakfast cereals production,p223,Breakfast cereals,c246,0.96,0.8,1
+Wheat and meslin flour,c227,Wafer production,p239,"Communion wafers, empty cachets of a kind suitable for pharmaceutical use, sealing wafers, rice paper and similar products.",c276,1,0.9,1.1
+Wheat and meslin flour,c227,Mixes and doughs production,p242,Mixes and doughs for the preparation of bakers' wares,c280,1.25,1.1,1.5
+Wheat and meslin flour,c227,"Food preparations of flour, meal or malt extract production",p243,"Food preparations of flour, meal or malt extract",c281,1.1,1,1.2
+Bran of wheat,c228,Breakfast cereals production,p223,Breakfast cereals,c246,0.92,0.7,1.2
+Starch of wheat,c234,"Fructose and syrup production, other",p260,Other fructose and syrup,c299,1.35,1,1.4
+Starch of wheat,c234,Glucose and dextrose production,p263,Glucose and dextrose,c302,1.01,0,1.23
+Starch of wheat,c234,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages production",p448,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages",c513,0.78,0.34,1.17
+Wheat gluten,c235,Gluten feed and meal production,p244,Gluten feed and meal,c282,1,1,1
+"Rice, milled (husked)",c237,Broken rice production,p219,"Rice, broken",c239,1,1,
+"Rice, milled (husked)",c237,Breakfast cereals production,p223,Breakfast cereals,c246,1,1,1
+"Rice, milled",c238,Broken rice production,p219,"Rice, broken",c239,1,0.56,
+"Rice, milled",c238,Breakfast cereals production,p223,Breakfast cereals,c246,0.83,0.6,1
+"Rice, broken",c239,Breakfast cereals production,p223,Breakfast cereals,c246,0.96,0.9,1
+"Rice, broken",c239,Beer of barley (malted) production,p442,"Beer of barley, malted",c507,7.02,4.01,8.75
+"Rice, broken",c239,Undenatured ethyl alcohol of an alcoholic strength by volume of 80% vol or higher production,p447,Undenatured ethyl alcohol of an alcoholic strength by volume of 80% vol or higher,c512,0.41,0.1,0.51
+"Rice, broken",c239,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages production",p448,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages",c513,0.58,0.18,0.74
+"Rice, gluten",c240,Gluten feed and meal production,p244,Gluten feed and meal,c282,1,1,1
+Starch of rice,c241,Glucose and dextrose production,p263,Glucose and dextrose,c302,0.96,0,1.12
+Oil of rice bran,c243,Margarine and shortening production,p363,Margarine and shortening,c415,1.05,0.97,1.13
+Oil of rice bran,c243,Hydrogenated oils and fats production,p441,hydrogenated oils and fats,c506,1,1,1
+Flour of rice,c245,Mixes and doughs production,p242,Mixes and doughs for the preparation of bakers' wares,c280,1.25,1.1,1.5
+Flour of rice,c245,"Food preparations of flour, meal or malt extract production",p243,"Food preparations of flour, meal or malt extract",c281,1.1,1,1.2
+Pot barley,c247,Breakfast cereals production,p223,Breakfast cereals,c246,0.8,0.8,0.8
+Barley flour and grits,c250,Mixes and doughs production,p242,Mixes and doughs for the preparation of bakers' wares,c280,1.25,1.1,1.5
+Barley flour and grits,c250,"Food preparations of flour, meal or malt extract production",p243,"Food preparations of flour, meal or malt extract",c281,1.1,1,1.2
+"Malt, whether or not roasted",c251,Breakfast cereals production,p223,Breakfast cereals,c246,0.89,0,1
+"Malt, whether or not roasted",c251,Malt extract production,p227,Malt extract,c252,,0,0.81
+"Malt, whether or not roasted",c251,Glucose and dextrose production,p263,Glucose and dextrose,c302,0.95,0,1.1
+"Malt, whether or not roasted",c251,Beer of barley (malted) production,p442,"Beer of barley, malted",c507,6.96,0,9.95
+"Malt, whether or not roasted",c251,Undenatured ethyl alcohol of an alcoholic strength by volume of 80% vol or higher production,p447,Undenatured ethyl alcohol of an alcoholic strength by volume of 80% vol or higher,c512,0.42,0.22,0.55
+"Malt, whether or not roasted",c251,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages production",p448,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages",c513,0.67,0.18,1
+Malt extract,c252,"Food preparations of flour, meal or malt extract production",p243,"Food preparations of flour, meal or malt extract",c281,1.1,1,1.2
+Malt extract,c252,Beer of barley (malted) production,p442,"Beer of barley, malted",c507,6.45,0,9.95
+Malt extract,c252,Beer of millet (malted)production,p444,"Beer of millet, malted",c509,6.8,6.8,6.8
+Malt extract,c252,Beer of sorghum (malted) production,p445,"Beer of sorghum, malted",c510,6.8,6.8,6.8
+Flour of maize,c254,Mixes and doughs production,p242,Mixes and doughs for the preparation of bakers' wares,c280,1.25,1.1,1.5
+Flour of maize,c254,"Food preparations of flour, meal or malt extract production",p243,"Food preparations of flour, meal or malt extract",c281,1.1,1,1.2
+Flour of maize,c254,Beer of barley (malted) production,p442,"Beer of barley, malted",c507,6.49,6.48,6.5
+Bran of maize,c255,Gluten feed and meal production,p244,Gluten feed and meal,c282,1.05,1,3
+Oil of maize,c256,Margarine and shortening production,p363,Margarine and shortening,c415,1.13,0.99,1.3
+Oil of maize,c256,Hydrogenated oils and fats production,p441,hydrogenated oils and fats,c506,1.03,1,1.2
+Cake of maize,c257,Gluten feed and meal production,p244,Gluten feed and meal,c282,1,1,1
+Maize gluten,c258,Gluten feed and meal production,p244,Gluten feed and meal,c282,1,1,1
+Starch of maize,c259,"Fructose and syrup production, other",p260,Other fructose and syrup,c299,1.1,0,1.4
+Starch of maize,c259,Glucose and dextrose production,p263,Glucose and dextrose,c302,1.04,0.9,1.23
+Starch of maize,c259,Beer of maize (malted) production,p443,"Beer of maize, malted",c508,1.15,0,6
+Starch of maize,c259,Undenatured ethyl alcohol of an alcoholic strength by volume of 80% vol or higher production,p447,Undenatured ethyl alcohol of an alcoholic strength by volume of 80% vol or higher,c512,0.46,0.25,0.55
+Starch of maize,c259,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages production",p448,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages",c513,0.69,0.35,1.17
+Flour of rye,c260,Mixes and doughs production,p242,Mixes and doughs for the preparation of bakers' wares,c280,1.25,1.1,1.5
+Flour of rye,c260,"Food preparations of flour, meal or malt extract production",p243,"Food preparations of flour, meal or malt extract",c281,1.1,1,1.2
+Flour of millet,c264,Mixes and doughs production,p242,Mixes and doughs for the preparation of bakers' wares,c280,1.25,1.1,1.5
+Flour of millet,c264,"Food preparations of flour, meal or malt extract production",p243,"Food preparations of flour, meal or malt extract",c281,1.1,1,1.2
+Flour of sorghum,c266,Mixes and doughs production,p242,Mixes and doughs for the preparation of bakers' wares,c280,1.25,1.1,1.5
+Flour of sorghum,c266,"Food preparations of flour, meal or malt extract production",p243,"Food preparations of flour, meal or malt extract",c281,1.1,1,1.2
+Flour of sorghum,c266,Beer of barley (malted) production,p442,"Beer of barley, malted",c507,6.64,0.64,7.56
+Flour of buckwheat,c268,Mixes and doughs production,p242,Mixes and doughs for the preparation of bakers' wares,c280,1.25,1.1,1.5
+Flour of buckwheat,c268,"Food preparations of flour, meal or malt extract production",p243,"Food preparations of flour, meal or malt extract",c281,1.1,1,1.2
+Flour of fonio,c270,Mixes and doughs production,p242,Mixes and doughs for the preparation of bakers' wares,c280,1.25,1.1,1.5
+Flour of fonio,c270,"Food preparations of flour, meal or malt extract production",p243,"Food preparations of flour, meal or malt extract",c281,1.1,1,1.2
+Flour of triticale,c272,Mixes and doughs production,p242,Mixes and doughs for the preparation of bakers' wares,c280,1.25,1.1,1.5
+Flour of triticale,c272,"Food preparations of flour, meal or malt extract production",p243,"Food preparations of flour, meal or malt extract",c281,1.1,1,1.2
+Flour of mixed grain,c274,Mixes and doughs production,p242,Mixes and doughs for the preparation of bakers' wares,c280,1.25,1.1,1.5
+Flour of mixed grain,c274,"Food preparations of flour, meal or malt extract production",p243,"Food preparations of flour, meal or malt extract",c281,1.1,1,1.2
+Flour of cereals n.e.c.,c277,Mixes and doughs production,p242,Mixes and doughs for the preparation of bakers' wares,c280,1.25,1.1,1.5
+Flour of cereals n.e.c.,c277,"Food preparations of flour, meal or malt extract production",p243,"Food preparations of flour, meal or malt extract",c281,1.1,1,1.2
+"Food preparations of flour, meal or malt extract",c281,"Food preparations of flour, meal or malt extract production",p243,"Food preparations of flour, meal or malt extract",c281,1.1,1,1.2
+Gluten feed and meal,c282,"Food preparations of flour, meal or malt extract production",p243,"Food preparations of flour, meal or malt extract",c281,1.1,1,1.2
+"Flour, meal, powder, flakes, granules and pellets of potatoes",c283,"Food preparations of flour, meal or malt extract production",p243,"Food preparations of flour, meal or malt extract",c281,1.1,1,1.2
+Starch of potatoes,c285,"Fructose and syrup production, other",p260,Other fructose and syrup,c299,1.3,1,1.4
+Starch of potatoes,c285,Glucose and dextrose production,p263,Glucose and dextrose,c302,0.9,0,1.23
+Starch of potatoes,c285,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages production",p448,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages",c513,1.03,0.39,1.17
+Flour of cassava,c287,"Food preparations of flour, meal or malt extract production",p243,"Food preparations of flour, meal or malt extract",c281,1.1,1,1.2
+"Cassava, dry",c289,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages production",p448,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages",c513,1.01,0.64,1.17
+Starch of cassava,c290,"Fructose and syrup production, other",p260,Other fructose and syrup,c299,1.4,1.4,1.4
+Starch of cassava,c290,Glucose and dextrose production,p263,Glucose and dextrose,c302,0.88,0,1.1
+Starch of cassava,c290,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages production",p448,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages",c513,1.04,0.5,1.14
+Flour of roots and tubers n.e.c.,c291,"Food preparations of flour, meal or malt extract production",p243,"Food preparations of flour, meal or malt extract",c281,1.1,1,1.2
+"Edible roots and tubers with high starch or inulin content, n.e.c., dry",c292,"Flour of roots and tubers production, n.e.c.",p253,Flour of roots and tubers n.e.c.,c291,0.35,0.2,
+"Edible roots and tubers with high starch or inulin content, n.e.c., dry",c292,"Edible roots and tubers with high starch or inulin content (dry) production, n.e.c.",p254,"Edible roots and tubers with high starch or inulin content, n.e.c., dry",c292,0.31,0.25,
+"Cane sugar, centrifugal",c293,Ice cream and other edible ice production,p378,Ice cream and other edible ice,c434,8,5,10
+"Refined cane or beet sugar, in solid form, containing added flavouring or colouring matter; maple sugar and maple syrup",c294,Ice cream and other edible ice production,p378,Ice cream and other edible ice,c434,8,5,10
+Raw cane or beet sugar (centrifugal only),c295,Other non-alcoholic caloric beverages production,p366,Other non-alcoholic caloric beverages,c419,5,5,5
+Raw cane or beet sugar (centrifugal only),c295,Ice cream and other edible ice production,p378,Ice cream and other edible ice,c434,8,5,10
+"Cane sugar, non-centrifugal",c296,Other non-alcoholic caloric beverages production,p366,Other non-alcoholic caloric beverages,c419,4.52,3,5.08
+"Cane sugar, non-centrifugal",c296,Ice cream and other edible ice production,p378,Ice cream and other edible ice,c434,8,5,10
+"Cane sugar, non-centrifugal",c296,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages production",p448,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages",c513,0.64,0.4,1
+Refined sugar,c297,Sugar and syrups n.e.c. production,p261,Sugar and syrups n.e.c.,c300,0.98,0,1
+Refined sugar,c297,Sugar confectionery production,p262,Sugar confectionery,c301,1.01,0.9,2
+Refined sugar,c297,Other non-alcoholic caloric beverages production,p366,Other non-alcoholic caloric beverages,c419,4.79,0.3,10
+Refined sugar,c297,Ice cream and other edible ice production,p378,Ice cream and other edible ice,c434,8,5,10
+Refined sugar,c297,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages production",p448,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages",c513,0.55,0,1.15
+Molasses,c298,Undenatured ethyl alcohol of an alcoholic strength by volume of 80% vol or higher production,p447,Undenatured ethyl alcohol of an alcoholic strength by volume of 80% vol or higher,c512,0.45,0.08,0.62
+Molasses,c298,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages production",p448,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages",c513,0.53,0.04,1.17
+Sugar and syrups n.e.c.,c300,Ice cream and other edible ice production,p378,Ice cream and other edible ice,c434,8,5,10
+Glucose and dextrose,c302,Isoglucose production,p265,Isoglucose,c304,1,1,1
+Glucose and dextrose,c302,Other non-alcoholic caloric beverages production,p366,Other non-alcoholic caloric beverages,c419,3.39,0,7
+Glucose and dextrose,c302,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages production",p448,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages",c513,0.66,0.3,1.17
+Tomato juice,c305,"Vegetable products (fresh or dry) production, n.e.c",p273,"Vegetable products, fresh or dry n.e.c.",c312,,0.2,1.1
+Paste of tomatoes,c306,"Vegetable products (fresh or dry) production, n.e.c",p273,"Vegetable products, fresh or dry n.e.c.",c312,,0.2,1.1
+"Tomatoes, peeled (o/t vinegar)",c307,"Vegetable products (fresh or dry) production, n.e.c",p273,"Vegetable products, fresh or dry n.e.c.",c312,,0.2,1.1
+"Sweet corn, frozen",c308,"Vegetable products (fresh or dry) production, n.e.c",p273,"Vegetable products, fresh or dry n.e.c.",c312,,0.2,1.1
+"Sweet corn, prepared or preserved",c309,"Vegetable products (fresh or dry) production, n.e.c",p273,"Vegetable products, fresh or dry n.e.c.",c312,,0.2,1.1
+Dried mushrooms,c310,"Vegetable products (fresh or dry) production, n.e.c",p273,"Vegetable products, fresh or dry n.e.c.",c312,,0.2,1.1
+Canned mushrooms,c311,"Vegetable products (fresh or dry) production, n.e.c",p273,"Vegetable products, fresh or dry n.e.c.",c312,,0.2,1.1
+Other vegetable juices,c313,"Vegetable products (fresh or dry) production, n.e.c",p273,"Vegetable products, fresh or dry n.e.c.",c312,,0.2,1.1
+"Vegetables, dehydrated",c314,"Vegetable products (fresh or dry) production, n.e.c",p273,"Vegetable products, fresh or dry n.e.c.",c312,,0.2,1.1
+"Vegetables, pulses and potatoes, preserved by vinegar or acetic acid",c315,"Vegetable products (fresh or dry) production, n.e.c",p273,"Vegetable products, fresh or dry n.e.c.",c312,,0.2,1.1
+Vegetables preserved nes (o/t vinegar),c316,"Vegetable products (fresh or dry) production, n.e.c",p273,"Vegetable products, fresh or dry n.e.c.",c312,,0.2,1.1
+Vegetables frozen,c317,"Vegetable products (fresh or dry) production, n.e.c",p273,"Vegetable products, fresh or dry n.e.c.",c312,,0.2,1.1
+Other vegetables provisionally preserved,c318,"Vegetable products (fresh or dry) production, n.e.c",p273,"Vegetable products, fresh or dry n.e.c.",c312,,0.2,1.1
+Vegetables preserved (frozen),c319,"Vegetable products (fresh or dry) production, n.e.c",p273,"Vegetable products, fresh or dry n.e.c.",c312,,0.2,1.1
+Homogenized vegetable preparations,c320,"Vegetable products (fresh or dry) production, n.e.c",p273,"Vegetable products, fresh or dry n.e.c.",c312,,0.2,1.1
+Must of grape,c341,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages production",p448,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages",c513,0.51,0.35,0.64
+Wine,c342,Alcohol (non-food) production,p381,"Alcohol, Non-Food",c437,0.19934,0.159472,0.239208
+Wine,c342,Vermouth and other wine of fresh grapes flavoured with plats or aromatic substances production,p446,Vermouth and other wine of fresh grapes flavoured with plats or aromatic substances,c511,0.97,0.7,1
+Wine,c342,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages production",p448,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages",c513,0.52,0.02,0.9
+Juice of fruits n.e.c.,c351,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages production",p448,"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages",c513,0.31,0.3,0.34
+Flour of fruits,c353,Mixes and doughs production,p242,Mixes and doughs for the preparation of bakers' wares,c280,1.25,1.1,1.5
+Flour of fruits,c353,"Food preparations of flour, meal or malt extract production",p243,"Food preparations of flour, meal or malt extract",c281,1.1,1,1.2
+Soya bean oil,c362,Liquid margarine production,p362,Liquid margarine,c414,1.1,1.1,1.1
+Soya bean oil,c362,Margarine and shortening production,p363,Margarine and shortening,c415,1.14,0,1.67
+Soya bean oil,c362,Industrial monocarboxylic fatty acids; acid oils from refining production,p379,Industrial monocarboxylic fatty acids; acid oils from refining,c435,0.99,0.98,1
+Soya bean oil,c362,"Fat preparation, n.e.c.",p439,Fat preparations n.e.c.,c504,1.03,0.8,1.25
+Soya bean oil,c362,Hydrogenated oils and fats production,p441,hydrogenated oils and fats,c506,1.12,0.18,1.25
+Groundnut oil,c368,Margarine and shortening production,p363,Margarine and shortening,c415,1.23,1.17,1.39
+Groundnut oil,c368,Industrial monocarboxylic fatty acids; acid oils from refining production,p379,Industrial monocarboxylic fatty acids; acid oils from refining,c435,0.98,0.98,1
+Groundnut oil,c368,"Fat preparation, n.e.c.",p439,Fat preparations n.e.c.,c504,1.04,1,1.25
+Groundnut oil,c368,"Animal or vegetable fats and oils and their fractions, chemically modified, except those hydrogenated, inter-esterified, re-esterified or elaidinized; inedible mixtures or preparations of animal or vegetable fats or oils production",p440,"Animal or vegetable fats and oils and their fractions, chemically modified, except those hydrogenated, inter-esterified, re-esterified or elaidinized; inedible mixtures or preparations of animal or vegetable fats or oils",c505,1,0.9,1
+Groundnut oil,c368,Hydrogenated oils and fats production,p441,hydrogenated oils and fats,c506,1.01,1,1.25
+Coconut oil,c374,Margarine and shortening production,p363,Margarine and shortening,c415,1.12,0.82,1.3
+Coconut oil,c374,Industrial monocarboxylic fatty acids; acid oils from refining production,p379,Industrial monocarboxylic fatty acids; acid oils from refining,c435,1,0.98,1
+Coconut oil,c374,"Fat preparation, n.e.c.",p439,Fat preparations n.e.c.,c504,1.03,0,1.25
+Coconut oil,c374,"Animal or vegetable fats and oils and their fractions, chemically modified, except those hydrogenated, inter-esterified, re-esterified or elaidinized; inedible mixtures or preparations of animal or vegetable fats or oils production",p440,"Animal or vegetable fats and oils and their fractions, chemically modified, except those hydrogenated, inter-esterified, re-esterified or elaidinized; inedible mixtures or preparations of animal or vegetable fats or oils",c505,0.94,0.8,1
+Coconut oil,c374,Hydrogenated oils and fats production,p441,hydrogenated oils and fats,c506,1.15,1,1.4
+Palm oil,c377,Margarine and shortening production,p363,Margarine and shortening,c415,1.15,0.97,1.39
+Palm oil,c377,Industrial monocarboxylic fatty acids; acid oils from refining production,p379,Industrial monocarboxylic fatty acids; acid oils from refining,c435,1,0.98,1
+Palm oil,c377,Residues of fatty substances,p380,Residues of fatty substances,c436,0.96,0.8,1
+Palm oil,c377,"Fat preparation, n.e.c.",p439,Fat preparations n.e.c.,c504,1.04,0.78,1.25
+Palm oil,c377,"Animal or vegetable fats and oils and their fractions, chemically modified, except those hydrogenated, inter-esterified, re-esterified or elaidinized; inedible mixtures or preparations of animal or vegetable fats or oils production",p440,"Animal or vegetable fats and oils and their fractions, chemically modified, except those hydrogenated, inter-esterified, re-esterified or elaidinized; inedible mixtures or preparations of animal or vegetable fats or oils",c505,1,0.9,1.2
+Palm oil,c377,Hydrogenated oils and fats production,p441,hydrogenated oils and fats,c506,1.04,0,1.4
+Oil of palm kernel,c378,Margarine and shortening production,p363,Margarine and shortening,c415,1.19,0.78,1.3
+Oil of palm kernel,c378,Industrial monocarboxylic fatty acids; acid oils from refining production,p379,Industrial monocarboxylic fatty acids; acid oils from refining,c435,0.98,0.98,1
+Oil of palm kernel,c378,"Fat preparation, n.e.c.",p439,Fat preparations n.e.c.,c504,1.03,0.78,1.25
+Oil of palm kernel,c378,"Animal or vegetable fats and oils and their fractions, chemically modified, except those hydrogenated, inter-esterified, re-esterified or elaidinized; inedible mixtures or preparations of animal or vegetable fats or oils production",p440,"Animal or vegetable fats and oils and their fractions, chemically modified, except those hydrogenated, inter-esterified, re-esterified or elaidinized; inedible mixtures or preparations of animal or vegetable fats or oils",c505,0.92,0.8,1
+Oil of palm kernel,c378,Hydrogenated oils and fats production,p441,hydrogenated oils and fats,c506,1.13,1,1.25
+Oil of castor beans,c383,Margarine and shortening production,p363,Margarine and shortening,c415,1.13,1.04,1.26
+Oil of castor beans,c383,"Fat preparation, n.e.c.",p439,Fat preparations n.e.c.,c504,0.99,0.98,1.02
+Oil of castor beans,c383,"Animal or vegetable fats and oils and their fractions, chemically modified, except those hydrogenated, inter-esterified, re-esterified or elaidinized; inedible mixtures or preparations of animal or vegetable fats or oils production",p440,"Animal or vegetable fats and oils and their fractions, chemically modified, except those hydrogenated, inter-esterified, re-esterified or elaidinized; inedible mixtures or preparations of animal or vegetable fats or oils",c505,0.9,0.8,1
+"Sunflower-seed oil, crude",c384,Margarine and shortening production,p363,Margarine and shortening,c415,1.13,0.82,1.44
+"Sunflower-seed oil, crude",c384,Industrial monocarboxylic fatty acids; acid oils from refining production,p379,Industrial monocarboxylic fatty acids; acid oils from refining,c435,1,1,1
+"Sunflower-seed oil, crude",c384,"Fat preparation, n.e.c.",p439,Fat preparations n.e.c.,c504,1.01,0,1.25
+"Sunflower-seed oil, crude",c384,"Animal or vegetable fats and oils and their fractions, chemically modified, except those hydrogenated, inter-esterified, re-esterified or elaidinized; inedible mixtures or preparations of animal or vegetable fats or oils production",p440,"Animal or vegetable fats and oils and their fractions, chemically modified, except those hydrogenated, inter-esterified, re-esterified or elaidinized; inedible mixtures or preparations of animal or vegetable fats or oils",c505,0.93,0.1,1
+"Sunflower-seed oil, crude",c384,Hydrogenated oils and fats production,p441,hydrogenated oils and fats,c506,1.11,0.18,1.25
+"Rapeseed or canola oil, crude",c386,Margarine and shortening production,p363,Margarine and shortening,c415,1.13,0.78,1.39
+"Rapeseed or canola oil, crude",c386,Industrial monocarboxylic fatty acids; acid oils from refining production,p379,Industrial monocarboxylic fatty acids; acid oils from refining,c435,0.95,0,1
+"Rapeseed or canola oil, crude",c386,"Fat preparation, n.e.c.",p439,Fat preparations n.e.c.,c504,1.03,0.78,1.38
+"Rapeseed or canola oil, crude",c386,"Animal or vegetable fats and oils and their fractions, chemically modified, except those hydrogenated, inter-esterified, re-esterified or elaidinized; inedible mixtures or preparations of animal or vegetable fats or oils production",p440,"Animal or vegetable fats and oils and their fractions, chemically modified, except those hydrogenated, inter-esterified, re-esterified or elaidinized; inedible mixtures or preparations of animal or vegetable fats or oils",c505,0.94,0.8,1
+"Rapeseed or canola oil, crude",c386,Hydrogenated oils and fats production,p441,hydrogenated oils and fats,c506,1.13,1,1.25
+"Safflower-seed oil, crude",c390,Margarine and shortening production,p363,Margarine and shortening,c415,1.07,1.02,1.25
+"Safflower-seed oil, crude",c390,Industrial monocarboxylic fatty acids; acid oils from refining production,p379,Industrial monocarboxylic fatty acids; acid oils from refining,c435,0.98,0.98,0.98
+"Safflower-seed oil, crude",c390,"Fat preparation, n.e.c.",p439,Fat preparations n.e.c.,c504,1.02,1.02,1.02
+"Safflower-seed oil, crude",c390,"Animal or vegetable fats and oils and their fractions, chemically modified, except those hydrogenated, inter-esterified, re-esterified or elaidinized; inedible mixtures or preparations of animal or vegetable fats or oils production",p440,"Animal or vegetable fats and oils and their fractions, chemically modified, except those hydrogenated, inter-esterified, re-esterified or elaidinized; inedible mixtures or preparations of animal or vegetable fats or oils",c505,0.85,0.8,1
+"Safflower-seed oil, crude",c390,Hydrogenated oils and fats production,p441,hydrogenated oils and fats,c506,1.25,1.2,1.25
+Oil of sesame seed,c392,Margarine and shortening production,p363,Margarine and shortening,c415,1.12,0.98,1.39
+Oil of sesame seed,c392,Industrial monocarboxylic fatty acids; acid oils from refining production,p379,Industrial monocarboxylic fatty acids; acid oils from refining,c435,1,1,1
+Oil of sesame seed,c392,"Fat preparation, n.e.c.",p439,Fat preparations n.e.c.,c504,1,0.83,1.05
+Oil of sesame seed,c392,"Animal or vegetable fats and oils and their fractions, chemically modified, except those hydrogenated, inter-esterified, re-esterified or elaidinized; inedible mixtures or preparations of animal or vegetable fats or oils production",p440,"Animal or vegetable fats and oils and their fractions, chemically modified, except those hydrogenated, inter-esterified, re-esterified or elaidinized; inedible mixtures or preparations of animal or vegetable fats or oils",c505,1,1,1
+Oil of sesame seed,c392,Hydrogenated oils and fats production,p441,hydrogenated oils and fats,c506,1.02,1,1.1
+"Mustard seed oil, crude",c394,Margarine and shortening production,p363,Margarine and shortening,c415,1.2,1.2,1.23
+"Mustard seed oil, crude",c394,Hydrogenated oils and fats production,p441,hydrogenated oils and fats,c506,1.25,1.25,1.25
+Flour of mustard seed,c396,"Food preparations of flour, meal or malt extract production",p243,"Food preparations of flour, meal or malt extract",c281,1.1,1,1.2
+Kapokseed in shell,c400,Kapokseed (shelled) production,p353,"Kapokseed, shelled",c401,,0.66,0.7
+"Kapokseed, shelled",c401,Oil of kapok production,p354,Oil of kapok,c402,,0.15,0.2
+"Kapokseed, shelled",c401,Oil of kapok production,p354,Cake of kapok,c403,,0.8,0.8
+Cottonseed oil,c404,Margarine and shortening production,p363,Margarine and shortening,c415,1.16,0.83,1.35
+Cottonseed oil,c404,"Fat preparation, n.e.c.",p439,Fat preparations n.e.c.,c504,1.03,0.98,1.25
+Cottonseed oil,c404,Hydrogenated oils and fats production,p441,hydrogenated oils and fats,c506,1.14,1,1.25
+Oil of linseed,c406,Margarine and shortening production,p363,Margarine and shortening,c415,1.14,0.98,1.39
+Oil of linseed,c406,"Fat preparation, n.e.c.",p439,Fat preparations n.e.c.,c504,1.03,0.78,1.25
+Oil of linseed,c406,"Animal or vegetable fats and oils and their fractions, chemically modified, except those hydrogenated, inter-esterified, re-esterified or elaidinized; inedible mixtures or preparations of animal or vegetable fats or oils production",p440,"Animal or vegetable fats and oils and their fractions, chemically modified, except those hydrogenated, inter-esterified, re-esterified or elaidinized; inedible mixtures or preparations of animal or vegetable fats or oils",c505,0.95,0.8,1
+Oil of linseed,c406,Hydrogenated oils and fats production,p441,hydrogenated oils and fats,c506,1.03,1,1.25
+"Other oil of vegetable origin, crude n.e.c.",c410,Margarine and shortening production,p363,Margarine and shortening,c415,1.13,0.98,3.65
+"Other oil of vegetable origin, crude n.e.c.",c410,"Fat preparation, n.e.c.",p439,Fat preparations n.e.c.,c504,1.03,0.78,1.25
+"Other oil of vegetable origin, crude n.e.c.",c410,"Animal or vegetable fats and oils and their fractions, chemically modified, except those hydrogenated, inter-esterified, re-esterified or elaidinized; inedible mixtures or preparations of animal or vegetable fats or oils production",p440,"Animal or vegetable fats and oils and their fractions, chemically modified, except those hydrogenated, inter-esterified, re-esterified or elaidinized; inedible mixtures or preparations of animal or vegetable fats or oils",c505,1,0.9,1
+"Other oil of vegetable origin, crude n.e.c.",c410,Hydrogenated oils and fats production,p441,hydrogenated oils and fats,c506,1.01,1,1.25
+"Flours and meals of oil seeds or oleaginous fruits, except those of mustard",c412,"Food preparations of flour, meal or malt extract production",p243,"Food preparations of flour, meal or malt extract",c281,1.1,1,1.2
+Flour of pulses,c417,Mixes and doughs production,p242,Mixes and doughs for the preparation of bakers' wares,c280,1.25,1.1,1.5
+Flour of pulses,c417,"Food preparations of flour, meal or malt extract production",p243,"Food preparations of flour, meal or malt extract",c281,1.1,1,1.2
+Cocoa powder and cake,c426,Mixes and doughs production,p242,Mixes and doughs for the preparation of bakers' wares,c280,10,2,10
+Standardized milk,c438,"Dairy products production, n.e.c.",p404,Dairy products n.e.c.,c461,1,0.98,1
+"Cream, fresh",c439,Ice cream and other edible ice production,p378,Ice cream and other edible ice,c434,1.6,1.6,2.5
+"Cream, fresh",c439,Processed cheese production,p402,Processed cheese,c459,0.99,0.2,1.1
+"Cream, fresh",c439,"Dairy products production, n.e.c.",p404,Dairy products n.e.c.,c461,1,0.98,1
+Butter of cow milk,c440,Mixes and doughs production,p242,Mixes and doughs for the preparation of bakers' wares,c280,3,4,5
+Butter of cow milk,c440,"Dairy products production, n.e.c.",p404,Dairy products n.e.c.,c461,1,0.98,1
+Ghee from cow milk,c441,"Dairy products production, n.e.c.",p404,Dairy products n.e.c.,c461,1,0.98,1
+Skim milk of cows,c442,Yoghurt production,p388,Yoghurt,c445,,0.8,
+Skim milk of cows,c442,Skim milk (evaporated) production,p391,"Skim milk, evaporated",c449,,0.13,0.4
+Skim milk of cows,c442,Skim milk (condensed) production,p392,"Skim milk, condensed",c450,,0.27,0.45
+Skim milk of cows,c442,Skim milk and whey powder production,p394,Skim milk and whey powder,c452,,0.08,0.45
+Skim milk of cows,c442,Cheese from skimmed cow milk production,p398,"Whey, fresh",c456,0.76,0.4,0.87
+Skim milk of cows,c442,Cheese from skimmed cow milk production,p398,Cheese from skimmed cow milk,c457,,0.05,0.4
+Skim milk of cows,c442,"Dairy products production, n.e.c.",p404,Dairy products n.e.c.,c461,1,0.98,1
+Skim milk of cows,c442,Casein production,p405,Casein,c462,0.03,0.02,
+"Whole milk, condensed",c443,"Dairy products production, n.e.c.",p404,Dairy products n.e.c.,c461,1,0.98,1
+"Whey, condensed",c444,"Dairy products production, n.e.c.",p404,Dairy products n.e.c.,c461,1,0.98,1
+Yoghurt,c445,"Dairy products production, n.e.c.",p404,Dairy products n.e.c.,c461,1,0.98,1
+"Yoghurt, with additives",c446,"Dairy products production, n.e.c.",p404,Dairy products n.e.c.,c461,1,0.98,1
+"Buttermilk, curdled and acidified milk",c447,Buttermilk (dry) production,p395,"Buttermilk, dry",c453,,0.09,0.09
+"Buttermilk, curdled and acidified milk",c447,"Dairy products production, n.e.c.",p404,Dairy products n.e.c.,c461,1,0.98,1
+"Whole milk, evaporated",c448,"Dairy products production, n.e.c.",p404,Dairy products n.e.c.,c461,1,0.98,1
+"Skim milk, evaporated",c449,Reconstituted milk production,p403,Reconstituted milk,c460,2.5,2,3
+"Skim milk, evaporated",c449,"Dairy products production, n.e.c.",p404,Dairy products n.e.c.,c461,1,0.98,1
+"Skim milk, condensed",c450,Reconstituted milk production,p403,Reconstituted milk,c460,2.7,2.2,3
+"Skim milk, condensed",c450,"Dairy products production, n.e.c.",p404,Dairy products n.e.c.,c461,1,0.98,1
+Whole milk powder,c451,"Dairy products production, n.e.c.",p404,Dairy products n.e.c.,c461,1,0.98,1
+Skim milk and whey powder,c452,Reconstituted milk production,p403,Reconstituted milk,c460,10,9,11
+Skim milk and whey powder,c452,"Dairy products production, n.e.c.",p404,Dairy products n.e.c.,c461,1,0.98,1
+"Buttermilk, dry",c453,Reconstituted milk production,p403,Reconstituted milk,c460,10,9,11
+"Buttermilk, dry",c453,"Dairy products production, n.e.c.",p404,Dairy products n.e.c.,c461,1,0.98,1
+"Whey, dry",c454,"Dairy products production, n.e.c.",p404,Dairy products n.e.c.,c461,1,0.98,1
+Cheese from whole cow milk,c455,Processed cheese production,p402,Processed cheese,c459,1.03,0.2,1.75
+Cheese from whole cow milk,c455,"Dairy products production, n.e.c.",p404,Dairy products n.e.c.,c461,1,0.98,1
+"Whey, fresh",c456,Lactose production,p264,Lactose,c303,0.05,0.04,0.06
+"Whey, fresh",c456,Whey (condensed) production,p387,"Whey, condensed",c444,0.25,0.1,0.3
+"Whey, fresh",c456,Whey (dry) production,p396,"Whey, dry",c454,0.07,0.04,0.2
+"Whey, fresh",c456,Whey cheese production,p401,Whey cheese,c458,0.18,0.1,0.25
+"Whey, fresh",c456,"Dairy products production, n.e.c.",p404,Dairy products n.e.c.,c461,1,0.98,1
+Cheese from skimmed cow milk,c457,Processed cheese production,p402,Processed cheese,c459,1.07,1,1.1
+Cheese from skimmed cow milk,c457,"Dairy products production, n.e.c.",p404,Dairy products n.e.c.,c461,1,0.98,1
+Whey cheese,c458,Processed cheese production,p402,Processed cheese,c459,1,1,1
+Whey cheese,c458,"Dairy products production, n.e.c.",p404,Dairy products n.e.c.,c461,1,0.98,1
+Processed cheese,c459,"Dairy products production, n.e.c.",p404,Dairy products n.e.c.,c461,1,0.98,1
+Reconstituted milk,c460,"Dairy products production, n.e.c.",p404,Dairy products n.e.c.,c461,1,0.98,1
+Casein,c462,"Dairy products production, n.e.c.",p404,Dairy products n.e.c.,c461,1,0.98,1
+Butter of buffalo milk,c463,"Dairy products production, n.e.c.",p404,Dairy products n.e.c.,c461,1,0.98,1
+Ghee from buffalo milk,c464,"Dairy products production, n.e.c.",p404,Dairy products n.e.c.,c461,1,0.98,1
+Skim milk of buffalo,c465,"Dairy products production, n.e.c.",p404,Dairy products n.e.c.,c461,1,0.98,1
+"Cheese from milk of buffalo, fresh or processed",c466,"Dairy products production, n.e.c.",p404,Dairy products n.e.c.,c461,1,0.98,1
+Butter and ghee of sheep milk,c467,"Dairy products production, n.e.c.",p404,Dairy products n.e.c.,c461,1,0.98,1
+"Cheese from milk of sheep, fresh or processed",c468,"Dairy products production, n.e.c.",p404,Dairy products n.e.c.,c461,1,0.98,1
+Skim sheep milk,c469,"Cheese from milk of sheep, fresh or processed production",p399,"Whey, fresh",c456,0.4,0.4,0.4
+Skim sheep milk,c469,"Dairy products production, n.e.c.",p404,Dairy products n.e.c.,c461,1,0.98,1
+"Cheese from milk of goats, fresh or processed",c470,"Dairy products production, n.e.c.",p404,Dairy products n.e.c.,c461,1,0.98,1
+Butter of goat milk,c471,"Dairy products production, n.e.c.",p404,Dairy products n.e.c.,c461,1,0.98,1
+Skim milk of goat,c472,"Dairy products production, n.e.c.",p404,Dairy products n.e.c.,c461,1,0.98,1
+"Meat of cattle boneless, fresh or chilled",c475,"Bovine meat (salted, dried or smoked) production",p414,"Bovine meat, salted, dried or smoked",c476,0.48,0.4,0.5
+"Meat of cattle boneless, fresh or chilled",c475,"Sausages and similar products of meat, offal or blood of beef and veal production",p416,"Sausages and similar products of meat, offal or blood of beef and veal",c478,0.85,0.8,1
+"Meat of cattle boneless, fresh or chilled",c475,"Beef and veal preparation, nes",p417,beef and veal preparations nes,c479,,0.6,0.9
+"Meat of pig boneless, fresh or chilled",c481,"Sausages and similar products of meat, offal or blood of pig production",p421,"Sausages and similar products of meat, offal or blood of pig",c483,0.85,0.8,1
+"Meat of pig boneless, fresh or chilled",c481,Pig meat preparation,p422,Pig meat preparations,c484,,0.75,1
+"Other meat and edible meat offal, salted, in brine, dried or smoked; edible flours and meals of meat or meat offal",c495,"Food preparations of flour, meal or malt extract production",p243,"Food preparations of flour, meal or malt extract",c281,1.1,1,1.2
+"Cattle, butcher fat",c496,"Animal oils and fats production, n.e.c.",p436,Animal oils and fats n.e.c.,c501,0.93,0.8,1
+"Cattle, butcher fat",c496,Tallow production,p438,Tallow,c503,0.83,0.42,3.01
+"Cattle, butcher fat",c496,"Fat preparation, n.e.c.",p439,Fat preparations n.e.c.,c504,1.05,0.78,1.25
+"Pig, butcher fat",c497,Pig fat (rendered) production,p433,"Pig fat, rendered",c498,0.8,0.42,1.49
+"Pig, butcher fat",c497,"Animal oils and fats production, n.e.c.",p436,Animal oils and fats n.e.c.,c501,0.99,0.8,1
+"Pig, butcher fat",c497,Lard stearine and lard oil production,p437,Lard stearine and lard oil,c502,1,0.98,1
+"Pig, butcher fat",c497,Tallow production,p438,Tallow,c503,0.82,0.42,1.2
+"Pig, butcher fat",c497,"Fat preparation, n.e.c.",p439,Fat preparations n.e.c.,c504,1.13,0.78,1.25
+"Pig fat, rendered",c498,Lard stearine and lard oil production,p437,Lard stearine and lard oil,c502,1,0.92,1
+"Pig fat, rendered",c498,"Fat preparation, n.e.c.",p439,Fat preparations n.e.c.,c504,1.04,0.72,1.18
+Fat of poultry,c499,Poultry fat (rendered) production,p435,"Poultry fat, rendered",c500,0.8,0.79,1
+Fat of poultry,c499,"Fat preparation, n.e.c.",p439,Fat preparations n.e.c.,c504,1.25,1.25,1.25
+"Poultry fat, rendered",c500,"Fat preparation, n.e.c.",p439,Fat preparations n.e.c.,c504,1.03,1,1.05
+Animal oils and fats n.e.c.,c501,Margarine and shortening production,p363,Margarine and shortening,c415,1.23,1.05,1.39
+Animal oils and fats n.e.c.,c501,Tallow production,p438,Tallow,c503,1.02,0.46,2.74
+Animal oils and fats n.e.c.,c501,"Fat preparation, n.e.c.",p439,Fat preparations n.e.c.,c504,0.98,0.78,1.21
+Tallow,c503,Margarine and shortening production,p363,Margarine and shortening,c415,1.19,0.82,1.26
+Tallow,c503,Industrial monocarboxylic fatty acids; acid oils from refining production,p379,Industrial monocarboxylic fatty acids; acid oils from refining,c435,1,0.95,1
+Tallow,c503,"Animal oils and fats production, n.e.c.",p436,Animal oils and fats n.e.c.,c501,0.55,0,1
+Tallow,c503,"Fat preparation, n.e.c.",p439,Fat preparations n.e.c.,c504,1.06,0.8,1.25
+Tallow,c503,Hydrogenated oils and fats production,p441,hydrogenated oils and fats,c506,1.2,1,1.25
+Fat preparations n.e.c.,c504,Margarine and shortening production,p363,Margarine and shortening,c415,1.56,1.56,1.56
+Fat preparations n.e.c.,c504,Lard stearine and lard oil production,p437,Lard stearine and lard oil,c502,1,1,1
+hydrogenated oils and fats,c506,Margarine and shortening production,p363,Margarine and shortening,c415,1.16,1,1.38
+Freshwater Fish,c514,Fish (body oil) production,p457,"Fish, Body Oil",c522,1,0.98,1
+Freshwater Fish,c514,Fish (liver oil) production,p458,"Fish, Liver Oil",c523,1,0.98,1
+Demersal Fish,c515,Fish (body oil) production,p457,"Fish, Body Oil",c522,1,0.98,1
+Demersal Fish,c515,Fish (liver oil) production,p458,"Fish, Liver Oil",c523,1,0.98,1
+Pelagic Fish,c516,Fish (body oil) production,p457,"Fish, Body Oil",c522,1,0.98,1
+Pelagic Fish,c516,Fish (liver oil) production,p458,"Fish, Liver Oil",c523,1,0.98,1
+"Marine Fish, Other",c517,Fish (body oil) production,p457,"Fish, Body Oil",c522,1,0.98,1
+"Marine Fish, Other",c517,Fish (liver oil) production,p458,"Fish, Liver Oil",c523,1,0.98,1

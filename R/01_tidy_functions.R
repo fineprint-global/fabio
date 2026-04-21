@@ -21,7 +21,7 @@ dt_rename <- function(x, rename, drop = TRUE) {
 
 # Replace values where `fun` applies
 dt_replace <- function(x, fun = is.na, value = 0,
-  cols = seq_len(ncol(x)), verbose = TRUE) {
+                       cols = seq_len(ncol(x)), verbose = TRUE) {
 
   n_replaced <- 0
   for(col in cols) {
@@ -31,8 +31,8 @@ dt_replace <- function(x, fun = is.na, value = 0,
   }
   if(verbose) {
     cat("Replaced ", n_replaced, " values where `", deparse(substitute(fun)),
-      "` (applies to columns ", paste0("'", cols, "'", collapse = ", "),
-      ") with ", value, ".\n", sep = "")
+        "` (applies to columns ", paste0("'", cols, "'", collapse = ", "),
+        ") with ", value, ".\n", sep = "")
   }
   return(x)
 }
@@ -63,8 +63,8 @@ dt_filter <- function(x, subset, select, na.rm = TRUE) {
   cat("Removing ", x[!r, .N], " observations via `", deparse(e), "`.\n", sep = "")
   if(na_count > 0) {
     cat(if(na.rm) {"Included"} else {"Excluded"},
-    " were a total of ", na_count,
-    " NA values that could not be compared.\n", sep = "")
+        " were a total of ", na_count,
+        " NA values that could not be compared.\n", sep = "")
   }
 
   return(x[r, vars, with = FALSE])
@@ -82,16 +82,16 @@ area_fix <- function(x, regions, col = "area_code") {
   matched <- match(x[[col]], regions[["code"]])
   if(any(is.na(matched))) {
     na_codes <- unique(x[[col]][is.na(matched)])
-    if(all(na_codes >= 5000)) {
+    if(all(na_codes >= 420)) {
       message("Found no match for grouped areas:\n\t",
-        paste0(unique(x[[col_name]][is.na(matched)]), " - ",
-          na_codes, collapse = ", "),
-        ".\n", "")
+              paste0(unique(x[[col_name]][is.na(matched)]), " - ",
+                     na_codes, collapse = ", "),
+              ".\n", "")
     } else {
       stop("Found no match for:\n\t",
-        paste0(unique(x[[col_name]][is.na(matched)]), " - ",
-          na_codes, collapse = ", "),
-        ".\n")
+           paste0(unique(x[[col_name]][is.na(matched)]), " - ",
+                  na_codes, collapse = ", "),
+           ".\n")
     }
   }
   x[[col_name]] <- regions[matched, name]
@@ -123,7 +123,7 @@ area_kick <- function(x, code, col = "area_code", pattern = "*", groups = TRUE) 
       } else {
         message("Column with names not found. Skipping pattern-check.\n")
         cat("Removing observations of area '", code,
-          "' from the table.\n", sep = "")
+            "' from the table.\n", sep = "")
       }
     }
     x <- x[idx != code, ]
@@ -133,15 +133,15 @@ area_kick <- function(x, code, col = "area_code", pattern = "*", groups = TRUE) 
   # Remove country groups
   if(groups) {
     # To-do: the four three-digit exceptions could be handled cleaner.
-    n_groups <- x[idx >= 5000 | idx %in% c(269, 268, 266, 261), .N]
+    n_groups <- x[idx >= 5000 | idx %in% c(269, 268, 266, 261, 420), .N]
     cat("Found", n_groups, "observations of grouped areas.\n")
     if(n_groups > 0) {
       cat("Removing observations of:\n\t",
-        paste0("'", unique(x[[col_name]][idx >= 5000 |
-          idx %in% c(269, 268, 266, 261)]), "'", collapse = ", "),
-        ".\n", sep = "")
+          paste0("'", unique(x[[col_name]][idx >= 5000 |
+                                             idx %in% c(269, 268, 266, 261, 420)]), "'", collapse = ", "),
+          ".\n", sep = "")
     }
-    x <- x[idx < 5000 & ! idx %in% c(269, 268, 266, 261), ]
+    x <- x[idx < 5000 & ! idx %in% c(269, 268, 266, 261, 420), ]
   }
 
   return(x)
@@ -263,8 +263,8 @@ replace_RoW <- function(x, cols = "area_code", codes) {
     set(x, i = which(fun_applied), j = name_cols[i], "RoW")
   }
   cat("Aggregated ", n_replaced, " areas in columns ",
-    paste0("'", c(cols, name_cols), "'", collapse = ", "),
-    " to 999 / RoW.\n", sep = "")
+      paste0("'", c(cols, name_cols), "'", collapse = ", "),
+      " to 999 / RoW.\n", sep = "")
   return(x)
 }
 
@@ -313,9 +313,252 @@ split_tcf <- function(y, z, C, cap = TRUE) {
   colnames(out) <- colnames(C)
   out[, item_code_proc := rownames(C)[exists]]
   out <- melt(out, id.vars = "item_code_proc", variable.name = "item_code",
-    variable.factor = FALSE)
+              variable.factor = FALSE)
   out[, `:=`(item_code_proc = as.integer(item_code_proc),
-    item_code = as.integer(item_code))]
+             item_code = as.integer(item_code))]
 
   return(out)
+}
+
+# Extension functions --------------
+agg_sua_to_cbs <- function(dt, value_col = "value", cnc = conc, itms = items,
+                           agg_method = "sum", weight_col = NULL) {
+  dt[, item_code_cbs := conc$item_code_cbs[match(item_code, conc$item_code_sua)]]
+  
+  if (agg_method == "sum") {
+    dt <- dt[, .(value = sum(.SD[[value_col]], na.rm = TRUE)),
+             by = .(area_code, year, item_code_cbs)]
+  } else {
+    dt[, total_weight := sum(.SD[[weight_col]], na.rm = TRUE),
+       by = .(area_code, year, item_code_cbs)]
+    dt[, weight_share := .SD[[weight_col]] / total_weight]
+    dt <- dt[, .(value = sum(.SD[[value_col]] * weight_share, na.rm = TRUE)),
+             by = .(area_code, year, item_code_cbs)]
+  }
+  dt[, `:=` (area = regions$name[match(area_code, regions$code)],
+             item = items_cbs$item[match(item_code_cbs, items_cbs$item_code)],
+             comm_code = items_cbs$comm_code[match(item_code_cbs, items_cbs$item_code)])]
+  
+  return(dt)
+}
+
+format_extension <- function(dt, yrs = years, reg = regions, itms = items,
+                             value_col = "value") {
+  
+  template <- CJ(year = yrs, area_code = reg$code, 
+                 comm_code = itms$comm_code)  
+  template[, iso3c := reg$iso3c[match(area_code, reg$code)]]  
+  result_list <- lapply(yrs, function(yr) {
+    
+    tmpl_yr <- template[year == yr]
+    dt_yr <- dt[year == yr]
+    
+    vals <- dt_yr[[value_col]]
+    
+    values <- vals[match(paste(tmpl_yr$area_code, tmpl_yr$comm_code),
+                         paste(dt_yr$area_code, dt_yr$comm_code))]
+    values[is.na(values)] <- 0
+    
+    col_names <- paste(tmpl_yr$iso3c, tmpl_yr$comm_code, sep = "_")
+    
+    matrix(values, nrow = 1, dimnames = list(NULL, col_names))
+  })
+  
+  setNames(result_list, yrs)
+}
+
+# function to convert environmental extension back into list (or long table) that is by 
+# environmental pressure, not by year
+unformat_extension <- function(data, ext_names, long = TRUE) {
+  if (long) {
+    out <- rbindlist(
+      lapply(ext_names, function(p) {
+        rbindlist(
+          lapply(names(data[[p]]), function(yr) {
+            mat <- data[[p]][[yr]]
+            data.table(
+              year    = as.integer(yr),
+              col_key = colnames(mat),
+              value   = as.numeric(mat)
+            )
+          })
+        )[, ext := p]
+      })
+    )
+    out[, `:=`(iso3c = substr(col_key, 1, 3), comm_code = substr(col_key, 5, 8))]
+    out[, col_key := NULL]
+    setcolorder(out, c("year", "iso3c", "comm_code", "ext", "value"))
+    return(out)
+  } else {
+    out <- lapply(ext_names, function(p) {
+      rbindlist(
+        lapply(names(data[[p]]), function(yr) {
+          mat <- data[[p]][[yr]]
+          dt <- data.table(
+            year      = as.integer(yr),
+            col_key   = colnames(mat),
+            value     = as.numeric(mat)
+          )
+          dt[, `:=`(iso3c = substr(col_key, 1, 3), comm_code = substr(col_key, 5, 8))]
+          dt[, col_key := NULL]
+          setcolorder(dt, c("iso3c", "comm_code", "year", "value"))
+          dt
+        })
+      )
+    })
+    names(out) <- ext_names
+    return(out)
+  }
+}
+
+set_co2eq <- function(nm, lst, gwp) {
+  dt <- copy(lst[[nm]])
+  dt[, GWP := gwp[nm]]
+  dt[, value := value * GWP]
+  dt
+}
+
+# This function adds up all co2eq totals from different ghgs
+merge_gwp_lists <- function(prefix) {
+  
+  matching_names <- ls(envir = .GlobalEnv, pattern = paste0("^", prefix, "_"))
+  
+  dt_list <- list()
+  
+  for (list_name in matching_names) {
+    gwp_list <- get(list_name, envir = .GlobalEnv)
+    
+    # Find the element whose name ends in one of the gas names (these are the co2eq for each gas)
+    gas <- grep(paste0(gases, "$", collapse = "|"), names(gwp_list), value = TRUE)
+    
+    dt <- gwp_list[[gas]]
+    
+    if (is.data.table(dt)) {
+      dt_list[[list_name]] <- dt
+    }
+  }
+  
+  combined <- rbindlist(dt_list, use.names = TRUE)
+  gwp_total <- combined[, .(value = sum(value, na.rm = TRUE)), 
+                        by = .(area_code, year, item_code)]
+  
+  return(gwp_total)
+}
+
+# this function renames columns from lc-impact and functional diversity biodiversity
+# characterization factors from BAMBOO
+tidy_cfs <-  function(dt, cols_to_remove = cols_remove, old_nms = old_names, 
+                      new_nms = new_names){
+  dt[, intersect(cols_to_remove, names(dt)) := NULL]
+  setnames(dt, old_nms, new_nms, skip_absent = TRUE)
+  
+  # deal with Sudan and Netherlands Antilles
+  if (!"SSD" %in% dt$iso3c && "SDN" %in% dt$iso3c) {
+    sudan_rows <- copy(dt[iso3c == "SDN"])
+    sudan_rows[, `:=`(iso3c = "SSD", area = "South Sudan")]
+    dt <- rbind(dt, sudan_rows)
+  }
+  
+  if (!"ANT" %in% dt$iso3c && "ATG" %in% dt$iso3c) {
+    nant_rows <- copy(dt[iso3c == "ATG"])
+    nant_rows[, `:=`(iso3c = "ANT", area = "Netherlands Antilles")]
+    dt <- rbind(dt, nant_rows)
+  }
+  
+  dt
+}
+
+
+
+# this function merges lc-impact pressures and impacts (can be used for lc-impact directly
+# and for ecosystem functionality CFs) merges by iso3c for non-climate CFs and 
+# adds all climate CFs with cbind
+# needs wide tables with pressure types in column names as inputs (1 row for climate,
+# 187 rows for non-climate)
+merging_pressures_impacts <- function(pressures, dt, climate_dt = NULL) {
+  impacts <- lapply(names(pressures), function(nm) {
+    cols <- c("iso3c", colnames(dt)[grepl(nm, colnames(dt))])
+    merged <- if(length(cols) > 1) {
+      merge(pressures[[nm]], dt[, ..cols], by = "iso3c", all.x = TRUE, sort = FALSE)
+    } else {
+      pressures[[nm]]
+    }
+    
+    if(!is.null(climate_dt) && nm %like% "ghg") {
+      climate_cols <- colnames(climate_dt)[grepl(nm, colnames(climate_dt))]
+      if(length(climate_cols) > 0) {
+        merged <- cbind(merged, climate_dt[, ..climate_cols])
+      }
+    }
+    
+    #setnames(merged, names(merged), gsub(paste0(nm, "_"), "", names(merged)))
+    merged
+  })
+  names(impacts) <- names(pressures)
+  impacts
+}
+
+# this function takes an output list from "merging_pressures_impacts" and multiplies
+# pressures with impacts
+multiply_pressures_impacts <- function(impacts_list, key_cols) {
+  invisible(lapply(names(impacts_list), function(nm) {
+    dt <- impacts_list[[nm]]
+    cols <- setdiff(colnames(dt), key_cols)
+    dt[, (cols) := lapply(.SD, function(x) x * value), .SDcols = cols]
+    dt[, value := NULL]
+    setnames(dt, cols, gsub("cf_", "", cols))
+  }))
+}
+
+# this function aggregates impacts from a wide table within the same impact categories
+# and realms
+
+aggregate_impact_categories <- function(impacts, impact_categories, realms) {
+  invisible(lapply(impact_categories, function(cat) {
+    cols <- colnames(impacts)[colnames(impacts) %like% cat]
+    if(length(cols) > 0) {
+      impacts[, (cat) := rowSums(.SD, na.rm = TRUE), .SDcols = cols]
+      impacts[, (cols) := NULL]
+    }
+  }))
+  
+  invisible(lapply(realms, function(r) {
+    cols <- colnames(impacts)[colnames(impacts) %like% r]
+    if(length(cols) > 0) {
+      impacts[, (r) := rowSums(.SD, na.rm = TRUE), .SDcols = cols]
+    }
+  }))
+}
+
+# This function compiles the individual extensions into one big one
+compile_extension <- function(data, files, yrs = years) {
+  result <- lapply(yrs, function(yr) {
+    do.call(rbind, lapply(data, function(x) x[[as.character(yr)]]))
+  })
+  names(result) <- yrs
+  row_names <- tools::file_path_sans_ext(basename(files))
+  for (yr in as.character(yrs)) {
+    rownames(result[[yr]]) <- row_names
+  }
+  result
+}
+
+read_excel_sheets <- function(filename, sheets = NULL) {
+  all_sheets <- readxl::excel_sheets(filename)
+  
+  if (!is.null(sheets)) {
+    invalid <- setdiff(sheets, all_sheets)
+    if (length(invalid) > 0) {
+      stop("The following sheets were not found: ", paste(invalid, collapse = ", "))
+    }
+    sheets_out <- intersect(all_sheets, sheets)  
+  } else {
+    sheets_out <- all_sheets
+  }
+  
+  x <- lapply(sheets_out, function(X) readxl::read_excel(filename, sheet = X))
+  x <- lapply(x, as.data.table)
+  names(x) <- sheets_out
+  
+  x
 }

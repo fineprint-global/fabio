@@ -14,6 +14,7 @@ crop_item_code,crop_item,cbs_item_code,cbs_item,tcf
 101,Canary seed,2520,"Cereals, Other",1
 103,"Grain, mixed",2520,"Cereals, Other",1
 108,"Cereals, nes",2520,"Cereals, Other",1
+108,"Cereals nes",2520,"Cereals, Other",1
 116,Potatoes,2531,Potatoes and products,1
 122,Sweet potatoes,2533,Sweet potatoes,1
 125,Cassava,2532,Cassava and products,1
@@ -21,9 +22,11 @@ crop_item_code,crop_item,cbs_item_code,cbs_item,tcf
 136,Taro (cocoyam),2534,"Roots, Other",1
 137,Yams,2535,Yams,1
 149,"Roots and tubers, nes",2534,"Roots, Other",1
+149,"Roots and tubers nes",2534,"Roots, Other",1
 156,Sugar cane,2536,Sugar cane,1
 157,Sugar beet,2537,Sugar beet,1
 161,"Sugar crops, nes",2543,"Sweeteners, Other",1
+161,"Sugar crops nes",2543,"Sweeteners, Other",1
 176,"Beans, dry",2546,Beans,1
 181,"Broad beans, horse beans, dry",2549,"Pulses, Other and products",1
 187,"Peas, dry",2547,Peas,1
@@ -35,6 +38,7 @@ crop_item_code,crop_item,cbs_item_code,cbs_item,tcf
 205,Vetches,2549,"Pulses, Other and products",1
 210,Lupins,2549,"Pulses, Other and products",1
 211,"Pulses, nes",2549,"Pulses, Other and products",1
+211,"Pulses nes",2549,"Pulses, Other and products",1
 216,"Brazil nuts, with shell",2551,Nuts and products,1
 217,"Cashew nuts, with shell",2551,Nuts and products,1
 220,Chestnut,2551,Nuts and products,1
@@ -45,10 +49,12 @@ crop_item_code,crop_item,cbs_item_code,cbs_item,tcf
 225,"Hazelnuts, with shell",2551,Nuts and products,1
 226,Areca nuts,2551,Nuts and products,1
 234,"Nuts, nes",2551,Nuts and products,1
+234,"Nuts nes",2551,Nuts and products,1
 236,Soybeans,2555,Soyabeans,1
 242,"Groundnuts, with shell",2552,Groundnuts,1
 249,Coconuts,2560,Coconuts - Incl Copra,1
 254,"Oil, palm fruit",254,"Oil, palm fruit",1
+254,"Oil palm fruit",254,"Oil, palm fruit",1
 256,Palm kernels,2562,Palm kernels,1
 257,"Oil, palm",2577,Palm Oil,1
 260,Olives,2563,Olives (including preserved),1
@@ -100,6 +106,7 @@ crop_item_code,crop_item,cbs_item_code,cbs_item,tcf
 463,"Vegetables, fresh nes",2605,"Vegetables, Other",1
 486,Bananas,2615,Bananas,1
 489,Plantains,2616,Plantains,1
+489,Plantains and others,2616,Plantains,1
 490,Oranges,2611,"Oranges, Mandarines",1
 495,"Tangerines, mandarins, clementines, satsumas",2611,"Oranges, Mandarines",1
 497,Lemons and limes,2612,"Lemons, Limes and products",1
@@ -145,11 +152,13 @@ crop_item_code,crop_item,cbs_item_code,cbs_item,tcf
 689,"Chillies and peppers, dry",2641,Pimento,1
 692,Vanilla,2645,"Spices, Other",1
 693,Cinnamon (canella),2645,"Spices, Other",1
+693,Cinnamon (cannella),2645,"Spices, Other",1
 698,Cloves,2642,Cloves,1
 702,"Nutmeg, mace and cardamoms",2645,"Spices, Other",1
 711,"Anise, badian, fennel, coriander",2645,"Spices, Other",1
 720,Ginger,2645,"Spices, Other",1
 723,"Spices, nes",2645,"Spices, Other",1
+723,"Spices nes",2645,"Spices, Other",1
 748,Peppermint,2645,"Spices, Other",1
 754,"Pyrethrum, dried",2645,"Spices, Other",1
 767,Cotton lint,2661,Cotton lint,1
@@ -231,3 +240,4 @@ crop_item_code,crop_item,cbs_item_code,cbs_item,tcf
 338,"Cake, hempseed",2598,"Oilseed Cakes, Other",1
 37,"Cake, rice bran",2598,"Oilseed Cakes, Other",1
 61,"Cake, maize",2598,"Oilseed Cakes, Other",1
+

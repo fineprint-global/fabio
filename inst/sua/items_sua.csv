@@ -1,0 +1,526 @@
+item,comm_code,item_code,group,comm_group,processed,unit,type
+Wheat,c001,15,cereals (excluding beer),vegetal products,FALSE,tonnes,annual
+Rice,c002,27,cereals (excluding beer),vegetal products,FALSE,tonnes,annual
+Barley,c003,44,cereals (excluding beer),vegetal products,FALSE,tonnes,annual
+Maize (corn),c004,56,cereals (excluding beer),vegetal products,FALSE,tonnes,annual
+Rye,c005,71,cereals (excluding beer),vegetal products,FALSE,tonnes,annual
+Oats,c006,75,cereals (excluding beer),vegetal products,FALSE,tonnes,annual
+Millet,c007,79,cereals (excluding beer),vegetal products,FALSE,tonnes,annual
+Sorghum,c008,83,cereals (excluding beer),vegetal products,FALSE,tonnes,annual
+Buckwheat,c009,89,cereals (excluding beer),vegetal products,FALSE,tonnes,annual
+Quinoa,c010,92,cereals (excluding beer),vegetal products,FALSE,tonnes,annual
+Fonio,c011,94,cereals (excluding beer),vegetal products,FALSE,tonnes,annual
+Triticale,c012,97,cereals (excluding beer),vegetal products,FALSE,tonnes,annual
+Canary seed,c013,101,cereals (excluding beer),vegetal products,FALSE,tonnes,annual
+Mixed grain,c014,103,cereals (excluding beer),vegetal products,FALSE,tonnes,annual
+Cereals n.e.c.,c015,108,cereals (excluding beer),vegetal products,FALSE,tonnes,annual
+Potatoes,c016,116,starchy roots,vegetal products,FALSE,tonnes,annual
+Sweet potatoes,c017,122,starchy roots,vegetal products,FALSE,tonnes,annual
+"Cassava, fresh",c018,125,starchy roots,vegetal products,FALSE,tonnes,annual
+Yautia,c019,135,starchy roots,vegetal products,FALSE,tonnes,annual
+Taro,c020,136,starchy roots,vegetal products,FALSE,tonnes,annual
+Yams,c021,137,starchy roots,vegetal products,FALSE,tonnes,annual
+"Edible roots and tubers with high starch or inulin content, n.e.c., fresh",c022,149,starchy roots,vegetal products,FALSE,tonnes,annual
+Sugar cane,c023,156,sugar crops,vegetal products,FALSE,tonnes,annual
+Sugar beet,c024,157,sugar crops,vegetal products,FALSE,tonnes,annual
+Other sugar crops n.e.c.,c025,161,sugar crops,vegetal products,FALSE,tonnes,annual
+"Beans, dry",c026,176,pulses,vegetal products,FALSE,tonnes,annual
+"Broad beans and horse beans, dry",c027,181,pulses,vegetal products,FALSE,tonnes,annual
+"Peas, dry",c028,187,pulses,vegetal products,FALSE,tonnes,annual
+"Chick peas, dry",c029,191,pulses,vegetal products,FALSE,tonnes,annual
+"Cow peas, dry",c030,195,pulses,vegetal products,FALSE,tonnes,annual
+"Pigeon peas, dry",c031,197,pulses,vegetal products,FALSE,tonnes,annual
+"Lentils, dry",c032,201,pulses,vegetal products,FALSE,tonnes,annual
+"Bambara beans, dry",c033,203,pulses,vegetal products,FALSE,tonnes,annual
+Vetches,c034,205,pulses,vegetal products,FALSE,tonnes,annual
+Lupins,c035,210,pulses,vegetal products,FALSE,tonnes,annual
+Other pulses n.e.c.,c036,211,pulses,vegetal products,FALSE,tonnes,annual
+"Brazil nuts, in shell",c037,216,treenuts,vegetal products,FALSE,tonnes,perennial
+"Cashew nuts, in shell",c038,217,treenuts,vegetal products,FALSE,tonnes,perennial
+"Chestnuts, in shell",c039,220,treenuts,vegetal products,FALSE,tonnes,perennial
+"Almonds, in shell",c040,221,treenuts,vegetal products,FALSE,tonnes,perennial
+"Walnuts, in shell",c041,222,treenuts,vegetal products,FALSE,tonnes,perennial
+"Pistachios, in shell",c042,223,treenuts,vegetal products,FALSE,tonnes,perennial
+"Hazelnuts, in shell",c043,225,treenuts,vegetal products,FALSE,tonnes,perennial
+Areca nuts,c044,226,treenuts,vegetal products,FALSE,tonnes,perennial
+"Other nuts (excluding wild edible nuts and groundnuts), in shell, n.e.c.",c045,234,treenuts,vegetal products,FALSE,tonnes,perennial
+Kola nuts,c046,224,treenuts,vegetal products,FALSE,tonnes,perennial
+Karite nuts (sheanuts),c047,263,oilcrops,vegetal products,FALSE,tonnes,perennial
+Soya beans,c048,236,oilcrops,vegetal products,FALSE,tonnes,annual
+"Groundnuts, excluding shelled",c049,242,oilcrops,vegetal products,FALSE,tonnes,perennial
+"Coconuts, in shell",c050,249,oilcrops,vegetal products,FALSE,tonnes,perennial
+Oil palm fruit,c051,254,oilcrops,vegetal products,FALSE,tonnes,perennial
+Olives,c052,260,oilcrops,vegetal products,FALSE,tonnes,perennial
+Castor oil seeds,c053,265,oilcrops,vegetal products,FALSE,tonnes,annual
+Sunflower seed,c054,267,oilcrops,vegetal products,FALSE,tonnes,annual
+Rape or colza seed,c055,270,oilcrops,vegetal products,FALSE,tonnes,annual
+Tung nuts,c056,275,oilcrops,vegetal products,FALSE,tonnes,perennial
+Jojoba seeds,c057,277,oilcrops,vegetal products,FALSE,tonnes,perennial
+Safflower seed,c058,280,oilcrops,vegetal products,FALSE,tonnes,annual
+Sesame seed,c059,289,oilcrops,vegetal products,FALSE,tonnes,annual
+Mustard seed,c060,292,oilcrops,vegetal products,FALSE,tonnes,annual
+Poppy seed,c061,296,oilcrops,vegetal products,FALSE,tonnes,annual
+Melonseed,c062,299,oilcrops,vegetal products,FALSE,tonnes,annual
+Tallowtree seeds,c063,305,oilcrops,vegetal products,FALSE,tonnes,perennial
+Linseed,c064,333,oilcrops,vegetal products,FALSE,tonnes,annual
+Hempseed,c065,336,oilcrops,vegetal products,FALSE,tonnes,annual
+"Other oil seeds, n.e.c.",c066,339,oilcrops,vegetal products,FALSE,tonnes,annual
+Cassava leaves,c067,378,vegetables,vegetal products,FALSE,tonnes,annual
+Chicory roots,c068,459,vegetables,vegetal products,FALSE,tonnes,annual
+Locust beans (carobs),c069,461,vegetables,vegetal products,FALSE,tonnes,annual
+Cabbages,c070,358,vegetables,vegetal products,FALSE,tonnes,annual
+Artichokes,c071,366,vegetables,vegetal products,FALSE,tonnes,annual
+Asparagus,c072,367,vegetables,vegetal products,FALSE,tonnes,annual
+Lettuce and chicory,c073,372,vegetables,vegetal products,FALSE,tonnes,annual
+Spinach,c074,373,vegetables,vegetal products,FALSE,tonnes,annual
+Tomatoes,c075,388,vegetables,vegetal products,FALSE,tonnes,annual
+Cauliflowers and broccoli,c076,393,vegetables,vegetal products,FALSE,tonnes,annual
+"Pumpkins, squash and gourds",c077,394,vegetables,vegetal products,FALSE,tonnes,annual
+Cucumbers and gherkins,c078,397,vegetables,vegetal products,FALSE,tonnes,annual
+Eggplants (aubergines),c079,399,vegetables,vegetal products,FALSE,tonnes,annual
+"Chillies and peppers, green (Capsicum spp. and Pimenta spp.)",c080,401,vegetables,vegetal products,FALSE,tonnes,annual
+"Onions and shallots, green",c081,402,vegetables,vegetal products,FALSE,tonnes,annual
+"Onions and shallots, dry (excluding dehydrated)",c082,403,vegetables,vegetal products,FALSE,tonnes,annual
+Green garlic,c083,406,vegetables,vegetal products,FALSE,tonnes,annual
+Leeks and other alliaceous vegetables,c084,407,vegetables,vegetal products,FALSE,tonnes,annual
+"Other beans, green",c085,414,vegetables,vegetal products,FALSE,tonnes,annual
+"Peas, green",c086,417,vegetables,vegetal products,FALSE,tonnes,annual
+"Broad beans and horse beans, green",c087,420,vegetables,vegetal products,FALSE,tonnes,annual
+String beans,c088,423,vegetables,vegetal products,FALSE,tonnes,annual
+Carrots and turnips,c089,426,vegetables,vegetal products,FALSE,tonnes,annual
+Okra,c090,430,vegetables,vegetal products,FALSE,tonnes,annual
+Green corn (maize),c091,446,vegetables,vegetal products,FALSE,tonnes,annual
+Mushrooms and truffles,c092,449,vegetables,vegetal products,FALSE,tonnes,annual
+"Other vegetables, fresh n.e.c.",c093,463,vegetables,vegetal products,FALSE,tonnes,annual
+Watermelons,c094,567,vegetables,vegetal products,FALSE,tonnes,annual
+Cantaloupes and other melons,c095,568,vegetables,vegetal products,FALSE,tonnes,annual
+Bananas,c096,486,fruits (excluding wine),vegetal products,FALSE,tonnes,perennial
+Plantains and cooking bananas,c097,489,fruits (excluding wine),vegetal products,FALSE,tonnes,perennial
+Oranges,c098,490,fruits (excluding wine),vegetal products,FALSE,tonnes,perennial
+"Tangerines, mandarins, clementines",c099,495,fruits (excluding wine),vegetal products,FALSE,tonnes,perennial
+Lemons and limes,c100,497,fruits (excluding wine),vegetal products,FALSE,tonnes,perennial
+Pomelos and grapefruits,c101,507,fruits (excluding wine),vegetal products,FALSE,tonnes,perennial
+"Other citrus fruit, n.e.c.",c102,512,fruits (excluding wine),vegetal products,FALSE,tonnes,perennial
+Apples,c103,515,fruits (excluding wine),vegetal products,FALSE,tonnes,perennial
+Pears,c104,521,fruits (excluding wine),vegetal products,FALSE,tonnes,perennial
+Quinces,c105,523,fruits (excluding wine),vegetal products,FALSE,tonnes,perennial
+Apricots,c106,526,fruits (excluding wine),vegetal products,FALSE,tonnes,perennial
+Sour cherries,c107,530,fruits (excluding wine),vegetal products,FALSE,tonnes,perennial
+Cherries,c108,531,fruits (excluding wine),vegetal products,FALSE,tonnes,perennial
+Peaches and nectarines,c109,534,fruits (excluding wine),vegetal products,FALSE,tonnes,perennial
+Plums and sloes,c110,536,fruits (excluding wine),vegetal products,FALSE,tonnes,perennial
+Other stone fruits,c111,541,fruits (excluding wine),vegetal products,FALSE,tonnes,perennial
+Other pome fruits,c112,542,fruits (excluding wine),vegetal products,FALSE,tonnes,perennial
+Strawberries,c113,544,fruits (excluding wine),vegetal products,FALSE,tonnes,perennial
+Raspberries,c114,547,fruits (excluding wine),vegetal products,FALSE,tonnes,perennial
+Gooseberries,c115,549,fruits (excluding wine),vegetal products,FALSE,tonnes,perennial
+Currants,c116,550,fruits (excluding wine),vegetal products,FALSE,tonnes,perennial
+Blueberries,c117,552,fruits (excluding wine),vegetal products,FALSE,tonnes,perennial
+Cranberries,c118,554,fruits (excluding wine),vegetal products,FALSE,tonnes,perennial
+Other berries and fruits of the genus vaccinium n.e.c.,c119,558,fruits (excluding wine),vegetal products,FALSE,tonnes,perennial
+Grapes,c120,560,fruits (excluding wine),vegetal products,FALSE,tonnes,perennial
+Figs,c121,569,fruits (excluding wine),vegetal products,FALSE,tonnes,perennial
+"Mangoes, guavas and mangosteens",c122,571,fruits (excluding wine),vegetal products,FALSE,tonnes,perennial
+Avocados,c123,572,fruits (excluding wine),vegetal products,FALSE,tonnes,perennial
+Pineapples,c124,574,fruits (excluding wine),vegetal products,FALSE,tonnes,perennial
+Dates,c125,577,fruits (excluding wine),vegetal products,FALSE,tonnes,perennial
+Persimmons,c126,587,fruits (excluding wine),vegetal products,FALSE,tonnes,perennial
+Cashewapple,c127,591,fruits (excluding wine),vegetal products,FALSE,tonnes,perennial
+Kiwi fruit,c128,592,fruits (excluding wine),vegetal products,FALSE,tonnes,perennial
+Papayas,c129,600,fruits (excluding wine),vegetal products,FALSE,tonnes,perennial
+"Other tropical fruits, n.e.c.",c130,603,fruits (excluding wine),vegetal products,FALSE,tonnes,perennial
+"Other fruits, n.e.c.",c131,619,fruits (excluding wine),vegetal products,FALSE,tonnes,perennial
+"Coffee, green",c132,656,stimulants,vegetal products,FALSE,tonnes,annual
+Cocoa beans,c133,661,stimulants,vegetal products,FALSE,tonnes,perennial
+Tea leaves,c134,667,stimulants,vegetal products,FALSE,tonnes,annual
+Maté leaves,c135,671,stimulants,vegetal products,FALSE,tonnes,annual
+"Pepper (Piper spp.), raw",c136,687,spices,vegetal products,FALSE,tonnes,perennial
+"Chillies and peppers, dry (Capsicum spp., Pimenta spp.), raw",c137,689,spices,vegetal products,FALSE,tonnes,annual
+"Vanilla, raw",c138,692,spices,vegetal products,FALSE,tonnes,perennial
+"Cinnamon and cinnamon-tree flowers, raw",c139,693,spices,vegetal products,FALSE,tonnes,perennial
+"Cloves (whole stems), raw",c140,698,spices,vegetal products,FALSE,tonnes,perennial
+"Nutmeg, mace, cardamoms, raw",c141,702,spices,vegetal products,FALSE,tonnes,perennial
+"Anise, badian, coriander, cumin, caraway, fennel and juniper berries, raw",c142,711,spices,vegetal products,FALSE,tonnes,annual
+"Ginger, raw",c143,720,spices,vegetal products,FALSE,tonnes,perennial
+"Other stimulant, spice and aromatic crops, n.e.c.",c144,723,spices,vegetal products,FALSE,tonnes,perennial
+"Peppermint, spearmint",c145,748,spices,vegetal products,FALSE,tonnes,perennial
+"Seed cotton, unginned",c146,328,fibre crops,vegetal products,FALSE,tonnes,annual
+"True hemp, raw or retted",c147,777,fibre crops,vegetal products,FALSE,tonnes,annual
+"Jute, raw or retted",c148,780,fibre crops,vegetal products,FALSE,tonnes,annual
+"Kenaf, and other textile bast fibres, raw or retted",c149,782,fibre crops,vegetal products,FALSE,tonnes,annual
+"Ramie, raw or retted",c150,788,fibre crops,vegetal products,FALSE,tonnes,perennial
+"Sisal, raw",c151,789,fibre crops,vegetal products,FALSE,tonnes,perennial
+"Agave fibres, raw, n.e.c.",c152,800,fibre crops,vegetal products,FALSE,tonnes,perennial
+"Abaca, manila hemp, raw",c153,809,fibre crops,vegetal products,FALSE,tonnes,perennial
+"Coir, raw",c154,813,fibre crops,vegetal products,FALSE,tonnes,perennial
+"Other fibre crops, raw, n.e.c.",c155,821,fibre crops,vegetal products,FALSE,tonnes,annual
+"Flax, raw or retted",c156,771,fibre crops,vegetal products,FALSE,tonnes,"annual"
+Fodder crops,c157,2000,fodder crops,vegetal products,FALSE,tonnes,"annual"
+Grazing,c158,2001,grazing,vegetal products,FALSE,tonnes,""
+Kapok fruit,c159,310,other vegetal products,vegetal products,FALSE,tonnes,perennial
+Hop cones,c160,677,other vegetal products,vegetal products,FALSE,tonnes,perennial
+"Pyrethrum, dried flowers",c161,754,other vegetal products,vegetal products,FALSE,tonnes,perennial
+Unmanufactured tobacco,c162,826,other vegetal products,vegetal products,FALSE,tonnes,annual
+Natural rubber in primary forms,c163,836,other vegetal products,vegetal products,FALSE,tonnes,perennial
+Cattle,c164,866,live animals,live animals,FALSE,head,""
+Buffalo,c165,946,live animals,live animals,FALSE,head,""
+Sheep,c166,976,live animals,live animals,FALSE,head,""
+Goats,c167,1016,live animals,live animals,FALSE,head,""
+Swine / pigs,c168,1034,live animals,live animals,FALSE,head,""
+Chickens,c169,1057,live animals,live animals,FALSE,1000 head,""
+Ducks,c170,1068,live animals,live animals,FALSE,1000 head,""
+Geese,c171,1072,live animals,live animals,FALSE,1000 head,""
+Turkeys,c172,1079,live animals,live animals,FALSE,1000 head,""
+Other birds,c173,1083,live animals,live animals,FALSE,1000 head,""
+Horses,c174,1096,live animals,live animals,FALSE,head,""
+Asses,c175,1107,live animals,live animals,FALSE,head,""
+Mules and hinnies,c176,1110,live animals,live animals,FALSE,head,""
+Camels,c177,1126,live animals,live animals,FALSE,head,""
+Rabbits and hares,c178,1140,live animals,live animals,FALSE,1000 head,""
+Other rodents,c179,1150,live animals,live animals,FALSE,1000 head,""
+Other camelids,c180,1157,live animals,live animals,FALSE,head,""
+"Meat of cattle with the bone, fresh or chilled",c181,867,meat,animal products,FALSE,tonnes,""
+"Meat of buffalo, fresh or chilled",c182,947,meat,animal products,FALSE,tonnes,""
+"Meat of sheep, fresh or chilled",c183,977,meat,animal products,FALSE,tonnes,""
+"Meat of goat, fresh or chilled",c184,1017,meat,animal products,FALSE,tonnes,""
+"Meat of pig with the bone, fresh or chilled",c185,1035,meat,animal products,FALSE,tonnes,""
+"Meat of chickens, fresh or chilled",c186,1058,meat,animal products,FALSE,tonnes,""
+"Meat of ducks, fresh or chilled",c187,1069,meat,animal products,FALSE,tonnes,""
+"Meat of geese, fresh or chilled",c188,1073,meat,animal products,FALSE,tonnes,""
+"Meat of turkeys, fresh or chilled",c189,1080,meat,animal products,FALSE,tonnes,""
+"Meat of pigeons and other birds n.e.c., fresh, chilled or frozen",c190,1089,meat,animal products,FALSE,tonnes,""
+"Horse meat, fresh or chilled",c191,1097,meat,animal products,FALSE,tonnes,""
+"Meat of asses, fresh or chilled",c192,1108,meat,animal products,FALSE,tonnes,""
+"Meat of mules, fresh or chilled",c193,1111,meat,animal products,FALSE,tonnes,""
+"Meat of camels, fresh or chilled",c194,1127,meat,animal products,FALSE,tonnes,""
+"Meat of rabbits and hares, fresh or chilled",c195,1141,meat,animal products,FALSE,tonnes,""
+"Meat of other domestic rodents, fresh or chilled",c196,1151,meat,animal products,FALSE,tonnes,""
+"Meat of other domestic camelids, fresh or chilled",c197,1158,meat,animal products,FALSE,tonnes,""
+"Game meat, fresh, chilled or frozen",c198,1163,meat,animal products,FALSE,tonnes,""
+"Snails, fresh, chilled, frozen, dried, salted or in brine, except sea snails",c199,1176,meat,animal products,FALSE,tonnes,""
+"Edible offal of cattle, fresh, chilled or frozen",c200,868,offals,animal products,FALSE,tonnes,""
+"Edible offal of buffalo, fresh, chilled or frozen",c201,948,offals,animal products,FALSE,tonnes,""
+"Edible offal of sheep, fresh, chilled or frozen",c202,978,offals,animal products,FALSE,tonnes,""
+"Edible offal of goat, fresh, chilled or frozen",c203,1018,offals,animal products,FALSE,tonnes,""
+"Edible offal of pigs, fresh, chilled or frozen",c204,1036,offals,animal products,FALSE,tonnes,""
+"Edible offals of camels and other camelids, fresh, chilled or frozen",c205,1128,offals,animal products,FALSE,tonnes,""
+"Cattle fat, unrendered",c206,869,animal fats,animal products,FALSE,tonnes,""
+"Buffalo fat, unrendered",c207,949,animal fats,animal products,FALSE,tonnes,""
+"Sheep fat, unrendered",c208,979,animal fats,animal products,FALSE,tonnes,""
+"Goat fat, unrendered",c209,1019,animal fats,animal products,FALSE,tonnes,""
+Fat of pigs,c210,1037,animal fats,animal products,FALSE,tonnes,""
+Fat of camels,c211,1129,animal fats,animal products,FALSE,tonnes,""
+Fat of other camelids,c212,1160,animal fats,animal products,FALSE,tonnes,""
+Raw milk of cattle,c213,882,milk (excluding butter),animal products,FALSE,tonnes,""
+Raw milk of buffalo,c214,951,milk (excluding butter),animal products,FALSE,tonnes,""
+Raw milk of sheep,c215,982,milk (excluding butter),animal products,FALSE,tonnes,""
+Raw milk of goats,c216,1020,milk (excluding butter),animal products,FALSE,tonnes,""
+Raw milk of camel,c217,1130,milk (excluding butter),animal products,FALSE,tonnes,""
+"Hen eggs in shell, fresh",c218,1062,eggs,animal products,FALSE,tonnes,""
+"Eggs from other birds in shell, fresh, n.e.c.",c219,1091,eggs,animal products,FALSE,tonnes,""
+Raw hides and skins of cattle,c220,919,hides and skins,animal products,FALSE,tonnes,""
+Raw hides and skins of buffaloes,c221,957,hides and skins,animal products,FALSE,tonnes,""
+Freshwater Fish,c222,2761,aquatic products,animal products,FALSE,tonnes,""
+Demersal Fish,c223,2762,aquatic products,animal products,FALSE,tonnes,""
+Pelagic Fish,c224,2763,aquatic products,animal products,FALSE,tonnes,""
+"Marine Fish, Other",c225,2764,aquatic products,animal products,FALSE,tonnes,""
+Crustaceans,c226,2765,aquatic products,animal products,FALSE,tonnes,""
+Cephalopods,c227,2766,aquatic products,animal products,FALSE,tonnes,""
+"Molluscs, Other",c228,2767,aquatic products,animal products,FALSE,tonnes,""
+"Aquatic Animals, Others",c229,2769,aquatic products,animal products,FALSE,tonnes,""
+"Aquatic Products, Other",c230,2961,aquatic products,animal products,FALSE,tonnes,""
+Natural honey,c231,1182,other animal products,animal products,FALSE,tonnes,""
+"Shorn wool, greasy, including fleece-washed shorn wool",c232,987,other animal products,animal products,FALSE,tonnes,""
+Beeswax,c233,1183,other animal products,animal products,FALSE,tonnes,""
+Wheat and meslin flour,c234,16,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+Bran of wheat,c235,17,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+"Uncooked pasta, not stuffed or otherwise prepared",c236,18,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+Germ of wheat,c237,19,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+Bread,c238,20,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+Bulgur,c239,21,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+Pastry,c240,22,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+Starch of wheat,c241,23,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+Wheat gluten,c242,24,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+Husked rice,c243,28,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+"Rice, milled (husked)",c244,29,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+"Rice, milled",c245,31,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+"Rice, broken",c246,32,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+"Rice, gluten",c247,33,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+Starch of rice,c248,34,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+Bran of rice,c249,35,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+Cake of rice bran,c250,37,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+Flour of rice,c251,38,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+Breakfast cereals,c252,41,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+Pot barley,c253,45,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+"Barley, pearled",c254,46,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+Bran of barley,c255,47,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+Barley flour and grits,c256,48,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+"Malt, whether or not roasted",c257,49,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+Malt extract,c258,50,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+Germ of maize,c259,57,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+Flour of maize,c260,58,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+Bran of maize,c261,59,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+Cake of maize,c262,61,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+Maize gluten,c263,63,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+Starch of maize,c264,64,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+Flour of rye,c265,72,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+Bran of rye,c266,73,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+"Oats, rolled",c267,76,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+Bran of oats,c268,77,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+Flour of millet,c269,80,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+Bran of millet,c270,81,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+Flour of sorghum,c271,84,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+Bran of sorghum,c272,85,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+Flour of buckwheat,c273,90,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+Bran of buckwheat,c274,91,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+Flour of fonio,c275,95,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+Bran of fonio,c276,96,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+Flour of triticale,c277,98,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+Bran of triticale,c278,99,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+Flour of mixed grain,c279,104,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+Bran of mixed grain,c280,105,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+"Communion wafers, empty cachets of a kind suitable for pharmaceutical use, sealing wafers, rice paper and similar products.",c281,110,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+Flour of cereals n.e.c.,c282,111,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+Bran of cereals n.e.c.,c283,112,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+Cereal preparations,c284,113,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+Mixes and doughs for the preparation of bakers' wares,c285,114,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+"Food preparations of flour, meal or malt extract",c286,115,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+Gluten feed and meal,c287,846,cereals (excluding beer),vegetal products,TRUE,tonnes,""
+"Flour, meal, powder, flakes, granules and pellets of potatoes",c288,117,starchy roots,vegetal products,TRUE,tonnes,""
+"Potatoes, frozen",c289,118,starchy roots,vegetal products,TRUE,tonnes,""
+Starch of potatoes,c290,119,starchy roots,vegetal products,TRUE,tonnes,""
+Tapioca of potatoes,c291,121,starchy roots,vegetal products,TRUE,tonnes,""
+Flour of cassava,c292,126,starchy roots,vegetal products,TRUE,tonnes,""
+Tapioca of cassava,c293,127,starchy roots,vegetal products,TRUE,tonnes,""
+"Cassava, dry",c294,128,starchy roots,vegetal products,TRUE,tonnes,""
+Starch of cassava,c295,129,starchy roots,vegetal products,TRUE,tonnes,""
+Flour of roots and tubers n.e.c.,c296,150,starchy roots,vegetal products,TRUE,tonnes,""
+"Edible roots and tubers with high starch or inulin content, n.e.c., dry",c297,151,starchy roots,vegetal products,TRUE,tonnes,""
+"Cane sugar, centrifugal",c298,158,sweeteners,vegetal products,TRUE,tonnes,""
+"Refined cane or beet sugar, in solid form, containing added flavouring or colouring matter; maple sugar and maple syrup",c299,160,sweeteners,vegetal products,TRUE,tonnes,""
+Raw cane or beet sugar (centrifugal only),c300,162,sweeteners,vegetal products,TRUE,tonnes,""
+"Cane sugar, non-centrifugal",c301,163,sweeteners,vegetal products,TRUE,tonnes,""
+Refined sugar,c302,164,sweeteners,vegetal products,TRUE,tonnes,""
+Molasses,c303,165,sweeteners,vegetal products,TRUE,tonnes,""
+Other fructose and syrup,c304,166,sweeteners,vegetal products,TRUE,tonnes,""
+Sugar and syrups n.e.c.,c305,167,sweeteners,vegetal products,TRUE,tonnes,""
+Sugar confectionery,c306,168,sweeteners,vegetal products,TRUE,tonnes,""
+Glucose and dextrose,c307,172,sweeteners,vegetal products,TRUE,tonnes,""
+Lactose,c308,173,sweeteners,vegetal products,TRUE,tonnes,""
+Isoglucose,c309,175,sweeteners,vegetal products,TRUE,tonnes,""
+Other non-alcoholic caloric beverages,c310,633,sweeteners,vegetal products,TRUE,tonnes,""
+Flour of pulses,c311,212,pulses,vegetal products,TRUE,tonnes,""
+Bran of pulses,c312,213,pulses,vegetal products,TRUE,tonnes,""
+"Brazil nuts, shelled",c313,229,treenuts,vegetal products,TRUE,tonnes,""
+"Cashew nuts, shelled",c314,230,treenuts,vegetal products,TRUE,tonnes,""
+"Almonds, shelled",c315,231,treenuts,vegetal products,TRUE,tonnes,""
+"Walnuts, shelled",c316,232,treenuts,vegetal products,TRUE,tonnes,""
+"Hazelnuts, shelled",c317,233,treenuts,vegetal products,TRUE,tonnes,""
+Prepared nuts,c318,235,treenuts,vegetal products,TRUE,tonnes,""
+Cotton seed,c319,329,oilcrops,vegetal products,TRUE,tonnes,""
+Cake of  soya beans,c320,238,oilcrops,vegetal products,TRUE,tonnes,""
+Soya sauce,c321,239,oilcrops,vegetal products,TRUE,tonnes,""
+Soya paste,c322,240,oilcrops,vegetal products,TRUE,tonnes,""
+Soya curd,c323,241,oilcrops,vegetal products,TRUE,tonnes,""
+"Groundnuts, shelled",c324,243,oilcrops,vegetal products,TRUE,tonnes,""
+Cake of groundnuts,c325,245,oilcrops,vegetal products,TRUE,tonnes,""
+Prepared groundnuts,c326,246,oilcrops,vegetal products,TRUE,tonnes,""
+Peanut butter,c327,247,oilcrops,vegetal products,TRUE,tonnes,""
+"Coconuts, desiccated",c328,250,oilcrops,vegetal products,TRUE,tonnes,""
+Copra,c329,251,oilcrops,vegetal products,TRUE,tonnes,""
+Cake of copra,c330,253,oilcrops,vegetal products,TRUE,tonnes,""
+Palm kernels,c331,256,oilcrops,vegetal products,TRUE,tonnes,""
+Cake of palm kernel,c332,259,oilcrops,vegetal products,TRUE,tonnes,""
+Olives preserved,c333,262,oilcrops,vegetal products,TRUE,tonnes,""
+Cake of sunflower seed,c334,269,oilcrops,vegetal products,TRUE,tonnes,""
+Cake of rapeseed,c335,272,oilcrops,vegetal products,TRUE,tonnes,""
+Cake of safflowerseed,c336,282,oilcrops,vegetal products,TRUE,tonnes,""
+Cake of sesame seed,c337,291,oilcrops,vegetal products,TRUE,tonnes,""
+Cake of mustard seed,c338,294,oilcrops,vegetal products,TRUE,tonnes,""
+Flour of mustard seed,c339,295,oilcrops,vegetal products,TRUE,tonnes,""
+"Cake, poppy seed",c340,298,oilcrops,vegetal products,TRUE,tonnes,""
+Kapokseed in shell,c341,311,oilcrops,vegetal products,TRUE,tonnes,""
+"Kapokseed, shelled",c342,312,oilcrops,vegetal products,TRUE,tonnes,""
+Cake of kapok,c343,314,oilcrops,vegetal products,TRUE,tonnes,""
+Cake of cottonseed,c344,332,oilcrops,vegetal products,TRUE,tonnes,""
+Cake of  linseed,c345,335,oilcrops,vegetal products,TRUE,tonnes,""
+Cake of hempseed,c346,338,oilcrops,vegetal products,TRUE,tonnes,""
+"Cake, oilseeds nes",c347,341,oilcrops,vegetal products,TRUE,tonnes,""
+"Flours and meals of oil seeds or oleaginous fruits, except those of mustard",c348,343,oilcrops,vegetal products,TRUE,tonnes,""
+Oil of rice bran,c349,36,vegetable oils,vegetal products,TRUE,tonnes,""
+Oil of maize,c350,60,vegetable oils,vegetal products,TRUE,tonnes,""
+Soya bean oil,c351,237,vegetable oils,vegetal products,TRUE,tonnes,""
+Groundnut oil,c352,244,vegetable oils,vegetal products,TRUE,tonnes,""
+Coconut oil,c353,252,vegetable oils,vegetal products,TRUE,tonnes,""
+Palm oil,c354,257,vegetable oils,vegetal products,TRUE,tonnes,""
+Oil of palm kernel,c355,258,vegetable oils,vegetal products,TRUE,tonnes,""
+Olive oil,c356,261,vegetable oils,vegetal products,TRUE,tonnes,""
+Butter of karite nuts,c357,264,vegetable oils,vegetal products,TRUE,tonnes,""
+Oil of castor beans,c358,266,vegetable oils,vegetal products,TRUE,tonnes,""
+"Sunflower-seed oil, crude",c359,268,vegetable oils,vegetal products,TRUE,tonnes,""
+"Rapeseed or canola oil, crude",c360,271,vegetable oils,vegetal products,TRUE,tonnes,""
+Oil of tung nuts,c361,276,vegetable oils,vegetal products,TRUE,tonnes,""
+Jojoba oil,c362,278,vegetable oils,vegetal products,TRUE,tonnes,""
+"Safflower-seed oil, crude",c363,281,vegetable oils,vegetal products,TRUE,tonnes,""
+Oil of sesame seed,c364,290,vegetable oils,vegetal products,TRUE,tonnes,""
+"Mustard seed oil, crude",c365,293,vegetable oils,vegetal products,TRUE,tonnes,""
+Oil of poppy seed,c366,297,vegetable oils,vegetal products,TRUE,tonnes,""
+Vegetable tallow,c367,306,vegetable oils,vegetal products,TRUE,tonnes,""
+Oil of kapok,c368,313,vegetable oils,vegetal products,TRUE,tonnes,""
+Cottonseed oil,c369,331,vegetable oils,vegetal products,TRUE,tonnes,""
+Oil of linseed,c370,334,vegetable oils,vegetal products,TRUE,tonnes,""
+Oil of hempseed,c371,337,vegetable oils,vegetal products,TRUE,tonnes,""
+"Other oil of vegetable origin, crude n.e.c.",c372,340,vegetable oils,vegetal products,TRUE,tonnes,""
+Liquid margarine,c373,1241,vegetable oils,vegetal products,TRUE,tonnes,""
+Margarine and shortening,c374,1242,vegetable oils,vegetal products,TRUE,tonnes,""
+"Castor oil, hydrogenated",c375,1273,vegetable oils,vegetal products,TRUE,tonnes,""
+"Cocoa butter, fat and oil",c376,664,vegetable oils,vegetal products,TRUE,tonnes,""
+"Animal or vegetable fats and oils and their fractions, chemically modified, except those hydrogenated, inter-esterified, re-esterified or elaidinized; inedible mixtures or preparations of animal or vegetable fats or oils",c377,1274,vegetable oils,vegetal products,TRUE,tonnes,""
+hydrogenated oils and fats,c378,1275,vegetable oils,vegetal products,TRUE,tonnes,""
+Tomato juice,c379,390,vegetables,vegetal products,TRUE,tonnes,""
+Paste of tomatoes,c380,391,vegetables,vegetal products,TRUE,tonnes,""
+"Tomatoes, peeled (o/t vinegar)",c381,392,vegetables,vegetal products,TRUE,tonnes,""
+"Sweet corn, frozen",c382,447,vegetables,vegetal products,TRUE,tonnes,""
+"Sweet corn, prepared or preserved",c383,448,vegetables,vegetal products,TRUE,tonnes,""
+Dried mushrooms,c384,450,vegetables,vegetal products,TRUE,tonnes,""
+Canned mushrooms,c385,451,vegetables,vegetal products,TRUE,tonnes,""
+"Vegetable products, fresh or dry n.e.c.",c386,460,vegetables,vegetal products,TRUE,tonnes,""
+Other vegetable juices,c387,466,vegetables,vegetal products,TRUE,tonnes,""
+"Vegetables, dehydrated",c388,469,vegetables,vegetal products,TRUE,tonnes,""
+"Vegetables, pulses and potatoes, preserved by vinegar or acetic acid",c389,471,vegetables,vegetal products,TRUE,tonnes,""
+Vegetables preserved nes (o/t vinegar),c390,472,vegetables,vegetal products,TRUE,tonnes,""
+Vegetables frozen,c391,473,vegetables,vegetal products,TRUE,tonnes,""
+Other vegetables provisionally preserved,c392,474,vegetables,vegetal products,TRUE,tonnes,""
+Vegetables preserved (frozen),c393,475,vegetables,vegetal products,TRUE,tonnes,""
+Homogenized vegetable preparations,c394,476,vegetables,vegetal products,TRUE,tonnes,""
+Coffee substitutes,c395,658,vegetables,vegetal products,TRUE,tonnes,""
+Orange juice,c396,491,fruits (excluding wine),vegetal products,TRUE,tonnes,""
+"Orange juice, concentrated",c397,492,fruits (excluding wine),vegetal products,TRUE,tonnes,""
+Juice of tangerine,c398,496,fruits (excluding wine),vegetal products,TRUE,tonnes,""
+Juice of lemon,c399,498,fruits (excluding wine),vegetal products,TRUE,tonnes,""
+"Lemon juice, concentrated",c400,499,fruits (excluding wine),vegetal products,TRUE,tonnes,""
+Grapefruit juice,c401,509,fruits (excluding wine),vegetal products,TRUE,tonnes,""
+"Grapefruit juice, concentrated",c402,510,fruits (excluding wine),vegetal products,TRUE,tonnes,""
+Juice of citrus fruit n.e.c.,c403,513,fruits (excluding wine),vegetal products,TRUE,tonnes,""
+"Citrus juice, concentrated n.e.c.",c404,514,fruits (excluding wine),vegetal products,TRUE,tonnes,""
+Apple juice,c405,518,fruits (excluding wine),vegetal products,TRUE,tonnes,""
+"Apple juice, concentrated",c406,519,fruits (excluding wine),vegetal products,TRUE,tonnes,""
+"Apricots, dried",c407,527,fruits (excluding wine),vegetal products,TRUE,tonnes,""
+"Plums, dried",c408,537,fruits (excluding wine),vegetal products,TRUE,tonnes,""
+Juice of plum,c409,538,fruits (excluding wine),vegetal products,TRUE,tonnes,""
+"Juice of plum, concentrated",c410,539,fruits (excluding wine),vegetal products,TRUE,tonnes,""
+Raisins,c411,561,fruits (excluding wine),vegetal products,TRUE,tonnes,""
+Grape juice,c412,562,fruits (excluding wine),vegetal products,TRUE,tonnes,""
+Must of grape,c413,563,fruits (excluding wine),vegetal products,TRUE,tonnes,""
+"Figs, dried",c414,570,fruits (excluding wine),vegetal products,TRUE,tonnes,""
+"Pineapples, otherwise prepared or preserved",c415,575,fruits (excluding wine),vegetal products,TRUE,tonnes,""
+Pineapple juice,c416,576,fruits (excluding wine),vegetal products,TRUE,tonnes,""
+"Juice of pineapples, concentrated",c417,580,fruits (excluding wine),vegetal products,TRUE,tonnes,""
+Juice of mango,c418,583,fruits (excluding wine),vegetal products,TRUE,tonnes,""
+Mango pulp,c419,584,fruits (excluding wine),vegetal products,TRUE,tonnes,""
+"Other tropical fruit, dried",c420,604,fruits (excluding wine),vegetal products,TRUE,tonnes,""
+"Other fruit n.e.c., dried",c421,620,fruits (excluding wine),vegetal products,TRUE,tonnes,""
+Juice of fruits n.e.c.,c422,622,fruits (excluding wine),vegetal products,TRUE,tonnes,""
+Fruit prepared n.e.c.,c423,623,fruits (excluding wine),vegetal products,TRUE,tonnes,""
+Flour of fruits,c424,624,fruits (excluding wine),vegetal products,TRUE,tonnes,""
+"Fruit, nuts, peel, sugar preserved",c425,625,fruits (excluding wine),vegetal products,TRUE,tonnes,""
+"Homogenized cooked fruit, prepared",c426,626,fruits (excluding wine),vegetal products,TRUE,tonnes,""
+"Coffee, decaffeinated or roasted",c427,657,stimulants,vegetal products,TRUE,tonnes,""
+Coffee extracts,c428,659,stimulants,vegetal products,TRUE,tonnes,""
+Cocoa paste not defatted,c429,662,stimulants,vegetal products,TRUE,tonnes,""
+Cocoa husks and shells,c430,663,stimulants,vegetal products,TRUE,tonnes,""
+Cocoa powder and cake,c431,665,stimulants,vegetal products,TRUE,tonnes,""
+Chocolate products nes,c432,666,stimulants,vegetal products,TRUE,tonnes,""
+"Extracts, essences and concentrates of tea or mate, and preparations with a basis thereof or with a basis of tea or maté",c433,672,stimulants,vegetal products,TRUE,tonnes,""
+"Green tea (not fermented), black tea (fermented) and partly fermented tea, in immediate packings of a content not exceeding 3 kg",c434,675,stimulants,vegetal products,TRUE,tonnes,""
+Wheat-fermented beverages,c435,26,alcoholic beverages,vegetal products,TRUE,tonnes,""
+Rice-fermented beverages,c436,39,alcoholic beverages,vegetal products,TRUE,tonnes,""
+Cider and other fermented beverages,c437,517,alcoholic beverages,vegetal products,TRUE,tonnes,""
+Wine,c438,564,alcoholic beverages,vegetal products,TRUE,tonnes,""
+"Beer of barley, malted",c439,51,alcoholic beverages,vegetal products,TRUE,tonnes,""
+"Beer of maize, malted",c440,66,alcoholic beverages,vegetal products,TRUE,tonnes,""
+"Beer of millet, malted",c441,82,alcoholic beverages,vegetal products,TRUE,tonnes,""
+"Beer of sorghum, malted",c442,86,alcoholic beverages,vegetal products,TRUE,tonnes,""
+Vermouth and other wine of fresh grapes flavoured with plats or aromatic substances,c443,565,alcoholic beverages,vegetal products,TRUE,tonnes,""
+Undenatured ethyl alcohol of an alcoholic strength by volume of 80% vol or higher,c444,632,alcoholic beverages,vegetal products,TRUE,tonnes,""
+"Undenatured ethyl alcohol of an alcoholic strength by volume of less than 80% vol; spirits, liqueurs and other spirituous beverages",c445,634,alcoholic beverages,vegetal products,TRUE,tonnes,""
+"Kapok fibre, raw",c446,778,fibre crops,vegetal products,TRUE,tonnes,""
+"Cotton lint, ginned",c447,767,fibre crops,vegetal products,TRUE,tonnes,""
+Cigarettes,c448,828,other vegetal products,vegetal products,TRUE,tonnes,""
+Cigars and cheroots,c449,829,other vegetal products,vegetal products,TRUE,tonnes,""
+Natural rubber in other forms,c450,837,other vegetal products,vegetal products,TRUE,tonnes,""
+Industrial monocarboxylic fatty acids; acid oils from refining,c451,1276,other vegetal products,vegetal products,TRUE,tonnes,""
+Residues of fatty substances,c452,1277,other vegetal products,vegetal products,TRUE,tonnes,""
+"Alcohol, Non-Food",c453,2659,other vegetal products,vegetal products,TRUE,tonnes,""
+"Meat of cattle boneless, fresh or chilled",c454,870,meat,animal products,TRUE,tonnes,""
+"Bovine meat, salted, dried or smoked",c455,872,meat,animal products,TRUE,tonnes,""
+"Extracts and juices of meat, fish, crustaceans, molluscs or other aquatic invertebrates",c456,873,meat,animal products,TRUE,tonnes,""
+"Sausages and similar products of meat, offal or blood of beef and veal",c457,874,meat,animal products,TRUE,tonnes,""
+beef and veal preparations nes,c458,875,meat,animal products,TRUE,tonnes,""
+Homogenized meat preparations,c459,877,meat,animal products,TRUE,tonnes,""
+"Meat of pig boneless, fresh or chilled",c460,1038,meat,animal products,TRUE,tonnes,""
+"Pig meat, cuts, salted, dried or smoked (bacon and ham)",c461,1039,meat,animal products,TRUE,tonnes,""
+"Sausages and similar products of meat, offal or blood of pig",c462,1041,meat,animal products,TRUE,tonnes,""
+Pig meat preparations,c463,1042,meat,animal products,TRUE,tonnes,""
+Poultry meat preparations,c464,1061,meat,animal products,TRUE,tonnes,""
+Meat prepared n.e.c.,c465,1172,meat,animal products,TRUE,tonnes,""
+Fatty liver preparations,c466,1060,meat,animal products,TRUE,tonnes,""
+"Other meat and edible meat offal, salted, in brine, dried or smoked; edible flours and meals of meat or meat offal",c467,1164,meat,animal products,TRUE,tonnes,""
+Liver preparations,c468,878,offals,animal products,TRUE,tonnes,""
+"Edible offals and liver of chickens and guinea fowl, fresh, chilled or frozen",c469,1059,offals,animal products,TRUE,tonnes,""
+"Edible offals and liver of geese, fresh, chilled or frozen",c470,1074,offals,animal products,TRUE,tonnes,""
+"Edible offals and liver of ducks, fresh, chilled or frozen",c471,1075,offals,animal products,TRUE,tonnes,""
+"Edible offals and liver of turkey, fresh, chilled or frozen",c472,1081,offals,animal products,TRUE,tonnes,""
+"Edible offals of horses and other equines,  fresh, chilled or frozen",c473,1098,offals,animal products,TRUE,tonnes,""
+"Cream, fresh",c474,885,animal fats,animal products,TRUE,tonnes,""
+Butter of cow milk,c475,886,animal fats,animal products,TRUE,tonnes,""
+Ghee from cow milk,c476,887,animal fats,animal products,TRUE,tonnes,""
+Butter of buffalo milk,c477,952,animal fats,animal products,TRUE,tonnes,""
+Ghee from buffalo milk,c478,953,animal fats,animal products,TRUE,tonnes,""
+Butter and ghee of sheep milk,c479,983,animal fats,animal products,TRUE,tonnes,""
+Butter of goat milk,c480,1022,animal fats,animal products,TRUE,tonnes,""
+"Cattle, butcher fat",c481,871,animal fats,animal products,TRUE,tonnes,""
+"Pig, butcher fat",c482,1040,animal fats,animal products,TRUE,tonnes,""
+"Pig fat, rendered",c483,1043,animal fats,animal products,TRUE,tonnes,""
+Fat of poultry,c484,1065,animal fats,animal products,TRUE,tonnes,""
+"Poultry fat, rendered",c485,1066,animal fats,animal products,TRUE,tonnes,""
+Animal oils and fats n.e.c.,c486,1168,animal fats,animal products,TRUE,tonnes,""
+Lard stearine and lard oil,c487,1221,animal fats,animal products,TRUE,tonnes,""
+Tallow,c488,1225,animal fats,animal products,TRUE,tonnes,""
+Fat preparations n.e.c.,c489,1243,animal fats,animal products,TRUE,tonnes,""
+Ice cream and other edible ice,c490,910,milk (excluding butter),animal products,TRUE,tonnes,""
+Standardized milk,c491,883,milk (excluding butter),animal products,TRUE,tonnes,""
+Skim milk of cows,c492,888,milk (excluding butter),animal products,TRUE,tonnes,""
+"Whole milk, condensed",c493,889,milk (excluding butter),animal products,TRUE,tonnes,""
+"Whey, condensed",c494,890,milk (excluding butter),animal products,TRUE,tonnes,""
+Yoghurt,c495,891,milk (excluding butter),animal products,TRUE,tonnes,""
+"Yoghurt, with additives",c496,892,milk (excluding butter),animal products,TRUE,tonnes,""
+"Buttermilk, curdled and acidified milk",c497,893,milk (excluding butter),animal products,TRUE,tonnes,""
+"Whole milk, evaporated",c498,894,milk (excluding butter),animal products,TRUE,tonnes,""
+"Skim milk, evaporated",c499,895,milk (excluding butter),animal products,TRUE,tonnes,""
+"Skim milk, condensed",c500,896,milk (excluding butter),animal products,TRUE,tonnes,""
+Whole milk powder,c501,897,milk (excluding butter),animal products,TRUE,tonnes,""
+Skim milk and whey powder,c502,898,milk (excluding butter),animal products,TRUE,tonnes,""
+"Buttermilk, dry",c503,899,milk (excluding butter),animal products,TRUE,tonnes,""
+"Whey, dry",c504,900,milk (excluding butter),animal products,TRUE,tonnes,""
+Cheese from whole cow milk,c505,901,milk (excluding butter),animal products,TRUE,tonnes,""
+"Whey, fresh",c506,903,milk (excluding butter),animal products,TRUE,tonnes,""
+Cheese from skimmed cow milk,c507,904,milk (excluding butter),animal products,TRUE,tonnes,""
+Whey cheese,c508,905,milk (excluding butter),animal products,TRUE,tonnes,""
+Processed cheese,c509,907,milk (excluding butter),animal products,TRUE,tonnes,""
+Reconstituted milk,c510,908,milk (excluding butter),animal products,TRUE,tonnes,""
+Dairy products n.e.c.,c511,909,milk (excluding butter),animal products,TRUE,tonnes,""
+Casein,c512,917,milk (excluding butter),animal products,TRUE,tonnes,""
+Skim milk of buffalo,c513,954,milk (excluding butter),animal products,TRUE,tonnes,""
+"Cheese from milk of buffalo, fresh or processed",c514,955,milk (excluding butter),animal products,TRUE,tonnes,""
+"Cheese from milk of sheep, fresh or processed",c515,984,milk (excluding butter),animal products,TRUE,tonnes,""
+Skim sheep milk,c516,985,milk (excluding butter),animal products,TRUE,tonnes,""
+"Cheese from milk of goats, fresh or processed",c517,1021,milk (excluding butter),animal products,TRUE,tonnes,""
+Skim milk of goat,c518,1023,milk (excluding butter),animal products,TRUE,tonnes,""
+"Eggs, liquid",c519,1063,eggs,animal products,TRUE,tonnes,""
+"Eggs, dried",c520,1064,eggs,animal products,TRUE,tonnes,""
+Raw hides and skins of sheep or lambs,c521,995,hides and skins,animal products,TRUE,tonnes,""
+Raw hides and skins of goats or kids,c522,1025,hides and skins,animal products,TRUE,tonnes,""
+"Fish, Body Oil",c523,2781,aquatic products,animal products,TRUE,tonnes,""
+"Fish, Liver Oil",c524,2782,aquatic products,animal products,TRUE,tonnes,""
+"Wool, degreased or carbonized, not carded or combed",c525,988,other animal products,animal products,TRUE,tonnes,""

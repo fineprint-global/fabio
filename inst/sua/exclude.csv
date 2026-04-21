@@ -1,0 +1,19 @@
+parent,parent_code,proc,proc_code,child,child_code,extraction_rate,min,max
+Husked rice,c243,Milled rice production,p227,Bran of rice,c249,0.09,0.08,0.15
+Rice,c002,Rice (milled and husked) production,p226,Bran of rice,c249,0.08,0.06,0.33
+Raw milk of cattle,c213,Cheese from skimmed cow milk production,p447,"Whey, fresh",c506,0.76,0.4,0.9
+Raw milk of cattle,c213,"Cheese from milk of sheep, fresh or processed production",p448,"Whey, fresh",c506,0.76,0.4,0.9
+Raw milk of cattle,c213,"Cheese from milk of goats, fresh or processed production",p449,"Whey, fresh",c506,0.76,0.4,0.9
+Raw milk of goats,c216,Cheese from skimmed cow milk production,p447,"Whey, fresh",c506,0.8,0.4,0.86
+Raw milk of goats,c216,Cheese from whole cow milk production,p446,"Whey, fresh",c506,0.8,0.4,0.86
+Raw milk of goats,c216,"Cheese from milk of sheep, fresh or processed production",p448,"Whey, fresh",c506,0.8,0.4,0.86
+Raw milk of sheep,c215,Cheese from skimmed cow milk production,p447,"Whey, fresh",c506,0.78,0.6,0.85
+Raw milk of sheep,c215,Cheese from whole cow milk production,p446,"Whey, fresh",c506,0.78,0.6,0.85
+Raw milk of sheep,c215,"Cheese from milk of goats, fresh or processed production",p449,"Whey, fresh",c506,0.78,0.6,0.85
+Skim milk of cows,c492,Cheese from whole cow milk production,p446,"Whey, fresh",c506,0.76,0.4,0.87
+Skim milk of cows,c492,"Cheese from milk of sheep, fresh or processed production",p448,"Whey, fresh",c506,0.76,0.4,0.87
+Skim milk of cows,c492,"Cheese from milk of goats, fresh or processed production",p449,"Whey, fresh",c506,0.76,0.4,0.87
+Skim sheep milk,c516,Cheese from skimmed cow milk production,p447,"Whey, fresh",c506,0.4,0.4,0.4
+Skim sheep milk,c516,Cheese from whole cow milk production,p446,"Whey, fresh",c506,0.4,0.4,0.4
+Skim sheep milk,c516,"Cheese from milk of goats, fresh or processed production",p449,"Whey, fresh",c506,0.4,0.4,0.4
+Sugar beet,c024,Centrifugal cane sugar production,p264,Molasses,c303,0.04,0.02,0.05

@@ -1,0 +1,16 @@
+item_code,item,N,P,K
+946,Buffalo,1,0.16,1.17
+960,"Cattle, dairy",1,0.14,1.11
+961,"Cattle, non-dairy",1,0.19,0.95
+976,Sheep,1,0.16,0.96
+1016,Goats,1,0.17,0.88
+1049,"Swine, market",1,0.25,0.55
+1051,"Swine, breeding",1,0.28,0.45
+1052,"Chickens, layers",1,0.27,0.37
+1053,"Chickens, broilers",1,0.22,0.34
+1068,Ducks,1,0.18,0.32
+1079,Turkeys,1,0.23,0.33
+1096,Horses,1,0.18,0.8
+1107,Asses,1,0.18,0.8
+1110,Mules and hinnies,1,0.18,0.8
+1760,Camels and Llamas,1,0.18,0.8

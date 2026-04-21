@@ -1,0 +1,138 @@
+Stressor,Compartment,V3,Subcompartment_1,Unit,Description,Source,GWP
+ghg_ch4,ghg,ch4,"",tonnes ch4,CH4 emissions final demand (total).,https://www.fao.org/faostat/en/#data/GPP,27
+ghg_ch4_domestic_wastewater,ghg,ch4,"",tonnes ch4,CH4 emissions from domestic wastewater.  Distributed to products using item shares of total food use.,"https://www.fao.org/faostat/en/#data/GPP;
+https://www.fao.org/faostat/en/#data/SCL",27
+ghg_ch4_food_household_consumption,ghg,ch4,"",tonnes ch4,CH4 emissions from food household consumption.  Distributed to products using item shares of total food use.,"https://www.fao.org/faostat/en/#data/GPP;
+https://www.fao.org/faostat/en/#data/SCL",27
+ghg_ch4_food_retail,ghg,ch4,"",tonnes ch4,CH4 emissions from food retail.  Distributed to products using item shares of total food use.,"https://www.fao.org/faostat/en/#data/GPP;
+https://www.fao.org/faostat/en/#data/SCL",27
+ghg_ch4_solid_waste,ghg,ch4,"",tonnes ch4,CH4 emissions from solid food waste. Includes food waste at retail stage. Distributed to items using loss shares of SUAs. Split from industrial solid food waste using shares of waste that occur at different processing stages from Gustavsson et al. (2011).,"https://www.fao.org/faostat/en/#data/GPP;
+https://www.fao.org/faostat/en/#data/SCL;
+https://www.fao.org/4/mb060e/mb060e.pdf",27
+ghg_co2,ghg,co2,"",tonnes co2,CO2 emissions final demand (total).,https://www.fao.org/faostat/en/#data/GPP,1
+ghg_co2_food_household_consumption,ghg,co2,"",tonnes co2,CO2 emissions from food household consumption. Distributed to products using item shares of total food use.,"https://www.fao.org/faostat/en/#data/GPP;
+https://www.fao.org/faostat/en/#data/SCL",1
+ghg_co2_food_retail,ghg,co2,"",tonnes co2,CO2 emissions from food retail.  Distributed to products using item shares of total food use.,"https://www.fao.org/faostat/en/#data/GPP;
+https://www.fao.org/faostat/en/#data/SCL",1
+ghg_f_gases,ghg,f gases (AR5),"",tonnes co2eq,"F-Gases emissions final demand (total). Reported by FAO in CO2eq, using AR5.","https://www.fao.org/faostat/en/#data/GPP;
+https://www.fao.org/faostat/en/#data/SCL",1
+ghg_f_gases_food_household_consumption,ghg,f gases (AR5),"",tonnes co2eq,"F-gases emissions from food household consumption. Distributed to products using item shares of total food use. Reported by FAO in CO2eq, using AR5.","https://www.fao.org/faostat/en/#data/GPP;
+https://www.fao.org/faostat/en/#data/SCL",1
+ghg_f_gases_food_retail,ghg,f gases (AR5),"",tonnes co2eq,"F-gases emissions from food retail. Distributed to products using item shares of total food use. Reported by FAO in CO2eq, using AR5.","https://www.fao.org/faostat/en/#data/GPP;
+https://www.fao.org/faostat/en/#data/SCL",1
+ghg_n2o,ghg,n2o,"",tonnes n2o,N2O emissions final demand (total).,https://www.fao.org/faostat/en/#data/GPP,273
+ghg_n2o_domestic_wastewater,ghg,n2o,"",tonnes n2o,N2O emissions from domestic wastewater.  Distributed to products using item shares of total food use.,"https://www.fao.org/faostat/en/#data/GPP;
+https://www.fao.org/faostat/en/#data/SCL",273
+ghg_n2o_food_household_consumption,ghg,n2o,"",tonnes n2o,N2O emissions from food household consumption. Distributed to products using item shares of total food use.,"https://www.fao.org/faostat/en/#data/GPP;
+https://www.fao.org/faostat/en/#data/SCL",273
+ghg_n2o_food_retail,ghg,n2o,"",tonnes n2o,CO2 emissions from food retail.  Distributed to products using item shares of total food use.,"https://www.fao.org/faostat/en/#data/GPP;
+https://www.fao.org/faostat/en/#data/SCL",273
+gwp_ch4,gwp,ch4,"",tonnes co2eq (AR6),CH4 emissions final demand (total).,https://www.fao.org/faostat/en/#data/GPP,27
+gwp_ch4_domestic_wastewater,gwp,ch4,"",tonnes co2eq (AR6),CH4 emissions from domestic wastewater.  Distributed to products using item shares of total food use.,"https://www.fao.org/faostat/en/#data/GPP;
+https://www.fao.org/faostat/en/#data/SCL",27
+gwp_ch4_food_household_consumption,gwp,ch4,"",tonnes co2eq (AR6),CH4 emissions from food household consumption.  Distributed to products using item shares of total food use.,"https://www.fao.org/faostat/en/#data/GPP;
+https://www.fao.org/faostat/en/#data/SCL",27
+gwp_ch4_food_retail,gwp,ch4,"",tonnes co2eq (AR6),CH4 emissions from food retail.  Distributed to products using item shares of total food use.,"https://www.fao.org/faostat/en/#data/GPP;
+https://www.fao.org/faostat/en/#data/SCL",27
+gwp_ch4_solid_waste,gwp,ch4,"",tonnes co2eq (AR6),CH4 emissions from solid food waste. Includes food waste at retail stage. Distributed to items using loss shares of SUAs. Split from industrial solid food waste using shares of waste that occur at different processing stages from Gustavsson et al. (2011).,"https://www.fao.org/faostat/en/#data/GPP;
+https://www.fao.org/faostat/en/#data/SCL;
+https://www.fao.org/4/mb060e/mb060e.pdf",27
+gwp_co2,gwp,co2,"",tonnes co2eq (AR6),CO2 emissions final demand (total).,https://www.fao.org/faostat/en/#data/GPP,1
+gwp_co2_food_household_consumption,gwp,co2,"",tonnes co2eq (AR6),CO2 emissions from food household consumption. Distributed to products using item shares of total food use.,"https://www.fao.org/faostat/en/#data/GPP;
+https://www.fao.org/faostat/en/#data/SCL",1
+gwp_co2_food_retail,gwp,co2,"",tonnes co2eq (AR6),CO2 emissions from food retail.  Distributed to products using item shares of total food use.,"https://www.fao.org/faostat/en/#data/GPP;
+https://www.fao.org/faostat/en/#data/SCL",1
+gwp_f_gases,gwp,f gases (AR5),"",tonnes co2eq (AR5),"F-Gases emissions final demand (total). Reported by FAO in CO2eq, using AR5.","https://www.fao.org/faostat/en/#data/GPP;
+https://www.fao.org/faostat/en/#data/SCL",1
+gwp_f_gases_food_household_consumption,gwp,f gases (AR5),"",tonnes co2eq (AR5),"F-gases emissions from food household consumption. Distributed to products using item shares of total food use. Reported by FAO in CO2eq, using AR5.","https://www.fao.org/faostat/en/#data/GPP;
+https://www.fao.org/faostat/en/#data/SCL",1
+gwp_f_gases_food_retail,gwp,f gases (AR5),"",tonnes co2eq (AR5),"F-gases emissions from food retail. Distributed to products using item shares of total food use. Reported by FAO in CO2eq, using AR5.","https://www.fao.org/faostat/en/#data/GPP;
+https://www.fao.org/faostat/en/#data/SCL",1
+gwp_n2o,gwp,n2o,"",tonnes co2eq (AR6),N2O emissions final demand (total).,https://www.fao.org/faostat/en/#data/GPP,273
+gwp_n2o_domestic_wastewater,gwp,n2o,"",tonnes co2eq (AR6),N2O emissions from domestic wastewater.  Distributed to products using item shares of total food use.,"https://www.fao.org/faostat/en/#data/GPP;
+https://www.fao.org/faostat/en/#data/SCL",273
+gwp_n2o_food_household_consumption,gwp,n2o,"",tonnes co2eq (AR6),N2O emissions from food household consumption. Distributed to products using item shares of total food use.,"https://www.fao.org/faostat/en/#data/GPP;
+https://www.fao.org/faostat/en/#data/SCL",273
+gwp_n2o_food_retail,gwp,n2o,"",tonnes co2eq (AR6),CO2 emissions from food retail.  Distributed to products using item shares of total food use.,"https://www.fao.org/faostat/en/#data/GPP;
+https://www.fao.org/faostat/en/#data/SCL",273
+gwp_total,ghg,"","",tonnes co2eq (AR6),Total CO2 equivalent emissions from all agricultural activities.,All sources under Compartment -ghg-,
+ibif_co2_eq,ibif,terrestrial,"",MSA loss * year * km^2,Mean species abundance loss that occurs due to climate change from final demand emissions. Weighted by duration and extent of exposure to pressure. Can be added up with other MSA measures but not with pdf.,10.1038/s41597-025-05946-1,
+ibif_total,ibif,terrestrial,"",MSA loss * year * km^2,Total mean species abundance loss that occurs due to final demand pressures. Here: same as ibif_co2_eq since no other fd pressures are accounted for. Weighted by duration and extent of exposure to pressure. Can be added up with other MSA measures but not with pdf.,10.1038/s41597-025-05946-1S,
+FD_EQ_div_freshwater,Functional Diversity,freshwater,species divergence,PDF_FDdiv,Total freshwater biodiversity loss due to disruptions in species divergence from final demand activities. Calculated using an average approach.  Is dependent on other FABIO extensions. For overview of pressure to impact relationships see -inst/conc_biodiversity_cfs.csv-.,"BAMBOO internal (M9);
+10.1890/07-1206.1;
+10.1111/gcb.16723
+",
+FD_EQ_div_freshwater_climate,Functional Diversity,freshwater,species divergence,PDF_FDdiv,Freshwater biodiversity loss due to disruptions in species divergence caused by ghg emissions from final demand activities. Calculated using an average approach.  Is dependent on other FABIO extensions. For overview of pressure to impact relationships see -inst/conc_biodiversity_cfs.csv-.,"BAMBOO internal (M9);
+10.1890/07-1206.1;
+10.1111/gcb.16723
+",
+FD_EQ_div_marine,Functional Diversity,marine,species divergence,PDF_FDdiv,Total marine biodiversity loss due to disruptions in species divergence from final demand activities. Calculated using an average approach.  Is dependent on other FABIO extensions. For overview of pressure to impact relationships see -inst/conc_biodiversity_cfs.csv-.,"BAMBOO internal (M9);
+10.1890/07-1206.1;
+10.1111/gcb.16723
+",
+FD_EQ_div_marine_climate,Functional Diversity,marine,species divergence,PDF_FDdiv,Marine biodiversity loss due to disruptions in species divergence caused by ghg emissions from from final demand activities. Calculated using an average approach.  Is dependent on other FABIO extensions. For overview of pressure to impact relationships see -inst/conc_biodiversity_cfs.csv-.,"BAMBOO internal (M9);
+10.1890/07-1206.1;
+10.1111/gcb.16723
+",
+FD_EQ_div_terrestrial,Functional Diversity,terrestrial,species divergence,PDF_FDdiv,Total terrestrial biodiversity loss due to disruptions in species divergence from final demand activities. Calculated using an average approach.  Is dependent on other FABIO extensions. For overview of pressure to impact relationships see -inst/conc_biodiversity_cfs.csv-.,"BAMBOO internal (M9);
+10.1890/07-1206.1;
+10.1111/gcb.16723
+",
+FD_EQ_div_terrestrial_climate,Functional Diversity,terrestrial,species divergence,PDF_FDdiv,Terrestrial biodiversity loss due to disruptions in species divergence caused by ghg emissions from final demand activities. Calculated using an average approach.  Is dependent on other FABIO extensions. For overview of pressure to impact relationships see -inst/conc_biodiversity_cfs.csv-.,"BAMBOO internal (M9);
+10.1890/07-1206.1;
+10.1111/gcb.16723
+",
+FD_EQ_eve_freshwater,Functional Diversity,freshwater,species evenness,PDF_FDeve,Total freshwater biodiversity loss due to disruptions in species evenness from final demand activities. Calculated using an average approach.  Is dependent on other FABIO extensions. For overview of pressure to impact relationships see -inst/conc_biodiversity_cfs.csv-.,"BAMBOO internal (M9);
+10.1890/07-1206.1;
+10.1111/gcb.16723
+",
+FD_EQ_eve_freshwater_climate,Functional Diversity,freshwater,species evenness,PDF_FDeve,Freshwater biodiversity loss due to disruptions in species evenness caused by ghg emissions from final demand activities. Calculated using an average approach.  Is dependent on other FABIO extensions. For overview of pressure to impact relationships see -inst/conc_biodiversity_cfs.csv-.,"BAMBOO internal (M9);
+10.1890/07-1206.1;
+10.1111/gcb.16723
+",
+FD_EQ_eve_marine,Functional Diversity,marine,species evenness,PDF_FDeve,Total marine biodiversity loss due to disruptions in species evenness from final demand activities. Calculated using an average approach.  Is dependent on other FABIO extensions. For overview of pressure to impact relationships see -inst/conc_biodiversity_cfs.csv-.,"BAMBOO internal (M9);
+10.1890/07-1206.1;
+10.1111/gcb.16723
+",
+FD_EQ_eve_marine_climate,Functional Diversity,marine,species evenness,PDF_FDeve,Marine biodiversity loss due to disruptions in species evenness caused by ghg emissions from final demand activities. Calculated using an average approach.  Is dependent on other FABIO extensions. For overview of pressure to impact relationships see -inst/conc_biodiversity_cfs.csv-.,"BAMBOO internal (M9);
+10.1890/07-1206.1;
+10.1111/gcb.16723
+",
+FD_EQ_eve_terrestrial,Functional Diversity,terrestrial,species evenness,PDF_FDeve,Total terrestrial biodiversity loss due to disruptions in species evenness from final demand activities. Calculated using an average approach.  Is dependent on other FABIO extensions. For overview of pressure to impact relationships see -inst/conc_biodiversity_cfs.csv-.,"BAMBOO internal (M9);
+10.1890/07-1206.1;
+10.1111/gcb.16723
+",
+FD_EQ_eve_terrestrial_climate,Functional Diversity,terrestrial,species evenness,PDF_FDeve,Terrestrial biodiversity loss due to disruptions in species evenness caused by ghg emissions from final demand activities. Calculated using an average approach.  Is dependent on other FABIO extensions. For overview of pressure to impact relationships see -inst/conc_biodiversity_cfs.csv-.,"BAMBOO internal (M9);
+10.1890/07-1206.1;
+10.1111/gcb.16723
+",
+FD_EQ_ric_freshwater,Functional Diversity,freshwater,species richness,PDF_FDric,Total freshwater biodiversity loss due to disruptions in species richness from final demand activities. Calculated using an average approach.  Is dependent on other FABIO extensions. For overview of pressure to impact relationships see -inst/conc_biodiversity_cfs.csv-.,"BAMBOO internal (M9);
+10.1890/07-1206.1;
+10.1111/gcb.16723
+",
+FD_EQ_ric_freshwater_climate,Functional Diversity,freshwater,species richness,PDF_FDric,Freshwater biodiversity loss due to disruptions in species richness caused by ghg emissions from final demand activities. Calculated using an average approach.  Is dependent on other FABIO extensions. For overview of pressure to impact relationships see -inst/conc_biodiversity_cfs.csv-.,"BAMBOO internal (M9);
+10.1890/07-1206.1;
+10.1111/gcb.16723
+",
+FD_EQ_ric_marine,Functional Diversity,marine,species richness,PDF_FDric,Total marine biodiversity loss due to disruptions in species richness from final demand activities. Calculated using an average approach.  Is dependent on other FABIO extensions. For overview of pressure to impact relationships see -inst/conc_biodiversity_cfs.csv-.,"BAMBOO internal (M9);
+10.1890/07-1206.1;
+10.1111/gcb.16723
+",
+FD_EQ_ric_marine_climate,Functional Diversity,marine,species richness,PDF_FDric,Marine biodiversity loss due to disruptions in species richness caused by ghg emissions from final demand activities. Calculated using an average approach.  Is dependent on other FABIO extensions. For overview of pressure to impact relationships see -inst/conc_biodiversity_cfs.csv-.,"BAMBOO internal (M9);
+10.1890/07-1206.1;
+10.1111/gcb.16723
+",
+FD_EQ_ric_terrestrial,Functional Diversity,terrestrial,species richness,PDF_FDric,Total terrestrial biodiversity loss due to disruptions in species richness from final demand activities. Calculated using an average approach.  Is dependent on other FABIO extensions. For overview of pressure to impact relationships see -inst/conc_biodiversity_cfs.csv-.,"BAMBOO internal (M9);
+10.1890/07-1206.1;
+10.1111/gcb.16723
+",
+FD_EQ_ric_terrestrial_climate,Functional Diversity,terrestrial,species richness,PDF_FDric,Terrestrial biodiversity loss due to disruptions in species evenness caused by ghg emissions from final demand activities. Calculated using an average approach.  Is dependent on other FABIO extensions. For overview of pressure to impact relationships see -inst/conc_biodiversity_cfs.csv-.,"BAMBOO internal (M9);
+10.1890/07-1206.1;
+10.1111/gcb.16723
+",
+LCIM_EQ_freshwater,LC-Impact,freshwater,"",global PDF,Total freshwater biodiversity loss in global PDF (species richness) from final demand activities. Calculated using an average approach. Is dependent on other FABIO extensions. For overview of pressure to impact relationships see -inst/conc_biodiversity_cfs.csv-.,https://doi.org/10.5281/zenodo.19202729,
+LCIM_EQ_freshwater_climate,LC-Impact,freshwater,"",global PDF,Freshwater biodiversity loss in global PDF (species richness) caused by ghg emissions from final demand activities. Calculated using an average approach. Is dependent on other FABIO extensions. For overview of pressure to impact relationships see -inst/conc_biodiversity_cfs.csv-.,https://doi.org/10.5281/zenodo.19202730,
+LCIM_EQ_marine,LC-Impact,marine,"",global PDF,Total marine biodiversity loss in global PDF (species richness) from final demand activities. Calculated using an average approach. Is dependent on other FABIO extensions. For overview of pressure to impact relationships see -inst/conc_biodiversity_cfs.csv-.,https://doi.org/10.5281/zenodo.19202733,
+LCIM_EQ_marine_climate,LC-Impact,marine,"",global PDF,Marine biodiversity loss in global PDF (species richness) caused by ghg emissions from final demand activities. Calculated using an average approach. Is dependent on other FABIO extensions. For overview of pressure to impact relationships see -inst/conc_biodiversity_cfs.csv-.,https://doi.org/10.5281/zenodo.19202734,
+LCIM_EQ_terrestrial,LC-Impact,terrestrial,"",global PDF,Total terrestrial biodiversity loss in global PDF (species richness) from final demand activities. Calculated using an average approach (exept acidification). Is dependent on other FABIO extensions. For overview of pressure to impact relationships see -inst/conc_biodiversity_cfs.csv-.,https://doi.org/10.5281/zenodo.19202735,
+LCIM_EQ_terrestrial_climate,LC-Impact,terrestrial,"",global PDF,Terrestrial biodiversity loss in global PDF (species richness) caused by ghg emissions from final demand activities. Calculated using an average approach. Is dependent on other FABIO extensions. For overview of pressure to impact relationships see -inst/conc_biodiversity_cfs.csv-.,https://doi.org/10.5281/zenodo.19202737,

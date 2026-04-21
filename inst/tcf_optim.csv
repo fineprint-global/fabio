@@ -64,7 +64,7 @@ area_code,inp_code,inp,out_code,out,value
 1,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 1,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 1,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-1,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+1,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 2,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 2,2511,Wheat and products,2656,Beer,4.455
 2,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -130,7 +130,7 @@ area_code,inp_code,inp,out_code,out,value
 2,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 2,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 2,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-2,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+2,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 3,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 3,2511,Wheat and products,2656,Beer,4.455
 3,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -196,7 +196,7 @@ area_code,inp_code,inp,out_code,out,value
 3,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 3,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 3,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-3,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+3,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 4,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 4,2511,Wheat and products,2656,Beer,4.455
 4,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -262,7 +262,7 @@ area_code,inp_code,inp,out_code,out,value
 4,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 4,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 4,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-4,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+4,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 5,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 5,2511,Wheat and products,2656,Beer,4.455
 5,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -328,7 +328,7 @@ area_code,inp_code,inp,out_code,out,value
 5,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 5,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 5,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-5,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+5,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 6,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 6,2511,Wheat and products,2656,Beer,4.455
 6,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -394,7 +394,7 @@ area_code,inp_code,inp,out_code,out,value
 6,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 6,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 6,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-6,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+6,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 7,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 7,2511,Wheat and products,2656,Beer,4.455
 7,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -460,7 +460,7 @@ area_code,inp_code,inp,out_code,out,value
 7,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 7,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 7,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-7,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+7,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 8,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 8,2511,Wheat and products,2656,Beer,4.455
 8,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -526,7 +526,7 @@ area_code,inp_code,inp,out_code,out,value
 8,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 8,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 8,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-8,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+8,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 9,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 9,2511,Wheat and products,2656,Beer,4.455
 9,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -592,7 +592,7 @@ area_code,inp_code,inp,out_code,out,value
 9,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 9,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 9,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-9,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+9,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 10,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 10,2511,Wheat and products,2656,Beer,4.455
 10,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -658,7 +658,7 @@ area_code,inp_code,inp,out_code,out,value
 10,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 10,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 10,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-10,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+10,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 11,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 11,2511,Wheat and products,2656,Beer,4.455
 11,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -724,7 +724,7 @@ area_code,inp_code,inp,out_code,out,value
 11,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 11,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 11,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-11,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+11,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 12,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 12,2511,Wheat and products,2656,Beer,4.455
 12,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -790,7 +790,7 @@ area_code,inp_code,inp,out_code,out,value
 12,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 12,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 12,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-12,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+12,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 13,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 13,2511,Wheat and products,2656,Beer,4.455
 13,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -856,7 +856,7 @@ area_code,inp_code,inp,out_code,out,value
 13,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 13,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 13,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-13,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+13,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 14,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 14,2511,Wheat and products,2656,Beer,4.455
 14,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -922,7 +922,7 @@ area_code,inp_code,inp,out_code,out,value
 14,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 14,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 14,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-14,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+14,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 15,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 15,2511,Wheat and products,2656,Beer,4.455
 15,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -988,7 +988,7 @@ area_code,inp_code,inp,out_code,out,value
 15,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 15,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 15,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-15,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+15,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 16,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 16,2511,Wheat and products,2656,Beer,4.455
 16,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -1054,7 +1054,7 @@ area_code,inp_code,inp,out_code,out,value
 16,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 16,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 16,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-16,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+16,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 17,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 17,2511,Wheat and products,2656,Beer,4.455
 17,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -1120,7 +1120,7 @@ area_code,inp_code,inp,out_code,out,value
 17,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 17,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 17,2807,Rice and products,2659,"Alcohol, Non-Food",
-17,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+17,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 18,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 18,2511,Wheat and products,2656,Beer,4.455
 18,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -1186,7 +1186,7 @@ area_code,inp_code,inp,out_code,out,value
 18,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 18,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 18,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-18,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+18,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 19,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 19,2511,Wheat and products,2656,Beer,4.455
 19,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -1252,7 +1252,7 @@ area_code,inp_code,inp,out_code,out,value
 19,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 19,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 19,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-19,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+19,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 20,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 20,2511,Wheat and products,2656,Beer,4.455
 20,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -1318,7 +1318,7 @@ area_code,inp_code,inp,out_code,out,value
 20,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 20,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 20,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-20,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+20,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 21,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 21,2511,Wheat and products,2656,Beer,4.455
 21,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -1384,7 +1384,7 @@ area_code,inp_code,inp,out_code,out,value
 21,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 21,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 21,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-21,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+21,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 22,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 22,2511,Wheat and products,2656,Beer,4.455
 22,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -1450,7 +1450,7 @@ area_code,inp_code,inp,out_code,out,value
 22,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 22,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 22,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-22,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+22,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 23,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 23,2511,Wheat and products,2656,Beer,4.455
 23,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -1516,7 +1516,7 @@ area_code,inp_code,inp,out_code,out,value
 23,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 23,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 23,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-23,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+23,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 24,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 24,2511,Wheat and products,2656,Beer,4.455
 24,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -1582,7 +1582,7 @@ area_code,inp_code,inp,out_code,out,value
 24,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 24,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 24,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-24,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+24,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 25,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 25,2511,Wheat and products,2656,Beer,4.455
 25,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -1648,7 +1648,7 @@ area_code,inp_code,inp,out_code,out,value
 25,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 25,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 25,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-25,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+25,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 26,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 26,2511,Wheat and products,2656,Beer,4.455
 26,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -1714,7 +1714,7 @@ area_code,inp_code,inp,out_code,out,value
 26,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 26,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 26,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-26,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+26,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 27,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 27,2511,Wheat and products,2656,Beer,4.455
 27,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -1780,7 +1780,7 @@ area_code,inp_code,inp,out_code,out,value
 27,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 27,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 27,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-27,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+27,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 28,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 28,2511,Wheat and products,2656,Beer,4.455
 28,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -1846,7 +1846,7 @@ area_code,inp_code,inp,out_code,out,value
 28,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 28,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 28,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-28,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+28,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 29,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 29,2511,Wheat and products,2656,Beer,4.455
 29,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -1912,7 +1912,7 @@ area_code,inp_code,inp,out_code,out,value
 29,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 29,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 29,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-29,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+29,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 30,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 30,2511,Wheat and products,2656,Beer,4.455
 30,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -1978,7 +1978,7 @@ area_code,inp_code,inp,out_code,out,value
 30,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 30,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 30,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-30,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+30,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 31,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 31,2511,Wheat and products,2656,Beer,4.455
 31,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -2044,7 +2044,7 @@ area_code,inp_code,inp,out_code,out,value
 31,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 31,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 31,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-31,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+31,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 32,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 32,2511,Wheat and products,2656,Beer,4.455
 32,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -2110,7 +2110,7 @@ area_code,inp_code,inp,out_code,out,value
 32,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 32,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 32,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-32,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+32,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 33,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 33,2511,Wheat and products,2656,Beer,4.455
 33,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -2176,7 +2176,7 @@ area_code,inp_code,inp,out_code,out,value
 33,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 33,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 33,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-33,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+33,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 34,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 34,2511,Wheat and products,2656,Beer,4.455
 34,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -2242,7 +2242,7 @@ area_code,inp_code,inp,out_code,out,value
 34,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 34,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 34,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-34,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+34,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 35,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 35,2511,Wheat and products,2656,Beer,4.455
 35,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -2308,7 +2308,7 @@ area_code,inp_code,inp,out_code,out,value
 35,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 35,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 35,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-35,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+35,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 36,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 36,2511,Wheat and products,2656,Beer,4.455
 36,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -2374,7 +2374,7 @@ area_code,inp_code,inp,out_code,out,value
 36,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 36,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 36,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-36,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+36,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 37,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 37,2511,Wheat and products,2656,Beer,4.455
 37,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -2440,7 +2440,7 @@ area_code,inp_code,inp,out_code,out,value
 37,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 37,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 37,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-37,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+37,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 38,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 38,2511,Wheat and products,2656,Beer,4.455
 38,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -2506,7 +2506,7 @@ area_code,inp_code,inp,out_code,out,value
 38,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 38,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 38,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-38,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+38,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 39,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 39,2511,Wheat and products,2656,Beer,4.455
 39,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -2572,7 +2572,7 @@ area_code,inp_code,inp,out_code,out,value
 39,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 39,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 39,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-39,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+39,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 40,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 40,2511,Wheat and products,2656,Beer,4.455
 40,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -2638,7 +2638,7 @@ area_code,inp_code,inp,out_code,out,value
 40,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 40,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 40,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-40,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+40,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 41,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 41,2511,Wheat and products,2656,Beer,4.455
 41,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -2704,7 +2704,7 @@ area_code,inp_code,inp,out_code,out,value
 41,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 41,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 41,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-41,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+41,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 42,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 42,2511,Wheat and products,2656,Beer,4.455
 42,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -2770,7 +2770,7 @@ area_code,inp_code,inp,out_code,out,value
 42,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 42,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 42,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-42,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+42,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 43,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 43,2511,Wheat and products,2656,Beer,4.455
 43,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -2836,7 +2836,7 @@ area_code,inp_code,inp,out_code,out,value
 43,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 43,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 43,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-43,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+43,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 44,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 44,2511,Wheat and products,2656,Beer,4.455
 44,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -2902,7 +2902,7 @@ area_code,inp_code,inp,out_code,out,value
 44,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 44,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 44,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-44,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+44,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 45,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 45,2511,Wheat and products,2656,Beer,4.455
 45,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -2968,7 +2968,7 @@ area_code,inp_code,inp,out_code,out,value
 45,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 45,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 45,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-45,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+45,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 46,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 46,2511,Wheat and products,2656,Beer,4.455
 46,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -3034,7 +3034,7 @@ area_code,inp_code,inp,out_code,out,value
 46,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 46,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 46,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-46,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+46,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 47,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 47,2511,Wheat and products,2656,Beer,4.455
 47,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -3100,7 +3100,7 @@ area_code,inp_code,inp,out_code,out,value
 47,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 47,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 47,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-47,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+47,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 48,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 48,2511,Wheat and products,2656,Beer,4.455
 48,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -3166,7 +3166,7 @@ area_code,inp_code,inp,out_code,out,value
 48,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 48,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 48,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-48,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+48,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 49,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 49,2511,Wheat and products,2656,Beer,4.455
 49,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -3232,7 +3232,7 @@ area_code,inp_code,inp,out_code,out,value
 49,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 49,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 49,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-49,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+49,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 50,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 50,2511,Wheat and products,2656,Beer,4.455
 50,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -3298,7 +3298,7 @@ area_code,inp_code,inp,out_code,out,value
 50,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 50,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 50,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-50,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+50,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 51,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 51,2511,Wheat and products,2656,Beer,4.455
 51,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -3364,7 +3364,7 @@ area_code,inp_code,inp,out_code,out,value
 51,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 51,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 51,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-51,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+51,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 52,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 52,2511,Wheat and products,2656,Beer,4.455
 52,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -3430,7 +3430,7 @@ area_code,inp_code,inp,out_code,out,value
 52,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 52,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 52,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-52,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+52,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 53,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 53,2511,Wheat and products,2656,Beer,4.455
 53,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -3496,7 +3496,7 @@ area_code,inp_code,inp,out_code,out,value
 53,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 53,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 53,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-53,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+53,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 54,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 54,2511,Wheat and products,2656,Beer,4.455
 54,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -3562,7 +3562,7 @@ area_code,inp_code,inp,out_code,out,value
 54,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 54,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 54,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-54,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+54,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 55,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 55,2511,Wheat and products,2656,Beer,4.455
 55,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -3628,7 +3628,7 @@ area_code,inp_code,inp,out_code,out,value
 55,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 55,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 55,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-55,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+55,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 56,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 56,2511,Wheat and products,2656,Beer,4.455
 56,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -3694,7 +3694,7 @@ area_code,inp_code,inp,out_code,out,value
 56,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 56,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 56,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-56,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+56,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 57,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 57,2511,Wheat and products,2656,Beer,4.455
 57,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -3760,7 +3760,7 @@ area_code,inp_code,inp,out_code,out,value
 57,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 57,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 57,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-57,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+57,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 58,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 58,2511,Wheat and products,2656,Beer,4.455
 58,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -3826,7 +3826,7 @@ area_code,inp_code,inp,out_code,out,value
 58,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 58,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 58,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-58,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+58,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 59,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 59,2511,Wheat and products,2656,Beer,4.455
 59,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -3892,7 +3892,7 @@ area_code,inp_code,inp,out_code,out,value
 59,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 59,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 59,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-59,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+59,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 60,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 60,2511,Wheat and products,2656,Beer,4.455
 60,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -3958,7 +3958,7 @@ area_code,inp_code,inp,out_code,out,value
 60,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 60,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 60,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-60,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+60,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 61,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 61,2511,Wheat and products,2656,Beer,4.455
 61,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -4024,7 +4024,7 @@ area_code,inp_code,inp,out_code,out,value
 61,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 61,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 61,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-61,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+61,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 62,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 62,2511,Wheat and products,2656,Beer,4.455
 62,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -4090,7 +4090,7 @@ area_code,inp_code,inp,out_code,out,value
 62,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 62,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 62,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-62,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+62,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 63,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 63,2511,Wheat and products,2656,Beer,4.455
 63,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -4156,7 +4156,7 @@ area_code,inp_code,inp,out_code,out,value
 63,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 63,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 63,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-63,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+63,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 64,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 64,2511,Wheat and products,2656,Beer,4.455
 64,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -4222,7 +4222,7 @@ area_code,inp_code,inp,out_code,out,value
 64,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 64,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 64,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-64,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+64,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 65,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 65,2511,Wheat and products,2656,Beer,4.455
 65,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -4288,7 +4288,7 @@ area_code,inp_code,inp,out_code,out,value
 65,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 65,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 65,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-65,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+65,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 66,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 66,2511,Wheat and products,2656,Beer,4.455
 66,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -4354,7 +4354,7 @@ area_code,inp_code,inp,out_code,out,value
 66,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 66,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 66,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-66,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+66,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 67,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 67,2511,Wheat and products,2656,Beer,4.455
 67,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -4420,7 +4420,7 @@ area_code,inp_code,inp,out_code,out,value
 67,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 67,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 67,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-67,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+67,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 68,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 68,2511,Wheat and products,2656,Beer,4.455
 68,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -4486,7 +4486,7 @@ area_code,inp_code,inp,out_code,out,value
 68,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 68,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 68,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-68,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+68,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 69,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 69,2511,Wheat and products,2656,Beer,4.455
 69,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -4552,7 +4552,7 @@ area_code,inp_code,inp,out_code,out,value
 69,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 69,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 69,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-69,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+69,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 70,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 70,2511,Wheat and products,2656,Beer,4.455
 70,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -4618,7 +4618,7 @@ area_code,inp_code,inp,out_code,out,value
 70,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 70,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 70,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-70,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+70,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 71,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 71,2511,Wheat and products,2656,Beer,4.455
 71,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -4684,7 +4684,7 @@ area_code,inp_code,inp,out_code,out,value
 71,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 71,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 71,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-71,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+71,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 72,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 72,2511,Wheat and products,2656,Beer,4.455
 72,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -4750,7 +4750,7 @@ area_code,inp_code,inp,out_code,out,value
 72,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 72,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 72,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-72,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+72,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 73,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 73,2511,Wheat and products,2656,Beer,4.455
 73,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -4816,7 +4816,7 @@ area_code,inp_code,inp,out_code,out,value
 73,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 73,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 73,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-73,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+73,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 74,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 74,2511,Wheat and products,2656,Beer,4.455
 74,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -4882,7 +4882,7 @@ area_code,inp_code,inp,out_code,out,value
 74,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 74,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 74,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-74,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+74,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 75,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 75,2511,Wheat and products,2656,Beer,4.455
 75,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -4948,7 +4948,7 @@ area_code,inp_code,inp,out_code,out,value
 75,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 75,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 75,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-75,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+75,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 79,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 79,2511,Wheat and products,2656,Beer,4.455
 79,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -5014,7 +5014,7 @@ area_code,inp_code,inp,out_code,out,value
 79,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 79,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 79,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-79,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+79,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 80,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 80,2511,Wheat and products,2656,Beer,4.455
 80,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -5080,7 +5080,7 @@ area_code,inp_code,inp,out_code,out,value
 80,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 80,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 80,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-80,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+80,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 81,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 81,2511,Wheat and products,2656,Beer,4.455
 81,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -5146,7 +5146,7 @@ area_code,inp_code,inp,out_code,out,value
 81,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 81,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 81,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-81,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+81,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 82,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 82,2511,Wheat and products,2656,Beer,4.455
 82,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -5212,7 +5212,7 @@ area_code,inp_code,inp,out_code,out,value
 82,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 82,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 82,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-82,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+82,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 83,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 83,2511,Wheat and products,2656,Beer,4.455
 83,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -5278,7 +5278,7 @@ area_code,inp_code,inp,out_code,out,value
 83,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 83,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 83,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-83,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+83,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 84,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 84,2511,Wheat and products,2656,Beer,4.455
 84,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -5344,7 +5344,7 @@ area_code,inp_code,inp,out_code,out,value
 84,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 84,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 84,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-84,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+84,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 85,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 85,2511,Wheat and products,2656,Beer,4.455
 85,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -5410,7 +5410,7 @@ area_code,inp_code,inp,out_code,out,value
 85,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 85,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 85,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-85,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+85,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 86,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 86,2511,Wheat and products,2656,Beer,4.455
 86,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -5476,7 +5476,7 @@ area_code,inp_code,inp,out_code,out,value
 86,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 86,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 86,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-86,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+86,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 87,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 87,2511,Wheat and products,2656,Beer,4.455
 87,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -5542,7 +5542,7 @@ area_code,inp_code,inp,out_code,out,value
 87,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 87,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 87,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-87,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+87,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 88,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 88,2511,Wheat and products,2656,Beer,4.455
 88,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -5608,7 +5608,7 @@ area_code,inp_code,inp,out_code,out,value
 88,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 88,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 88,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-88,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+88,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 89,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 89,2511,Wheat and products,2656,Beer,4.455
 89,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -5674,7 +5674,7 @@ area_code,inp_code,inp,out_code,out,value
 89,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 89,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 89,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-89,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+89,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 90,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 90,2511,Wheat and products,2656,Beer,4.455
 90,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -5740,7 +5740,7 @@ area_code,inp_code,inp,out_code,out,value
 90,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 90,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 90,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-90,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+90,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 91,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 91,2511,Wheat and products,2656,Beer,4.455
 91,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -5806,7 +5806,7 @@ area_code,inp_code,inp,out_code,out,value
 91,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 91,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 91,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-91,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+91,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 92,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 92,2511,Wheat and products,2656,Beer,4.455
 92,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -5872,7 +5872,7 @@ area_code,inp_code,inp,out_code,out,value
 92,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 92,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 92,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-92,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+92,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 93,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 93,2511,Wheat and products,2656,Beer,4.455
 93,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -5938,7 +5938,7 @@ area_code,inp_code,inp,out_code,out,value
 93,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 93,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 93,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-93,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+93,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 94,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 94,2511,Wheat and products,2656,Beer,4.455
 94,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -6004,7 +6004,7 @@ area_code,inp_code,inp,out_code,out,value
 94,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 94,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 94,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-94,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+94,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 95,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 95,2511,Wheat and products,2656,Beer,4.455
 95,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -6070,7 +6070,7 @@ area_code,inp_code,inp,out_code,out,value
 95,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 95,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 95,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-95,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+95,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 96,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 96,2511,Wheat and products,2656,Beer,4.455
 96,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -6136,7 +6136,7 @@ area_code,inp_code,inp,out_code,out,value
 96,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 96,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 96,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-96,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+96,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 97,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 97,2511,Wheat and products,2656,Beer,4.455
 97,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -6202,7 +6202,7 @@ area_code,inp_code,inp,out_code,out,value
 97,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 97,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 97,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-97,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+97,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 98,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 98,2511,Wheat and products,2656,Beer,4.455
 98,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -6268,7 +6268,7 @@ area_code,inp_code,inp,out_code,out,value
 98,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 98,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 98,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-98,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+98,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 99,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 99,2511,Wheat and products,2656,Beer,4.455
 99,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -6334,7 +6334,7 @@ area_code,inp_code,inp,out_code,out,value
 99,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 99,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 99,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-99,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+99,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 100,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 100,2511,Wheat and products,2656,Beer,4.455
 100,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -6400,7 +6400,7 @@ area_code,inp_code,inp,out_code,out,value
 100,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 100,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 100,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-100,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+100,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 101,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 101,2511,Wheat and products,2656,Beer,4.455
 101,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -6466,7 +6466,7 @@ area_code,inp_code,inp,out_code,out,value
 101,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 101,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 101,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-101,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+101,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 102,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 102,2511,Wheat and products,2656,Beer,4.455
 102,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -6532,7 +6532,7 @@ area_code,inp_code,inp,out_code,out,value
 102,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 102,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 102,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-102,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+102,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 103,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 103,2511,Wheat and products,2656,Beer,4.455
 103,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -6598,7 +6598,7 @@ area_code,inp_code,inp,out_code,out,value
 103,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 103,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 103,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-103,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+103,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 104,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 104,2511,Wheat and products,2656,Beer,4.455
 104,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -6664,7 +6664,7 @@ area_code,inp_code,inp,out_code,out,value
 104,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 104,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 104,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-104,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+104,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 105,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 105,2511,Wheat and products,2656,Beer,4.455
 105,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -6730,7 +6730,7 @@ area_code,inp_code,inp,out_code,out,value
 105,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 105,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 105,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-105,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+105,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 106,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 106,2511,Wheat and products,2656,Beer,4.455
 106,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -6796,7 +6796,7 @@ area_code,inp_code,inp,out_code,out,value
 106,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 106,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 106,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-106,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+106,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 107,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 107,2511,Wheat and products,2656,Beer,4.455
 107,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -6862,7 +6862,7 @@ area_code,inp_code,inp,out_code,out,value
 107,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 107,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 107,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-107,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+107,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 108,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 108,2511,Wheat and products,2656,Beer,4.455
 108,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -6928,7 +6928,7 @@ area_code,inp_code,inp,out_code,out,value
 108,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 108,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 108,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-108,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+108,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 109,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 109,2511,Wheat and products,2656,Beer,4.455
 109,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -6994,7 +6994,7 @@ area_code,inp_code,inp,out_code,out,value
 109,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 109,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 109,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-109,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+109,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 110,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 110,2511,Wheat and products,2656,Beer,4.455
 110,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -7060,7 +7060,7 @@ area_code,inp_code,inp,out_code,out,value
 110,2807,Rice and products,2657,"Beverages, Fermented",1.75
 110,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 110,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-110,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+110,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 111,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 111,2511,Wheat and products,2656,Beer,4.455
 111,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -7126,7 +7126,7 @@ area_code,inp_code,inp,out_code,out,value
 111,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 111,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 111,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-111,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+111,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 112,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 112,2511,Wheat and products,2656,Beer,4.455
 112,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -7192,7 +7192,7 @@ area_code,inp_code,inp,out_code,out,value
 112,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 112,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 112,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-112,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+112,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 113,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 113,2511,Wheat and products,2656,Beer,4.455
 113,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -7258,7 +7258,7 @@ area_code,inp_code,inp,out_code,out,value
 113,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 113,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 113,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-113,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+113,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 114,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 114,2511,Wheat and products,2656,Beer,4.455
 114,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -7324,7 +7324,7 @@ area_code,inp_code,inp,out_code,out,value
 114,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 114,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 114,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-114,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+114,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 115,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 115,2511,Wheat and products,2656,Beer,4.455
 115,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -7390,7 +7390,7 @@ area_code,inp_code,inp,out_code,out,value
 115,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 115,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 115,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-115,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+115,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 116,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 116,2511,Wheat and products,2656,Beer,1.2
 116,2511,Wheat and products,2657,"Beverages, Fermented",1.2
@@ -7456,7 +7456,7 @@ area_code,inp_code,inp,out_code,out,value
 116,2807,Rice and products,2657,"Beverages, Fermented",5.66
 116,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 116,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-116,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+116,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 117,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 117,2511,Wheat and products,2656,Beer,1.2
 117,2511,Wheat and products,2657,"Beverages, Fermented",1.2
@@ -7522,7 +7522,7 @@ area_code,inp_code,inp,out_code,out,value
 117,2807,Rice and products,2657,"Beverages, Fermented",5.66
 117,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 117,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-117,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+117,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 118,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 118,2511,Wheat and products,2656,Beer,4.455
 118,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -7588,7 +7588,7 @@ area_code,inp_code,inp,out_code,out,value
 118,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 118,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 118,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-118,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+118,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 119,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 119,2511,Wheat and products,2656,Beer,4.455
 119,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -7654,7 +7654,7 @@ area_code,inp_code,inp,out_code,out,value
 119,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 119,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 119,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-119,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+119,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 120,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 120,2511,Wheat and products,2656,Beer,4.455
 120,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -7720,7 +7720,7 @@ area_code,inp_code,inp,out_code,out,value
 120,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 120,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 120,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-120,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+120,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 121,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 121,2511,Wheat and products,2656,Beer,4.455
 121,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -7786,7 +7786,7 @@ area_code,inp_code,inp,out_code,out,value
 121,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 121,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 121,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-121,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+121,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 122,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 122,2511,Wheat and products,2656,Beer,4.455
 122,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -7852,7 +7852,7 @@ area_code,inp_code,inp,out_code,out,value
 122,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 122,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 122,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-122,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+122,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 123,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 123,2511,Wheat and products,2656,Beer,4.455
 123,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -7918,7 +7918,7 @@ area_code,inp_code,inp,out_code,out,value
 123,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 123,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 123,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-123,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+123,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 124,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 124,2511,Wheat and products,2656,Beer,4.455
 124,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -7984,7 +7984,7 @@ area_code,inp_code,inp,out_code,out,value
 124,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 124,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 124,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-124,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+124,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 125,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 125,2511,Wheat and products,2656,Beer,4.455
 125,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -8050,7 +8050,7 @@ area_code,inp_code,inp,out_code,out,value
 125,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 125,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 125,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-125,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+125,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 126,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 126,2511,Wheat and products,2656,Beer,4.455
 126,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -8116,7 +8116,7 @@ area_code,inp_code,inp,out_code,out,value
 126,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 126,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 126,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-126,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+126,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 127,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 127,2511,Wheat and products,2656,Beer,4.455
 127,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -8182,7 +8182,7 @@ area_code,inp_code,inp,out_code,out,value
 127,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 127,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 127,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-127,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+127,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 128,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 128,2511,Wheat and products,2656,Beer,4.455
 128,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -8248,7 +8248,7 @@ area_code,inp_code,inp,out_code,out,value
 128,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 128,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 128,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-128,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+128,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 129,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 129,2511,Wheat and products,2656,Beer,4.455
 129,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -8314,7 +8314,7 @@ area_code,inp_code,inp,out_code,out,value
 129,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 129,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 129,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-129,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+129,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 130,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 130,2511,Wheat and products,2656,Beer,4.455
 130,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -8380,7 +8380,7 @@ area_code,inp_code,inp,out_code,out,value
 130,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 130,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 130,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-130,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+130,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 131,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 131,2511,Wheat and products,2656,Beer,4.455
 131,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -8446,7 +8446,7 @@ area_code,inp_code,inp,out_code,out,value
 131,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 131,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 131,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-131,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+131,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 132,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 132,2511,Wheat and products,2656,Beer,4.455
 132,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -8512,7 +8512,7 @@ area_code,inp_code,inp,out_code,out,value
 132,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 132,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 132,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-132,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+132,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 133,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 133,2511,Wheat and products,2656,Beer,4.455
 133,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -8578,7 +8578,7 @@ area_code,inp_code,inp,out_code,out,value
 133,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 133,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 133,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-133,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+133,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 134,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 134,2511,Wheat and products,2656,Beer,4.455
 134,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -8644,7 +8644,7 @@ area_code,inp_code,inp,out_code,out,value
 134,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 134,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 134,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-134,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+134,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 135,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 135,2511,Wheat and products,2656,Beer,4.455
 135,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -8710,7 +8710,7 @@ area_code,inp_code,inp,out_code,out,value
 135,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 135,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 135,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-135,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+135,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 136,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 136,2511,Wheat and products,2656,Beer,4.455
 136,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -8776,7 +8776,7 @@ area_code,inp_code,inp,out_code,out,value
 136,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 136,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 136,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-136,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+136,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 137,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 137,2511,Wheat and products,2656,Beer,4.455
 137,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -8842,7 +8842,7 @@ area_code,inp_code,inp,out_code,out,value
 137,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 137,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 137,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-137,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+137,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 138,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 138,2511,Wheat and products,2656,Beer,4.455
 138,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -8908,7 +8908,7 @@ area_code,inp_code,inp,out_code,out,value
 138,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 138,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 138,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-138,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+138,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 139,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 139,2511,Wheat and products,2656,Beer,4.455
 139,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -8974,7 +8974,7 @@ area_code,inp_code,inp,out_code,out,value
 139,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 139,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 139,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-139,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+139,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 140,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 140,2511,Wheat and products,2656,Beer,4.455
 140,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -9040,7 +9040,7 @@ area_code,inp_code,inp,out_code,out,value
 140,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 140,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 140,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-140,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+140,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 141,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 141,2511,Wheat and products,2656,Beer,4.455
 141,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -9106,7 +9106,7 @@ area_code,inp_code,inp,out_code,out,value
 141,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 141,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 141,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-141,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+141,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 142,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 142,2511,Wheat and products,2656,Beer,4.455
 142,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -9172,7 +9172,7 @@ area_code,inp_code,inp,out_code,out,value
 142,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 142,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 142,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-142,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+142,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 143,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 143,2511,Wheat and products,2656,Beer,4.455
 143,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -9238,7 +9238,7 @@ area_code,inp_code,inp,out_code,out,value
 143,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 143,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 143,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-143,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+143,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 144,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 144,2511,Wheat and products,2656,Beer,4.455
 144,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -9304,7 +9304,7 @@ area_code,inp_code,inp,out_code,out,value
 144,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 144,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 144,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-144,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+144,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 145,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 145,2511,Wheat and products,2656,Beer,4.455
 145,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -9370,7 +9370,7 @@ area_code,inp_code,inp,out_code,out,value
 145,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 145,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 145,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-145,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+145,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 146,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 146,2511,Wheat and products,2656,Beer,4.455
 146,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -9436,7 +9436,7 @@ area_code,inp_code,inp,out_code,out,value
 146,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 146,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 146,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-146,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+146,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 147,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 147,2511,Wheat and products,2656,Beer,4.455
 147,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -9502,7 +9502,7 @@ area_code,inp_code,inp,out_code,out,value
 147,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 147,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 147,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-147,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+147,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 148,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 148,2511,Wheat and products,2656,Beer,4.455
 148,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -9568,7 +9568,7 @@ area_code,inp_code,inp,out_code,out,value
 148,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 148,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 148,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-148,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+148,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 149,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 149,2511,Wheat and products,2656,Beer,4.455
 149,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -9634,7 +9634,7 @@ area_code,inp_code,inp,out_code,out,value
 149,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 149,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 149,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-149,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+149,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 150,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 150,2511,Wheat and products,2656,Beer,4.455
 150,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -9700,7 +9700,7 @@ area_code,inp_code,inp,out_code,out,value
 150,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 150,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 150,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-150,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+150,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 151,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 151,2511,Wheat and products,2656,Beer,4.455
 151,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -9766,7 +9766,7 @@ area_code,inp_code,inp,out_code,out,value
 151,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 151,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 151,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-151,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+151,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 152,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 152,2511,Wheat and products,2656,Beer,4.455
 152,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -9832,7 +9832,7 @@ area_code,inp_code,inp,out_code,out,value
 152,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 152,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 152,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-152,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+152,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 153,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 153,2511,Wheat and products,2656,Beer,4.455
 153,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -9898,7 +9898,7 @@ area_code,inp_code,inp,out_code,out,value
 153,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 153,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 153,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-153,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+153,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 154,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 154,2511,Wheat and products,2656,Beer,4.455
 154,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -9964,7 +9964,7 @@ area_code,inp_code,inp,out_code,out,value
 154,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 154,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 154,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-154,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+154,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 155,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 155,2511,Wheat and products,2656,Beer,4.455
 155,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -10030,7 +10030,7 @@ area_code,inp_code,inp,out_code,out,value
 155,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 155,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 155,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-155,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+155,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 156,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 156,2511,Wheat and products,2656,Beer,4.455
 156,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -10096,7 +10096,7 @@ area_code,inp_code,inp,out_code,out,value
 156,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 156,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 156,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-156,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+156,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 157,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 157,2511,Wheat and products,2656,Beer,4.455
 157,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -10162,7 +10162,7 @@ area_code,inp_code,inp,out_code,out,value
 157,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 157,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 157,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-157,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+157,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 158,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 158,2511,Wheat and products,2656,Beer,4.455
 158,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -10228,7 +10228,7 @@ area_code,inp_code,inp,out_code,out,value
 158,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 158,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 158,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-158,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+158,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 159,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 159,2511,Wheat and products,2656,Beer,4.455
 159,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -10294,7 +10294,7 @@ area_code,inp_code,inp,out_code,out,value
 159,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 159,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 159,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-159,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+159,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 160,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 160,2511,Wheat and products,2656,Beer,4.455
 160,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -10360,7 +10360,7 @@ area_code,inp_code,inp,out_code,out,value
 160,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 160,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 160,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-160,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+160,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 161,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 161,2511,Wheat and products,2656,Beer,4.455
 161,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -10426,7 +10426,7 @@ area_code,inp_code,inp,out_code,out,value
 161,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 161,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 161,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-161,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+161,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 162,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 162,2511,Wheat and products,2656,Beer,4.455
 162,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -10492,7 +10492,7 @@ area_code,inp_code,inp,out_code,out,value
 162,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 162,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 162,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-162,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+162,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 163,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 163,2511,Wheat and products,2656,Beer,4.455
 163,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -10558,7 +10558,7 @@ area_code,inp_code,inp,out_code,out,value
 163,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 163,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 163,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-163,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+163,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 164,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 164,2511,Wheat and products,2656,Beer,4.455
 164,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -10624,7 +10624,7 @@ area_code,inp_code,inp,out_code,out,value
 164,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 164,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 164,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-164,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+164,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 165,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 165,2511,Wheat and products,2656,Beer,4.455
 165,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -10690,7 +10690,7 @@ area_code,inp_code,inp,out_code,out,value
 165,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 165,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 165,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-165,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+165,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 166,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 166,2511,Wheat and products,2656,Beer,4.455
 166,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -10756,7 +10756,7 @@ area_code,inp_code,inp,out_code,out,value
 166,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 166,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 166,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-166,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+166,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 167,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 167,2511,Wheat and products,2656,Beer,4.455
 167,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -10822,7 +10822,7 @@ area_code,inp_code,inp,out_code,out,value
 167,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 167,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 167,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-167,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+167,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 168,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 168,2511,Wheat and products,2656,Beer,4.455
 168,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -10888,7 +10888,7 @@ area_code,inp_code,inp,out_code,out,value
 168,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 168,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 168,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-168,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+168,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 169,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 169,2511,Wheat and products,2656,Beer,4.455
 169,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -10954,7 +10954,7 @@ area_code,inp_code,inp,out_code,out,value
 169,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 169,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 169,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-169,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+169,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 170,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 170,2511,Wheat and products,2656,Beer,4.455
 170,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -11020,7 +11020,7 @@ area_code,inp_code,inp,out_code,out,value
 170,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 170,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 170,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-170,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+170,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 171,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 171,2511,Wheat and products,2656,Beer,4.455
 171,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -11086,7 +11086,7 @@ area_code,inp_code,inp,out_code,out,value
 171,2807,Rice and products,2657,"Beverages, Fermented",2
 171,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 171,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-171,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+171,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 172,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 172,2511,Wheat and products,2656,Beer,4.455
 172,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -11152,7 +11152,7 @@ area_code,inp_code,inp,out_code,out,value
 172,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 172,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 172,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-172,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+172,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 173,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 173,2511,Wheat and products,2656,Beer,4.455
 173,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -11218,7 +11218,7 @@ area_code,inp_code,inp,out_code,out,value
 173,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 173,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 173,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-173,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+173,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 174,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 174,2511,Wheat and products,2656,Beer,4.455
 174,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -11284,7 +11284,7 @@ area_code,inp_code,inp,out_code,out,value
 174,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 174,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 174,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-174,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+174,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 175,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 175,2511,Wheat and products,2656,Beer,4.455
 175,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -11350,7 +11350,7 @@ area_code,inp_code,inp,out_code,out,value
 175,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 175,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 175,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-175,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+175,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 176,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 176,2511,Wheat and products,2656,Beer,4.455
 176,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -11416,7 +11416,7 @@ area_code,inp_code,inp,out_code,out,value
 176,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 176,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 176,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-176,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+176,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 177,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 177,2511,Wheat and products,2656,Beer,4.455
 177,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -11482,7 +11482,7 @@ area_code,inp_code,inp,out_code,out,value
 177,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 177,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 177,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-177,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+177,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 178,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 178,2511,Wheat and products,2656,Beer,4.455
 178,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -11548,7 +11548,7 @@ area_code,inp_code,inp,out_code,out,value
 178,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 178,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 178,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-178,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+178,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 179,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 179,2511,Wheat and products,2656,Beer,4.455
 179,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -11614,7 +11614,7 @@ area_code,inp_code,inp,out_code,out,value
 179,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 179,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 179,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-179,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+179,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 180,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 180,2511,Wheat and products,2656,Beer,4.455
 180,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -11680,7 +11680,7 @@ area_code,inp_code,inp,out_code,out,value
 180,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 180,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 180,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-180,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+180,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 181,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 181,2511,Wheat and products,2656,Beer,4.455
 181,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -11746,7 +11746,7 @@ area_code,inp_code,inp,out_code,out,value
 181,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 181,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 181,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-181,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+181,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 182,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 182,2511,Wheat and products,2656,Beer,4.455
 182,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -11812,7 +11812,7 @@ area_code,inp_code,inp,out_code,out,value
 182,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 182,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 182,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-182,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+182,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 183,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 183,2511,Wheat and products,2656,Beer,4.455
 183,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -11878,7 +11878,7 @@ area_code,inp_code,inp,out_code,out,value
 183,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 183,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 183,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-183,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+183,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 184,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 184,2511,Wheat and products,2656,Beer,4.455
 184,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -11944,7 +11944,7 @@ area_code,inp_code,inp,out_code,out,value
 184,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 184,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 184,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-184,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+184,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 185,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 185,2511,Wheat and products,2656,Beer,4.455
 185,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -12010,7 +12010,7 @@ area_code,inp_code,inp,out_code,out,value
 185,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 185,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 185,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-185,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+185,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 186,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 186,2511,Wheat and products,2656,Beer,4.455
 186,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -12076,7 +12076,7 @@ area_code,inp_code,inp,out_code,out,value
 186,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 186,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 186,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-186,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+186,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 187,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 187,2511,Wheat and products,2656,Beer,4.455
 187,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -12142,7 +12142,7 @@ area_code,inp_code,inp,out_code,out,value
 187,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 187,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 187,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-187,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+187,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 188,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 188,2511,Wheat and products,2656,Beer,4.455
 188,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -12208,7 +12208,7 @@ area_code,inp_code,inp,out_code,out,value
 188,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 188,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 188,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-188,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+188,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 189,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 189,2511,Wheat and products,2656,Beer,4.455
 189,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -12274,7 +12274,7 @@ area_code,inp_code,inp,out_code,out,value
 189,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 189,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 189,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-189,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+189,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 190,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 190,2511,Wheat and products,2656,Beer,4.455
 190,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -12340,7 +12340,7 @@ area_code,inp_code,inp,out_code,out,value
 190,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 190,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 190,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-190,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+190,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 191,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 191,2511,Wheat and products,2656,Beer,4.455
 191,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -12406,7 +12406,7 @@ area_code,inp_code,inp,out_code,out,value
 191,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 191,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 191,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-191,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+191,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 192,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 192,2511,Wheat and products,2656,Beer,4.455
 192,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -12472,7 +12472,7 @@ area_code,inp_code,inp,out_code,out,value
 192,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 192,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 192,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-192,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+192,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 193,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 193,2511,Wheat and products,2656,Beer,4.455
 193,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -12538,7 +12538,7 @@ area_code,inp_code,inp,out_code,out,value
 193,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 193,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 193,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-193,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+193,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 194,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 194,2511,Wheat and products,2656,Beer,4.455
 194,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -12604,7 +12604,7 @@ area_code,inp_code,inp,out_code,out,value
 194,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 194,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 194,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-194,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+194,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 195,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 195,2511,Wheat and products,2656,Beer,4.455
 195,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -12670,7 +12670,7 @@ area_code,inp_code,inp,out_code,out,value
 195,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 195,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 195,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-195,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+195,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 196,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 196,2511,Wheat and products,2656,Beer,4.455
 196,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -12736,7 +12736,7 @@ area_code,inp_code,inp,out_code,out,value
 196,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 196,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 196,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-196,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+196,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 197,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 197,2511,Wheat and products,2656,Beer,4.455
 197,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -12802,7 +12802,7 @@ area_code,inp_code,inp,out_code,out,value
 197,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 197,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 197,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-197,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+197,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 198,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 198,2511,Wheat and products,2656,Beer,4.455
 198,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -12868,7 +12868,7 @@ area_code,inp_code,inp,out_code,out,value
 198,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 198,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 198,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-198,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+198,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 199,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 199,2511,Wheat and products,2656,Beer,4.455
 199,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -12934,7 +12934,7 @@ area_code,inp_code,inp,out_code,out,value
 199,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 199,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 199,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-199,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+199,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 200,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 200,2511,Wheat and products,2656,Beer,4.455
 200,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -13000,7 +13000,7 @@ area_code,inp_code,inp,out_code,out,value
 200,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 200,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 200,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-200,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+200,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 201,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 201,2511,Wheat and products,2656,Beer,4.455
 201,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -13066,7 +13066,7 @@ area_code,inp_code,inp,out_code,out,value
 201,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 201,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 201,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-201,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+201,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 202,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 202,2511,Wheat and products,2656,Beer,4.455
 202,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -13132,7 +13132,7 @@ area_code,inp_code,inp,out_code,out,value
 202,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 202,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 202,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-202,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+202,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 203,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 203,2511,Wheat and products,2656,Beer,4.455
 203,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -13198,7 +13198,7 @@ area_code,inp_code,inp,out_code,out,value
 203,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 203,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 203,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-203,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+203,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 205,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 205,2511,Wheat and products,2656,Beer,4.455
 205,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -13264,7 +13264,7 @@ area_code,inp_code,inp,out_code,out,value
 205,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 205,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 205,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-205,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+205,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 206,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 206,2511,Wheat and products,2656,Beer,4.455
 206,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -13330,7 +13330,7 @@ area_code,inp_code,inp,out_code,out,value
 206,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 206,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 206,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-206,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+206,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 277,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 277,2511,Wheat and products,2656,Beer,4.455
 277,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -13396,7 +13396,7 @@ area_code,inp_code,inp,out_code,out,value
 277,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 277,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 277,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-277,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+277,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 207,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 207,2511,Wheat and products,2656,Beer,4.455
 207,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -13462,7 +13462,7 @@ area_code,inp_code,inp,out_code,out,value
 207,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 207,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 207,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-207,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+207,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 208,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 208,2511,Wheat and products,2656,Beer,4.455
 208,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -13528,7 +13528,7 @@ area_code,inp_code,inp,out_code,out,value
 208,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 208,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 208,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-208,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+208,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 209,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 209,2511,Wheat and products,2656,Beer,4.455
 209,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -13594,7 +13594,7 @@ area_code,inp_code,inp,out_code,out,value
 209,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 209,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 209,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-209,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+209,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 210,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 210,2511,Wheat and products,2656,Beer,4.455
 210,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -13660,7 +13660,7 @@ area_code,inp_code,inp,out_code,out,value
 210,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 210,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 210,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-210,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+210,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 211,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 211,2511,Wheat and products,2656,Beer,4.455
 211,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -13726,7 +13726,7 @@ area_code,inp_code,inp,out_code,out,value
 211,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 211,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 211,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-211,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+211,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 212,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 212,2511,Wheat and products,2656,Beer,4.455
 212,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -13792,7 +13792,7 @@ area_code,inp_code,inp,out_code,out,value
 212,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 212,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 212,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-212,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+212,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 213,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 213,2511,Wheat and products,2656,Beer,4.455
 213,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -13858,7 +13858,7 @@ area_code,inp_code,inp,out_code,out,value
 213,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 213,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 213,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-213,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+213,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 214,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 214,2511,Wheat and products,2656,Beer,4.455
 214,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -13924,7 +13924,7 @@ area_code,inp_code,inp,out_code,out,value
 214,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 214,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 214,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-214,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+214,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 215,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 215,2511,Wheat and products,2656,Beer,4.455
 215,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -13990,7 +13990,7 @@ area_code,inp_code,inp,out_code,out,value
 215,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 215,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 215,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-215,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+215,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 216,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 216,2511,Wheat and products,2656,Beer,4.455
 216,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -14056,7 +14056,7 @@ area_code,inp_code,inp,out_code,out,value
 216,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 216,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 216,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-216,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+216,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 217,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 217,2511,Wheat and products,2656,Beer,4.455
 217,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -14122,7 +14122,7 @@ area_code,inp_code,inp,out_code,out,value
 217,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 217,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 217,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-217,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+217,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 218,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 218,2511,Wheat and products,2656,Beer,4.455
 218,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -14188,7 +14188,7 @@ area_code,inp_code,inp,out_code,out,value
 218,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 218,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 218,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-218,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+218,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 219,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 219,2511,Wheat and products,2656,Beer,4.455
 219,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -14254,7 +14254,7 @@ area_code,inp_code,inp,out_code,out,value
 219,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 219,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 219,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-219,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+219,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 220,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 220,2511,Wheat and products,2656,Beer,4.455
 220,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -14320,7 +14320,7 @@ area_code,inp_code,inp,out_code,out,value
 220,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 220,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 220,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-220,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+220,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 221,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 221,2511,Wheat and products,2656,Beer,4.455
 221,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -14386,7 +14386,7 @@ area_code,inp_code,inp,out_code,out,value
 221,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 221,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 221,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-221,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+221,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 222,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 222,2511,Wheat and products,2656,Beer,4.455
 222,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -14452,7 +14452,7 @@ area_code,inp_code,inp,out_code,out,value
 222,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 222,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 222,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-222,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+222,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 223,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 223,2511,Wheat and products,2656,Beer,4.455
 223,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -14518,7 +14518,7 @@ area_code,inp_code,inp,out_code,out,value
 223,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 223,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 223,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-223,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+223,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 224,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 224,2511,Wheat and products,2656,Beer,4.455
 224,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -14584,7 +14584,7 @@ area_code,inp_code,inp,out_code,out,value
 224,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 224,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 224,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-224,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+224,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 225,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 225,2511,Wheat and products,2656,Beer,4.455
 225,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -14650,7 +14650,7 @@ area_code,inp_code,inp,out_code,out,value
 225,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 225,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 225,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-225,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+225,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 226,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 226,2511,Wheat and products,2656,Beer,4.455
 226,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -14716,7 +14716,7 @@ area_code,inp_code,inp,out_code,out,value
 226,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 226,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 226,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-226,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+226,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 227,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 227,2511,Wheat and products,2656,Beer,4.455
 227,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -14782,7 +14782,7 @@ area_code,inp_code,inp,out_code,out,value
 227,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 227,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 227,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-227,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+227,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 228,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 228,2511,Wheat and products,2656,Beer,4.455
 228,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -14848,7 +14848,7 @@ area_code,inp_code,inp,out_code,out,value
 228,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 228,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 228,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-228,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+228,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 229,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 229,2511,Wheat and products,2656,Beer,4.455
 229,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -14914,7 +14914,7 @@ area_code,inp_code,inp,out_code,out,value
 229,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 229,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 229,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-229,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+229,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 230,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 230,2511,Wheat and products,2656,Beer,4.455
 230,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -14980,7 +14980,7 @@ area_code,inp_code,inp,out_code,out,value
 230,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 230,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 230,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-230,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+230,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 231,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 231,2511,Wheat and products,2656,Beer,4.455
 231,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -15046,7 +15046,7 @@ area_code,inp_code,inp,out_code,out,value
 231,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 231,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 231,2807,Rice and products,2659,"Alcohol, Non-Food",
-231,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+231,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 232,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 232,2511,Wheat and products,2656,Beer,4.455
 232,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -15112,7 +15112,7 @@ area_code,inp_code,inp,out_code,out,value
 232,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 232,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 232,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-232,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+232,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 233,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 233,2511,Wheat and products,2656,Beer,4.455
 233,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -15178,7 +15178,7 @@ area_code,inp_code,inp,out_code,out,value
 233,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 233,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 233,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-233,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+233,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 234,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 234,2511,Wheat and products,2656,Beer,4.455
 234,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -15244,7 +15244,7 @@ area_code,inp_code,inp,out_code,out,value
 234,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 234,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 234,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-234,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+234,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 235,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 235,2511,Wheat and products,2656,Beer,4.455
 235,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -15310,7 +15310,7 @@ area_code,inp_code,inp,out_code,out,value
 235,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 235,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 235,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-235,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+235,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 236,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 236,2511,Wheat and products,2656,Beer,4.455
 236,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -15376,7 +15376,7 @@ area_code,inp_code,inp,out_code,out,value
 236,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 236,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 236,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-236,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+236,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 237,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 237,2511,Wheat and products,2656,Beer,4.455
 237,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -15442,7 +15442,7 @@ area_code,inp_code,inp,out_code,out,value
 237,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 237,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 237,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-237,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+237,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 239,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 239,2511,Wheat and products,2656,Beer,4.455
 239,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -15508,7 +15508,7 @@ area_code,inp_code,inp,out_code,out,value
 239,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 239,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 239,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-239,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+239,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 240,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 240,2511,Wheat and products,2656,Beer,4.455
 240,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -15574,7 +15574,7 @@ area_code,inp_code,inp,out_code,out,value
 240,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 240,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 240,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-240,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+240,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 242,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 242,2511,Wheat and products,2656,Beer,4.455
 242,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -15640,7 +15640,7 @@ area_code,inp_code,inp,out_code,out,value
 242,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 242,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 242,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-242,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+242,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 243,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 243,2511,Wheat and products,2656,Beer,4.455
 243,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -15706,7 +15706,7 @@ area_code,inp_code,inp,out_code,out,value
 243,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 243,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 243,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-243,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+243,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 244,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 244,2511,Wheat and products,2656,Beer,4.455
 244,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -15772,7 +15772,7 @@ area_code,inp_code,inp,out_code,out,value
 244,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 244,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 244,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-244,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+244,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 248,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 248,2511,Wheat and products,2656,Beer,4.455
 248,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -15838,7 +15838,7 @@ area_code,inp_code,inp,out_code,out,value
 248,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 248,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 248,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-248,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+248,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 249,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 249,2511,Wheat and products,2656,Beer,4.455
 249,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -15904,7 +15904,7 @@ area_code,inp_code,inp,out_code,out,value
 249,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 249,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 249,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-249,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+249,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 250,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 250,2511,Wheat and products,2656,Beer,4.455
 250,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -15970,7 +15970,7 @@ area_code,inp_code,inp,out_code,out,value
 250,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 250,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 250,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-250,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+250,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 251,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 251,2511,Wheat and products,2656,Beer,4.455
 251,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -16036,7 +16036,7 @@ area_code,inp_code,inp,out_code,out,value
 251,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 251,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 251,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-251,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+251,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 252,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 252,2511,Wheat and products,2656,Beer,4.455
 252,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -16102,7 +16102,7 @@ area_code,inp_code,inp,out_code,out,value
 252,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 252,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 252,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-252,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+252,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 255,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 255,2511,Wheat and products,2656,Beer,4.455
 255,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -16168,7 +16168,7 @@ area_code,inp_code,inp,out_code,out,value
 255,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 255,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 255,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-255,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+255,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 256,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 256,2511,Wheat and products,2656,Beer,4.455
 256,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -16234,7 +16234,7 @@ area_code,inp_code,inp,out_code,out,value
 256,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 256,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 256,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-256,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+256,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 258,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 258,2511,Wheat and products,2656,Beer,4.455
 258,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -16300,7 +16300,7 @@ area_code,inp_code,inp,out_code,out,value
 258,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 258,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 258,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-258,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+258,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 260,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 260,2511,Wheat and products,2656,Beer,4.455
 260,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -16366,7 +16366,7 @@ area_code,inp_code,inp,out_code,out,value
 260,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 260,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 260,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-260,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+260,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 270,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 270,2511,Wheat and products,2656,Beer,4.455
 270,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -16432,7 +16432,7 @@ area_code,inp_code,inp,out_code,out,value
 270,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 270,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 270,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-270,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+270,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 271,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 271,2511,Wheat and products,2656,Beer,4.455
 271,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -16498,7 +16498,7 @@ area_code,inp_code,inp,out_code,out,value
 271,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 271,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 271,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-271,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+271,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 272,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 272,2511,Wheat and products,2656,Beer,4.455
 272,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -16564,7 +16564,7 @@ area_code,inp_code,inp,out_code,out,value
 272,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 272,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 272,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-272,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+272,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 273,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 273,2511,Wheat and products,2656,Beer,4.455
 273,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -16630,7 +16630,7 @@ area_code,inp_code,inp,out_code,out,value
 273,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 273,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 273,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-273,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+273,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 299,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 299,2511,Wheat and products,2656,Beer,4.455
 299,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -16696,7 +16696,7 @@ area_code,inp_code,inp,out_code,out,value
 299,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 299,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 299,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-299,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+299,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 999,2511,Wheat and products,2543,"Sweeteners, Other",1.078
 999,2511,Wheat and products,2656,Beer,4.455
 999,2511,Wheat and products,2657,"Beverages, Fermented",4.455
@@ -16762,7 +16762,7 @@ area_code,inp_code,inp,out_code,out,value
 999,2807,Rice and products,2657,"Beverages, Fermented",2.7775
 999,2807,Rice and products,2658,"Beverages, Alcoholic",0.71775
 999,2807,Rice and products,2659,"Alcohol, Non-Food",0.297
-999,2542,"Sugar (Raw Equivalent)",2658,"Beverages, Alcoholic",1.3
+999,2542,Sugar (Raw Equivalent),2658,"Beverages, Alcoholic",1.3
 1,2544,Molasses,2543,"Sweeteners, Other",1
 2,2544,Molasses,2543,"Sweeteners, Other",1
 3,2544,Molasses,2543,"Sweeteners, Other",1
@@ -17017,3 +17017,257 @@ area_code,inp_code,inp,out_code,out,value
 273,2544,Molasses,2543,"Sweeteners, Other",1
 299,2544,Molasses,2543,"Sweeteners, Other",1
 999,2544,Molasses,2543,"Sweeteners, Other",1
+1,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+2,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+3,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+4,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+5,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+6,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+7,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+8,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+9,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+10,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+11,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+12,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+13,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+14,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+15,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+16,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+17,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+18,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+19,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+20,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+21,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+22,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+23,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+24,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+25,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+26,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+27,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+28,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+29,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+30,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+31,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+32,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+33,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+34,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+35,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+36,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+37,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+38,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+39,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+40,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+41,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+42,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+43,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+44,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+45,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+46,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+47,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+48,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+49,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+50,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+51,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+52,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+53,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+54,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+55,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+56,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+57,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+58,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+59,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+60,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+61,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+62,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+63,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+64,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+65,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+66,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+67,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+68,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+69,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+70,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+71,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+72,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+73,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+74,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+75,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+79,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+80,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+81,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+82,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+83,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+84,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+85,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+86,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+87,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+88,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+89,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+90,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+91,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+92,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+93,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+94,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+95,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+96,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+97,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+98,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+99,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+100,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+101,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+102,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+103,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+104,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+105,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+106,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+107,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+108,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+109,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+110,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+111,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+112,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+113,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+114,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+115,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+116,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+117,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+118,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+119,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+120,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+121,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+122,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+123,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+124,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+125,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+126,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+127,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+128,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+129,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+130,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+131,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+132,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+133,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+134,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+135,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+136,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+137,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+138,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+139,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+140,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+141,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+142,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+143,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+144,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+145,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+146,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+147,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+148,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+149,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+150,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+151,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+152,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+153,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+154,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+155,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+156,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+157,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+158,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+159,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+160,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+161,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+162,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+163,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+164,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+165,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+166,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+167,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+168,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+169,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+170,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+171,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+172,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+173,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+174,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+175,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+176,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+177,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+178,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+179,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+180,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+181,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+182,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+183,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+184,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+185,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+186,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+187,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+188,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+189,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+190,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+191,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+192,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+193,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+194,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+195,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+196,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+197,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+198,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+199,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+200,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+201,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+202,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+203,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+205,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+206,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+277,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+207,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+208,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+209,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+210,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+211,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+212,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+213,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+214,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+215,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+216,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+217,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+218,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+219,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+220,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+221,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+222,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+223,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+224,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+225,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+226,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+227,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+228,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+229,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+230,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+231,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+232,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+233,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+234,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+235,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+236,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+237,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+239,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+240,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+242,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+243,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+244,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+248,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+249,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+250,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+251,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+252,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+255,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+256,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+258,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+260,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+270,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+271,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+272,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+273,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+299,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
+999,2542,Sugar (Raw Equivalent),2543,"Sweeteners, Other",2
