@@ -93,7 +93,7 @@ rm(crop_grids, harv_grids)
 
 # create full timeline
 land_crop <- CJ(year = years, area_code = regions$code, 
-               item_code = items[processed == FALSE & group == "vegetal products", 
+               item_code = items[processed == FALSE & comm_group == "vegetal products", 
                                  item_code])
 
 # add data to full table
