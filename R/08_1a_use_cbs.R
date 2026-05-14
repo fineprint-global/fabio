@@ -346,13 +346,13 @@ source("R/08_1b_use_cbs_feed.R")
 # The remainder of processing use (flows into supply chains that are not further tracked in FABIO) is interpreted as a new final demand category
 use_fd <- cbs[, .(year, area_code, area, item_code, item, comm_code, 
   food = food + processing, losses, other, 
-  stock_addition, stock_withdrawal, tourist)]
+  stock_addition = stock_addition - stock_withdrawal, tourist)]
 
-# replace Cyprus' tourist consumption data with more detailed data from SUAs
-tourist <- fread("input/Tourist_Cyprus.csv")
-use_fd <- merge(use_fd, tourist, by = c("item_code", "item", "year"), all.x = TRUE)
-use_fd[area=="Cyprus" & !is.na(value) & na_sum(food, tourist, -value) >= 0, `:=`(food = na_sum(food, tourist, -value), tourist = value)]
-use_fd[, value := NULL]
+# # replace Cyprus' tourist consumption data with more detailed data from SUAs
+# tourist <- fread("input/Tourist_Cyprus.csv")
+# use_fd <- merge(use_fd, tourist, by = c("item_code", "item", "year"), all.x = TRUE)
+# use_fd[area=="Cyprus" & !is.na(value) & na_sum(food, tourist, -value) >= 0, `:=`(food = na_sum(food, tourist, -value), tourist = value)]
+# use_fd[, value := NULL]
 
 # Remove unneeded variables
 use <- use[, .(year, area_code, area, comm_code, item_code, item,
@@ -360,49 +360,37 @@ use <- use[, .(year, area_code, area, comm_code, item_code, item,
 
 
 # Correct remaining imbalances between supply and use -----
-a <- use %>% group_by(comm_code, year) %>% summarise(use_io = round(sum(use, na.rm = T)/1)) %>% as.data.table()
-c <- sup %>% group_by(comm_code, year) %>% summarise(supply_total = round(sum(supply, na.rm = T)/1)) %>% as.data.table()
-b <- use_fd %>% group_by(comm_code, year) %>%
-  summarise(use_fd = round(na_sum(na_sum(food, losses, other, stock_addition, tourist))/1)) %>% as.data.table()
-d <- merge(merge(a,b), c)
+a <- use %>% group_by(comm_code, item, year) %>% summarise(use_io = round(sum(use, na.rm = T))) %>% as.data.table()
+c <- sup %>% group_by(comm_code, item, year) %>% summarise(supply_total = round(sum(supply, na.rm = T))) %>% as.data.table()
+b <- use_fd %>% mutate(use_fd = na_sum(food, losses, other, stock_addition, tourist)) %>%
+  group_by(comm_code, item, year) %>% summarise(use_fd = round(sum(use_fd, na.rm = T))) %>% as.data.table()
+d <- merge(merge(a,b), c)[year %in% years]
 d[, use_total := na_sum(use_io, use_fd)]
 d[, diff      := na_sum(supply_total, -use_total)]
-d[, `:=`(diff_io = diff / use_total * use_io,
-         diff_fd = diff / use_total * use_fd)]
-d[, diff_share := round(diff / supply_total *100)]
+d[, `:=`(diff_share = diff / use_total,
+         diff_io    = diff / use_io,
+         diff_fd    = diff / use_fd)]
+# check whether there are NA of Inf values
+d[!is.finite(diff_share)]
 
-# correct use_fd
-use_fd <- merge(use_fd, d[, .(comm_code, year, diff, use_fd_global = use_fd)],
+# re-scale use and use_fd to absorb the differences
+# in use_fd
+use_fd <- merge(use_fd, d[, .(comm_code, year, diff_share)],
                 by = c("comm_code", "year"), all.x = TRUE)
-
-# Calculate b at the country level
-b2 <- use_fd %>% group_by(comm_code, area_code, year) %>%
-  summarise(use_fd = round(na_sum(na_sum(food, losses, other, stock_addition, tourist))/1)) %>% as.data.table()
-
-use_fd <- merge(use_fd, b2[, .(comm_code, area_code, year, use_fd_country = use_fd)],
-                by = c("comm_code", "area_code", "year"), all.x = TRUE)
-
-# not for oilseed cakes, hops, livestock, fodder crops and grazing
-use_fd[!is.na(diff / use_fd_global) & !item %like% "Cake" & 
-         !item_code %in% items[group=="Livestock", item_code] & 
-         !item_code %in% c(2000, 2001), `:=`(
-  food            = na_sum(food,            round(diff / use_fd_global * food)),
-  losses          = na_sum(losses,          round(diff / use_fd_global * losses)),
-  other           = na_sum(other,           round(diff / use_fd_global * other)),
-  stock_addition  = na_sum(stock_addition,  round(diff / use_fd_global * stock_addition)),
-  tourist         = na_sum(tourist,         round(diff / use_fd_global * tourist))
+use_fd[, `:=`(
+  food            = round((1 + diff_share) * food),
+  losses          = round((1 + diff_share) * losses),
+  other           = round((1 + diff_share) * other),
+  stock_addition  = round((1 + diff_share) * stock_addition),
+  tourist         = round((1 + diff_share) * tourist)
 )]
+use_fd[, `:=`(diff_share = NULL)]
 
-use_fd[, `:=`(diff = NULL, use_fd_global = NULL, use_fd_country = NULL)]
-
-
-# correct oilseed cakes, hops, livestock, fodder crops and grazing in use
-use <- merge(use, d[, .(comm_code, year, diff, use_io)],
+# in use
+use <- merge(use, d[, .(comm_code, year, diff_share)],
              by = c("comm_code", "year"), all.x = TRUE)
-use[(item %like% "Cake" | item_code <= 2029) & !is.na(diff / use_io), 
-    use := na_sum(use, round(diff / use_io * use))]
-
-use[, `:=`(diff = NULL, use_io = NULL)]
+use[, `:=`(use        = round((1 + diff_share) * use))]
+use[, `:=`(diff_share = NULL)]
 
 
 

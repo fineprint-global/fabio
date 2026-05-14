@@ -17,7 +17,6 @@ BWA,20,Botswana,AFR,Southern Africa,FALSE
 BRA,21,Brazil,LAM,South America,FALSE
 BLZ,23,Belize,LAM,Central America,FALSE
 SLB,25,Solomon Islands,OCE,Oceania,FALSE
-BRN,26,Brunei Darussalam,ASI,South East Asia,FALSE
 BGR,27,Bulgaria,EU,Eastern Europe,TRUE
 MMR,28,Myanmar,ASI,South East Asia,FALSE
 BDI,29,Burundi,AFR,Eastern Africa,FALSE
@@ -37,7 +36,6 @@ CYP,50,Cyprus,EU,Middle East,TRUE
 AZE,52,Azerbaijan,ASI,Former USSR,FALSE
 BEN,53,Benin,AFR,Western Africa,FALSE
 DNK,54,Denmark,EU,OECD Europe,TRUE
-DMA,55,Dominica,LAM,Central America,FALSE
 DOM,56,Dominican Republic,LAM,Central America,FALSE
 BLR,57,Belarus,EUR,Former USSR,FALSE
 ECU,58,Ecuador,LAM,South America,FALSE
@@ -74,7 +72,7 @@ IRQ,103,Iraq,ASI,Middle East,FALSE
 IRL,104,Ireland,EU,OECD Europe,TRUE
 ISR,105,Israel,ASI,Middle East,FALSE
 ITA,106,Italy,EU,OECD Europe,TRUE
-CIV,107,Côte d'Ivoire,AFR,Western Africa,FALSE
+CIV,107,C?te d'Ivoire,AFR,Western Africa,FALSE
 KAZ,108,Kazakhstan,ASI,Former USSR,FALSE
 JAM,109,Jamaica,LAM,Central America,FALSE
 JPN,110,Japan,ASI,Japan,FALSE
@@ -109,7 +107,6 @@ MDA,146,Republic of Moldova,EUR,Former USSR,FALSE
 NAM,147,Namibia,AFR,Southern Africa,FALSE
 NPL,149,Nepal,ASI,South Asia,FALSE
 NLD,150,Netherlands,EU,OECD Europe,TRUE
-ANT,151,Netherlands Antilles,LAM,Central America,FALSE
 NCL,153,New Caledonia,OCE,Oceania,FALSE
 MKD,154,North Macedonia,EUR,Eastern Europe,FALSE
 VUT,155,Vanuatu,OCE,Oceania,FALSE
@@ -129,8 +126,6 @@ POL,173,Poland,EU,Eastern Europe,TRUE
 PRT,174,Portugal,EU,OECD Europe,TRUE
 GNB,175,Guinea-Bissau,AFR,Western Africa,FALSE
 TLS,176,Timor-Leste,ASI,South East Asia,FALSE
-PRI,177,Puerto Rico,LAM,Central America,FALSE
-ERI,178,Eritrea,AFR,Eastern Africa,FALSE
 QAT,179,Qatar,ASI,Middle East,FALSE
 ZWE,181,Zimbabwe,AFR,Southern Africa,FALSE
 ROU,183,Romania,EU,Eastern Europe,TRUE
@@ -184,5 +179,4 @@ LUX,256,Luxembourg,EU,OECD Europe,TRUE
 SRB,272,Serbia,EUR,OECD Europe,FALSE
 MNE,273,Montenegro,EUR,OECD Europe,FALSE
 SDN,276,Sudan,AFR,Eastern Africa,FALSE
-SSD,277,South Sudan,AFR,Eastern Africa,FALSE
 ROW,999,RoW,ROW,Rest of World,FALSE

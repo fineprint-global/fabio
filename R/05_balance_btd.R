@@ -67,8 +67,8 @@ for(i in seq_along(years)) {
     target[year == y, c("area_code", "item_code", "imports", "exports")],
     by = c("area_code", "item_code"), all.x = TRUE)
   # Replace NA constraints with 0
-  constraint[, `:=`(imports = ifelse(is.na(imports), 0, imports),
-    exports = ifelse(is.na(exports), 0, exports))]
+  constraint[, `:=`(imports = fifelse(is.na(imports), 0, imports),
+    exports = fifelse(is.na(exports), 0, exports))]
   # Balance imports and exports
   # Adjust constraints to have equal export and import numbers per item per year
   # This is very helpful for the iterative proportional fitting of bilateral trade data
@@ -76,11 +76,13 @@ for(i in seq_along(years)) {
     imp_t = sum(imports, na.rm = TRUE)), by = c("item_code")]
   constraint <- merge(constraint, trade_bal,
     by = c("item_code"), all.x = TRUE)
-  constraint[, `:=`(imports = if_else(imp_t==0, 0, imports / imp_t * ((imp_t + exp_t) / 2)),
-                    exports = if_else(exp_t==0, 0, exports / exp_t * ((imp_t + exp_t) / 2)))]
+  constraint[, `:=`(
+    imports = fifelse(imp_t == 0, 0, imports / imp_t * ((imp_t + exp_t) / 2)),
+    exports = fifelse(exp_t == 0, 0, exports / exp_t * ((imp_t + exp_t) / 2))
+  )]
 
   # Eliminate estimates where data exist
-  mapping[, val_est := ifelse(is.na(value), val_est, NA)]
+  mapping[, val_est := fifelse(is.na(value), val_est, NA)]
   # Calculate totals for values and estimates per exporting country and item
   mapping[, `:=`(value_sum = na_sum(value), val_est_sum = na_sum(val_est)),
           by = c("from_code","item_code")]
@@ -90,11 +92,11 @@ for(i in seq_along(years)) {
   # Calculate export gap
   mapping[, gap := na_sum(val_target, -value_sum)]
   # Downscale export estimates in order not to exceed the total gap between reported exports and target values
-  mapping[, val_est := ifelse(gap > 0, ifelse(gap < val_est_sum, val_est / val_est_sum * gap, val_est), NA)]
+  mapping[, val_est := fifelse(gap > 0, fifelse(gap < val_est_sum, val_est / val_est_sum * gap, val_est), NA)]
 
   # Assign estimates to value column with a weight of 10%
   mapping[, `:=`(
-    value = ifelse(is.na(value), ifelse(is.na(val_est), 0, val_est * 0.1), value),
+    value = fifelse(is.na(value), fifelse(is.na(val_est), 0, val_est * 0.1), value),
     val_est = NULL)]
 
 

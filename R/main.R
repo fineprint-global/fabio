@@ -20,8 +20,8 @@ source("R/00_6_labels.R")
 rm(list = ls()); gc()
 
 # Requires downloading some data (see script)
-source("R/00_7_prep_spatial_NPK.R")
-rm(list = ls()); gc()
+source("R/00_7_prep_spatial_NPK.R"); rm(list = ls()); gc()
+source("R/00_8_filter_gloria.R"); rm(list = ls()); gc()
 
 
 # 1_tidy ------------------------------------------------------------------
@@ -43,13 +43,9 @@ source("R/03_1b_balance_cbs.R"); rm(list = ls()); gc()
 source("R/03_2a_build_tcf_sua.R"); rm(list = ls()); gc()
 source("R/03_2b_build_sua.R"); rm(list = ls()); gc()
 
-# Estimate BTD from totals -----------------------------------------------
+# Build a gap-filled and balanced trade dataset --------------------------
 source("R/04_estimate_btd.R"); rm(list = ls()); gc()
-
-# Balance trade using RAS ------------------------------------------------
 source("R/05_balance_btd.R"); rm(list = ls()); gc()
-
-# Allocate re-exports ----------------------------------------------------
 source("R/06_re-exports.R"); rm(list = ls()); gc()
 
 # Create the supply structure --------------------------------------------

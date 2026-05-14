@@ -62,16 +62,16 @@ for(i in seq_along(years)) {
     data_item <- cbs_slice[.(as.integer(j), areas)]
     
     # domestic supply vector (same order as 'areas' because `data` was merged by area_code)
-    DS <- pmax(0, data_item$domestic_supply)
-    DS[is.na(DS)] <- 0
+    DS <- pmax(0, data_item$domestic_supply, na.rm = TRUE)
+    DS[!is.finite(DS)] <- 0
     
     # total supply vector (same order as 'areas' because `data` was merged by area_code)
-    TS <- pmax(0, data_item$supply)
-    TS[is.na(TS)] <- 0
+    TS <- pmax(0, data_item$supply, na.rm = TRUE)
+    TS[!is.finite(TS)] <- 0
     
     # domestic use vector (same order as 'areas' because `data` was merged by area_code)
-    DU <- pmax(0, data_item$domestic_use)
-    DU[is.na(DU)] <- 0
+    DU <- pmax(0, data_item$domestic_use, na.rm = TRUE)
+    DU[!is.finite(DU)] <- 0
     
     # bilateral trade matrix
     mat <- mapping_reex[[j]]
@@ -85,7 +85,7 @@ for(i in seq_along(years)) {
     } else {
       
       A <- sweep(T, 1, TS, FUN = "/")
-      A[is.na(A)] <- 0
+      A[!is.finite(A)] <- 0
 
       # Solve linear system: X = (I - A)^(-1) %*% DS
       I <- Diagonal(n)
@@ -93,7 +93,7 @@ for(i in seq_along(years)) {
       L <- tryCatch(solve(I - A),
                     error = function(e) {
                       mat <- as.matrix(I - A)
-                      mat[is.na(mat) | is.infinite(mat)] <- 0
+                      mat[!is.finite(mat) | is.infinite(mat)] <- 0
                       MASS::ginv(mat)
                     })
 
@@ -107,7 +107,7 @@ for(i in seq_along(years)) {
       # Handle division by zero: if col_sum is 0, set corresponding column to 0
       S <- as.matrix(t(t(F) / pmax(col_sums, 1)))
       S[, col_sums == 0] <- 0
-      S[is.na(S) | is.infinite(S)] <- 0  # Clean up any remaining NAs or Inf
+      S[!is.finite(S)] <- 0  # Clean up any remaining NAs or Inf
       
       final_result <- t(t(S) * DU)
       
