@@ -7,7 +7,6 @@ This repository contains the **R code** used to generate the database.
 ## 🚀 Key Features of FABIO v2
 * **Broad Coverage:** 181 regions (180 countries + 1 Rest of World).
 * **High Resolution:** 119 processes and 123 commodities.
-    * *Note:* A high-resolution parallel version featuring **525 commodities** is currently being developed.
 * **Temporal Scope:** Data coverage for the years 2010–2023.
 * **Allocation Methods:** Includes both **mass** and **value-based** allocation versions for symmetric tables.
 * **Units:** All values are in physical units (tonnes or heads) as specified in `items.csv`.
