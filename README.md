@@ -11,7 +11,7 @@ This repository contains the **R code** used to generate the database.
 * **Temporal Scope:** Data coverage for the years 2010–2023.
 * **Allocation Methods:** Includes both **mass** and **value-based** allocation versions for symmetric tables.
 * **Units:** All values are in physical units (tonnes or heads) as specified in `items.csv`.
-* **Sustainability Metrics:** 123 environmental extensions including land use, water use, nutrient cycles (N/P), GHG emissions, and biodiversity indicators (MSA loss, PDF).
+* **Sustainability Metrics:** including land use, water use, nutrient cycles (N/P), GHG emissions, and biodiversity indicators (MSA loss, PDF).
 
 ---
 
