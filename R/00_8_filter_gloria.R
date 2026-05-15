@@ -8,7 +8,7 @@
 # Setup ------------------------------------------------------------------------
 library(data.table)
 library(qs2)
-years = 2010:2023
+source("R/00_system_variables.R")
 
 ## Define paths and structure of the GLORIA data ------------------
 # this section creates a df that represents the structure of region-sector-labels, analogous to labels/GLORIA_ReadMe_060.xlsx > Sequential_regionSector_labels

@@ -152,8 +152,6 @@ names(btd_cast) <- years
 # }, agg = agg, js = js, mc.cores = detectCores() - 2)
 
 
-# supply_shares <- readRDS("data/sup_shares_list.rds")
-
 
 # Build use shares, per year
 use_shares <- mclapply(btd_cast, function(x) {

@@ -24,7 +24,7 @@ code,iso3c,iso2c,name,eia,iea,water_code,water_area,baci,comtrade,fish,region_co
 23,BLZ,BZ,Belize,Belize,"",23,Belize,84,84,84,3,Central America,TRUE,FALSE,TRUE,LAM,Latin America,84
 24,IOT,IO,British Indian Ocean Territory,"","",999,Global average,86,86,86,13,South Asia,FALSE,FALSE,FALSE,"","",
 25,SLB,SB,Solomon Islands,Solomon Islands,"",25,Solomon Islands,90,90,90,16,Oceania,TRUE,FALSE,TRUE,OCE,"",90
-26,BRN,BN,Brunei Darussalam,Brunei,Brunei Darussalam,26,Brunei Darussalam,96,96,96,15,South East Asia,TRUE,FALSE,TRUE,ASI,"",96
+26,BRN,BN,Brunei Darussalam,Brunei,Brunei Darussalam,26,Brunei Darussalam,96,96,96,15,South East Asia,TRUE,FALSE,FALSE,ASI,"",96
 27,BGR,BG,Bulgaria,Bulgaria,Bulgaria,27,Bulgaria,100,100,100,10,Eastern Europe,TRUE,TRUE,TRUE,EU,Europe,100
 28,MMR,MM,Myanmar,Burma (Myanmar),Myanmar,28,Myanmar,104,104,104,15,South East Asia,TRUE,FALSE,TRUE,ASI,South & Southeast Asia,104
 29,BDI,BI,Burundi,Burundi,"",29,Burundi,108,108,108,7,Eastern Africa,TRUE,FALSE,TRUE,AFR,Sub-Saharan Africa,108
@@ -53,7 +53,7 @@ code,iso3c,iso2c,name,eia,iea,water_code,water_area,baci,comtrade,fish,region_co
 52,AZE,AZ,Azerbaijan,Azerbaijan,Azerbaijan,52,Azerbaijan,31,31,31,11,Former USSR,TRUE,FALSE,TRUE,ASI,Europe,31
 53,BEN,BJ,Benin,Benin,Benin,53,Benin,204,204,204,6,Western Africa,TRUE,FALSE,TRUE,AFR,Sub-Saharan Africa,204
 54,DNK,DK,Denmark,Denmark,Denmark,54,Denmark,208,208,208,9,OECD Europe,TRUE,TRUE,TRUE,EU,Europe,208
-55,DMA,DM,Dominica,Dominica,"",55,Dominica,212,212,212,3,Central America,TRUE,FALSE,TRUE,LAM,Latin America,212
+55,DMA,DM,Dominica,Dominica,"",55,Dominica,212,212,212,3,Central America,TRUE,FALSE,FALSE,LAM,Latin America,212
 56,DOM,DO,Dominican Republic,Dominican Republic,Dominican Republic,56,Dominican Republic,214,214,214,3,Central America,TRUE,FALSE,TRUE,LAM,Latin America,214
 57,BLR,BY,Belarus,Belarus,Belarus,57,Belarus,112,112,112,11,Former USSR,TRUE,FALSE,TRUE,EUR,Europe,112
 58,ECU,EC,Ecuador,Ecuador,Ecuador,58,Ecuador,218,218,218,4,South America,TRUE,FALSE,TRUE,LAM,Latin America,218
@@ -102,7 +102,7 @@ code,iso3c,iso2c,name,eia,iea,water_code,water_area,baci,comtrade,fish,region_co
 104,IRL,IE,Ireland,Ireland,Ireland,104,Ireland,372,372,372,9,OECD Europe,TRUE,TRUE,TRUE,EU,Europe,372
 105,ISR,IL,Israel,Israel,Israel,105,Israel,376,376,376,12,Middle East,TRUE,FALSE,TRUE,ASI,"North Africa, West & Central Asia",376
 106,ITA,IT,Italy,Italy,Italy,106,Italy,381,380,380,9,OECD Europe,TRUE,TRUE,TRUE,EU,Europe,380
-107,CIV,CI,C魌e d'Ivoire,Cote dIvoire (IvoryCoast),C么te d'Ivoire,107,C么te d'Ivoire,384,384,384,6,Western Africa,TRUE,FALSE,TRUE,AFR,Sub-Saharan Africa,384
+107,CIV,CI,C?te d'Ivoire,Cote dIvoire (IvoryCoast),C么te d'Ivoire,107,C么te d'Ivoire,384,384,384,6,Western Africa,TRUE,FALSE,TRUE,AFR,Sub-Saharan Africa,384
 108,KAZ,KZ,Kazakhstan,Kazakhstan,Kazakhstan,108,Kazakhstan,398,398,398,11,Former USSR,TRUE,FALSE,TRUE,ASI,"North Africa, West & Central Asia",398
 109,JAM,JM,Jamaica,Jamaica,Jamaica,109,Jamaica,388,388,388,3,Central America,TRUE,FALSE,TRUE,LAM,Latin America,388
 110,JPN,JP,Japan,Japan,Japan,110,Japan,392,392,392,17,Japan,TRUE,FALSE,TRUE,ASI,Industrialized Asia,392
@@ -146,7 +146,7 @@ code,iso3c,iso2c,name,eia,iea,water_code,water_area,baci,comtrade,fish,region_co
 148,NRU,NR,Nauru,Nauru,"",148,Nauru,520,520,520,16,Oceania,FALSE,FALSE,FALSE,"","",
 149,NPL,NP,Nepal,Nepal,Nepal,149,Nepal,524,524,524,13,South Asia,TRUE,FALSE,TRUE,ASI,South & Southeast Asia,524
 150,NLD,NL,Netherlands,Netherlands,Netherlands,150,Netherlands,528,528,528,9,OECD Europe,TRUE,TRUE,TRUE,EU,Europe,528
-151,ANT,"",Netherlands Antilles,Netherlands Antilles,Netherlands Antilles / Cura莽ao,999,Global average,530,530,530,3,Central America,TRUE,FALSE,TRUE,LAM,"",
+151,ANT,"",Netherlands Antilles,Netherlands Antilles,Netherlands Antilles / Cura莽ao,999,Global average,530,530,530,3,Central America,TRUE,FALSE,FALSE,LAM,"",
 152,NTZ,"",Neutral Zone,"","",999,Global average,,536,536,12,Middle East,FALSE,FALSE,FALSE,"","",
 153,NCL,NC,New Caledonia,New Caledonia,"",153,New Caledonia,540,540,540,16,Oceania,TRUE,FALSE,TRUE,OCE,"",540
 154,MKD,MK,North Macedonia,Macedonia,Former Yugoslav Republic of Macedonia,154,The former Yugoslav Republic of Macedonia,807,807,807,10,Eastern Europe,TRUE,FALSE,TRUE,EUR,Europe,807
@@ -172,8 +172,8 @@ code,iso3c,iso2c,name,eia,iea,water_code,water_area,baci,comtrade,fish,region_co
 174,PRT,PT,Portugal,Portugal,Portugal,174,Portugal,620,620,620,9,OECD Europe,TRUE,TRUE,TRUE,EU,Europe,620
 175,GNB,GW,Guinea-Bissau,Guinea-Bissau,"",175,Guinea-Bissau,624,624,624,6,Western Africa,TRUE,FALSE,TRUE,AFR,Sub-Saharan Africa,624
 176,TLS,TL,Timor-Leste,Timor-Leste (East Timor),"",176,Timor-Leste,626,626,626,15,South East Asia,TRUE,FALSE,TRUE,ASI,"",626
-177,PRI,PR,Puerto Rico,Puerto Rico,"",177,Puerto Rico,630,630,630,3,Central America,TRUE,FALSE,TRUE,LAM,"",630
-178,ERI,ER,Eritrea,Eritrea,Eritrea,178,Eritrea,232,232,232,7,Eastern Africa,TRUE,FALSE,TRUE,AFR,Sub-Saharan Africa,232
+177,PRI,PR,Puerto Rico,Puerto Rico,"",177,Puerto Rico,630,630,630,3,Central America,TRUE,FALSE,FALSE,LAM,"",630
+178,ERI,ER,Eritrea,Eritrea,Eritrea,178,Eritrea,232,232,232,7,Eastern Africa,TRUE,FALSE,FALSE,AFR,Sub-Saharan Africa,232
 179,QAT,QA,Qatar,Qatar,Qatar,179,Qatar,634,634,634,12,Middle East,TRUE,FALSE,TRUE,ASI,"",634
 180,PLW,PW,Palau,"","",999,Global average,585,585,585,16,Oceania,FALSE,FALSE,FALSE,"","",
 181,ZWE,ZW,Zimbabwe,Zimbabwe,Zimbabwe,181,Zimbabwe,716,716,716,8,Southern Africa,TRUE,FALSE,TRUE,AFR,Sub-Saharan Africa,716
@@ -255,9 +255,9 @@ code,iso3c,iso2c,name,eia,iea,water_code,water_area,baci,comtrade,fish,region_co
 272,SRB,RS,Serbia,Serbia,Serbia,186,Serbia and Montenegro,688,688,688,9,OECD Europe,TRUE,FALSE,TRUE,EUR,Europe,688
 273,MNE,ME,Montenegro,Montenegro,Montenegro,186,Serbia and Montenegro,499,499,499,9,OECD Europe,TRUE,FALSE,TRUE,EUR,Europe,499
 276,SDN,SD,Sudan,"","",206,Sudan,729,729,729,7,Eastern Africa,TRUE,FALSE,TRUE,AFR,Sub-Saharan Africa,729
-277,SSD,SS,South Sudan,"",South Sudan,206,Sudan,728,728,728,7,Eastern Africa,TRUE,FALSE,TRUE,AFR,Sub-Saharan Africa,728
+277,SSD,SS,South Sudan,"",South Sudan,206,Sudan,728,728,728,7,Eastern Africa,TRUE,FALSE,FALSE,AFR,Sub-Saharan Africa,728
 278,BES,BQ,"Bonaire, Sint Eustatius and Saba","","",,"",,,,,"",FALSE,,FALSE,"","",
-279,CUW,CW,Cura鏰o,"","",999,Global average,531,531,,3,Central America,FALSE,FALSE,FALSE,"","",
+279,CUW,CW,Cura?ao,"","",999,Global average,531,531,,3,Central America,FALSE,FALSE,FALSE,"","",
 280,SXM,SX,Saint Maarten (Dutch part),"","",,"",,,,,"",FALSE,,FALSE,"","",
 281,MAF,MF,Saint-Martin (French Part),"","",999,Global average,,,,3,Central America,FALSE,FALSE,FALSE,"","",
 282,BLM,BL,Saint Barth茅lemy,"","",,"",,,,,"",FALSE,,FALSE,"","",
