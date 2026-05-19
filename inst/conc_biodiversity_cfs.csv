@@ -1,8 +1,8 @@
 flow,flow_id,cf_unit,approach,fabio_pressure,fd_fabio_pressure,source
-carbon dioxide (biogenic),08a91e70-3ddc-11dd-9c15-0050c2490048,PDF*y/t_em,Average,ghg_co2,ghg_co2,LC
-carbon dioxide (biogenic),08a91e70-3ddc-11dd-9c15-0050c2490048,PDF*y/t_em,Average,ghg_co2,ghg_f_gases,LC
-methane (biogenic),fe0acd60-3ddc-11dd-a8e8-0050c2490048,PDF*y/t_em,Average,ghg_ch4,ghg_ch4,LC
-nitrous oxide,08a91e70-3ddc-11dd-94c3-0050c2490048,PDF*y/t_em,Average,ghg_n2o,ghg_n2o,LC
+carbon dioxide (biogenic),08a91e70-3ddc-11dd-9c15-0050c2490048,global PDF*y/t_em,Average,ghg_co2,ghg_co2,LC
+carbon dioxide (biogenic),08a91e70-3ddc-11dd-9c15-0050c2490048,global PDF*y/t_em,Average,ghg_co2,ghg_f_gases,LC
+methane (biogenic),fe0acd60-3ddc-11dd-a8e8-0050c2490048,global PDF*y/t_em,Average,ghg_ch4,ghg_ch4,LC
+nitrous oxide,08a91e70-3ddc-11dd-94c3-0050c2490048,global PDF*y/t_em,Average,ghg_n2o,ghg_n2o,LC
 Ammonia,08a91e70-3ddc-11dd-a2a9-0050c2490048,global PDF*y/kg_N,Marginal,n_nh3_n,"",LC
 arable,"",global PDF*y/ha*y,Average,land_crop,"",LC
 "from forest, natural",ac0aba5c-66ce-42c9-9f46-1e47ab7bc4b9,global PDF*y/ha*y,Average,luc_forest_to_agric,"",LC
