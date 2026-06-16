@@ -1,0 +1,295 @@
+﻿"EXIOBASE_sector","EXIOBASE_sector_code","FABIO_item","FABIO_item_code","FABIO_comm_code","ISIC"
+"Cultivation of paddy rice",1,"Rice and products",2807,"c001","A"
+"Cultivation of wheat",2,"Wheat and products",2511,"c002","A"
+"Cultivation of cereal grains nec",3,"Barley and products",2513,"c003","A"
+"Cultivation of cereal grains nec",3,"Maize and products",2514,"c004","A"
+"Cultivation of cereal grains nec",3,"Rye and products",2515,"c005","A"
+"Cultivation of cereal grains nec",3,"Oats",2516,"c006","A"
+"Cultivation of cereal grains nec",3,"Millet and products",2517,"c007","A"
+"Cultivation of cereal grains nec",3,"Sorghum and products",2518,"c008","A"
+"Cultivation of cereal grains nec",3,"Cereals, Other",2520,"c009","A"
+"Cultivation of vegetables, fruit, nuts",4,"Nuts and products",2551,"c020","A"
+"Cultivation of vegetables, fruit, nuts",4,"Tomatoes and products",2601,"c031","A"
+"Cultivation of vegetables, fruit, nuts",4,"Onions",2602,"c032","A"
+"Cultivation of vegetables, fruit, nuts",4,"Vegetables, Other",2605,"c033","A"
+"Cultivation of vegetables, fruit, nuts",4,"Oranges, Mandarines",2611,"c034","A"
+"Cultivation of vegetables, fruit, nuts",4,"Lemons, Limes and products",2612,"c035","A"
+"Cultivation of vegetables, fruit, nuts",4,"Grapefruit and products",2613,"c036","A"
+"Cultivation of vegetables, fruit, nuts",4,"Citrus, Other",2614,"c037","A"
+"Cultivation of vegetables, fruit, nuts",4,"Bananas",2615,"c038","A"
+"Cultivation of vegetables, fruit, nuts",4,"Plantains",2616,"c039","A"
+"Cultivation of vegetables, fruit, nuts",4,"Apples and products",2617,"c040","A"
+"Cultivation of vegetables, fruit, nuts",4,"Pineapples and products",2618,"c041","A"
+"Cultivation of vegetables, fruit, nuts",4,"Dates",2619,"c042","A"
+"Cultivation of vegetables, fruit, nuts",4,"Grapes and products (excl wine)",2620,"c043","A"
+"Cultivation of vegetables, fruit, nuts",4,"Fruits, Other",2625,"c044","A"
+"Cultivation of oil seeds",5,"Soyabeans",2555,"c021","A"
+"Cultivation of oil seeds",5,"Groundnuts",2552,"c022","A"
+"Cultivation of oil seeds",5,"Sunflower seed",2557,"c023","A"
+"Cultivation of oil seeds",5,"Rape and Mustardseed",2558,"c024","A"
+"Cultivation of oil seeds",5,"Coconuts - Incl Copra",2560,"c026","A"
+"Cultivation of oil seeds",5,"Sesame seed",2561,"c027","A"
+"Cultivation of oil seeds",5,"Oil, palm fruit",254,"c028","A"
+"Cultivation of oil seeds",5,"Olives (including preserved)",2563,"c029","A"
+"Cultivation of oil seeds",5,"Oilcrops, Other",2570,"c030","A"
+"Cultivation of sugar cane, sugar beet",6,"Sugar cane",2536,"c015","A"
+"Cultivation of sugar cane, sugar beet",6,"Sugar beet",2537,"c016","A"
+"Cultivation of plant-based fibers",7,"Seed cotton",328,"c025","A"
+"Cultivation of plant-based fibers",7,"Jute",2662,"c053","A"
+"Cultivation of plant-based fibers",7,"Jute-Like Fibres",2663,"c054","A"
+"Cultivation of plant-based fibers",7,"Soft-Fibres, Other",2664,"c055","A"
+"Cultivation of plant-based fibers",7,"Sisal",2665,"c056","A"
+"Cultivation of plant-based fibers",7,"Abaca",2666,"c057","A"
+"Cultivation of plant-based fibers",7,"Hard Fibres, Other",2667,"c058","A"
+"Cultivation of crops nec",8,"Potatoes and products",2531,"c010","A"
+"Cultivation of crops nec",8,"Cassava and products",2532,"c011","A"
+"Cultivation of crops nec",8,"Sweet potatoes",2533,"c012","A"
+"Cultivation of crops nec",8,"Roots, Other",2534,"c013","A"
+"Cultivation of crops nec",8,"Yams",2535,"c014","A"
+"Cultivation of crops nec",8,"Beans",2546,"c017","A"
+"Cultivation of crops nec",8,"Peas",2547,"c018","A"
+"Cultivation of crops nec",8,"Pulses, Other and products",2549,"c019","A"
+"Cultivation of crops nec",8,"Coffee and products",2630,"c045","A"
+"Cultivation of crops nec",8,"Cocoa Beans and products",2633,"c046","A"
+"Cultivation of crops nec",8,"Tea (including mate)",2635,"c047","A"
+"Cultivation of crops nec",8,"Hops",677,"c048","A"
+"Cultivation of crops nec",8,"Pepper",2640,"c049","A"
+"Cultivation of crops nec",8,"Pimento",2641,"c050","A"
+"Cultivation of crops nec",8,"Cloves",2642,"c051","A"
+"Cultivation of crops nec",8,"Spices, Other",2645,"c052","A"
+"Cultivation of crops nec",8,"Tobacco",2671,"c059","A"
+"Cultivation of crops nec",8,"Rubber",2672,"c060","A"
+"Cultivation of crops nec",8,"Fodder crops",2000,"c061","A"
+"Cattle farming",9,"Cattle",866,"c096","A"
+"Pigs farming",10,"Pigs",1034,"c100","A"
+"Poultry farming",11,"Poultry Birds",2029,"c101","A"
+"Meat animals nec",12,"Buffaloes",946,"c097","A"
+"Meat animals nec",12,"Sheep",976,"c098","A"
+"Meat animals nec",12,"Goats",1016,"c099","A"
+"Meat animals nec",12,"Horses",1096,"c102","A"
+"Meat animals nec",12,"Asses",1107,"c103","A"
+"Meat animals nec",12,"Mules",1110,"c104","A"
+"Meat animals nec",12,"Camels",1126,"c105","A"
+"Meat animals nec",12,"Camelids, other",1157,"c106","A"
+"Meat animals nec",12,"Rabbits and hares",1140,"c107","A"
+"Meat animals nec",12,"Rodents, other",1150,"c108","A"
+"Animal products nec",13,"Eggs",2744,"c111","A"
+"Animal products nec",13,"Honey",2745,"c121","A"
+"Raw milk",14,"Milk - Excluding Butter",2848,"c109","A"
+"Wool, silk-worm cocoons",15,"Wool (Clean Eq.)",2746,"c112","A"
+"Wool, silk-worm cocoons",15,"Silk",2747,"c122","A"
+"Manure treatment (conventional), storage and land application",16,,,,
+"Manure treatment (biogas), storage and land application",17,,,,
+"Forestry, logging and related service activities (02)",18,,,,
+"Fishing, operating of fish hatcheries and fish farms; service activities incidental to fishing (05)",19,"Fish, Seafood",2960,"c123","A"
+"Mining of coal and lignite; extraction of peat (10)",20,,,,
+"Extraction of crude petroleum and services related to crude oil extraction, excluding surveying",21,,,,
+"Extraction of natural gas and services related to natural gas extraction, excluding surveying",22,,,,
+"Extraction, liquefaction, and regasification of other petroleum and gaseous materials",23,,,,
+"Mining of uranium and thorium ores (12)",24,,,,
+"Mining of iron ores",25,,,,
+"Mining of copper ores and concentrates",26,,,,
+"Mining of nickel ores and concentrates",27,,,,
+"Mining of aluminium ores and concentrates",28,,,,
+"Mining of precious metal ores and concentrates",29,,,,
+"Mining of lead, zinc and tin ores and concentrates",30,,,,
+"Mining of other non-ferrous metal ores and concentrates",31,,,,
+"Quarrying of stone",32,,,,
+"Quarrying of sand and clay",33,,,,
+"Mining of chemical and fertilizer minerals, production of salt, other mining and quarrying n.e.c.",34,,,,
+"Processing of meat cattle",35,"Bovine Meat",2731,"c113","C"
+"Processing of meat pigs",36,"Pigmeat",2733,"c115","C"
+"Processing of meat poultry",37,"Poultry Meat",2734,"c116","C"
+"Production of meat products nec",38,"Mutton & Goat Meat",2732,"c114","C"
+"Production of meat products nec",38,"Meat, Other",2735,"c117","C"
+"Production of meat products nec",38,"Fats, Animals, Raw",2737,"c119","C"
+"Production of meat products nec",38,"Offals, Edible",2736,"c118","C"
+"Production of meat products nec",38,"Hides and skins",2748,"c120","C"
+"Processing vegetable oils and fats",39,"Soyabean Oil",2571,"c068","C"
+"Processing vegetable oils and fats",39,"Groundnut Oil",2572,"c069","C"
+"Processing vegetable oils and fats",39,"Sunflowerseed Oil",2573,"c070","C"
+"Processing vegetable oils and fats",39,"Rape and Mustard Oil",2574,"c071","C"
+"Processing vegetable oils and fats",39,"Cottonseed Oil",2575,"c072","C"
+"Processing vegetable oils and fats",39,"Palmkernel Oil",2576,"c073","C"
+"Processing vegetable oils and fats",39,"Palm Oil",2577,"c074","C"
+"Processing vegetable oils and fats",39,"Coconut Oil",2578,"c075","C"
+"Processing vegetable oils and fats",39,"Sesameseed Oil",2579,"c076","C"
+"Processing vegetable oils and fats",39,"Olive Oil",2580,"c077","C"
+"Processing vegetable oils and fats",39,"Ricebran Oil",2581,"c078","C"
+"Processing vegetable oils and fats",39,"Maize Germ Oil",2582,"c079","C"
+"Processing vegetable oils and fats",39,"Oilcrops Oil, Other",2586,"c080","C"
+"Processing vegetable oils and fats",39,"Soyabean Cake",2590,"c081","C"
+"Processing vegetable oils and fats",39,"Groundnut Cake",2591,"c082","C"
+"Processing vegetable oils and fats",39,"Sunflowerseed Cake",2592,"c083","C"
+"Processing vegetable oils and fats",39,"Rape and Mustard Cake",2593,"c084","C"
+"Processing vegetable oils and fats",39,"Cottonseed Cake",2594,"c085","C"
+"Processing vegetable oils and fats",39,"Palmkernel Cake",2595,"c086","C"
+"Processing vegetable oils and fats",39,"Copra Cake",2596,"c087","C"
+"Processing vegetable oils and fats",39,"Sesameseed Cake",2597,"c088","C"
+"Processing vegetable oils and fats",39,"Oilseed Cakes, Other",2598,"c089","C"
+"Processing of dairy products",40,"Butter, Ghee",2740,"c110","C"
+"Processing of dairy products",40,"Milk - Excluding Butter",2848,"c109","C"
+"Processed rice",41,"Rice and products",2807,"c001","C"
+"Sugar refining",42,"Sugar non-centrifugal",2541,"c065","C"
+"Sugar refining",42,"Sugar (Raw Equivalent)",2542,"c066","C"
+"Sugar refining",42,"Sweeteners, Other",2543,"c067","C"
+"Processing of Food products nec",43,"Wheat and products",2511,"c002","C"
+"Processing of Food products nec",43,"Maize and products",2514,"c004","C"
+"Processing of Food products nec",43,"Barley and products",2513,"c003","C"
+"Processing of Food products nec",43,"Rye and products",2515,"c005","C"
+"Processing of Food products nec",43,"Oats",2516,"c006","C"
+"Processing of Food products nec",43,"Millet and products",2517,"c007","C"
+"Processing of Food products nec",43,"Sorghum and products",2518,"c008","C"
+"Processing of Food products nec",43,"Cereals, Other",2520,"c009","C"
+"Processing of Food products nec",43,"Pulses, Other and products",2549,"c019","C"
+"Processing of Food products nec",43,"Potatoes and products",2531,"c010","C"
+"Processing of Food products nec",43,"Cassava and products",2532,"c011","C"
+"Processing of Food products nec",43,"Sweet potatoes",2533,"c012","C"
+"Processing of Food products nec",43,"Roots, Other",2534,"c013","C"
+"Processing of Food products nec",43,"Tomatoes and products",2601,"c031","C"
+"Processing of Food products nec",43,"Onions",2602,"c032","C"
+"Processing of Food products nec",43,"Vegetables, Other",2605,"c033","C"
+"Processing of Food products nec",43,"Yams",2535,"c014","C"
+"Processing of Food products nec",43,"Grapes and products (excl wine)",2620,"c043","C"
+"Processing of Food products nec",43,"Nuts and products",2551,"c020","C"
+"Processing of Food products nec",43,"Oranges, Mandarines",2611,"c034","C"
+"Processing of Food products nec",43,"Lemons, Limes and products",2612,"c035","C"
+"Processing of Food products nec",43,"Grapefruit and products",2613,"c036","C"
+"Processing of Food products nec",43,"Citrus, Other",2614,"c037","C"
+"Processing of Food products nec",43,"Apples and products",2617,"c040","C"
+"Processing of Food products nec",43,"Pineapples and products",2618,"c041","C"
+"Processing of Food products nec",43,"Coconuts - Incl Copra",2560,"c026","C"
+"Processing of Food products nec",43,"Fruits, Other",2625,"c044","C"
+"Processing of Food products nec",43,"Coffee and products",2630,"c045","C"
+"Processing of Food products nec",43,"Tea (including mate)",2635,"c047","C"
+"Processing of Food products nec",43,"Spices, Other",2645,"c052","C"
+"Processing of Food products nec",43,"Cocoa Beans and products",2633,"c046","C"
+"Manufacture of beverages",44,"Wine",2655,"c090","C"
+"Manufacture of beverages",44,"Beer",2656,"c091","C"
+"Manufacture of beverages",44,"Beverages, Fermented",2657,"c092","C"
+"Manufacture of beverages",44,"Beverages, Alcoholic",2658,"c093","C"
+"Manufacture of fish products",45,"Fish, Seafood",2960,"c123","C"
+"Manufacture of tobacco products (16)",46,"Tobacco",2671,"c059","C"
+"Manufacture of textiles (17)",47,"Silk",2747,"c122","C"
+"Manufacture of textiles (17)",47,"Soft-Fibres, Other",2664,"c055","C"
+"Manufacture of textiles (17)",47,"Wool (Clean Eq.)",2746,"c112","C"
+"Manufacture of wearing apparel; dressing and dyeing of fur (18)",48,,,,
+"Tanning and dressing of leather; manufacture of luggage, handbags, saddlery, harness and footwear (19)",49,,,,
+"Manufacture of wood and of products of wood and cork, except furniture; manufacture of articles of straw and plaiting materials (20)",50,,,,
+"Re-processing of secondary wood material into new wood material",51,,,,
+"Pulp",52,,,,
+"Re-processing of secondary paper into new pulp",53,,,,
+"Paper",54,,,,
+"Publishing, printing and reproduction of recorded media (22)",55,,,,
+"Manufacture of coke oven products",56,,,,
+"Petroleum Refinery",57,,,,
+"Processing of nuclear fuel",58,,,,
+"Plastics, basic",59,,,,
+"Re-processing of secondary plastic into new plastic",60,,,,
+"N-fertiliser",61,,,,
+"P- and other fertiliser",62,,,,
+"Chemicals nec",63,"Alcohol, Non-Food",2659,"c094","C"
+"Manufacture of rubber and plastic products (25)",64,,,,
+"Manufacture of glass and glass products",65,,,,
+"Re-processing of secondary glass into new glass",66,,,,
+"Manufacture of ceramic goods",67,,,,
+"Manufacture of bricks, tiles and construction products, in baked clay",68,,,,
+"Manufacture of cement, lime and plaster",69,,,,
+"Re-processing of ash into clinker",70,,,,
+"Manufacture of other non-metallic mineral products n.e.c.",71,,,,
+"Manufacture of basic iron and steel and of ferro-alloys and first products thereof",72,,,,
+"Re-processing of secondary steel into new steel",73,,,,
+"Precious metals production",74,,,,
+"Re-processing of secondary preciuos metals into new preciuos metals",75,,,,
+"Aluminium production",76,,,,
+"Re-processing of secondary aluminium into new aluminium",77,,,,
+"Lead, zinc and tin production",78,,,,
+"Re-processing of secondary lead into new lead, zinc and tin",79,,,,
+"Copper production",80,,,,
+"Re-processing of secondary copper into new copper",81,,,,
+"Other non-ferrous metal production",82,,,,
+"Re-processing of secondary other non-ferrous metals into new other non-ferrous metals",83,,,,
+"Casting of metals",84,,,,
+"Manufacture of fabricated metal products, except machinery and equipment (28)",85,,,,
+"Manufacture of machinery and equipment n.e.c. (29)",86,,,,
+"Manufacture of office machinery and computers (30)",87,,,,
+"Manufacture of electrical machinery and apparatus n.e.c. (31)",88,,,,
+"Manufacture of radio, television and communication equipment and apparatus (32)",89,,,,
+"Manufacture of medical, precision and optical instruments, watches and clocks (33)",90,,,,
+"Manufacture of motor vehicles, trailers and semi-trailers (34)",91,,,,
+"Manufacture of other transport equipment (35)",92,,,,
+"Manufacture of furniture; manufacturing n.e.c. (36)",93,,,,
+"Recycling of waste and scrap",94,,,,
+"Recycling of bottles by direct reuse",95,,,,
+"Production of electricity by coal",96,,,,
+"Production of electricity by gas",97,,,,
+"Production of electricity by nuclear",98,,,,
+"Production of electricity by hydro",99,,,,
+"Production of electricity by wind",100,,,,
+"Production of electricity by petroleum and other oil derivatives",101,,,,
+"Production of electricity by biomass and waste",102,,,,
+"Production of electricity by solar photovoltaic",103,,,,
+"Production of electricity by solar thermal",104,,,,
+"Production of electricity by tide, wave, ocean",105,,,,
+"Production of electricity by Geothermal",106,,,,
+"Production of electricity nec",107,,,,
+"Transmission of electricity",108,,,,
+"Distribution and trade of electricity",109,,,,
+"Manufacture of gas; distribution of gaseous fuels through mains",110,,,,
+"Steam and hot water supply",111,,,,
+"Collection, purification and distribution of water (41)",112,,,,
+"Construction (45)",113,,,,
+"Re-processing of secondary construction material into aggregates",114,,,,
+"Sale, maintenance, repair of motor vehicles, motor vehicles parts, motorcycles, motor cycles parts and accessoiries",115,,,,
+"Retail sale of automotive fuel",116,,,,
+"Wholesale trade and commission trade, except of motor vehicles and motorcycles (51)",117,,,,
+"Retail trade, except of motor vehicles and motorcycles; repair of personal and household goods (52)",118,,,,
+"Hotels and restaurants (55)",119,,,,
+"Transport via railways",120,,,,
+"Other land transport",121,,,,
+"Transport via pipelines",122,,,,
+"Sea and coastal water transport",123,,,,
+"Inland water transport",124,,,,
+"Air transport (62)",125,,,,
+"Supporting and auxiliary transport activities; activities of travel agencies (63)",126,,,,
+"Post and telecommunications (64)",127,,,,
+"Financial intermediation, except insurance and pension funding (65)",128,,,,
+"Insurance and pension funding, except compulsory social security (66)",129,,,,
+"Activities auxiliary to financial intermediation (67)",130,,,,
+"Real estate activities (70)",131,,,,
+"Renting of machinery and equipment without operator and of personal and household goods (71)",132,,,,
+"Computer and related activities (72)",133,,,,
+"Research and development (73)",134,,,,
+"Other business activities (74)",135,,,,
+"Public administration and defence; compulsory social security (75)",136,,,,
+"Education (80)",137,,,,
+"Health and social work (85)",138,,,,
+"Incineration of waste: Food",139,,,,
+"Incineration of waste: Paper",140,,,,
+"Incineration of waste: Plastic",141,,,,
+"Incineration of waste: Metals and Inert materials",142,,,,
+"Incineration of waste: Textiles",143,,,,
+"Incineration of waste: Wood",144,,,,
+"Incineration of waste: Oil/Hazardous waste",145,,,,
+"Biogasification of food waste, incl. land application",146,,,,
+"Biogasification of paper, incl. land application",147,,,,
+"Biogasification of sewage slugde, incl. land application",148,,,,
+"Composting of food waste, incl. land application",149,,,,
+"Composting of paper and wood, incl. land application",150,,,,
+"Waste water treatment, food",151,,,,
+"Waste water treatment, other",152,,,,
+"Landfill of waste: Food",153,,,,
+"Landfill of waste: Paper",154,,,,
+"Landfill of waste: Plastic",155,,,,
+"Landfill of waste: Inert/metal/hazardous",156,,,,
+"Landfill of waste: Textiles",157,,,,
+"Landfill of waste: Wood",158,,,,
+"Activities of membership organisation n.e.c. (91)",159,,,,
+"Recreational, cultural and sporting activities (92)",160,,,,
+"Other service activities (93)",161,,,,
+"Private households with employed persons (95)",162,,,,
+"Extra-territorial organizations and bodies",163,,,,
+,,"Grazing",2001,"c062",
+,,"Cottonseed",2559,"c063",
+,,"Palm kernels",2562,"c064",
+,,"Cotton lint",2661,"c095",

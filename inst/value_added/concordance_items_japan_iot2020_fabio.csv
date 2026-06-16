@@ -1,0 +1,530 @@
+﻿"JPN_IOT2020_item","JPN_IOT2020_code","FABIO_item","FABIO_item_code","FABIO_comm_code","ISIC","comments"
+"Rice","011101","Rice and products",2807,"c001","A",
+"Wheat, barley and the like","011102","Wheat and products",2511,"c002","A",
+"Wheat, barley and the like","011102","Barley and products",2513,"c003","A","incl. naked barley"
+"Wheat, barley and the like","011102","Rye and products",2515,"c005","A","minor production"
+"Wheat, barley and the like","011102","Oats",2516,"c006","A","minor production"
+"Potatoes and sweet potatoes","011201","Potatoes and products",2531,"c010","A",
+"Potatoes and sweet potatoes","011201","Sweet potatoes",2533,"c012","A",
+"Potatoes and sweet potatoes","011201","Roots, Other",2534,"c013","A","taro (satoimo), konnyaku"
+"Potatoes and sweet potatoes","011201","Yams",2535,"c014","A","nagaimo / Japanese yam"
+"Potatoes and sweet potatoes","011201","Cassava and products",2532,"c011","A","No Japanese production"
+"Pulses","011202","Soyabeans",2555,"c021","A","soybeans grouped with pulses in JPN IOT"
+"Pulses","011202","Beans",2546,"c017","A",
+"Pulses","011202","Peas",2547,"c018","A",
+"Pulses","011202","Pulses, Other and products",2549,"c019","A","adzuki and other pulses"
+"Pulses","011202","Groundnuts",2552,"c022","A","peanuts grouped with pulses in JPN statistics"
+"Vegetables","011301","Tomatoes and products",2601,"c031","A",
+"Vegetables","011301","Onions",2602,"c032","A",
+"Vegetables","011301","Vegetables, Other",2605,"c033","A","incl. strawberries and melons (fruit-type vegetables)"
+"Fruits","011401","Oranges, Mandarines",2611,"c034","A","unshu mikan"
+"Fruits","011401","Lemons, Limes and products",2612,"c035","A","minor production"
+"Fruits","011401","Grapefruit and products",2613,"c036","A","negligible production"
+"Fruits","011401","Citrus, Other",2614,"c037","A","yuzu, iyokan etc."
+"Fruits","011401","Apples and products",2617,"c040","A",
+"Fruits","011401","Grapes and products (excl wine)",2620,"c043","A",
+"Fruits","011401","Pineapples and products",2618,"c041","A","Okinawa"
+"Fruits","011401","Bananas",2615,"c038","A","negligible production"
+"Fruits","011401","Plantains",2616,"c039","A","No Japanese production"
+"Fruits","011401","Dates",2619,"c042","A","No Japanese production"
+"Fruits","011401","Nuts and products",2551,"c020","A","chestnuts, walnuts"
+"Fruits","011401","Coconuts - Incl Copra",2560,"c026","A","No Japanese production"
+"Fruits","011401","Olives (including preserved)",2563,"c029","A","minor production (Shodoshima)"
+"Fruits","011401","Fruits, Other",2625,"c044","A","peaches, pears, persimmons; strawberries and melons under Vegetables"
+"Sugar crops","011501","Sugar cane",2536,"c015","A","Okinawa and Kagoshima"
+"Sugar crops","011501","Sugar beet",2537,"c016","A","Hokkaido"
+"Crops for beverages","011502","Tea (including mate)",2635,"c047","A","green tea (leaf); coffee production negligible"
+"Crops for beverages","011502","Hops",677,"c048","A","brewing hops, minor production"
+"Miscellaneous edible crops","011509","Maize and products",2514,"c004","A","grain maize negligible; sweet corn under Vegetables, forage maize under Feed crops"
+"Miscellaneous edible crops","011509","Millet and products",2517,"c007","A","minor production"
+"Miscellaneous edible crops","011509","Sorghum and products",2518,"c008","A","negligible production"
+"Miscellaneous edible crops","011509","Cereals, Other",2520,"c009","A","buckwheat"
+"Miscellaneous edible crops","011509","Rape and Mustardseed",2558,"c024","A","rapeseed (natane); no separate oilseed sector"
+"Miscellaneous edible crops","011509","Sesame seed",2561,"c027","A","minor production"
+"Miscellaneous edible crops","011509","Sunflower seed",2557,"c023","A","negligible production"
+"Miscellaneous edible crops","011509","Oilcrops, Other",2570,"c030","A",
+"Miscellaneous edible crops","011509","Pepper",2640,"c049","A","No Japanese production"
+"Miscellaneous edible crops","011509","Pimento",2641,"c050","A","No Japanese production"
+"Miscellaneous edible crops","011509","Cloves",2642,"c051","A","No Japanese production"
+"Miscellaneous edible crops","011509","Spices, Other",2645,"c052","A","wasabi and ginger partly under Vegetables"
+"Feed and forage crops","011601","Fodder crops",2000,"c061","A",
+"Seeds and seedlings","011602",,,,,
+"Flowers and plants","011603",,,,,
+"Miscellaneous inedible crops","011609","Tobacco",2671,"c059","A","leaf tobacco"
+"Miscellaneous inedible crops","011609","Seed cotton",328,"c025","A","No Japanese production"
+"Miscellaneous inedible crops","011609","Soft-Fibres, Other",2664,"c055","A","negligible production"
+"Miscellaneous inedible crops","011609","Jute",2662,"c053","A","No Japanese production"
+"Miscellaneous inedible crops","011609","Jute-Like Fibres",2663,"c054","A","No Japanese production"
+"Miscellaneous inedible crops","011609","Sisal",2665,"c056","A","No Japanese production"
+"Miscellaneous inedible crops","011609","Abaca",2666,"c057","A","No Japanese production"
+"Miscellaneous inedible crops","011609","Hard Fibres, Other",2667,"c058","A","igusa rush (tatami)"
+"Miscellaneous inedible crops","011609","Rubber",2672,"c060","A","No Japanese production"
+"Miscellaneous inedible crops","011609","Oil, palm fruit",254,"c028","A","No Japanese production"
+"Dairy cattle farming","012101","Milk - Excluding Butter",2848,"c109","A",
+"Beef cattle","012102","Cattle",866,"c096","A","culled dairy cattle under Dairy cattle farming"
+"Beef cattle","012102","Buffaloes",946,"c097","A","No Japanese production"
+"Hogs","012103","Pigs",1034,"c100","A",
+"Hen eggs","012104","Eggs",2744,"c111","A",
+"Chickens","012105","Poultry Birds",2029,"c101","A","broilers"
+"Miscellaneous livestock","012109","Sheep",976,"c098","A","minor production"
+"Miscellaneous livestock","012109","Goats",1016,"c099","A","minor production"
+"Miscellaneous livestock","012109","Horses",1096,"c102","A",
+"Miscellaneous livestock","012109","Asses",1107,"c103","A","No Japanese production"
+"Miscellaneous livestock","012109","Mules",1110,"c104","A","No Japanese production"
+"Miscellaneous livestock","012109","Camels",1126,"c105","A","No Japanese production"
+"Miscellaneous livestock","012109","Camelids, other",1157,"c106","A","No Japanese production"
+"Miscellaneous livestock","012109","Rabbits and hares",1140,"c107","A",
+"Miscellaneous livestock","012109","Rodents, other",1150,"c108","A",
+"Miscellaneous livestock","012109","Wool (Clean Eq.)",2746,"c112","A","negligible production"
+"Miscellaneous livestock","012109","Honey",2745,"c121","A","apiculture"
+"Miscellaneous livestock","012109","Silk",2747,"c122","A","silkworm cocoons; sericulture, minor production"
+"Agricultural services","013101",,,,,
+"Silviculture","015101",,,,,
+"Logs","015201",,,,,
+"Special forest products (including hunting)","015301",,,,,
+"Marine fishery","017101","Fish, Seafood",2960,"c123","A","marine capture fishery"
+"Marine aquaculture","017102","Fish, Seafood",2960,"c123","A","marine aquaculture"
+"Inland water fishery","017201","Fish, Seafood",2960,"c123","A","inland capture fishery"
+"Inland water aquaculture","017202","Fish, Seafood",2960,"c123","A","inland aquaculture"
+"Coal mining, crude petroleum and natural gas","061101",,,,,
+"Gravel and quarrying","062101",,,,,
+"Miscellaneous ores","062909",,,,,
+"Meat","111101","Bovine Meat",2731,"c113","C",
+"Meat","111101","Pigmeat",2733,"c115","C",
+"Meat","111101","Poultry Meat",2734,"c116","C",
+"Meat","111101","Mutton & Goat Meat",2732,"c114","C","mostly slaughter of imported/minor domestic animals"
+"Meat","111101","Meat, Other",2735,"c117","C",
+"Meat","111101","Offals, Edible",2736,"c118","C",
+"Meat","111101","Fats, Animals, Raw",2737,"c119","C",
+"Meat","111101","Hides and skins",2748,"c120","C",
+"Dairy farm products","111102","Milk - Excluding Butter",2848,"c109","C",
+"Dairy farm products","111102","Butter, Ghee",2740,"c110","C",
+"Miscellaneous livestock products","111109",,,,,"honey and egg products; FABIO covers eggs and honey as primary items only"
+"Frozen fish and shellfish","111201","Fish, Seafood",2960,"c123","C",
+"Salted, dried or smoked seafood","111202","Fish, Seafood",2960,"c123","C",
+"Bottled or canned seafood","111203","Fish, Seafood",2960,"c123","C",
+"Fish paste","111204","Fish, Seafood",2960,"c123","C",
+"Miscellaneous processed seafood","111209","Fish, Seafood",2960,"c123","C",
+"Grain milling","111301","Rice and products",2807,"c001","C","rice polishing"
+"Grain milling","111301","Barley and products",2513,"c003","C","barley polishing"
+"Flour and miscellaneous grain milled products","111302","Wheat and products",2511,"c002","C","wheat flour"
+"Flour and miscellaneous grain milled products","111302","Maize and products",2514,"c004","C",
+"Flour and miscellaneous grain milled products","111302","Rye and products",2515,"c005","C",
+"Flour and miscellaneous grain milled products","111302","Oats",2516,"c006","C",
+"Flour and miscellaneous grain milled products","111302","Millet and products",2517,"c007","C",
+"Flour and miscellaneous grain milled products","111302","Sorghum and products",2518,"c008","C",
+"Flour and miscellaneous grain milled products","111302","Cereals, Other",2520,"c009","C","buckwheat flour"
+"Noodles","111401",,,,,
+"Bread","111402",,,,,
+"Confectionery","111403","Cocoa Beans and products",2633,"c046","C","chocolate confectionery; no separate cocoa sector"
+"Preserved agricultural foodstuffs","111501","Potatoes and products",2531,"c010","C",
+"Preserved agricultural foodstuffs","111501","Sweet potatoes",2533,"c012","C",
+"Preserved agricultural foodstuffs","111501","Roots, Other",2534,"c013","C",
+"Preserved agricultural foodstuffs","111501","Tomatoes and products",2601,"c031","C",
+"Preserved agricultural foodstuffs","111501","Onions",2602,"c032","C",
+"Preserved agricultural foodstuffs","111501","Vegetables, Other",2605,"c033","C","incl. pickles (tsukemono)"
+"Preserved agricultural foodstuffs","111501","Pulses, Other and products",2549,"c019","C",
+"Preserved agricultural foodstuffs","111501","Nuts and products",2551,"c020","C",
+"Preserved agricultural foodstuffs","111501","Oranges, Mandarines",2611,"c034","C",
+"Preserved agricultural foodstuffs","111501","Lemons, Limes and products",2612,"c035","C",
+"Preserved agricultural foodstuffs","111501","Grapefruit and products",2613,"c036","C",
+"Preserved agricultural foodstuffs","111501","Citrus, Other",2614,"c037","C",
+"Preserved agricultural foodstuffs","111501","Apples and products",2617,"c040","C",
+"Preserved agricultural foodstuffs","111501","Pineapples and products",2618,"c041","C",
+"Preserved agricultural foodstuffs","111501","Grapes and products (excl wine)",2620,"c043","C",
+"Preserved agricultural foodstuffs","111501","Fruits, Other",2625,"c044","C",
+"Preserved agricultural foodstuffs","111501","Cassava and products",2532,"c011","C","imported raw material"
+"Preserved agricultural foodstuffs","111501","Yams",2535,"c014","C",
+"Preserved agricultural foodstuffs","111501","Coconuts - Incl Copra",2560,"c026","C","imported raw material"
+"Sugar","111601","Sugar (Raw Equivalent)",2542,"c066","C",
+"Sugar","111601","Sugar non-centrifugal",2541,"c065","C","kokuto (brown sugar)"
+"Starch","111602","Maize and products",2514,"c004","C","corn starch"
+"Starch","111602","Potatoes and products",2531,"c010","C","potato starch"
+"Starch","111602","Sweet potatoes",2533,"c012","C","sweet potato starch"
+"Starch","111602","Maize Germ Oil",2582,"c079","C","wet-milling by-product"
+"Dextrose, syrup and isomerized sugar","111603","Sweeteners, Other",2543,"c067","C","glucose, syrups, isomerized sugar (HFCS)"
+"Animal oil and fats, vegetable oil and meal","111604","Soyabean Oil",2571,"c068","C",
+"Animal oil and fats, vegetable oil and meal","111604","Groundnut Oil",2572,"c069","C",
+"Animal oil and fats, vegetable oil and meal","111604","Sunflowerseed Oil",2573,"c070","C",
+"Animal oil and fats, vegetable oil and meal","111604","Rape and Mustard Oil",2574,"c071","C",
+"Animal oil and fats, vegetable oil and meal","111604","Cottonseed Oil",2575,"c072","C",
+"Animal oil and fats, vegetable oil and meal","111604","Palmkernel Oil",2576,"c073","C",
+"Animal oil and fats, vegetable oil and meal","111604","Palm Oil",2577,"c074","C",
+"Animal oil and fats, vegetable oil and meal","111604","Coconut Oil",2578,"c075","C",
+"Animal oil and fats, vegetable oil and meal","111604","Sesameseed Oil",2579,"c076","C",
+"Animal oil and fats, vegetable oil and meal","111604","Olive Oil",2580,"c077","C",
+"Animal oil and fats, vegetable oil and meal","111604","Ricebran Oil",2581,"c078","C",
+"Animal oil and fats, vegetable oil and meal","111604","Maize Germ Oil",2582,"c079","C",
+"Animal oil and fats, vegetable oil and meal","111604","Oilcrops Oil, Other",2586,"c080","C",
+"Animal oil and fats, vegetable oil and meal","111604","Soyabean Cake",2590,"c081","C","crushing of mostly imported oilseeds"
+"Animal oil and fats, vegetable oil and meal","111604","Groundnut Cake",2591,"c082","C","crushing of mostly imported oilseeds"
+"Animal oil and fats, vegetable oil and meal","111604","Sunflowerseed Cake",2592,"c083","C","crushing of mostly imported oilseeds"
+"Animal oil and fats, vegetable oil and meal","111604","Rape and Mustard Cake",2593,"c084","C","crushing of mostly imported oilseeds"
+"Animal oil and fats, vegetable oil and meal","111604","Cottonseed Cake",2594,"c085","C","crushing of mostly imported oilseeds"
+"Animal oil and fats, vegetable oil and meal","111604","Palmkernel Cake",2595,"c086","C","crushing of mostly imported oilseeds"
+"Animal oil and fats, vegetable oil and meal","111604","Copra Cake",2596,"c087","C","crushing of mostly imported oilseeds"
+"Animal oil and fats, vegetable oil and meal","111604","Sesameseed Cake",2597,"c088","C","crushing of mostly imported oilseeds"
+"Animal oil and fats, vegetable oil and meal","111604","Oilseed Cakes, Other",2598,"c089","C","crushing of mostly imported oilseeds"
+"Condiments and seasonings","111605","Spices, Other",2645,"c052","C","seasonings and dressings"
+"Condiments and seasonings","111605","Pulses, Other and products",2549,"c019","C","soy sauce, miso"
+"Prepared frozen foods","111901",,,,,
+"Retort foods","111902",,,,,
+"Dishes, sushi and lunch boxes","111903",,,,,
+"Miscellaneous foods","111909","Pulses, Other and products",2549,"c019","C","tofu, natto and other soybean foods n.e.c."
+"Miscellaneous foods","111909","Cereals, Other",2520,"c009","C","processed products n.e.c."
+"Refined sake","112101","Beverages, Fermented",2657,"c092","C","refined sake (fermented rice beverage)"
+"Malt liquors","112102","Beer",2656,"c091","C",
+"Whiskey and brandy","112103","Beverages, Alcoholic",2658,"c093","C","whiskey and brandy"
+"Miscellaneous liquors","112109","Wine",2655,"c090","C","domestic wine"
+"Miscellaneous liquors","112109","Beverages, Fermented",2657,"c092","C","mirin and other fermented liquors"
+"Miscellaneous liquors","112109","Beverages, Alcoholic",2658,"c093","C","shochu and other spirits"
+"Tea and roasted coffee","112901","Coffee and products",2630,"c045","C","roasting of imported green coffee"
+"Tea and roasted coffee","112901","Tea (including mate)",2635,"c047","C","tea processing"
+"Soft drinks","112902",,,,,
+"Manufactured ice","112903",,,,,
+"Feeds","113101","Soyabean Cake",2590,"c081","C","compound feed ingredients"
+"Feeds","113101","Groundnut Cake",2591,"c082","C","compound feed ingredients"
+"Feeds","113101","Sunflowerseed Cake",2592,"c083","C","compound feed ingredients"
+"Feeds","113101","Rape and Mustard Cake",2593,"c084","C","compound feed ingredients"
+"Feeds","113101","Cottonseed Cake",2594,"c085","C","compound feed ingredients"
+"Feeds","113101","Palmkernel Cake",2595,"c086","C","compound feed ingredients"
+"Feeds","113101","Copra Cake",2596,"c087","C","compound feed ingredients"
+"Feeds","113101","Sesameseed Cake",2597,"c088","C","compound feed ingredients"
+"Feeds","113101","Oilseed Cakes, Other",2598,"c089","C","compound feed ingredients"
+"Organic fertilizers, n.e.c.","113102",,,,,
+"Tobacco","114101","Tobacco",2671,"c059","C",
+"Fiber yarns","151101","Soft-Fibres, Other",2664,"c055","C","cotton spinning (imported lint)"
+"Fiber yarns","151101","Wool (Clean Eq.)",2746,"c112","C","wool spinning (mostly imported)"
+"Fiber yarns","151101","Silk",2747,"c122","C","silk reeling and spinning"
+"Cotton and staple fiber fabrics (including fabrics of synthetic spun fibers)","151201",,,,,
+"Silk and artificial silk fabrics (including fabrics of synthetic filament fibers)","151202",,,,,
+"Miscellaneous fabrics","151209",,,,,
+"Knitting fabrics","151301",,,,,
+"Yarn and fabric dyeing and finishing (processing on commission only)","151401",,,,,
+"Miscellaneous fabricated textile products","151909",,,,,
+"Woven fabric apparel","152101",,,,,
+"Knitted apparel","152102",,,,,
+"Miscellaneous wearing apparel and clothing accessories","152209",,,,,
+"Bedding","152901",,,,,
+"Carpets and floor mats","152902",,,,,
+"Miscellaneous ready-made textile products","152909",,,,,
+"Timber","161101",,,,,
+"Plywood, glued laminated timber","161102",,,,,
+"Wooden chips","161103",,,,,
+"Miscellaneous wooden products","161909",,,,,
+"Wooden furniture","162101",,,,,
+"Metallic furniture","162102",,,,,
+"Wooden fixtures","162103",,,,,
+"Miscellaneous furniture and fixtures","162109",,,,,
+"Pulp","163101",,,,,
+"Paper","163201",,,,,
+"Paperboard","163202",,,,,
+"Corrugated cardboard","163301",,,,,
+"Coated paper and building (construction) paper","163302",,,,,
+"Corrugated card board boxes","164101",,,,,
+"Miscellaneous paper containers","164109",,,,,
+"Paper textile for medical use","164901",,,,,
+"Miscellaneous pulp, paper and processed paper products","164909",,,,,
+"Printing, plate making and book binding","191101",,,,,
+"Chemical fertilizer","201101",,,,,
+"Industrial soda chemicals","202101",,,,,
+"Inorganic pigment","202901",,,,,
+"Compressed gas and liquefied gas","202902",,,,,
+"Salt","202903",,,,,
+"Miscellaneous industrial inorganic chemicals","202909",,,,,
+"Petrochemical basic products","203101",,,,,
+"Petrochemical aromatic products (except synthetic resin)","203102",,,,,
+"Aliphatic intermediates","204101",,,,,
+"Cyclic intermediates, synthetic dyes and organic pigments","204102",,,,,
+"Synthetic rubber","204201",,,,,
+"Methane derivatives","204901",,,,,
+"Plasticizers","204902",,,,,
+"Miscellaneous industrial organic chemicals","204909",,,,,
+"Thermo-setting resins","205101",,,,,
+"Thermoplastics resins","205102",,,,,
+"High function resins","205103",,,,,
+"Miscellaneous synthetic resins","205109",,,,,
+"Chemical fibers","206101",,,,,
+"Medicines","207101",,,,,
+"Oil and fat products and surface-active agents","208101",,,,,
+"Cosmetics, toilet preparations and dentifrices","208201",,,,,
+"Paint and varnishes","208301",,,,,
+"Printing ink","208302",,,,,
+"Agricultural chemicals","208401",,,,,
+"Gelatin and adhesives","208901",,,,,
+"Photographic sensitive materials","208902",,,,,
+"Miscellaneous final chemical products","208909",,,,,
+"Petroleum refinery products (including greases)","211101",,,,,
+"Coal products","212101",,,,,
+"Paving materials","212102",,,,,
+"Plastic products","221101",,,,,
+"Tires and inner tubes","222101",,,,,
+"Miscellaneous rubber products","222909",,,,,
+"Leather footwear","231101",,,,,
+"Leather tanning, leather products and fur skins (except leather footwear)","231201",,,,,
+"Sheet glass and safety glass","251101",,,,,
+"Glass fiber and glass fiber products, n.e.c.","251102",,,,,
+"Miscellaneous glass products","251109",,,,,
+"Cement","252101",,,,,
+"Ready mixed concrete","252102",,,,,
+"Cement products","252103",,,,,
+"Pottery, china and earthenware","253101",,,,,
+"Clay refractories","259101",,,,,
+"Miscellaneous structural clay products","259109",,,,,
+"Carbon and graphite products","259901",,,,,
+"Abrasive and its products","259902",,,,,
+"Miscellaneous ceramic, stone and clay products","259909",,,,,
+"Pig iron","261101",,,,,
+"Ferro-alloys","261102",,,,,
+"Crude steel (converters)","261103",,,,,
+"Crude steel (electric furnaces)","261104",,,,,
+"Hot rolled steel","262101",,,,,
+"Steel pipes and tubes","262201",,,,,
+"Cold-finished steel","262301",,,,,
+"Coated steel","262302",,,,,
+"Cast and forged steel","263101",,,,,
+"Cast iron pipes and tubes","263102",,,,,
+"Cast and forged materials (iron)","263103",,,,,
+"Iron and steel shearing and slitting","269901",,,,,
+"Miscellaneous iron or steel products","269909",,,,,
+"Copper","271101",,,,,
+"Lead and zinc (including regenerated lead)","271102",,,,,
+"Aluminum (including regenerated aluminum)","271103",,,,,
+"Miscellaneous non-ferrous metals","271109",,,,,
+"Electric wires and cables","272101",,,,,
+"Optical fiber cables","272102",,,,,
+"Rolled and drawn copper and copper alloys","272901",,,,,
+"Rolled and drawn aluminum","272902",,,,,
+"Non-ferrous metal castings and forgings","272903",,,,,
+"Nuclear fuels","272904",,,,,
+"Miscellaneous non-ferrous metal products","272909",,,,,
+"Fabricated construction-use metal products","281101",,,,,
+"Fabricated architectural metal products","281201",,,,,
+"Gas and oil appliances, heating and cooking apparatus","289101",,,,,
+"Bolts, nuts, rivets and springs","289901",,,,,
+"Metal containers, fabricated plate and sheet metal","289902",,,,,
+"Plumbing accessories, powder metallurgy products and tools","289903",,,,,
+"Miscellaneous metal products","289909",,,,,
+"Boilers","291101",,,,,
+"Turbines","291102",,,,,
+"Engines","291103",,,,,
+"Pumps and compressors","291201",,,,,
+"Conveyors","291301",,,,,
+"Refrigerators and air conditioning apparatus","291401",,,,,
+"Bearings","291901",,,,,
+"Miscellaneous general-purpose machinery","291909",,,,,
+"Machinery for agricultural use","301101",,,,,
+"Machinery and equipment for construction and mining","301201",,,,,
+"Textile machinery","301301",,,,,
+"Daily lives industry machinery","301401",,,,,
+"Chemical machinery","301501",,,,,
+"Casting equipment and plastic processing machinery","301502",,,,,
+"Metal machine tools","301601",,,,,
+"Metal processing machinery","301602",,,,,
+"Machinists' precision tools","301603",,,,,
+"Semiconductor making equipment","301701",,,,,
+"Metal molds","301901",,,,,
+"Vacuum equipment and vacuum component","301902",,,,,
+"Robots","301903",,,,,
+"Miscellaneous production machinery","301909",,,,,
+"Copy machine","311101",,,,,
+"Miscellaneous office machines","311109",,,,,
+"Service industry and amusement machines","311201",,,,,
+"Measuring instruments","311301",,,,,
+"Medical instruments","311401",,,,,
+"Optical instruments and lenses","311501",,,,,
+"Ordnance","311601",,,,,
+"Semiconductor devices","321101",,,,,
+"Integrated circuits","321102",,,,,
+"Liquid crystal panel","321103",,,,,
+"Flat-panel and electron tubes","321104",,,,,
+"Storage media","329901",,,,,
+"Electric circuit","329902",,,,,
+"Miscellaneous electronic components","329909",,,,,
+"Rotating electrical equipment","331101",,,,,
+"Transformers and reactors","331102",,,,,
+"Relay switches and switchboards","331103",,,,,
+"Wiring devices and supplies","331104",,,,,
+"Electrical equipment for internal combustion engines","331105",,,,,
+"Miscellaneous electrical devices and parts","331109",,,,,
+"Household air-conditioners","332101",,,,,
+"Household electric appliances (except air-conditioners)","332102",,,,,
+"Applied electronic equipment","333101",,,,,
+"Electric measuring instruments","333201",,,,,
+"Electric bulbs","339901",,,,,
+"Electric lighting fixtures and apparatus","339902",,,,,
+"Batteries","339903",,,,,
+"Miscellaneous electrical devices and parts","339909",,,,,
+"Wired communication equipment","341101",,,,,
+"Mobile phone","341102",,,,,
+"Radio communication equipment (except mobile phone)","341103",,,,,
+"Radio and television sets","341104",,,,,
+"Miscellaneous communication equipment","341109",,,,,
+"Video equipment and digital camera","341201",,,,,
+"Electric audio equipment","341202",,,,,
+"Personal Computers","342101",,,,,
+"Electronic computing equipment (except personal computers)","342102",,,,,
+"Electronic computing equipment (accessory equipment)","342103",,,,,
+"Passenger motor cars (hybrid cars)","351101",,,,,
+"Passenger motor cars (except hybrid cars)","351102",,,,,
+"Trucks, buses and miscellaneous cars","352101",,,,,
+"Two-wheel motor vehicles","352201",,,,,
+"Internal combustion engines for motor vehicles","353101",,,,,
+"Motor vehicle parts and accessories","353102",,,,,
+"Steel ships","354101",,,,,
+"Miscellaneous Ships (except steel ships)","354102",,,,,
+"Internal combustion engines for vessels","354103",,,,,
+"Repair of ships","354110",,,,,
+"Rolling stock","359101",,,,,
+"Repair of rolling stock","359110",,,,,
+"Aircrafts","359201",,,,,
+"Repair of aircrafts","359210",,,,,
+"Bicycles","359901",,,,,
+"Miscellaneous transport equipment","359909",,,,,
+"Toys and games","391101",,,,,
+"Sporting and athletic goods","391102",,,,,
+"Jewelry and adornments","391901",,,,,
+"Watches and clocks","391902",,,,,
+"Musical instruments","391903",,,,,
+"Stationery","391904",,,,,
+"""Tatami"" (straw matting) and straw products","391905",,,,,
+"Audio and video records, other information recording media","391906",,,,,
+"Miscellaneous manufacturing products","391909",,,,,
+"Reuse and recycling","392101",,,,,
+"Residential construction (wooden)","411101",,,,,
+"Residential construction (non-wooden)","411102",,,,,
+"Non-residential construction (wooden)","411201",,,,,
+"Non-residential construction (non-wooden)","411202",,,,,
+"Repair of construction","412101",,,,,
+"Public construction of roads","413101",,,,,
+"Public construction of rivers, drainages and miscellaneous public construction","413102",,,,,
+"Agricultural public construction","413103",,,,,
+"Railway construction","419101",,,,,
+"Electric power facilities construction","419102",,,,,
+"Telecommunication facilities construction","419103",,,,,
+"Miscellaneous civil engineering and construction","419109",,,,,
+"Electricity (thermal power (including biomass power and waste-fired power))","461101",,,,,
+"Electricity (nuclear power)","461102",,,,,
+"Electricity (hydroelectric power, geothermal power, solar power, wind power, etc.)","461103",,,,,
+"Gas supply","462101",,,,,
+"Steam and hot water supply","462201",,,,,
+"Water supply","471101",,,,,
+"Industrial water supply","471102",,,,,
+"Sewage disposal **","471103",,,,,
+"Waste management services (public corporation) **","481101",,,,,
+"Waste management services","481102",,,,,
+"Wholesale trade","511101",,,,,
+"Retail trade","511201",,,,,
+"Financial service","531101",,,,,
+"Life insurance","531201",,,,,
+"Non-life insurance","531202",,,,,
+"Real estate agencies and managers","551101",,,,,
+"Real estate rental service","551102",,,,,
+"House rent","552101",,,,,
+"House rent (imputed house rent)","553101",,,,,
+"Railway transport (passengers)","571101",,,,,
+"Railway transport (freight)","571201",,,,,
+"Bus transport service","572101",,,,,
+"Hired car and taxi transport","572102",,,,,
+"Road freight transport (except self-transport)","572201",,,,,
+"Self-transport (passengers)","573101P",,,,,
+"Self-transport (freight)","573201P",,,,,
+"International shipping","574101",,,,,
+"Coastal and inland water transport","574201",,,,,
+"Harbor transport service","574301",,,,,
+"Air transport","575101",,,,,
+"Consigned freight forwarding","576101",,,,,
+"Storage facility service","577101",,,,,
+"Packing service","578101",,,,,
+"Facility service for road transport","578901",,,,,
+"Port and water traffic control (public corporation) **","578902",,,,,
+"Port and water traffic control","578903",,,,,
+"Services relating to water transport","578904",,,,,
+"Airport and air traffic control (public corporation) **","578905",,,,,
+"Airport and air traffic control","578906",,,,,
+"Services relating to air transport","578907",,,,,
+"Travel agency and miscellaneous services relating to transport","578909",,,,,
+"Postal services and mail delivery","579101",,,,,
+"Fixed telecommunications","591101",,,,,
+"Mobile telecommunications","591102",,,,,
+"Services relating to telecommunications","591103",,,,,
+"Public broadcasting","592101",,,,,
+"Private broadcasting","592102",,,,,
+"Cable broadcasting","592103",,,,,
+"Information services","593101",,,,,
+"Internet based services","594101",,,,,
+"Video picture, sound information, character information production (except newspaper or publication)","595101",,,,,
+"Newspaper","595102",,,,,
+"Publication","595103",,,,,
+"Public administration (central government) **","611101",,,,,
+"Public administration (local government) **","611201",,,,,
+"School education (public institution) **","631101",,,,,
+"School education (NPI) *","631102",,,,,
+"School lunch (public institution) **","631103",,,,,
+"School lunch (NPI) *","631104",,,,,
+"Social education (public institution) **","631201",,,,,
+"Social education (NPI) *","631202",,,,,
+"Miscellaneous educational and training institutions (public institution) **","631203",,,,,
+"Miscellaneous educational and training institutions","631204",,,,,
+"Research institutes for natural science (public institution) **","632101",,,,,
+"Research institutes for cultural and social science (public institution) **","632102",,,,,
+"Research institutes for natural sciences (NPI) *","632103",,,,,
+"Research institutes for cultural and social science (NPI) *","632104",,,,,
+"Research institutes for natural sciences","632105",,,,,
+"Research institutes for cultural and social science","632106",,,,,
+"Research and development (intra-enterprise)","632201",,,,,
+"Medical service (general hospitals)","641101",,,,,
+"Medical service (clinics of medical practitioners)","641102",,,,,
+"Medical service (dentistry)","641103",,,,,
+"Medical service (pharmacies)","641104",,,,,
+"Medical service (miscellaneous medical service)","641105",,,,,
+"Health and hygiene (public institution) **","642101",,,,,
+"Health and hygiene","642102",,,,,
+"Social insurance **","643101",,,,,
+"Social welfare (public institution) **","643102",,,,,
+"Social welfare (NPI) *","643103",,,,,
+"Social welfare","643104",,,,,
+"Nursery","643105",,,,,
+"Nursing care (facility services)","644101",,,,,
+"Nursing care (except facility services)","644102",,,,,
+"Membership-based business associations","659901",,,,,
+"Private non-profit institutions serving households, n.e.c. *","659902",,,,,
+"Goods rental and leasing (except car rental)","661101",,,,,
+"Car rental and leasing","661201",,,,,
+"Advertising services","662101",,,,,
+"Motor vehicle maintenance services","663110",,,,,
+"Machine repair services","663210",,,,,
+"Judicial, financial and accounting services","669901",,,,,
+"Civil engineering and construction services","669902",,,,,
+"Worker dispatching services","669903",,,,,
+"Building maintenance services","669904",,,,,
+"Guard services","669905",,,,,
+"Slaughterhouse (public corporation) **","669906",,,,,
+"Slaughterhouse","669907",,,,,
+"Miscellaneous business services","669909",,,,,
+"Accommodations","671101",,,,,
+"Eating and drinking places","672101",,,,,
+"Food take out and delivery services","672102",,,,,
+"Laundries","673101",,,,,
+"Barber shops","673102",,,,,
+"Hair-dressing and beauty salon","673103",,,,,
+"Bathhouses","673104",,,,,
+"Miscellaneous laundry, beauty and bath service","673109",,,,,
+"Cinemas","674101",,,,,
+"Performances (except movie theaters), theatrical comranies","674102",,,,,
+"Stadiums and companies of bicycle, horse, motorcar and motorboat races","674103",,,,,
+"Sport facility service, public gardens and amusement parks","674104",,,,,
+"Amusement and Recreation Facilities and Services","674105",,,,,
+"Veterinary service","675101",,,,,
+"Photographic studios","679901",,,,,
+"Ceremonial occasions","679902",,,,,
+"Supplementary tutorial schools, instruction services for arts, culture and technical skills","679903",,,,,
+"Miscellaneous repairs, n.e.c.","679904",,,,,
+"Miscellaneous personal services","679909",,,,,
+"Office supplies","681100P",,,,,
+"Activities not elsewhere classified","691100",,,,,
+,,"Grazing",2001,"c062",,"Non-allocated: grazing simplified as an ecosystem service"
+,,"Cottonseed",2559,"c063",,"Non-allocated: no Japanese cotton production"
+,,"Palm kernels",2562,"c064",,"Non-allocated: no Japanese oil palm production"
+,,"Cotton lint",2661,"c095",,"Non-allocated: no Japanese cotton production"
+,,"Alcohol, Non-Food",2659,"c094",,"Non-allocated: no separate JPN IOT sector (cf. 204909 miscellaneous industrial organic chemicals)"

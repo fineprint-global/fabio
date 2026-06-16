@@ -1,4 +1,3 @@
-
 # FAO data ----------------------------------------------------------------
 
 library("data.table")
@@ -28,9 +27,10 @@ files <- c(
   "cbs_nonfood_new" = "CommodityBalances_(non-food)_(2010-)_E_All_Data_(Normalized).zip",
   "sua" = "SUA_Crops_Livestock_E_All_Data_(Normalized).zip",
   "prices" = "Prices_E_All_Data_(Normalized).zip",
+  "xr" = "Exchange_rate_E_All_Data_(Normalized).zip",
   "fish_prod" = "GlobalProduction_2023.1.1.zip") 
-  #"fore_prod" = "Forestry_E_All_Data_(Normalized).zip",
-  #"fore_trad" = "Forestry_Trade_Flows_E_All_Data_(Normalized).zip")
+#"fore_prod" = "Forestry_E_All_Data_(Normalized).zip",
+#"fore_trad" = "Forestry_Trade_Flows_E_All_Data_(Normalized).zip")
 
 # Files to extract from the ZIP archives
 extr <- c(rep(NA, length(files) - 1), "Global_production_quantity.csv")
@@ -39,7 +39,7 @@ name <- names(files)
 
 # Links to the files
 links <- c(rep("http://fenixservices.fao.org/faostat/static/bulkdownloads/",
-  length(files) - 1), "http://www.fao.org/fishery/static/Data/")
+               length(files) - 1), "http://www.fao.org/fishery/static/Data/")
 
 # Column types to possibly skip some
 col_types <- list(
@@ -54,13 +54,15 @@ col_types <- list(
   "cbs_food_old" = c("numeric", "character", "character", "numeric", "character", "character", "numeric",
                      "character", "numeric", "numeric", "character", "numeric", "character"),
   "cbs_nonfood_old"  = c("numeric", "character", "character", "numeric", "character", "character", "numeric",
-                     "character", "numeric", "numeric", "character", "numeric", "character"),
+                         "character", "numeric", "numeric", "character", "numeric", "character"),
   "cbs_nonfood_new"  = c("numeric", "character", "character", "numeric", "character", "character", "numeric",
                          "character", "numeric", "numeric", "character", "numeric", "character", "character"),
   "sua" = c("numeric", "character", "character", "numeric", "character", "character", "numeric",
             "character", "numeric", "numeric", "character", "numeric", "character", "character"),
   "prices" = c("numeric", "character", "character", "numeric", "character", "character", "numeric",
                "character", "numeric", "numeric", "numeric", "character", "character", "numeric", "character"),
+  "xr" = c("numeric", "character", "character", "character", "character", "character", "character",
+           "numeric", "numeric", "numeric", "character", "character", "numeric", "character"),
   "fish_prod" = c("integer", "character", "integer", "character", "character", "integer", "numeric", "NULL")
 )
 
@@ -75,8 +77,8 @@ fa_dl(file = files, link = links, path = path_fao)
 
 
 fa_extract(path_in = path_fao, files = files,
-  path_out = path_fao, name = name, extr = extr, col_types = col_types, read_method = read_method,
-  rm = FALSE)
+           path_out = path_fao, name = name, extr = extr, col_types = col_types, read_method = read_method,
+           rm = FALSE)
 
 
 # Add primary crop production ---------------------------------------------
@@ -84,13 +86,13 @@ fa_extract(path_in = path_fao, files = files,
 # This file is no longer downloadable from the FAO and needs to be requested.
 if(!file.exists(paste0(path_fao, "Production_Crops_Primary.zip"))) {
   stop("The file `Production_Crops_Primary.zip` is no longer available",
-    "online. Please request the file and provide it to continue.")
+       "online. Please request the file and provide it to continue.")
 }
 x <- unzip(paste0(path_fao, "Production_Crops_Primary.zip"),
-  exdir = gsub("(.*)/", "\\1", path_fao))
+           exdir = gsub("(.*)/", "\\1", path_fao))
 y <- fread(x,
-  colClasses = c("character", "character", "numeric", "character", "numeric", "character",
-                 "numeric", "character", "numeric", "numeric", "character", "character", "character"))
+           colClasses = c("character", "character", "numeric", "character", "numeric", "character",
+                          "numeric", "character", "numeric", "numeric", "character", "character", "character"))
 file.remove(x)
 saveRDS(y, paste0(path_fao, "crop_prim_14.rds"))
 

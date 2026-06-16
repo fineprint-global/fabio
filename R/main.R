@@ -1,4 +1,3 @@
-
 # 0_prep ------------------------------------------------------------------
 
 # Will download ZIP files from FAOSTAT
@@ -22,6 +21,11 @@ rm(list = ls()); gc()
 # Requires downloading some data (see script)
 source("R/00_7_prep_spatial_NPK.R"); rm(list = ls()); gc()
 source("R/00_8_filter_gloria.R"); rm(list = ls()); gc()
+# Eager staging of the value-added extension's external inputs (Brazil IBGE SUTs,
+# Canada cansim slices, OECD SUT, Eurostat NAMA): always re-downloads + overwrites
+# into input/value_added/. Read later by 14_3/14_4 (pure readers). Self-contained
+# (sources R/00_value_added_config.R); year scope follows the FABIO years.
+source("R/00_9_prep_value_added.R"); rm(list = ls()); gc()
 
 
 # 1_tidy ------------------------------------------------------------------
@@ -72,7 +76,22 @@ source("R/12_6_biodiversity_ibif.R"); rm(list = ls()); gc()
 source("R/12_7_biodiversity_tidy.R"); rm(list = ls()); gc()
 source("R/12_8_biodiversity_lc_fd.R"); rm(list = ls()); gc()
 source("R/12_9_ecosystem_services.R"); rm(list = ls()); gc()
-source("R/13_extensions_main.R"); rm(list = ls()); gc()
 
+# Value-added / producer-price pipeline (folded in) ----------------------
+# Each script sources R/00_value_added_config.R itself, so the rm() pattern
+# between them is safe. Order is load-bearing:
+#   price stage (13_) -> FABIOv2 producer total values (the 14_1-14_3 handoff)
+source("R/13_1_FAOstat_producer_prices_USD.R"); rm(list = ls()); gc()
+source("R/13_2_clean_bilateral_trade_prices.R"); rm(list = ls()); gc()
+source("R/13_3_FABIO_v2_price_extension.R"); rm(list = ls()); gc()
+#   value-added stage (14_) -> per-base/per-source VA, then COMBINED synthesis
+source("R/14_1_value_added_FABIO_v2_MRIOTs.R"); rm(list = ls()); gc()
+source("R/14_2_value_added_FABIO_v2_FSDN.R"); rm(list = ls()); gc()
+source("R/14_3_value_added_FABIO_v2_national_SUTs.R"); rm(list = ls()); gc()
+source("R/14_4_value_added_FABIO_v2_synthesis.R"); rm(list = ls()); gc()
+#   last mile -> six CBS value-added extensions in data/extensions/cbs/
+source("R/14_5_value_added_extensions.R"); rm(list = ls()); gc()
 
-
+# Compile extensions into E.rds / ex_labels.csv. Must run AFTER 14_5 (it
+# hard-errors if the six CBS value-added extensions are absent).
+source("R/15_extensions_main.R"); rm(list = ls()); gc()
