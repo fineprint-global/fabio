@@ -227,6 +227,60 @@ compute_winsor_stats <- function(dt, by_cols, value_col = "price",
 
 
 # ==============================================================================
+# 3b. OWN-SERIES MEDIAN GAP-FILL  (shared price-pipeline rung)
+# ==============================================================================
+
+#' Per-series own-median and gate decision for the own-series fill rung.
+#'
+#' Used by 13_2 (main + cbs_override grids) and 13_3 (FAO producer-price side)
+#' to fill a missing (series, year) cell with the median of that series' OWN
+#' direct observations before falling back to a cross-sectional median. The
+#' returned median is a per-series constant, reused for every missing year of
+#' the series.
+#'
+#' @param direct        data.table of direct (post Hampel/winsor) observations;
+#'                      one row per (series, year) with a positive `value_col`.
+#' @param series_cols   columns identifying a series (e.g. area_code, item_code).
+#' @param item_col      single column identifying the item, used for the
+#'                      winsor-band lookup.
+#' @param value_col     price column name.
+#' @param winsor_stats  per-item winsor stats (compute_winsor_stats output,
+#'                      keyed by `item_col`, carrying lo/hi). Required when
+#'                      PRICE_REQUIRE_WINSOR_BAND is TRUE; an item "has a band"
+#'                      iff its lo/hi are finite.
+#' @return data.table keyed by `series_cols` with `own_med` (series median) and
+#'         `gate_rejected` (TRUE where the series has obs but the band
+#'         requirement routes it to the cross-sectional rung). The caller fills
+#'         `is.na(price)` cells with `own_med` where `!gate_rejected`.
+own_series_median_fill <- function(direct, series_cols, item_col,
+                                   value_col = "price", winsor_stats = NULL) {
+  d  <- as.data.table(direct)
+  d  <- d[is.finite(get(value_col)) & get(value_col) > 0]
+  ps <- d[, .(own_med = median(get(value_col))), by = series_cols]
+  if (nrow(ps) == 0L) {
+    ps[, gate_rejected := logical()]
+    return(ps[])
+  }
+  
+  if (PRICE_REQUIRE_WINSOR_BAND) {
+    if (is.null(winsor_stats))
+      stop("own_series_median_fill(): PRICE_REQUIRE_WINSOR_BAND is TRUE but ",
+           "no winsor_stats were supplied.")
+    wb <- unique(as.data.table(winsor_stats)[, c(item_col, "lo", "hi"), with = FALSE])
+    wb[, has_band := is.finite(lo) & is.finite(hi)]
+    ps[wb, has_band := i.has_band, on = item_col]
+    ps[is.na(has_band), has_band := FALSE]
+  } else {
+    ps[, has_band := TRUE]
+  }
+  
+  ps[, gate_rejected := PRICE_REQUIRE_WINSOR_BAND & !has_band]
+  ps[, has_band := NULL]
+  ps[]
+}
+
+
+# ==============================================================================
 # 4. IHS THETA SEARCH + IHS/MAD WINSOR
 # ==============================================================================
 #

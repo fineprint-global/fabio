@@ -298,6 +298,28 @@ VA_GERMANY_AREA_CODE <- 79L
 VA_GLOBAL_MEDIAN_AREA_CODE <- 5000L
 
 
+# -- Own-series-median gap-fill (price pipeline) ------------------------------
+#
+# Controls the own-series-median rung shared by 13_2 (main + cbs_override grids)
+# and 13_3 (FAO producer-price side). For a missing (area, item, year) cell, the
+# fill ladder is: trade_direct -> own_series_median -> cross-sectional median
+# (item-year, then item / area-5000 global). The own-series median is the median
+# of that (area, item) series' own direct observations (post Hampel/winsor),
+# reused for every missing year of the series; it carries the country-level price
+# level that a cross-country median averages away. Implemented by
+# own_series_median_fill() in 00_value_added_helpers.R.
+#
+# PRICE_PREFER_OWN_SERIES_MEDIAN is the master switch: FALSE reproduces the
+# previous cross-sectional-only behaviour exactly (the rung never fires).
+PRICE_PREFER_OWN_SERIES_MEDIAN <- TRUE
+
+# Restrict the own-series rung to items that HAVE a winsor band (>= WINSOR_MIN_OBS
+# pooled obs with a non-degenerate scale); band-less items route to the
+# cross-sectional rung. A separate "own_med outside the winsor [lo,hi]" check is
+# intentionally absent: a median of winsor-clipped prices is always in-band.
+PRICE_REQUIRE_WINSOR_BAND <- TRUE
+
+
 # ==============================================================================
 # 6. SMALL UTILITIES
 # ==============================================================================

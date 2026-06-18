@@ -55,19 +55,25 @@
 #
 # Outputs:
 #   output/bilateral_trade_prices.rds
-#     columns: area_code, area, item_code, item, year, price, price_source
+#     columns: area_code, area, item_code, item, year, price, price_source,
+#              own_series_gate_rejected
 #     `price` is USD per unit of trade (tonne / head / 1000 head),
 #     matching how the item is measured in BTD. Item granularity is SUA.
 #     `price_source` tags each cell's provenance:
-#       "trade_direct"     -- aggregated from bilateral trade for that
-#                             (area, item, year).
-#       "item_year_median" -- no direct trade for that area; filled with the
-#                             cross-country median for that (item, year).
-#       "item_median"      -- also no item-year median available; filled with
-#                             the overall median for that item.
-#       "none"             -- no trade data anywhere for this item; price is NA.
+#       "trade_direct"       -- aggregated from bilateral trade for that
+#                               (area, item, year).
+#       "own_series_median"  -- no direct trade for that (area, item, year),
+#                               but the series has direct obs in other years;
+#                               filled with that series' own median.
+#       "item_year_median"   -- no own-series median usable; filled with the
+#                               cross-country median for that (item, year).
+#       "item_median"        -- also no item-year median available; filled with
+#                               the overall median for that item.
+#       "none"               -- no trade data anywhere for this item; price is NA.
 #     If the final manual cap (step 7) clipped the value, "_capped" is
 #     appended to whichever of the above applied (e.g. "trade_direct_capped").
+#     `own_series_gate_rejected` is TRUE where a series had its own obs but the
+#     optional gate routed the cell to the cross-sectional median instead.
 #   output/diagnostics/trade_prices_hampel_entries.csv
 #     One row per (from_code, item_code, year) fed into the Hampel filter.
 #     Carries pre- and post-filter price (pre = raw input to pass 1, post =
@@ -92,10 +98,12 @@
 #     gap-fill with cbs-year / cbs-overall medians -> manual cap. See
 #     section 7.5 for details and the matching CBS-grain Hampel/winsor
 #     diagnostic CSVs (output/diagnostics/trade_prices_cbs_*).
-#     columns: area_code, year, price, price_source, cbs_item_code, isic_side
+#     columns: area_code, year, price, price_source, cbs_item_code, isic_side,
+#              own_series_gate_rejected
 #     `isic_side` ("a" or "c") tells script 13_3 which residual table the
 #     row should overwrite. `price_source` uses the prefix
-#     "trade_cbs_*" to distinguish from the SUA-grain provenance labels.
+#     "trade_cbs_*" to distinguish from the SUA-grain provenance labels
+#     (including "trade_cbs_own_series_median" for own-series fills).
 #   output/diagnostics/trade_prices_cbs_hampel_entries.csv
 #   output/diagnostics/trade_prices_cbs_winsorized_entries.csv
 #     CBS-grain analogues of the SUA-grain diagnostic CSVs above; same
@@ -501,6 +509,7 @@ bilateral_trade_prices <- merge(
 # a separate diagnostic.
 bilateral_trade_prices[, price_source := fifelse(!is.na(price),
                                                  "trade_direct", NA_character_)]
+bilateral_trade_prices[, own_series_gate_rejected := FALSE]
 
 # Fallback medians: first by (item, year), then by item alone. Kept in
 # named columns so the fifelse fills below read cleanly.
@@ -517,25 +526,62 @@ bilateral_trade_prices[median_by_item,
                        on = "item_code"]
 
 n_missing_initial <- bilateral_trade_prices[is.na(price), .N]
+
+# Own-series median, prioritised above the cross-sectional medians: fill each
+# missing cell with the median of its own (area, item) direct observations.
+if (PRICE_PREFER_OWN_SERIES_MEDIAN) {
+  own_main <- own_series_median_fill(
+    prices_exporter[, .(area_code = from_code, item_code, price)],
+    series_cols = c("area_code", "item_code"), item_col = "item_code",
+    winsor_stats = item_stats)
+  bilateral_trade_prices[own_main, `:=`(own_med = i.own_med,
+                                        own_reject = i.gate_rejected),
+                         on = c("area_code", "item_code")]
+  bilateral_trade_prices[is.na(price) & !is.na(own_med) & !own_reject,
+                         `:=`(price = own_med, price_source = "own_series_median")]
+  bilateral_trade_prices[is.na(price) & !is.na(own_med) & own_reject,
+                         own_series_gate_rejected := TRUE]
+  bilateral_trade_prices[, c("own_med", "own_reject") := NULL]
+}
+n_after_own        <- bilateral_trade_prices[is.na(price), .N]
+n_filled_own       <- n_missing_initial - n_after_own
+
 bilateral_trade_prices[is.na(price) & !is.na(price_item_year_median),
                        `:=`(price = price_item_year_median,
                             price_source = "item_year_median")]
-n_filled_item_year <- n_missing_initial -
-  bilateral_trade_prices[is.na(price), .N]
+n_after_item_year  <- bilateral_trade_prices[is.na(price), .N]
+n_filled_item_year <- n_after_own - n_after_item_year
 bilateral_trade_prices[is.na(price) & !is.na(price_item_median),
                        `:=`(price = price_item_median,
                             price_source = "item_median")]
-n_filled_item <- n_missing_initial -
-  bilateral_trade_prices[is.na(price), .N] -
-  n_filled_item_year
+n_filled_item      <- n_after_item_year - bilateral_trade_prices[is.na(price), .N]
 bilateral_trade_prices[is.na(price_source), price_source := "none"]
 
 cat("\nGap-filling diagnostics\n")
 cat("  Grid cells (area x item x year):        ", nrow(bilateral_trade_prices),                        "\n", sep = "")
 cat("  Cells filled from trade data directly:  ", nrow(bilateral_trade_prices) - n_missing_initial,    "\n", sep = "")
+cat("  Cells filled from own-series median:     ", n_filled_own,                                       "\n", sep = "")
 cat("  Cells filled from item-year median:     ", n_filled_item_year,                                  "\n", sep = "")
 cat("  Cells filled from item median:          ", n_filled_item,                                       "\n", sep = "")
+cat("  Own-series gate-rejected (-> x-section):", bilateral_trade_prices[own_series_gate_rejected == TRUE, .N], "\n", sep = "")
 cat("  Cells still missing (no trade at all):  ", bilateral_trade_prices[is.na(price), .N],            "\n", sep = "")
+
+# Before/after fill-mix: `after` is the realised price_source; `before` is the
+# mix the cross-sectional-only ladder would have produced (own_series_median
+# cells reassigned to the item-year / item median rung they would have hit).
+after_mix  <- bilateral_trade_prices[, .(n_after = .N), by = price_source]
+before_src <- bilateral_trade_prices[, fifelse(
+  price_source == "own_series_median",
+  fcase(!is.na(price_item_year_median), "item_year_median",
+        !is.na(price_item_median),      "item_median",
+        default = "none"),
+  price_source)]
+before_mix <- data.table(price_source = before_src)[, .(n_before = .N), by = price_source]
+fill_mix   <- merge(before_mix, after_mix, by = "price_source", all = TRUE)
+fill_mix[is.na(n_before), n_before := 0L][is.na(n_after), n_after := 0L]
+setorder(fill_mix, -n_after)
+cat("\nFill-mix (price_source counts) before vs after own-series rung\n")
+print(fill_mix)
 
 bilateral_trade_prices[, c("price_item_year_median", "price_item_median") := NULL]
 
@@ -603,6 +649,14 @@ bilateral_trade_prices <- merge(bilateral_trade_prices,
 n_capped <- bilateral_trade_prices[
   !is.na(price_limit) & !is.na(price) & price > price_limit, .N
 ]
+# Breakdown of which fill rung the capped cells came from, taken before the
+# mutate appends the "_capped" suffix. A non-zero own_series_median count means
+# an own-series median sits above a manual cap -- worth knowing, since the
+# winsor band that bounds the own median is item-level and looser than these
+# hand-set CBS limits, so own-series fills can legitimately be capped here.
+capped_by_source <- bilateral_trade_prices[
+  !is.na(price_limit) & !is.na(price) & price > price_limit,
+  .(n_capped = .N), by = price_source]
 bilateral_trade_prices[
   !is.na(price_limit) & !is.na(price) & price > price_limit,
   `:=`(price        = price_limit,
@@ -613,6 +667,14 @@ bilateral_trade_prices[, price_limit := NULL]
 cat("\nManual price caps\n")
 cat("  Items with caps:     ", nrow(price_caps), "\n", sep = "")
 cat("  Observations capped: ", n_capped,         "\n", sep = "")
+if (nrow(capped_by_source) > 0) {
+  setorder(capped_by_source, -n_capped)
+  cat("  Capped cells by fill rung:\n")
+  print(capped_by_source)
+  own_capped <- capped_by_source[price_source == "own_series_median", n_capped]
+  if (length(own_capped) > 0L && own_capped > 0L)
+    cat("  Note: own_series_median cells were capped (own median above a manual cap).\n")
+}
 
 
 # ------------------------------------------------------------------------------
@@ -871,6 +933,7 @@ cbs_override_all <- merge(
 )
 cbs_override_all[, price_source := fifelse(!is.na(price),
                                            "trade_cbs_direct", NA_character_)]
+cbs_override_all[, own_series_gate_rejected := FALSE]
 
 # Per-CBS-item medians for the gap-fill: cbs-year first, then cbs-overall.
 median_by_cbs_year <- cbs_prices_exporter[
@@ -890,25 +953,63 @@ cbs_override_all[median_by_cbs,      p_cbs      := i.p_cbs,
                  on = "cbs_item_code"]
 
 n_cbs_missing_initial <- cbs_override_all[is.na(price), .N]
+
+# Own-series median, prioritised above the cbs cross-sectional medians: fill
+# each missing cell with the median of its own (area, cbs_item) direct obs.
+if (PRICE_PREFER_OWN_SERIES_MEDIAN) {
+  own_cbs <- own_series_median_fill(
+    cbs_prices_exporter[, .(area_code, cbs_item_code, price)],
+    series_cols = c("area_code", "cbs_item_code"), item_col = "cbs_item_code",
+    winsor_stats = cbs_item_stats)
+  cbs_override_all[own_cbs, `:=`(own_med = i.own_med,
+                                 own_reject = i.gate_rejected),
+                   on = c("area_code", "cbs_item_code")]
+  cbs_override_all[is.na(price) & !is.na(own_med) & !own_reject,
+                   `:=`(price = own_med,
+                        price_source = "trade_cbs_own_series_median")]
+  cbs_override_all[is.na(price) & !is.na(own_med) & own_reject,
+                   own_series_gate_rejected := TRUE]
+  cbs_override_all[, c("own_med", "own_reject") := NULL]
+}
+n_cbs_after_own  <- cbs_override_all[is.na(price), .N]
+n_cbs_filled_own <- n_cbs_missing_initial - n_cbs_after_own
+
 cbs_override_all[is.na(price) & !is.na(p_cbs_year),
                  `:=`(price = p_cbs_year,
                       price_source = "trade_cbs_year_median")]
-n_cbs_filled_year <- n_cbs_missing_initial -
-  cbs_override_all[is.na(price), .N]
+n_cbs_filled_year <- n_cbs_after_own - cbs_override_all[is.na(price), .N]
 cbs_override_all[is.na(price) & !is.na(p_cbs),
                  `:=`(price = p_cbs,
                       price_source = "trade_cbs_overall_median")]
-n_cbs_filled_overall <- n_cbs_missing_initial -
-  cbs_override_all[is.na(price), .N] -
-  n_cbs_filled_year
-cbs_override_all[, c("p_cbs_year", "p_cbs") := NULL]
+n_cbs_filled_overall <- n_cbs_after_own - n_cbs_filled_year -
+  cbs_override_all[is.na(price), .N]
 
 cat("\nCBS-grain gap-filling diagnostics\n")
 cat("  Grid cells (area x cbs x year):         ", nrow(cbs_override_all),                            "\n", sep = "")
 cat("  Cells filled directly:                  ", nrow(cbs_override_all) - n_cbs_missing_initial,    "\n", sep = "")
+cat("  Cells filled from own-series median:     ", n_cbs_filled_own,                                  "\n", sep = "")
 cat("  Cells filled from cbs-year median:      ", n_cbs_filled_year,                                  "\n", sep = "")
 cat("  Cells filled from cbs-overall median:   ", n_cbs_filled_overall,                               "\n", sep = "")
+cat("  Own-series gate-rejected (-> x-section):", cbs_override_all[own_series_gate_rejected == TRUE, .N], "\n", sep = "")
 cat("  Cells still missing (no trade at all):  ", cbs_override_all[is.na(price), .N],                 "\n", sep = "")
+
+# Before/after fill-mix, mirroring the main grid: own-series cells reassigned to
+# the cbs median rung they would otherwise have hit.
+after_mix_cbs  <- cbs_override_all[, .(n_after = .N), by = price_source]
+before_src_cbs <- cbs_override_all[, fifelse(
+  price_source == "trade_cbs_own_series_median",
+  fcase(!is.na(p_cbs_year), "trade_cbs_year_median",
+        !is.na(p_cbs),      "trade_cbs_overall_median",
+        default = NA_character_),
+  price_source)]
+before_mix_cbs <- data.table(price_source = before_src_cbs)[, .(n_before = .N), by = price_source]
+fill_mix_cbs   <- merge(before_mix_cbs, after_mix_cbs, by = "price_source", all = TRUE)
+fill_mix_cbs[is.na(n_before), n_before := 0L][is.na(n_after), n_after := 0L]
+setorder(fill_mix_cbs, -n_after)
+cat("\nCBS-grain fill-mix (price_source counts) before vs after own-series rung\n")
+print(fill_mix_cbs)
+
+cbs_override_all[, c("p_cbs_year", "p_cbs") := NULL]
 
 
 # --- 7.5 step 7 (CBS): manual cap from price_caps_cbs ------------------------
@@ -917,6 +1018,9 @@ cbs_override_all[price_caps_cbs, price_limit := i.price_limit,
 n_cbs_capped <- cbs_override_all[
   !is.na(price_limit) & !is.na(price) & price > price_limit, .N
 ]
+cbs_capped_by_source <- cbs_override_all[
+  !is.na(price_limit) & !is.na(price) & price > price_limit,
+  .(n_capped = .N), by = price_source]
 cbs_override_all[
   !is.na(price_limit) & !is.na(price) & price > price_limit,
   `:=`(price        = price_limit,
@@ -926,6 +1030,14 @@ cbs_override_all[, price_limit := NULL]
 
 cat("\nCBS-grain manual price caps\n")
 cat("  Observations capped: ", n_cbs_capped, "\n", sep = "")
+if (nrow(cbs_capped_by_source) > 0) {
+  setorder(cbs_capped_by_source, -n_capped)
+  cat("  Capped cells by fill rung:\n")
+  print(cbs_capped_by_source)
+  own_capped <- cbs_capped_by_source[price_source == "trade_cbs_own_series_median", n_capped]
+  if (length(own_capped) > 0L && own_capped > 0L)
+    cat("  Note: own-series cells were capped (own median above a manual cap).\n")
+}
 
 
 # Final shape: (area_code, year, price, price_source, cbs_item_code, isic_side)

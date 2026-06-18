@@ -106,6 +106,10 @@
 #                                     producer prices (used when FAO
 #                                     production is zero but FABIO output
 #                                     is positive).
+#   - "FAO_own_series_median"       : no exact match for this year, but the
+#                                     country reports the item in other years;
+#                                     its own-series producer-price median is
+#                                     used in preference to the global median.
 #   - "FAO_global_median"           : no country-specific FAO producer price
 #                                     available; the FAO global-median
 #                                     producer price (area_code 5000) was
@@ -725,9 +729,13 @@ concordance <- cross_join(concordance, data.table(year = year_cols))
 
 # --- 4a. Producer prices: exact match, then global-median fallback -----------
 # price_is_exact = TRUE  -> price came from a direct (country, item, year) match
+# price_is_own_series = TRUE -> price filled from this country's OWN producer-price
+#                           median in other years (a real country price level, just
+#                           not for this exact year); ranks above the global median.
 # price_is_exact = FALSE -> price was filled from the FAO producer prices
 #                           global-median row (area_code 5000), or is NA.
 concordance[, price_is_exact := FALSE]
+concordance[, price_is_own_series := FALSE]
 
 concordance[
   fao_producer_prices,
@@ -735,13 +743,31 @@ concordance[
   on = .(FAO_area_code = area_code, FAO_item_code = item_code, year)
 ]
 
+# Own-series median, prioritised above the area-5000 global row: where a country
+# reports the item in some years but not this one, carry its own median forward
+# rather than collapsing to the cross-country global median.
+if (PRICE_PREFER_OWN_SERIES_MEDIAN) {
+  fao_country_prices <- fao_producer_prices[area_code != GLOBAL_MEDIAN_AREA_CODE]
+  fao_winsor_stats   <- compute_winsor_stats(fao_country_prices, by_cols = "item_code")
+  own_fao <- own_series_median_fill(
+    fao_country_prices[, .(area_code, item_code, price)],
+    series_cols = c("area_code", "item_code"), item_col = "item_code",
+    winsor_stats = fao_winsor_stats)
+  concordance[own_fao, `:=`(own_med = i.own_med, own_reject = i.gate_rejected),
+              on = .(FAO_area_code = area_code, FAO_item_code = item_code)]
+  concordance[is.na(price) & !is.na(own_med) & !own_reject,
+              `:=`(price = own_med, price_is_own_series = TRUE)]
+  concordance[, c("own_med", "own_reject") := NULL]
+}
+
 concordance[
   is.na(price),
   price := fao_producer_prices[area_code == GLOBAL_MEDIAN_AREA_CODE][
     .SD, on = .(item_code = FAO_item_code, year), x.price
   ]
 ]
-# NB: price_is_exact stays FALSE for rows filled by the fallback above.
+# NB: price_is_exact / price_is_own_series stay FALSE for rows filled by the
+# global-median fallback above.
 
 # --- 4b. National production volumes -----------------------------------------
 concordance[
@@ -816,6 +842,13 @@ fao_producer_prices_agg <- concordance[
                                  production),
     fallback_exact = safe_mean(fifelse(price_is_exact, price, NA_real_)),
     n_exact        = sum(price_is_exact & !is.na(price)),
+    # Own-series tier: exact plus this country's own-median fills (4a). Ranks
+    # above the global-median fallback but below a direct exact match.
+    weighted_own   = wmean_price(
+      fifelse(price_is_exact | price_is_own_series, price, NA_real_), production),
+    fallback_own   = safe_mean(
+      fifelse(price_is_exact | price_is_own_series, price, NA_real_)),
+    n_own          = sum((price_is_exact | price_is_own_series) & !is.na(price)),
     # All-price aggregates (includes 4a global-median fallback rows)
     weighted_any   = wmean_price(price, production),
     fallback_any   = safe_mean(price),
@@ -854,6 +887,15 @@ overlap_values[
         !is.na(total_product_output) & total_product_output > 0 &
         !is.na(i.fallback_exact),
       i.fallback_exact,
+      # Own-series, production-weighted
+      (is.na(i.production) | i.production > 0) &
+        !is.na(i.weighted_own),
+      i.weighted_own,
+      # Own-series, simple-mean (production == 0 but FABIO has output)
+      !is.na(i.production) & i.production == 0 &
+        !is.na(total_product_output) & total_product_output > 0 &
+        !is.na(i.fallback_own),
+      i.fallback_own,
       # Any-price, production-weighted  (= global-median fallback)
       (is.na(i.production) | i.production > 0) &
         !is.na(i.weighted_any),
@@ -873,6 +915,13 @@ overlap_values[
         !is.na(total_product_output) & total_product_output > 0 &
         !is.na(i.fallback_exact),
       fifelse(i.n_exact == 1L, "FAO_exact", "FAO_simple_mean"),
+      (is.na(i.production) | i.production > 0) &
+        !is.na(i.weighted_own),
+      "FAO_own_series_median",
+      !is.na(i.production) & i.production == 0 &
+        !is.na(total_product_output) & total_product_output > 0 &
+        !is.na(i.fallback_own),
+      "FAO_own_series_median",
       (is.na(i.production) | i.production > 0) &
         !is.na(i.weighted_any),
       "FAO_global_median",
