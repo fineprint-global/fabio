@@ -191,7 +191,7 @@ hampel_by_series <- function(dt, value_col, out_col, by_cols,
 #' @param positive_only  use only x > 0 to fit the band
 #' @return list(lo, hi, center, scale, log_space, n_obs). lo/hi are NA when the
 #'         group is too small or the scale is degenerate.
-mad_winsor_band <- function(x, k = 2.5, min_obs = 3L,
+mad_winsor_band <- function(x, k = 2.5, min_obs = WINSOR_MIN_OBS,
                             log = c("always", "auto", "never"),
                             positive_only = FALSE) {
   log <- match.arg(log)
@@ -229,7 +229,7 @@ mad_winsor_band <- function(x, k = 2.5, min_obs = 3L,
 }
 
 #' Vector convenience: clip x to its own MAD band.
-mad_winsorize <- function(x, k = 2.5, min_obs = 3L,
+mad_winsorize <- function(x, k = 2.5, min_obs = WINSOR_MIN_OBS,
                           log = c("always", "auto", "never")) {
   band <- mad_winsor_band(x, k = k, min_obs = min_obs, log = log)
   if (is.na(band$lo)) return(x)
@@ -238,10 +238,10 @@ mad_winsorize <- function(x, k = 2.5, min_obs = 3L,
 
 #' data.table grouped winsor stats. Drop-in for 13_2_clean's
 #' `compute_winsor_stats(dt, by_cols)`: same returned column names
-#' (n_obs, log_space, lo, hi, center, scale), defaults k=2.5 / min_obs=8 /
-#' log="auto" / positive_only=TRUE.
+#' (n_obs, log_space, lo, hi, center, scale), defaults k=2.5 /
+#' min_obs=WINSOR_MIN_OBS (8L) / log="auto" / positive_only=TRUE.
 compute_winsor_stats <- function(dt, by_cols, value_col = "price",
-                                 k = 2.5, min_obs = 8L,
+                                 k = 2.5, min_obs = WINSOR_MIN_OBS,
                                  log = "auto", positive_only = TRUE) {
   dt[, {
     b <- mad_winsor_band(get(value_col), k = k, min_obs = min_obs,
@@ -272,7 +272,7 @@ IHS_THETA_HI   <- max(IHS_THETA_GRID)
 #' Degenerate fits (non-finite objective, objective > obj_max, or theta pinned
 #' at a grid edge) return optimal_theta = NA, signalling the caller to fall
 #' back to a raw (non-IHS) MAD cap.
-fit_ihs_theta <- function(x, grid = IHS_THETA_GRID, min_obs = 8L, obj_max = 10) {
+fit_ihs_theta <- function(x, grid = IHS_THETA_GRID, min_obs = WINSOR_MIN_OBS, obj_max = 10) {
   x <- x[is.finite(x)]
   if (length(x) < min_obs)
     return(list(optimal_theta = NA_real_, objective = NA_real_, n_obs = length(x)))

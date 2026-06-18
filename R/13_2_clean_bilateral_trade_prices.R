@@ -393,9 +393,6 @@ prices_exporter[, c("price_hampel_filtered", "hampel_flag",
 # With WINSOR_MAD_K = 2.5 this caps entries whose robust z-score exceeds
 # 2.5 in absolute value -- a tighter boundary than the classic 3-MAD rule.
 
-# sample_skew(): now population_skew() in va_helpers.R
-
-WINSOR_MIN_OBS <- 8L    # minimum observations per item to winsorize
 WINSOR_MAD_K   <- 2.5   # cap at median +/- WINSOR_MAD_K * MAD (robust |z|)
 
 # Cross-sectional MAD winsorization stats per group. Returns one row per

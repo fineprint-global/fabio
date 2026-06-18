@@ -690,11 +690,7 @@ write_hampel_diagnostics <- function(before, after_info, year_cols,
 #' MAD calculation. The main pipeline builds them after this step.
 #'
 #' The band is computed with the shared `compute_winsor_stats()`
-#' (00_value_added_helpers.R) -- the same routine 13_2 uses -- called with
-#' `mad_winsorize()`'s OWN defaults (`min_obs = 3L`, `log = "always"`,
-#' `positive_only = FALSE`) so the capped values, and hence the main USD
-#' output, are byte-for-byte what the previous `mad_winsorize()` path
-#' produced. Only the diagnostic CSV adopts the shared 13_2 schema.
+#' (00_value_added_helpers.R)
 #'
 #' @param df USD rows (country level only).
 #' @param year_cols Character vector of year columns.
@@ -729,7 +725,7 @@ winsorize_usd_by_item <- function(df, year_cols, k = WINSOR_MAD_K,
   # Per-item band, pooled across all (area, year) cells for each Item Code.
   item_stats <- compute_winsor_stats(
     long, by_cols = "Item Code", value_col = "price",
-    k = k, min_obs = 3L, log = "always", positive_only = FALSE
+    k = k, min_obs = WINSOR_MIN_OBS, log = "always", positive_only = FALSE
   )
   
   long[item_stats, `:=`(

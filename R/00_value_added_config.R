@@ -185,6 +185,12 @@ FABIO_TIDY_FUNCTIONS_PATH <- file.path(FABIO_ROOT, "R", "01_tidy_functions.R")
 #     14_2 FSDN               WINSOR_MAD_K = 3.5
 #     14_3 national_SUTs      WINSOR_MAD_K = 3.5
 #
+# WINSOR_MIN_OBS, by contrast, IS centralised here, because unlike WINSOR_MAD_K
+# its value is the SAME everywhere by design. It is the minimum number of pooled
+# observations a group needs before a MAD winsorization band (or an IHS theta
+# fit) is built; groups below it pass through uncapped.
+WINSOR_MIN_OBS <- 8L   # min pooled obs per group to build a MAD band / IHS theta fit
+
 # Likewise the Hampel PASS COUNT varies by design and stays local: 13_2 runs the
 # two-pass `hampel_filter_iterate(n_passes = HAMPEL_PASSES = 2L)` because adjacent
 # spikes are common in bilateral trade series and a second pass catches spikes
