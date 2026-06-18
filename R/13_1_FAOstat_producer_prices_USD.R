@@ -24,7 +24,7 @@
 #       are replaced with the rolling-window median; a diagnostics table
 #       listing every cell the filter evaluated is written to
 #       ./output/diagnostics/producer_price_hampel_entries.csv.
-#   10. Winsorizes USD values per Item Code on the log scale, pooling
+#   10. Winsorizes USD values per Item Code, pooling
 #       all (country, year) cells for each item, using a MAD-based
 #       modified Z-score. A diagnostics table listing every evaluated
 #       cell (with its per-item cap band) is written to
@@ -682,7 +682,7 @@ write_hampel_diagnostics <- function(before, after_info, year_cols,
 #' Winsorize USD rows per Item Code using MAD, and write the diagnostic
 #'
 #' For each item, all (country, year) USD observations are pooled into a
-#' single vector and capped at median +/- k * scaled_MAD (log space). The
+#' single vector and capped at median +/- k * scaled_MAD. The
 #' capped values are written back to their original cells.
 #'
 #' Global-median rows (`Area Code == 5000`) should not be present when
@@ -725,7 +725,7 @@ winsorize_usd_by_item <- function(df, year_cols, k = WINSOR_MAD_K,
   # Per-item band, pooled across all (area, year) cells for each Item Code.
   item_stats <- compute_winsor_stats(
     long, by_cols = "Item Code", value_col = "price",
-    k = k, min_obs = WINSOR_MIN_OBS, log = "always", positive_only = FALSE
+    k = k, min_obs = WINSOR_MIN_OBS
   )
   
   long[item_stats, `:=`(
@@ -971,7 +971,7 @@ main <- function() {
   drop_buf  <- setdiff(working_year_cols, year_cols)
   if (length(drop_buf)) out[, (drop_buf) := NULL]
   
-  # 13. MAD-based winsorization per Item Code on the log scale.
+  # 13. MAD-based winsorization per Item Code.
   out <- winsorize_usd_by_item(out, year_cols, k = WINSOR_MAD_K)
   
   # 14. Synthetic global-median USD rows from the winsorized country data.

@@ -376,8 +376,8 @@ prices_exporter[, c("price_hampel_filtered", "hampel_flag",
 # 5. Per item (pooled across countries and years): log-normality check,
 #    then MAD winsorization
 # ------------------------------------------------------------------------------
-# For each item (pooling all country-year observations), compare the
-# skewness of `price` vs `log(price)` and work in whichever space is
+# For each item (pooling all country-year observations), compare
+# `price` vs `log(price)` and work in whichever space is
 # more symmetric. Winsorize at median +/- WINSOR_MAD_K * MAD in that
 # space, then back-transform. Items with fewer than WINSOR_MIN_OBS
 # observations are left untouched.
@@ -398,7 +398,7 @@ WINSOR_MAD_K   <- 2.5   # cap at median +/- WINSOR_MAD_K * MAD (robust |z|)
 # Cross-sectional MAD winsorization stats per group. Returns one row per
 # distinct combination of `by_cols` with the cap band [lo, hi] and the
 # center/scale that built it. Per group, log-space is chosen iff
-# log(price) has lower absolute skew than price; the cap is built in
+# log(price) is more symmetric than price; the cap is built in
 # whichever space was chosen and back-transformed for `lo` / `hi`.
 # Groups with fewer than `min_obs` positive prices, or whose MAD is
 # degenerate (NA / 0), carry NA caps and pass through unchanged when
@@ -650,7 +650,7 @@ cat("  Observations capped: ", n_capped,         "\n", sep = "")
 #                  the SUA-grain `trade_prices_hampel_entries.csv`.
 #   step 5 (CBS) — per-CBS-item cross-sectional MAD winsor with
 #                  WINSOR_MAD_K = 2.5 (the same constant as SUA grain),
-#                  log-space chosen by the same skewness rule, with the
+#                  log-space chosen by the same rule, with the
 #                  same WINSOR_MIN_OBS guard. Diagnostic CSV mirrors
 #                  `trade_prices_winsorized_entries.csv`.
 #   step 6 (CBS) — gap-fill missing (area, year) cells per CBS item:

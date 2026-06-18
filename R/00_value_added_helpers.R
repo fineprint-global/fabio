@@ -14,16 +14,6 @@ scaled_mad <- function(x, na.rm = TRUE) {
   stats::mad(x, constant = 1.4826, na.rm = na.rm)
 }
 
-#' Population skewness (the simple `mean((x-m)^3)/s^3` form).
-#' Returns 0 for a degenerate scale and NA for n < 3.
-population_skew <- function(x) {
-  x <- x[is.finite(x)]
-  if (length(x) < 3L) return(NA_real_)
-  m <- mean(x); s <- stats::sd(x)
-  if (!is.finite(s) || s == 0) return(0)
-  mean((x - m)^3) / s^3
-}
-
 #' Sample skewness (bias-corrected / "consistent" estimator).
 #' Used to score IHS transforms in the theta search.
 calc_skewness <- function(v) {
@@ -187,16 +177,11 @@ hampel_by_series <- function(dt, value_col, out_col, by_cols,
 #' @param k        robust-z cutoff (default 2.5). NB: pass the caller's own
 #'                 constant; this does not import the script-level WINSOR_MAD_K.
 #' @param min_obs  minimum valid observations to build a band (else NA band).
-#' @param log      "always" -> log iff all valid x > 0 (else linear)
-#' @param positive_only  use only x > 0 to fit the band
 #' @return list(lo, hi, center, scale, log_space, n_obs). lo/hi are NA when the
 #'         group is too small or the scale is degenerate.
-mad_winsor_band <- function(x, k = 2.5, min_obs = WINSOR_MIN_OBS,
-                            log = c("always", "auto", "never"),
-                            positive_only = FALSE) {
-  log <- match.arg(log)
+mad_winsor_band <- function(x, k = 2.5, min_obs = WINSOR_MIN_OBS) {
   valid <- x[is.finite(x)]
-  if (positive_only) valid <- valid[valid > 0]
+  valid <- valid[valid > 0]
   n_obs <- length(valid)
   na_band <- function(center = NA_real_, scale = NA_real_, ls = NA)
     list(lo = NA_real_, hi = NA_real_, center = center, scale = scale,
@@ -204,17 +189,9 @@ mad_winsor_band <- function(x, k = 2.5, min_obs = WINSOR_MIN_OBS,
   
   if (n_obs < min_obs) return(na_band())
   
-  all_positive <- all(valid > 0)
-  use_log <- switch(log,
-                    always = all_positive,
-                    auto   = {
-                      if (!all_positive) FALSE else {
-                        sl <- population_skew(valid); slg <- population_skew(log(valid))
-                        is.finite(sl) && is.finite(slg) && abs(slg) < abs(sl)
-                      }
-                    },
-                    never  = FALSE
-  )
+  raw_obj <- abs(calc_skewness(valid))      + abs(calc_ex_kurtosis(valid))
+  log_obj <- abs(calc_skewness(log(valid))) + abs(calc_ex_kurtosis(log(valid)))
+  use_log <- is.finite(raw_obj) && is.finite(log_obj) && log_obj < raw_obj
   
   work   <- if (use_log) log(valid) else valid
   center <- median(work)
@@ -229,9 +206,8 @@ mad_winsor_band <- function(x, k = 2.5, min_obs = WINSOR_MIN_OBS,
 }
 
 #' Vector convenience: clip x to its own MAD band.
-mad_winsorize <- function(x, k = 2.5, min_obs = WINSOR_MIN_OBS,
-                          log = c("always", "auto", "never")) {
-  band <- mad_winsor_band(x, k = k, min_obs = min_obs, log = log)
+mad_winsorize <- function(x, k = 2.5, min_obs = WINSOR_MIN_OBS) {
+  band <- mad_winsor_band(x, k = k, min_obs = min_obs)
   if (is.na(band$lo)) return(x)
   pmin(pmax(x, band$lo), band$hi)          # element-wise; preserves NA
 }
@@ -239,13 +215,11 @@ mad_winsorize <- function(x, k = 2.5, min_obs = WINSOR_MIN_OBS,
 #' data.table grouped winsor stats. Drop-in for 13_2_clean's
 #' `compute_winsor_stats(dt, by_cols)`: same returned column names
 #' (n_obs, log_space, lo, hi, center, scale), defaults k=2.5 /
-#' min_obs=WINSOR_MIN_OBS (8L) / log="auto" / positive_only=TRUE.
+#' min_obs=WINSOR_MIN_OBS (8L).
 compute_winsor_stats <- function(dt, by_cols, value_col = "price",
-                                 k = 2.5, min_obs = WINSOR_MIN_OBS,
-                                 log = "auto", positive_only = TRUE) {
+                                 k = 2.5, min_obs = WINSOR_MIN_OBS) {
   dt[, {
-    b <- mad_winsor_band(get(value_col), k = k, min_obs = min_obs,
-                         log = log, positive_only = positive_only)
+    b <- mad_winsor_band(get(value_col), k = k, min_obs = min_obs)
     .(n_obs = b$n_obs, log_space = b$log_space,
       lo = b$lo, hi = b$hi, center = b$center, scale = b$scale)
   }, by = by_cols]
