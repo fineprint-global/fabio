@@ -166,7 +166,7 @@ btd_item_code,btd_item,cbs_item_code,cbs_item,tcf,isic
 260,Olives,2563,Olives (including preserved),1,A
 261,Olive oil,2580,Olive Oil,1,C
 262,Olives preserved,2563,Olives (including preserved),0.99,C
-263,Karite nuts (sheanuts),2586,"Oilcrops Oil, Other",1,A
+263,Karite nuts (sheanuts),2570,"Oilcrops, Other",1,A
 264,Butter of karite nuts,2586,"Oilcrops Oil, Other",1,C
 265,Castor oil seeds,2570,"Oilcrops, Other",1,A
 266,Oil of castor beans,2586,"Oilcrops Oil, Other",1,C
@@ -391,7 +391,7 @@ btd_item_code,btd_item,cbs_item_code,cbs_item,tcf,isic
 780,"Jute, raw or retted",2662,Jute,1,A
 782,"Kenaf, and other textile bast fibres, raw or retted",2664,"Soft-Fibres, Other",1,A
 788,"Ramie, raw or retted",2664,"Soft-Fibres, Other",1,A
-789,"Sisal, raw",2667,"Hard Fibres, Other",1,A
+789,"Sisal, raw",2665,Sisal,1,A
 809,"Abaca, manila hemp, raw",2666,Abaca,1,A
 813,"Coir, raw",2667,"Hard Fibres, Other",1,A
 821,"Other fibre crops, raw, n.e.c.",2664,"Soft-Fibres, Other",1,A
