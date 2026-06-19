@@ -63,6 +63,7 @@ DIAG_DIR   <- VA_VALUE_ADDED_DIAG_DIR
 
 VA_ACCOUNTS <- c("CAPITAL", "LABOUR", "TLS")   # account schema (both countries)
 WINSOR_MAD_K    <- 3.5                             # stage-8b cap, z MADs in IHS space
+SUA_PROD_COL    <- "sua_aggregated_production [tonnes]"   # ISIC-C phys denominator
 
 va_ensure_dir(OUTPUT_DIR)
 va_ensure_dir(DIAG_DIR)
@@ -267,7 +268,7 @@ run_va_reconciliation_diagnostic <- function(
 process_isic_level <- function(
     isic_level, item_conc, fv, value_col, output_col, va_prod_all,
     source_tag, source_name, unit_suffix, src_abbr,
-    preserve_items = integer(0)
+    preserve_items = integer(0), use_sua_prod_denom = FALSE
 ) {
   suffix        <- sprintf("ISIC-%s", isic_level)
   va_total_col  <- paste0("value_added", unit_suffix)
@@ -318,9 +319,19 @@ process_isic_level <- function(
   
   fabio_total_post_disagg <- result[, sum(unlist(.SD), na.rm = TRUE), .SDcols = va_cols_final]
   
-  result[, phys_denom := fifelse(
-    is.finite(get(output_col)) & get(output_col) > 0,
-    as.numeric(get(output_col)), NA_real_)]
+  # phys_denom: ISIC-A uses positive TPO; ISIC-C prefers positive SUA-aggregated
+  # production, falling through to positive TPO (absent column → TPO for all).
+  if (use_sua_prod_denom && (SUA_PROD_COL %in% names(result))) {
+    sua_prod_vec <- result[[SUA_PROD_COL]]
+    result[, phys_denom := fcoalesce(
+      fifelse(is.finite(sua_prod_vec) & sua_prod_vec > 0, as.numeric(sua_prod_vec), NA_real_),
+      fifelse(is.finite(get(output_col)) & get(output_col) > 0, as.numeric(get(output_col)), NA_real_)
+    )]
+  } else {
+    result[, phys_denom := fifelse(
+      is.finite(get(output_col)) & get(output_col) > 0,
+      as.numeric(get(output_col)), NA_real_)]
+  }
   result[, preserve_idx := fabio_item_code %in% preserve_items]
   
   # ── 8. Zero out VA on rows with no product output (preserve carve-out) ────
@@ -339,14 +350,14 @@ process_isic_level <- function(
   
   fabio_total_post_zero <- result[, sum(unlist(.SD), na.rm = TRUE), .SDcols = va_cols_final]
   
-  # ── 8b. Per-component IHS+MAD winsorization on (component / TPO) ──────────
-  message(sprintf("[%s] Stage 8b: per-component MAD cap on (component / TPO) ...", suffix))
+  # ── 8b. Per-component IHS+MAD winsorization on (component / phys_denom) ───
+  message(sprintf("[%s] Stage 8b: per-component MAD cap on (component / phys_denom) ...", suffix))
   diag_rows <- vector("list", length(va_cols_final)); names(diag_rows) <- va_cols_final
   
   for (vc in va_cols_final) {
     message(sprintf("  [%s] %s", vc, RULE))
     diag_rows[[vc]] <- cap_component_by_item(
-      result, vc, k = WINSOR_MAD_K, exempt_col = "preserve_idx")
+      result, vc, k = WINSOR_MAD_K)
   }
   
   diag_combined <- rbindlist(diag_rows, use.names = TRUE, fill = TRUE)
@@ -368,6 +379,7 @@ process_isic_level <- function(
                   diag_winsor_path, nrow(diag_combined)))
   
   result[, c("phys_denom", "preserve_idx") := NULL]
+  if (SUA_PROD_COL %in% names(result)) result[, (SUA_PROD_COL) := NULL]
   
   # ── 9. Total VA column + final column order ──────────────────────────────
   result[, (va_total_col) := rowSums(.SD, na.rm = TRUE), .SDcols = va_cols_final]
@@ -1108,8 +1120,17 @@ run_country <- function(iso3) {
   fv_pack_a <- prepare_fv(FABIO_TV_PATH_A)
   fv_a <- fv_pack_a$fv; value_col_a <- fv_pack_a$value_col; output_col_a <- fv_pack_a$output_col
   message("Loading FABIOv2 total values (ISIC-C) ...")
-  fv_pack_c <- prepare_fv(FABIO_TV_PATH_C)
+  # Keep the SUA-aggregated production column (default drop_extra would drop it);
+  # it is the ISIC-C phys denominator for double-mapped items.
+  fv_pack_c <- prepare_fv(FABIO_TV_PATH_C,
+                          drop_extra = c("production [tonnes]", "total_value_source",
+                                         "sua_aggregated_value [USD]"))
   fv_c <- fv_pack_c$fv; value_col_c <- fv_pack_c$value_col; output_col_c <- fv_pack_c$output_col
+  
+  if (!(SUA_PROD_COL %in% names(fv_c)))
+    warning(sprintf(
+      "ISIC-C total_values has no `%s` column; ISIC-C phys denominator falls back to total_product_output for ALL rows. Re-run the total-values step with SUA-production aggregation to populate it.",
+      SUA_PROD_COL))
   
   n_a_pre <- nrow(fv_a); n_c_pre <- nrow(fv_c)
   fv_a <- fv_a[iso3c == cfg$iso3 & year %in% use_years]
@@ -1128,7 +1149,8 @@ run_country <- function(iso3) {
     fv = fv_a, value_col = value_col_a, output_col = output_col_a,
     va_prod_all = va_prod_all,
     source_tag = cfg$source_tag, source_name = cfg$source_name,
-    unit_suffix = cfg$unit_suffix, src_abbr = cfg$src_abbr
+    unit_suffix = cfg$unit_suffix, src_abbr = cfg$src_abbr,
+    use_sua_prod_denom = FALSE
     # preserve_items defaults to integer(0): at ISIC-A every FABIO row's TPO IS
     # the right ISIC-A quantity, so NA/0 TPO genuinely means no production.
   )
@@ -1138,7 +1160,8 @@ run_country <- function(iso3) {
     va_prod_all = va_prod_all,
     source_tag = cfg$source_tag, source_name = cfg$source_name,
     unit_suffix = cfg$unit_suffix, src_abbr = cfg$src_abbr,
-    preserve_items = double_mapped_items   # ISIC-C double-mapped carve-out (see step 8)
+    preserve_items = double_mapped_items,  # ISIC-C double-mapped carve-out (see step 8)
+    use_sua_prod_denom = TRUE
   )
   
   invisible(list(A = result_a, C = result_c))
