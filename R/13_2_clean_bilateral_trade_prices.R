@@ -148,7 +148,7 @@ HAMPEL_PASSES      <- 2L
 
 regions <- fread(VA_FABIO_REGIONS_CSV)[current == TRUE]
 
-btd  <- readRDS(VA_FABIO_BTD_SUA_TIDY_RDS)
+btd  <- readRDS(VA_FABIO_BTD_SUA_TIDY_BUFFERED_RDS)
 baci <- readRDS(VA_FABIO_BACI_TIDY_RDS)
 
 # BTD<->CBS concordance. A single combined table now carries both ISIC
@@ -379,6 +379,10 @@ prices_exporter[, price := price_hampel_filtered]
 prices_exporter[, c("price_hampel_filtered", "hampel_flag",
                     "window_median", "series_mad") := NULL]
 
+# Drop the Hampel buffer years; winsorization, gap-fill medians and the output
+# grid below run on the keep window only.
+prices_exporter <- prices_exporter[year %in% VA_KEEP_YEARS]
+
 
 # ------------------------------------------------------------------------------
 # 5. Per item (pooled across countries and years): log-normality check,
@@ -484,7 +488,7 @@ prices_exporter[, c("lo", "hi", "log_space", "n_item",
 items <- unique(btd[, .(item_code, item)])
 
 all_codes <- union(regions$code, unique(prices_exporter$from_code))
-all_years <- sort(unique(btd$year))
+all_years <- sort(intersect(unique(btd$year), VA_KEEP_YEARS))
 
 grid <- CJ(area_code = all_codes,
            item_code = items$item_code,
@@ -863,6 +867,10 @@ cbs_prices_exporter[, price := price_hampel_filtered]
 cbs_prices_exporter[, c("price_hampel_filtered", "hampel_flag",
                         "window_median", "series_mad") := NULL]
 
+# Drop the Hampel buffer years; the CBS winsorization, gap-fill medians and grid
+# below run on the keep window only.
+cbs_prices_exporter <- cbs_prices_exporter[year %in% VA_KEEP_YEARS]
+
 
 # --- 7.5 step 5 (CBS): per-CBS-item cross-sectional MAD winsorization --------
 # Same machinery as the SUA-grain step 5 — `compute_winsor_stats` is
@@ -916,7 +924,7 @@ cbs_prices_exporter[, c("lo", "hi", "log_space", "n_item",
 # no leakage of `trade_btd_simple_mean` onto override items because the
 # default aggregation simply doesn't run for them.
 cbs_all_codes <- union(regions$code, unique(prices_exporter$from_code))
-cbs_all_years <- sort(unique(btd$year))
+cbs_all_years <- sort(intersect(unique(btd$year), VA_KEEP_YEARS))
 
 cbs_grid <- CJ(area_code     = cbs_all_codes,
                cbs_item_code = overrides_cfg$cbs_item_code,

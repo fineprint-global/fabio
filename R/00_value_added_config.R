@@ -162,6 +162,9 @@ VA_CONC_CANADA_SUT   <- file.path(VA_CONCORDANCE_DIR, "concordance_items_canada_
 VA_FABIO_REGIONS_CSV      <- file.path(FABIO_ROOT, "inst", "regions_full.csv")
 VA_FABIO_ITEMS_CSV        <- file.path(FABIO_ROOT, "inst", "items_full_123.csv")
 VA_FABIO_BTD_SUA_TIDY_RDS <- file.path(FABIO_ROOT, "data", "tidy", "btd_sua_tidy.rds")
+# Buffered SUA-grain BTD: same schema as the clamped artifact but carrying the
+# +/- VA_HAMPEL_HALF_WINDOW years, read by 13_2 for Hampel edge context.
+VA_FABIO_BTD_SUA_TIDY_BUFFERED_RDS <- file.path(FABIO_ROOT, "data", "tidy", "btd_sua_tidy_buffered.rds")
 VA_FABIO_BACI_TIDY_RDS    <- file.path(FABIO_ROOT, "data", "tidy", "baci_tidy.rds")
 VA_FABIO_SUA_TIDY_RDS     <- file.path(FABIO_ROOT, "data", "tidy", "sua_tidy.rds")
 FABIO_TIDY_FUNCTIONS_PATH <- file.path(FABIO_ROOT, "R", "01_tidy_functions.R")
@@ -207,7 +210,32 @@ WINSOR_MIN_OBS <- 8L   # min pooled obs per group to build a MAD band / IHS thet
 # no HAMPEL_K / HAMPEL_Z alias left anywhere, so the same identifier means the
 # same thing in every script and the values can never drift apart.
 VA_HAMPEL_THRESHOLD   <- 3      # robust-z spike cutoff
-VA_HAMPEL_HALF_WINDOW <- 3L     # rolling-median half-window (full window = 2*hw+1 = 7)
+
+# Hampel half-window. Declared once as `hampel_half_window` in
+# R/00_system_variables.R and obtained here the same side-effect-free way as
+# `years` below (use it if already in scope, else grep the single
+# `hampel_half_window <- ...` line out of that file and eval only it -- never
+# source() it, to avoid its git/branch side effects). `mode = "numeric"` guards
+# the in-scope check, as for `years`.
+if (!exists("hampel_half_window", inherits = TRUE, mode = "numeric")) {
+  .va_sysvars <- file.path(FABIO_ROOT, "R", "00_system_variables.R")
+  if (!file.exists(.va_sysvars)) .va_sysvars <- "R/00_system_variables.R"
+  if (file.exists(.va_sysvars)) {
+    .va_hw_line <- grep("^\\s*hampel_half_window\\s*<-",
+                        readLines(.va_sysvars, warn = FALSE),
+                        value = TRUE)
+    if (length(.va_hw_line))
+      hampel_half_window <- eval(parse(text = .va_hw_line[[1L]]))
+    rm(.va_hw_line)
+  }
+  rm(.va_sysvars)
+}
+if (!exists("hampel_half_window", inherits = TRUE, mode = "numeric"))
+  stop("Could not obtain `hampel_half_window`. It is declared in ",
+       "R/00_system_variables.R; source that first, or run from the FABIO repo ",
+       "root so this file can read the `hampel_half_window <- ...` line from it.")
+
+VA_HAMPEL_HALF_WINDOW <- as.integer(hampel_half_window)  # full window = 2*hw+1 = 7
 
 # -- Year coverage (derived from R/00_system_variables.R) ---------------------
 #

@@ -24,6 +24,10 @@ dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
 # Determine years
 years <- 2010:2023
 
+# Hampel rolling-median half-window (full window = 2*hw+1). Shared by the tidy
+# script and the value-added price pipeline so both build the same edge buffer.
+hampel_half_window <- 3L
+
 
 
 # Recursive sum over vectors with NA, returns NA if all values are NA

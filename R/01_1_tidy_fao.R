@@ -1,4 +1,3 @@
-
 library("data.table")
 source("R/01_tidy_functions.R")
 source("R/00_system_variables.R")
@@ -178,12 +177,12 @@ cat("\nExchange stock_addition and stock_withdrawal in",
                 (data.table::between(-2*stock_addition, balancing - 1000, balancing + 1000) & abs(stock_addition) > 1000),.N] / nrow(cbs) * 100),
     "% of the data entries.")
 cbs[((balancing/stock_addition < -1.9) & is.finite(balancing/stock_addition)) |
-    (data.table::between(-2*stock_addition, balancing - 1000, balancing + 1000) & abs(stock_addition) > 1000),
+      (data.table::between(-2*stock_addition, balancing - 1000, balancing + 1000) & abs(stock_addition) > 1000),
     `:=`(stock_addition = -stock_addition,
-       stock_withdrawal = -stock_withdrawal,
-       balancing = balancing + 2*stock_addition,
-       corr = TRUE,
-       ratio = balancing/stock_addition)  ]
+         stock_withdrawal = -stock_withdrawal,
+         balancing = balancing + 2*stock_addition,
+         corr = TRUE,
+         ratio = balancing/stock_addition)  ]
 
 cbs[, `:=`(corr = NULL, ratio = NULL)]
 
@@ -280,12 +279,12 @@ cat("\nExchange stock_addition and stock_withdrawal in",
                 (data.table::between(-2*stock_addition, balancing - 1000, balancing + 1000) & abs(stock_addition) > 1000),.N] / nrow(sua) * 100),
     "% of the data entries.")
 sua[((balancing/stock_addition < -1.9) & is.finite(balancing/stock_addition)) |
-    (data.table::between(-2*stock_addition, balancing - 1000, balancing + 1000) & abs(stock_addition) > 1000),
-  `:=`(stock_addition = -stock_addition,
-       stock_withdrawal = -stock_withdrawal,
-       balancing = balancing + 2*stock_addition,
-       corr = TRUE,
-       ratio = balancing/stock_addition)  ]
+      (data.table::between(-2*stock_addition, balancing - 1000, balancing + 1000) & abs(stock_addition) > 1000),
+    `:=`(stock_addition = -stock_addition,
+         stock_withdrawal = -stock_withdrawal,
+         balancing = balancing + 2*stock_addition,
+         corr = TRUE,
+         ratio = balancing/stock_addition)  ]
 
 sua[, `:=`(corr = NULL, ratio = NULL)]
 
@@ -334,7 +333,10 @@ cat("\nTidying BTD.\n")
 btd <- readRDS("input/fao/btd_prod.rds")
 btd <- dt_rename(btd, rename, drop = TRUE)
 
-btd <- dt_filter(btd, value >= 0 & year %in% years)
+# Working window: FABIO years plus a +/- half-window Hampel buffer, carried for
+# the price pipeline (13_2) and dropped before the core build artifacts below.
+btd_years <- (min(years) - hampel_half_window):(max(years) + hampel_half_window)
+btd <- dt_filter(btd, value >= 0 & year %in% btd_years)
 
 # Country / Area adjustments
 for(col in c("reporter_code", "partner_code")) {
@@ -373,6 +375,13 @@ btd[, imex := NULL]
 
 # Exclude intra-regional trade flows
 btd <- dt_filter(btd, from_code != to_code)
+
+# Buffered SUA-grain BTD for the price pipeline: keeps the +/- half-window years
+# so 13_2's Hampel filters have rolling-median context at the edges.
+saveRDS(btd, "data/tidy/btd_sua_tidy_buffered.rds")
+
+# Clamp to the FABIO year window for the core build artifacts.
+btd <- btd[year %in% years]
 
 #store full version for sua
 saveRDS(btd, "data/tidy/btd_sua_tidy.rds")
@@ -429,7 +438,7 @@ fore_prod <- area_fix(fore_prod, regions)
 
 # Cut down to certain products
 fore_prod <- dt_filter(fore_prod, item_code %in% c("Wood fuel" = 1864,
-  "Roundwood" = 1861))
+                                                   "Roundwood" = 1861))
 fore_prod <- dt_filter(fore_prod, value >= 0)
 # fore_prod <- dt_filter(fore_prod, unit != "1000 US$")
 # Recode "1000 US$" to "usd"
@@ -441,7 +450,7 @@ fore_prod[, imex := factor(gsub("^(Import|Export) (.*)$", "\\1", element))]
 fore_prod <- dt_filter(fore_prod, unit == "m3")
 fore_prod[, unit := NULL]
 fore_prod <- data.table::dcast(fore_prod,
-  area_code + area + item_code + item + year ~ imex, value.var = "value")
+                               area_code + area + item_code + item + year ~ imex, value.var = "value")
 fore_prod <- dt_rename(fore_prod, rename, drop = FALSE)
 
 # Store
