@@ -193,6 +193,7 @@ LC_list[["eutrophication_freshwater"]] <- NULL
 acid <- LC_list[["acidification"]]
 acid <- acid[flow_id == "08a91e70-3ddc-11dd-a2a9-0050c2490048" &
                scenario == "Agricult", ..key_cols]
+acid[, `:=` (cf = cf *  1.21589, unit = "global PDF*y/kg N")]
 acid <- acid[, ..key_cols]
 LC_list[["acidification"]] <- acid
 

@@ -23,7 +23,7 @@ prod_land[, iso3c := regions$iso3c[match(area_code, regions$code)]]
 # Biomass extension -----------------------
 # get primary crop production 
 biomass <- prod_land[element == "Production" 
-                     & item_code %in% items[processed == FALSE & group == "vegetal products", 
+                     & item_code %in% items[processed == FALSE & comm_group == "vegetal products", 
                                             item_code]]
 biomass[,`:=` (element = NULL)] 
 

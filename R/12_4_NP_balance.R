@@ -805,50 +805,82 @@ p_budget[, (numeric_cols) :=
 setcolorder(p_budget, "harv_area",  after = "item_code")
 
 # re-format as FABIO extensions ---------
-# add area codes
-balances <- list(n_budget, p_budget)
-for (dt in balances) {
+# reduce to many data.tables with one value column to enable cbs aggregation
+# add to lists for aggregations
+n_list <- list()
+p_list <- list()
+key_cols <- c("iso3c", "year", "item", "item_code")
+
+#extract value columns from single data.tables, save back to list
+mappings <- rbind(
+  data.frame(target = "n_list", nm = "fertilizer",          col = "fa"),
+  data.frame(target = "n_list", nm = "manure",               col = "man"),
+  data.frame(target = "n_list", nm = "removal",                  col = "rem"),
+  data.frame(target = "n_list", nm = "biological_fixation",     col = "n_bf"),
+  data.frame(target = "n_list", nm = "atmospheric_deposition",   col = "ad"),
+  data.frame(target = "n_list", nm = "nh3_n",                  col = "nh3_n"),
+  data.frame(target = "n_list", nm = "leaching_runoff",        col = "n_lr"),
+  stringsAsFactors = FALSE
+)
+
+for (i in seq_len(nrow(mappings))) {
+  lst <- get(mappings$target[i])
+  lst[[ mappings$nm[i] ]] <- n_budget[, c(key_cols, value = mappings$col[i]), with = FALSE]
+  setnames(lst[[ mappings$nm[i] ]], mappings$col[i], "value")
+  assign(mappings$target[i], lst)
+  rm(lst)
+}
+
+# same for P
+mappings <- rbind(
+  data.frame(target = "p_list", nm = "fertilizer",          col = "fa"),
+  data.frame(target = "p_list", nm = "manure",               col = "man"),
+  data.frame(target = "p_list", nm = "removal",                  col = "rem"),
+  data.frame(target = "p_list", nm = "atmospheric_deposition",   col = "ad"),
+  data.frame(target = "p_list", nm = "weathering",                  col = "p_wea"),
+  data.frame(target = "p_list", nm = "runoff_erosion",        col = "p_wea"),
+  stringsAsFactors = FALSE
+)
+
+for (i in seq_len(nrow(mappings))) {
+  lst <- get(mappings$target[i])
+  lst[[ mappings$nm[i] ]] <- p_budget[, c(key_cols, value = mappings$col[i]), with = FALSE]
+  setnames(lst[[ mappings$nm[i] ]], mappings$col[i], "value")
+  assign(mappings$target[i], lst)
+  rm(lst)
+}
+
+# Add prefix "n" or "p" to combine them in one list
+# add prefix to individual data.tables
+lst_names <- c("n_list", "p_list")
+data_all  <- do.call(c, lapply(lst_names, function(nm) {
+  lst <- get(nm)
+  if (startsWith(nm, "n_")) {
+    setNames(lst, paste0("n_", names(lst)))
+  } else {
+    setNames(lst, paste0("p_", names(lst)))
+  } 
+}))
+
+# add area and comm codes
+for (dt in data_all) {
   dt[, area_code := regions$code[match(iso3c, regions$iso3c)]]
   dt[, comm_code := items_sua$comm_code[match(item_code, items_sua$item_code)]]
 }
 
-
-# rename and select for FABIO extension (emissions will be treated separately in the GHG extension)
-value_cols_n <- c("fertilizer", "manure", "removal", "biological_fixation", "atmospheric_deposition",
-                  "nh3_n",  "leaching_runoff")
-value_cols_p <- c("fertilizer", "manure", "removal", "atmospheric_deposition", 
-                  "weathering", "runoff_erosion")
-
-setnames(n_budget, 
-         c("fa", "man", "rem", "n_bf", "ad", "nh3_n", 
-           "n_lr"),
-         value_cols_n)
-
-setnames(p_budget, c("fa", "man", "rem", "ad", "p_wea", "p_re"),
-         value_cols_p)
-
-
 # SUA
-E_n_sua <- lapply(value_cols_n, \(col) format_extension(n_budget, value_col = col))
-E_p_sua <- lapply(value_cols_p, \(col) format_extension(p_budget, value_col = col))
-names(E_n_sua) <- value_cols_n
-names(E_p_sua) <- value_cols_p
+E_sua <- lapply(data_all, format_extension)
 
-items_cbs <- fread("inst/items_full_123.csv")
 # CBS
-E_n_cbs <- lapply(value_cols_n, \(col) format_extension(n_budget, value_col = col, itms = items_cbs))
-E_p_cbs <- lapply(value_cols_p, \(col) format_extension(p_budget, value_col = col, itms = items_cbs))
-names(E_n_cbs) <- value_cols_n
-names(E_p_cbs) <- value_cols_p
+conc <- fread("inst/conc_cbs_sua.csv")
+items_cbs <- fread("inst/items_full_123.csv")
+cbs_extensions <- lapply(data_all, agg_sua_to_cbs)
+E_cbs <- lapply(cbs_extensions, format_extension, itms = items_cbs)
 
 # save versions for extension
-for (nm in value_cols_n) {
-  saveRDS(E_n_sua[[nm]], paste0("data/extensions/sua/n_", nm, ".rds"))
-  saveRDS(E_n_cbs[[nm]], paste0("data/extensions/cbs/n_", nm, ".rds"))
-}
-for (nm in value_cols_p) {
-  saveRDS(E_p_sua[[nm]], paste0("data/extensions/sua/p_", nm, ".rds"))
-  saveRDS(E_p_cbs[[nm]], paste0("data/extensions/cbs/p_", nm, ".rds"))
+for (nm in names(E_sua)) {
+  saveRDS(E_sua[[nm]], paste0("data/extensions/sua/", nm, ".rds"))
+  saveRDS(E_cbs[[nm]], paste0("data/extensions/cbs/", nm, ".rds"))
 }
 
 # save versions for paper
