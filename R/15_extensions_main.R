@@ -113,15 +113,36 @@ if (!all(rownames(E_cbs[[as.character(years[1])]]) == E_labels_cbs$Stressor))
 if (!all(rownames(E_sua[[as.character(years[1])]]) == E_labels_sua$Stressor))
   stop("E_sua row order does not match E_labels_sua.")
 
-# save -- v2 (CBS) gets the value-added stressors; v2_525 (SUA) does not.
-saveRDS(E_cbs, paste0(output_dir, "E.rds"))
-saveRDS(E_fd_cbs, paste0(output_dir, "E_fd.rds"))
 
-saveRDS(E_sua, paste0(output_dir_v525, "E.rds"))
-saveRDS(E_fd_sua, paste0(output_dir_v525, "E_fd.rds"))
+# save BAMBOO version -- v2 (CBS) gets the value-added stressors; v2_525 (SUA) does not.
+saveRDS(E_cbs, paste0(output_dir, "E_bamboo.rds"))
+saveRDS(E_fd_cbs, paste0(output_dir, "E_bamboo_fd.rds"))
 
-fwrite(E_labels_cbs, paste0(output_dir, "ex_labels.csv"))
-fwrite(E_fd_labels,  paste0(output_dir, "ex_fd_labels.csv"))
+# saveRDS(E_sua, paste0(output_dir_v525, "E_bamboo.rds"))
+# saveRDS(E_fd_sua, paste0(output_dir_v525, "E_bamboo_fd.rds"))
 
-fwrite(E_labels_sua, paste0(output_dir_v525, "ex_labels.csv"))
-fwrite(E_fd_labels,  paste0(output_dir_v525, "ex_fd_labels.csv"))
+fwrite(E_labels_cbs, paste0(output_dir, "ex_bamboo_labels.csv"))
+fwrite(E_fd_labels,  paste0(output_dir, "ex_bamboo_fd_labels.csv"))
+
+# fwrite(E_labels_sua, paste0(output_dir_v525, "ex_bamboo_labels.csv"))
+# fwrite(E_fd_labels,  paste0(output_dir_v525, "ex_bamboo_fd_labels.csv"))
+
+
+# save public version including only those extensions that can be shared as of 2026-06-25
+public_extensions <- c("biomass", "ghg", "gwp", "ibif", "land", "LC-Impact", "luc", "nutrient_pollution", "Value added", "water")
+unique(E_labels_cbs$Compartment)
+public_rows <- E_labels$Compartment %in% public_extensions
+public_rows_fd <- E_fd_labels$Compartment %in% public_extensions
+public_rows_sua <- E_labels_sua$Compartment %in% public_extensions
+
+saveRDS(lapply(E_cbs, `[`, public_rows, ), paste0(output_dir, "E.rds"))
+saveRDS(lapply(E_fd_cbs, `[`, public_rows_fd, ), paste0(output_dir, "E_fd.rds"))
+
+saveRDS(lapply(E_sua, `[`, public_rows_sua, ), paste0(output_dir_v525, "E.rds"))
+saveRDS(lapply(E_fd_sua, `[`, public_rows_fd, ), paste0(output_dir_v525, "E_fd.rds"))
+
+fwrite(E_labels_cbs[public_rows,], paste0(output_dir, "ex_labels.csv"))
+fwrite(E_fd_labels[public_rows_fd,],  paste0(output_dir, "ex_fd_labels.csv"))
+
+fwrite(E_labels_sua[public_rows_sua,], paste0(output_dir_v525, "ex_labels.csv"))
+fwrite(E_fd_labels[public_rows_fd,],  paste0(output_dir_v525, "ex_fd_labels.csv"))

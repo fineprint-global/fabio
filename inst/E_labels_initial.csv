@@ -1,5 +1,5 @@
 Stressor,Compartment,Subcompartment_1,Subcompartment_2,Unit,Description,Sources,GWP
-biomass,biomass,biomass,"",tonnes,Biomass of primary crop production,https://doi.org/10.5281/zenodo.19202729,
+biomass,biomass,biomass,"",tonnes,Biomass of primary crop production,https://www.fao.org/faostat/en/#data/QCL,
 ES_terrestrial_carbon,Ecosystem services,terrestrial,"",(Mg Carbon)/ha,Carbon that would be available for natural processes in the absence of agricultural activity. Based on ha of cropland and grazing. Is dependent on other FABIO extensions. For overview of pressure to impact relationships see -inst/conc_biodiversity_cfs.csv-,BAMBOO internal (M6),
 ES_terrestrial_pollination,Ecosystem services,terrestrial,"",(N. pollinators)/(ha*year),Number of pollinators lost due to agricultural activity. Based on ha of cropland and grazing. Is dependent on other FABIO extensions. For overview of pressure to impact relationships see -inst/conc_biodiversity_cfs.csv-.,BAMBOO internal (M6),
 ES_terrestrial_soil_erosion,Ecosystem services,terrestrial,"",(Kg loss soil)/(ha*year),KG of soil eroded due to agricultural activity. Based on ha of cropland and grazing. Is dependent on other FABIO extensions. For overview of pressure to impact relationships see -inst/conc_biodiversity_cfs.csv-,BAMBOO internal (M6),
@@ -137,44 +137,44 @@ ghg_n2o_lvst_ind_manure_man,ghg,n2o,"",tonnes n2o,N2O emissions from manure mana
 ghg_n2o_lvst_manure_man_total,ghg,n2o,"",tonnes n2o,N2O emissions from manure management (total),https://www.fao.org/faostat/en/#data/GLE,273
 ghg_n2o_waste_ind_water,ghg,n2o,"",tonnes n2o,N2O emissions from industrial wastewater. Distributed between items according to item shares of production of processed products (excluding all cereal products except starch).,https://www.fao.org/faostat/en/#data/GPP,273
 ghg_n2o,ghg,n2o,"",tonnes n2o,Total N2O emissions,All sources listed in ghg_n2o,273
-gwp_ch4_crops_res,ghg,ch4,"",tonnes co2eq (AR6),CH4 emissions from burning of crop residues,https://www.fao.org/faostat/en/#data/GCE,27
-gwp_ch4_crops_rice,ghg,ch4,"",tonnes co2eq (AR6),CH4 emissions from rice farming,https://www.fao.org/faostat/en/#data/GCE,27
-gwp_ch4_farm_energy,ghg,ch4,"",tonnes co2eq (AR6),"CH4 emissions from on-farm energy use, distributed to crops/pastures by shares of production",https://www.fao.org/faostat/en/#data/GN,27
-gwp_ch4_lvst_enteric_fer,ghg,ch4,"",tonnes co2eq (AR6),CH4 emissions from the enteric fermentation of livestock,https://www.fao.org/faostat/en/#data/GLE,27
-gwp_ch4_lvst_manure_man,ghg,ch4,"",tonnes co2eq (AR6),CH4 emissions from manure management (allocated to the animals that excreted the manure),https://www.fao.org/faostat/en/#data/GLE,27
-gwp_ch4_waste_ind_water,ghg,ch4,"",tonnes co2eq (AR6),CH4 emissions from industrial wastewater. Distributed between items according to item shares of production of processed products (excluding all cereal products except starch).,https://www.fao.org/faostat/en/#data/GPP,27
-gwp_ch4_waste_solid,ghg,ch4,"",tonnes co2eq (AR6),CH4 emissions from solid waste,"Own estimations based on:
+gwp_ch4_crops_res,gwp,ch4,"",tonnes co2eq (AR6),CH4 emissions from burning of crop residues,https://www.fao.org/faostat/en/#data/GCE,27
+gwp_ch4_crops_rice,gwp,ch4,"",tonnes co2eq (AR6),CH4 emissions from rice farming,https://www.fao.org/faostat/en/#data/GCE,27
+gwp_ch4_farm_energy,gwp,ch4,"",tonnes co2eq (AR6),"CH4 emissions from on-farm energy use, distributed to crops/pastures by shares of production",https://www.fao.org/faostat/en/#data/GN,27
+gwp_ch4_lvst_enteric_fer,gwp,ch4,"",tonnes co2eq (AR6),CH4 emissions from the enteric fermentation of livestock,https://www.fao.org/faostat/en/#data/GLE,27
+gwp_ch4_lvst_manure_man,gwp,ch4,"",tonnes co2eq (AR6),CH4 emissions from manure management (allocated to the animals that excreted the manure),https://www.fao.org/faostat/en/#data/GLE,27
+gwp_ch4_waste_ind_water,gwp,ch4,"",tonnes co2eq (AR6),CH4 emissions from industrial wastewater. Distributed between items according to item shares of production of processed products (excluding all cereal products except starch).,https://www.fao.org/faostat/en/#data/GPP,27
+gwp_ch4_waste_solid,gwp,ch4,"",tonnes co2eq (AR6),CH4 emissions from solid waste,"Own estimations based on:
 https://www.fao.org/faostat/en/#data/GPP;
 https://www.fao.org/4/mb060e/mb060e.pdf",27
-gwp_ch4,ghg,ch4,"",tonnes co2eq (AR6),Total CH4 emissions,All sources listed in ghg_ch4,27
-gwp_co2_crops_drain,ghg,co2,"",tonnes co2eq (AR6),CO2 emissions from  organic soils drained for agricultural usage,"Own estimations based on:
+gwp_ch4,gwp,ch4,"",tonnes co2eq (AR6),Total CH4 emissions,All sources listed in ghg_ch4,27
+gwp_co2_crops_drain,gwp,co2,"",tonnes co2eq (AR6),CO2 emissions from  organic soils drained for agricultural usage,"Own estimations based on:
 https://www.fao.org/faostat/en/#data/GCE and
 https://www.fao.org/soils-portal/data-hub/soil-maps-and-databases/harmonized-world-soil-database-v20/en/",1
-gwp_co2_deforestation,ghg,co2,"",tonnes co2eq (AR6),CO2 emissions from the net conversion of forests to agricultural land,https://doi.org/10.5281/zenodo.18953516,1
-gwp_co2_farm_energy,ghg,co2,"",tonnes co2eq (AR6),"CO2 emissions from on-farm energy use, distributed to crops/pastures by shares of production",https://www.fao.org/faostat/en/#data/GN,1
-gwp_co2_waste_incineration,ghg,co2,"",tonnes co2eq (AR6),"CO2 emissions from incinerated agriculural waste, distributed to crops by shares of production",https://www.fao.org/faostat/en/#data/GPP,1
-gwp_co2,ghg,co2,"",tonnes co2eq (AR6),Total CO2 emissions,All sources listed in ghg_co2,1
-gwp_n2o_crops_dir_drain,ghg,n2o,"",tonnes co2eq (AR6),N2O emissions from organic soils drained for agricultural usage (direct emissions),"Own estimations based on:
+gwp_co2_deforestation,gwp,co2,"",tonnes co2eq (AR6),CO2 emissions from the net conversion of forests to agricultural land,https://doi.org/10.5281/zenodo.18953516,1
+gwp_co2_farm_energy,gwp,co2,"",tonnes co2eq (AR6),"CO2 emissions from on-farm energy use, distributed to crops/pastures by shares of production",https://www.fao.org/faostat/en/#data/GN,1
+gwp_co2_waste_incineration,gwp,co2,"",tonnes co2eq (AR6),"CO2 emissions from incinerated agriculural waste, distributed to crops by shares of production",https://www.fao.org/faostat/en/#data/GPP,1
+gwp_co2,gwp,co2,"",tonnes co2eq (AR6),Total CO2 emissions,All sources listed in ghg_co2,1
+gwp_n2o_crops_dir_drain,gwp,n2o,"",tonnes co2eq (AR6),N2O emissions from organic soils drained for agricultural usage (direct emissions),"Own estimations based on:
 https://www.fao.org/faostat/en/#data/GCE and
 https://www.fao.org/soils-portal/data-hub/soil-maps-and-databases/harmonized-world-soil-database-v20/en/",273
-gwp_n2o_crops_dir_man,ghg,n2o,"",tonnes co2eq (AR6),N2O emissions from manure applied to crops and pastures (allocated to the crops and pastures that they are applied to or deposited on; direct emissions),"Own estimations based on 
+gwp_n2o_crops_dir_man,gwp,n2o,"",tonnes co2eq (AR6),N2O emissions from manure applied to crops and pastures (allocated to the crops and pastures that they are applied to or deposited on; direct emissions),"Own estimations based on 
 https://www.fao.org/faostat/en/#data/EMN",273
-gwp_n2o_crops_dir_res,ghg,n2o,"",tonnes co2eq (AR6),N2O emissions from crops burned or left on cropland (direct),https://www.fao.org/faostat/en/#data/GCE,273
-gwp_n2o_crops_dir_syn,ghg,n2o,"",tonnes co2eq (AR6),N2O emissions from synthetic N fertilizer applied to crops and pastures (direct),"Own estimations based on:
+gwp_n2o_crops_dir_res,gwp,n2o,"",tonnes co2eq (AR6),N2O emissions from crops burned or left on cropland (direct),https://www.fao.org/faostat/en/#data/GCE,273
+gwp_n2o_crops_dir_syn,gwp,n2o,"",tonnes co2eq (AR6),N2O emissions from synthetic N fertilizer applied to crops and pastures (direct),"Own estimations based on:
 https://doi.org/10.1038/s41597-024-03247-7;
 https://doi.org/10.5194/essd-16-525-2024;
 https://doi.org/10.1038/s41597-024-04030-4",273
-gwp_n2o_crops_dir_total,ghg,n2o,"",tonnes co2eq (AR6),N2O emissions from crops (total; direct),All sources listed in -ghg_n2o_crops--extensions,273
-gwp_n2o_crops_ind_leach,ghg,n2o,"",tonnes co2eq (AR6),N2O emissions from nitrogen that leaches/runs off (allocated to crops where the nitrogen ran off from; indirect),"Own estimations based on N inputs to soil and IPCC tier 1 (see Hinz et al., hopefully forthcoming)",273
-gwp_n2o_crops_ind_total,ghg,n2o,"",tonnes co2eq (AR6),N2O emissions from crops (total; indirect),All sources listed in -ghg_n2o_crops--extensions,273
-gwp_n2o_crops_ind_vol,ghg,n2o,"",tonnes co2eq (AR6),N2O emissions from nitrogen that volatilizes as ammonia and gets redeposited (allocated to the crops where the volatilization took place; indirect),"Own estimations based on N inputs to soil and IPCC tier 1 (see Hinz et al., hopefully forthcoming)",273
-gwp_n2o_crops_total,ghg,n2o,"",tonnes co2eq (AR6),N2O emissions from crops (total),All sources listed in -ghg_n2o_crops--extensions,273
-gwp_n2o_farm_energy,ghg,n2o,"",tonnes co2eq (AR6),N2O emissions from on-farm energy use,https://www.fao.org/faostat/en/#data/GN,273
-gwp_n2o_lvst_dir_manure_man,ghg,n2o,"",tonnes co2eq (AR6),N2O emissions from manure management (allocated to the animals that excreted the manure; direct),https://www.fao.org/faostat/en/#data/GLE,273
-gwp_n2o_lvst_ind_manure_man,ghg,n2o,"",tonnes co2eq (AR6),N2O emissions from manure management (allocated to the animals that excreted the manure; indirect),https://www.fao.org/faostat/en/#data/GLE,273
-gwp_n2o_lvst_manure_man_total,ghg,n2o,"",tonnes co2eq (AR6),N2O emissions from manure management (total),https://www.fao.org/faostat/en/#data/GLE,273
-gwp_n2o_waste_ind_water,ghg,n2o,"",tonnes co2eq (AR6),N2O emissions from industrial wastewater. Distributed between items according to item shares of production of processed products (excluding all cereal products except starch).,https://www.fao.org/faostat/en/#data/GPP,273
-gwp_n2o,ghg,n2o,"",tonnes co2eq (AR6),Total N2O emissions,All sources listed in ghg_n2o,273
+gwp_n2o_crops_dir_total,gwp,n2o,"",tonnes co2eq (AR6),N2O emissions from crops (total; direct),All sources listed in -ghg_n2o_crops--extensions,273
+gwp_n2o_crops_ind_leach,gwp,n2o,"",tonnes co2eq (AR6),N2O emissions from nitrogen that leaches/runs off (allocated to crops where the nitrogen ran off from; indirect),"Own estimations based on N inputs to soil and IPCC tier 1 (see Hinz et al., hopefully forthcoming)",273
+gwp_n2o_crops_ind_total,gwp,n2o,"",tonnes co2eq (AR6),N2O emissions from crops (total; indirect),All sources listed in -ghg_n2o_crops--extensions,273
+gwp_n2o_crops_ind_vol,gwp,n2o,"",tonnes co2eq (AR6),N2O emissions from nitrogen that volatilizes as ammonia and gets redeposited (allocated to the crops where the volatilization took place; indirect),"Own estimations based on N inputs to soil and IPCC tier 1 (see Hinz et al., hopefully forthcoming)",273
+gwp_n2o_crops_total,gwp,n2o,"",tonnes co2eq (AR6),N2O emissions from crops (total),All sources listed in -ghg_n2o_crops--extensions,273
+gwp_n2o_farm_energy,gwp,n2o,"",tonnes co2eq (AR6),N2O emissions from on-farm energy use,https://www.fao.org/faostat/en/#data/GN,273
+gwp_n2o_lvst_dir_manure_man,gwp,n2o,"",tonnes co2eq (AR6),N2O emissions from manure management (allocated to the animals that excreted the manure; direct),https://www.fao.org/faostat/en/#data/GLE,273
+gwp_n2o_lvst_ind_manure_man,gwp,n2o,"",tonnes co2eq (AR6),N2O emissions from manure management (allocated to the animals that excreted the manure; indirect),https://www.fao.org/faostat/en/#data/GLE,273
+gwp_n2o_lvst_manure_man_total,gwp,n2o,"",tonnes co2eq (AR6),N2O emissions from manure management (total),https://www.fao.org/faostat/en/#data/GLE,273
+gwp_n2o_waste_ind_water,gwp,n2o,"",tonnes co2eq (AR6),N2O emissions from industrial wastewater. Distributed between items according to item shares of production of processed products (excluding all cereal products except starch).,https://www.fao.org/faostat/en/#data/GPP,273
+gwp_n2o,gwp,n2o,"",tonnes co2eq (AR6),Total N2O emissions,All sources listed in ghg_n2o,273
 gwp_total,gwp,"","",tonnes co2eq (AR6),Total CO2 equivalent emissions from all agricultural activities.,All sources under Compartment -ghg-,
 ibif_co2_eq,ibif,terrestrial,"",MSA loss * year * km^2,Mean species abundance loss that occurs due to climate change. Weighted by duration and extent of exposure to pressure. Can be added up with other MSA measures but not with pdf.,10.1038/s41597-025-05946-1,
 ibif_land_crop,ibif,terrestrial,"",MSA loss * year * km^2,Mean species abundance loss that occurs due land use for cropland. Temporary meadows and pastures not included. Weighted by duration and extent of exposure to pressure. Can be added up with other MSA measures but not with pdf.,10.1038/s41597-025-05946-1,
@@ -253,5 +253,5 @@ water_blue_irr,water,"","",m3,Blue water used by crops through irrigation,"Extra
 water_blue_live,water,"","",m3,Blue water used for watering livestock,http://www.fao.org/3/I9692EN/i9692en.pdf,
 water_blue_meat,water,"","",m3,Blue water used in meat processing,http://www.fao.org/3/I9692EN/i9692en.pdf,
 water_blue_total,water,"","",m3,Total blue water footprint (sum of other blue water footprints),own estimation,
-water_green,water,"","",m3,Green water footprints of crops and pastures (temporary and permanent),"Extrapolated from:
-10.1038/s41597-024-03051-3",
+water_green,water,"","",m3,Green water footprints of crops and pastures (temporary and permanent),"Crops: extrapolated from
+10.1038/s41597-024-03051-3; Grazing: 10.1038/s43016-023-00797-8",
