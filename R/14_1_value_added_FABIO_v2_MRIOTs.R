@@ -127,6 +127,10 @@ HAMPEL_THRESHOLD   <- VA_HAMPEL_THRESHOLD   # Hampel spike test threshold (stage
 WINSOR_MAD_K       <- 2.5                   # cross-sectional MAD cap, robust |z| (stages 4b, 7b)
 HAMPEL_HALF_WINDOW <- VA_HAMPEL_HALF_WINDOW # Hampel half-window → full = 2*half_window+1 = 7 years
 
+# FALSE bypasses the stage 7a/7b physical-intensity Hampel + MAD winsor for all
+# items except fish, which is always filtered.
+VA_PHYS_INTENSITY_FILTER <- FALSE
+
 # The three strands, in output column order.  Both adapters assign their VA rows
 # to exactly these.
 VA_COMPONENTS <- c("wages", "capital", "tls")
@@ -327,15 +331,21 @@ process_isic_level <- function(ctx, isic_level, sector_conc, fv,
   )]
   
   
+  # Rows subject to the physical-intensity filter: all rows when the switch is
+  # on, fish only when off.  Non-filtered rows carry NA through 7a/7b so the cap
+  # skips them and 7c leaves their va_value unchanged.
+  phys_rows <- result[, VA_PHYS_INTENSITY_FILTER |
+                        fabio_item_code == fish_item_code_scalar]
+  
   # 7a. Hampel filter per (fabio_item, fabio_area, va_component).
   message(sprintf("[%s]   Stage 7a: Hampel filter per (fabio_item, fabio_area, va_component) over years ...", suffix))
   
   hampel_phys_result <- hampel_by_series(
-    result, "va_phys_intensity", "va_phys_intensity_hampel",
+    result[phys_rows], "va_phys_intensity", "va_phys_intensity_hampel",
     c("fabio_item_code", "fabio_area_code", "va_component"),
     half_window = HAMPEL_HALF_WINDOW, threshold = HAMPEL_THRESHOLD)
   
-  result[, va_phys_intensity_hampel := va_phys_intensity]
+  result[, va_phys_intensity_hampel := fifelse(phys_rows, va_phys_intensity, NA_real_)]
   result[hampel_phys_result,
          va_phys_intensity_hampel := i.va_phys_intensity_hampel,
          on = .(fabio_item_code, fabio_area_code, va_component, year)]
