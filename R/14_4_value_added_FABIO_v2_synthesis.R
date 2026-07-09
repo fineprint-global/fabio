@@ -679,7 +679,12 @@ overwrite_fishing_oecd_sut <- function(lcu_usd, eu_nama, base) {
     
     g_tot   <- combined[[BASE_TOTAL_COL]]      # current value (OECD where it won, else base)
     is_fish <- combined$fabio_item_code == FISHING_ITEM_CODE
-    eu_ok   <- is_fish & is.finite(combined$.eu_tot)   # Eurostat always overrides
+    # Coverage carve-out: never let the Eurostat NAMA override touch these
+    # (iso3c, year) cells — they keep the OECD-SUT/base value (mirrors
+    # FSDN_COVERAGE_EXCLUDE for the FSDN overlay).  MLT 2022-2023 is excluded here.
+    eu_excl <- paste(combined$iso3c, combined$year) %in%
+      EUROSTAT_COVERAGE_EXCLUDE[, paste(iso3c, year)]
+    eu_ok   <- is_fish & is.finite(combined$.eu_tot) & !eu_excl   # Eurostat overrides except excluded cells
     eu_zero_keep <- OECD_SUT_ZERO_KEEP & eu_ok &
       abs(combined$.eu_tot) <= DIAG_ZERO_TOL_USD &
       is.finite(g_tot) & abs(g_tot) > DIAG_ZERO_TOL_USD
@@ -739,6 +744,16 @@ overwrite_fishing_oecd_sut <- function(lcu_usd, eu_nama, base) {
 # (not D11), D29X39 (not D21X31).
 
 USED_OK_PCT <- 15    # OECD candidate vs Eurostat NAMA baseline: agreement threshold
+
+# (area, year) cells the Eurostat NAMA fishing override must NOT touch — those
+# keep whatever the OECD-SUT/base step produced instead of being overwritten by
+# Eurostat.  Keyed by ISO3 + year, resolved against the combined `iso3c` column.
+# Mirrors FSDN_COVERAGE_EXCLUDE for the FSDN overlay; extend as coverage changes.
+#   MLT : 2022-2023 excluded from the Eurostat fishing overwrite (same MLT
+#         2022-2023 carve-out already applied to the FSDN overwrite).
+EUROSTAT_COVERAGE_EXCLUDE <- data.table(
+  iso3c = "MLT", year = VA_KEEP_YEARS[VA_KEEP_YEARS > 2021L]
+)
 
 # Fishing wrapper — preserves the exact call used by the fishing overwrite.
 load_eurostat_fishing <- function(eur_usd) load_eurostat_nama_activity(eur_usd, EU_A03)
