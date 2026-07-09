@@ -132,6 +132,12 @@ DIAG_WINSOR_CSV    <- file.path(VA_PRICE_DIAG_DIR, "producer_price_winsorized_en
 
 # ---- Constants -------------------------------------------------------------
 
+# fabio_bcp dependency: that repo reads this output to price two extra
+# commodities not in FABIO's 123-item list -- Triticale (97) and Castor oil
+# seeds (265) -- preferring these FAO producer prices over 13_2's trade
+# prices. No change is needed here: 13_1 already prices every item in the
+# FAOSTAT file, so both flow through automatically.
+
 PRICE_SLC <- 5531L   # FAOSTAT element code: Producer price (SLC/tonne)
 PRICE_USD <- 5532L   # FAOSTAT element code: Producer price (USD/tonne)
 PPI       <- 5539L   # FAOSTAT element code: Producer price index

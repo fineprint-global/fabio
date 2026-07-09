@@ -141,6 +141,17 @@ HAMPEL_THRESHOLD   <- VA_HAMPEL_THRESHOLD     # robust-z spike cutoff
 # R/00_value_added_config.R section 5.
 HAMPEL_PASSES      <- 2L
 
+# Extra commodities the fabio_bcp repo prices from this output but that are not
+# in FABIO's 123-item list. Hard-coded here (no dependency on the bcp item
+# list) and UNIONed into the step-6 grid so the RDS always carries a row for
+# each, even in years with no direct flow (item-median gap-fill then applies).
+BCP_EXTRA_ITEMS <- data.table(
+  item_code = c(97L, 165L, 265L, 266L, 1274L),
+  item      = c("Triticale", "Molasses", "Castor oil seeds",
+                "Oil of castor beans",
+                "Animal or vegetable fats and oils and their fractions, chemically modified")
+)
+
 
 # ------------------------------------------------------------------------------
 # Inputs and configuration
@@ -485,7 +496,12 @@ prices_exporter[, c("lo", "hi", "log_space", "n_item",
 # of items_full_123.csv -- i.e. including items with zero trade), load that
 # file here and use it instead, e.g.:
 #   items <- fread("/home/bruckner2/fabio/inst/items_full_123.csv")[, .(item_code, item)]
+# BCP_EXTRA_ITEMS (top of file) is UNIONed in so the fabio_bcp extra items
+# always get an output row; traded labels win, forced-in codes keep their own.
 items <- unique(btd[, .(item_code, item)])
+items <- rbindlist(list(items,
+                        BCP_EXTRA_ITEMS[!item_code %in% items$item_code]),
+                   use.names = TRUE)
 
 all_codes <- union(regions$code, unique(prices_exporter$from_code))
 all_years <- sort(intersect(unique(btd$year), VA_KEEP_YEARS))
