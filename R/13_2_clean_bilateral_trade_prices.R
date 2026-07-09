@@ -146,10 +146,11 @@ HAMPEL_PASSES      <- 2L
 # list) and UNIONed into the step-6 grid so the RDS always carries a row for
 # each, even in years with no direct flow (item-median gap-fill then applies).
 BCP_EXTRA_ITEMS <- data.table(
-  item_code = c(97L, 165L, 265L, 266L, 1274L),
+  item_code = c(97L, 165L, 265L, 266L, 1274L, 654L),
   item      = c("Triticale", "Molasses", "Castor oil seeds",
                 "Oil of castor beans",
-                "Animal or vegetable fats and oils and their fractions, chemically modified")
+                "Animal or vegetable fats and oils and their fractions, chemically modified",
+                "Brewing or distilling dregs and waste")
 )
 
 
