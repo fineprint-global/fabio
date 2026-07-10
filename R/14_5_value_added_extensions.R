@@ -1,12 +1,12 @@
 # ==============================================================================
 # 14_5_value_added_extensions.R
 #
-# "Last mile" of the value-added pipeline -> FABIO extensions.
+# "Last mile" of the value-added pipeline -> a standalone FABIO V block.
 #
 # Reads the COMBINED value-added tables produced by
-# 14_4_value_added_FABIO_v2_synthesis.R and emits TWELVE CBS-level FABIO
-# extensions: the three value-added strands x two ISIC levels, built ONCE PER
-# BASE (GLORIA and EXIOBASE), with the base baked into the Stressor name:
+# 14_4_value_added_FABIO_v2_synthesis.R and builds TWELVE CBS-level value-added
+# strands: the three value-added strands x two ISIC levels, once per base
+# (GLORIA and EXIOBASE), with the base baked into the Stressor name:
 #
 #   GLORIA base:
 #     VA_wages_isic_a_gloria    VA_capital_isic_a_gloria    VA_tls_isic_a_gloria
@@ -15,48 +15,45 @@
 #     VA_wages_isic_a_exiobase  VA_capital_isic_a_exiobase  VA_tls_isic_a_exiobase
 #     VA_wages_isic_c_exiobase  VA_capital_isic_c_exiobase  VA_tls_isic_c_exiobase
 #
-# 14_4 already produces a parallel COMBINED product per base
-# (FABIOv2_COMBINED_GLORIA_... and FABIOv2_COMBINED_EXIOBASE_...); this script
-# now consumes BOTH, so the two bases coexist in E instead of overwriting each
-# other.  NOTE: the _gloria and _exiobase rows are ALTERNATIVE estimates of the
-# SAME value-added quantity (different upstream MRIO base), NOT additive — a
-# footprint must pick one base and must never sum a _gloria row with its
-# _exiobase counterpart.
+# The _gloria and _exiobase rows are ALTERNATIVE estimates of the same
+# value-added quantity (different upstream MRIO base), NOT additive — a footprint
+# must pick one base and must never sum a _gloria row with its _exiobase
+# counterpart.
 #
-# Each is written to data/extensions/cbs/<Stressor>.rds in FABIO's standard
-# extension shape (a year-keyed list of 1 x (regions*commodities) row-matrices,
-# columns named <iso3c>_<comm_code>), via FABIO's own format_extension() so the
-# column layout is byte-identical to every other extension and to X.
+# The twelve strands are compiled into a single value-added block and written to:
 #
-# CBS-ONLY by design: no data/extensions/sua/ counterparts are written.  The
-# parity check in 15_extensions_main.R is patched to tolerate exactly these
-# twelve names (see `cbs_only` there); the SUA / v2_525 E is compiled without
-# them.
+#     <output_dir>/V.rds        year-keyed list of (12 x regions*commodities)
+#                               matrices, row order == v_labels$Stressor, columns
+#                               named <iso3c>_<comm_code> (same layout as E and X,
+#                               via FABIO's own format_extension()).
+#     <output_dir>/v_labels.csv the twelve matching label rows, in V's row order.
 #
-# After running this, run 15_extensions_main.R to compile E.rds and ex_labels.csv
-# for the v2 tree.  inst/E_labels_initial.csv must already contain the twelve
-# matching rows (see inst_E_labels_va_rows.csv).
+# Value added ships as its own V block, independent of the E extensions compiled
+# by 15_extensions_main.R. Label source: inst/v_labels_initial.csv must contain
+# exactly the twelve rows above.
 # ==============================================================================
 
 library(data.table)
 source("R/00_system_variables.R")     # years, output_dir, na_sum
-source("R/01_tidy_functions.R")       # format_extension
+source("R/01_tidy_functions.R")       # format_extension, compile_extension
 source("R/00_value_added_config.R")   # VA_VALUE_ADDED_OUTPUT_DIR, VA_* paths
 
 # ── Configuration ────────────────────────────────────────────────────────────
 
-# Bases to build extensions for.  Key (lower-case) -> file_tag baked into the
+# Bases to build strands for.  Key (lower-case) -> file_tag baked into the
 # COMBINED file names by 14_4 ("GLORIA_" / "EXIOBASE_").  The key becomes the
-# Stressor-name suffix (VA_<strand>_isic_<level>_<key>), so the two bases write
-# to distinct files and coexist in E instead of clobbering each other.
-#   12 extensions = 2 bases x 2 ISIC levels x 3 strands.
+# Stressor-name suffix (VA_<strand>_isic_<level>_<key>), so the two bases coexist
+# as distinct rows of V.
+#   12 strands = 2 bases x 2 ISIC levels x 3 strands.
 ALL_BASES <- list(
   gloria   = "GLORIA_",
   exiobase = "EXIOBASE_"
 )
 
 # Optional restriction: VA_BASE_KEYS may name a comma-separated subset (e.g.
-# "gloria" to rebuild only the GLORIA side).  Default = both bases.
+# "gloria" to rebuild only the GLORIA side).  Default = both bases.  A partial
+# subset yields a partial V; v_labels is filtered to match, so V and v_labels
+# stay in sync.
 .requested <- trimws(strsplit(Sys.getenv("VA_BASE_KEYS", unset = ""), ",")[[1]])
 .requested <- tolower(.requested[nzchar(.requested)])
 if (length(.requested) == 0L) {
@@ -89,7 +86,10 @@ STRAND_COL <- STRAND_TO_COL
 stressor_name <- function(key, level, base_key)
   sprintf("VA_%s_isic_%s_%s", key, tolower(level), base_key)
 
-CBS_OUT_DIR <- "data/extensions/cbs"
+# Compiled block + labels (v2 tree), and the label source.
+V_OUT        <- paste0(output_dir, "V.rds")
+V_LABELS_OUT <- paste0(output_dir, "v_labels.csv")
+V_LABELS_SRC <- "inst/v_labels_initial.csv"
 
 # ── FABIO label tables that drive format_extension ───────────────────────────
 # format_extension()'s reg/itms default to the globals `regions`/`items`; set
@@ -153,14 +153,12 @@ build_strand_extension <- function(dt, level, key, base_key) {
   ext
 }
 
-# ── Build & write all (up to) twelve ─────────────────────────────────────────
+# ── Build all (up to) twelve strands, collecting into one named list ──────────
 
-va_ensure_dir(CBS_OUT_DIR)
-
-message(sprintf("Building value-added extensions for base(s): %s (dir: %s)",
+message(sprintf("Building value-added block for base(s): %s (dir: %s)",
                 paste(names(BASES), collapse = ", "), VA_COMBINED_DIR))
 
-n_written <- 0L
+va_list <- list()    # nm -> single-strand extension object, in build order
 for (base_key in names(BASES)) {
   base_tag <- BASES[[base_key]]
   message(sprintf("\n-- base %s (tag %s) --", base_key, base_tag))
@@ -169,17 +167,43 @@ for (base_key in names(BASES)) {
     for (key in names(STRAND_COL)) {
       nm  <- stressor_name(key, level, base_key)
       ext <- build_strand_extension(dt, level, key, base_key)
-      saveRDS(ext, file.path(CBS_OUT_DIR, paste0(nm, ".rds")))
-      n_written <- n_written + 1L
+      va_list[[nm]] <- ext
       
       tot <- sum(vapply(ext, sum, numeric(1)))    # USD across all years/cells
-      message(sprintf("  %-28s  %d year-slices, Sum = %.3e USD -> %s.rds",
-                      nm, length(ext), tot, nm))
+      message(sprintf("  %-28s  %d year-slices, Sum = %.3e USD",
+                      nm, length(ext), tot))
     }
   }
 }
 
+# ── Compile the strands into a single V block ────────────────────────────────
+# compile_extension stacks in list order and takes row names from `files`, so we
+# feed the stressor names as pseudo-filenames -> rownames == names(va_list).
+V <- compile_extension(va_list, files = paste0(names(va_list), ".rds"))
+va_names <- names(va_list)
+stopifnot(all(rownames(V[[as.character(years[1])]]) == va_names))
+
+# ── Build v_labels, filtered & ordered to V's rows ───────────────────────────
+if (!file.exists(V_LABELS_SRC))
+  stop("Label source not found: ", V_LABELS_SRC, ".")
+
+v_labels_all <- fread(V_LABELS_SRC)
+if (!"Stressor" %in% names(v_labels_all))
+  stop(V_LABELS_SRC, " has no 'Stressor' column.")
+
+missing_v <- setdiff(va_names, v_labels_all$Stressor)
+if (length(missing_v) > 0L)
+  stop("v_labels source is missing row(s) for: ", paste(missing_v, collapse = ", "),
+       ".\nAdd them to ", V_LABELS_SRC, ".")
+
+v_labels <- v_labels_all[Stressor %in% va_names][order(match(Stressor, va_names)), ]
+if (!all(v_labels$Stressor == va_names))
+  stop("v_labels ordering does not match V row order.")
+
+# ── Write V.rds + v_labels.csv (v2 tree) ─────────────────────────────────────
+saveRDS(V, V_OUT)
+fwrite(v_labels, V_LABELS_OUT)
+
 message(sprintf(
-  "\nDone. %d CBS value-added extension(s) written to %s.\n%s\nThen run R/15_extensions_main.R.",
-  n_written, CBS_OUT_DIR,
-  "Ensure inst/E_labels_initial.csv carries the matching rows (12 for both bases)."))
+  "\nDone. V block: %d strand(s) x %d year-slices -> %s\n  labels -> %s",
+  length(va_names), length(V), V_OUT, V_LABELS_OUT))
