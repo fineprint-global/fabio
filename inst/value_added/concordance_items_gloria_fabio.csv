@@ -240,7 +240,7 @@
 "Human health and social work activities",118,,,,,
 "Arts, entertainment and recreation",119,,,,,
 "Other services",120,,,,,
-,,"Cotton lint",2661,"c095",,"no VA assigned to avoid double counting"
-,,"Cottonseed",2559,"c063",,"no VA assigned to avoid double counting"
-,,"Palm kernels",2562,"c064",,"no VA assigned to avoid double counting"
+"Growing fibre crops",9,"Cotton lint",2661,"c095","A","VA via parent growing sector (co-product of ginning); farm rate, overstatement-safe; child VA-share must not exceed parent (see 14_1 check)"
+"Growing fibre crops",9,"Cottonseed",2559,"c063","A","VA via parent growing sector (co-product of ginning); farm rate, overstatement-safe; child VA-share must not exceed parent (see 14_1 check)"
+"Growing leguminous crops and oil seeds",4,"Palm kernels",2562,"c064","A","VA via parent growing sector (co-product of kernel extraction); farm rate, overstatement-safe; child VA-share must not exceed parent (see 14_1 check)"
 ,,"Grazing",2001,"c062",,"grazing is simplified as an ""ecosystem service"" here"

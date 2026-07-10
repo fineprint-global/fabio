@@ -266,6 +266,6 @@
 "Serviços pessoais","94803",,,,,
 "Serviços domésticos","97001",,,,,
 ,,"Grazing",2001,"c062",,
-,,"Cottonseed",2559,"c063",,
-,,"Palm kernels",2562,"c064",,
-,,"Cotton lint",2661,"c095",,
+"Algodão herbáceo, outras fibras da lav. temporária","01913","Cottonseed",2559,"c063","A","VA via parent growing sector (Seed cotton; co-product of ginning); farm rate, overstatement-safe; child VA-share must not exceed parent"
+"Outros produtos da lavoura permanente","01919","Palm kernels",2562,"c064","A","VA via parent growing sector (Oil, palm fruit; co-product of kernel extraction); farm rate, overstatement-safe; child VA-share must not exceed parent"
+"Algodão herbáceo, outras fibras da lav. temporária","01913","Cotton lint",2661,"c095","A","VA via parent growing sector (Seed cotton; co-product of ginning); farm rate, overstatement-safe; child VA-share must not exceed parent"

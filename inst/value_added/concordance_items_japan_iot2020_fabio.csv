@@ -524,7 +524,7 @@
 "Office supplies","681100P",,,,,
 "Activities not elsewhere classified","691100",,,,,
 ,,"Grazing",2001,"c062",,"Non-allocated: grazing simplified as an ecosystem service"
-,,"Cottonseed",2559,"c063",,"Non-allocated: no Japanese cotton production"
-,,"Palm kernels",2562,"c064",,"Non-allocated: no Japanese oil palm production"
-,,"Cotton lint",2661,"c095",,"Non-allocated: no Japanese cotton production"
+"Miscellaneous inedible crops","011609","Cottonseed",2559,"c063","A","VA via parent growing sector (Seed cotton; co-product of ginning); farm rate, overstatement-safe; child VA-share must not exceed parent; no Japanese production"
+"Miscellaneous inedible crops","011609","Palm kernels",2562,"c064","A","VA via parent growing sector (Oil, palm fruit; co-product of kernel extraction); farm rate, overstatement-safe; child VA-share must not exceed parent; no Japanese production"
+"Miscellaneous inedible crops","011609","Cotton lint",2661,"c095","A","VA via parent growing sector (Seed cotton; co-product of ginning); farm rate, overstatement-safe; child VA-share must not exceed parent; no Japanese production"
 ,,"Alcohol, Non-Food",2659,"c094",,"Non-allocated: no separate JPN IOT sector (cf. 204909 miscellaneous industrial organic chemicals)"

@@ -671,7 +671,10 @@
 "Other municipal government services","NGS913000",,,,,
 "Other aboriginal government services","NGS914000",,,,,
 ,,"Grazing",2001,"c062",,"Non-allocated: grazing simplified as an ecosystem service"
-,,"Cottonseed",2559,"c063",,"Non-allocated: no VA assigned to avoid double counting"
-,,"Palm kernels",2562,"c064",,"Non-allocated: no VA assigned to avoid double counting"
-,,"Cotton lint",2661,"c095",,"Non-allocated: no VA assigned to avoid double counting"
+"Other crop products","MPG111A07","Cottonseed",2559,"c063","A","VA via parent growing sector (Seed cotton; co-product of ginning); farm rate, overstatement-safe; child VA-share must not exceed parent"
+"Other miscellaneous crop products","MPG111A11","Cottonseed",2559,"c063","A","VA via parent growing sector (Seed cotton; co-product of ginning); farm rate, overstatement-safe; child VA-share must not exceed parent; vintage recode of MPG111A07 (MPG111A07: 2010-2012, MPG111A11: 2013-2022)"
+"Other crop products","MPG111A07","Palm kernels",2562,"c064","A","VA via parent growing sector (Oil, palm fruit; co-product of kernel extraction); farm rate, overstatement-safe; child VA-share must not exceed parent"
+"Other miscellaneous crop products","MPG111A11","Palm kernels",2562,"c064","A","VA via parent growing sector (Oil, palm fruit; co-product of kernel extraction); farm rate, overstatement-safe; child VA-share must not exceed parent; vintage recode of MPG111A07 (MPG111A07: 2010-2012, MPG111A11: 2013-2022)"
+"Other crop products","MPG111A07","Cotton lint",2661,"c095","A","VA via parent growing sector (Seed cotton; co-product of ginning); farm rate, overstatement-safe; child VA-share must not exceed parent"
+"Other miscellaneous crop products","MPG111A11","Cotton lint",2661,"c095","A","VA via parent growing sector (Seed cotton; co-product of ginning); farm rate, overstatement-safe; child VA-share must not exceed parent; vintage recode of MPG111A07 (MPG111A07: 2010-2012, MPG111A11: 2013-2022)"
 ,,"Alcohol, Non-Food",2659,"c094",,

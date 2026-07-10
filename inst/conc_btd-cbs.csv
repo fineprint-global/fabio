@@ -379,10 +379,10 @@ btd_item_code,btd_item,cbs_item_code,cbs_item,tcf,isic
 753,Essential oils n.e.c.,2645,"Spices, Other",1,C
 754,"Pyrethrum, dried flowers",2645,"Spices, Other",1,A
 755,Pyrethrum extract,2645,"Spices, Other",1,C
-767,"Cotton lint, ginned",2661,Cotton lint,1,C
+767,"Cotton lint, ginned",2661,Cotton lint,1,A
 768,"Cotton, carded or combed",2661,Cotton lint,1,C
 769,Cotton waste,,Cotton waste,1,C
-770,Cotton linters,2661,Cotton lint,1,C
+770,Cotton linters,2661,Cotton lint,1,A
 771,"Flax, raw or retted",2664,"Soft-Fibres, Other",1,A
 773,"Flax, processed but not spun",2664,"Soft-Fibres, Other",1,C
 774,"Flax, tow and waste",2664,"Soft-Fibres, Other",1,C

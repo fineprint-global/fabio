@@ -161,7 +161,7 @@
 "Wheat","A_WHT","Wheat and products",2511,"c002","A",
 "Wine","A_WINE","Wine",2655,"c090","C",
 "Wood products","A_WOOD PRODUCTS",,,,,
-,,"Cotton lint",2661,"c095",,
-,,"Cottonseed",2559,"c063",,
-,,"Palm kernels",2562,"c064",,
+"Fibre plants","A_FIBR","Cotton lint",2661,"c095","A","VA via parent growing sector (Seed cotton; co-product of ginning); farm rate, overstatement-safe; child VA-share must not exceed parent"
+"Fibre plants","A_FIBR","Cottonseed",2559,"c063","A","VA via parent growing sector (Seed cotton; co-product of ginning); farm rate, overstatement-safe; child VA-share must not exceed parent"
+"Other seed for the oil industry","A_OOIL","Palm kernels",2562,"c064","A","VA via parent growing sector (Oil, palm fruit; co-product of kernel extraction); farm rate, overstatement-safe; child VA-share must not exceed parent"
 ,,"Grazing",2001,"c062",,

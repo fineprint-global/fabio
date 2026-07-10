@@ -636,8 +636,7 @@ gloria_items <- fread(PATHS$gloria_items, encoding = "UTF-8",
 
 # Split the combined table into the ISIC-A / ISIC-C views (the `ISIC`
 # column "A"/"C" replaces the old -a / -c file split). Rows with no ISIC
-# value (e.g. Cotton lint 2661, Cottonseed 2559, Palm kernels 2562,
-# Grazing 2001 — "no VA assigned") match neither side and so are members
+# value (Grazing 2001 — "no VA assigned") match neither side and so are members
 # of neither output, as before.
 gloria_isic_a <- gloria_items[ISIC == "A"]
 gloria_isic_c <- gloria_items[ISIC == "C"]
