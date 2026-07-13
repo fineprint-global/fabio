@@ -1,4 +1,4 @@
-# 15 - Calculate footprints from FABIO MRIO
+# 17 - Calculate footprints from FABIO MRIO
 
 # Setup ------------------------------------------------------------------------
 library(data.table)

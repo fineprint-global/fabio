@@ -504,6 +504,8 @@ live[, food := ifelse(item_code %in% c(2748,2747,2746), 0, na_sum(production, im
 live[, balancing := 0]
 
 live <- live[round(supply) > 0, ]
+live[is.na(live)] <- 0
+live[live < 0] <- 0
 
 # Add to CBS ---
 cat("\nAdding ", nrow(live), " missing cbs accounts for meat and non-food livestock items.\n", sep = "")

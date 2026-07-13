@@ -345,8 +345,8 @@ source("R/08_1b_use_cbs_feed.R")
 
 # The remainder of processing use (flows into supply chains that are not further tracked in FABIO) is interpreted as a new final demand category
 use_fd <- cbs[, .(year, area_code, area, item_code, item, comm_code, 
-  food = food + processing, losses, other, 
-  stock_addition = stock_addition - stock_withdrawal, tourist)]
+  food = na_sum(food, processing), losses, other, 
+  stock_addition = na_sum(stock_addition, -stock_withdrawal), tourist)]
 
 # # replace Cyprus' tourist consumption data with more detailed data from SUAs
 # tourist <- fread("input/Tourist_Cyprus.csv")
