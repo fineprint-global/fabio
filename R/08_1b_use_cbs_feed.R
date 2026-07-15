@@ -295,8 +295,9 @@ change_rates[, `:=`(
   animals_change = animals / animals_2015
 )]
 
-is.finite.data.frame <- function(x) do.call(cbind, lapply(x, is.finite))
-change_rates[!is.finite(change_rates)] <- 0
+#is.finite.data.frame <- function(x) do.call(cbind, lapply(x, is.finite))
+num_cols <- setdiff(colnames(change_rates), c("area_code", "proc_code", "area", "year", "item_code"))
+change_rates[, (num_cols) := lapply(.SD, function(x) ifelse(is.na(x),0, x)), .SDcols = num_cols]
 
 # Duplicate values for whole time series by creating a Cartesian product of feed_req_g and the years
 # Create a Cartesian product (cross join) of feed_req_g and all years (including 2015)
