@@ -393,6 +393,14 @@ feed <- merge(feed_sup[, .(area_code, area, year, item_code, item, feedtype, moi
                            sup_dry = dry, total_sup_dry = total_dry, sup_fresh = feed)],
               feed_req, by=c("area_code", "area", "year", "feedtype"), all = TRUE, allow.cartesian = TRUE)
 
+
+feed[feedtype=="grass", sup_dry := req]
+feed[, total_req_all := na_sum(req), by = c("area_code", "year")]
+feed[, total_sup_dry_all := na_sum(sup_dry), by=c("area_code","year")]
+feed[, ratio := total_req_all / total_sup_dry_all]
+feed[, ratio_feedtype := total_req / total_sup_dry]
+
+
 feed[feedtype != "grass", req := req / total_req * total_sup_dry]
 
 # Allocate feed-use from feed types to individual crops -----
