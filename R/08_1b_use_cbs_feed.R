@@ -15,7 +15,7 @@ feed_sup[, dry := feed * (1 - moisture)]
 
 # add fodder crop supply (full detail for deriving dm content)
 fodder_sup <- readRDS("data/tidy/fodder_crop_non_agg_tidy.rds")[, item := NULL]
-fodder_sup <- fodder_sup[year %in% years & unit == "tonnes"]
+fodder_sup <- fodder_sup[ unit == "tonnes"]
 fodder_dm <- fread("inst/gleam_dry_matter.csv")
 fodder_sup[, dm := (fodder_dm$feed_dry_matter[match(item_code, fodder_dm$item_code)])/100]
 
