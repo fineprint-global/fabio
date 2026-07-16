@@ -4,12 +4,47 @@
 live <- readRDS("data/tidy/live_tidy.rds")
 
 # Feed supply
-feed_sup <- cbs[feed > 0 | item_code %in% c(2000),
+feed_sup <- cbs[feed > 0 & !item_code %in% c(2000),
                 c("area_code", "area", "item_code", "item", "year", "feed")]
-# Convert to dry matter
+
+# Convert crops to dry matter
 feed_sup <- merge(feed_sup, items[, c("item_code", "moisture", "feedtype")],
                   by = c("item_code"), all.x = TRUE)
 feed_sup[, dry := feed * (1 - moisture)]
+
+
+# add fodder crop supply (full detail for deriving dm content)
+fodder_sup <- readRDS("data/tidy/fodder_crop_non_agg_tidy.rds")[, item := NULL]
+fodder_sup <- fodder_sup[year %in% years & unit == "tonnes"]
+fodder_dm <- fread("inst/gleam_dry_matter.csv")
+fodder_sup[, dm := (fodder_dm$feed_dry_matter[match(item_code, fodder_dm$item_code)])/100]
+
+#calculate production-weighted dry matter average per country (to convert back to fresh weight later)
+fodder_sup[, dm_weighted := sum((value/sum(value, na.rm = TRUE)) * dm, na.rm = TRUE), 
+           by = .(year, area_code)]
+
+# convert fodder crops to dry matter and aggregate
+fodder_sup[, dry := value * dm]
+fodder_sup <- fodder_sup[, .(dry = sum(dry ,na.rm = TRUE), feed = sum(value, na.rm = TRUE),
+                             area = unique(area), dm = unique(dm_weighted)), 
+                             by = .(year, area_code)]
+
+fodder_sup[, `:=` (item_code = 2000, item = "Fodder crops", feedtype = "fodder",
+                   moisture = 1-dm)][, dm := NULL]
+
+feed_sup <- rbind(fodder_sup, feed_sup, use.names = TRUE)
+
+# Checking difference to previous moisture approach
+# feed_sup[, feed_new:= fodder_sup$feed_new[match(paste(area_code,year, item_code),paste(fodder_sup$area_code,
+#                                                                             fodder_sup$year, fodder_sup$item_code))]]
+# 
+# feed_sup[, moisture_new := (1- fodder_sup$dm)[match(paste(area_code,year, item_code),paste(fodder_sup$area_code,
+#                                                                                           fodder_sup$year, fodder_sup$item_code))]]
+# 
+# feed_sup[,moisture_diff := abs(moisture_new-moisture)]
+
+# result: up to 26% difference in fodder crop moisture content
+
 
 
 
@@ -439,5 +474,6 @@ cbs[, grazing := NULL]
 # Clean up
 rm(avg_dairy, bouwman, temp, feed, feed_category_lookup, feed_category_b, feed_category_g,
    grazing, feed_req, feed_sup, live, feed_req_b, feed_req_g, feed_req_k,
-   feed_req_g_all_years, conc_b, conc_gleam, conv_b, conv_k, change_rates, poultry)
+   feed_req_g_all_years, conc_b, conc_gleam, conv_b, conv_k, change_rates, poultry,
+   fodder_dm, fodder_sup)
 
