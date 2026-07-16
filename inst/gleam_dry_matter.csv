@@ -1,0 +1,143 @@
+Category;feed_name;feed_id;feed_dry_matter;item_code;source
+Cereals;Wheat;F3;87;15;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Cereals;Maize (corn);F5;87,3;56;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Cereals;Rice;F7;89,2;27;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Cereals;Sorghum;F9;87,4;83;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Cereals;Barley;F11;87,1;44;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Cereals;Rye;F13;86,6;71;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Cereals;Oats;F15;87,9;75;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Cereals;Millet;F17;89,8;79;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Cereals;Triticale;F19;87,1;97;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Cereals;Buckwheat;F21;84,9;89;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Cereals;Fonio;F23;89,1;94;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Cereals;Quinoa;F24;88,2;92;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Cereals;Mixed grain;F27;87,6;103;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Cereals;Other cereals n.e.;F28;87,6;108;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Fruits and vegetables;Cabbages;F29;12,1;358;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Fruits and vegetables;Watermelons;F32;7,9;567;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Fruits and vegetables;Cantaloupes and other melons;F33;8,2;568;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Fruits and vegetables;Tomatoes;F36;7,3;388;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Fruits and vegetables;Pumpkins, squash and gourds;F38;70,6;394;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Fruits and vegetables;Okra;F39;52,7;430;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Fruits and vegetables;Peas, green;F41;86,5;417;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Roots and tubers;Carrots and turnips;F43;10,7;426;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Cereals;Green corn (maize);F50;87,3;446;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Fruits and vegetables;Other vegetables, fresh n.e.;F51;26,5;463;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Fruits and vegetables;Banana fruit;F54;21,9;486;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Fruits and vegetables;Plantains and others;F55;6,9;489;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Fruits and vegetables;Dates;F56;84;577;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Fruits and vegetables;Figs;F57;32;569;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Fruits and vegetables;Mangoes, guavas, mangosteens;F58;59,2;571;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Fruits and vegetables;Papayas;F59;44,6;600;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Fruits and vegetables;Pomelos and grapefruits;F60;12,7;507;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Fruits and vegetables;Lemons and limes;F61;62;497;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Fruits and vegetables;Oranges;F63;17,8;490;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Fruits and vegetables;Grapes;F64;45,4;560;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Fruits and vegetables;Apples;F65;20,8;515;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Fruits and vegetables;Locust beans (carobs);F75;86,7;461;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Oil crops;Soya beans;F76;88,7;236;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Oil crops;Groundnuts, excluding shelled;F77;92,9;242;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Oil crops;Cottonseed;F78;92,3;329;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Oil crops;Linseed;F79;91,5;333;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Oil crops;Mustard seed;F80;91,7;292;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Oil crops;Rapeseed or colza seed;F81;92,3;270;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Oil crops;Sesame seed;F82;96,6;289;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Oil crops;Sunflower seed;F83;92,8;267;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Oil crops;Safflower seed;F84;94,7;280;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Oil crops;Castor oil seeds;F85;89,7;265;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Oil crops;Poppy seed;F86;93,9;296;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Oil crops;Melonseed;F87;95;299;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Oil crops;Hempseed;F88;90,6;336;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Oil crops;Other oil seeds, n.e.;F89;90;339;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Oil crops;Palm kernels;F93;91,7;256;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Oil crops;Copra;F94;50,7;251;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Roots and tubers;Potatoes;F95;20,6;116;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Roots and tubers;Cassava, fresh;F96;37,6;125;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Roots and tubers;Cassava, dry;F97;87,6;128;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Roots and tubers;Sweet potatoes;F98;30;122;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Roots and tubers;Yams;F99;22,8;137;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Roots and tubers;Taro;F100;50;136;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Roots and tubers;Yautia;F101;28,2;135;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Other;Coffee, green;F104;88,5;656;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Pulses;Beans, dry;F110;89,1;176;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Pulses;Broad beans and horse beans, dry;F112;85,9;181;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Pulses;Chick peas, dry;F114;89;191;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Pulses;Lentils, dry;F116;88,3;201;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Pulses;Peas, dry;F118;86,5;187;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Pulses;Cow peas, dry;F120;89,9;195;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Pulses;Pigeon peas, dry;F122;89,2;197;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Pulses;Bambara beans, dry;F124;86,8;203;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Pulses;Vetches;F126;87,9;205;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Pulses;Lupins;F128;89;210;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Pulses;Other pulses n.e.c.;F130;87,9;211;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Other;Sugar beet;F131;88,8;157;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Other;Sugar cane;F133;23,2;156;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Fodder crop;Forage and silage, maize;F136;30,3;636;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Fodder crop;Forage and silage, alfalfa;F137;30,8;641;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Fodder crop;Forage and silage, clover;;30,8;640;Copied from item_code 641
+Fodder crop;Forage and silage, sorghum;;28,1;637;https://www.feedipedia.org/node/379
+Fodder crop;Forage and silage, legumes;;30,8;643;Copied from item_code 641
+Fodder crop;Cabbage for fodder;;12,1;644;Copied from item_code 358
+Fodder crop;Swedes for fodder;;9;649;https://goldcrop.ie/forage_seed/swedes-crop/
+Fodder crop;Turnips, for forage;F143;17,2;646;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Fodder crop;Beets for fodder;F144;16,1;647;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Fodder crop;Carrots, for forage;F145;90;648;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Fodder crop;Other oilseeds, for forage;F154;15,8;642;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Fodder crop;Other forage crops, n.e.c.;F155;41,1;651;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Fodder crop;Vegetables and roots fodder;;17,9;655;Feedipedia fodder beet root https://www.feedipedia.org/node/534
+Animal products;Raw milk of cattle;F160;12,2;882;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Animal products;Raw milk of buffalo;F161;17,6;951;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Animal products;Raw milk of sheep;F162;18,4;982;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Animal products;Raw milk of goats;F163;12,2;1020;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Animal products;Raw milk of camel;F164;11,6;1130;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Animal products;Edible offals and liver of chickens and guinea fowl, fresh, chilled or frozen;F183;92,3;1059;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+By-products;Meat meal;F186;94,5;1164;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+By-products;Flour, meal, powder, flakes, granules and pellets of potatoes;F188;17;117;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Oil crops;Groundnuts, shelled;F191;95,5;243;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Other;Mango Pulp;F193;17,5;584;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Other;Soya bean oil;F200;99,8;237;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Other;Sunflower-seed oil, crude;F201;99,3;268;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Other;Palm oil;F204;99,8;257;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+By-products;Cake of Rice Bran;F208;90,1;37;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Oil crop cakes;Cake of Maize;F209;91,2;61;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Oil crop cakes;Cake of Soya beans;F210;88;238;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Oil crop cakes;Cake of Groundnuts;F211;90,7;245;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Oil crop cakes;Cake of Copra;F212;90,7;253;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Oil crop cakes;Cake of Palm kernel;F213;91,1;259;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Oil crop cakes;Cake of Sunflower seed;F214;89,9;269;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Oil crop cakes;Cake of Rapeseed;F215;90,5;272;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Oil crop cakes;Cake of Safflowerseed;F217;93,2;282;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Oil crop cakes;Cake of Sesame seed;F218;92,8;291;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Oil crop cakes;Cake of Mustard seed;F219;89,5;294;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Oil crop cakes;Cake of Kapok;F220;89,5;314;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Oil crop cakes;Cake of Cottonseed;F221;91,6;332;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Oil crop cakes;Cake of Linseed;F222;89,1;335;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Oil crop cakes;Cake of Hempseed;F223;90;338;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Oil crop cakes;Cake of Poppy seed;F224;91,2;298;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Oil crop cakes;Cake of Oilseeds nes;F225;89,3;341;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Animal products;Whey, dry;F231;97;900;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Animal products;Whey, Condensed;F232;97,7;89;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Animal products;Whole milk powder;F233;96;897;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Animal products;Skim milk and whey powder;F234;94,8;898;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Other;Germ of Wheat;F255;88,7;19;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Other;Germ of Maize;F260;93,2;57;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Other;Oats, Rolled;F261;87,6;76;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Other;Rice, Milled;F264;88;31;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Other;Rice, Broken;F265;87,5;32;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Other;Flour of Cassava;F267;89;126;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Other;Flour of Fruits;F270;90;624;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Other;Starch of Maize;F277;88,1;64;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Other;Starch of Potatoes;F278;86,9;119;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+Other;Starch of Cassava;F279;89;129;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+By-products;Molasses (from cane);F295;73;165;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+By-products;Molasses (from beet);F296;75,4;165;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+By-products;Bran of Wheat;F308;87;17;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+By-products;Bran of Rice;F309;90,5;35;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+By-products;Bran of Maize;F311;88,7;59;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+By-products;Bran of Rye;F312;88;73;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+By-products;Bran of Oats;F313;90,6;77;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+By-products;Bran of Millet;F314;92;81;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+By-products;Bran of Buckwheat;F316;88,4;91;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+By-products;Bran of Mixed Grain;F319;89,4;105;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+By-products;Maize Gluten meal;F329;90;63;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
+By-products;Maize Gluten feed;F330;88,3;846;GLEAM data explorer: https://foodandagricultureorganization.shinyapps.io/GLEAM_Data_Explorer/
