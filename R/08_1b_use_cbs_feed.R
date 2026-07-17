@@ -418,24 +418,25 @@ feed_req <- feed_req[, lapply(.SD, na_sum),
 
 
 # Adapt feed-demand to available feed-supply -----
-feed_sup[, total_dry := na_sum(dry), by=c("area_code","year","feedtype")]
+feed_sup[, total_sup_dry := na_sum(dry), by=c("area_code","year","feedtype")]
 feed_req <- data.table::melt(feed_req, id=c("area_code","area","year","proc_code","proc"),
                              measure=c("crops","animals","cakes","fodder","grass"),
                              variable.name="feedtype", value.name="req")
 feed_req[, total_req := na_sum(req), by = c("area_code", "year", "feedtype")]
 
 feed <- merge(feed_sup[, .(area_code, area, year, item_code, item, feedtype, moisture,
-                           sup_dry = dry, total_sup_dry = total_dry, sup_fresh = feed)],
+                           sup_dry = dry, total_sup_dry, sup_fresh = feed)],
               feed_req, by=c("area_code", "area", "year", "feedtype"), all = TRUE, allow.cartesian = TRUE)
 
-
 feed[feedtype=="grass", sup_dry := req]
+feed[feedtype=="grass", total_sup_dry := na_sum(sup_dry), by=c("area_code","year")]
+
 feed[, total_req_all := na_sum(req), by = c("area_code", "year")]
 feed[, total_sup_dry_all := na_sum(sup_dry), by=c("area_code","year")]
-feed[, ratio := total_req_all / total_sup_dry_all]
-feed[, ratio_feedtype := total_req / total_sup_dry]
+feed[, ratio := total_sup_dry_all / total_req_all]
+feed[, ratio_feedtype := total_sup_dry / total_req]
 
-
+# Rescale feed so that total requirements meet total supply
 feed[feedtype != "grass", req := req / total_req * total_sup_dry]
 
 # Allocate feed-use from feed types to individual crops -----
