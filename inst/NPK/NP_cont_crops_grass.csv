@@ -21,6 +21,7 @@ Blueberries,552,1,0,1
 Buckwheat,89,17,2,4
 Cabbages and other brassicas,358,4,0,3
 Canary seed,101,19,3,11
+Cantaloupes and other melons,568,0.66,0.11,1.1
 Carobs,461,5,2,5
 Carrots and turnips,426,2,1,2
 "Cashew nuts, with shell",217,21,7,20
@@ -105,7 +106,7 @@ Pears,521,2,0,2
 Pepper (piper spp.),687,12,1,16
 Peppermint,748,11,1,12
 Persimmons,587,1,,
-Pigeon peas,197,,,
+Pigeon peas,197,35,3.67,
 Pineapples,574,1,0,1
 Pistachios,223,16,,
 Plantains and others,489,4,0,4
@@ -156,4 +157,4 @@ Watermelons,567,1,0,1
 Wheat,15,21,4,5
 Yams,137,4,1,3
 Yautia (cocoyam),135,4,1,3
-grass,2001,24,3,
+grass,2001,16,3,

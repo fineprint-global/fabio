@@ -187,11 +187,11 @@ water_crop <- water_crop[year %in% years,
                          .(iso3c = country_iso3,  area_code = country_code, area = country_name,
                            item_code = crop_code, crop_group, item = crop_name, year, 
                            production_t, wfg_m3_t, wfb_cr_m3_t, wfb_i_m3_t,
-                           wf_tot_m3_t)]
+                           wf_tot_m3_t, irrigated_harvarea_fraction)]
 
 # convert columns to numeric
 num_cols <- c("area_code", "item_code", "year", "production_t", "wfg_m3_t", 
-              "wfb_cr_m3_t", "wfb_i_m3_t", "wf_tot_m3_t")
+              "wfb_cr_m3_t", "wfb_i_m3_t", "wf_tot_m3_t", "irrigated_harvarea_fraction")
 water_crop[, (num_cols) := lapply(.SD, as.numeric), .SDcols = num_cols]
 
 # exclude "other grasses for forage", "mixed grasses" (included in grazing in FABIO)
@@ -203,9 +203,9 @@ water_crop[iso3c == "F206", `:=` (iso3c = "SDN", area_code = 276, area = "Sudan"
 
 # define num_cols for aggregating water footprints
 num_cols_prod <- c("production_t", "wfg_m3_t", "wfb_cr_m3_t", 
-                   "wfb_i_m3_t", "wf_tot_m3_t")
+                   "wfb_i_m3_t", "wf_tot_m3_t", "irrigated_harvarea_fraction")
 num_cols_avg <- c("wfg_m3_t", "wfb_cr_m3_t", "wfb_i_m3_t", 
-                      "wf_tot_m3_t")
+                      "wf_tot_m3_t", "irrigated_harvarea_fraction")
 
 # prepare fodder crops for aggregating to one category
 water_crop[crop_group == "Fodder crops", 
@@ -227,6 +227,7 @@ water_crop[, row_prod_share := production_t /
 water_crop[, (num_cols_avg) := lapply(.SD, function(x) x * row_prod_share), 
            .SDcols = num_cols_avg]
 
+
 water_crop <- water_crop[, lapply(.SD, function(x) sum(x, na.rm = TRUE)), 
                          by = .(iso3c, year, item_code), 
                          .SDcols = num_cols_prod]
@@ -239,7 +240,8 @@ extra[, (num_cols_avg) := lapply(.SD, function(x) mean(x, na.rm = TRUE)),
       .SDcols = num_cols_avg]
 
 # delete years and reduce to unique footprints
-extra <- unique(extra[, .(iso3c, item_code, wfg_m3_t, wfb_cr_m3_t, wfb_i_m3_t, wf_tot_m3_t)])
+extra <- unique(extra[, .(iso3c, item_code, wfg_m3_t, wfb_cr_m3_t, wfb_i_m3_t,
+                          wf_tot_m3_t, irrigated_harvarea_fraction)])
 years_extra <- (2020:max(years))
 extra[, column := paste0(iso3c, "_", item_code)]
 
@@ -260,6 +262,7 @@ extra <- merge(extra, prod_land[element == "Production", .(year, iso3c,
 water_crop <- rbind(water_crop, extra, use.names = TRUE)
 
 # calculate totals
+num_cols_avg <- setdiff(num_cols_avg, "irrigated_harvarea_fraction")
 water_crop[, (num_cols_avg) := lapply(.SD, function(x) x * production_t),
            .SDcols = num_cols_avg]
 
@@ -270,7 +273,11 @@ setnames(water_crop, num_cols_avg, new = sub("_t$", "", num_cols_avg))
 water_crop[, area_code := regions$code[match(iso3c, regions$iso3c)]]
 water_crop[, comm_code := items$comm_code[match(item_code, items$ item_code)]]
 
+#save irrigation fractions for N emission estimations
+saveRDS(water_crop, "data/NPK/irrigation.rds")
 # optional todo: some small island states are missing from the water data -> gap fill?
+
+water_crop[, irrigated_harvarea_fraction := NULL]
 
 ## Water - pastures ---------------------------------
 # get grazing area (temporary + permanent meadows and pastures) from above 
