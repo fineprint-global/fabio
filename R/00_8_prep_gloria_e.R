@@ -8,7 +8,7 @@
 library(data.table)
 library(readxl)
 library(qs2)
-source("~/FABIO/v2/R/00_value_added_helpers.R")
+source("R/00_value_added_helpers.R")
 
 # Configuration -----------------------------------------------------------
 # Paths

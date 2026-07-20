@@ -435,9 +435,40 @@ feed[, total_req_all := na_sum(req), by = c("area_code", "year")]
 feed[, total_sup_dry_all := na_sum(sup_dry), by=c("area_code","year")]
 feed[, ratio := total_sup_dry_all / total_req_all]
 feed[, ratio_feedtype := total_sup_dry / total_req]
+feed <- feed[year %in% years,]
+
+# # check feed
+# check_feed <- unique(feed[, .(year, feedtype, total_sup_dry, total_req)]) %>%  
+#   group_by(feedtype, year) %>% 
+#   summarize(sup = round(na_sum(total_sup_dry)/1000000), 
+#             req = round(na_sum(total_req)/1000000)) %>% 
+#   mutate(ratio = round(sup/req,1))
+# 
+# check_feed <- unique(feed[year==2023, 
+#                           .(area_code, area, feedtype, total_sup_dry, total_req)]) %>%  
+#   group_by(feedtype, area) %>% 
+#   summarize(sup = round(na_sum(total_sup_dry)/1000), 
+#             req = round(na_sum(total_req)/1000)) %>% 
+#   mutate(ratio = round(sup/req,1))
+# 
+# check_feed <- unique(feed[year==2023, 
+#                           .(area_code, area, 
+#                             sup = round(total_sup_dry_all/1000), 
+#                             req = round(total_req_all/1000))]) %>%  
+#   mutate(ratio = round(sup/req,1))
+# 
+# unique(feed[area=="Canada" & year==2023, .(feedtype, total_sup_dry, total_req)]) %>% 
+#   group_by(feedtype) %>% 
+#   summarize(sup = round(na_sum(total_sup_dry)/1000), 
+#             req = round(na_sum(total_req)/1000)) %>% 
+#   mutate(ratio = round(sup/req,1))
+# 
+# unique(feed[area=="Canada" & year==2023, .(feedtype, proc, req = round(req/1000))]) %>% 
+#   spread(feedtype, req)
 
 # Rescale feed so that total requirements meet total supply
-feed[feedtype != "grass", req := req / total_req * total_sup_dry]
+feed[feedtype != "grass" & area != "Kiribati", req := req / total_req * total_sup_dry]
+# Note: there is a problem in the data with Kiribati for which GLEAM reports around 100 to 500 times more feed requirements than FAOSTAT
 
 # Allocate feed-use from feed types to individual crops -----
 feed[feedtype != "grass", req := req / total_sup_dry * sup_dry]

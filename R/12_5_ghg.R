@@ -460,7 +460,9 @@ waste_totals <- dcast(waste_totals, area_code + year ~ colname, value.var = "val
 ## waste_incineration ------------------
 # determine production shares for all agricultural products (processed and primary, 
 # fishery and forestry not included, grass reduced by 75% to avoid overestimation)
-prod[, share := production/sum(production, na.rm = TRUE), by = .(area_code, year)]
+prod <- readRDS("data/tidy/prod_trad_full.rds")[element=="Production" & unit=="tonnes",
+                                                .(year,item_code,area_code,area,value)]
+prod[, share := value/sum(value, na.rm = TRUE), by = .(area_code, year)]
 
 # distribute by production shares
 waste_inc <- copy(prod)
@@ -468,7 +470,7 @@ waste_inc[, value := waste_totals$incineration_co2[match(
   paste(area_code, year), paste(waste_totals$area_code, waste_totals$year)
 )]]
 waste_inc[, value := value * share][
-  , `:=` (share = NULL, production = NULL)]
+  , `:=` (share = NULL)]
 
 prod[, share := NULL]
 
@@ -576,7 +578,7 @@ waste_sol[, value := value - fd_waste]
 
 
 list_ch4[["waste_solid"]] <- waste_sol[, .(area_code, item_code, year, value)]
-list_co2[["waste_incineration"]] <- waste_inc
+list_co2[["waste_incineration"]] <- waste_inc[, .(area_code, item_code, year, value)]
 
 rm(shares)
 
@@ -586,7 +588,7 @@ rm(shares)
 prod_proc <- prod[item_code %in% items[processed == TRUE, item_code] & 
                     !item_code %in% items[group == "cereals (excluding beer)" & 
                                             !item_code %in% c(64, 34, 23), item_code]]
-prod_proc[, share := production/sum(production, na.rm = TRUE), by = .(area_code, year)]
+prod_proc[, share := value/sum(value, na.rm = TRUE), by = .(area_code, year)]
 
 # add totals
 waste_ind <- merge(prod_proc, waste_totals[, .(area_code, year, industrial_wastewater_ch4, 
