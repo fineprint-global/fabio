@@ -941,7 +941,7 @@ key_cols <- c("iso3c", "year", "item", "item_code")
 mappings <- rbind(
   data.frame(target = "n_list", nm = "fertilizer",          col = "fa"),
   data.frame(target = "n_list", nm = "manure",               col = "man"),
-  data.frame(target = "n_list", nm = "removal",                  col = "rem"),
+  data.frame(target = "n_list", nm = "removal",                  col = "rem_harv"),
   data.frame(target = "n_list", nm = "biological_fixation",     col = "n_bf"),
   data.frame(target = "n_list", nm = "atmospheric_deposition",   col = "ad"),
   data.frame(target = "n_list", nm = "nh3_n",                  col = "nh3_n"),
@@ -961,7 +961,7 @@ for (i in seq_len(nrow(mappings))) {
 mappings <- rbind(
   data.frame(target = "p_list", nm = "fertilizer",          col = "fa"),
   data.frame(target = "p_list", nm = "manure",               col = "man"),
-  data.frame(target = "p_list", nm = "removal",                  col = "rem"),
+  data.frame(target = "p_list", nm = "removal",                  col = "rem_harv"),
   data.frame(target = "p_list", nm = "atmospheric_deposition",   col = "ad"),
   data.frame(target = "p_list", nm = "weathering",                  col = "p_wea"),
   data.frame(target = "p_list", nm = "runoff_erosion",        col = "p_re"),
