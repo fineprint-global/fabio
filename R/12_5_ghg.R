@@ -140,6 +140,13 @@ forest[, item_code := conc$item_code[match(Commodity, conc$Commodity)]]
 forest <- forest[!is.na(item_code) & Year %in% years]
 forest[, `:=` (area_code = regions$code[match(ISO, regions$iso3c)])]
 
+# in Deduce, Pasture is allocated to Cattle meat and Leather with a 95/5% split in statistical allocation (sLUC) (see Supplementary Information p. 18, Table 1, https://www.nature.com/articles/s43016-026-01305-4#additional-information 
+# this attribution is reversed here by setting the items to "Grazing" (item code 2001), which is summed up in the next step
+forest[`Commodity group` == "Pasture", item_code := 2001]
+
+# Deal with Sudan
+forest[ISO == "SDN and SSD", ISO := "SDN"]
+
 # set value columns
 cols <-   c("Deforestation attribution, unamortized (ha)",
             "Deforestation risk, amortized (ha)",
@@ -148,10 +155,7 @@ cols <-   c("Deforestation attribution, unamortized (ha)",
             "Peatland drainage emissions (MtCO2)",
             "Deforestation emissions incl. peat drainage, amortized (MtCO2)")
 
-# Deal with Sudan
-forest[ISO == "SDN and SSD", ISO := "SDN"]
-
-# Aggregate countries not in FABIO to RoW
+# Aggregate countries not in FABIO to RoW (and sum grazing)
 forest[!ISO %in% regions$iso3c, `:=` (area_code = 999)]
 forest <- forest[, lapply(.SD, sum, na.rm = TRUE),
                  by = .(area_code, Year, item_code),
@@ -219,8 +223,12 @@ list_co2[["crops_drain"]] <- drain
 rm(drain, drain_totals, drain_crops, drain_grazing)
 
 # On-farm energy use (CO2, CH4, N2O) ----------------------
+# The following script attributes emissions from On-Farm Energy use in three steps:
+# 1) separate out Forestry emissions from FAO totals based on Gloria-sector emissions (only crop/animal/fishery emissions are kept in Fabio)
+# 2) split up FAO rest-of-world area to remaining Fabio areas (156 in FAO vs. 181 in Fabio)
+# 3) allocate on-farm emissions to items based on Value-Added for primary sector (ISIC-A) products (Value-Added attribution)
 
-# get energy use from FAO
+# get total on-farm energy use from FAO
 energy_emissions_FAO <- data_list[["energy"]][element != "Energy use in agriculture" & 
                                         item == "Total Energy"]
 
@@ -228,162 +236,208 @@ energy_emissions_FAO <- data_list[["energy"]][element != "Energy use in agricult
 energy_emissions_FAO[, `:=` (value = value * 1000, unit = "tonnes")]
 
 # widen by emission type
-cols <- c("Emissions (CO2)" = "co2_energy",
-          "Emissions (CH4)" = "ch4_energy",
-          "Emissions (N2O)" = "n2o_energy")
+cols <- c("Emissions (CO2)" = "co2_energy_area_total",
+          "Emissions (CH4)" = "ch4_energy_area_total",
+          "Emissions (N2O)" = "n2o_energy_area_total")
 energy_emissions_FAO[, colname := cols[element]]
 
 energy_emissions_FAO <- dcast(energy_emissions_FAO, area_code + year ~ colname, value.var = "value")
 
-# get production shares [of crop and livestock; from tidy_fao > "dataset with all crop and livestock production and trade data"]
-prod <- readRDS("data/tidy/prod_trad_full.rds")
+# get Gloria emissions data (prepared in 00_8_gloria_intensity.R) to compute share of forestry from agriculture emissions, which needs to be substracted
+gloria_satellite_e <- readRDS("data/tidy/gloria_satellite_e.rds")
+gloria_satellite_e <- gloria_satellite_e[year %in% years]
 
-# filter and aggregate RoW
-prod <- prod[year %in% years & element == "Production", 
-             .(area_code, item_code, year, value)]
-prod[!area_code %in% regions$code, area_code := 999]
-prod <- prod[, .(production = sum(value, na.rm = TRUE)),
-             by = .(area_code, year, item_code)]
+# Remove 249/Yemen "DYE" area code, as only the "YEM" area code is used in the FAO data concordance
+gloria_satellite_e <- gloria_satellite_e[gloria_region_code != "DYE"]
 
-# add grazing "production" from supply table and reduce by 75% to avoid overemphasizing its energy use
-grass_prod <- readRDS("data/sup_final.rds")[year %in% years]
-grass_prod <- grass_prod[item_code == 2001, 
-                         .(area_code,  year, item_code, production = 0.25 * production)]
+# use OECD or EDGAR for calculations
+gloria_satellite_e$gloria_e <- gloria_satellite_e$`'co2_excl_short_cycle_org_c_total_EDGAR_consistent'`
 
-prod <- rbind(prod, grass_prod)
-
-# add fish production items from SUA
-fish_prod <- readRDS("data/tidy/cbs_tidy.rds")[item_code %in% items[group == "aquatic products" & processed == FALSE, item_code] & year %in% years]
-fish_prod <- fish_prod[, .(area_code,  year, item_code, production)]
-fish_prod[!area_code %in% regions$code, area_code := 999]
-fish_prod <- fish_prod[, .(production = sum(production, na.rm = TRUE)),
-             by = .(area_code, year, item_code)]
-
-
-prod <- rbind(prod, fish_prod)
-
-# filter for primary items and sum up their total production
-prod_prim <- prod[item_code %in% items[processed == FALSE, item_code]]
-prod_prim[, total_prod_prim := sum(production, na.rm = TRUE), by = .(area_code, year)]
-
-# Calculate emissions scaling from only agriculture to include fishery and forestry
-
-# The FAO  energy data include agriculture + forestry + fishery in the agriculture sector (FAO definition)
-# prod_prim includes only crop and livestock (see included items) + added grazing items
-# Due to this, the shares of agriculture need to be adjusted by the share of emissions (or relevant energy use) before attributing to items. 
-# From Gloria data, 00_8_filter_gloria.R calculates shares of CO2 emissions by region for agriculture (= crops + livestock), forestry, and fishery.
-
-# merge in concordance for items and regions for GLORIA data
-prod_prim <- merge(prod_prim, items[, c("item", "item_code", "group", "comm_group")], by = "item_code")
-prod_prim <- merge(prod_prim, regions[, c("code", "iso3c", "iso2c", "name", "region")], by.x = "area_code", by.y = "code", all.x = T, sort = F)
-
-# imports emissions and relative shares calculated in 00_8_filter_gloria.R
-gloria_emissions_shares <- readRDS("data/gloria_emissions_shares.rds")
-
-# rest of the world gets assigned (mean of the row regions)
-gloria_emissions_shares[!region %in% regions$iso3c, region := "ROW"]
-gloria_emissions_shares <- gloria_emissions_shares[, .(
-  energy_share_agriculture = mean(energy_share_agriculture, na.rm = TRUE),
-  energy_share_forestry = mean(energy_share_forestry, na.rm = TRUE),
-  energy_share_fishery = mean(energy_share_fishery, na.rm = TRUE)
-), by = .(region, year)]
-
-# merge GLORIA emissions shares into primary production
-prod_prim <- merge(prod_prim, gloria_emissions_shares, by.x = c("year", "iso3c"), by.y = c("year", "region"), all.x = T, sort = F)
-
-# get item shares of total primary production
-prod_prim[, share_prim := production/total_prod_prim]
-
-# to adjust for the missing forestry category, the share of primary production gets reduced to only the percentage of agricultural products excluding forestry
-prod_prim[, share_adjusted := share_prim * (energy_share_agriculture + energy_share_fishery)]
-
-# for countries not covered by the GLORIA emissions shares: compute average emission intensities for the region to impute
-# emissions are calculated in 00_8_filter_gloria.R
-gloria_emissions <- readRDS("data/gloria_emissions.rds")
-gloria_emissions <- gloria_emissions[sector_group != "other", .(
-  ch4 = sum(ch4, na.rm = TRUE),
-  co2 = sum(co2, na.rm = TRUE),
-  n2o = sum(n2o, na.rm = TRUE)
-), by = .(year, iso3, sector_group)]
-
-# these cases do not have complete data between both sets (i.e. are not in prod_prim), for now they are excluded (TODO: alternatives?)
-unique(gloria_emissions[!gloria_emissions$iso3 %in% regions$iso3c, iso3])
-# gloria_emissions[!iso3 %in% regions$iso3c, iso3 := "ROW"] # alternatively, they could be counted with ROW
-
-# filter unmatched regions 
-gloria_emissions <- merge(gloria_emissions, regions, by.x = "iso3", by.y = "iso3c", all.x = T, sort = F)
-gloria_emissions <- gloria_emissions[!is.na(region)]
-
-# prepare prod_prim for merging gloria_emissions
-prod_prim[group != "aquatic products", sector_group := fcase(
-  comm_group == "vegetal products", "agriculture",
-  comm_group == "animal products", "livestock"
-)]
-prod_prim[group == "aquatic products", sector_group := "fishery"]
-
-# calculate total emissions of the sector group agriculture or livestock
-prod_sums <- prod_prim[, .(
-  production = sum(production, na.rm = TRUE)
-), by = .(year, iso3c, area_code, sector_group)]
-
-# merge production of items into emissions table to subsequently calculate intensitites
-gloria_emissions <- merge(gloria_emissions, prod_sums, by.x = c("year", "iso3", "sector_group"), by.y = c("year", "iso3c", "sector_group"), all.x = T, sort = F)
-
-# forestry is not needed in this calculation
-gloria_emissions <- gloria_emissions[!(sector_group %in% c("forestry"))]
-
-# compute intensities (total emissions / total production for a product, year, and region)
-gloria_emissions[, `:=`(
-  ch4_intensity = fifelse(production > 0, ch4 / production, NA_real_),
-  co2_intensity = fifelse(production > 0, co2 / production, NA_real_),
-  n2o_intensity = fifelse(production > 0, n2o / production, NA_real_)
-)]
-
-# compile table of average intensities
-gloria_mean_intensities <- gloria_emissions[, .(
-  mean_ch4_intensity_sector_group_region = mean(ch4_intensity, na.rm = TRUE),
-  mean_co2_intensity_sector_group_region = mean(co2_intensity, na.rm = TRUE),
-  mean_n2o_intensity_sector_group_region = mean(n2o_intensity, na.rm = TRUE)
-), by = .(year, sector_group, region_code, region)]
-
-# add a 999/Rest-of-World average for the regions marked "ROW" in FAO data (aggregated in prod_prim)
-row_intensities <- gloria_mean_intensities[, .(
-  region_code = 999L,
-  region = "Rest of World",
-  mean_ch4_intensity_sector_group_region = mean(mean_ch4_intensity_sector_group_region, na.rm = TRUE),
-  mean_co2_intensity_sector_group_region = mean(mean_co2_intensity_sector_group_region, na.rm = TRUE),
-  mean_n2o_intensity_sector_group_region = mean(mean_n2o_intensity_sector_group_region, na.rm = TRUE)
-), by = .(year, sector_group)]
-
-# Append ROW rows to original data
-gloria_mean_intensities <- rbindlist(
-  list(gloria_mean_intensities, row_intensities),
-  use.names = TRUE
+# sum up ROW regions
+gloria_satellite_e <- rbind(
+  gloria_satellite_e[fabio_area_code != 999],
+  gloria_satellite_e[fabio_area_code == 999,
+                     c(list(gloria_region_code = "ROW",
+                            fabio_area         = "Rest of World",
+                            gloria_region_name = "Rest of World"),
+                       lapply(.SD, sum, na.rm = TRUE)),
+                     by = .(year, gloria_sector_code, gloria_sector_name),
+                     .SDcols = setdiff(names(gloria_satellite_e)[sapply(gloria_satellite_e, is.numeric)],
+                                       c("fabio_area_code", "year", "gloria_sector_code"))
+  ][, fabio_area_code := 999]
 )
 
-# add the average intensities to the primary production table
-prod_prim <- merge(prod_prim, gloria_mean_intensities, by = c("year", "region", "sector_group"), all.x = T)
+# compute shares of each of the 23 Gloria sectors of emissions within a year and Fabio regions (XEU, XUS, etc.. Gloria regions map to 999/ROW in FABIO)
+gloria_satellite_e[, total_e_region_year := sum(gloria_e, na.rm = TRUE), 
+                   by = .(fabio_area_code, year)]
+gloria_satellite_e[, emission_share := gloria_e / total_e_region_year]
 
-# distribute energy use to crops by production of primary items
-energy <- energy_emissions_FAO[prod_prim, on = .(area_code, year)]
+# for countries where no emissions account is present (e.g. SRB): apply average ROW shares to fill out table
+# compute average ROW shares
+row_shares <- gloria_satellite_e[, .(emission_share = sum(gloria_e, na.rm = TRUE)), 
+                                 by = .(year, gloria_sector_code)]
+row_shares[, row_share := emission_share / sum(emission_share, na.rm = TRUE), by = year]
 
-cols <- c("ch4_energy", "co2_energy", "n2o_energy")
-energy[, (cols) := .SD * share_adjusted, .SDcols = cols]
+# verify it sums to 1
+row_shares[, sum(row_share), by = year]
 
-# fill missing rows with imputed data: (production amount) * (average emissions intensity in the region) for agriculture or livestock
-energy[is.na(ch4_energy) | is.na(co2_energy) | is.na(n2o_energy), `:=`(
-  ch4_energy = production * mean_ch4_intensity_sector_group_region,
-  co2_energy = production * mean_co2_intensity_sector_group_region,
-  n2o_energy = production * mean_n2o_intensity_sector_group_region
+# assign average ROW share split to countries with no emissions data
+gloria_satellite_e[is.na(emission_share),
+                   emission_share := row_shares[.SD,
+                                                on = c("year", "gloria_sector_code"),
+                                                x.row_share]]
+
+# check: the shares need to be one for all gloria countries and years
+gloria_satellite_e[, sum(emission_share), by = year]
+stopifnot(all(round(gloria_satellite_e[, .(total = sum(emission_share)), by = .(year, fabio_area_code)]$total, 12) == 1)) # small deviations due to floating-point are caught by round
+
+# prepare to split out forestry emissions from the agriculture sector
+forestry_shares <- gloria_satellite_e[, .(
+    forestry_share = sum(emission_share[gloria_sector_code == 21]),
+    other_share = sum(emission_share[gloria_sector_code != 21])
+  ), by = .(fabio_area_code, year)]
+
+# prepare to apply shares of forestry versus other sectors to FAO emissions totals
+energy_emissions_FAO <- energy_emissions_FAO[
+  forestry_shares,
+  on = .(area_code = fabio_area_code, year),
+  nomatch = 0]
+
+saveRDS(energy_emissions_FAO, "~/fao_reference.Rds") # for verification
+
+# calculate the parts of the total assigned to forestry and agriculture (incl. fishery) respectively
+energy_emissions_FAO <- rbindlist(list(
+  energy_emissions_FAO[, .(area_code,
+                           year,
+                           sector = "Forestry", # for Forbio
+                           ch4_energy_area_total = ch4_energy_area_total * forestry_share,
+                           co2_energy_area_total = co2_energy_area_total * forestry_share,
+                           n2o_energy_area_total = n2o_energy_area_total * forestry_share )],
+  energy_emissions_FAO[, .(area_code,
+                           year,
+                           sector = "Agriculture/fish",
+                           ch4_energy_area_total = ch4_energy_area_total * other_share,
+                           co2_energy_area_total = co2_energy_area_total * other_share,
+                           n2o_energy_area_total = n2o_energy_area_total * other_share)]
+))
+setorder(energy_emissions_FAO, area_code, year, sector)
+
+# There are 181 Fabio area codes, but FAO has data for 156 only, so that the FAO ROW account has to be further subdivided off 
+
+# display unmatched areas
+setdiff(unique(regions$code), unique(energy_emissions_FAO$area_code))
+fao_unassigned_areas <- c(setdiff(unique(regions$code), unique(energy_emissions_FAO$area_code)), 999L)
+
+# split the FAO totals by estimated GLORIA-based emissions, with the same table as the one used for forestry shares
+fao_totals_split_key <- gloria_satellite_e[
+  fabio_area_code %in% fao_unassigned_areas,
+  .(gloria_e = sum(gloria_e, na.rm = TRUE)),
+  by = .(fabio_area_code, year)
+]
+
+# calculate shares
+fao_totals_split_key[, share := gloria_e / sum(gloria_e, na.rm = TRUE), by = year]
+
+# distribute FAO ROW totals to shares of areas, by-year
+fao_totals_redistributed <- fao_totals_split_key[
+  energy_emissions_FAO[area_code == 999L],
+  on = "year",
+  allow.cartesian = TRUE
+]
+
+# calculate supplementary table with imputed emissions shares for the rest-of-world countries
+fao_totals_redistributed <- fao_totals_redistributed[, .(
+  area_code             = fabio_area_code,
+  year                  = year,
+  sector                = sector,
+  ch4_energy_area_total = ch4_energy_area_total * share,
+  co2_energy_area_total = co2_energy_area_total * share,
+  n2o_energy_area_total = n2o_energy_area_total * share
 )]
 
+# re-combine with main FAO data
+# resulting table has 181 regions, sums to the same totals as original FAO account
+energy_emissions_FAO <- rbind(
+  energy_emissions_FAO[area_code != 999L],
+  fao_totals_redistributed
+)
+
+# Keep only agriculture part (forestry part goes into Forbio)
+energy_emissions_FAO <- energy_emissions_FAO[sector != "Forestry"]
+
+# From the resulting adjusted FAO totals, this step performs a Value-Added allocation of emissions to items
+# This encodes the assumption that high value-added items will be associated with higher fuel use
+# Since only ISIC-A (primary production) value added accounts are used, this ensures only primary production receives on-farm energy use (might include some non-primary FABIO products such as Butter and Wool, as their raw variants are directly attributed to farms in ISIC-A)
+
+# get value added matrices
+E_bamboo_list <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v2/E_bamboo.rds")
+
+# transpose and filter to get one table covering all years
+E_bamboo <- rbindlist(
+  lapply(names(E_bamboo_list), function(yr) {
+    mat <- t(E_bamboo_list[[yr]])
+    dt  <- as.data.table(mat, keep.rownames = "id")
+    dt[, year := as.integer(yr)]
+    dt
+  })
+)
+
+# tidy resulting objects
+setcolorder(E_bamboo, c("year", "id", setdiff(names(E_bamboo), c("year", "id"))))
+rm(E_bamboo_list); gc()
+
+# select value-added accounts (see "/mnt/nfs_fineprint/tmp/fabio/v2/ex_bamboo_labels.csv" for column names)
+# 14 years x 181 regions x 123 items
+E_bamboo <- E_bamboo |> select(year, id, starts_with("VA_"))
+
+# split regions and items from matrix colnames (turned rownames due to transpose in E_bamboo creation)
+E_bamboo$region <- substr(E_bamboo$id, 1, 3)
+E_bamboo$comm_code <- substr(E_bamboo$id, 5, 8)
+stopifnot(uniqueN(E_bamboo$region) == 181)
+
+# add information for filtering
+items_cbs <- fread("inst/items_full_123.csv")
+E_bamboo <- merge(E_bamboo, items_cbs, by = "comm_code")
+E_bamboo <- merge(E_bamboo, regions, by.x = "region", by.y = "iso3c")
+E_bamboo$area_code <- E_bamboo$code
+
+# calculate Value Added figures for ISIC A sector, omitting tls (tax less subsidy), as only positive value added elements are considered for the split
+E_bamboo[, `:=`(
+  VA_base_isic_a_exiobase = VA_capital_isic_a_exiobase + VA_wages_isic_a_exiobase,
+  VA_base_isic_a_gloria   = VA_capital_isic_a_gloria   + VA_wages_isic_a_gloria
+)]
+
+# negative VA values can arise in the source data. For the purposes of the share split, they can be excluded => capital-negative sectors get treated as if 0 VA applies.
+E_bamboo[VA_base_isic_a_exiobase < 0 | VA_base_isic_a_gloria < 0,
+         .N, by = year]
+E_bamboo[VA_base_isic_a_exiobase < 0, VA_base_isic_a_exiobase := 0]
+E_bamboo[VA_base_isic_a_gloria < 0, VA_base_isic_a_gloria := 0]
+
+# generate emissions table for on-farm energy use, where each FAO total is split of to the items with the established weights
+onfarm_energy_emissions <- merge(energy_emissions_FAO, E_bamboo, by = c("area_code", "year"), all = T)
+
+# calculate Value Added share of the group (Livestock, Crop, Fish) for a region/year total
+onfarm_energy_emissions[, `:=`(
+  share_exiobase = VA_base_isic_a_exiobase / sum(VA_base_isic_a_exiobase, na.rm = TRUE),
+  share_gloria   = VA_base_isic_a_gloria   / sum(VA_base_isic_a_gloria,   na.rm = TRUE)
+), by = c("area_code", "year")]
+
+# Exiobase share is used as the basis for calculation as the shares are more stable than gloria
+onfarm_energy_emissions[, `:=`(
+  ch4_energy = ch4_energy_area_total * share_exiobase,
+  co2_energy = co2_energy_area_total * share_exiobase,
+  n2o_energy = n2o_energy_area_total * share_exiobase
+)]
+
+saveRDS(onfarm_energy_emissions, "~/emissions.Rds")
+
 # add to lists
-list_ch4[["farm_energy"]] <- energy[, .(area_code, year, item_code, value = ch4_energy)]
-list_co2[["farm_energy"]] <- energy[, .(area_code, year, item_code, value = co2_energy)]
-list_n2o[["farm_energy"]] <- energy[, .(area_code, year, item_code, value = n2o_energy)]
+list_ch4[["farm_energy"]] <- onfarm_energy_emissions[, .(area_code, year, item_code, value = ch4_energy)]
+list_co2[["farm_energy"]] <- onfarm_energy_emissions[, .(area_code, year, item_code, value = co2_energy)]
+list_n2o[["farm_energy"]] <- onfarm_energy_emissions[, .(area_code, year, item_code, value = n2o_energy)]
 
-rm(energy_emissions_FAO, energy, grass_prod, fish_prod, prod_prim, gloria_emissions, gloria_emissions_shares, gloria_mean_intensities, prod_sums, row_intensities)
-
+rm(energy_emissions_FAO, E_bamboo, items_cbs, onfarm_energy_emissions, gloria_satellite_e, fao_totals_redistributed, fao_totals_split_key, forestry_shares, row_shares)
+gc()
 
 # Waste from pre and postfarm production --------------
 waste_totals <- data_list[["ppap"]]
