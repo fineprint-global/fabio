@@ -120,24 +120,6 @@ hampel_filter <- function(x,
   )
 }
 
-#' Apply `hampel_filter()` `n_passes` times in sequence.
-#' Later passes catch spikes masked by neighbouring outliers in earlier passes.
-#' Window stats reflect the FINAL pass; `is_spike` is the union across
-#' passes.
-hampel_filter_iterate <- function(x, half_window = 3L, threshold = 3,
-                                  min_obs = 2L * half_window + 1L,
-                                  min_window_obs = 1L, n_passes = 2L) {
-  if (n_passes < 1L) stop("n_passes must be >= 1")
-  r <- hampel_filter(x, half_window, threshold, min_obs, min_window_obs)
-  flag_union <- r$is_spike
-  for (p in seq_len(n_passes - 1L)) {
-    r <- hampel_filter(r$values, half_window, threshold, min_obs, min_window_obs)
-    flag_union <- flag_union | r$is_spike
-  }
-  r$is_spike <- flag_union
-  r
-}
-
 #' Grouped Hampel filter over a per-group year series (data.table).
 #'
 #' Runs hampel_filter() once per group of `dt` (rows ordered by `year`) on the

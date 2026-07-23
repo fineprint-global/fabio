@@ -194,13 +194,6 @@ FABIO_TIDY_FUNCTIONS_PATH <- file.path(FABIO_ROOT, "R", "01_tidy_functions.R")
 # fit) is built; groups below it pass through uncapped.
 WINSOR_MIN_OBS <- 8L   # min pooled obs per group to build a MAD band / IHS theta fit
 
-# Likewise the Hampel PASS COUNT varies by design and stays local: 13_2 runs the
-# two-pass `hampel_filter_iterate(n_passes = HAMPEL_PASSES = 2L)` because adjacent
-# spikes are common in bilateral trade series and a second pass catches spikes
-# masked by a neighbour in the first; 13_1 and 14_1 use the single-pass
-# `hampel_filter()` / `hampel_by_series()`. Like WINSOR_MAD_K this is a documented
-# per-caller choice, named locally rather than baked in as a bare literal.
-#
 # Note on the former Hampel naming clash, now ELIMINATED: 13_1_FAOstat used to
 # call the threshold HAMPEL_K and the half-window HAMPEL_WINDOW, while MRIOTs
 # called the threshold HAMPEL_Z and the half-window HAMPEL_K — so the same name

@@ -18,8 +18,7 @@
 #        only flows with positive USD and at least one positive quantity.
 #     2. Drop bilateral flows with tiny quantities (unreliable unit prices).
 #     3. Aggregate to (exporter x item x year): sum(USD) / sum(quantity).
-#     4. Hampel filter on each (exporter x item) time series (k = 3 MAD),
-#        applied across 2 passes to handle masking from co-located spikes.
+#     4. Hampel filter on each (exporter x item) time series (k = 3 MAD).
 #     5. Per item (all countries and years pooled): log-normality check,
 #        then MAD winsorization at median +/- k*MAD with k = 2.5
 #        (equivalent to a robust |z| <= 2.5 cap). A tighter cap than the
@@ -76,12 +75,11 @@
 #     optional gate routed the cell to the cross-sectional median instead.
 #   output/diagnostics/trade_prices_hampel_entries.csv
 #     One row per (from_code, item_code, year) fed into the Hampel filter.
-#     Carries pre- and post-filter price (pre = raw input to pass 1, post =
-#     output of the final pass), the rolling-window median, the per-series
-#     MAD that is the spike-test scale (`series_mad`, also reported as
-#     `mad_used`), `hampel_z` based on the series MAD, the `is_spike` flag (TRUE
-#     if flagged in ANY pass), and `abs_change`. Sorted by |hampel_z|
-#     descending so flagged points float to the top.
+#     Carries pre- and post-filter price, the rolling-window median, the
+#     per-series MAD that is the spike-test scale (`series_mad`, also
+#     reported as `mad_used`), `hampel_z` based on the series MAD, the
+#     `is_spike` flag, and `abs_change`. Sorted by |hampel_z| descending so
+#     flagged points float to the top.
 #   output/diagnostics/trade_prices_winsorized_entries.csv
 #     One row per (from_code, item_code, year) analysed by the per-item
 #     MAD cap. Carries price_pre / price_post, the cap band, whether the
@@ -93,7 +91,7 @@
 #     give a stable price. Computed at CBS grain via sum(USD) / sum(qty
 #     / tcf) over each item's BTD constituents (per the matching ISIC
 #     concordance), then run through the SAME Phase-2 pipeline as the
-#     SUA-grain prices: two-pass Hampel filter per (area x cbs) series
+#     SUA-grain prices: Hampel filter per (area x cbs) series
 #     -> per-CBS-item cross-sectional MAD winsorization (k = 2.5) ->
 #     gap-fill with cbs-year / cbs-overall medians -> manual cap. See
 #     section 7.5 for details and the matching CBS-grain Hampel/winsor
@@ -131,15 +129,6 @@ source(FABIO_TIDY_FUNCTIONS_PATH)
 # sites (SUA grain in step 4, CBS grain in step 7.5) reference these.
 HAMPEL_HALF_WINDOW <- VA_HAMPEL_HALF_WINDOW   # rolling-median half-window
 HAMPEL_THRESHOLD   <- VA_HAMPEL_THRESHOLD     # robust-z spike cutoff
-
-# Hampel pass count. Bilateral trade series frequently carry CO-LOCATED spikes
-# (two adjacent outliers), where the first pass's rolling median is itself pulled
-# by a surviving neighbour; a second pass catches what the first masked. This is
-# a deliberate per-caller choice unique to 13_2 (13_1 / 14_1 use the single-pass
-# filter); it is named here rather than left as a bare `2L` literal so it is
-# auditable, mirroring WINSOR_MAD_K. See the pass-count note in
-# R/00_value_added_config.R section 5.
-HAMPEL_PASSES      <- 2L
 
 # Extra commodities the fabio_bcp repo prices from this output but that are not
 # in FABIO's 123-item list. Hard-coded here (no dependency on the bcp item
@@ -329,32 +318,26 @@ prices_exporter <- prices_exporter[
 
 
 # ------------------------------------------------------------------------------
-# 4. Hampel filter on each (exporter x item) time series, applied in 2 passes
+# 4. Hampel filter on each (exporter x item) time series
 # ------------------------------------------------------------------------------
 # Each (exporter x item) series is run through the shared `hampel_filter()`
-# / `hampel_filter_iterate()` (from va_helpers.R). The rule: flag a value
-# more than `threshold` robust-z from its rolling-window MEDIAN, where the
-# scale is the SERIES-level MAD (one value per series, used at every
-# position). Flagged points are replaced with the window median; series
-# with fewer than `min_obs` observations pass through unchanged.
+# (from va_helpers.R). The rule: flag a value more than `threshold` robust-z
+# from its rolling-window MEDIAN, where the scale is the SERIES-level MAD (one
+# value per series, used at every position). Flagged points are replaced with
+# the window median; series with fewer than `min_obs` observations pass
+# through unchanged.
 #
 # Using the series MAD as the sole scale means an extreme value at the very
 # first/last year is still measured against a sane, positive scale -- the
 # old per-window MAD could collapse to 0 in a near-constant edge window and
 # let such a value through silently. See va_helpers.R section 2.
-#
-# Two passes (n_passes = 2): a second pass catches co-located spikes that
-# masked each other on the first pass and re-cleans imputations whose window
-# median was pulled by a surviving spike. Flags are UNIONED across passes
-# (is_spike = flagged in ANY pass); window stats reflect the final pass.
 
 setorder(prices_exporter, from_code, item_code, year)
 prices_exporter[, c("price_hampel_filtered", "hampel_flag",
                     "window_median", "series_mad") := {
-                      r <- hampel_filter_iterate(price,
-                                                 half_window = HAMPEL_HALF_WINDOW,
-                                                 threshold   = HAMPEL_THRESHOLD,
-                                                 n_passes = HAMPEL_PASSES)
+                      r <- hampel_filter(price,
+                                         half_window = HAMPEL_HALF_WINDOW,
+                                         threshold   = HAMPEL_THRESHOLD)
                       list(r$values, r$is_spike, r$window_median,
                            r$series_mad)
                     }, by = .(from_code, item_code)]
@@ -363,10 +346,10 @@ n_series   <- prices_exporter[, uniqueN(paste(from_code, item_code))]
 n_eligible <- prices_exporter[, .N, by = .(from_code, item_code)][N >= 7L, .N]
 n_flagged  <- prices_exporter[hampel_flag == TRUE, .N]
 
-cat("\nHampel filter diagnostics (two-pass)\n")
+cat("\nHampel filter diagnostics\n")
 cat("  Time series (exporter x item):     ", n_series,   "\n", sep = "")
 cat("  Eligible (>= 7 obs):               ", n_eligible, "\n", sep = "")
-cat("  Observations flagged (any pass):   ", n_flagged,  "\n", sep = "")
+cat("  Observations flagged:              ", n_flagged,  "\n", sep = "")
 
 if (n_flagged > 0) {
   top_hampel <- prices_exporter[hampel_flag == TRUE, .N,
@@ -379,8 +362,8 @@ if (n_flagged > 0) {
 # filter saw -- not just the flagged ones. `dt` must carry: price,
 # price_hampel_filtered, window_median, series_mad, hampel_flag. The CSV reports
 # series_mad as both the scale and `mad_used`,
-# hampel_z = (price_pre - window_median)/series_mad, is_spike (union across
-# passes), sorted by |hampel_z| then |abs_change| desc.
+# hampel_z = (price_pre - window_median)/series_mad, is_spike, sorted by
+# |hampel_z| then |abs_change| desc.
 
 build_hampel_diagnostic(prices_exporter,
                         c("from_code", "from", "item_code", "item", "year"),
@@ -728,8 +711,8 @@ if (nrow(capped_by_source) > 0) {
 # `cbs_item_code`. Concretely:
 #   step 3 (CBS) — bilateral aggregation to (exporter, year) at CBS grain
 #                  via sum(USD) / sum(qty / tcf), per CBS item.
-#   step 4 (CBS) — Hampel filter applied in 2 passes (k = 3, window = 3)
-#                  on each (area x cbs_item) series. Diagnostic CSV mirrors
+#   step 4 (CBS) — Hampel filter (k = 3, window = 3) on each
+#                  (area x cbs_item) series. Diagnostic CSV mirrors
 #                  the SUA-grain `trade_prices_hampel_entries.csv`.
 #   step 5 (CBS) — per-CBS-item cross-sectional MAD winsor with
 #                  WINSOR_MAD_K = 2.5 (the same constant as SUA grain),
@@ -844,14 +827,13 @@ cbs_prices_exporter <- rbindlist(
 cbs_prices_exporter[overrides_cfg, cbs_item := i.cbs_item, on = "cbs_item_code"]
 
 
-# --- 7.5 step 4 (CBS): two-pass Hampel per (area_code x cbs_item_code) -------
+# --- 7.5 step 4 (CBS): Hampel per (area_code x cbs_item_code) ---------------
 setorder(cbs_prices_exporter, cbs_item_code, area_code, year)
 cbs_prices_exporter[, c("price_hampel_filtered", "hampel_flag",
                         "window_median", "series_mad") := {
-                          r <- hampel_filter_iterate(price,
-                                                     half_window = HAMPEL_HALF_WINDOW,
-                                                     threshold   = HAMPEL_THRESHOLD,
-                                                     n_passes = HAMPEL_PASSES)
+                          r <- hampel_filter(price,
+                                             half_window = HAMPEL_HALF_WINDOW,
+                                             threshold   = HAMPEL_THRESHOLD)
                           list(r$values, r$is_spike, r$window_median,
                                r$series_mad)
                         }, by = .(cbs_item_code, area_code)]
@@ -862,10 +844,10 @@ n_cbs_eligible <- cbs_prices_exporter[, .N,
 ][N >= 7L, .N]
 n_cbs_flagged  <- cbs_prices_exporter[hampel_flag == TRUE, .N]
 
-cat("\nCBS-grain Hampel filter diagnostics (two-pass)\n")
+cat("\nCBS-grain Hampel filter diagnostics\n")
 cat("  Time series (area x cbs):          ", n_cbs_series,   "\n", sep = "")
 cat("  Eligible (>= 7 obs):               ", n_cbs_eligible, "\n", sep = "")
-cat("  Observations flagged (any pass):   ", n_cbs_flagged,  "\n", sep = "")
+cat("  Observations flagged:              ", n_cbs_flagged,  "\n", sep = "")
 if (n_cbs_flagged > 0) {
   top_cbs_hampel <- cbs_prices_exporter[hampel_flag == TRUE, .N,
                                         by = .(cbs_item_code, cbs_item)
