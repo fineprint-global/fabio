@@ -24,10 +24,11 @@
 #     primary-agriculture rows never clobber the base's ISIC-C manufacturing
 #     values), and
 #   - the (area, year) is not in FSDN_COVERAGE_EXCLUDE (country-years FSDN does
-#     not actually cover, which otherwise disaggregate to a spurious zero).
-# Every other row keeps the base.  A mapped, in-coverage, ISIC-matched item that
-# disaggregated to zero is still overwritten — to zero; the base-vs-FSDN
-# diagnostic surfaces those cases.
+#     not actually cover, which otherwise disaggregate to a spurious zero), and
+#   - the FSDN total is not an exact zero where the base is non-zero
+#     (FSDN_ZERO_KEEP: a farm-level zero is "not observed", not "no activity").
+# Every other row keeps the base.  An FSDN zero therefore only overwrites where
+# the base is itself zero; the base-vs-FSDN diagnostic surfaces the rest.
 #
 # Currency: both bases are USD, FSDN is EUR.  FSDN is converted with Germany's
 # SLC series from the FAOSTAT Exchange_rate_E_All_Data.csv (same file and
@@ -126,13 +127,14 @@ FSDN_COVERAGE_EXCLUDE <- rbindlist(list(
   data.table(iso3c = "MLT", year = VA_KEEP_YEARS[VA_KEEP_YEARS > 2021L])
 ))
 
-# Wine (FABIO item 2655) is the only ISIC-C item FSDN overwrites.  FSDN measures
-# production on agricultural (vineyard) farms only, so an FSDN wine total of zero
-# does NOT mean there was no winemaking — the base's ISIC-C figure captures the
-# manufacturing side FSDN can't see.  We therefore never let an FSDN zero
-# overwrite a non-zero base WINE value (the `fsdn_zero_<base>_nonzero` case);
-# such cells keep the base.  (A genuine FSDN wine value still overwrites as usual.)
-WINE_ITEM_CODE <- 2655L
+# Keep the base when FSDN is 0 but the base is not (the `fsdn_zero_<base>_nonzero`
+# case).  FSDN measures the farm level only, so a zero there means "not observed",
+# not "no activity": wine (FABIO 2655) is the clearest case — a zero does NOT mean
+# there was no winemaking, the base's ISIC-C figure captures the manufacturing side
+# FSDN can't see — but the same reasoning holds for every FSDN item.  A genuine
+# non-zero FSDN value still overwrites as usual.  One switch for all items,
+# matching OECD_SUT_ZERO_KEEP / NATIONAL_SUT_ZERO_KEEP.
+FSDN_ZERO_KEEP <- TRUE
 
 # Below this absolute USD magnitude a value counts as "zero" in the diagnostic
 # (FSDN zero-fills are exact 0; this only guards floating dust).
@@ -346,9 +348,9 @@ combine_isic_level <- function(suffix, overlay, base) {
   #       sole C-tagged FSDN item — overwrites.
   #   (2) Never overwrite (area, year) cells FSDN does not cover
   #       (FSDN_COVERAGE_EXCLUDE): those keep the base rather than being zeroed.
-  #   (3) Never let an FSDN zero overwrite a non-zero base WINE value
+  #   (3) Never let an FSDN zero overwrite a non-zero base value
   #       (fsdn_zero_<base>_nonzero): FSDN sees only farm-level production, so a
-  #       zero there is "not observed", not "no winemaking" — keep the base.
+  #       zero there is "not observed", not "no activity" — keep the base.
   excl_key <- if ("iso3c" %in% names(combined))
     combined[, paste(iso3c, year)]
   else combined[, paste(fabio_area_code, year)]
@@ -356,8 +358,7 @@ combine_isic_level <- function(suffix, overlay, base) {
   
   .base_tot <- combined[[BASE_TOTAL_COL]]
   .fsdn_tot <- combined[[paste0(".ov_", BASE_TOTAL_COL)]]
-  wine_zero_keep <-
-    combined$fabio_item_code == WINE_ITEM_CODE &
+  zero_keep <- FSDN_ZERO_KEEP &
     is.finite(.fsdn_tot) & abs(.fsdn_tot) <= DIAG_ZERO_TOL_USD &
     is.finite(.base_tot) & abs(.base_tot) >  DIAG_ZERO_TOL_USD
   
@@ -365,7 +366,7 @@ combine_isic_level <- function(suffix, overlay, base) {
              !is.na(`.fsdn_overwrite_eligible`) & `.fsdn_overwrite_eligible` &
              !is.na(fsdn_source_isic) & fsdn_source_isic == suffix &
              !(excl_key %in% excl_set) &
-             !wine_zero_keep]
+             !zero_keep]
   
   # Diagnostic first, while base originals and .ov_ FSDN values coexist.
   write_base_fsdn_diagnostic(combined, suffix, unique(overlay$fabio_area_code), base)
@@ -437,7 +438,7 @@ combine_isic_level <- function(suffix, overlay, base) {
 # Source precedence (FIXED — Eurostat NAMA always wins): for EU/EFTA fishing
 # cells Eurostat NAMA wins (nama_10_a64, capital via the identity); OECD SUT
 # then covers the rest of the OECD and any Eurostat gaps; the base last.  The
-# wine-style zero guard applies to every source (an exact-zero total never
+# same zero guard applies to every source (an exact-zero total never
 # clobbers a non-zero incumbent).  Eurostat is fetched ONCE (before the base
 # loop) and shared by every base pass and the fishing diagnostics.
 # ============================================================================
@@ -459,7 +460,7 @@ OECD_SUT_VA_SOURCE_LABEL <- "OECD_SUT"
 
 # When the OECD SUT reports A03 as an exact zero but the base's fishing value is
 # non-zero, treat the zero as "not separately compiled" and KEEP the base
-# (mirrors the wine guard above).  Set FALSE to let a genuine OECD SUT zero
+# (mirrors the FSDN guard above).  Set FALSE to let a genuine OECD SUT zero
 # overwrite.
 OECD_SUT_ZERO_KEEP <- TRUE
 
@@ -618,7 +619,7 @@ overwrite_fishing_oecd_sut <- function(lcu_usd, eu_nama, base) {
   is_fish      <- combined$fabio_item_code == FISHING_ITEM_CODE
   has_oecd_sut <- is_fish & is.finite(oecd_sut_tot)
   
-  # Wine-style guard: don't let an OECD SUT zero clobber a non-zero base
+  # Same guard as FSDN: don't let an OECD SUT zero clobber a non-zero base
   # fishing value.
   oecd_sut_zero_keep <- OECD_SUT_ZERO_KEEP & has_oecd_sut &
     abs(oecd_sut_tot) <= DIAG_ZERO_TOL_USD &
@@ -660,7 +661,7 @@ overwrite_fishing_oecd_sut <- function(lcu_usd, eu_nama, base) {
   # ---- Eurostat vs OECD on fishing rows -------------------------------------
   # Eurostat NAMA OVERRIDES OECD wherever a complete
   # Eurostat cell exists; OECD then only survives for geographies/years Eurostat
-  # doesn't cover, and the base covers what neither does.  The wine-style zero
+  # doesn't cover, and the base covers what neither does.  The same zero
   # guard still applies: an exact-zero Eurostat total never clobbers a non-zero
   # incumbent value (base, or an OECD value already written on this row).
   n_eu_fill <- 0L
@@ -809,7 +810,7 @@ build_eu_fill <- function(eu_nama) {
 #            the three, keeping the base's invariant value_added = w + c + t.
 #
 # Zero guard (NATIONAL_SUT_ZERO_KEEP, default TRUE): an exact-zero source total
-# never clobbers a non-zero base value (mirrors the wine and OECD-SUT-fishing
+# never clobbers a non-zero base value (mirrors the FSDN and OECD-SUT-fishing
 # guards).  Both StatCan and IBGE zero a FABIO cell when the country has no
 # product output, which is a genuine economic zero — but a concordance gap can
 # also zero a cell the base fills, so the conservative default keeps the base

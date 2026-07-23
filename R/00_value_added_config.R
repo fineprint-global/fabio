@@ -175,16 +175,17 @@ FABIO_TIDY_FUNCTIONS_PATH <- file.path(FABIO_ROOT, "R", "01_tidy_functions.R")
 # ==============================================================================
 #
 # Only constants that were genuinely the SAME across scripts are centralised.
-# WINSOR_MAD_K is deliberately NOT here: it is 2.5 in MRIOTs (and in the price
-# scripts 13_1 / 13_2) but 3.5 in national_SUTs / FSDN by design, so its VALUE
-# stays a local, per-script decision. Its NAME, however, is now uniform: every
-# script declares `WINSOR_MAD_K <- <value>` (the old `WINSOR_Z` alias in 14_1 /
-# 14_2 / 14_3 and the hidden `threshold = 2.5` default in 13_1 are gone), so the
-# same identifier means the same thing everywhere even though the number differs.
+# WINSOR_MAD_K is deliberately NOT here: it is 2.5 in the price scripts 13_1 /
+# 13_2 but 3.5 in the value-added scripts MRIOTs / FSDN / national_SUTs by
+# design, so its VALUE stays a local, per-script decision. Its NAME, however,
+# is now uniform: every script declares `WINSOR_MAD_K <- <value>` (the old
+# `WINSOR_Z` alias in 14_1 / 14_2 / 14_3 and the hidden `threshold = 2.5`
+# default in 13_1 are gone), so the same identifier means the same thing
+# everywhere even though the number differs.
 # Per-script values, for reference:
 #     13_1 FAOstat            WINSOR_MAD_K = 2.5
 #     13_2 clean_bilateral    WINSOR_MAD_K = 2.5
-#     14_1 MRIOTs             WINSOR_MAD_K = 2.5
+#     14_1 MRIOTs             WINSOR_MAD_K = 3.5
 #     14_2 FSDN               WINSOR_MAD_K = 3.5
 #     14_3 national_SUTs      WINSOR_MAD_K = 3.5
 #

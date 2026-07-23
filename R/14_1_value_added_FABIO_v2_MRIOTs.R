@@ -124,7 +124,7 @@ FX_ELEMENT_CODE   <- VA_FX_ELEMENT_CODE
 FX_GERMANY_AREA   <- VA_GERMANY_AREA_CODE
 
 HAMPEL_THRESHOLD   <- VA_HAMPEL_THRESHOLD   # Hampel spike test threshold (stages 4a, 7a)
-WINSOR_MAD_K       <- 2.5                   # cross-sectional MAD cap, robust |z| (stages 4b, 7b)
+WINSOR_MAD_K       <- 3.5                   # cross-sectional MAD cap, robust |z| (stages 4b, 7b)
 HAMPEL_HALF_WINDOW <- VA_HAMPEL_HALF_WINDOW # Hampel half-window → full = 2*half_window+1 = 7 years
 
 # FALSE bypasses the stage 7a/7b physical-intensity Hampel + MAD winsor for all
