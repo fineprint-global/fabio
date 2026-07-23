@@ -142,6 +142,8 @@ VA_VALUE_COLS <- vapply(VA_COMPONENTS, va_value_col, character(1))
 
 FISH_SEAFOOD_ITEM <- "Fish, Seafood"
 SUA_PROD_COL      <- "sua_aggregated_production [tonnes]"
+SUA_SOURCE_COL    <- "total_value_source"    # 13_3 total_value provenance
+SUA_BUNDLE_TAG    <- "SUA_aggregated"        # rows whose TPO is the ISIC-A quantity
 
 # Which adapters to run.  Trim to a single name to build one base.
 DATABASES_TO_RUN <- c("GLORIA", "EXIOBASE")
@@ -312,11 +314,15 @@ process_isic_level <- function(ctx, isic_level, sector_conc, fv,
   
   # ── 7. Physical-intensity Hampel + MAD on per-strand value_added ──────────
   #
-  # phys_denom selection is strand-independent: ISIC-A uses TPO; ISIC-C prefers
-  # positive sua_aggregated_production, falling through to positive TPO.
-  if (use_sua_prod_denom && (SUA_PROD_COL %in% names(result))) {
+  # phys_denom selection is strand-independent: ISIC-A uses TPO.  On ISIC-C the
+  # rows 13_3 tags SUA_BUNDLE_TAG take the bundle quantity or nothing — never
+  # TPO, which is the ISIC-A primary quantity for them; all others use TPO.
+  if (use_sua_prod_denom && all(c(SUA_PROD_COL, SUA_SOURCE_COL) %in% names(result))) {
     sua_prod_vec <- result[[SUA_PROD_COL]]
-    result[, phys_denom := fcoalesce(
+    sua_bundle   <- !is.na(result[[SUA_SOURCE_COL]]) &
+      result[[SUA_SOURCE_COL]] == SUA_BUNDLE_TAG
+    result[, phys_denom := fifelse(
+      sua_bundle,
       fifelse(is.finite(sua_prod_vec) & sua_prod_vec > 0, sua_prod_vec, NA_real_),
       fifelse(is.finite(get(output_col)) & get(output_col) > 0, get(output_col), NA_real_)
     )]
@@ -411,7 +417,8 @@ process_isic_level <- function(ctx, isic_level, sector_conc, fv,
   )]
   
   result[, c("item_theta", "va_phys_intensity_hampel", "phys_denom") := NULL]
-  if (SUA_PROD_COL %in% names(result)) result[, (SUA_PROD_COL) := NULL]
+  if (SUA_PROD_COL   %in% names(result)) result[, (SUA_PROD_COL)   := NULL]
+  if (SUA_SOURCE_COL %in% names(result)) result[, (SUA_SOURCE_COL) := NULL]
   
   
   # ── 7d. Pivot strands wide + derive total ─────────────────────────────────
@@ -438,7 +445,8 @@ process_isic_level <- function(ctx, isic_level, sector_conc, fv,
   
   # Bring back the FABIO context columns from fv (unique per area/item/year).
   fv_ctx <- copy(fv)
-  if (SUA_PROD_COL %in% names(fv_ctx)) fv_ctx[, (SUA_PROD_COL) := NULL]
+  if (SUA_PROD_COL   %in% names(fv_ctx)) fv_ctx[, (SUA_PROD_COL)   := NULL]
+  if (SUA_SOURCE_COL %in% names(fv_ctx)) fv_ctx[, (SUA_SOURCE_COL) := NULL]
   result_wide <- merge(
     result_wide, fv_ctx,
     by = c("fabio_area_code", "fabio_item_code", "year"), all.x = TRUE
@@ -1306,15 +1314,16 @@ output_col_a <- fv_pack_a$output_col
 
 message("Loading FABIOv2 total values (ISIC-C) ...")
 fv_pack_c    <- prepare_fv(FABIO_TV_PATH_C, required_cols = character(0),
-                           drop_extra = c("production [tonnes]", "total_value_source", "sua_aggregated_value [USD]"))
+                           drop_extra = c("production [tonnes]", "sua_aggregated_value [USD]"))
 fv_c         <- fv_pack_c$fv
 value_col_c  <- fv_pack_c$value_col
 output_col_c <- fv_pack_c$output_col
 
-if (!(SUA_PROD_COL %in% names(fv_c)))
-  warning(sprintf(
-    "ISIC-C total_values has no `%s` column; ISIC-C phys_intensity falls back to total_product_output for ALL rows. Re-run the total-values step with SUA-production aggregation to populate it.",
-    SUA_PROD_COL))
+for (col in c(SUA_PROD_COL, SUA_SOURCE_COL))
+  if (!(col %in% names(fv_c)))
+    warning(sprintf(
+      "ISIC-C total_values has no `%s` column; ISIC-C phys_intensity falls back to total_product_output for ALL rows. Re-run the total-values step to populate it.",
+      col))
 
 fabio_years   <- sort(unique(fv_a$year))
 buffer_years  <- c(

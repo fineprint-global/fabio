@@ -64,6 +64,8 @@ DIAG_DIR   <- VA_VALUE_ADDED_DIAG_DIR
 VA_ACCOUNTS <- c("CAPITAL", "LABOUR", "TLS")   # account schema (both countries)
 WINSOR_MAD_K    <- 3.5                             # stage-8b cap, z MADs in IHS space
 SUA_PROD_COL    <- "sua_aggregated_production [tonnes]"   # ISIC-C phys denominator
+SUA_SOURCE_COL  <- "total_value_source"                   # 13_3 total_value provenance
+SUA_BUNDLE_TAG  <- "SUA_aggregated"                       # rows whose TPO is the ISIC-A quantity
 
 va_ensure_dir(OUTPUT_DIR)
 va_ensure_dir(DIAG_DIR)
@@ -319,20 +321,33 @@ process_isic_level <- function(
   
   fabio_total_post_disagg <- result[, sum(unlist(.SD), na.rm = TRUE), .SDcols = va_cols_final]
   
-  # phys_denom: ISIC-A uses positive TPO; ISIC-C prefers positive SUA-aggregated
-  # production, falling through to positive TPO (absent column → TPO for all).
+  # preserve_idx: rows whose total_product_output is NOT their own quantity.
+  # 13_3 tags exactly these SUA_BUNDLE_TAG — ISIC-C rows for FABIO items mapped
+  # at both ISIC levels, where TPO is the ISIC-A primary quantity. preserve_items
+  # is the concordance-derived fallback for outputs written without the flag.
+  if (use_sua_prod_denom && (SUA_SOURCE_COL %in% names(result))) {
+    result[, preserve_idx := !is.na(get(SUA_SOURCE_COL)) &
+             get(SUA_SOURCE_COL) == SUA_BUNDLE_TAG]
+  } else {
+    result[, preserve_idx := fabio_item_code %in% preserve_items]
+  }
+  
+  # phys_denom: preserved rows take the SUA-aggregated bundle quantity or
+  # nothing — never TPO, which measures a different bundle for them. Every other
+  # row uses positive TPO (ISIC-A primary, or ISIC-C processed).
   if (use_sua_prod_denom && (SUA_PROD_COL %in% names(result))) {
     sua_prod_vec <- result[[SUA_PROD_COL]]
-    result[, phys_denom := fcoalesce(
+    result[, phys_denom := fifelse(
+      preserve_idx,
       fifelse(is.finite(sua_prod_vec) & sua_prod_vec > 0, as.numeric(sua_prod_vec), NA_real_),
       fifelse(is.finite(get(output_col)) & get(output_col) > 0, as.numeric(get(output_col)), NA_real_)
     )]
   } else {
     result[, phys_denom := fifelse(
-      is.finite(get(output_col)) & get(output_col) > 0,
-      as.numeric(get(output_col)), NA_real_)]
+      preserve_idx, NA_real_,
+      fifelse(is.finite(get(output_col)) & get(output_col) > 0,
+              as.numeric(get(output_col)), NA_real_))]
   }
-  result[, preserve_idx := fabio_item_code %in% preserve_items]
   
   # ── 8. Zero out VA on rows with no product output (preserve carve-out) ────
   no_output   <- is.na(result$phys_denom)
@@ -345,7 +360,7 @@ process_isic_level <- function(
                     sum(to_zero), nrow(result)))
   }
   if (n_preserved > 0L)
-    message(sprintf("  Preserved VA on %d no-output row(s) for double-mapped FABIO item(s).",
+    message(sprintf("  Preserved VA on %d row(s) with no bundle quantity (denominator unknown, not absent).",
                     n_preserved))
   
   fabio_total_post_zero <- result[, sum(unlist(.SD), na.rm = TRUE), .SDcols = va_cols_final]
@@ -379,7 +394,8 @@ process_isic_level <- function(
                   diag_winsor_path, nrow(diag_combined)))
   
   result[, c("phys_denom", "preserve_idx") := NULL]
-  if (SUA_PROD_COL %in% names(result)) result[, (SUA_PROD_COL) := NULL]
+  if (SUA_PROD_COL   %in% names(result)) result[, (SUA_PROD_COL)   := NULL]
+  if (SUA_SOURCE_COL %in% names(result)) result[, (SUA_SOURCE_COL) := NULL]
   
   # ── 9. Total VA column + final column order ──────────────────────────────
   result[, (va_total_col) := rowSums(.SD, na.rm = TRUE), .SDcols = va_cols_final]
@@ -1101,8 +1117,8 @@ run_country <- function(iso3) {
                   nrow(item_conc_c), uniqueN(item_conc_c$sut_item_code),
                   uniqueN(item_conc_c$fabio_item_code)))
   
-  # Double-mapped FABIO items = present at BOTH ISIC levels → ISIC-C step-8
-  # zeroing carve-out (their ISIC-C TPO inherits the ISIC-A primary quantity).
+  # Double-mapped FABIO items = present at BOTH ISIC levels. Fallback predicate
+  # for the ISIC-C carve-out when 13_3's provenance flag is unavailable.
   double_mapped_items <- sort(intersect(item_conc_a$fabio_item_code,
                                         item_conc_c$fabio_item_code))
   message(sprintf("  Double-mapped FABIO items (in BOTH ISIC levels): %d",
@@ -1120,17 +1136,19 @@ run_country <- function(iso3) {
   fv_pack_a <- prepare_fv(FABIO_TV_PATH_A)
   fv_a <- fv_pack_a$fv; value_col_a <- fv_pack_a$value_col; output_col_a <- fv_pack_a$output_col
   message("Loading FABIOv2 total values (ISIC-C) ...")
-  # Keep the SUA-aggregated production column (default drop_extra would drop it);
-  # it is the ISIC-C phys denominator for double-mapped items.
+  # Keep the SUA-aggregated production column and 13_3's provenance flag (the
+  # default drop_extra would drop both); together they set the ISIC-C phys
+  # denominator for double-mapped items.
   fv_pack_c <- prepare_fv(FABIO_TV_PATH_C,
-                          drop_extra = c("production [tonnes]", "total_value_source",
+                          drop_extra = c("production [tonnes]",
                                          "sua_aggregated_value [USD]"))
   fv_c <- fv_pack_c$fv; value_col_c <- fv_pack_c$value_col; output_col_c <- fv_pack_c$output_col
   
-  if (!(SUA_PROD_COL %in% names(fv_c)))
-    warning(sprintf(
-      "ISIC-C total_values has no `%s` column; ISIC-C phys denominator falls back to total_product_output for ALL rows. Re-run the total-values step with SUA-production aggregation to populate it.",
-      SUA_PROD_COL))
+  for (col in c(SUA_PROD_COL, SUA_SOURCE_COL))
+    if (!(col %in% names(fv_c)))
+      warning(sprintf(
+        "ISIC-C total_values has no `%s` column; the ISIC-C phys denominator falls back to the concordance-derived carve-out. Re-run the total-values step to populate it.",
+        col))
   
   n_a_pre <- nrow(fv_a); n_c_pre <- nrow(fv_c)
   fv_a <- fv_a[iso3c == cfg$iso3 & year %in% use_years]
@@ -1160,7 +1178,7 @@ run_country <- function(iso3) {
     va_prod_all = va_prod_all,
     source_tag = cfg$source_tag, source_name = cfg$source_name,
     unit_suffix = cfg$unit_suffix, src_abbr = cfg$src_abbr,
-    preserve_items = double_mapped_items,  # ISIC-C double-mapped carve-out (see step 8)
+    preserve_items = double_mapped_items,  # fallback carve-out predicate (see step 8)
     use_sua_prod_denom = TRUE
   )
   
