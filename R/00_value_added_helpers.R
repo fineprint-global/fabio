@@ -303,13 +303,15 @@ fit_ihs_theta <- function(x, grid = IHS_THETA_GRID, min_obs = WINSOR_MIN_OBS, ob
 #' Winsorize one vector at median +/- k * MAD, optionally in IHS space.
 #' Replaces the per-item `[, { ... }, by]` winsor block duplicated in
 #' MRIOTs (stage 4b/7b) and national_SUTs (stage 8b). `theta = NA` -> raw space.
+#' Groups with fewer than `min_obs` finite values get no band and pass through
+#' uncapped, matching mad_winsor_band()'s gate (see WINSOR_MIN_OBS in the config).
 #' Returns per-element values plus the cap band and robust z in the cap space.
-ihs_mad_winsor <- function(x, theta = NA_real_, k = 2.5) {
+ihs_mad_winsor <- function(x, theta = NA_real_, k = 2.5, min_obs = WINSOR_MIN_OBS) {
   use_ihs <- is.finite(theta)
   vals_ws <- if (use_ihs) asinh(x * theta) else x
   med     <- median(vals_ws, na.rm = TRUE)
   mad_val <- scaled_mad(vals_ws)
-  if (is.finite(mad_val) && mad_val > 0) {
+  if (sum(is.finite(x)) >= min_obs && is.finite(mad_val) && mad_val > 0) {
     lo_ws <- med - k * mad_val; hi_ws <- med + k * mad_val
     cap_lo <- if (use_ihs) sinh(lo_ws) / theta else lo_ws
     cap_hi <- if (use_ihs) sinh(hi_ws) / theta else hi_ws
@@ -485,7 +487,9 @@ cap_strand_by_group <- function(dt, hampel_col, winsor_col,
   theta_dt <- dt[is.finite(get(hampel_col)),
                  fit_ihs_theta(get(hampel_col)), by = group_cols]
   # fit_ihs_theta() already returns optimal_theta = NA for degenerate fits
-  # (n < 8, objective > 10, or theta pinned at a grid edge).
+  # (n < 8, objective > 10, or theta pinned at a grid edge). The n < 8 groups
+  # are then left uncapped by ihs_mad_winsor()'s own min_obs gate; the rest
+  # fall back to a raw-space cap.
   theta_dt[, degenerate := is.na(optimal_theta)]
   va_report_theta(theta_dt, theta_label, indent = indent)
   dt[theta_dt, (theta_col) := i.optimal_theta, on = group_cols]
