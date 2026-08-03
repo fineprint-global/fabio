@@ -147,6 +147,143 @@ hampel_by_series <- function(dt, value_col, out_col, by_cols,
 
 
 # ==============================================================================
+# 2b. PAIRED WAGES+CAPITAL COLLAPSE REPAIR  (runs BEFORE the stage-4a Hampel)
+# ==============================================================================
+#
+# A zero in `wages` OR `capital` alone can be real (own-account family labour;
+# loss-making capital). Both exactly zero in the same (region, sector, year),
+# in a series that is otherwise solidly positive, is not an economic state: it
+# is a block of the source F/V matrix that was never populated. `tls` is never
+# touched — it straddles zero by construction, so a zero there is interior.
+#
+# Motivating case: EXIOBASE Brazil / sugar cane (sector 6), 2022-2023, where
+# wages and capital are both exactly 0 while output and tls are reported. The
+# stage-4a Hampel cannot see these: the robust z of a collapsed cell is ~0.7,
+# far inside the threshold, so the zeros pass through and then propagate to
+# va_value (14_1 stage 6 maps a non-finite intensity to 0 by convention).
+
+#' Impute selected positions of a series from a rolling median of the rest.
+#'
+#' `fill` marks positions to impute; marked positions are excluded from the
+#' donor pool so a repaired cell never seeds another. A window with no donors
+#' widens to the whole series.
+rolling_median_fill <- function(x, fill, half_window = 3L) {
+  out          <- x
+  donors       <- x
+  donors[fill] <- NA_real_
+  if (!any(is.finite(donors))) return(out)
+  for (i in which(fill)) {
+    lo  <- max(1L, i - half_window)
+    hi  <- min(length(x), i + half_window)
+    win <- donors[lo:hi]
+    win <- win[is.finite(win)]
+    if (length(win) == 0L) win <- donors[is.finite(donors)]
+    out[i] <- median(win)
+  }
+  out
+}
+
+#' Repair paired wages+capital collapses in a long per-strand intensity table.
+#'
+#' A (region, sector, year) is a COLLAPSE when every component in `pair` is
+#' exactly zero. It is repaired only if the (region, sector) also clears:
+#'   - each series has >= `min_obs` non-zero observations;
+#'   - neither series is ever negative (a signed series has zero as interior);
+#'   - each non-zero median exceeds `min_level`;
+#'   - some STRICTLY EARLIER year has every component in `pair` non-zero. This
+#'     last gate protects structural absence (e.g. South Sudan pre-2011, which
+#'     otherwise draws 21 GLORIA repairs purely on its post-2011 record).
+#'
+#' MODIFIES `intensities` BY REFERENCE: `va_intensity` is overwritten at the
+#' repaired cells and `va` is rescaled to match; no columns are added. Returns
+#' the diagnostic invisibly. Call on the full working window so the fill has
+#' buffer-year context.
+repair_va_collapse <- function(intensities,
+                               pair        = c("wages", "capital"),
+                               min_obs     = VA_COLLAPSE_MIN_OBS,
+                               min_level   = VA_COLLAPSE_MIN_LEVEL,
+                               half_window = VA_HAMPEL_HALF_WINDOW,
+                               diag_path   = NULL,
+                               indent      = "  ") {
+  
+  stopifnot(is.data.table(intensities), length(pair) >= 2L)
+  absent <- setdiff(pair, unique(intensities$va_component))
+  if (length(absent) > 0L)
+    stop("repair_va_collapse(): component(s) not in the table: ",
+         paste(absent, collapse = ", "))
+  
+  key <- c("region_code", "sector_code")
+  
+  # Series eligibility, per (region, sector, component).
+  elig <- intensities[va_component %in% pair, {
+    nz <- va_intensity[is.finite(va_intensity) & va_intensity != 0]
+    .(n_nonzero  = length(nz),
+      series_min = if (any(is.finite(va_intensity)))
+        min(va_intensity, na.rm = TRUE) else NA_real_,
+      nz_median  = if (length(nz) > 0L) median(nz) else NA_real_)
+  }, by = c(key, "va_component")]
+  elig[, ok := is.finite(nz_median) & is.finite(series_min) &
+         n_nonzero >= min_obs & series_min >= 0 & nz_median > min_level]
+  elig_pair <- elig[, .(eligible = .N == length(pair) && all(ok)), by = key]
+  
+  # Year-level collapse test.
+  yr <- dcast(intensities[va_component %in% pair],
+              region_code + sector_code + year ~ va_component,
+              value.var = "va_intensity")
+  fin      <- lapply(pair, function(cc) is.finite(yr[[cc]]))
+  all_zero <- Reduce(`&`, Map(function(f, cc) f & yr[[cc]] == 0, fin, pair))
+  all_good <- Reduce(`&`, Map(function(f, cc) f & yr[[cc]] != 0, fin, pair))
+  set(yr, j = "all_zero", value = all_zero)
+  set(yr, j = "all_good", value = all_good)
+  setorderv(yr, c(key, "year"))
+  yr[, prior_good := cumsum(all_good) - as.integer(all_good), by = key]
+  yr[elig_pair, eligible := i.eligible, on = key]
+  yr[, collapse := all_zero & (eligible %in% TRUE) & prior_good > 0L]
+  
+  bad <- yr[collapse == TRUE, c(key, "year"), with = FALSE]
+  if (nrow(bad) == 0L) {
+    message(sprintf("%sNo paired %s collapses found.",
+                    indent, paste(pair, collapse = "+")))
+    return(invisible(data.table()))
+  }
+  
+  bad[, hit_ := TRUE]
+  intensities[bad, hit_ := i.hit_, on = c(key, "year")]
+  intensities[, fix_ := (hit_ %in% TRUE) & va_component %in% pair &
+                is.finite(va_intensity) & va_intensity == 0]
+  intensities[, pre_ := va_intensity]
+  intensities[va_component %in% pair, va_intensity := {
+    ord      <- order(year)
+    out      <- va_intensity
+    out[ord] <- rolling_median_fill(va_intensity[ord], fix_[ord],
+                                    half_window = half_window)
+    out
+  }, by = c(key, "va_component")]
+  
+  # Keep the raw numerator consistent with the repaired ratio so the stage-5a
+  # rebuild (va_intensity := va / x) does not re-expose the zeros.
+  intensities[fix_ == TRUE & is.finite(x), va := va_intensity * x]
+  
+  diag <- intensities[fix_ == TRUE,
+                      .(region_code, region_name, sector_code, sector_name, va_component, year,
+                        va_intensity_raw = pre_, va_intensity_repaired = va_intensity)]
+  setorderv(diag, c("va_component", "region_code", "sector_code", "year"))
+  intensities[, c("hit_", "fix_", "pre_") := NULL]
+  
+  if (!is.null(diag_path)) {
+    fwrite(diag, diag_path)
+    message(sprintf(
+      "%sRepaired %d cell(s) across %d (region, sector, year) collapse(s); diagnostic \u2192 %s",
+      indent, nrow(diag), nrow(bad), diag_path))
+  } else {
+    message(sprintf("%sRepaired %d cell(s) across %d collapse(s).",
+                    indent, nrow(diag), nrow(bad)))
+  }
+  invisible(diag)
+}
+
+
+# ==============================================================================
 # 3. MAD WINSORIZATION  (pure core + data.table grouped wrapper)
 # ==============================================================================
 

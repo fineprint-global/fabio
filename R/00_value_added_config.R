@@ -75,7 +75,7 @@ VA_PRICE_DIAG_DIR   <- file.path(VA_PRICE_OUTPUT_DIR, "diagnostics")
 
 VA_FABIO_V2_DIR  <- file.path(FINEPRINT_ROOT, "fabio", "v2")
 VA_GLORIA_DIR    <- file.path(FINEPRINT_ROOT, "gloria", "v060-compiled")
-VA_EXIOBASE_DIR  <- file.path(FINEPRINT_ROOT, "exiobase", "v3.10")
+VA_EXIOBASE_DIR  <- file.path(FINEPRINT_ROOT, "exiobase", "v3.10", "ixi")
 
 # Named entry points within those trees (the rest are built per-year inside the
 # adapters via file.path(VA_*_DIR, ...)).
@@ -230,6 +230,15 @@ if (!exists("hampel_half_window", inherits = TRUE, mode = "numeric"))
        "root so this file can read the `hampel_half_window <- ...` line from it.")
 
 VA_HAMPEL_HALF_WINDOW <- as.integer(hampel_half_window)  # full window = 2*hw+1 = 7
+
+# Eligibility gates for the paired wages+capital collapse repair
+# (00_value_added_helpers.R::repair_va_collapse(), applied in 14_1 immediately
+# before the stage-4a Hampel). A (region, sector) qualifies only if BOTH series
+# are non-negative throughout, hold >= VA_COLLAPSE_MIN_OBS non-zero years, and
+# have non-zero medians above VA_COLLAPSE_MIN_LEVEL — so an isolated paired zero
+# is anomalous rather than the series' normal state.
+VA_COLLAPSE_MIN_OBS   <- 10L    # non-zero years required in EACH paired series
+VA_COLLAPSE_MIN_LEVEL <- 0.01   # non-zero median floor; below it a zero is unremarkable
 
 # -- Year coverage (derived from R/00_system_variables.R) ---------------------
 #

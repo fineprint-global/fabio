@@ -643,10 +643,23 @@ run_database <- function(adapter, shared) {
   
   diag_share_hampel <- file.path(DIAG_DIR, sprintf("FABIOv2_%s_share_intensity_hampel.csv", tag))
   diag_share_winsor <- file.path(DIAG_DIR, sprintf("FABIOv2_%s_share_intensity_winsor.csv", tag))
+  diag_collapse     <- file.path(DIAG_DIR, sprintf("FABIOv2_%s_va_collapse_repair.csv", tag))
   
   # ── Adapter front half: raw per-strand intensities + usd_factor + dims ─────
   front <- adapter$build_front_half(shared$working_years, shared$fabio_years)
   intensities <- front$intensities   # raw, native currency, mapped sectors only
+  
+  # ── Stage 3c: paired wages+capital collapse repair ────────────────────────
+  # Source years where wages AND capital are both exactly 0 while output is
+  # reported (e.g. EXIOBASE Brazil / sugar cane 2022-2023) are unpopulated F/V
+  # blocks, not zero value added. Repaired here, on the full working window and
+  # ahead of stage 4a: the Hampel cannot flag them (a collapsed cell's robust z
+  # is ~0.7) and stage 6 maps a non-finite intensity to 0, so an unrepaired
+  # collapse would survive both and land in va_value.
+  message(sprintf("[%s] Stage 3c: repairing paired wages+capital collapses ...", adapter$label))
+  
+  repair_va_collapse(intensities, pair = c("wages", "capital"),
+                     diag_path = diag_collapse, indent = "  ")
   
   # ── Stage 4a: Hampel filter on pure intensities (per strand) ──────────────
   message(sprintf("[%s] Stage 4a: Hampel filter per (region, sector, va_component) over years ...", adapter$label))
