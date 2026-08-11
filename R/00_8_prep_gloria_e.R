@@ -123,7 +123,7 @@ area_conc <- unique(
 # process the user-selected GLORIA satellite indicators into a simple helper table for use in the loop
 satellite_labels <- as.data.table(read_excel(GLORIA_README_PATH, sheet = "Satellites"))
 satellite_index <- satellite_labels[Sat_indicator %in% GLORIA_E_FILTERS]
-# satellite_index <- satellite_labels[Sat_indicator %like% "co2_excl_short_cycle_org_c_1A4" & Sat_head_indicator == "Emissions (EDGAR)"] # override for data exploration: view combinations of values, for instance all CO2 accounts
+#satellite_index <- satellite_labels[Sat_indicator %like% "1A3b" & Sat_head_indicator == "Emissions (EDGAR)"] # override for data exploration: view combinations of values, for instance all CO2 accounts
 stopifnot(nrow(satellite_index) == length(GLORIA_E_FILTERS)) # Error check: indicates the indicator name is not availible
 
 process_year_gloria <- function(yr) {
