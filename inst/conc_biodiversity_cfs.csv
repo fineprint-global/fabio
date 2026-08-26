@@ -6,8 +6,8 @@ nitrous oxide,08a91e70-3ddc-11dd-94c3-0050c2490048,global PDF*y/t_em,Average,ghg
 Ammonia,08a91e70-3ddc-11dd-a2a9-0050c2490048,global PDF*y/kg_em,Marginal,n_nh3_n,"",LC,terrestrial,acidification,terrestrial,Marginal,""
 arable,"",global PDF*y/ha*y,Average,land_crop,"",LC,terrestrial,land_use,terrestrial,Average,""
 "from forest, natural",ac0aba5c-66ce-42c9-9f46-1e47ab7bc4b9,global PDF*y/ha*y,Average,luc_forest_to_agric,"",LC,terrestrial,land_use,terrestrial,Average,"v1.3 CF is transformation to annual crops, not from natural forest."
-Phosphorus,601311d7-4d5c-4d49-b131-69b73793ad0f,global PDF*y/kg_P,Average,p_runoff_erosion,"",LC,freshwater,eutrophication,freshwater,Average,"v2 CF is emission to soil, v1.3 emission to water. v1.3 runs about 10x higher."
-"nitrogen, total (excluding N2)",247582e8-f296-4db4-94d3-ef1f7bea9a2d,global PDF*y/kg_N,Average,n_leaching_runoff,"",LC,freshwater,eutrophication,marine,Average,"v1.3 freshwater eutrophication is P only, so N is characterised as marine. v2 soil vs v1.3 river, about 4x higher."
+Phosphorus,601311d7-4d5c-4d49-b131-69b73793ad0f,global PDF*y/kg_P,Average,p_runoff_erosion,"",LC,freshwater,eutrophication,freshwater,Average,"v2 CF is emission to soil, v1.3 emission to water, so the two are not on the same compartment."
+"nitrogen, total (excluding N2)",247582e8-f296-4db4-94d3-ef1f7bea9a2d,global PDF*y/kg_N,Average,n_leaching_runoff,"",LC,freshwater,eutrophication,marine,Average,"v1.3 freshwater eutrophication is P only, so N is characterised as marine. v2 soil vs v1.3 river, so the two are not on the same compartment."
 arable,b88d3b6d-229e-477e-bce1-e16376f75c7b,global PDF*y/ha*y,Average,land_crop,"",LC,freshwater,eutrophication,"","",No v1.3 equivalent.
 grassland/pasture/meadow,bc2fb99a-c9b4-4473-9870-089bcef3054f,global PDF*y/ha*y,Average,land_grass,"",LC,freshwater;terrestrial,eutrophication;land_use,terrestrial,Average,v1.3 uses the land_use side only.
 Water,419682fe-60fb-4b43-be89-bf2824b51104,global PDF*y/m3,Average,water_blue_total,"",LC,freshwater,water_use,freshwater,Marginal,v1.3 has no average variant.

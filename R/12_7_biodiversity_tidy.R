@@ -513,8 +513,7 @@ lc13_acid[, `:=` (realm = "Terrestrial", approach = "Marginal",
 # (Verones et al. 2020 Table 2), which is the average-equivalent of the two labels
 # 12_8 knows -> approach = "Average". Both nutrients take the to-water CF (P to
 # water, N to river), which matches the pressures; v2 above is soil-only, so the two
-# versions are not on the same compartment - v1.3 runs ~10x (P) and ~4x (N) higher
-# on that account alone, and the ratio varies by country.
+# versions are not on the same compartment.
 
 ### freshwater (P)
 lc13_fweut_file <- paste0(path_lc13, lc13_needed["eut_fresh"])
