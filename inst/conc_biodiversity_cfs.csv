@@ -1,21 +1,21 @@
-flow,flow_id,cf_unit,approach,fabio_pressure,fd_fabio_pressure,source
-carbon dioxide (biogenic),08a91e70-3ddc-11dd-9c15-0050c2490048,global PDF*y/t_em,Average,ghg_co2,ghg_co2,LC
-carbon dioxide (biogenic),08a91e70-3ddc-11dd-9c15-0050c2490048,global PDF*y/t_em,Average,ghg_co2,ghg_f_gases,LC
-methane (biogenic),fe0acd60-3ddc-11dd-a8e8-0050c2490048,global PDF*y/t_em,Average,ghg_ch4,ghg_ch4,LC
-nitrous oxide,08a91e70-3ddc-11dd-94c3-0050c2490048,global PDF*y/t_em,Average,ghg_n2o,ghg_n2o,LC
-Ammonia,08a91e70-3ddc-11dd-a2a9-0050c2490048,global PDF*y/kg_em,Marginal,n_nh3_n,"",LC
-arable,"",global PDF*y/ha*y,Average,land_crop,"",LC
-"from forest, natural",ac0aba5c-66ce-42c9-9f46-1e47ab7bc4b9,global PDF*y/ha*y,Average,luc_forest_to_agric,"",LC
-Phosphorus,601311d7-4d5c-4d49-b131-69b73793ad0f,global PDF*y/kg_P,Average,p_runoff_erosion,"",LC
-"nitrogen, total (excluding N2)",247582e8-f296-4db4-94d3-ef1f7bea9a2d,global PDF*y/kg_N,Average,n_leaching_runoff,"",LC
-arable,b88d3b6d-229e-477e-bce1-e16376f75c7b,global PDF*y/ha*y,Average,land_crop,"",LC
-grassland/pasture/meadow,bc2fb99a-c9b4-4473-9870-089bcef3054f,global PDF*y/ha*y,Average,land_grass,"",LC
-Water,419682fe-60fb-4b43-be89-bf2824b51104,global PDF*y/m3,Average,water_blue_total,"",LC
-pasture/meadow,07937495-00a4-4676-8ef7-1161ee7a9f28,PDF_FD*year/(km2*year),Average,land_grass,"",FD
-phosphorus,631b2cb3-35e6-4c01-ab28-9b49dbb115df,PDF_FD*year/kg_P,Average,p_runoff_erosion,"",FD
-Cropland,10,ecosystem_service/ha,"",land_crop,"",ES
-Grazing,20,ecosystem_service/ha,"",land_grass,"",ES
-CO2_overall,"",MSA_loss/t_em,"",gwp_total,gwp_fd_total,IBIF
-NH3_overall,"",MSA_loss/t_em,"",n_nh3_n,"",IBIF
-LU_Cr_overall,"",MSA_loss/ha,"",land_crop,"",IBIF
-LU_PA_overall,"",MSA_loss/ha,"",land_grass,"",IBIF
+flow,flow_id,cf_unit,approach,fabio_pressure,fd_fabio_pressure,source,realm,impact_category,v13_realm,v13_approach,v13_note
+carbon dioxide (biogenic),08a91e70-3ddc-11dd-9c15-0050c2490048,global PDF*y/t_em,Average,ghg_co2,ghg_co2,LC,terrestrial;freshwater;marine,climate,terrestrial;freshwater,Average,"v1.3 has no marine climate CF, its aquatic factor is freshwater-based. All effects / 100 years."
+carbon dioxide (biogenic),08a91e70-3ddc-11dd-9c15-0050c2490048,global PDF*y/t_em,Average,ghg_co2,ghg_f_gases,LC,terrestrial;freshwater;marine,climate,terrestrial;freshwater,Average,""
+methane (biogenic),fe0acd60-3ddc-11dd-a8e8-0050c2490048,global PDF*y/t_em,Average,ghg_ch4,ghg_ch4,LC,terrestrial;freshwater;marine,climate,terrestrial;freshwater,Average,"v1.3 Methane, not Fossil methane."
+nitrous oxide,08a91e70-3ddc-11dd-94c3-0050c2490048,global PDF*y/t_em,Average,ghg_n2o,ghg_n2o,LC,terrestrial;freshwater;marine,climate,terrestrial;freshwater,Average,""
+Ammonia,08a91e70-3ddc-11dd-a2a9-0050c2490048,global PDF*y/kg_em,Marginal,n_nh3_n,"",LC,terrestrial,acidification,terrestrial,Marginal,""
+arable,"",global PDF*y/ha*y,Average,land_crop,"",LC,terrestrial,land_use,terrestrial,Average,""
+"from forest, natural",ac0aba5c-66ce-42c9-9f46-1e47ab7bc4b9,global PDF*y/ha*y,Average,luc_forest_to_agric,"",LC,terrestrial,land_use,terrestrial,Average,"v1.3 CF is transformation to annual crops, not from natural forest."
+Phosphorus,601311d7-4d5c-4d49-b131-69b73793ad0f,global PDF*y/kg_P,Average,p_runoff_erosion,"",LC,freshwater,eutrophication,freshwater,Average,"v2 CF is emission to soil, v1.3 emission to water. v1.3 runs about 10x higher."
+"nitrogen, total (excluding N2)",247582e8-f296-4db4-94d3-ef1f7bea9a2d,global PDF*y/kg_N,Average,n_leaching_runoff,"",LC,freshwater,eutrophication,marine,Average,"v1.3 freshwater eutrophication is P only, so N is characterised as marine. v2 soil vs v1.3 river, about 4x higher."
+arable,b88d3b6d-229e-477e-bce1-e16376f75c7b,global PDF*y/ha*y,Average,land_crop,"",LC,freshwater,eutrophication,"","",No v1.3 equivalent.
+grassland/pasture/meadow,bc2fb99a-c9b4-4473-9870-089bcef3054f,global PDF*y/ha*y,Average,land_grass,"",LC,freshwater;terrestrial,eutrophication;land_use,terrestrial,Average,v1.3 uses the land_use side only.
+Water,419682fe-60fb-4b43-be89-bf2824b51104,global PDF*y/m3,Average,water_blue_total,"",LC,freshwater,water_use,freshwater,Marginal,v1.3 has no average variant.
+pasture/meadow,07937495-00a4-4676-8ef7-1161ee7a9f28,PDF_FD*year/(km2*year),Average,land_grass,"",FD,freshwater;marine,eutrophication,"","",""
+phosphorus,631b2cb3-35e6-4c01-ab28-9b49dbb115df,PDF_FD*year/kg_P,Average,p_runoff_erosion,"",FD,freshwater;marine,eutrophication,"","",""
+Cropland,10,ecosystem_service/ha,"",land_crop,"",ES,terrestrial,ecosystem_services,"","",""
+Grazing,20,ecosystem_service/ha,"",land_grass,"",ES,terrestrial,ecosystem_services,"","",""
+CO2_overall,"",MSA_loss/t_em,"",gwp_total,gwp_fd_total,IBIF,"",climate,"","",""
+NH3_overall,"",MSA_loss/t_em,"",n_nh3_n,"",IBIF,"",acidification,"","",""
+LU_Cr_overall,"",MSA_loss/ha,"",land_crop,"",IBIF,"",land_use,"","",""
+LU_PA_overall,"",MSA_loss/ha,"",land_grass,"",IBIF,"",land_use,"","",""
