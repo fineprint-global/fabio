@@ -57,7 +57,8 @@ land_tidy <- unique(land_tidy)
 
 ## Land - permanent grass area ---------------
 land_grass <- land_tidy[item_code == 6655]
-land_grass[, `:=` (item = "Grazing", item_code = 2001, comm_code = "c148")]
+land_grass[, `:=` (item = "Grazing", item_code = 2001,
+                   comm_code = items$comm_code[match(2001L, items$item_code)])]
 
 ## Land - crop area --------------------------
 # get crop to harv factors from CROPGRIDS
