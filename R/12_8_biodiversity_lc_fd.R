@@ -238,7 +238,7 @@ data_all <- c(FD_list[["FD"]], LC_list[["LC"]], LC1_list[["LC1"]])
 fdem_data_all <- c(FD_list[["FD_fdem"]], LC_list[["LC_fdem"]], LC1_list[["LC1_fdem"]])
 
 E_sua <- lapply(data_all, format_extension)
-E_fdem_sua <- c(fdem_data_all, format_extension)
+E_fdem_sua <- lapply(fdem_data_all, format_extension)
 
 # convert to cbs level
 conc <- fread("inst/conc_cbs_sua.csv")
@@ -248,7 +248,7 @@ cbs_extensions <- lapply(data_all, agg_sua_to_cbs)
 fdem_cbs_extensions <- lapply(fdem_data_all, agg_sua_to_cbs)
 
 E_cbs <- lapply(cbs_extensions, format_extension, itms = items_cbs)
-E_fdem_cbs <-  c(fdem_cbs_extensions, format_extension, itms = items_cbs)
+E_fdem_cbs <- lapply(fdem_cbs_extensions, format_extension, itms = items_cbs)
 
 # save
 for (nm in names(E_sua)) {
@@ -257,8 +257,8 @@ for (nm in names(E_sua)) {
 }
 
 for (nm in names(E_fdem_sua)) {
-  saveRDS(E_sua[[nm]], paste0("data/extensions/fd_sua/", nm, ".rds"))
-  saveRDS(E_cbs[[nm]], paste0("data/extensions/fd_cbs/", nm, ".rds"))
+  saveRDS(E_fdem_sua[[nm]], paste0("data/extensions/fd_sua/", nm, ".rds"))
+  saveRDS(E_fdem_cbs[[nm]], paste0("data/extensions/fd_cbs/", nm, ".rds"))
 }
 
 rm(list = ls())
