@@ -203,7 +203,6 @@ gwp_n2o_ppap_food_packaging,gwp,n2o,,tonnes co2eq (AR6),N2O emissions from food 
 gwp_n2o_ppap_food_processing,gwp,n2o,,tonnes co2eq (AR6),N2O emissions from food processing,Own estimations based on: https://www.fao.org/faostat/en/#data/GPP,273
 gwp_n2o_ppap_food_transport,gwp,n2o,,tonnes co2eq (AR6),N2O emissions from food transport,Own estimations based on: https://www.fao.org/faostat/en/#data/GPP,273
 gwp_n2o_ppap_pesticides_manufacturing,gwp,n2o,,tonnes co2eq (AR6),N2O emissions from pesticide manufacturing,Own estimations based on: https://www.fao.org/faostat/en/#data/GPP,273
-gwp_n2o_ppap_pesticides_manufacturing,gwp,n2o,,tonnes co2eq (AR6),N2O emissions from pesticide manufacturing,Own estimations based on: https://www.fao.org/faostat/en/#data/GPP,273
 gwp_total,gwp,,,tonnes co2eq (AR6),Total CO2 equivalent emissions from all agricultural activities.,All sources under Compartment -ghg-,
 ibif_co2_eq,ibif,terrestrial,,MSA loss * year * km^2,Mean species abundance loss that occurs due to climate change. Weighted by duration and extent of exposure to pressure. Can be added up with other MSA measures but not with pdf.,10.1038/s41597-025-05946-1,
 ibif_land_crop,ibif,terrestrial,,MSA loss * year * km^2,Mean species abundance loss that occurs due land use for cropland. Temporary meadows and pastures not included. Weighted by duration and extent of exposure to pressure. Can be added up with other MSA measures but not with pdf.,10.1038/s41597-025-05946-1,

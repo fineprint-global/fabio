@@ -19,7 +19,7 @@ year <- 2021
 country <- "AUT"
 consumption_categories <- unique(fd$fd)
 consumption <- consumption_categories[1]
-extension <- ex$Stressor[99]
+extension <- ex$Stressor[64:65]
 
 # Read data --------------------------------------------------------------------
 X <- readRDS(file=paste0(input_path,"losses/X.rds"))
@@ -33,8 +33,12 @@ Ei <- E[[as.character(year)]]
 
 # Prepare calculations ---------------------------------------------------------
 # Prepare extension
-ext <- as.numeric(Ei[ex$Stressor == extension, ]) / as.vector(Xi)
-ext[!is.finite(ext)] <- 0
+if(length(extension) == 1){
+  ext <- as.numeric(Ei[ex$Stressor == extension, ]) / as.vector(Xi)
+  ext[!is.finite(ext)] <- 0
+} else {
+  ext <- as.numeric(colSums(Ei[ex$Stressor %in% extension, ])) / as.vector(Xi)
+}
 
 # Prepare final demand
 if(country=="EU27"){
@@ -45,7 +49,7 @@ if(country=="EU27"){
   Y_country <- Yi[, fd$iso3c == country]
   colnames(Y_country) <- fd$fd[fd$iso3c == country]
 }
-
+ext[!is.finite(ext)] <- 0
 
 # Calculate footprints ---------------------------------------------------------
 MP <- ext * L
@@ -64,7 +68,7 @@ results <- data.table(origin=rownames(FP)[FP@i + 1],
 results[,`:=`(
   country_consumer = country,
   year = year,
-  indicator = extension,
+  indicator = paste(extension, collapse = "; "),
   country_origin = substr(origin,1,3),
   item_origin = substr(origin,5,100),
   country_target = substr(target,1,3),
@@ -77,7 +81,7 @@ results[,`:=`(
   continent_origin = regions$continent[match(results$country_origin, regions$iso3c)]
 )]
 
-# results$continent_origin[results$country_origin==country] <- country
+results$continent_origin[results$country_origin==country] <- country
 # results$continent_origin[results$country_origin!=country] <- "REST"
 
 # Aggregate results ------------------------------------------------------------
@@ -98,7 +102,7 @@ data_continent <- results %>%
 
 fwrite(data_continent, 
        file.path("output", paste0("FABIO_", country, "_", year, "_", 
-                                  extension, "_", consumption, "_", 
+                                  paste(extension, collapse = "_"), "_", consumption, "_", 
                                   allocation, "-alloc_continent.csv")))
 
 # by domestic vs. ROW
@@ -118,7 +122,7 @@ data_domestic <- results %>%
 
 fwrite(data_domestic, 
        file.path("output", paste0("FABIO_", country, "_", year, "_", 
-                                  extension, "_", consumption, "_", 
+                                  paste(extension, collapse = "_"), "_", consumption, "_", 
                                   allocation, "-alloc.csv")))
 
 

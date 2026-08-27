@@ -622,7 +622,7 @@ other_pre_post_totals <- dcast(other_pre_post_totals, area_code + year ~ colname
 
 ### Processing, transport, packaging, pesticide: output-based allocation ----------------------
 
-price_weights <- readRDS("~/FABIO/v2/data/total_value/FABIOv2_producer_total_values_isic_a.rds")
+price_weights <- readRDS("data/total_value/FABIOv2_producer_total_values_isic_a.rds")
 price_weights$year <- as.numeric(price_weights$year)
 
 # Compute price share per crop within each country-year
