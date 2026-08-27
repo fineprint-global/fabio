@@ -316,6 +316,7 @@ if(all(file.exists(lc13_targets))) {
   cat("Skipping extraction, already found:", length(lc13_targets),
       "LC-IMPACT v1.3 workbooks\n")
 } else {
+  options(timeout = max(7200, getOption("timeout")))
   fa_dl(file = lc13_zip, path = path_lc13, link = "https://zenodo.org/records/6200606/files/")
   # a truncated download is indistinguishable from a complete one to file.exists()
   lc13_size <- file.size(paste0(path_lc13, lc13_zip)) / 1e9
