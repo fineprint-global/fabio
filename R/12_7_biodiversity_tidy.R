@@ -168,9 +168,6 @@ LC_climate <- rbindlist(climate_list[["LC"]], use.names = TRUE)
 rm(climate_list)
 
 ## Eutrophication (LC) --------------
-# NB: every chemical flow in this file is FLOW_class1 "Emissions to soil", but
-# p_runoff_erosion/n_leaching_runoff have already left the soil towards water, so
-# the soil CF applies the soil-to-water transfer a second time. See v1.3 below.
 eut <- LC_list[["eutrophication_freshwater"]]
 
 # choose relevant emissions

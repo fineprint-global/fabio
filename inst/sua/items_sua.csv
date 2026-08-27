@@ -130,10 +130,10 @@ Kiwi fruit,c128,592,fruits (excluding wine),vegetal products,FALSE,tonnes,perenn
 Papayas,c129,600,fruits (excluding wine),vegetal products,FALSE,tonnes,perennial
 "Other tropical fruits, n.e.c.",c130,603,fruits (excluding wine),vegetal products,FALSE,tonnes,perennial
 "Other fruits, n.e.c.",c131,619,fruits (excluding wine),vegetal products,FALSE,tonnes,perennial
-"Coffee, green",c132,656,stimulants,vegetal products,FALSE,tonnes,annual
+"Coffee, green",c132,656,stimulants,vegetal products,FALSE,tonnes,perennial
 Cocoa beans,c133,661,stimulants,vegetal products,FALSE,tonnes,perennial
-Tea leaves,c134,667,stimulants,vegetal products,FALSE,tonnes,annual
-Maté leaves,c135,671,stimulants,vegetal products,FALSE,tonnes,annual
+Tea leaves,c134,667,stimulants,vegetal products,FALSE,tonnes,perennial
+Maté leaves,c135,671,stimulants,vegetal products,FALSE,tonnes,perennial
 "Pepper (Piper spp.), raw",c136,687,spices,vegetal products,FALSE,tonnes,perennial
 "Chillies and peppers, dry (Capsicum spp., Pimenta spp.), raw",c137,689,spices,vegetal products,FALSE,tonnes,annual
 "Vanilla, raw",c138,692,spices,vegetal products,FALSE,tonnes,perennial
