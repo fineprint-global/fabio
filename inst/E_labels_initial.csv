@@ -272,18 +272,6 @@ https://www.fao.org/faostat/en/#data/QCL;
 README from https://www.fao.org/faostat/en/#data/ESB",
 p_runoff_erosion,nutrient_pollution,phosphorus,,kg P,Runoff and erosion of phosphorus from croplands and pastures,IMAGE-DPPS,
 p_weathering,nutrient_pollution,phosphorus,,kg P,Phosphorus inputs to croplands and pastures through weathering of phosphate rock,IMAGE-DPPS,
-VA_capital_isic_a_exiobase,value_added,,,,,,
-VA_capital_isic_a_gloria,value_added,,,,,,
-VA_capital_isic_c_exiobase,value_added,,,,,,
-VA_capital_isic_c_gloria,value_added,,,,,,
-VA_tls_isic_a_exiobase,value_added,,,,,,
-VA_tls_isic_a_gloria,value_added,,,,,,
-VA_tls_isic_c_exiobase,value_added,,,,,,
-VA_tls_isic_c_gloria,value_added,,,,,,
-VA_wages_isic_a_exiobase,value_added,,,,,,
-VA_wages_isic_a_gloria,value_added,,,,,,
-VA_wages_isic_c_exiobase,value_added,,,,,,
-VA_wages_isic_c_gloria,value_added,,,,,,
 water_blue_cap_r,water,,,m3,Blue water used by crops through groundwater capillary rise,"Extrapolated from:
 10.1038/s41597-024-03051-3",
 water_blue_irr,water,,,m3,Blue water used by crops through irrigation,"Extrapolated from:
