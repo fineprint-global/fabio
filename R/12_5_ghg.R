@@ -22,7 +22,7 @@ data_list <- lapply(data_list, function(dt) {
   dt <- dt[, .(iso3c, item, year, element, area, unit, item_code, value)]
   dt[!iso3c %in% regions$iso3c, `:=` (iso3c = "ROW", area = "RoW")]
   dt <- dt[, .(value = sum(value, na.rm = TRUE)),
-                 by = .(iso3c, area, item, item_code, year, element, unit)]
+           by = .(iso3c, area, item, item_code, year, element, unit)]
   dt[, area_code := regions$code[match(iso3c, regions$iso3c)]]
   setkey(dt, "year", "item_code")
   return(dt)
@@ -48,7 +48,7 @@ lvst[, `:=` (value = value * 1000, unit = "tonnes")]
 
 # widen by emission type
 lvst <- dcast(lvst, area_code + item_code + year ~ element,
-                   value.var = "value")
+              value.var = "value")
 
 # add to lists for aggregating later
 ## create mapping
@@ -92,7 +92,7 @@ crops_c[, `:=` (value = value * 1000, unit = "tonnes")]
 
 # widen by emission type
 crops_c <- dcast(crops_c, area_code + item_code + year ~ element,
-              value.var = "value")
+                 value.var = "value")
 crops <- merge(crops_n, crops_c, by = c("area_code", "item_code", "year"),
                all = TRUE)
 
@@ -230,7 +230,7 @@ rm(drain, drain_totals, drain_crops, drain_grazing)
 
 # get total on-farm energy use from FAO
 energy_emissions_FAO <- data_list[["energy"]][element != "Energy use in agriculture" & 
-                                        item == "Total Energy"]
+                                                item == "Total Energy"]
 
 # convert from kt to t
 energy_emissions_FAO[, `:=` (value = value * 1000, unit = "tonnes")]
@@ -290,9 +290,9 @@ stopifnot(all(round(gloria_satellite_e[, .(total = sum(emission_share)), by = .(
 
 # prepare to split out forestry emissions from the agriculture sector
 forestry_shares <- gloria_satellite_e[, .(
-    forestry_share = sum(emission_share[gloria_sector_code == 21]),
-    other_share = sum(emission_share[gloria_sector_code != 21])
-  ), by = .(fabio_area_code, year)]
+  forestry_share = sum(emission_share[gloria_sector_code == 21]),
+  other_share = sum(emission_share[gloria_sector_code != 21])
+), by = .(fabio_area_code, year)]
 
 # prepare to apply shares of forestry versus other sectors to FAO emissions totals
 energy_emissions_FAO <- energy_emissions_FAO[
@@ -363,12 +363,12 @@ energy_emissions_FAO <- energy_emissions_FAO[sector != "Forestry"]
 # Since only ISIC-A (primary production) value added accounts are used, this ensures only primary production receives on-farm energy use (might include some non-primary FABIO items such as Butter and Wool, as their raw variants are directly attributed to farms in ISIC-A)
 
 # get value added matrices
-E_bamboo_list <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v2/E_bamboo.rds")
+V_list <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v2/V.rds")
 
 # transpose and filter to get one table covering all years
-E_bamboo <- rbindlist(
-  lapply(names(E_bamboo_list), function(yr) {
-    mat <- t(E_bamboo_list[[yr]])
+va <- rbindlist(
+  lapply(names(V_list), function(yr) {
+    mat <- t(V_list[[yr]])
     dt  <- as.data.table(mat, keep.rownames = "id")
     dt[, year := as.integer(yr)]
     dt
@@ -376,38 +376,38 @@ E_bamboo <- rbindlist(
 )
 
 # tidy resulting objects
-setcolorder(E_bamboo, c("year", "id", setdiff(names(E_bamboo), c("year", "id"))))
-rm(E_bamboo_list); gc()
+setcolorder(va, c("year", "id", setdiff(names(va), c("year", "id"))))
+rm(V_list); gc()
 
-# select value-added accounts (see "/mnt/nfs_fineprint/tmp/fabio/v2/ex_bamboo_labels.csv" for column names)
+# select value-added accounts (see "/mnt/nfs_fineprint/tmp/fabio/v2/v_labels.csv" for column names)
 # 14 years x 181 regions x 123 items
-E_bamboo <- E_bamboo |> select(year, id, starts_with("VA_"))
+va <- va |> select(year, id, starts_with("VA_"))
 
 # split regions and items from matrix names
-E_bamboo$region <- substr(E_bamboo$id, 1, 3)
-E_bamboo$comm_code <- substr(E_bamboo$id, 5, 8)
-stopifnot(uniqueN(E_bamboo$region) == 181)
+va$region <- substr(va$id, 1, 3)
+va$comm_code <- substr(va$id, 5, 8)
+stopifnot(uniqueN(va$region) == 181)
 
 # add information for filtering
 items_cbs <- fread("inst/items_full_123.csv")
-E_bamboo <- merge(E_bamboo, items_cbs, by = "comm_code")
-E_bamboo <- merge(E_bamboo, regions, by.x = "region", by.y = "iso3c")
-E_bamboo$area_code <- E_bamboo$code
+va <- merge(va, items_cbs, by = "comm_code")
+va <- merge(va, regions, by.x = "region", by.y = "iso3c")
+va$area_code <- va$code
 
 # calculate Value Added figures for ISIC A sector, omitting tls (tax less subsidy), as only positive value added elements are considered for the split
-E_bamboo[, `:=`(
+va[, `:=`(
   VA_base_isic_a_exiobase = VA_capital_isic_a_exiobase + VA_wages_isic_a_exiobase,
   VA_base_isic_a_gloria   = VA_capital_isic_a_gloria   + VA_wages_isic_a_gloria
 )]
 
 # negative VA values can arise in the source data. For the purposes of the share split, they can be excluded
-E_bamboo[VA_base_isic_a_exiobase < 0 | VA_base_isic_a_gloria < 0,
-         .N, by = year]
-E_bamboo[VA_base_isic_a_exiobase < 0, VA_base_isic_a_exiobase := 0]
-E_bamboo[VA_base_isic_a_gloria < 0, VA_base_isic_a_gloria := 0]
+va[VA_base_isic_a_exiobase < 0 | VA_base_isic_a_gloria < 0,
+   .N, by = year]
+va[VA_base_isic_a_exiobase < 0, VA_base_isic_a_exiobase := 0]
+va[VA_base_isic_a_gloria < 0, VA_base_isic_a_gloria := 0]
 
 # generate emissions table for on-farm energy use, where each FAO total is split of to the items with the established weights
-onfarm_energy_emissions <- merge(energy_emissions_FAO, E_bamboo, by = c("area_code", "year"), all = T)
+onfarm_energy_emissions <- merge(energy_emissions_FAO, va, by = c("area_code", "year"), all = T)
 
 # calculate Value Added share of the group (Livestock, Crop, Fish) for a region/year total
 onfarm_energy_emissions[, `:=`(
@@ -427,7 +427,7 @@ list_ch4[["farm_energy"]] <- onfarm_energy_emissions[, .(area_code, year, item_c
 list_co2[["farm_energy"]] <- onfarm_energy_emissions[, .(area_code, year, item_code, value = co2_energy)]
 list_n2o[["farm_energy"]] <- onfarm_energy_emissions[, .(area_code, year, item_code, value = n2o_energy)]
 
-rm(energy_emissions_FAO, E_bamboo, items_cbs, onfarm_energy_emissions, gloria_satellite_e, fao_totals_redistributed, fao_totals_split_key, forestry_shares, row_shares)
+rm(energy_emissions_FAO, va, items_cbs, onfarm_energy_emissions, gloria_satellite_e, fao_totals_redistributed, fao_totals_split_key, forestry_shares, row_shares)
 gc()
 
 # Pre- and post agricultural processing -----------------------------------
@@ -437,8 +437,8 @@ ppap <- data_list[["ppap"]]
 # filter for emissions from waste relevant to industry (emissions from final
 # demand waste are dealt with below)
 waste_totals <- ppap[item %in% c("Incineration", "Industrial Wastewater", 
-                                         "Solid Food Waste" ) &
-                               !element %like% c("CO2eq")]
+                                 "Solid Food Waste" ) &
+                       !element %like% c("CO2eq")]
 
 # convert from kt to t
 waste_totals[, `:=` (value = value * 1000, unit = "tonnes")]
@@ -615,7 +615,7 @@ other_pre_post_totals[, `:=` (value = value * 1000, unit = "tonnes")]
 
 # widen totals
 other_pre_post_totals[, colname := gsub(" ", "_", tolower(gsub("Emissions |[()]", "", 
-                                                      paste(item, element))))]
+                                                               paste(item, element))))]
 
 other_pre_post_totals <- dcast(other_pre_post_totals, area_code + year ~ colname, value.var = "value")
 
@@ -671,8 +671,8 @@ price_weights <- price_weights[, .(area_code, year, item_code, price_share, pric
 
 # merge 
 other_pre_post_totals <- merge(other_pre_post_totals, price_weights,
-                                by = c("area_code", "year"),
-                                allow.cartesian = TRUE)
+                               by = c("area_code", "year"),
+                               allow.cartesian = TRUE)
 
 # Fertilizer production: attribute based on shares of fertilizer (12_4)
 fertilizer_shares <- readRDS("data/NPK/SF_application_sua.rds")
