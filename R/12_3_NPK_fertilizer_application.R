@@ -202,7 +202,7 @@ app_full[item_code != 2001, `:=` (N_rate = fifelse(is.na(N_rate),N_reg, N_rate),
                  P_rate = fifelse(is.na(P_rate),P_reg, P_rate))]
 app_full[, `:=` (P_reg = NULL, N_reg = NULL)]
 app_full[is.na(N_rate), N_rate := 0]
-app_full[is.na(P_rate), N_rate := 0]
+app_full[is.na(P_rate), P_rate := 0]
 
 # filter for current years
 app <- app_full[ year %in% years,]
@@ -223,6 +223,3 @@ saveRDS(app, "data/NPK/SF_application_sua.rds")
 
 rm(list = ls())
 gc()
-
-
-
