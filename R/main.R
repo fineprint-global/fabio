@@ -67,15 +67,17 @@ source("R/10_mrio.R"); rm(list = ls()); gc()
 source("R/11_leontief_inverse.R"); rm(list = ls()); gc()
 
 # Prepare env. extensions ------------------------------------------------
-source("R/12_1_land_mass_water.R"); rm(list = ls()); gc()
-source("R/12_2_NPK_spatial.R"); rm(list = ls()); gc()
-source("R/12_3_NPK_fertilizer_application.R"); rm(list = ls()); gc()
-source("R/12_4_NP_balance.R"); rm(list = ls()); gc()
-source("R/12_5_ghg.R"); rm(list = ls()); gc()
-source("R/12_6_biodiversity_ibif.R"); rm(list = ls()); gc()
-source("R/12_7_biodiversity_tidy.R"); rm(list = ls()); gc()
-source("R/12_8_biodiversity_lc_fd.R"); rm(list = ls()); gc()
-source("R/12_9_ecosystem_services.R"); rm(list = ls()); gc()
+source("R/12_01_land_mass_water.R"); rm(list = ls()); gc()
+source("R/12_02_NPK_spatial.R"); rm(list = ls()); gc()
+source("R/12_03_NPK_fertilizer_application.R"); rm(list = ls()); gc()
+source("R/12_04_NP_balance.R"); rm(list = ls()); gc()
+source("R/12_05_ghg.R"); rm(list = ls()); gc()
+source("R/12_06_biodiversity_ibif.R"); rm(list = ls()); gc()
+source("R/12_07_biodiversity_tidy.R"); rm(list = ls()); gc()
+source("R/12_08_biodiversity_lc_fd.R"); rm(list = ls()); gc()
+source("R/12_09_ecosystem_services.R"); rm(list = ls()); gc()
+# Compile extensions into E.rds / ex_labels.csv
+source("R/12_10_extensions_main.R"); rm(list = ls()); gc()
 
 # Value-added / producer-price pipeline (folded in) ----------------------
 # Each script sources R/00_value_added_config.R itself, so the rm() pattern
@@ -91,7 +93,3 @@ source("R/14_3_value_added_FABIO_v2_national_SUTs.R"); rm(list = ls()); gc()
 source("R/14_4_value_added_FABIO_v2_synthesis.R"); rm(list = ls()); gc()
 #   last mile -> six CBS value-added extensions in data/extensions/cbs/
 source("R/14_5_value_added_extensions.R"); rm(list = ls()); gc()
-
-# Compile extensions into E.rds / ex_labels.csv. Must run AFTER 14_5 (it
-# hard-errors if the six CBS value-added extensions are absent).
-source("R/15_extensions_main.R"); rm(list = ls()); gc()
