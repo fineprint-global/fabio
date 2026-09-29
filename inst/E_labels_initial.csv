@@ -271,6 +271,7 @@ p_removal,nutrient_pollution,phosphorus,,kg P,Removal of phosphorus through harv
 https://www.fao.org/faostat/en/#data/QCL;
 README from https://www.fao.org/faostat/en/#data/ESB",
 p_runoff_erosion,nutrient_pollution,phosphorus,,kg P,Runoff and erosion of phosphorus from croplands and pastures,IMAGE-DPPS,
+p_surplus,nutrient_pollution,phosphorus,,kg P,P surplus: Mineral fertilizer + manure + weathering + deposition - removal. Negative balances set to 0 at country-year-item level surplus rates capped to 26kg/ha following estimates from MacDonald et al.,http://www.pnas.org/cgi/doi/10.1073/pnas.1010808108,
 p_weathering,nutrient_pollution,phosphorus,,kg P,Phosphorus inputs to croplands and pastures through weathering of phosphate rock,IMAGE-DPPS,
 water_blue_cap_r,water,,,m3,Blue water used by crops through groundwater capillary rise,"Extrapolated from:
 10.1038/s41597-024-03051-3",

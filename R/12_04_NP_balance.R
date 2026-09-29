@@ -31,9 +31,7 @@ cont <- fread("inst/NPK/NP_cont_crops_grass.csv")[, `:=` (K = NULL)]
 cont_fodder <- fread("inst/NPK/NP_cont_fodder.csv")
 
 # add dry matter conversion for non-fodder crops and grazing
-# TODO: if grazing is reported as fresh weight in sup table, needs to be converted 
-# (check GLEAM dm content, should be .23)
-cont[, dm_conv := 1]
+cont[, dm_conv := ifelse(item_code == 2001, 0.243, 1)]
 
 # combine
 cont <- rbind(cont, cont_fodder)
@@ -58,7 +56,7 @@ fodder_prod <- fodder_prod[element == "Production" & year %in% years,
                            .(area_code, item, item_code, year, 
                              production = value )]
 
-# add grazing "production" from supply table
+# add grazing "production" from GLEAM
 grass_prod <- readRDS("data/sup_final.rds")[item_code == 2001, 
                                             .(area_code, item, item_code, year, production)]
 cont_full <- rbind(cont_full, grass_prod, fodder_prod)
@@ -912,12 +910,39 @@ p_budget <- merge(p_budget,
                             p_re = runoff)],
                   by = c("iso3c", "year", "item", "item_code"), all.x = TRUE)
 
-# add item_code and harv_area for final version
-p_budget[, item_code := items$item_code[match(item, items$item)]]
+# add harv_area for final version
 p_budget[,harv_area  := harv_area$ha[match(paste(iso3c, year, item),
                                            paste(harv_area$iso3c,
                                                  harv_area$year,
                                                  harv_area$item))]]
+
+# add two balance versions 
+## First version: by-item balance with negatives set to 0 later -> always excluding runoff/erosion
+# to match BAMBOO system boundaries
+p_budget[, p_bal_full_detail := na_sum(fa, man, ad, p_wea, -rem) ]
+
+## Second version: aggregate balances to national level, distribute by removal shares
+# p_budget[, p_bal_total := sum(p_bal_full_detail, na.rm = TRUE), by = .(iso3c, year)]
+# p_budget[, rem_share := rem/sum(rem, na.rm = TRUE), by = .(iso3c, year)]
+# p_budget[, p_bal_proxy := rem_share * p_bal_total]
+
+# set both balances to 0, where they are negative
+p_budget[ p_bal_full_detail < 0, p_bal_full_detail := 0]
+# p_budget[ p_bal_proxy < 0, p_bal_proxy := 0][, `:=` (p_bal_total = NULL, 
+#                                                      rem_share = NULL)]
+
+# cap surplus at 26kg/(ha * year) -> from MacDonald et al. doi/10.1073/pnas.1010808108
+# who find that the 10% of most P-intensive grid cells have a median of 26kg P/ha
+# it is unlikely that this is exceeded consistently for a whole crop-country-year combination
+
+p_budget[, p_rate := p_bal_full_detail/harv_area]
+
+cat(paste0("cap affects ", p_budget[p_rate > 26, round(.N/nrow(p_budget) *100,1)], "% of\ 
+           country-year-item combinations in ", length(p_budget[p_rate > 26, unique(iso3c)]), 
+           " countries"))
+
+p_budget[p_rate >26, `:=` (p_rate = 26, capped = TRUE)]
+p_budget[capped == TRUE, p_bal_full_detail := p_rate * harv_area ][, `:=` (capped = NULL, p_rate = NULL)]
 
 #tidy
 
@@ -965,6 +990,8 @@ mappings <- rbind(
   data.frame(target = "p_list", nm = "atmospheric_deposition",   col = "ad"),
   data.frame(target = "p_list", nm = "weathering",                  col = "p_wea"),
   data.frame(target = "p_list", nm = "runoff_erosion",        col = "p_re"),
+  data.frame(target = "p_list", nm = "surplus",        col = "p_bal_full_detail"),
+ # data.frame(target = "p_list", nm = "balance_proxy",        col = "p_bal_proxy"),
   stringsAsFactors = FALSE
 )
 
@@ -1008,8 +1035,6 @@ for (nm in names(E_sua)) {
   saveRDS(E_sua[[nm]], paste0("data/extensions/sua/", nm, ".rds"))
   saveRDS(E_cbs[[nm]], paste0("data/extensions/cbs/", nm, ".rds"))
 }
-
-
 
 
 rm(list = ls())
