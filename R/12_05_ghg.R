@@ -223,10 +223,12 @@ list_co2[["crops_drain"]] <- drain
 rm(drain, drain_totals, drain_crops, drain_grazing)
 
 # On-farm energy use (CO2, CH4, N2O) ----------------------
-# The following script attributes emissions from On-Farm Energy use in three steps:
+# The following section attributes emissions from On-Farm Energy use in three steps:
 # 1) separate out forestry emissions from FAO totals based on Gloria-sector emissions (only crop/animal/fishery emissions are kept in Fabio)
-# 2) split up FAO rest-of-world area (FAO only has 156 areas) to remaining Fabio areas
+# 2) split up FAO rest-of-world area (FAO Emissions data only has 156 areas) to remaining Fabio areas
 # 3) allocate on-farm emissions to items based on Value-Added for primary sector (ISIC-A) products (Value-Added attribution)
+#    - this is done using the Value Added extension, which holds enriched and error-checked VA accounts in CBS format (123 items)
+#    - due to the higher aggregation, the CBS items are split to SUA primary items for the attribution
 
 # get total on-farm energy use from FAO
 energy_emissions_FAO <- data_list[["energy"]][element != "Energy use in agriculture" & 
@@ -317,7 +319,7 @@ energy_emissions_FAO <- rbindlist(list(
 ))
 setorder(energy_emissions_FAO, area_code, year, sector)
 
-# There are 181 Fabio area codes, but FAO has data for 156 only, so that the FAO ROW account has to be further subdivided off 
+# Subdivide off ROW region (There are 181 Fabio area codes, but FAO has data for 156 only) 
 
 # split the FAO totals by estimated GLORIA-based emissions, with the same table as the one used for forestry shares
 setdiff(unique(regions$code), unique(energy_emissions_FAO$area_code)) # display unmatched areas
@@ -366,7 +368,7 @@ energy_emissions_FAO <- energy_emissions_FAO[sector != "Forestry"]
 V_list <- readRDS("/mnt/nfs_fineprint/tmp/fabio/v2/V.rds")
 
 # transpose and filter to get one table covering all years
-va <- rbindlist(
+va_cbs <- rbindlist(
   lapply(names(V_list), function(yr) {
     mat <- t(V_list[[yr]])
     dt  <- as.data.table(mat, keep.rownames = "id")
@@ -376,53 +378,127 @@ va <- rbindlist(
 )
 
 # tidy resulting objects
-setcolorder(va, c("year", "id", setdiff(names(va), c("year", "id"))))
+setcolorder(va_cbs, c("year", "id", setdiff(names(va_cbs), c("year", "id"))))
 rm(V_list); gc()
 
 # select value-added accounts (see "/mnt/nfs_fineprint/tmp/fabio/v2/v_labels.csv" for column names)
 # 14 years x 181 regions x 123 items
-va <- va |> select(year, id, starts_with("VA_"))
+va_cbs <- va_cbs |> select(year, id, starts_with("VA_"))
 
 # split regions and items from matrix names
-va$region <- substr(va$id, 1, 3)
-va$comm_code <- substr(va$id, 5, 8)
-stopifnot(uniqueN(va$region) == 181)
+va_cbs$region <- substr(va_cbs$id, 1, 3)
+va_cbs$comm_code <- substr(va_cbs$id, 5, 8)
+stopifnot(uniqueN(va_cbs$region) == 181)
 
 # add information for filtering
 items_cbs <- fread("inst/items_full_123.csv")
-va <- merge(va, items_cbs, by = "comm_code")
-va <- merge(va, regions, by.x = "region", by.y = "iso3c")
-va$area_code <- va$code
+va_cbs <- merge(va_cbs, items_cbs, by = "comm_code")
+va_cbs <- merge(va_cbs, regions, by.x = "region", by.y = "iso3c")
+
+# renames and column selection
+va_cbs$area_code <- va_cbs$code
+va_cbs$item_code_cbs <- va_cbs$item_code
+va_cbs <- va_cbs %>% select(area_code, year, region, comm_code, item_code_cbs,
+                    VA_wages_isic_a_gloria, VA_capital_isic_a_gloria,
+                    VA_wages_isic_a_exiobase, VA_capital_isic_a_exiobase)
 
 # calculate Value Added figures for ISIC A sector, omitting tls (tax less subsidy), as only positive value added elements are considered for the split
-va[, `:=`(
+va_cbs[, `:=`(
   VA_base_isic_a_exiobase = VA_capital_isic_a_exiobase + VA_wages_isic_a_exiobase,
   VA_base_isic_a_gloria   = VA_capital_isic_a_gloria   + VA_wages_isic_a_gloria
 )]
 
 # negative VA values can arise in the source data. For the purposes of the share split, they can be excluded
-va[VA_base_isic_a_exiobase < 0 | VA_base_isic_a_gloria < 0,
-   .N, by = year]
-va[VA_base_isic_a_exiobase < 0, VA_base_isic_a_exiobase := 0]
-va[VA_base_isic_a_gloria < 0, VA_base_isic_a_gloria := 0]
+va_cbs[VA_base_isic_a_exiobase < 0 | VA_base_isic_a_gloria < 0,
+       .N, by = year]
+va_cbs[VA_base_isic_a_exiobase < 0, VA_base_isic_a_exiobase := 0]
+va_cbs[VA_base_isic_a_gloria < 0, VA_base_isic_a_gloria := 0]
 
-# generate emissions table for on-farm energy use, where each FAO total is split of to the items with the established weights
-onfarm_energy_emissions <- merge(energy_emissions_FAO, va, by = c("area_code", "year"), all = T)
+va_cbs <- va_cbs[, c("area_code", "year", "item_code_cbs", "VA_base_isic_a_exiobase")]
 
-# calculate Value Added share of the group (Livestock, Crop, Fish) for a region/year total
+# va_cbs is aggregated value added data (CBS level, 123 items), enriched with auxiliary sources and error-checked in the value added extensions. 
+# Where one CBS item maps to multiple SUA items, the VA totals are disaggregated by estimated domestic VA where available.
+# As a Heuristic, items where one CBS code matches multiple SUA codes, and where no detailed VA information is avaliable (e.g. Fish, Seafood), are split equally between items. 
+# This processing ensures that the highest possible resolution is used in the VA allocation, while keeping the totals for each region x year x item stable when aggregated back to CBS.
+
+# construct concordance table CBS <> SUA for primary production
+conc_cbs_sua <- read_csv("inst/conc_cbs_sua.csv")
+conc_primary <- merge(conc_cbs_sua, items, by.x = "item_code_sua", by.y = "item_code") %>% 
+  filter(processed == FALSE | group == "aquatic products") %>% # only keep primary production, set up Fish, Seafood items for separate handling
+  select(c("item_code_sua", "item_sua", "item_code_cbs", "item_cbs", "group", "comm_group"))
+conc_primary <- conc_primary %>% filter(!item_code_sua %in% c(2781, 2782, 2961)) # manually exclude processed Fish, Seafood items
+conc_primary <- conc_primary %>% mutate(item_code_cbs := ifelse(group == "aquatic products", 2960, item_code_cbs), # modify concordance in keeping with 123-item CBS coding (Fish needs manual handling in the calculation due to incomplete mapping)
+                                        item_cbs := ifelse(group == "aquatic products", "Fish, Seafood", item_cbs))
+setDT(conc_primary)
+
+# for disaggregation: estiamte VA from production volume and price where natively avaliable
+bilateral_trade_prices <- readRDS("~/fabio/data/total_value/bilateral_trade_prices.rds")
+sua_tidy <- readRDS("~/fabio/data/tidy/sua_tidy.rds")
+
+# construct disaggregation table from source data
+additional_va_estimates <- merge(sua_tidy[, c("area_code", "item_code", "year", "production")], bilateral_trade_prices[, c("area_code", "item_code", "year", "price")], by=c("area_code", "item_code", "year"))
+additional_va_estimates <- merge(conc_primary, additional_va_estimates, by.x = c("item_code_sua"), by.y = ("item_code"), all.x = T)
+additional_va_estimates$VA_estimate <- additional_va_estimates$price * additional_va_estimates$production
+
+# construct template table with areas x years x items, onto which the steps for disaggregation can be merged
+va_allocation_shares <- CJ(
+  area_code = regions$code,
+  year      = years,
+  item_code_sua = conc_primary$item_code_sua
+)[
+  conc_primary[, .(item_code_sua, item_sua, item_code_cbs, item_cbs)]
+  , on = "item_code_sua"
+]
+
+# add VA estimates to use in disaggregation where possible
+va_allocation_shares <- merge(va_allocation_shares, additional_va_estimates[, c("area_code", "year", "item_code_sua", "VA_estimate")], 
+      by = c("area_code", "year", "item_code_sua"),
+      all.x = T, sort = F)
+
+# Compute share of each SUA item within its CBS group (for each area, year, and CBS item)
+# this calculation treats NAs as 0, and applies a 1/n split where no processing data is available. This will usually be the case for products with no domestic production, and is done for completeness.
+# the "other" bins in CBS should get correctly split via processing volumes this way
+va_allocation_shares[
+  , share_within_group := {
+    proc <- fifelse(is.na(VA_estimate), 0, VA_estimate)
+    tot  <- sum(proc)
+    if (tot == 0) rep(1 / .N, .N) else proc / tot
+  }
+  , by = .(area_code, year, item_code_cbs)
+]
+va_allocation_shares <- va_allocation_shares[, c("area_code", "year", "item_code_sua", "item_sua", "item_code_cbs", "item_cbs", "share_within_group")]
+
+# prepare final table to disaggregate
+va_sua <- merge(va_allocation_shares, va_cbs, by = c("area_code", "year", "item_code_cbs"), all.x = T, sort = F)
+
+# disaggregate VA for items where one CBS code matches multiple SUA codes
+va_sua$VA_base_isic_a_exiobase <- va_sua$VA_base_isic_a_exiobase * va_sua$share_within_group
+
+# calculate final attribution shares for emissions
+# note that this is a separate step: first, CBS items were disaggregated to SUA; now, SUA items are used to disaggregate emissions totals for the final on-farm energy use
+va_sua[
+  , VA_attribution_share := VA_base_isic_a_exiobase / sum(VA_base_isic_a_exiobase, na.rm = TRUE)
+  , by = .(area_code, year)
+]
+
+# rename and select appropriate cols
+va_sua[, item_code := item_code_sua]
+va_sua <- va_sua[, c("area_code", "year", "item_code", "VA_attribution_share")]
+
+# check: each region's shares should sum to 1, making sure that all emissions get assigned correctly 
+stopifnot(va_sua[, .(total = sum(VA_attribution_share, na.rm = TRUE)), by = area_code][, all(abs(total - length(years)) < 1e-6)])
+
+# final emissions table for on-farm energy use
+onfarm_energy_emissions <- merge(energy_emissions_FAO, va_sua, by = c("area_code", "year"), all = T)
+
+# apply shares to the energy totals, which results in disaggregated energy use for each area x year x item
 onfarm_energy_emissions[, `:=`(
-  share_exiobase = VA_base_isic_a_exiobase / sum(VA_base_isic_a_exiobase, na.rm = TRUE),
-  share_gloria   = VA_base_isic_a_gloria   / sum(VA_base_isic_a_gloria,   na.rm = TRUE)
-), by = c("area_code", "year")]
-
-# apply shares - here, Gloria accounts can also be used instead of EXIOBASE
-onfarm_energy_emissions[, `:=`(
-  ch4_energy = ch4_energy_area_total * share_exiobase,
-  co2_energy = co2_energy_area_total * share_exiobase,
-  n2o_energy = n2o_energy_area_total * share_exiobase
+  ch4_energy = ch4_energy_area_total * VA_attribution_share,
+  co2_energy = co2_energy_area_total * VA_attribution_share,
+  n2o_energy = n2o_energy_area_total * VA_attribution_share
 )]
 
-# add to lists
+# add result to lists
 list_ch4[["farm_energy"]] <- onfarm_energy_emissions[, .(area_code, year, item_code, value = ch4_energy)]
 list_co2[["farm_energy"]] <- onfarm_energy_emissions[, .(area_code, year, item_code, value = co2_energy)]
 list_n2o[["farm_energy"]] <- onfarm_energy_emissions[, .(area_code, year, item_code, value = n2o_energy)]
@@ -734,7 +810,7 @@ list_co2[["ppap_fertilizers_manufacturing"]] <- other_pre_post_totals[, .(area_c
 list_n2o[["ppap_fertilizers_manufacturing"]] <- other_pre_post_totals[, .(area_code, year, item_code, value = fertilizers_manufacturing_n2o)]
 
 # tidy environment
-rm(fertilizer_and_pesticides, fertilizer_shares, other_pre_post_totals, ppap, price_weights, process_pack_transport)
+rm(fertilizer_shares, other_pre_post_totals, ppap, price_weights)
 
 # Final demand -----------------
 # Initialize lists
