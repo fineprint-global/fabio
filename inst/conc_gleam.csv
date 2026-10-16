@@ -1,11 +1,11 @@
-proc_code,proc,animal
-p100,Dairy buffaloes husbandry,Buffalo
-p099,Dairy cattle husbandry,Cattle
-p102,Dairy goats husbandry,Goats
-p101,Dairy sheep husbandry,Sheep
-p085,Cattle husbandry,Cattle
-p088,Goats husbandry,Goats
-p090,Poultry Birds farming,Chicken
-p089,Pigs farming,Pigs
-p086,Buffaloes husbandry,Buffalo
-p087,Sheep husbandry,Sheep
+proc_code,proc,animal,item_code
+p100,Dairy buffaloes husbandry,Buffalo,946
+p099,Dairy cattle husbandry,Cattle,866
+p102,Dairy goats husbandry,Goats,1016
+p101,Dairy sheep husbandry,Sheep,976
+p085,Cattle husbandry,Cattle,866
+p088,Goats husbandry,Goats,1016
+p090,Poultry Birds farming,Chicken,1057
+p089,Pigs farming,Pigs,1034
+p086,Buffaloes husbandry,Buffalo,946
+p087,Sheep husbandry,Sheep,976
