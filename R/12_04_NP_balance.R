@@ -829,6 +829,46 @@ P_runoff <- fread("input/NPK/P_runoff_erosion_kg.csv")
 P_list <- list(P_weathering, P_deposition, P_runoff)
 names(P_list) <- c("weathering", "deposition", "runoff")
 
+# Split up serbia and monetenegro by P input shares 
+## duplicate "Serbia and Montenegro" rows
+P_list <- lapply(P_list, function(dt) {
+  dt <- copy(dt)                      
+
+  srb <- dt[iso == 891]
+  srb <- melt(
+    as.data.table(srb),
+    measure.vars = as.character(2010:2022),
+    variable.name = "year",
+    value.name = "value"
+  )
+  srb[, year := as.integer(as.character(year))]
+  
+  mne <- copy(srb)
+  
+  srb[, `:=` (fabio_iso3c = "SRB", `Country name` = "Serbia")]
+  mne[, `:=` (fabio_iso3c = "MNE", `Country name` = "Montenegro")]
+  
+  new <- rbind( srb, mne)
+  
+  # Add fertilizer application
+  new <- merge(new, app[iso3c == "SRB", .(serbia_fert = sum(P_kg, na.rm = TRUE)),
+                        by = year], by = "year")
+  new <- merge(new, app[iso3c == "MNE", .(monte_fert = sum(P_kg, na.rm = TRUE)),
+                        by = year], by = "year")
+  new[, total_fert := serbia_fert + monte_fert]
+  new[, monte_share := monte_fert/total_fert]
+  new[fabio_iso3c == "MNE", value := monte_share * value]
+  new[fabio_iso3c == "SRB", value := (1-monte_share) * value]
+  new <- new[, .(year, iso, fabio_iso3c, value)]
+  new <- dcast(new, iso + fabio_iso3c ~ year, value.var = "value")
+  new[, `Country name` := ifelse(fabio_iso3c == "SRB", "Serbia", "Montenegro")]
+  
+  rbind(dt[iso != 891], new, use.names = TRUE)
+
+})
+
+
+
 # create empty data.table for filling
 P_wdr <- copy(template_full)
 
@@ -852,6 +892,8 @@ for (i in seq_along(P_list)) {
   P_wdr <- merge(P_wdr, P_list[[i]], by.x = c("iso3c", "year"),
                  by.y = c("fabio_iso3c", "year"), all.x = TRUE)
 }
+
+
 
 # delete rows after 2022 (no data for this in this step, will be added below)
 P_wdr <- P_wdr[year <= 2022]
@@ -954,6 +996,9 @@ p_budget[, (numeric_cols) :=
            lapply(.SD, function(x) round(x, 2)),
          .SDcols = numeric_cols]
 setcolorder(p_budget, "harv_area",  after = "item_code")
+
+# save in misc for sharing
+saveRDS(p_budget, "misc/P_flows.rds")
 
 # re-format as FABIO extensions ---------
 # reduce to many data.tables with one value column to enable cbs aggregation
