@@ -23,8 +23,8 @@ files <- c(climate_change_terrestrial    = "3_CF_CLIMATE_CHANGE.zip",
            eutrophication_freshwater     = "8_CF_EUTROPHICATION.zip",
            invasive_species              = "9_CF_INVASIVE_SPECIES.zip")
 
-# Download LC-Impact from Zenodo (latest version 2 as of March 24, 2026)
-fa_dl(file = files, path = path_lc, link = "https://zenodo.org/records/19202729/files/")
+# Download LC-Impact from Zenodo (latest version 2 as of October 2, 2026)
+fa_dl(file = files, path = path_lc, link = "https://zenodo.org/records/22813630/files/")
 
 # extract from zip files
 fa_extract(path_in = path_lc, files = files, path_out = path_lc,
@@ -33,11 +33,11 @@ fa_extract(path_in = path_lc, files = files, path_out = path_lc,
                     "CF_CLIMATE_CHANGE/EQ_ClimateChange_Freshwater_gloPDF_Country_Aggregated_2025-12-09.xlsx", 
                     "CF_CLIMATE_CHANGE/EQ_ClimateChange_Marine_gloPDF_Country_Aggregated_2025-12-09.xlsx",
                     "CF_ACIDIFICATION/EQ_TerrestrialAcidification_gloPDF_Country_Aggregated_2025-10-14.xlsx",
-                    "CF_WATER_USE/EQ_WaterUse_gloPDF_Country_Aggregated_2025-12-08.xlsx",
-                    "CF_LAND_USE/EQ_LandUse_gloPDF_Country_Aggregated_2025-12-17.xlsx",
-                    "8_EUTROPHICATION/CF_EUTROPHICATION/EQ_FreshwaterEutrophication_gloPDF_Country_Aggregated_2026-03-24.xlsx",
-                    "CF_INVASIVE_SPECIES/EQ_InvasiveSpecies_Terrestrial_gloPDF_Country_Aggregated_2025-10-14.xlsx"),
-           col_types = list(NULL, NULL, NULL, NULL, NULL, NULL, NULL, list(sheet = "Average")),
+                    "EQ_WaterUse_gloPDF_Country_Aggregated_2026-08-27.xlsx",
+                    "EQ_LandUse_gloPDF_Country_Aggregated_2026-06-29.xlsx",
+                    "EQ_FreshwaterEutrophication_gloPDF_Country_Aggregated_2026-09-17.xlsx",
+                    "CF_INVASIVE_SPECIES/EQ_TerrestrialInvasiveSpecies_gloPDF_Country_Aggregated_2026-05-11.xlsx"),
+           col_types = list(NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
            read_method = rep("read_xlsx", 8),
 )
 
@@ -59,11 +59,11 @@ LC_names <- c(
   climate_change_freshwater  = "EQ_ClimateChange_Freshwater_gloPDF_Country_Aggregated_2025-12-09.rds",
   climate_change_terrestrial = "EQ_ClimateChange_Terrestrial_gloPDF_Country_Aggregated_2025-12-09.rds",  
   climate_change_marine      = "EQ_ClimateChange_Marine_gloPDF_Country_Aggregated_2025-12-09.rds",       
-  eutrophication_freshwater  = "EQ_FreshwaterEutrophication_gloPDF_Country_Aggregated_2026-03-24.rds",
-  invasive_species           = "EQ_InvasiveSpecies_Terrestrial_gloPDF_Country_Aggregated_2025-10-14.rds",
-  land_use                   = "EQ_LandUse_gloPDF_Country_Aggregated_2025-12-17.rds",
+  eutrophication_freshwater  = "EQ_FreshwaterEutrophication_gloPDF_Country_Aggregated_2026-09-17.rds",
+  invasive_species           = "EQ_TerrestrialInvasiveSpecies_gloPDF_Country_Aggregated_2026-05-11.rds",
+  land_use                   = "EQ_LandUse_gloPDF_Country_Aggregated_2026-06-29.rds",
   acidification              = "EQ_TerrestrialAcidification_gloPDF_Country_Aggregated_2025-10-14.rds",
-  water_use                  = "EQ_WaterUse_gloPDF_Country_Aggregated_2025-12-08.rds"
+  water_use                  = "EQ_WaterUse_gloPDF_Country_Aggregated_2026-08-27.rds"
 )
 
 names(LC_list) <- names(LC_names)[match(basename(files), LC_names)]
@@ -175,8 +175,8 @@ eut <- eut[flow_id %in% c("601311d7-4d5c-4d49-b131-69b73793ad0f",
                           "247582e8-f296-4db4-94d3-ef1f7bea9a2d",
                           "b88d3b6d-229e-477e-bce1-e16376f75c7b",
                           "bc2fb99a-c9b4-4473-9870-089bcef3054f") &
-             approach == "Average" &
-             scenario %in% c("Combined impact of N and P based on Weights of proportion",
+             approach == "average" &
+             scenario %in% c("Combined impact of N and P",
                              "Considering N-limited regions")]
 
 # convert unit to match pressures
@@ -212,22 +212,23 @@ water <- LC_list[["water_use"]]
 water <- water[flow_id == "419682fe-60fb-4b43-be89-bf2824b51104" &
                  approach == "Average"]
 water <- water[, ..key_cols]
+water[, cf := as.numeric(cf)]
 
 LC_list[["water_use"]] <- water
 
 
-## Invasive species (LC) -------------
-# exclude regions not in FABIO, use global CFs 
-invasive_species <- invasive_species[importer %in% regions$iso3c &
-                                       exporter %in% regions$iso3c ,] # not gap filling here, assumptions would be too wild
-
-# convert units to match pressures
-invasive_species <- invasive_species[, .(flow_id = NA_real_, flow = "trade_volume",
-                                         exporter, importer, cf = CFglobal * 1000,
-                                         cf_unit = "PDF global*yr/t",
-                                         approach = "Average")]
-
-saveRDS(invasive_species, "data/extensions/tidy/invasive_species_tidy.rds")
+# ## Invasive species (LC) -------------
+# # exclude regions not in FABIO, use global CFs 
+# invasive_species <- invasive_species[importer %in% regions$iso3c &
+#                                        exporter %in% regions$iso3c ,] # not gap filling here, assumptions would be too wild
+# 
+# # convert units to match pressures
+# invasive_species <- invasive_species[, .(flow_id = NA_real_, flow = "trade_volume",
+#                                          exporter, importer, cf = CFglobal * 1000,
+#                                          cf_unit = "PDF global*yr/t",
+#                                          approach = "Average")]
+# 
+# saveRDS(invasive_species, "data/extensions/tidy/invasive_species_tidy.rds")
 
 
 ## FD list --------------
@@ -520,17 +521,16 @@ lc13_fweut_raw  <- lc13_read_raw(lc13_fweut_file,
 lc13_fweut_hdr  <- lc13_hdr_row(lc13_fweut_raw, "^Country$", "freshwater eutrophication")
 lc13_fweut      <- lc13_table(lc13_fweut_raw, lc13_fweut_hdr)
 
-# P to soil and the erosion CF are on the same sheet: no P-to-soil pressure in FABIO,
-# and the erosion CF is PDFyr/m2yr, a land-area basis that cannot multiply kg P
+# Using P to soil
 lc13_fweut <- data.table(
   name = lc13_fweut$name,
   type = lc13_pressure("Phosphorus"),
-  cf   = lc13_num(lc13_fweut[[lc13_col(names(lc13_fweut), "^CF for P emissions to water",
+  cf   = lc13_num(lc13_fweut[[lc13_col(names(lc13_fweut), "^CF for P emissions to soil",
                                        "P to water")]]))
 
 lc13_fweut_glo <- data.table(
   type = lc13_pressure("Phosphorus"),
-  cf   = lc13_global(lc13_fweut_file, "^Global$", "^Global$", "^CF for P emissions to water",
+  cf   = lc13_global(lc13_fweut_file, "^Global$", "^Global$", "^CF for P emissions to soil",
                      "fw eut global P water"))
 
 lc13_fweut <- lc13_to_iso(lc13_fweut, lc13_fweut_glo, "eutrophication fresh")
@@ -543,14 +543,13 @@ lc13_meut_raw  <- lc13_read_raw(lc13_meut_file,
 lc13_meut_hdr  <- lc13_hdr_row(lc13_meut_raw, "^Country$", "marine eutrophication")
 lc13_meut      <- lc13_table(lc13_meut_raw, lc13_meut_hdr)
 
-# n_leaching_runoff has already left the soil towards surface water -> the river CF,
-# not the soil one. The direct marine emissions in the second country block of this
-# sheet have no FABIO pressure.
+# using n_leaching_runoff as procxy for emissions to soil (assuming that there
+# is minimal soil retention, these should be equal)
 lc13_meut <- data.table(
   name = lc13_meut$name,
   type = lc13_pressure("nitrogen, total (excluding N2)"),
-  cf   = lc13_num(lc13_meut[[lc13_col(names(lc13_meut), "freshwater \\(river\\)",
-                                      "N to river")]]))
+  cf   = lc13_num(lc13_meut[[lc13_col(names(lc13_meut), "emission to soil",
+                                      "N to soil")]]))
 
 # the `global CFs` sheet is a bare name/value pair list, no header row
 lc13_meut_glo_raw <- lc13_read_raw(lc13_meut_file, lc13_sheet(lc13_meut_file, "^global CFs$"))
