@@ -23,9 +23,9 @@ fa_dl <- function(
 
   out <- vector("integer", length(file))
   for(i in seq_along(file)) {
-    if(!file.exists(dest[i])) {
+    # if(!file.exists(dest[i])) {
       out[i] <- download.file(dl[i], dest[i], method = "auto")
-    } else if(v) cat("Skipping download, already found:", file[i], "\n")
+    # } else if(v) cat("Skipping download, already found:", file[i], "\n")
   }
 
   out

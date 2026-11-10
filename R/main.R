@@ -3,6 +3,7 @@
 # Will download ZIP files from FAOSTAT
 source("R/00_1_prep_fao.R")
 source("R/00_2_prep_fao_reshape.R")
+rm(list = ls()); gc()
 
 # Requires downloading BACI ZIP files available from:
 # https://www.cepii.fr/CEPII/en/bdd_modele/bdd_modele_item.asp?id=37
