@@ -23,13 +23,13 @@ FD_with_regions <- readRDS("data/extensions/tidy/fd_country_level_tidy.rds")
 FD_climate <- readRDS("data/extensions/tidy/fd_climate_tidy.rds")
 
 ## Pressures
-nms <- conc[source %in% c("LC", "FD"), unique(fabio_pressure)] 
+nms <- conc[source %in% c("LC", "LC1", "FD"), unique(fabio_pressure)] 
 files <- paste0("data/extensions/sua/", nms, ".rds")
 pressures <- setNames(lapply(files, readRDS), nms)
 pressures <- unformat_extension(pressures, nms, long = FALSE)
 
 ## Final demand pressures
-nms <- conc[source %in% c("LC", "FD") & fd_fabio_pressure != "", 
+nms <- conc[source %in% c("LC", "LC1", "FD") & fd_fabio_pressure != "", 
             unique(fd_fabio_pressure)] 
 files <- paste0("data/extensions/fd_sua/", nms, ".rds")
 fdem_pressures <- setNames(lapply(files, readRDS), nms)
@@ -125,16 +125,15 @@ FD_list <- impacts_list[c("FD", "FD_fdem")]
 rm(impacts_list)
 
 # Final formatting LC-impact -------------
-# aggregate within the same impact category/realm combinations
-impact_categories <- c("freshwater_climate", "marine_climate", "terrestrial_climate",
-                       "freshwater_eutrophication","terrestrial_land_use", 
-                       "freshwater_water_use", "terrestrial_acidification") 
+# aggregate within the same pressure realm combinations
+impact_categories <- c("ghg", "n_nh3_n", "land_crop", "luc_forest_to_agric", 
+                       "p_surplus", "n_leaching_runoff", "land_grass", "water_blue") 
 realms <- c("freshwater", "marine", "terrestrial")
 
 LC_list <- lapply(names(LC_list), function(nm) {
   impact <- LC_list[[nm]]
   
-  aggregate_impact_categories(impact, impact_categories, realms)
+  aggregate_impact_categories(impact, impact_categories, realms, key_cols = key_cols)
   impact_cols <- setdiff(colnames(impact), key_cols)
   
   setNames(
@@ -163,16 +162,16 @@ invisible(lapply(LC_list, function(sub_list) {
 # ecosystems, and the aquatic factor is freshwater-fish based), and its freshwater
 # eutrophication covers phosphorus only, so waterborne nitrogen is characterised as
 # marine eutrophication instead. Own vectors, so the v2 run above is untouched.
-impact_categories_lc1 <- c("freshwater_climate", "terrestrial_climate",
-                           "freshwater_eutrophication", "marine_eutrophication",
-                           "terrestrial_land_use",
-                           "freshwater_water_use", "terrestrial_acidification")
+impact_categories_lc1 <- c("ghg", "n_nh3_n", "land_crop", 
+                           "p_surplus", "n_leaching_runoff", "land_grass", "water_blue",
+                           "luc_forest_to_agric") 
 realms_lc1 <- c("freshwater", "marine", "terrestrial")
 
 LC1_list <- lapply(names(LC1_list), function(nm) {
   impact <- LC1_list[[nm]]
   
-  aggregate_impact_categories(impact, impact_categories_lc1, realms_lc1)
+  aggregate_impact_categories(impact, impact_categories_lc1,realms = realms_lc1,
+                              key_cols = key_cols)
   impact_cols <- setdiff(colnames(impact), key_cols)
   
   setNames(
@@ -194,23 +193,18 @@ invisible(lapply(LC1_list, function(sub_list) {
 }))
 
 
-
 # Final formatting functional diversity ----------------
 # aggregate within the same impact category/realm/fd_metric combinations
-impact_categories <- c("div_freshwater_climate", "eve_freshwater_climate", "ric_freshwater_climate",
-                       "div_marine_climate", "eve_marine_climate", "ric_marine_climate",
-                       "div_terrestrial_climate","eve_terrestrial_climate","ric_terrestrial_climate",
-                       "div_freshwater_eutrophication", "eve_freshwater_eutrophication", "ric_freshwater_eutrophication",
-                       "div_marine_eutrophication", "eve_marine_eutrophication", "ric_marine_eutrophication"
-) 
-realms <-  c("div_freshwater", "eve_freshwater", "ric_freshwater",
-             "div_marine", "eve_marine", "ric_marine",
-             "div_terrestrial", "eve_terrestrial", "ric_terrestrial")
+pressures <- c("ghg", "land_crop", "p_surplus", "n_leaching_runoff", "land_grass")
+methods   <- c("div", "eve", "ric")
+realms    <- c("freshwater", "marine", "terrestrial")
+
 
 FD_list <- lapply(names(FD_list), function(nm) {
   impact <- FD_list[[nm]]
   
-  aggregate_impact_categories(impact, impact_categories, realms)
+  aggregate_impact_categories(impact, impact_categories, realms, key_cols = key_cols,
+                              methods = c("div", "eve", "ric"))
   impact_cols <- setdiff(colnames(impact), key_cols)
   
   setNames(

@@ -171,13 +171,11 @@ rm(climate_list)
 eut <- LC_list[["eutrophication_freshwater"]]
 
 # choose relevant emissions
-eut <- eut[flow_id %in% c("601311d7-4d5c-4d49-b131-69b73793ad0f", 
-                          "247582e8-f296-4db4-94d3-ef1f7bea9a2d",
-                          "b88d3b6d-229e-477e-bce1-e16376f75c7b",
-                          "bc2fb99a-c9b4-4473-9870-089bcef3054f") &
-             approach == "average" &
-             scenario %in% c("Combined impact of N and P",
-                             "Considering N-limited regions")]
+eut <- eut[(flow_id =="601311d7-4d5c-4d49-b131-69b73793ad0f" & scenario == "Considering P-limited regions" |
+              flow_id == "247582e8-f296-4db4-94d3-ef1f7bea9a2d" & scenario == "Considering N-limited regions" |
+              flow_id == "b88d3b6d-229e-477e-bce1-e16376f75c7b" & scenario == "Combined impact of N and P" | 
+              flow_id == "bc2fb99a-c9b4-4473-9870-089bcef3054f" & scenario == "Combined impact of N and P") &
+             approach == "average"]
 
 # convert unit to match pressures
 eut[, cf := as.numeric(cf)]

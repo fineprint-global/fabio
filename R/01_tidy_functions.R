@@ -510,25 +510,64 @@ multiply_pressures_impacts <- function(impacts_list, key_cols) {
   }))
 }
 
-# this function aggregates impacts from a wide table within the same impact categories
-# and realms
-
-aggregate_impact_categories <- function(impacts, impact_categories, realms) {
-  invisible(lapply(impact_categories, function(cat) {
-    cols <- colnames(impacts)[colnames(impacts) %like% cat]
-    if(length(cols) > 0) {
-      impacts[, (cat) := rowSums(.SD, na.rm = TRUE), .SDcols = cols]
-      impacts[, (cols) := NULL]
-    }
-  }))
+aggregate_impact_categories <- function(impacts, pressures, realms,
+                                        key_cols = character(0),
+                                        methods = NULL) {
+  src <- setdiff(colnames(impacts), key_cols)
+  method_loop <- if (is.null(methods)) NA_character_ else methods
   
-  invisible(lapply(realms, function(r) {
-    cols <- colnames(impacts)[colnames(impacts) %like% r]
-    if(length(cols) > 0) {
-      impacts[, (r) := rowSums(.SD, na.rm = TRUE), .SDcols = cols]
+  used <- character(0)
+  created <- character(0)
+  grp <- character(0)   # realm or method_realm, used for the totals
+  
+  # 1) one column per pressure x realm (x method)
+  for (p in pressures) {
+    for (m in method_loop) {
+      for (r in realms) {
+        hit <- grepl(paste0("^", p, "_"), src) &
+          grepl(paste0("_", r, "_"), src)
+        if (!is.na(m)) hit <- hit & grepl(paste0("_", m, "_"), src)
+        
+        cols <- src[hit]
+        if (length(cols) == 0) next
+        
+        new_nm <- paste(c(p, if (!is.na(m)) m, r), collapse = "_")
+        impacts[, (new_nm) := rowSums(.SD, na.rm = TRUE), .SDcols = cols]
+        
+        used    <- c(used, cols)
+        created <- c(created, new_nm)
+        grp     <- c(grp, paste(c(if (!is.na(m)) m, r), collapse = "_"))
+      }
     }
-  }))
+  }
+  
+  dup <- unique(used[duplicated(used)])
+  if (length(dup) > 0) {
+    warning("Columns matched more than one pressure x realm (x method) combination: ",
+            paste(dup, collapse = ", "), call. = FALSE)
+  }
+  
+  left <- setdiff(src, used)
+  if (length(left) > 0) {
+    warning("Columns not matched by any pressure x realm (x method): ",
+            paste(left, collapse = ", "), call. = FALSE)
+  }
+  
+  # 2) one total per realm (x method), summed over pressures only
+  for (g in unique(grp)) {
+    cols <- created[grp == g]
+    impacts[, (g) := rowSums(.SD, na.rm = TRUE), .SDcols = cols]
+  }
+  
+  # 3) drop the source columns (never the ones just created)
+  drop <- setdiff(unique(used), created)
+  if (length(drop) > 0) impacts[, (drop) := NULL]
+  
+  invisible(impacts)
 }
+
+
+
 
 # This function compiles the individual extensions into one big one
 compile_extension <- function(data, files, yrs = years) {
