@@ -222,7 +222,7 @@ chicken_stocks <- chicken_stocks[Year %in% years & `Item Code` == 1057 & `Area C
                                  .(area_code = `Area Code`, area = Area, element = Element,
                                    year = Year, unit = Unit, item_code = `Item Code`, 
                                    item = Item, value = Value)]
-chicken_stocks[!area_code %in% regions_current$code, `:=` (area_code = 999, area = "RoW")]
+chicken_stocks[!area_code %in% regions[current == TRUE]$code, `:=` (area_code = 999, area = "RoW")]
 chicken_stocks <- chicken_stocks[, .(value = sum(value, na.rm = TRUE)),
                                  by = .(year, area, area_code, item, item_code, unit,
                                         element)]
@@ -231,7 +231,7 @@ live_g <- rbind(live, chicken_stocks, use.names = TRUE)
 
 # tidy live
 live_g <- live_g[element == "Stocks" & year %in% years ]
-live_g <- live_g[!area_code %in% regions_current$code | area_code == 999, `:=` (area_code = 999, area = "RoW")]
+live_g <- live_g[!area_code %in% regions[current == TRUE]$code | area_code == 999, `:=` (area_code = 999, area = "RoW")]
 live_g <- live_g[, .(value = sum(value, na.rm = TRUE)), by = .(area_code, area, element,
                                                         year, unit, item_code, item)]
 live_g[ unit == "1000 An", `:=` (value = value * 1000 , unit = "An") ]
@@ -262,7 +262,7 @@ live_g[, variable := paste0(year, "_", item_code, "_", area_code)]
 
 feed_req_g_full <- CJ(live_g$variable, feed_category = unique(feed_req_g$feed_category))
 feed_req_g_full[, c("year", "item_code", "area_code") := tstrsplit(V1, "_", fixed = TRUE, type.convert = TRUE)][, V1 := NULL]
-feed_req_g_full[, `:=` (iso3c = regions_current$iso3c[match(area_code, regions_current$code)],
+feed_req_g_full[, `:=` (iso3c = regions[current == TRUE]$iso3c[match(area_code, regions[current == TRUE]$code)],
                         item = items$item[match(item_code, items$item_code)])]
 feed_req_g_full[item_code == 1057, item := "Chicken"]
 
@@ -497,13 +497,13 @@ feed_req_g[, item_code := 0]
 
 # Aggregate RoW in feed_req_b and feed_req_k
 num_cols <- setdiff(colnames(feed_req_b), c("area_code","area", "year", "proc_code", "proc", "item_code"))
-feed_req_b[!area_code %in% regions_current$code, `:=` (area_code = 999, area = "RoW") ]
+feed_req_b[!area_code %in% regions[current == TRUE]$code, `:=` (area_code = 999, area = "RoW") ]
 feed_req_b <- feed_req_b[, lapply(.SD, sum, na.rm = TRUE),
                         by = .(area_code, area, year, proc_code, proc, item_code),
                         .SDcols = num_cols
 ]
 
-feed_req_k[!area_code %in% regions_current$code, `:=` (area_code = 999, area = "RoW") ]
+feed_req_k[!area_code %in% regions[current == TRUE]$code, `:=` (area_code = 999, area = "RoW") ]
 feed_req_k <- feed_req_k[, lapply(.SD, sum, na.rm = TRUE),
                          by = .(area_code, area, year, proc_code, proc, item_code),
                          .SDcols = num_cols
