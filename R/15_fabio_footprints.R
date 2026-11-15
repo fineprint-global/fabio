@@ -15,11 +15,14 @@ ex <- fread(file=paste0(input_path,"ex_labels.csv"))
 
 # Set parameters ---------------------------------------------------------------
 allocation <- "value"
-year <- 2021
+year <- 2023
 country <- "AUT"
 consumption_categories <- unique(fd$fd)
 consumption <- consumption_categories[1]
-extension <- ex$Stressor[64:65]
+extension <- ex$Stressor[65] # GWP
+extension <- ex$Stressor[92] # land_crop
+extension <- ex$Stressor[93] # land_grass
+extension <- ex$Stressor[92:93] # land_total
 
 # Read data --------------------------------------------------------------------
 X <- readRDS(file=paste0(input_path,"losses/X.rds"))
@@ -39,6 +42,7 @@ if(length(extension) == 1){
 } else {
   ext <- as.numeric(colSums(Ei[ex$Stressor %in% extension, ])) / as.vector(Xi)
 }
+ext[!is.finite(ext)] <- 0
 
 # Prepare final demand
 if(country=="EU27"){
@@ -49,7 +53,6 @@ if(country=="EU27"){
   Y_country <- Yi[, fd$iso3c == country]
   colnames(Y_country) <- fd$fd[fd$iso3c == country]
 }
-ext[!is.finite(ext)] <- 0
 
 # Calculate footprints ---------------------------------------------------------
 MP <- ext * L

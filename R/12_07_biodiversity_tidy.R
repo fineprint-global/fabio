@@ -12,6 +12,8 @@ regions <- fread("inst/regions_full.csv")[current==TRUE]
 path_lc <- "input/biodiversity/LC_impact/"
 path_fun <- "input/biodiversity/functional_diversity/"
 
+# Note: Before downloading a new version, you must delete all files in path_lc!
+
 # Get data (LC-Impact + FD) -----------------
 ## LC-Impact ----------------
 files <- c(climate_change_terrestrial    = "3_CF_CLIMATE_CHANGE.zip",

@@ -787,7 +787,7 @@ list_co2[["ppap_fertilizers_manufacturing"]] <- other_pre_post_totals[, .(area_c
 list_n2o[["ppap_fertilizers_manufacturing"]] <- other_pre_post_totals[, .(area_code, year, item_code, value = fertilizers_manufacturing_n2o)]
 
 # tidy environment
-rm(fertilizer_shares, other_pre_post_totals, ppap, price_weights)
+rm(fertilizer_shares, other_pre_post_totals, ppap)
 
 # Final demand -----------------
 # Initialize lists

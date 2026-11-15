@@ -1,40 +1,41 @@
 # 0_prep ------------------------------------------------------------------
 
 # Will download ZIP files from FAOSTAT
-source("R/00_1_prep_fao.R")
-source("R/00_2_prep_fao_reshape.R")
+source("R/00_01_prep_fao.R")
+source("R/00_02_prep_fao_reshape.R")
 rm(list = ls()); gc()
 
 # Requires downloading BACI ZIP files available from:
 # https://www.cepii.fr/CEPII/en/bdd_modele/bdd_modele_item.asp?id=37
-source("R/00_3_prep_trade.R")
+source("R/00_03_prep_trade.R")
+rm(list = ls()); gc()
 
 # Requires EIA and IEA CSV files available from:
 # https://www.eia.gov/opendata/qb.php?category=2135203 (in 1000 bbl/d)
 # http://dx.doi.org/10.1787/data-00550-en
-source("R/00_4_prep_eth.R")
+source("R/00_04_prep_eth.R")
 
 # Will download ZIP files from FAOSTAT
-source("R/00_5_prep_fish.R")
-source("R/00_6_labels.R")
+source("R/00_05_prep_fish.R")
+source("R/00_06_labels.R")
 rm(list = ls()); gc()
 
 # Requires downloading some data (see script)
-source("R/00_7_prep_spatial_NPK.R"); rm(list = ls()); gc()
-source("R/00_8_filter_gloria.R"); rm(list = ls()); gc()
+source("R/00_07_prep_spatial_NPK.R"); rm(list = ls()); gc()
+source("R/00_08_prep_gloria_e.R"); rm(list = ls()); gc()
 # Eager staging of the value-added extension's external inputs (Brazil IBGE SUTs,
 # Canada cansim slices, OECD SUT, Eurostat NAMA): always re-downloads + overwrites
 # into input/value_added/. Read later by 14_3/14_4 (pure readers). Self-contained
 # (sources R/00_value_added_config.R); year scope follows the FABIO years.
-source("R/00_9_prep_value_added.R"); rm(list = ls()); gc()
+source("R/00_09_prep_value_added.R"); rm(list = ls()); gc()
+source("R/00_10_prep_feed.R"); rm(list = ls()); gc()
 
 
 # 1_tidy ------------------------------------------------------------------
-source("R/01_1_tidy_fao.R")
-source("R/01_2_tidy_trade.R")
-source("R/01_3_tidy_eth.R")
-source("R/01_4_tidy_fish.R")
-rm(list = ls()); gc()
+source("R/01_1_tidy_fao.R"); rm(list = ls()); gc()
+source("R/01_2_tidy_trade.R"); rm(list = ls()); gc()
+source("R/01_3_tidy_eth.R"); rm(list = ls()); gc()
+source("R/01_4_tidy_fish.R"); rm(list = ls()); gc()
 
 
 # Build full BTD ---------------------------------------------------------
@@ -44,9 +45,9 @@ source("R/02_build_btd.R"); rm(list = ls()); gc()
 source("R/03_1a_build_cbs.R"); rm(list = ls()); gc()
 source("R/03_1b_balance_cbs.R"); rm(list = ls()); gc()
 
-# Build full SUA ---------------------------------------------------------
-source("R/03_2a_build_tcf_sua.R"); rm(list = ls()); gc()
-source("R/03_2b_build_sua.R"); rm(list = ls()); gc()
+# # Build full SUA ---------------------------------------------------------
+# source("R/03_2a_build_tcf_sua.R"); rm(list = ls()); gc()
+# source("R/03_2b_build_sua.R"); rm(list = ls()); gc()
 
 # Build a gap-filled and balanced trade dataset --------------------------
 source("R/04_estimate_btd.R"); rm(list = ls()); gc()
@@ -55,7 +56,7 @@ source("R/06_re-exports.R"); rm(list = ls()); gc()
 
 # Create the supply structure --------------------------------------------
 source("R/07_1_supply_cbs.R"); rm(list = ls()); gc()
-source("R/07_2_supply_sua.R"); rm(list = ls()); gc()
+# source("R/07_2_supply_sua.R"); rm(list = ls()); gc()
 
 # Create the use structure -----------------------------------------------
 source("R/08_1a_use_cbs.R"); rm(list = ls()); gc()
@@ -65,11 +66,12 @@ source("R/09_mrsut.R"); rm(list = ls()); gc()
 source("R/10_mrio.R"); rm(list = ls()); gc()
 
 # Derive Leontief inverses -----------------------------------------------
-source("R/11_leontief_inverse.R"); rm(list = ls()); gc()
+source("R/11_leontif_inverse.R"); rm(list = ls()); gc()
 
 # Prepare env. extensions ------------------------------------------------
 source("R/12_01_land_mass_water.R"); rm(list = ls()); gc()
-source("R/12_02_NPK_spatial.R"); rm(list = ls()); gc()
+# Script 12_02 doesn't need to be re-run at every update.
+# source("R/12_02_NPK_spatial.R"); rm(list = ls()); gc()
 source("R/12_03_NPK_fertilizer_application.R"); rm(list = ls()); gc()
 source("R/12_04_NP_balance.R"); rm(list = ls()); gc()
 source("R/12_05_ghg.R"); rm(list = ls()); gc()

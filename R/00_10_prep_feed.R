@@ -2,6 +2,11 @@
 
 library("tidyverse")
 library("data.table")
+library("httr")
+library("jsonlite")
+library("sf")
+library("rnaturalearth")
+library("exactextractr")
 
 items <- fread("inst/items_full_123.csv")
 
