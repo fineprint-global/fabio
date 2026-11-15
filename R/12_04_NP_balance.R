@@ -997,8 +997,6 @@ p_budget[, (numeric_cols) :=
          .SDcols = numeric_cols]
 setcolorder(p_budget, "harv_area",  after = "item_code")
 
-# save in misc for sharing
-saveRDS(p_budget, "misc/P_flows.rds")
 
 # re-format as FABIO extensions ---------
 # reduce to many data.tables with one value column to enable cbs aggregation
