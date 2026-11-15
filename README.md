@@ -49,11 +49,7 @@ For indexing and classification, refer to the following auxiliary files:
 
 ### License
 
-This repository is distributed under the [CC BY-NC-SA 4.0 License](https://creativecommons.org/licenses/by-nc-sa/4.0/).
-
-* **Non-commercial use only**.
-* **Attribution required**.
-* **Share-alike** (derivative works must use the same license).
+This repository is distributed under the [MIT License](https://choosealicense.com/licenses/mit/).
 
 ### Citation
 
